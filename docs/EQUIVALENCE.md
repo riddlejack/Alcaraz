@@ -68,3 +68,16 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 | Artifact | Status | Cause of difference |
 |---|---|---|
 | stage-1 forecasts (7,528 rows) and f2 forecasts (8,428 rows), replayed from the archive's `results_stream.csv` through `tennislab.ratings.elo` | identical | none; state hashes through 2026-09-10 match for both tours (`docs/equivalence/notes/elo_baseline.md`) |
+
+## Full chain runs through the ported driver
+
+Stage-by-stage checks run each ported stage on the archive's frozen *inputs*. The full
+chain run (`tools/equivalence.py chain`) runs the ported driver from the bridge to the
+report in a fresh workspace, so every stage consumes the rebuild's own upstream outputs,
+and then compares every stage against the frozen run. Results in
+`docs/equivalence/<run>/_chain.json`.
+
+| Run | Result | Differences and causes |
+|---|---|---|
+| WTA02/attempt_002 | all 136 prediction CSVs, `primary.json`, `pooled_metrics.csv`, `annual_metrics.csv`, `annual_contrasts.csv`, `contrast_summary.csv`, `bootstrap.csv`, `reliability.csv`, `report.md` byte-identical; rankings 38/38, sr03 12/14, sidecar 8/9 | the rewritten 2026 workbook is timestamp-free (RB6), so its hash differs and cascades (RB7): one provenance column in `market_rows.csv` and both `panel.csv` (2,095 and 1,945 rows, no other cell differs), then every config, manifest and receipt that binds the panel hash, the edition-index hash (no wall clock, RB6) and the fit-cache directory names (keyed by config hash; 300 cache files renamed, contents equivalent bar the pickled module path). Attempt records differ in fit timing and those hashes. Code receipts throughout. |
+| TIER01/attempt_002 | pending the tier stages | |
