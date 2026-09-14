@@ -694,8 +694,10 @@ def csv_data_rows(path: Path) -> int:
 def _sr03_binding_files(document: Mapping[str, Any], run_root: Path) -> list[dict[str, str]]:
     """The sr03 binding inventory: the config's data sources plus the code that runs.
 
-    The archive hashed three code files by repository path; here the code entries are
-    package receipts (module name and file hash) and the data entries are unchanged.
+    A config in the archive's shape (``bindings.implementation_path``) gets the archive's
+    inventory: the two SR02 modules and the implementation hashed by workspace path. A
+    config in the package's shape (``bindings.implementation``) gets package receipts
+    (module name and file hash). Data entries are the same in both.
     """
     source = document["source"]
     paths = [
@@ -706,14 +708,29 @@ def _sr03_binding_files(document: Mapping[str, Any], run_root: Path) -> list[dic
         source["panel_path"],
         source["rule_mapping_path"],
     ]
+    bindings = document.get("bindings", {})
+    archive_shape = "implementation_path" in bindings
+    if archive_shape:
+        paths = [
+            source["design_path"],
+            "references/SR02_models/market.py",
+            "references/SR02_models/runner.py",
+            source["primary_config_path"],
+            source["point_manifest_path"],
+            source["selected_matches_path"],
+            source["panel_path"],
+            source["rule_mapping_path"],
+            bindings["implementation_path"],
+        ]
     records: list[dict[str, str]] = []
     for relative in dict.fromkeys(paths):
         path = resolve_under_root(relative, label="sr03 binding")
         if not path.is_file():
             raise ChainError(f"sr03 binding file does not exist: {path}")
         records.append({"path": relative, "sha256": bound_hash(path, run_root)})
-    for module in SR03_CODE_BINDINGS:
-        records.append(code_receipt(module))
+    if not archive_shape:
+        for module in SR03_CODE_BINDINGS:
+            records.append(code_receipt(module))
     return records
 
 
