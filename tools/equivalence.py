@@ -483,8 +483,10 @@ def prepare_chain_workspace(spec: RunSpec, archive: Path) -> Path:
     return ws
 
 
-def run_chain(spec: RunSpec, archive: Path, chain_config: Path) -> int:
-    ws = prepare_chain_workspace(spec, archive)
+def run_chain(spec: RunSpec, archive: Path, chain_config: Path, start: str | None = None) -> int:
+    ws = REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_") / "_chain"
+    if start is None:
+        ws = prepare_chain_workspace(spec, archive)
     env = {**os.environ, **THREADS, "TENNISLAB_WORKSPACE": str(ws), "PYTHONHASHSEED": "0"}
     command = [
         sys.executable,
@@ -496,6 +498,8 @@ def run_chain(spec: RunSpec, archive: Path, chain_config: Path) -> int:
         "--config",
         str(chain_config),
     ]
+    if start:
+        command += ["--from", start]
     print("+", " ".join(command), f"(workspace {ws})")
     completed = subprocess.run(command, cwd=ws, env=env, check=False)
     return completed.returncode
