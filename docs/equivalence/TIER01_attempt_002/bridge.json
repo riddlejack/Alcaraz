@@ -1,0 +1,27 @@
+{
+  "different": {},
+  "extra": [],
+  "identical": [
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "inputs_tree": {
+    "different": [
+      "archive/atp_panel_source.tar.gz",
+      "bridge_summary.json",
+      "market/market_row_provenance.csv"
+    ],
+    "extra": [],
+    "identical": [
+      "market/acquisition_manifest.json",
+      "quarantine/dropped_duplicates.csv",
+      "quarantine/unmapped_events.csv",
+      "quarantine/unmatched_players.csv",
+      "sackmann/atp_matches_2024.csv"
+    ],
+    "missing": []
+  },
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "bridge"
+}

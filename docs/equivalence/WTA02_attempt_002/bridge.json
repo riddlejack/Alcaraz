@@ -1,0 +1,29 @@
+{
+  "different": {},
+  "extra": [],
+  "identical": [
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "inputs_tree": {
+    "different": [
+      "archive/wta_panel_source.tar.gz",
+      "bridge_summary.json",
+      "market/2026.xlsx",
+      "market/acquisition_manifest.json"
+    ],
+    "extra": [],
+    "identical": [
+      "market/market_row_provenance.csv",
+      "quarantine/dropped_duplicates.csv",
+      "quarantine/unmapped_events.csv",
+      "quarantine/unmatched_players.csv",
+      "sackmann/wta_matches_2025.csv",
+      "sackmann/wta_matches_2026.csv"
+    ],
+    "missing": []
+  },
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "bridge"
+}

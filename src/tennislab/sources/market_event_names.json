@@ -1,0 +1,995 @@
+{
+  "id": "CONFIRM2026-market-event-names",
+  "purpose": "tennis-data event identity per archive event code, as the join saw it",
+  "source": {
+    "path": "work/MULTI01_join/attempt_005_candidates/common_panel_candidates.csv",
+    "sha256": "aa3170cf1d4f561b7702d9a518711de30bfa10ca3ee3f9b044a4d5fd35126a6b"
+  },
+  "seasons_read": [
+    2023,
+    2024
+  ],
+  "rule": "the latest carried season's identity wins",
+  "events": {
+    "0301": {
+      "season": 2024,
+      "archive_event_code": "0301",
+      "archive_tourney_id": "2024-0301",
+      "archive_tourney_name": "Auckland",
+      "market_tournament": "ASB Classic",
+      "market_location": "Auckland",
+      "market_event_number": "4",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0308": {
+      "season": 2024,
+      "archive_event_code": "0308",
+      "archive_tourney_id": "2024-0308",
+      "archive_tourney_name": "Munich",
+      "market_tournament": "BMW Open",
+      "market_location": "Munich",
+      "market_event_number": "27",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0311": {
+      "season": 2024,
+      "archive_event_code": "0311",
+      "archive_tourney_id": "2024-0311",
+      "archive_tourney_name": "Queen's Club",
+      "market_tournament": "Queen's Club Championships",
+      "market_location": "Queens Club",
+      "market_event_number": "36",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0314": {
+      "season": 2024,
+      "archive_event_code": "0314",
+      "archive_tourney_id": "2024-0314",
+      "archive_tourney_name": "Gstaad",
+      "market_tournament": "Suisse Open Gstaad",
+      "market_location": "Gstaad",
+      "market_event_number": "41",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0315": {
+      "season": 2024,
+      "archive_event_code": "0315",
+      "archive_tourney_id": "2024-0315",
+      "archive_tourney_name": "Newport",
+      "market_tournament": "Hall of Fame Championships",
+      "market_location": "Newport",
+      "market_event_number": "43",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0316": {
+      "season": 2024,
+      "archive_event_code": "0316",
+      "archive_tourney_id": "2024-0316",
+      "archive_tourney_name": "Bastad",
+      "market_tournament": "Nordea Open",
+      "market_location": "Bastad",
+      "market_event_number": "40",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0319": {
+      "season": 2024,
+      "archive_event_code": "0319",
+      "archive_tourney_id": "2024-0319",
+      "archive_tourney_name": "Kitzbuhel",
+      "market_tournament": "Generali Open",
+      "market_location": "Kitzbuhel",
+      "market_event_number": "45",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0321": {
+      "season": 2024,
+      "archive_event_code": "0321",
+      "archive_tourney_id": "2024-0321",
+      "archive_tourney_name": "Stuttgart",
+      "market_tournament": "Stuttgart Open",
+      "market_location": "Stuttgart",
+      "market_event_number": "33",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0322": {
+      "season": 2024,
+      "archive_event_code": "0322",
+      "archive_tourney_id": "2024-0322",
+      "archive_tourney_name": "Geneva",
+      "market_tournament": "Geneva Open",
+      "market_location": "Geneva",
+      "market_event_number": "30",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0328": {
+      "season": 2024,
+      "archive_event_code": "0328",
+      "archive_tourney_id": "2024-0328",
+      "archive_tourney_name": "Basel",
+      "market_tournament": "Swiss Indoors",
+      "market_location": "Basel",
+      "market_event_number": "60",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0329": {
+      "season": 2024,
+      "archive_event_code": "0329",
+      "archive_tourney_id": "2024-0329",
+      "archive_tourney_name": "Tokyo",
+      "market_tournament": "Japan Open Tennis Championships",
+      "market_location": "Tokyo",
+      "market_event_number": "55",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0336": {
+      "season": 2024,
+      "archive_event_code": "0336",
+      "archive_tourney_id": "2024-0336",
+      "archive_tourney_name": "Hong Kong",
+      "market_tournament": "Hong Kong Tennis Open",
+      "market_location": "Hong Kong",
+      "market_event_number": "2",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0337": {
+      "season": 2024,
+      "archive_event_code": "0337",
+      "archive_tourney_id": "2024-0337",
+      "archive_tourney_name": "Vienna",
+      "market_tournament": "Vienna Open",
+      "market_location": "Vienna",
+      "market_event_number": "61",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0339": {
+      "season": 2024,
+      "archive_event_code": "0339",
+      "archive_tourney_id": "2024-0339",
+      "archive_tourney_name": "Brisbane",
+      "market_tournament": "Brisbane International",
+      "market_location": "Brisbane",
+      "market_event_number": "1",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0341": {
+      "season": 2024,
+      "archive_event_code": "0341",
+      "archive_tourney_id": "2024-0341",
+      "archive_tourney_name": "Metz",
+      "market_tournament": "Open de Moselle",
+      "market_location": "Metz",
+      "market_event_number": "64",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0352": {
+      "season": 2024,
+      "archive_event_code": "0352",
+      "archive_tourney_id": "2024-0352",
+      "archive_tourney_name": "Paris Masters",
+      "market_tournament": "BNP Paribas Masters",
+      "market_location": "Paris",
+      "market_event_number": "62",
+      "rows": 55,
+      "event_evidence": {
+        "pinned_ch01_event": 55
+      },
+      "name_agrees_with_archive": false
+    },
+    "0360": {
+      "season": 2024,
+      "archive_event_code": "0360",
+      "archive_tourney_id": "2024-0360",
+      "archive_tourney_name": "Marrakech",
+      "market_tournament": "Grand Prix Hassan II",
+      "market_location": "Marrakech",
+      "market_event_number": "23",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0375": {
+      "season": 2024,
+      "archive_event_code": "0375",
+      "archive_tourney_id": "2024-0375",
+      "archive_tourney_name": "Montpellier",
+      "market_tournament": "Open Sud de France",
+      "market_location": "Montpellier",
+      "market_event_number": "6",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0403": {
+      "season": 2024,
+      "archive_event_code": "0403",
+      "archive_tourney_id": "2024-0403",
+      "archive_tourney_name": "Miami Masters",
+      "market_tournament": "Miami Open",
+      "market_location": "Miami",
+      "market_event_number": "20",
+      "rows": 95,
+      "event_evidence": {
+        "pinned_ch01_event": 95
+      },
+      "name_agrees_with_archive": false
+    },
+    "0404": {
+      "season": 2024,
+      "archive_event_code": "0404",
+      "archive_tourney_id": "2024-0404",
+      "archive_tourney_name": "Indian Wells Masters",
+      "market_tournament": "BNP Paribas Open",
+      "market_location": "Indian Wells",
+      "market_event_number": "19",
+      "rows": 95,
+      "event_evidence": {
+        "pinned_ch01_event": 95
+      },
+      "name_agrees_with_archive": false
+    },
+    "0407": {
+      "season": 2024,
+      "archive_event_code": "0407",
+      "archive_tourney_id": "2024-0407",
+      "archive_tourney_name": "Rotterdam",
+      "market_tournament": "ABN AMRO World Tennis Tournament",
+      "market_location": "Rotterdam",
+      "market_event_number": "12",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0410": {
+      "season": 2024,
+      "archive_event_code": "0410",
+      "archive_tourney_id": "2024-0410",
+      "archive_tourney_name": "Monte Carlo Masters",
+      "market_tournament": "Monte Carlo Masters",
+      "market_location": "Monte Carlo",
+      "market_event_number": "24",
+      "rows": 55,
+      "event_evidence": {
+        "pinned_ch01_event": 55
+      },
+      "name_agrees_with_archive": true
+    },
+    "0414": {
+      "season": 2024,
+      "archive_event_code": "0414",
+      "archive_tourney_id": "2024-0414",
+      "archive_tourney_name": "Hamburg",
+      "market_tournament": "European Open",
+      "market_location": "Hamburg",
+      "market_event_number": "42",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0416": {
+      "season": 2024,
+      "archive_event_code": "0416",
+      "archive_tourney_id": "2024-0416",
+      "archive_tourney_name": "Rome Masters",
+      "market_tournament": "Internazionali BNL d'Italia",
+      "market_location": "Rome",
+      "market_event_number": "29",
+      "rows": 95,
+      "event_evidence": {
+        "pinned_ch01_event": 95
+      },
+      "name_agrees_with_archive": false
+    },
+    "0418": {
+      "season": 2024,
+      "archive_event_code": "0418",
+      "archive_tourney_id": "2024-0418",
+      "archive_tourney_name": "Washington",
+      "market_tournament": "Citi Open",
+      "market_location": "Washington",
+      "market_event_number": "47",
+      "rows": 47,
+      "event_evidence": {
+        "pinned_ch01_event": 47
+      },
+      "name_agrees_with_archive": false
+    },
+    "0421": {
+      "season": 2024,
+      "archive_event_code": "0421",
+      "archive_tourney_id": "2024-0421",
+      "archive_tourney_name": "Canada Masters",
+      "market_tournament": "Canadian Open",
+      "market_location": "Montreal",
+      "market_event_number": "48",
+      "rows": 55,
+      "event_evidence": {
+        "pinned_ch01_event": 55
+      },
+      "name_agrees_with_archive": false
+    },
+    "0422": {
+      "season": 2024,
+      "archive_event_code": "0422",
+      "archive_tourney_id": "2024-0422",
+      "archive_tourney_name": "Cincinnati Masters",
+      "market_tournament": "Western & Southern Financial Group Masters",
+      "market_location": "Cincinnati",
+      "market_event_number": "49",
+      "rows": 55,
+      "event_evidence": {
+        "pinned_ch01_event": 55
+      },
+      "name_agrees_with_archive": false
+    },
+    "0424": {
+      "season": 2024,
+      "archive_event_code": "0424",
+      "archive_tourney_id": "2024-0424",
+      "archive_tourney_name": "Dallas",
+      "market_tournament": "Dallas Open",
+      "market_location": "Dallas",
+      "market_event_number": "8",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0425": {
+      "season": 2024,
+      "archive_event_code": "0425",
+      "archive_tourney_id": "2024-0425",
+      "archive_tourney_name": "Barcelona",
+      "market_tournament": "Barcelona Open",
+      "market_location": "Barcelona",
+      "market_event_number": "25",
+      "rows": 47,
+      "event_evidence": {
+        "pinned_ch01_event": 47
+      },
+      "name_agrees_with_archive": false
+    },
+    "0429": {
+      "season": 2024,
+      "archive_event_code": "0429",
+      "archive_tourney_id": "2024-0429",
+      "archive_tourney_name": "Stockholm",
+      "market_tournament": "Nordic Open",
+      "market_location": "Stockholm",
+      "market_event_number": "59",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0439": {
+      "season": 2024,
+      "archive_event_code": "0439",
+      "archive_tourney_id": "2024-0439",
+      "archive_tourney_name": "Umag",
+      "market_tournament": "Croatia Open",
+      "market_location": "Umag",
+      "market_event_number": "46",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0440": {
+      "season": 2024,
+      "archive_event_code": "0440",
+      "archive_tourney_id": "2024-0440",
+      "archive_tourney_name": "s Hertogenbosch",
+      "market_tournament": "Rosmalen Grass Court Championships",
+      "market_location": "'s-Hertogenbosch",
+      "market_event_number": "34",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0451": {
+      "season": 2024,
+      "archive_event_code": "0451",
+      "archive_tourney_id": "2024-0451",
+      "archive_tourney_name": "Doha",
+      "market_tournament": "Qatar Exxon Mobil Open",
+      "market_location": "Doha",
+      "market_event_number": "13",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0495": {
+      "season": 2024,
+      "archive_event_code": "0495",
+      "archive_tourney_id": "2024-0495",
+      "archive_tourney_name": "Dubai",
+      "market_tournament": "Dubai Tennis Championships",
+      "market_location": "Dubai",
+      "market_event_number": "17",
+      "rows": 31,
+      "event_evidence": {
+        "event_name_containment": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0496": {
+      "season": 2024,
+      "archive_event_code": "0496",
+      "archive_tourney_id": "2024-0496",
+      "archive_tourney_name": "Marseille",
+      "market_tournament": "Open 13",
+      "market_location": "Marseille",
+      "market_event_number": "9",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0499": {
+      "season": 2024,
+      "archive_event_code": "0499",
+      "archive_tourney_id": "2024-0499",
+      "archive_tourney_name": "Delray Beach",
+      "market_tournament": "Delray Beach Open",
+      "market_location": "Delray Beach",
+      "market_event_number": "11",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0500": {
+      "season": 2024,
+      "archive_event_code": "0500",
+      "archive_tourney_id": "2024-0500",
+      "archive_tourney_name": "Halle",
+      "market_tournament": "Halle Open",
+      "market_location": "Halle",
+      "market_event_number": "35",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0506": {
+      "season": 2024,
+      "archive_event_code": "0506",
+      "archive_tourney_id": "2024-0506",
+      "archive_tourney_name": "Buenos Aires",
+      "market_tournament": "Argentina Open",
+      "market_location": "Buenos Aires",
+      "market_event_number": "10",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0605": {
+      "season": 2024,
+      "archive_event_code": "0605",
+      "archive_tourney_id": "2024-0605",
+      "archive_tourney_name": "Tour Finals",
+      "market_tournament": "Masters Cup",
+      "market_location": "Turin",
+      "market_event_number": "65",
+      "rows": 15,
+      "event_evidence": {
+        "pinned_ch01_event": 15
+      },
+      "name_agrees_with_archive": false
+    },
+    "0717": {
+      "season": 2024,
+      "archive_event_code": "0717",
+      "archive_tourney_id": "2024-0717",
+      "archive_tourney_name": "Houston",
+      "market_tournament": "U.S. Men's Clay Court Championships",
+      "market_location": "Houston",
+      "market_event_number": "22",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0741": {
+      "season": 2024,
+      "archive_event_code": "0741",
+      "archive_tourney_id": "2024-0741",
+      "archive_tourney_name": "Eastbourne",
+      "market_tournament": "Eastbourne International",
+      "market_location": "Eastbourne",
+      "market_event_number": "37",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "0747": {
+      "season": 2024,
+      "archive_event_code": "0747",
+      "archive_tourney_id": "2024-0747",
+      "archive_tourney_name": "Beijing",
+      "market_tournament": "China Open",
+      "market_location": "Beijing",
+      "market_event_number": "54",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0807": {
+      "season": 2024,
+      "archive_event_code": "0807",
+      "archive_tourney_id": "2024-0807",
+      "archive_tourney_name": "Acapulco",
+      "market_tournament": "Abierto Mexicano",
+      "market_location": "Acapulco",
+      "market_event_number": "16",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "0891": {
+      "season": 2023,
+      "archive_event_code": "0891",
+      "archive_tourney_id": "2023-0891",
+      "archive_tourney_name": "Pune",
+      "market_tournament": "Maharashtra Open",
+      "market_location": "Pune",
+      "market_event_number": "2",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "1536": {
+      "season": 2024,
+      "archive_event_code": "1536",
+      "archive_tourney_id": "2024-1536",
+      "archive_tourney_name": "Madrid Masters",
+      "market_tournament": "Mutua Madrid Open",
+      "market_location": "Madrid",
+      "market_event_number": "28",
+      "rows": 95,
+      "event_evidence": {
+        "pinned_ch01_event": 95
+      },
+      "name_agrees_with_archive": false
+    },
+    "2841": {
+      "season": 2023,
+      "archive_event_code": "2841",
+      "archive_tourney_id": "2023-2841",
+      "archive_tourney_name": "Banja Luka",
+      "market_tournament": "Srpska Open",
+      "market_location": "Banja Luka",
+      "market_event_number": "25",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "2843": {
+      "season": 2023,
+      "archive_event_code": "2843",
+      "archive_tourney_id": "2023-2843",
+      "archive_tourney_name": "Adelaide 1",
+      "market_tournament": "Adelaide International 1",
+      "market_location": "Adelaide",
+      "market_event_number": "1",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "4462": {
+      "season": 2024,
+      "archive_event_code": "4462",
+      "archive_tourney_id": "2024-4462",
+      "archive_tourney_name": "Bucharest",
+      "market_tournament": "Tiriac Open",
+      "market_location": "Bucharest",
+      "market_event_number": "26",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "4713": {
+      "season": 2024,
+      "archive_event_code": "4713",
+      "archive_tourney_id": "2024-4713",
+      "archive_tourney_name": "Hangzhou",
+      "market_tournament": "Hangzhou Open",
+      "market_location": "Hangzhou",
+      "market_event_number": "53",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "4787": {
+      "season": 2024,
+      "archive_event_code": "4787",
+      "archive_tourney_id": "2024-4787",
+      "archive_tourney_name": "Belgrade",
+      "market_tournament": "Belgrade Open",
+      "market_location": "Belgrade",
+      "market_event_number": "63",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "5014": {
+      "season": 2024,
+      "archive_event_code": "5014",
+      "archive_tourney_id": "2024-5014",
+      "archive_tourney_name": "Shanghai Masters",
+      "market_tournament": "Shanghai Masters",
+      "market_location": "Shanghai",
+      "market_event_number": "56",
+      "rows": 95,
+      "event_evidence": {
+        "pinned_ch01_event": 95
+      },
+      "name_agrees_with_archive": true
+    },
+    "520": {
+      "season": 2024,
+      "archive_event_code": "520",
+      "archive_tourney_id": "2024-520",
+      "archive_tourney_name": "Roland Garros",
+      "market_tournament": "French Open",
+      "market_location": "Paris",
+      "market_event_number": "32",
+      "rows": 127,
+      "event_evidence": {
+        "pinned_ch01_event": 127
+      },
+      "name_agrees_with_archive": false
+    },
+    "540": {
+      "season": 2024,
+      "archive_event_code": "540",
+      "archive_tourney_id": "2024-540",
+      "archive_tourney_name": "Wimbledon",
+      "market_tournament": "Wimbledon",
+      "market_location": "London",
+      "market_event_number": "39",
+      "rows": 127,
+      "event_evidence": {
+        "pinned_ch01_event": 127
+      },
+      "name_agrees_with_archive": true
+    },
+    "560": {
+      "season": 2024,
+      "archive_event_code": "560",
+      "archive_tourney_id": "2024-560",
+      "archive_tourney_name": "Us Open",
+      "market_tournament": "US Open",
+      "market_location": "New York",
+      "market_event_number": "51",
+      "rows": 127,
+      "event_evidence": {
+        "pinned_ch01_event": 127
+      },
+      "name_agrees_with_archive": true
+    },
+    "580": {
+      "season": 2024,
+      "archive_event_code": "580",
+      "archive_tourney_id": "2024-580",
+      "archive_tourney_name": "Australian Open",
+      "market_tournament": "Australian Open",
+      "market_location": "Melbourne",
+      "market_event_number": "5",
+      "rows": 127,
+      "event_evidence": {
+        "pinned_ch01_event": 127
+      },
+      "name_agrees_with_archive": true
+    },
+    "6116": {
+      "season": 2024,
+      "archive_event_code": "6116",
+      "archive_tourney_id": "2024-6116",
+      "archive_tourney_name": "Atlanta",
+      "market_tournament": "Atlanta Open",
+      "market_location": "Atlanta",
+      "market_event_number": "44",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "6242": {
+      "season": 2024,
+      "archive_event_code": "6242",
+      "archive_tourney_id": "2024-6242",
+      "archive_tourney_name": "Winston-Salem",
+      "market_tournament": "Winston-Salem Open at Wake Forest University",
+      "market_location": "Winston-Salem",
+      "market_event_number": "50",
+      "rows": 47,
+      "event_evidence": {
+        "pinned_ch01_event": 47
+      },
+      "name_agrees_with_archive": false
+    },
+    "6932": {
+      "season": 2024,
+      "archive_event_code": "6932",
+      "archive_tourney_id": "2024-6932",
+      "archive_tourney_name": "Rio De Janeiro",
+      "market_tournament": "Rio Open",
+      "market_location": "Rio de Janeiro",
+      "market_event_number": "15",
+      "rows": 31,
+      "event_evidence": {
+        "pinned_ch01_event": 31
+      },
+      "name_agrees_with_archive": false
+    },
+    "7290": {
+      "season": 2024,
+      "archive_event_code": "7290",
+      "archive_tourney_id": "2024-7290",
+      "archive_tourney_name": "Estoril",
+      "market_tournament": "Estoril Open",
+      "market_location": "Estoril",
+      "market_event_number": "21",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "7434": {
+      "season": 2023,
+      "archive_event_code": "7434",
+      "archive_tourney_id": "2023-7434",
+      "archive_tourney_name": "Sofia",
+      "market_tournament": "Sofia Open",
+      "market_location": "Sofia",
+      "market_event_number": "63",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "7480": {
+      "season": 2024,
+      "archive_event_code": "7480",
+      "archive_tourney_id": "2024-7480",
+      "archive_tourney_name": "Los Cabos",
+      "market_tournament": "Los Cabos Open",
+      "market_location": "Los Cabos",
+      "market_event_number": "14",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "7485": {
+      "season": 2024,
+      "archive_event_code": "7485",
+      "archive_tourney_id": "2024-7485",
+      "archive_tourney_name": "Antwerp",
+      "market_tournament": "European Open",
+      "market_location": "Antwerp",
+      "market_event_number": "58",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "7581": {
+      "season": 2024,
+      "archive_event_code": "7581",
+      "archive_tourney_id": "2024-7581",
+      "archive_tourney_name": "Chengdu",
+      "market_tournament": "Chengdu Open",
+      "market_location": "Chengdu",
+      "market_event_number": "52",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "7694": {
+      "season": 2024,
+      "archive_event_code": "7694",
+      "archive_tourney_id": "2024-7694",
+      "archive_tourney_name": "Lyon",
+      "market_tournament": "Lyon Open",
+      "market_location": "Lyon",
+      "market_event_number": "31",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "8994": {
+      "season": 2024,
+      "archive_event_code": "8994",
+      "archive_tourney_id": "2024-8994",
+      "archive_tourney_name": "Mallorca",
+      "market_tournament": "Mallorca Championships",
+      "market_location": "Mallorca",
+      "market_event_number": "38",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "8996": {
+      "season": 2024,
+      "archive_event_code": "8996",
+      "archive_tourney_id": "2024-8996",
+      "archive_tourney_name": "Santiago",
+      "market_tournament": "Chile Open",
+      "market_location": "Santiago",
+      "market_event_number": "18",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "8998": {
+      "season": 2024,
+      "archive_event_code": "8998",
+      "archive_tourney_id": "2024-8998",
+      "archive_tourney_name": "Adelaide",
+      "market_tournament": "Adelaide International",
+      "market_location": "Adelaide",
+      "market_event_number": "3",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "9158": {
+      "season": 2024,
+      "archive_event_code": "9158",
+      "archive_tourney_id": "2024-9158",
+      "archive_tourney_name": "Cordoba",
+      "market_tournament": "Cordoba Open",
+      "market_location": "Cordoba",
+      "market_event_number": "7",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "9164": {
+      "season": 2023,
+      "archive_event_code": "9164",
+      "archive_tourney_id": "2023-9164",
+      "archive_tourney_name": "Zhuhai",
+      "market_tournament": "Zhuhai Championships",
+      "market_location": "Zhuhai",
+      "market_event_number": "53",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    },
+    "9410": {
+      "season": 2024,
+      "archive_event_code": "9410",
+      "archive_tourney_id": "2024-9410",
+      "archive_tourney_name": "Almaty",
+      "market_tournament": "Almaty Open",
+      "market_location": "Almaty",
+      "market_event_number": "57",
+      "rows": 27,
+      "event_evidence": {
+        "pinned_ch01_event": 27
+      },
+      "name_agrees_with_archive": false
+    }
+  }
+}
