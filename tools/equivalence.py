@@ -422,6 +422,9 @@ def summarize(result: dict[str, Any]) -> None:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    raw = list(sys.argv[1:] if argv is None else argv)
+    if raw and raw[0] == "chain":
+        return chain_main(raw[1:])
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -445,6 +448,128 @@ def main(argv: Sequence[str] | None = None) -> int:
         return status
     summarize(compare(spec, args.stage, archive))
     return 0
+
+
+# ------------------------------------------------------------------ full chain runs
+
+
+def prepare_chain_workspace(spec: RunSpec, archive: Path) -> Path:
+    """A workspace with every archive input linked and an empty live run directory.
+
+    The frozen stage configs are *copied* (the driver writes ``<name>.filled.json``
+    beside them); nothing under the archive is written.
+    """
+    ws = REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_") / "_chain"
+    if ws.exists():
+        shutil.rmtree(ws)
+    ws.mkdir(parents=True)
+    for top in ("data", "references", "experiments"):
+        link(archive / top, ws / top)
+    work = ws / "work"
+    work.mkdir()
+    run_top = Path(spec.work_dir).parts[1]
+    for child in sorted((archive / "work").iterdir()):
+        if child.name != run_top:
+            link(child, work / child.name)
+    live = ws / spec.work_dir
+    live.mkdir(parents=True)
+    for child in sorted((archive / Path(spec.work_dir).parent).iterdir()):
+        if child.name != Path(spec.work_dir).name:
+            link(child, live.parent / child.name)
+    frozen = archive / spec.frozen_dir
+    shutil.copytree(frozen / "configs", live / "configs")
+    for stale in (live / "configs").glob("*.filled.json"):
+        stale.unlink()
+    return ws
+
+
+def run_chain(spec: RunSpec, archive: Path, chain_config: Path) -> int:
+    ws = prepare_chain_workspace(spec, archive)
+    env = {**os.environ, **THREADS, "TENNISLAB_WORKSPACE": str(ws), "PYTHONHASHSEED": "0"}
+    command = [
+        sys.executable,
+        "-B",
+        "-m",
+        "tennislab.chain.runner",
+        "run",
+        "--include-report",
+        "--config",
+        str(chain_config),
+    ]
+    print("+", " ".join(command), f"(workspace {ws})")
+    completed = subprocess.run(command, cwd=ws, env=env, check=False)
+    return completed.returncode
+
+
+def compare_chain(spec: RunSpec, archive: Path) -> dict[str, Any]:
+    """Compare every stage of the live chain run against the frozen run, plus the side trees."""
+    ws = REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_") / "_chain"
+    frozen = archive / spec.frozen_dir
+    summary: dict[str, Any] = {"run": spec.name, "stages": {}}
+    for stage in spec.stages:
+        manifest_path = frozen / "run" / stage / STAGE_MANIFEST
+        if not manifest_path.exists():
+            continue
+        expected = {
+            k: v["sha256"] for k, v in json.loads(manifest_path.read_text())["outputs"].items()
+        }
+        observed = hash_tree(ws / spec.work_dir / "run" / stage)
+        different = {
+            name: describe_difference(
+                frozen / "run" / stage / name, ws / spec.work_dir / "run" / stage / name
+            )
+            for name in expected
+            if name in observed and observed[name] != expected[name]
+        }
+        summary["stages"][stage] = {
+            "identical": sorted(k for k in expected if observed.get(k) == expected[k]),
+            "different": different,
+            "missing": sorted(set(expected) - set(observed)),
+            "extra": sorted(set(observed) - set(expected)),
+        }
+    for side in ("inputs", *spec.side_dirs):
+        exp = hash_tree(frozen / side)
+        obs = hash_tree(ws / spec.work_dir / side)
+        summary[side] = {
+            "identical": sorted(k for k in exp if obs.get(k) == exp[k]),
+            "different": sorted(k for k in exp if k in obs and obs[k] != exp[k]),
+            "missing": sorted(set(exp) - set(obs)),
+            "extra": sorted(set(obs) - set(exp)),
+        }
+    out = REPO / "docs" / "equivalence" / spec.name.replace("/", "_") / "_chain.json"
+    out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    for stage, block in summary["stages"].items():
+        print(
+            f"{stage:26s} identical={len(block['identical']):4d} different={len(block['different']):3d} "
+            f"missing={len(block['missing'])} extra={len(block['extra'])}"
+            + ("" if not block["different"] else "  ~ " + ", ".join(list(block["different"])[:6]))
+        )
+    for side in ("inputs", *spec.side_dirs):
+        b = summary[side]
+        print(
+            f"{side:26s} identical={len(b['identical'])} different={b['different']} missing={b['missing']} extra={b['extra']}"
+        )
+    return summary
+
+
+def chain_main(argv: Sequence[str]) -> int:
+    parser = argparse.ArgumentParser(prog="equivalence.py chain")
+    parser.add_argument("--run", required=True, choices=sorted(RUNS))
+    parser.add_argument(
+        "--chain-config",
+        type=Path,
+        required=True,
+        help="the archive chain config (paths relative to the workspace)",
+    )
+    parser.add_argument("--compare-only", action="store_true")
+    args = parser.parse_args(argv)
+    spec = RUNS[args.run]
+    archive = archive_root()
+    status = 0
+    if not args.compare_only:
+        status = run_chain(spec, archive, args.chain_config)
+    compare_chain(spec, archive)
+    return status
 
 
 if __name__ == "__main__":
