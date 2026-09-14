@@ -1,0 +1,169 @@
+td_location_norm,mirror_tourney_name_norm,td_location_values,td_tournament_values,mirror_tourney_name_values,seasons,season_min,season_max,editions,alias_required,name_evidence,min_pair_overlap_td_in_mirror,min_pair_overlap_mirror_in_td
+abu dhabi,abu dhabi,Abu Dhabi,Abu Dhabi WTA Women's Tennis Open,Abu Dhabi,2021|2023|2024,2021,2024,3,False,exact_normalized_location,1.0,1.0
+acapulco,acapulco,Acapulco,Abierto Mexicano,Acapulco,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020,2007,2020,14,False,exact_normalized_location,1.0,1.0
+adelaide,adelaide,Adelaide,Adelaide International,Adelaide,2020|2021|2024,2020,2024,3,False,exact_normalized_location,0.965517,0.965517
+adelaide,adelaide 1,Adelaide,Adelaide International 1,Adelaide 1,2023,2023,2023,1,True,core_location,1.0,1.0
+adelaide,adelaide 2,Adelaide,Adelaide International 2,Adelaide 2,2023,2023,2023,1,True,core_location,1.0,1.0
+amelia island,amelia island,Amelia Island,Bausch & Lomb Championships,Amelia Island,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0
+antwerp,antwerp,Antwerp,BNP Paribas Fortis Diamond Games|Proximus Diamond Games,Antwerp,2007|2008|2015,2007,2015,3,False,exact_normalized_location,1.0,1.0
+auckland,auckland,Auckland,ASB Classic,Auckland,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2023|2024,2007,2024,16,False,exact_normalized_location,0.967742,1.0
+austin,austin,Austin,ATX Open,Austin,2023|2024,2023,2024,2,False,exact_normalized_location,1.0,1.0
+bad gastein,bad gastein,Bad Gastein,Gastein Ladies,Bad Gastein,2007|2008|2009|2010|2011|2012|2013|2014|2015,2007,2015,9,False,exact_normalized_location,1.0,1.0
+bad homburg,bad homburg,Bad Homburg,Bad Homburg Open,Bad Homburg,2021|2022|2023|2024,2021,2024,4,False,exact_normalized_location,0.967742,0.967742
+baku,baku,Baku,Baku Cup,Baku,2011|2012|2013|2014|2015,2011,2015,5,False,exact_normalized_location,1.0,1.0
+bali,bali,Bali,Commonwealth Bank Tennis Classic,Bali,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0
+bali,tournament of champions,Bali,Commonwealth Bank Tournament of Champions,Tournament of Champions,2009,2009,2009,1,True,token_subset,1.0,1.0
+bangalore,bangalore,Bangalore,Canara Bank Bangalore Open|Sony Ericsson International,Bangalore,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0
+bangkok,bangkok,Bangkok,PTT Bangkok Open,Bangkok,2007,2007,2007,1,False,exact_normalized_location,1.0,1.0
+barcelona,barcelona,Barcelona,Barcelona KIA|Barcelona Ladies Open,Barcelona,2007|2008|2009|2010|2011|2012,2007,2012,6,False,exact_normalized_location,0.935484,0.935484
+bastad,bastad,Bastad,Collector Swedish Open|Ericsson Open|Sony Swedish Open,Bastad,2009|2010|2011|2012|2013|2014|2015|2016|2017,2009,2017,9,False,exact_normalized_location,1.0,1.0
+beijing,beijing,Beijing,China Open,Beijing,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2023|2024,2007,2024,15,False,exact_normalized_location,1.0,1.0
+belgrade,belgrade,Belgrade,Serbia Ladies Open,Belgrade,2021,2021,2021,1,False,exact_normalized_location,1.0,1.0
+berlin,berlin,Berlin,Bett1Open|German Open|Qatar Telecom German Open,Berlin,2007|2008|2021|2022|2023|2024,2007,2024,6,False,exact_normalized_location,1.0,1.0
+biel,biel,Biel,Ladies Open Biel Bienne,Biel,2017,2017,2017,1,False,exact_normalized_location,1.0,1.0
+birmingham,birmingham,Birmingham,AEGON Classic|Birmingham Classic|DFS Classic|Rothesay Classic|Viking Classic,Birmingham,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,0.981818,0.981818
+bogota,bogota,Bogota,Copa BBVA Colsanitas|Copa Claro Colsanitas|Copa Colsanitas|Copa Colsanitas Santander|Copa Sony Ericsson Colsanitas,Bogota,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,0.967742,0.967742
+brisbane,brisbane,Brisbane,Brisbane International,Brisbane,2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2024,2009,2024,13,False,exact_normalized_location,1.0,1.0
+brussels,brussels,Brussels,Brussels Open,Brussels,2011|2012|2013,2011,2013,3,False,exact_normalized_location,1.0,1.0
+bucharest,bucharest,Bucharest,Bucharest Open,Bucharest,2014|2015|2016|2017|2018|2019,2014,2019,6,False,exact_normalized_location,1.0,1.0
+budapest,budapest,Budapest,Budapest Grand Prix|Budapest Open|Gaz de France Budapest Grand Prix|Hungarian Grand Prix|Hungarian Ladies Open|POLI-FARBE Budapest Grand Prix,Budapest,2007|2008|2009|2010|2011|2012|2013|2017|2018|2019|2021|2022|2023|2024,2007,2024,14,False,exact_normalized_location,0.967742,0.967742
+cancun,cancun finals,Cancun,WTA Finals,Cancun Finals,2023,2023,2023,1,True,core_location,0.933333,0.933333
+carlsbad,carlsbad,Carlsbad,Southern California Open,Carlsbad,2013,2013,2013,1,False,exact_normalized_location,1.0,1.0
+carlsbad,san diego,Carlsbad,Mercury Insurance Open,San Diego,2011|2012,2011,2012,2,True,none,1.0,1.0
+charleston,charleston,Charleston,Charleston Open|Family Circle Cup,Charleston,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2022|2023|2024,2007,2024,16,False,exact_normalized_location,1.0,1.0
+charleston,charleston 1,Charleston,Volvo Car Open,Charleston 1,2021,2021,2021,1,True,core_location,0.981818,0.981818
+charleston,charleston 2,Charleston,MUSC Health Women's Open,Charleston 2,2021,2021,2021,1,True,core_location,1.0,1.0
+chennai,chennai,Chennai,Chennai Open,Chennai,2022,2022,2022,1,False,exact_normalized_location,1.0,1.0
+chicago,chicago 1,Chicago,Chicago Women's Opeen,Chicago 1,2021,2021,2021,1,True,core_location,0.967742,0.967742
+chicago,chicago 2,Chicago,Chicago Fall Tennis Classic,Chicago 2,2021,2021,2021,1,True,core_location,1.0,1.0
+cincinnati,cincinnati,Cincinnati,Western & Southern Financial Group Women's Open,Cincinnati,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,0.967742,0.967742
+cleveland,cleveland,Cleveland,Tennis in the Land,Cleveland,2021|2022|2023|2024,2021,2024,4,False,exact_normalized_location,1.0,1.0
+cluj napoca,cluj napoca,Cluj-Napoca,Transylvania Open,Cluj Napoca|Cluj-Napoca,2022|2023|2024,2022,2024,3,False,exact_normalized_location,1.0,1.0
+cluj napoca,cluj napoca 2,Cluj-Napoca,Transylvania Open,Cluj-Napoca 2,2021,2021,2021,1,True,core_location,1.0,1.0
+college park,washington,College Park,Citi Open,Washington,2011,2011,2011,1,True,none,1.0,1.0
+copenhagen,copenhagen,Copenhagen,e-Boks Sony Ericsson Open,Copenhagen,2010|2011|2012,2010,2012,3,False,exact_normalized_location,1.0,1.0
+courmayeur,courmayeur,Courmayeur,Courmayeur Ladies Open,Courmayeur,2021,2021,2021,1,False,exact_normalized_location,1.0,1.0
+dallas,dallas,Dallas,Texas Tennis Open,Dallas,2011|2012,2011,2012,2,False,exact_normalized_location,1.0,1.0
+doha,doha,Doha,Qatar Ladies Open|Qatar Open|Qatar Total Open,Doha,2007|2008|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,16,False,exact_normalized_location,1.0,1.0
+doha,wta championships,Doha,Sony Ericsson Championships,WTA Championships,2010,2010,2010,1,True,none,1.0,1.0
+doha,wta tour championships,Doha,Sony Ericsson Championships,WTA Tour Championships,2008|2009,2008,2009,2,True,none,0.933333,0.933333
+dubai,dubai,Dubai,Barclays Dubai Tennis Championships|Dubai Duty Free Tennis Championships|Dubai Duty Free Women's Open,Dubai,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,False,exact_normalized_location,0.935484,0.935484
+eastbourne,eastbourne,Eastbourne,AEGON International|Eastbourne International|International Women's Open|Rothesay International|Viking International,Eastbourne,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,1.0,1.0
+estoril,estoril,Estoril,Estoril Open,Estoril,2007|2008|2009|2010|2011|2012,2007,2012,6,False,exact_normalized_location,1.0,1.0
+fes,fes,Fes,FesGrand Prix de SAR La Princesse Lalla Meryem|Grand Prix de SAR La Princesse Lalla Meryem,Fes,2007|2008|2009|2010|2011|2012,2007,2012,6,False,exact_normalized_location,1.0,1.0
+florianopolis,florianopolis,Florianopolis,Brasil Tennis Cup,Florianopolis,2013|2014|2015|2016,2013,2016,4,False,exact_normalized_location,0.967742,0.967742
+forest hills,forest hills,Forest Hills,Forest Hills Sony Ericsson WTA Tour Classic|Forest Hills Tennis Classic,Forest Hills,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0
+fort worth,fort worth finals,Fort Worth,WTA Finals,Fort Worth Finals,2022,2022,2022,1,True,core_location,1.0,1.0
+gdynia,gdynia,Gdynia,Poland Open,Gdynia,2021,2021,2021,1,False,exact_normalized_location,1.0,1.0
+gold coast,gold coast,Gold Coast,Mondial Australian Women's Hardcourts,Gold Coast,2008,2008,2008,1,False,exact_normalized_location,1.0,1.0
+granby,granby,Granby,Championnats de Granby,Granby,2022,2022,2022,1,False,exact_normalized_location,1.0,1.0
+gstaad,gstaad,Gstaad,Ladies Championship Gstaad,Gstaad,2016|2017|2018,2016,2018,3,False,exact_normalized_location,1.0,1.0
+guadalajara,guadalajara,Guadalajara,Abierto Zapopan|Guadalajara Open,Guadalajara,2021|2022|2023|2024,2021,2024,4,False,exact_normalized_location,0.962963,0.962963
+guadalajara,guadalajara 2,Guadalajara,Guadalajara Open,Guadalajara 2,2022,2022,2022,1,True,core_location,1.0,1.0
+guadalajara,guadalajara finals,Guadalajara,WTA Finals,Guadalajara Finals,2021,2021,2021,1,True,core_location,1.0,1.0
+guangzhou,guangzhou,Guangzhou,GDD-Guangzhou International Womens Open|GRC Bank Guangzhou International Women's Open|Guangzhou International Women's Open|Guangzhou Open|Landsky Lighting Guangzhou International Women's Open|TOE Life Ceramics Guangzhou International Women's Open|WANLIMA Guangzhou International Women's Open,Guangzhou,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2023|2024,2007,2024,15,False,exact_normalized_location,1.0,1.0
+hamburg,hamburg,Hamburg,European Open,Hamburg,2021|2022|2023,2021,2023,3,False,exact_normalized_location,1.0,1.0
+hiroshima,hiroshima,Hiroshima,Japan Women's Tennis Open,Hiroshima,2018|2019,2018,2019,2,False,exact_normalized_location,1.0,1.0
+hobart,hobart,Hobart,Hobart International|Moorilla Hobart International,Hobart,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2023|2024,2007,2024,16,False,exact_normalized_location,0.935484,0.935484
+hong kong,hong kong,Hong Kong,Hong Kong Tennis Open|Prudential Hong Kong Tennis Open,Hong Kong,2014|2015|2016|2017|2018|2023|2024,2014,2024,7,False,exact_normalized_location,0.967742,0.967742
+hua hin,hua hin,Hua Hin,Thailand Open,Hua Hin,2019|2020|2023|2024,2019,2024,4,False,exact_normalized_location,0.967742,0.967742
+hua hin,hua hin 2,Hua Hin,Thailand Open 2,Hua Hin 2,2024,2024,2024,1,True,core_location,1.0,1.0
+iasi,iasi,Iasi,Iasi Open,Iasi,2024,2024,2024,1,False,exact_normalized_location,1.0,1.0
+indian wells,indian wells,Indian Wells,BNP Paribas Open|Pacific Life Open,Indian Wells,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,1.0,1.0
+istanbul,istanbul,Istanbul,Istanbul Cup|TEB BNP Paribas Istanbul Cup,Istanbul,2007|2008|2009|2010|2014|2015|2016|2017|2018|2019|2020|2021|2022,2007,2022,13,False,exact_normalized_location,1.0,1.0
+istanbul,wta championships,Istanbul,Sony Ericsson Championships,WTA Championships,2011|2012|2013,2011,2013,3,True,none,1.0,1.0
+jiujiang,jiujiang,Jiujiang,Jiangxi Open,Jiujiang,2024,2024,2024,1,False,exact_normalized_location,1.0,1.0
+jurmala,jurmala,Jurmala,Baltic Open,Jurmala,2019,2019,2019,1,False,exact_normalized_location,1.0,1.0
+kaohsiung,kaohsiung,Kaohsiung,Taiwan Open,Kaohsiung,2016,2016,2016,1,False,exact_normalized_location,0.967742,0.967742
+katowice,katowice,Katowice,BNP Paribas Katowice Open|Katowice Open,Katowice,2013|2014|2015|2016,2013,2016,4,False,exact_normalized_location,1.0,1.0
+kolkata,kolkata,Kolkata,Sunfeast Open,Kolkata,2007,2007,2007,1,False,exact_normalized_location,1.0,1.0
+kuala lumpur,kuala lumpur,Kuala Lumpur,Malaysia Open,Kuala Lumpur,2010|2011|2012|2013|2014|2015|2016|2017,2010,2017,8,False,exact_normalized_location,0.967742,0.967742
+lausanne,lausanne,Lausanne,Ladies Open Lausanne,Lausanne,2019|2021|2022|2023,2019,2023,4,False,exact_normalized_location,1.0,1.0
+lexington,lexington,Lexington,Top Seed Open,Lexington,2020,2020,2020,1,False,exact_normalized_location,1.0,1.0
+linz,linz,Linz,Generali Ladies Linz|Generali Ladies Linz Open|Ladies Linz Open,Linz,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2023|2024,2007,2024,16,False,exact_normalized_location,1.0,1.0
+london,wimbledon,London,Wimbledon,Wimbledon,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_tournament,0.992126,0.992126
+los angeles,los angeles,Los Angeles,East West Bank Classic|LA Womens Tennis Championships,Los Angeles,2007|2008|2009,2007,2009,3,False,exact_normalized_location,1.0,1.0
+lugano,lugano,Lugano,Samsung Open,Lugano,2018|2019,2018,2019,2,False,exact_normalized_location,1.0,1.0
+luxembourg,luxembourg,Luxembourg,BGL BNP Paribas Luxembourg Open|FORTIS Championships Luxembourg|Luxembourg Open,Luxembourg,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021,2007,2021,14,False,exact_normalized_location,1.0,1.0
+lyon,lyon,Lyon,Lyon Open,Lyon,2020|2021|2022|2023,2020,2023,4,False,exact_normalized_location,1.0,1.0
+madrid,madrid,Madrid,Mutua Madrid Open|Mutua Madrileña Madrid Open,Madrid,2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2009,2024,15,False,exact_normalized_location,1.0,1.0
+madrid,wta tour championships,Madrid,Sony Ericsson Championships,WTA Tour Championships,2007,2007,2007,1,True,none,1.0,1.0
+mallorca,calvia,Mallorca,Mallorca Open,Calvia,2017,2017,2017,1,True,none,1.0,1.0
+mallorca,mallorca,Mallorca,Mallorca Open,Mallorca,2016|2018|2019,2016,2019,3,False,exact_normalized_location,1.0,1.0
+marbella,marbella,Marbella,Andalucia Tennis Experience,Marbella,2009|2010|2011,2009,2011,3,False,exact_normalized_location,1.0,1.0
+marrakech,marrakech,Marrakech,Grand Prix de SAR La Princesse Lalla Meryem,Marrakech,2013|2014,2013,2014,2,False,exact_normalized_location,1.0,1.0
+marrakesh,marrakech,Marrakesh,Grand Prix SAR Lalla Meryem,Marrakech,2015,2015,2015,1,True,none,1.0,1.0
+melbourne,australian open,Melbourne,Australian Open,Australian Open,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,False,exact_normalized_tournament,0.984252,0.984252
+melbourne,gippsland trophy,Melbourne,Gippsland Trophy,Gippsland Trophy,2021,2021,2021,1,False,exact_normalized_tournament,0.962264,1.0
+melbourne,grampians trophy,Melbourne,Grampians Trophy,Grampians Trophy,2021,2021,2021,1,False,exact_normalized_tournament,0.962963,1.0
+melbourne,melbourne 1,Melbourne,Melbourne Summer Set 1,Melbourne 1,2022,2022,2022,1,True,core_location,1.0,1.0
+melbourne,melbourne 2,Melbourne,Melbourne Summer Set 2,Melbourne 2,2022,2022,2022,1,True,core_location,1.0,1.0
+melbourne,phillip island trophy,Melbourne,Phillip Island Trophy,Phillip Island Trophy,2021,2021,2021,1,False,exact_normalized_tournament,1.0,1.0
+melbourne,yarra valley classic,Melbourne,Yarra Valley Classic,Yarra Valley Classic,2021,2021,2021,1,False,exact_normalized_tournament,1.0,1.0
+memphis,memphis,Memphis,Cellular South Cup|Memphis International|Regions Morgan Keegan Championships & the Cellular South Cup|US National Indoor Tennis Championships,Memphis,2007|2008|2009|2010|2011|2012|2013,2007,2013,7,False,exact_normalized_location,0.967742,0.967742
+merida,merida,Merida,Merida Open,Merida,2023|2024,2023,2024,2,False,exact_normalized_location,1.0,1.0
+miami,miami,Miami,Miami Open|Sony Ericsson Open,Miami,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,0.989474,0.989474
+monastir,monastir,Monastir,Jasmin Open,Monastir,2022|2023|2024,2022,2024,3,False,exact_normalized_location,1.0,1.0
+monreal,montreal,Monreal,Rogers Cup,Montreal,2008,2008,2008,1,True,none,1.0,1.0
+monterrey,monterrey,Monterrey,Monterrey Open,Monterrey,2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2009,2024,16,False,exact_normalized_location,1.0,1.0
+montreal,montreal,Montreal,Canadian Open|Rogers Cup,Montreal,2010|2012|2014|2016|2018|2021|2023,2010,2023,7,False,exact_normalized_location,1.0,1.0
+moscow,moscow,Moscow,Kremlin Cup|Moscow River Cup,Moscow,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021,2007,2021,15,False,exact_normalized_location,0.965517,0.965517
+nanchang,nanchang,Nanchang,Jiangxi Tennis Open|Jiangxi Women's Tennis Open,Nanchang,2016|2017|2018|2019|2023,2016,2023,5,False,exact_normalized_location,0.967742,0.967742
+new haven,new haven,New Haven,Connecticut Open|New Haven Open at Yale|Pilot Pen Tennis,New Haven,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018,2007,2018,12,False,exact_normalized_location,1.0,1.0
+new york,cincinnati,New York,Western & Southern Financial Group Women's Open,Cincinnati,2020,2020,2020,1,True,none,1.0,1.0
+new york,new york,New York,Bronx Open,New York,2019,2019,2019,1,False,exact_normalized_location,1.0,1.0
+new york,us open,New York,US Open,US Open|Us Open,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,False,exact_normalized_tournament,0.984252,0.984252
+ningbo,ningbo,Ningbo,Ningbo Open,Ningbo,2023|2024,2023,2024,2,False,exact_normalized_location,1.0,1.0
+nottingham,nottingham,Nottingham,Aegon Open|Nottingham Open,Nottingham,2015|2016|2017|2018|2019|2021|2022|2023|2024,2015,2024,9,False,exact_normalized_location,0.967742,0.967742
+nur sultan,nur sultan,Nur-Sultan,Astana Open,Nur-Sultan,2021,2021,2021,1,False,exact_normalized_location,1.0,1.0
+nurnberg,nuremberg,Nürnberg,Nürnberger Versicherungscup,Nuremberg,2013|2014|2015,2013,2015,3,True,none,1.0,1.0
+nurnberg,nurnberg,Nürnberg,Nürnberger Versicherungscup,Nurnberg,2016|2017|2018|2019,2016,2019,4,False,exact_normalized_location,0.935484,0.935484
+oeiras,oeiras,Oeiras,Portugal Open,Oeiras,2013|2014,2013,2014,2,False,exact_normalized_location,1.0,1.0
+osaka,osaka,Osaka,HP Open|Japan Open|Japan Women's Open Tennis|Toray Pan Pacific Open Tennis Tournament,Osaka,2009|2010|2011|2012|2013|2014|2019|2023|2024,2009,2024,9,False,exact_normalized_location,1.0,1.0
+ostrava,ostrava,Ostrava,Ostrava Open,Ostrava,2020|2021|2022,2020,2022,3,False,exact_normalized_location,1.0,1.0
+palermo,palermo,Palermo,Internazionali Femminili di Palermo|Internazionali Femminili di Tennis di Palermo|Italiacom Open,Palermo,2007|2008|2009|2010|2011|2012|2013|2019|2020|2021|2022|2023|2024,2007,2024,13,False,exact_normalized_location,1.0,1.0
+paris,paris,Paris,Open GDF Suez|Open Gaz de France,Paris,2007|2008|2009|2010|2011|2012|2013|2014,2007,2014,8,False,exact_normalized_location,1.0,1.0
+paris,roland garros,Paris,French Open,Roland Garros,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,True,none,0.984252,0.984252
+parma,parma,Parma,Emilia-Romagna Open|Parma Ladies Open,Parma,2021|2022,2021,2022,2,False,exact_normalized_location,1.0,1.0
+pattaya,pattaya,Pattaya,Pattaya Women's Open,Pattaya,2007|2008|2009|2010|2011|2012|2013|2014|2015,2007,2015,9,False,exact_normalized_location,0.967742,0.967742
+ponte vedra beach,ponte vedra beach,Ponte Vedra Beach,MPS Group Championships,Ponte Vedra Beach,2009|2010,2009,2010,2,False,exact_normalized_location,1.0,1.0
+portoroz,portoroz,Portoroz,Banka Koper Slovenia Open|Slovenia Open,Portoroz,2007|2008|2009|2010|2021|2022,2007,2022,6,False,exact_normalized_location,0.935484,0.935484
+prague,prague,Prague,ECM Prague Open|J&T Banka Prague Open|Prague Open,Prague,2007|2008|2009|2010|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,14,False,exact_normalized_location,0.935484,0.935484
+quebec,quebec city,Quebec,Bell Challenge|Coupe Banque Nationale,Quebec City,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018,2007,2018,12,True,token_overlap,1.0,1.0
+rabat,rabat,Rabat,Grand Prix SAR Lalla Meryem|Morocco Open,Rabat,2016|2017|2018|2019|2022|2023|2024,2016,2024,7,False,exact_normalized_location,0.967742,0.967742
+rio de janeiro,rio de janeiro,Rio de Janeiro,Rio Open,Rio de Janeiro,2014|2015|2016,2014,2016,3,False,exact_normalized_location,1.0,1.0
+riyadh,riyadh finals,Riyadh,WTA Finals,Riyadh Finals,2024,2024,2024,1,True,core_location,0.933333,0.933333
+rogers cup,toronto,Rogers Cup,Toronto,Toronto,2007,2007,2007,1,False,exact_normalized_tournament,1.0,1.0
+rome,rome,Rome,Internazionali BNL d'Italia,Rome,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,False,exact_normalized_location,1.0,1.0
+rouen,rouen,Rouen,Open de Rouen,Rouen,2024,2024,2024,1,False,exact_normalized_location,1.0,1.0
+s hertogenbosch,s hertogenbosch,'s-Hertogenbosch,Ordina Open|Ricoh Open|Rosmalen Grass Court Championships|Topshelf Open|Unicef Open,'s Hertogenbosch|'s-Hertogenbosch|S-Hertogenbosch|s Hertogenbosch|s-Hertogenbosch,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2022|2023|2024,2007,2024,16,False,exact_normalized_location,0.935484,0.935484
+san diego,san diego,San Diego,Acura Classic|Mercury Insurance Open|San Diego Open,San Diego,2007|2010|2022|2023|2024,2007,2024,5,False,exact_normalized_location,0.981818,0.981818
+san jose,san jose,San Jose,Mubadala Silicon Valley Classic,San Jose,2018|2019|2021|2022,2018,2022,4,False,exact_normalized_location,1.0,1.0
+seoul,seoul,Seoul,Hansol Korea Open|KDB Korea Open|Kia Korea Open|Korea Open,Seoul,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2022|2023|2024,2007,2024,16,False,exact_normalized_location,1.0,1.0
+shenzhen,shenzhen,Shenzhen,Shenzhen Longgang Gemdale Open|Shenzhen Open,Shenzhen,2013|2014|2015|2016|2017|2018|2019|2020,2013,2020,8,False,exact_normalized_location,1.0,1.0
+shenzhen,shenzhen finals,Shenzhen,WTA Finals,Shenzhen Finals,2019,2019,2019,1,True,core_location,1.0,1.0
+singapore,singapore,Singapore,BNP Paribas WTA Finals,Singapore,2016|2017|2018,2016,2018,3,False,exact_normalized_location,1.0,1.0
+singapore,wta finals,Singapore,Sony Ericsson Championships,WTA Finals,2014|2015,2014,2015,2,True,none,1.0,1.0
+sofia,tournament of champions,Sofia,Garanti Koza WTA Tournament of Champions|Qatar Airways Tournament of Champions Sofia,Tournament of Champions,2012|2013|2014,2012,2014,3,True,token_subset,1.0,1.0
+st petersburg,st petersburg,St. Petersburg,Ladies Trophy,St. Petersburg,2016|2017|2018|2019|2020|2021|2022,2016,2022,7,False,exact_normalized_location,0.962963,0.962963
+stanford,stanford,Stanford,Bank of the West Classic,Stanford,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017,2007,2017,11,False,exact_normalized_location,0.967742,0.967742
+stockholm,stockholm,Stockholm,Nordea Nordic Light Open,Stockholm,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0
+strasbourg,strasbourg,Strasbourg,Internationaux de Strasbourg,Strasbourg,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2020|2021|2022|2023|2024,2007,2024,18,False,exact_normalized_location,0.967742,0.967742
+stuttgart,stuttgart,Stuttgart,Porsche Tennis Grand Prix,Stuttgart,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2021|2022|2023|2024,2007,2024,17,False,exact_normalized_location,1.0,1.0
+sydney,sydney,Sydney,Apai International|Medibank International|Sydney International|Sydney Tennis Classic,Sydney,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019|2022,2007,2022,14,False,exact_normalized_location,1.0,1.0
+taipei,taipei,Taipei,Taiwan Open,Taipei,2017|2018,2017,2018,2,False,exact_normalized_location,1.0,1.0
+tallinn,tallinn,Tallinn,Tallinn Open,Tallinn,2022,2022,2022,1,False,exact_normalized_location,1.0,1.0
+tashkent,tashkent,Tashkent,Tashkent Open,Tashkent,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2019,2007,2019,13,False,exact_normalized_location,0.935484,0.935484
+tenerife,tenerife,Tenerife,Tenerife Ladies Open,Tenerife,2021,2021,2021,1,False,exact_normalized_location,1.0,1.0
+tianjin,tianjin,Tianjin,Tianjin Open,Tianjin,2014|2015|2016|2017|2018|2019,2014,2019,6,False,exact_normalized_location,1.0,1.0
+tokyo,japan open,Tokyo,AIG Japan Open Tennis Championships,Japan Open,2007|2008,2007,2008,2,True,token_subset,1.0,1.0
+tokyo,japan open tokyo,Tokyo,Japan Women's Tennis Open,Japan Open Tokyo,2016,2016,2016,1,True,token_subset,1.0,1.0
+tokyo,tokyo,Tokyo,Japan Women's Tennis Open|Toray Pan Pacific Open|Toray Pan Pacific Open Tennis Tournament,Tokyo,2007|2008|2009|2010|2011|2012|2013|2014|2015|2016|2017|2018|2022|2023|2024,2007,2024,17,False,exact_normalized_location,0.925926,0.925926
+toronto,toronto,Toronto,Canadian Open|Rogers Cup,Toronto,2009|2011|2013|2015|2017|2019|2022|2024,2009,2024,8,False,exact_normalized_location,1.0,1.0
+vina del mar,vina del mar,Vina del Mar,Cachantun Cup,Vina Del Mar,2008,2008,2008,1,False,exact_normalized_location,1.0,1.0
+warsaw,warsaw,Warsaw,J&S Cup|Poland Open|Warsaw Open,Warsaw,2007|2009|2010|2022|2023,2007,2023,5,False,exact_normalized_location,1.0,1.0
+washington,washington,Washington,Citi Open,Washington,2012|2013|2014|2015|2016|2017|2018|2019|2022|2023|2024,2012,2024,11,False,exact_normalized_location,1.0,1.0
+wuhan,wuhan,Wuhan,Wuhan Open,Wuhan,2014|2015|2016|2017|2018|2019|2024,2014,2024,7,False,exact_normalized_location,1.0,1.0
+zhengzhou,zhengzhou,Zhengzhou,Zhengzhou Open,Zhengzhou,2019|2023,2019,2023,2,False,exact_normalized_location,0.962963,0.962963
+zhuhai,zhuhai,Zhuhai,WTA Elite Trophy,Zhuhai,2015|2016|2017|2018|2019|2023,2015,2023,6,False,exact_normalized_location,1.0,1.0
+zurich,zurich,Zurich,Zurich Open,Zurich,2007|2008,2007,2008,2,False,exact_normalized_location,1.0,1.0

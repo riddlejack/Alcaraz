@@ -30,3 +30,17 @@ may not be used commercially.
 
 `data/sample/` is either synthetic or Sackmann-derived under the terms above. It contains
 no odds and no tennis-data.co.uk rows. Its provenance is stated in `data/sample/README.md`.
+
+## Tracked derived tables
+
+| Path | Source | Terms |
+|---|---|---|
+| `data/mappings/wta_event_map/*.csv` | tennis-data event names paired with Sackmann tournament ids; format inventory from Sackmann score strings | mapping tables; Sackmann-derived rows CC BY-NC-SA 4.0 |
+| `data/manifests/**` | receipts, hashes, identity and event crosswalks (ids and names) | mapping tables and receipts; no odds, no result rows |
+| `data/registries/*` | scores and experiment records produced by this project | MIT |
+| `data/sample/**` | synthetic (see its README) | MIT |
+
+Files reviewed and deliberately not copied from the archive's `references/WTA01_event_map/`:
+`td_row_date_defects.csv` and `winner_orientation_conflicts.csv` (they reproduce
+tennis-data result rows), `event_crosswalk_candidates.csv`, `event_name_pairs_by_edition.csv`,
+`surname_class_links.csv`, `unmapped_*` and `per_season_coverage.csv` (not read by the trunk).
