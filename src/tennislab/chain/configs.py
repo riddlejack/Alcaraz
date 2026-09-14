@@ -66,6 +66,35 @@ def binding(path: Path) -> dict[str, str]:
     }
 
 
+def label_binding(labels_path: Path, features_path: Path) -> dict[str, str]:
+    """The label file's binding, taken from the features stage's own manifest.
+
+    The predictor config binds ``labels.csv`` by hash but must not open it (RB3: before
+    the report, the label file is read only as history through ``LabelHistory``). The
+    features stage that wrote the file recorded its hash beside the feature file's, so
+    the binding is copied from that manifest after checking the manifest binds the
+    feature file this config binds.
+    """
+    if labels_path.parent != features_path.parent or labels_path.name != "labels.csv":
+        raise ConfigError(
+            "labels must be the features stage's own labels.csv beside the feature file; "
+            f"got {labels_path}"
+        )
+    manifest_path = features_path.parent / "manifest.json"
+    if not manifest_path.is_file():
+        raise ConfigError(f"features manifest not found beside the feature file: {manifest_path}")
+    outputs = read_config(manifest_path).get("outputs", {})
+    recorded_features = outputs.get("features.csv", {}).get("sha256")
+    if recorded_features != sha256(features_path):
+        raise ConfigError("features manifest does not bind the configured feature file")
+    return {
+        "path": relative_to_root(labels_path),
+        "sha256": require_nonempty_digest(
+            outputs.get("labels.csv", {}).get("sha256"), label="binding labels.csv"
+        ),
+    }
+
+
 def read_year_plan(path: Path) -> dict[str, Any]:
     document = read_config(path)
     return document.get("year_plan", document)
@@ -174,7 +203,10 @@ def build_predictor(
         "code": info["code"],
         "dependencies": info["dependencies"],
         "settings": info["settings"],
-        "inputs": {name: binding(path) for name, path in inputs.items()},
+        "inputs": {
+            name: (label_binding(path, inputs["features"]) if name == "labels" else binding(path))
+            for name, path in inputs.items()
+        },
         "label_file_columns": list(runner.LABEL_COLUMNS),
         "ordered_model_columns": runner.ordered_model_columns(contract),
         "expected_membership": expected_membership,

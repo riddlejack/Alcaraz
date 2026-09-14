@@ -1,0 +1,25 @@
+{
+  "counts": {
+    "base_rule_rows": 4815,
+    "events": 250,
+    "panel_rows": 5350,
+    "players": 60,
+    "ranking_rows": 31320,
+    "seasons": 10
+  },
+  "files": {
+    "archive.tar.gz": "3c940bba5e78461952be6269f1e1dd46b5768153317a931ff24920945527f997",
+    "base_rules.csv": "f87ce64b44259e0e0bb424f4a84769c23514d7f581b1cb71b1450e19795bf22c",
+    "design.md": "9d4c789b81181d7075eaeca5393f53073b5bf83f987b4abeea75839c4d8716be",
+    "panel.csv": "c8ee90acc8d5ce2e7dfc6bec7852117606d8487ecfc4a7fbe36ad60c28f1c8e4",
+    "panel_manifest.json": "85e694c0349f1b81191edf66d62a81a77d7bb93d111c2bf341e8e92e16bc36ff",
+    "players.csv": "84b302efec0cb6119e7e4cfdd45a9db772c3a124a47db4ec1e08208292eea132",
+    "rules.json": "9ac085e307e68a5a244dd88d065c0945d2d3c15585fcb1d097f090b72e208f3e",
+    "selections.csv": "a931bebdc5922550ca6bba68550cfdc9fa9dacc235230b62f346f95c273fbc88",
+    "sr02_primary.json": "bb30e2a91bdc274c307a953a1086831df11eaf15128c6765f0b85ff310aa68b2"
+  },
+  "generator": "tools/make_sample.py",
+  "seed": 20260913,
+  "synthetic": true,
+  "unknown_outcomes_final_year": false
+}

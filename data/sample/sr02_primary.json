@@ -1,0 +1,93 @@
+{
+  "chronology": {
+    "availability_lag_calendar_days": 2,
+    "history_identity_tier": "primary",
+    "history_statuses": [
+      "completed",
+      "retired",
+      "default"
+    ],
+    "same_source_date_updates": "one_frozen_batch",
+    "source_date_field": "match_date"
+  },
+  "dynamic_filter": {
+    "global_initial_mean_logit": 0.5,
+    "global_initial_sd": 0.12,
+    "return_initial_sd": 0.2,
+    "return_process_sd_per_60_days": 0.04,
+    "serve_initial_sd": 0.2,
+    "serve_process_sd_per_60_days": 0.04,
+    "solver_gradient_tolerance": 1e-06,
+    "solver_max_iterations": 50,
+    "solver_newton_decrement_tolerance": 1e-07,
+    "surface_initial_sd": 0.08,
+    "surface_mean_initial_sd": 0.08,
+    "surface_process_sd_per_60_days": 0.0,
+    "tournament_initial_sd": 0.06
+  },
+  "execution_binding": {
+    "dynamic_path": "tennislab.dynamics.dynamic",
+    "dynamic_sha256": "",
+    "runner_path": "tennislab.dynamics.path_runner",
+    "runner_sha256": ""
+  },
+  "experiment_id": "SAMPLE-SR02",
+  "hyperparameter_selection_proposal": {
+    "candidate_menu": [
+      {
+        "candidate_id": "q050_g040_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.05,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      }
+    ],
+    "fallback_candidate_id": "q050_g040_moderate",
+    "status": "frozen_before_real_fit"
+  },
+  "input": {
+    "manifest_path": "data/sample/panel_manifest.json",
+    "panel_path": "data/sample/panel.csv",
+    "panel_rows": 5350,
+    "panel_sha256": "c8ee90acc8d5ce2e7dfc6bec7852117606d8487ecfc4a7fbe36ad60c28f1c8e4"
+  },
+  "match_conversion": {
+    "missing_rule": "emit_point_probabilities_and_refuse_match_probability",
+    "rule_mapping_path": "data/sample/base_rules.csv",
+    "rule_mapping_sha256": "f87ce64b44259e0e0bb424f4a84769c23514d7f581b1cb71b1450e19795bf22c"
+  },
+  "parent_experiment": "synthetic sample",
+  "proposal_status": "frozen_for_real_execution",
+  "selection_years": [
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+  ],
+  "unadjusted_baseline": {
+    "count_half_life_days": 180.0,
+    "name": "unadjusted_decayed_marginal_logit_additive",
+    "overall_prior_denominator_units": 50.0,
+    "selection_proposal": {
+      "candidate_menu": [
+        {
+          "candidate_id": "h180_o250_s250",
+          "half_life_days": 180.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 250.0
+        }
+      ],
+      "fallback_candidate_id": "h180_o250_s250"
+    },
+    "surface_prior_denominator_units": 50.0
+  }
+}

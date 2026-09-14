@@ -1295,6 +1295,12 @@ def load_frozen_run_config(path: Path) -> FrozenRunConfig:
         if not isinstance(bound_hash, str) or len(bound_hash) != 64:
             raise PipelineError(f"invalid input hash binding: {name}")
         bound_path = _project_path(binding.get("path"), f"inputs.{name}.path")
+        if name == "labels":
+            # RB3: the label file is not opened here, not even to hash it. Every read
+            # goes through LabelHistory, which checks this bound hash before it reads.
+            inputs[name] = bound_path
+            input_hashes[name] = bound_hash
+            continue
         observed = sha256(bound_path)
         if observed != bound_hash:
             raise PipelineError(f"{name} hash mismatch: {observed}")

@@ -28,18 +28,18 @@ def build_parser() -> argparse.ArgumentParser:
     chain.add_argument("--from", dest="start")
     chain.add_argument("--to", dest="stop")
     chain.add_argument("--include-report", action="store_true")
-    subparsers.add_parser(
+    reproduce = subparsers.add_parser(
         "reproduce-small", help="reproduce one headline number from the committed sample"
+    )
+    reproduce.add_argument(
+        "--pin",
+        action="store_true",
+        help="write data/sample/expected.json from this run instead of comparing against it",
     )
     ladder = subparsers.add_parser("report", help="reporting over completed runs")
     ladder.add_argument("--ladder", action="store_true", help="the per-tour, per-year model ladder")
     ladder.add_argument("--runs", nargs="*", default=[], help="run directories to read")
     return parser
-
-
-def reproduce_small() -> int:
-    print("tennislab reproduce-small: rebuild in progress; no sample reproduction is wired yet.")
-    return 0
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -56,7 +56,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             forwarded.append("--include-report")
         return runner.main(forwarded)
     if args.command == "reproduce-small":
-        return reproduce_small()
+        from tennislab import reproduce
+
+        return reproduce.main(["--pin"] if args.pin else [])
     if args.command == "report":
         print("tennislab report --ladder: not yet ported", file=sys.stderr)
         return 2
