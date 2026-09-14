@@ -16,20 +16,20 @@
     "missing": []
   },
   "predictor_config": {
-    "different": [
-      "config.2017_2024.json"
-    ],
+    "different": [],
     "extra": [],
     "identical": [],
-    "missing": []
+    "missing": [
+      "config.2017_2024.json"
+    ]
   },
   "reporting_config": {
-    "different": [
-      "reporting.2017_2024.json"
-    ],
+    "different": [],
     "extra": [],
     "identical": [],
-    "missing": []
+    "missing": [
+      "reporting.2017_2024.json"
+    ]
   },
   "run": "TIER01/attempt_002",
   "stages": {
@@ -38,12 +38,12 @@
         "archive_panel_launch.json": {
           "changed_leaves": 10,
           "first": [
-            "bridge_summary.sha256: \"c4de0081db995611777834998b99b321d0cff5f08e18469eb81df7f707ea28c2\" -> \"41c9471d190ed08a9a4951806968078b6bac92c6215ca2c841659346bace00de\"",
+            "bridge_summary.sha256: \"c4de0081db995611777834998b99b321d0cff5f08e18469eb81df7f707ea28c2\" -> \"790cb63ea5c28bf1e2d66e6165e373c216178845e6111e957ddce8561eef9c6d\"",
             "code.build_archive_panel: \"9ec4342cda2b3409e03296d45a3c5976f8fbb75e3bd1df1874a9ab1c2be6f984\" -> \"<absent>\"",
             "code.launcher: \"b10e2eabeb3905e5f60af2a80c2bba690c53b8ae4a631bada2a8db118e70498f\" -> \"<absent>\"",
             "code.module: \"<absent>\" -> \"tennislab.panel.archive_panel\"",
             "code.package_version: \"<absent>\" -> \"0.1.0\"",
-            "code.sha256: \"<absent>\" -> \"ff07d9ed327d8d66f7ae82b4fd331fe6e035bf379b053a83df4fdc15a68403c4\"",
+            "code.sha256: \"<absent>\" -> \"3459c1fa30220fc3929ee0961f15786241a957e0f493e7caa8ed0c64dd89339e\"",
             "composed_archive.sha256: \"09bbfe8df18a162625115a325d0c5c204bd5f9a4b5f1a94f2e01a2437ca5600a\" -> \"91cf43890c012520cb088727b8c0370633f680820615c4310b2e20a20cac5a66\"",
             "id: \"CONFIRM2026-archive-panel-launch\" -> \"tennislab-archive-panel-launch-ATP\"",
             "rebound_constants: [\"TAR_PATH\", \"TAR_SHA256\"] -> \"<absent>\"",
@@ -69,7 +69,9 @@
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "annual_stats.csv",
         "anomalies.csv",
@@ -88,7 +90,9 @@
     },
     "bridge": {
       "different": {},
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "stderr.txt",
         "stdout.txt"
@@ -131,7 +135,9 @@
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "stderr.txt"
       ],
@@ -142,13 +148,15 @@
         "carry_forward_report.json": {
           "changed_leaves": 2,
           "first": [
-            "code: \"<absent>\" -> {\"module\": \"tennislab.panel.crosswalk_carry\", \"package_version\": \"0.1.0\", \"sha256\": \"ea2ea16c06b5c5eceb04cf7876516b72d5a",
+            "code: \"<absent>\" -> {\"module\": \"tennislab.panel.crosswalk_carry\", \"package_version\": \"0.1.0\", \"sha256\": \"a3c7fd57e4e230f2d551244a05538f4f357",
             "inputs.references/TIER01_models/carry_event_crosswalk.py: \"282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef\" -> \"<absent>\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "extended_event_crosswalk.csv",
         "stderr.txt",
@@ -165,7 +173,7 @@
             "executed_builder.module: \"<absent>\" -> \"tennislab.features.base\"",
             "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
             "executed_builder.path: \"references/TIER01_models/build_features.py\" -> \"<absent>\"",
-            "executed_builder.sha256: \"15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf\" -> \"714b7bf0f13c06d6260e1bc209dfd87d5d2182cf5544ffe72af54a105171458a\"",
+            "executed_builder.sha256: \"15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf\" -> \"3159c0d0eb6dd3333a408696c01e57366af8b13a1a5c5db9f6b912c6ff6ecea0\"",
             "inputs.config.sha256: \"25c049a26ae1fa2ce61ffb0a33d2242d7a16648ee9ff964966ace87f27f7b474\" -> \"cc7a192468cf8a13afa1bc839974018c564493c853a089f04dbf1c662febf61f\"",
             "inputs.ranking_index.sha256: \"bdcee6b989fa10b609e97253651fec6a2d95e180dce81ae9b463c00cec3a01e6\" -> \"a5a7f24d3eb74e3340660bf8e29fa0a6261083953af033676a796a6a95a77e34\"",
             "outputs.resolved_config.json.sha256: \"25c049a26ae1fa2ce61ffb0a33d2242d7a16648ee9ff964966ace87f27f7b474\" -> \"cc7a192468cf8a13afa1bc839974018c564493c853a089f04dbf1c662febf61f\"",
@@ -188,7 +196,7 @@
             "+  \"diverged_serve_return_history_summaries\": {},",
             "@@ -81 +82 @@",
             "-  \"manifest_sha256\": \"71dc6db9df3c71a27d9b1f1b35a5c302188bb0d7fbab9ee8fcfabc1eaab0f907\",",
-            "+  \"manifest_sha256\": \"8158ca4cbcf7e04af61fcd300b2b36c9cfdd104df402352f383d0ca48dbd6bea\",",
+            "+  \"manifest_sha256\": \"cfe06660169ed354d99bffa2d351bbd6c096b232f14c07aca97851123b0879b5\",",
             "@@ -88 +89,2 @@",
             "-    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\"",
             "+    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\",",
@@ -210,7 +218,9 @@
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "column_dictionary.json",
         "features.csv",
@@ -223,7 +233,9 @@
     },
     "format_corrections": {
       "different": {},
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "manifest.json",
         "panel.csv",
@@ -240,7 +252,7 @@
             "implementation.adapter.module: \"<absent>\" -> \"tennislab.panel.join\"",
             "implementation.adapter.package_version: \"<absent>\" -> \"0.1.0\"",
             "implementation.adapter.path: \"references/TIER01_models/join_candidates.py\" -> \"<absent>\"",
-            "implementation.adapter.sha256: \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\" -> \"1b62a0c6a210c437ca71d3dfd30f4464273614cb634c80943899169271f1e515\"",
+            "implementation.adapter.sha256: \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\" -> \"5829643dcda2607d580526c94dad1a44554d392a2eb5dd96c50b749e17875881\"",
             "inputs.archive_quality_report.sha256: \"539e7e4d65c03ea662116be08eb7aafafadc8622c5364e902d70e68a793caa0b\" -> \"f975b1b8f0f6bc4a12815866832fe478381ae36a0f350ad043482f9537569b3b\""
           ],
           "kind": "json"
@@ -264,7 +276,7 @@
             "-      \"sha256\": \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\"",
             "+      \"module\": \"tennislab.panel.join\",",
             "+      \"package_version\": \"0.1.0\",",
-            "+      \"sha256\": \"1b62a0c6a210c437ca71d3dfd30f4464273614cb634c80943899169271f1e515\"",
+            "+      \"sha256\": \"5829643dcda2607d580526c94dad1a44554d392a2eb5dd96c50b749e17875881\"",
             "@@ -50 +51 @@",
             "-      \"sha256\": \"539e7e4d65c03ea662116be08eb7aafafadc8622c5364e902d70e68a793caa0b\"",
             "+      \"sha256\": \"f975b1b8f0f6bc4a12815866832fe478381ae36a0f350ad043482f9537569b3b\""
@@ -274,7 +286,9 @@
           "lines_ported": 1092
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "alias_candidates.csv",
         "ambiguous_candidates.csv",
@@ -290,1734 +304,120 @@
       "missing": []
     },
     "pipeline": {
-      "different": {
-        "attempts/2014/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"75ba6bc916e68bec9f3bf8182f0cb0516a6f80544a904f4ab9b51df524ed8a03\" -> \"49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3\"",
-            "fit_manifest_sha256: \"de22305a89b1e8b1e2efe2b216b68ecd2c8ea9b61216bbcd457fdc388d3403a3\" -> \"de5f6f183a9520dc2f317c5f8bd1ee3731e9b5bf92935bf3eb6cf835710eabb5\"",
-            "fit_wall_clock_seconds: 0.924088 -> 0.925076"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"370b509a37066efa088a31379da4d1de49232dd26ac1dfae0787e48ada6bb4b5\" -> \"52d435db6c11aab7e0e768b02581d936399284d54b572d776205f8408f14ae51\"",
-            "fit_manifest_sha256: \"3aea83ef75051333e9a8ea8f8f613ad6db41c8a3287f0b05368e0a415d1a9358\" -> \"a79d3620763863b1b59de7d81660a50b89ad5b9823912aa7fa353af9a2cdea67\"",
-            "fit_wall_clock_seconds: 0.964643 -> 0.971733"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8b5f94b8a96b6a3a6f6526a5b2ad4ed4ad7a901a79c99a16e04b068b36642001\" -> \"f31673888a43673def8005002e9ebc6357ba8e86956136097d09be33be5559d5\"",
-            "fit_manifest_sha256: \"edcb3784fb9b928fc05751229fa1f940de78adc28201ffc224e4676a56e5583e\" -> \"fabf0ec3ec20e7b6ec7c25056261efaf47d24fe1df9689a11b21108446ff950d\"",
-            "fit_wall_clock_seconds: 1.091299 -> 1.10877"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"4ae53f6b8850a7f9b0ad9b3a2b2ee40956d65ad75b07ed259b2c2ff349b88570\" -> \"911313045cdbf523628f37752d6aec52d7df1e7ee354ef27fc4dd631b663f621\"",
-            "fit_manifest_sha256: \"f1d05d792a71b64747ca8c11e3bccb716d0ab242d968e8392214ec7c0a00ba86\" -> \"f55e9adaa20ef409cc29f14dbaa91340ae0ef90516d9cbc0e00fcf4603c6db6a\"",
-            "fit_wall_clock_seconds: 1.139784 -> 1.150423"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c0d7cfb2df8573036d3dff734139d959b280ace535c5b54ea41ff5148d6a67f6\" -> \"a1df61853c941a3045a5d878c4313982d2570f68d3969d8098e502233b2151e5\"",
-            "fit_manifest_sha256: \"617068175ffff4e03acc49f58b3364e67db53ea0bbf7bc6d700414cfd1c0b7f4\" -> \"d605aaf87ac05f082207ced111178cea91fe69e757dba40d9e0042731dc6b6e5\"",
-            "fit_wall_clock_seconds: 1.243275 -> 1.258101"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"61b5cb83bdcdf7965f109f96b422511bfaf7b27ef5594dcf263fe5ff3d3f2861\" -> \"e69a208bdb337152fde535c3d5b44b9e072f696bbd231dcb004c4f0cebee9c21\"",
-            "fit_manifest_sha256: \"2090f4352c4d3726bbd90588fa39697450edb6c2fc1ee85a0cff36efd62aa4a8\" -> \"c49261edb4f76e7f6fe12750c04ad9095a3aaaaa6b748586711c66545b9b8e21\"",
-            "fit_wall_clock_seconds: 1.301096 -> 1.313592"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ed8eae9b84858344ca37a6d33d9a9c860d67764fe16feb27cf55ebd4f29d38db\" -> \"f05420a59cc93b99a09720000b356687fcd953e4786767cafa717d12f8653e01\"",
-            "fit_manifest_sha256: \"abc4dcb6b21be8272e9c7bfbe49b5a1858ab0f4ce124bfd089a242651b246b03\" -> \"dedc14810f04841931a7a3161938bd72a27a649acc1b637336767a2b9e611671\"",
-            "fit_wall_clock_seconds: 1.470788 -> 1.494445"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ecfc21412ed5abe37174acf492b987056de0ff902e664f0d784a1e5d664e1e5e\" -> \"7d803c101a23aa8970da15f28e823695e0033a707e4d7887153edd029477f2a8\"",
-            "fit_manifest_sha256: \"b5c9bbe4e426a37647713df884c7ca27a4172c913e6eaff0add3754746cde62b\" -> \"0ed0c23527275b19464346990eb7f9d08cee1222fcd1e23b7001079e83d7e5d4\"",
-            "fit_wall_clock_seconds: 1.544725 -> 1.592892"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"80349bb4c2dfd69868e2d84874339ede034d594489f9d40a45f0d3aef9692b4d\" -> \"9a1521eb23874c62a03c51bc2e082d8a4d13146d22d471f2083bc82b30d2dc31\"",
-            "fit_manifest_sha256: \"11ac0008656418dd3079e0c63d199ec5637f45a20a6ebaf34371e2f386071ad7\" -> \"bb073cf4dd48e3fea9e651f9ac6cbd0ff57248f6555c242f94b3c02d9ea14b46\"",
-            "fit_wall_clock_seconds: 1.471788 -> 1.518557"
-          ],
-          "kind": "json"
-        },
-        "attempts/2014/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"7eccc8b260780a859ef8ee9879e7d893ea70cc90689c9022c8fb6da9efd0f2f0\" -> \"c9269d4b65c8fb4a8cb5d2c49ce5f9430cd5f5a242641e30e581f98486c5de49\"",
-            "fit_manifest_sha256: \"ca3f277da02cffa181ea78f8076ebf46136c5dc5c5b7b2eb91c2212f265d1388\" -> \"a802789a76bcaec39b093a760725f09a22fbe7df8860a4ea1b32e5762b847cca\"",
-            "fit_wall_clock_seconds: 1.546756 -> 1.621047"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"764a39c399364c4156087954701589a4f5aa6fa48bec76c5fdaf2c709712e9db\" -> \"eaac9e6c64f9004fab9639ed5f53c612d875da9d35715ae74ad02fc5a0b22bb4\"",
-            "fit_manifest_sha256: \"1557c14f437b9510a7ef966116fe9db58ad55512843689c329d69add9e4f133e\" -> \"6d6285a8245bd7283ec0eed874804c964eae2117d20a2ed73877d82ea7d0be94\"",
-            "fit_wall_clock_seconds: 1.18176 -> 1.20869"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"e3959d6b927f030e53925f3cdc41d3d78d7cb0fee27d28c0f13c0eeb75221ca4\" -> \"5dd1f47aa000057a90ef81c55498327403b6633201dc64a7eecaabb23a144b42\"",
-            "fit_manifest_sha256: \"c3d082978ee4a3c14e979ff9731b20753a49026377b35258ce51e80afafca476\" -> \"39e0f35eed73d6eb45bffc0701456d12844bced607c39dddb11f5f277d0d5520\"",
-            "fit_wall_clock_seconds: 1.230184 -> 1.284092"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"12f2ba9a59e05d6ccbb22ba4f8e53c5bf0c0db914bf2fed1ded48d86a72699c4\" -> \"ea3c7754d6ba34865d0ee09bd57dc11dc3823b5de5978b13f541b732faad37b3\"",
-            "fit_manifest_sha256: \"cf9c8cc5876eb17fea9ea58347ecf2393c34e38e70b80fbee362668371f309e8\" -> \"fead085feb44818859ce81684f690616ea3cad0b5a880fe5dbc3477c087acb35\"",
-            "fit_wall_clock_seconds: 1.396397 -> 1.465481"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"15723f0ae93c9bfa08baa70d41ba2b72366828c0b0e4aeabf18fc622c583804e\" -> \"002e302c0246e4626d8a86267e69bb88ace09e9e50fdff58ba54b3c3312531eb\"",
-            "fit_manifest_sha256: \"837d15cbfc0f01ef8105db391da1f128d96e0a789e196b4f404b598fb4488b60\" -> \"9b5969e7304859c1a2dc557ff13f554b579d561c714d7710f1d5a7a65df93fee\"",
-            "fit_wall_clock_seconds: 1.462538 -> 1.491959"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"13dff09fd72477688e6f29c415f586c7040c9db36153d54a6b1960980a9317a5\" -> \"71cd271dad2370328926e1f68ed209a6fc17b16bdfed22f7d4c75e505a8962ce\"",
-            "fit_manifest_sha256: \"2110a6b197ef40038fa3491b4322427acf1dc64267ce96ab3da8bf59decb55fa\" -> \"37f4de0cc5e3b43d5e59afe3451d811bba5a4b54eb4a819db99a347ebef26238\"",
-            "fit_wall_clock_seconds: 1.584626 -> 1.706682"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"e281f49fbee42d5e7a989eb8604daf1e650e4e6724caf944a6e515c40ce327bd\" -> \"e38d19b158661440e5fc2c94190b793ea9439ac35b497ee0f673407adc943770\"",
-            "fit_manifest_sha256: \"f2d597934ed778943d3169459e722e2c4797f5cd29e72e90b20a5f1acaeb12ca\" -> \"c28ce39b5a52c88348469757ecefa4dff6e10c75b87724656d5df2838a39cb16\"",
-            "fit_wall_clock_seconds: 1.652547 -> 1.727036"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"1741fc4db03b909f0373cefab79f4a2d5e71acce15395bec39ef6e794d9c27e9\" -> \"09a0d11bd1648ae4eeab2a71f4d1b5bd1d0c4ee70c7b015151f8057c15cae1f6\"",
-            "fit_manifest_sha256: \"3cbe3b0a3759bc1ec0a079bd9d7a8a656773f1c0c41626cbd59658b9d65e648e\" -> \"948bb0663ab70bad61bea9aba235d033f9afa5ed4201394043694278587fa0d9\"",
-            "fit_wall_clock_seconds: 1.87042 -> 1.922773"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"75bef451d6ccf2530fc78ca8c9de3a614a48e37d152a7ff7e5bd3b5cd1bea50c\" -> \"4c71727e3ff46ac8043e43db3a0838568c048a1f27e408069eab7dbdc62dda9a\"",
-            "fit_manifest_sha256: \"eb35b6dc48d81ab55024c3cd059e3511500b8fec7c1327c6a4b4a1e73053bdbc\" -> \"75b9066c11001e2acc4e289eff01faabdce64d1142771d4a89ef445fcb6b65fc\"",
-            "fit_wall_clock_seconds: 1.954745 -> 2.028231"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"3dd591b1ba37614ac6003a5722ab17d07c4726a8832f4e3869b93728bf8ca69c\" -> \"92c7007f8c2af1d97c1fef1b833e316f7b22d37594b2d0686eea6ed5a6dbd1ce\"",
-            "fit_manifest_sha256: \"85ebe78602a4a217814646c285cf054f7c27fd46d85fd12ea08eb0583a9565df\" -> \"84b91f648bb94910b9f2c708652ea70e37b7c9f1a5df53ac0136e92731550570\"",
-            "fit_wall_clock_seconds: 1.873929 -> 1.93141"
-          ],
-          "kind": "json"
-        },
-        "attempts/2015/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8d4435a591ecdea8de7ac5927d56eae957431c51074938e5044e412e43682755\" -> \"4a967bf57ac38720af742be71e9f5aa1f5e0f9fb1c2403bdc873ecb4f6403639\"",
-            "fit_manifest_sha256: \"ccfd4d41bb4340d45350080a081821ef36d434557fa52ac27d30a70513270c92\" -> \"b6771925d2a157e009fc4e53193536a166ec274c8bc972cd8d15bc0072140bf7\"",
-            "fit_wall_clock_seconds: 1.968235 -> 2.023939"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"d14ed01d29c4fb8868d124e464f08051907868f6a7ac8395e1e5219bb22206d7\" -> \"9e8413c846bbad7735f5f0cd04b72cc77a9e47bd5d472fc2dbc729cf9985042e\"",
-            "fit_manifest_sha256: \"58fb27a7ae194e7f7079c6f73ffbed6291be32b0422cea033492c0adcc8da5c2\" -> \"66ad00810b5472125f637e0698516ee5cb4770ae2f706fd19a6280a770665e2f\"",
-            "fit_wall_clock_seconds: 1.447788 -> 1.523778"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"68cacd39bb3a6d51b5b0b3a29b9f652b904af229eb0f785344252b2522d1e436\" -> \"ddcdcc6219157196a0a0cb625ccdd2a5757d2ed08829199df47b4e44d5879391\"",
-            "fit_manifest_sha256: \"4263c98e08cb2b0303272efe0d255901f7e1aa1117e1137aabc439453bf2b220\" -> \"b3c67df14363d450e2777c1d73befb42b1b6e85b8cf7a0852b0fc9cd9c6bbe4c\"",
-            "fit_wall_clock_seconds: 1.507207 -> 1.589797"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"e679f5fcd6e7e6bd02d1a3487b8d72999f6a4057f4187a00740fbf3db94a6ace\" -> \"d445ff18e9a527a33008a079dc29ce95ffd6e1314dca1c8da4da3baf32d47072\"",
-            "fit_manifest_sha256: \"af758c8a8f62d18904131430e8c7f2848b074ab49add5f2db1e30bf96d5ab7c4\" -> \"09445e270eacd563b09933b4930c6588b7e0cdc9ed9663fe395cd1eddf8b4c00\"",
-            "fit_wall_clock_seconds: 1.710213 -> 1.761627"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"56633b0a61ffc46e6b0a7e4f403dcb2fadee0114083fd9e8faad48f541411bd0\" -> \"6783d0425399a82c4d0fc72a2af43b4e4d6562a39821c75a554337d09acb8991\"",
-            "fit_manifest_sha256: \"1e5fdb8149ddc8c857d6843990c2a30184191a0567e1cb4800437240ab6bf246\" -> \"74611999073f20a8b5a1fcfb9cfe2588b0680941489c6001911100b6b783a3bf\"",
-            "fit_wall_clock_seconds: 1.787202 -> 1.860785"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"bdef3e97eda51955f442a62386a8c23bb975535acf993fd09dd9bc788a56338f\" -> \"8fd384eac43011df2448b612d85ea22dcaf53b40ff20aaa8461553d56f116920\"",
-            "fit_manifest_sha256: \"7165d2e2adbd2325bd84997e562b60cab310b80e445b1c0390af5907878a6db8\" -> \"77da4bc69616d6c86ac96836bcfe3df3e06a4778d32644a8eb57c5d82f4ba526\"",
-            "fit_wall_clock_seconds: 1.93121 -> 2.050633"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c9c15ea0e727635f468fd6048269701268483583b703309370b69fca646d8ef0\" -> \"cee3153f523582afbfee221c5337b1d2a71d0177f08de6dc2474af91eafc32c9\"",
-            "fit_manifest_sha256: \"f16b71947d297a584616f7d3f8633ac65141201e7848225b7988fbf17776dd51\" -> \"34a6e7f37f785bea5738981cc4aee453369bf1eff649aee12b1c1eb36cb0ccd6\"",
-            "fit_wall_clock_seconds: 2.007473 -> 2.085277"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"b27719b1ca5794b222e8dd9df6d9bae35c44180fa5dc84d802d7110666a2a539\" -> \"00883abbd5661df0c54295a66aa50b16c32472c9d4ba9e354b2509e1b970d023\"",
-            "fit_manifest_sha256: \"5f1a10b07e866d26c6d4635ffcaae512ea0e402080dc424eda70e34f1b12589c\" -> \"8ce65c6ff45344e6e1cf88b058c5da8efdcabdad7f8d563bdf5bd5efb60ab596\"",
-            "fit_wall_clock_seconds: 2.273639 -> 2.500055"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"5ed3584107789fb9d3f883bb69324407806841eeb54f04c707214a196ac669f7\" -> \"82b323d291cd997b5b015c7ee1073ac195e5af66f22fea151234e9abac0cb6ff\"",
-            "fit_manifest_sha256: \"a0e072e39c712c471a776ffe013638bc860ba44ff9a846fe51d8c7e33674def9\" -> \"afb5e0a3d60272ac84df805401b31b82ac6e1373b769128e15ce1000c21ef0c4\"",
-            "fit_wall_clock_seconds: 2.375373 -> 2.540452"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ae7a5911e11508869703ff7902c5297f2b75c8deb34a9c6b7e96f12d56d012c3\" -> \"626b82e6e60178fb3ccdcf6de691dae427c72d3f05b25fe1b54cf8b7ac532f4d\"",
-            "fit_manifest_sha256: \"dfb5df9f3bf299b3a6793af546e5f1fc2f2541761468e36ad5ca62ae080b5203\" -> \"61721da3900515d19aedfc2e813bb2db5b7c802865f742d12d53d615766094a6\"",
-            "fit_wall_clock_seconds: 2.282558 -> 2.407264"
-          ],
-          "kind": "json"
-        },
-        "attempts/2016/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"149d0905e815cc72d67c536540972e68df03417e4c82fd50b8a14770d54d4c11\" -> \"ccaf811a101deafac74f7465b962b88fd518a9789011a8f3e35daea3e1bf55e7\"",
-            "fit_manifest_sha256: \"e6c37cc3858978f6919f2e8ba919557af492f05df4eda905fa22ea8c9b59d0de\" -> \"97fb75c2a08f023a39eaafb78f81a40eddc8e723d1595eda415abdf377116313\"",
-            "fit_wall_clock_seconds: 2.366473 -> 2.520379"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ff96351d74dfd5c2474eafaf29afb2697ffe0afb5e997bcfed2f3b1c627d917b\" -> \"83487989a78549eaaf513a34a35c8ab6777c36282c00a2df12f0742eaa32037e\"",
-            "fit_manifest_sha256: \"4592fa6161800218538f6f1c901db029737a52186595b2408499e6f0cee9afcf\" -> \"f21ec96d87776962bafad0bbc63b1c595ed2ce4be5a1ce4ec09671cde2a6b98b\"",
-            "fit_wall_clock_seconds: 1.438498 -> 1.524874"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"0962894e71d4086785a5df31a32de67367120af676f9914bd27ebe62175bc262\" -> \"9eed21b2e12eb205e124b4fef90002829e439c64dff544002f5f04f5df245e55\"",
-            "fit_manifest_sha256: \"4f2eb19ea6962470195be8bee9ce9c50f9a8327aa850f859060cae91df0d2cc9\" -> \"8d921e49093d3b2e1c41f55bc886a6124dfd2a74e9501986b1c8e89864f87dc9\"",
-            "fit_wall_clock_seconds: 1.504665 -> 1.628289"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"781aef530aa25cbd7707c7de4696a7d7744a7ba630f63ad76c6a85547e79a9b0\" -> \"f524e6b98fdd06af7df3c8642c841efeabb0d4f522f15dfdaaef2d891c6310c2\"",
-            "fit_manifest_sha256: \"1b9861d960c5e53a63d79a8b9b2a90f5d4071ae5d3dbaa0b88f4c859f6b0d814\" -> \"10fbf8b4bab716935e416e9a9d726a8b1214700c81633d0def709487b02f22b2\"",
-            "fit_wall_clock_seconds: 1.709063 -> 1.80477"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"0a36201162458b1843837bb7daffdc2d76d69281457c414682ab09ced34da772\" -> \"78caf190dd5951c1ebf74fb002677256e41e7e38e3a40823e4a45d057c5c4d30\"",
-            "fit_manifest_sha256: \"5c1fbcc53e4aca2607a9fcb88a85cac6e67dc5cc4d7bf4ba5fe4b149269a4c81\" -> \"e73a32c20cbe871576a6a372606ff21c935bf6875198d3d4e9c5095228a3e19f\"",
-            "fit_wall_clock_seconds: 1.791967 -> 1.920391"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"a79c66aba90d3cbce560529f627b91685af866825c0902d4305883592da4635a\" -> \"7ea23a4d15e719afe033f72fb033f19d681479a08df5e4c00f9eb4ceaa539bdd\"",
-            "fit_manifest_sha256: \"1304d288e6b5c43aff208d582a9e6634385a9531cc4ba49e94796a5aa08d4539\" -> \"387975e4c6f6738e657ee1192b797bc81162bf816ba2793b3cc6e00c1b745090\"",
-            "fit_wall_clock_seconds: 1.935662 -> 2.049068"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"7ad1cb0831455331a2accd9603669b4290800336ca2ab6ee52c8db3b588ccff3\" -> \"aaef66688a23f7df12c6fb44c3770fde505495eefd1d29fe5d61104bbd88a948\"",
-            "fit_manifest_sha256: \"9c7ad4e70ae9b943d64c9985bc671b3828bf329e614adc1db57e7a86c0b522cc\" -> \"b96d1e60145a88de299faa09635e7e88ddaba893129130e4c7d4070f4f55cec4\"",
-            "fit_wall_clock_seconds: 2.023963 -> 2.133919"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"b8fcd0ab7ce4d648aed5e0ae78289b63bb2b0e5aee2fb694be6a5af5d4d2dced\" -> \"51bd6e85141b33c6eaaf0262229a68b3c1c3421c9843ed4eac76e08f75e90c03\"",
-            "fit_manifest_sha256: \"def38a6efb2906758ecc875bb101eb9352addb00bd6d9e3c5cf3e92409d29390\" -> \"0c8b9914e3d14821125722387c6354a7162dba4c56c2fd7481aebd69cd82ef8c\"",
-            "fit_wall_clock_seconds: 2.288404 -> 2.40916"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"72b6568ab80a4a1e68440627fc3ff2c2ba1f8c653e186713cd8a22d6aec8aff3\" -> \"c261843b1d96bcf64fc4471b7c651a9181000b6cc7e0993e390eec5779e0d143\"",
-            "fit_manifest_sha256: \"e76b1676bf6d017687eeaf6b2ecaecb1325d2fec986e08e70e2fb990ec205315\" -> \"2687bb2fa61806bb1711005c40a9731fcd023e7494a609c1bafebaa919dedcc3\"",
-            "fit_wall_clock_seconds: 2.383917 -> 2.555309"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"89916848fda4080f05659f1cea2e7d56f70fafcb0968610bc8f9b24ca41cc48c\" -> \"3f3550ea5e3f0bf12d5f06c0f67746619bf27faf62cda14815ffda9ece6a4745\"",
-            "fit_manifest_sha256: \"1fac8b84ecd9bcd3413a18e75d0d03535121c6c925fc380fb0134f124f454dc3\" -> \"eb98de3f3da3da9a6c3c251d50936131f158346d4eab52cb4fd1c7821b1ec0db\"",
-            "fit_wall_clock_seconds: 2.274961 -> 2.383941"
-          ],
-          "kind": "json"
-        },
-        "attempts/2017/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"bf99d0f45b2d574d7dabca0e49b21076509a065f212df9c42da1044fa1e8423c\" -> \"98dcf1dcdd03f4b836a3c1e1f984f6b87bae98ca889a94ab68a9f709f4536ff9\"",
-            "fit_manifest_sha256: \"1a4c136b8b16e8a4112f0323f52590c3c30cb4dc2ea2e115cf4ddbe58ef3d40e\" -> \"4145d3cc04a00aa328f8cdbfb7d10ba7e2dcf0ad4c1ab1d2ead85fb261ea7cb5\"",
-            "fit_wall_clock_seconds: 2.390253 -> 2.425744"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"41ebd15878f5cb9feeff03ba640aa976be0e601059e3d78ad24582557170a74e\" -> \"5f35a5774c151c37d377ebbdb242f3c0351e10c6d233b9f1fbb9ad1ccbc939e6\"",
-            "fit_manifest_sha256: \"ba51fa535f1c23249697384a13ef49c803f3105e0427719aba707299898294f4\" -> \"20827409d662d14248fa66d500521b548d03c344719c92a1383f63989419d904\"",
-            "fit_wall_clock_seconds: 1.431567 -> 1.496569"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"b657a99bfaa2b9fad7403711d3c6d9d7fa1d973ede3b6fe45dc077cc60f6d536\" -> \"40fd232ea4d590d2197bde942b0dd5c6bc8afc1418830bec6dbac8f074a487d1\"",
-            "fit_manifest_sha256: \"ec0eda1998ec5a69c9981407bc51a6105b4af4716054020d2a0c6852e4d7581d\" -> \"ab3d3131b34ed4a9a72bbe83795ee247fe7bfe300991833f70c89a3dccf5e8f1\"",
-            "fit_wall_clock_seconds: 1.50349 -> 1.548181"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"92e621df85115260e519936c2ec01aa4cb6aa028b5542bb1dee4e6f43bd13a97\" -> \"0ad587d2b8a2a6a806e64005ca5bea09dad8dbc244168d72121c9191e52fab11\"",
-            "fit_manifest_sha256: \"6d0f59c7982147271e43ad5ca20c0126481199cc6522c1d011c8ba5d49fcb0da\" -> \"104935e24924848bec1e63084165c8205c71805692fc1205c7c5968759adbf6c\"",
-            "fit_wall_clock_seconds: 1.711309 -> 1.72979"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"58f9f076da0f670763284159c0829ad09a3fd795daec1e90d1015f1efdea8866\" -> \"c523c2cf7522420e22663047be1a5131c4f450e8be98ca782b0b090539b1d80e\"",
-            "fit_manifest_sha256: \"c15c57d23722d92aab31f2005a3ef7ccbea0700daeefbc8256dbaa1adbe1235a\" -> \"3917d3d22f5bcce517e7b544ab9133e5f4acd4ccfa0eb7416a88016399c0063f\"",
-            "fit_wall_clock_seconds: 1.783656 -> 1.80111"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"17aa44624175325421dda3a9ff930fe2f3cb3f7a485f46f29ba7024e157b69ed\" -> \"218e073b466acae360d67f4fe34418e67ce280dcfd8cd7c3d2d7682ddcb52c9d\"",
-            "fit_manifest_sha256: \"ff0c5709d3c36f2ef8378d9a7d211482a65fe7e0001e56527ef59585d2afc894\" -> \"97fbce11f46d67609491c542415312b8758bde1e7a7433dd36d9fe07733f4713\"",
-            "fit_wall_clock_seconds: 1.917743 -> 1.956871"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"f5be4bec342d14b7a3d7d5b032b1098746279763e6a3535b061bb622ac397a3f\" -> \"ce26dc27865f8e281fe478944ad27f23db1c25c2b7a254fd7ad6ed6ac413d9ae\"",
-            "fit_manifest_sha256: \"04ec7bc1aae20979a73e99ee2386a1c426cf5057c5e3ade7d1c825e48490fc18\" -> \"962d95332b315e8389e5e6ba8457108326188ac9f622890ef4a5745aefe3b775\"",
-            "fit_wall_clock_seconds: 2.011415 -> 2.045042"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"1d880911b4a3116ccddbdfe2ddcd7ef633a4a22dac4d6766d466ebd09c907d85\" -> \"2ab959005312301f54a8fd3332d9c5ae56e16ff8a943c7d287a769d701299764\"",
-            "fit_manifest_sha256: \"e58e45b662ac8a1ed5c0400be991e976185c553b8eb655e43dcec43afb4109cc\" -> \"195783923af837d81946401f7ddecb80a5573b2a3c671aae6d064ad993c4dc57\"",
-            "fit_wall_clock_seconds: 2.259738 -> 2.328858"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"2dcf1b90a3d6e866c5bddff7f0a4766aae1868bd1b2fee8b0c67bcea99938879\" -> \"6ed3a5fa10e01c093787d75661ffefda386a6dcbc68a2a6be023331acc746676\"",
-            "fit_manifest_sha256: \"f17b882d824e98714877c1a714fbc94ecdacdee6cc606312617a29448157be71\" -> \"7789f60b0908b3a849b248adfd39789fa18f33bb5523c9eab140ee2468ffc59c\"",
-            "fit_wall_clock_seconds: 2.357848 -> 2.408753"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"b984c4d22705e044665b6426ad52d7f2ac789f5523c57f20a6d93bfa812e5387\" -> \"75a67c0ac48b00e688cf92767f2d3b84c9464e96aa9f89837d40cd5dc70e9cb4\"",
-            "fit_manifest_sha256: \"c30d305ea750edce3605858149b51daf037e750a8f2e338d51c1287be72ab34b\" -> \"b8a9c5cccc28462b0ee69b31304005599359763e5886259958e65bab6ebdb2b5\"",
-            "fit_wall_clock_seconds: 2.254831 -> 2.328762"
-          ],
-          "kind": "json"
-        },
-        "attempts/2018/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"0d1da9947f654de9f5543d832c674c568c7a2fa63ff42481de35fa54584f194e\" -> \"10f1f12d473475adf52994c4f37d5e040572fa2af66b34d87f15edb4971dc940\"",
-            "fit_manifest_sha256: \"42f0c6daea8ca46bb3594aedf2b9af5c703c7c57cc445f7efcf2b27f25f2cf6f\" -> \"349fb9c22edf57dd922331af0626d6368e8c06174f89cc8ad087ec7a448ae296\"",
-            "fit_wall_clock_seconds: 2.370598 -> 2.435348"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ec6aa47a72854bd09079bca2cb03b0ea8e97a6e1d6f121a9c0ce6b8483889858\" -> \"91b458867ac089883ee34a23ec633a03ca22737efaa8c4389c25dc655b66f53d\"",
-            "fit_manifest_sha256: \"b90c3b5c2ed8a545332613a268dd4ff311ac8a6c2e98cdfc88814305d01067f6\" -> \"b98a485c4a23624ff8ffe805262b7cd65dfea52e17a73ffcd6719d63362d79ae\"",
-            "fit_wall_clock_seconds: 1.455618 -> 1.499492"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"4a915635039754d86d0dc03769edf2ddd110c22ee6c15dcf86e7d6fe5f0a2bc5\" -> \"4507610ad24816d47731a3d20941b745b66caa5d1e212675cac713a95f3d5b45\"",
-            "fit_manifest_sha256: \"c56d9100646c3ae19163c8e70500bcb95ed789914fbf1f7cac84a14d613bab75\" -> \"2a9153e3321ae9b09632d8b98d0a6792f24b217a10895ca8d22b7d88cc161444\"",
-            "fit_wall_clock_seconds: 1.526341 -> 1.562303"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"96c4c52249c2c3e4a4112a6e33cff328e1282962605bff16a0af50cbc87ed57c\" -> \"0429d872b4e2bda929c0234ca994cb8b99e3d1644b663317a51cd5ffd9ff178b\"",
-            "fit_manifest_sha256: \"8d7bf94d3941910922d1e55e69ee3d643e4ac4966686840f885e0df8c148ce45\" -> \"c361f230ba244371feeb4d72ddc023adff046fe618417ae81355e390824b6153\"",
-            "fit_wall_clock_seconds: 1.718307 -> 1.736998"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8381f8eab79464741dc637607b5e8463555bce7f5db791e39bcbade57bf081e0\" -> \"d40d2f51659b4e5b3962eec0a8f0a363c3c79d5046ba5d115ffa36dbbe38e487\"",
-            "fit_manifest_sha256: \"068a1fe03add047987f4da9632cf9bf8308e0df0fbd30739d2f987f7172489b2\" -> \"66082bce852a5e76f856df9f47fb9c19f7e784620bbc3433175d00b3eb49b7b5\"",
-            "fit_wall_clock_seconds: 1.81 -> 1.85355"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8880b91bf7c0fdeda4f16707af2e27f1f13b9c017c1ce02c63a6cd8aa26047dd\" -> \"9b4a00c18cbd5bdcddf8e64d9760f6e45008f4b4210f671c966e343c3c283eb5\"",
-            "fit_manifest_sha256: \"380888ff4da900552fd710b8f7aac1d3366255568c77dcef1b2852abbbdeabf3\" -> \"43aac12674874b9c91c65a4db6765f07bf7be31b892b247fe8093c24f40c16e3\"",
-            "fit_wall_clock_seconds: 1.943799 -> 1.978333"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"a6559074308b922a9878182156150194b20cc285853944137a20819712fa998a\" -> \"cbd60c3ec2afc62f3b98492d2e2a2a7c4e9b240eaaef0ee1c11c3127cfb03ffa\"",
-            "fit_manifest_sha256: \"400d220c2bdf91af501bec6fe1a289d62b89715b88834b00963c8f6100b7a187\" -> \"cd112875769af0c665c182d3895cdb06b240246ddcd9a796c7c846f6999d9aca\"",
-            "fit_wall_clock_seconds: 2.051028 -> 2.07097"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"25f4dc862f5d01aad811288de09b033d93f559925e184d9d59f8743a5c2fc0e1\" -> \"a2e7f81f6d615e01752f12930272e4489330b7f2ea2010b841fb1332e4777ad5\"",
-            "fit_manifest_sha256: \"ca821899d2dced45ecabd8ff2cb1e208128c8082583c43268cb2700e82e61305\" -> \"364617f0c724ed807f58a81b5f1ef7e0c54916e5e3bccd6d73b6699f8f357753\"",
-            "fit_wall_clock_seconds: 2.282759 -> 2.348156"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"4252b71a6288226eb22e513df2e27e5258d1b58074ccc7642e1b4d23e0ef1c5f\" -> \"9eff3aa352d0e6d20ef74d029fda26021b4580c47e3f124903f5c02edfa9cc0b\"",
-            "fit_manifest_sha256: \"a4e539b1e207be247a96aa37c185837be311c828ed5c7105f4782cf945a21000\" -> \"e3777990de03e162499f9ccdd18066adb4903fe45181e6a84b1f3627aefd405b\"",
-            "fit_wall_clock_seconds: 2.379114 -> 2.409826"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"bd234a8c5b50acf5d56ce3704aa282ae54c0fba2207dc534fd0ac20588950701\" -> \"81db3b189d64034e0cc2488fb4a9e521d76fa3dff3323f32c5ea3cdccc21d7aa\"",
-            "fit_manifest_sha256: \"8196a4a9c9d592be8c42d0609bbc7b594f9d4e38af2cf59989d4223d57aa3a77\" -> \"308d7a0e6f4daff3e6226a554a0e0b91d5037bb0c683c1a726bbc9395a9646e6\"",
-            "fit_wall_clock_seconds: 2.327052 -> 2.293475"
-          ],
-          "kind": "json"
-        },
-        "attempts/2019/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"07b70e0df82f319dfce7ae80ac0eeeb9fca3ae198edef8784843742398381c6b\" -> \"c1998ba3dca6fd10706dfac74052b5093b59e41f591fa4f028df23c8aa1c852d\"",
-            "fit_manifest_sha256: \"6f2532b254a762d9023be079a710b7e1e26fad518b591346c73302694a02bfe6\" -> \"cc1981ae52dd49a83c953cbd9877d5ef39d98037709f5aea9de275353c617da1\"",
-            "fit_wall_clock_seconds: 2.39864 -> 2.399541"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"46b0fe62cb91e2b0f6436733b05e6913f199ad14239be270f9a2adf0674fa7c2\" -> \"b74db03c8519bcb3b3752331f879638d5d8023c75b4321ee2796e65f5ff6bb4b\"",
-            "fit_manifest_sha256: \"6371b00b3c61e9f1ef9087e19f530a75e8509bc6e66abca8561fea92a493857c\" -> \"09310ff11959ba10a30e41d56b7e0c9b33992e84885e496eb11c19d7f99e02b6\"",
-            "fit_wall_clock_seconds: 1.461042 -> 1.57841"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"3ba90dc3a5a4fe368cfb3a3970ba57346938cdce087a6f4784b49706ee1201fd\" -> \"31ae522335e98c2a200648cbeeef8659506dbdcfb9486a15051045a1a7c9798a\"",
-            "fit_manifest_sha256: \"512943d9da841c4ce7b4cfa53eea79db3a5cf51f67f19d68aac596d9cd2db0c7\" -> \"a5b163f6432a7a4b16a5dc797c88997360ac50f51fbecb34a11cb67d04268480\"",
-            "fit_wall_clock_seconds: 1.525627 -> 1.624389"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"03496e16c706c5b8ed3d446f2b8c9e96e683e4778659c8105b108eb9635f419b\" -> \"426bd55432be4cd7cbe7af93770f6522a9d94df6217e08a45386044e9df261e3\"",
-            "fit_manifest_sha256: \"38844a0e29381d67de269341cffdec0a1e603374a86007f617eecec4a7df0097\" -> \"e7fd6c1d0b48ad805e589d5f3eaf1f2530ee68d2bfa1bd0f8bd3846bcc15d550\"",
-            "fit_wall_clock_seconds: 1.743375 -> 1.845396"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"845b8697b556464dc3867640462f49e290c6b22b2bf555f1ad82a3be15803be8\" -> \"ecfd0e398fa1eaea9fd6427ade3347e18d53578601ff9b68c70e6a5cbac6db8f\"",
-            "fit_manifest_sha256: \"f8df5190014bec5d04e77676bc528bdfe874ad934815f770e03a843793f38cb9\" -> \"0b4adde8ac5efb3d75587ac639222eeb82dfe3339f7449ca4c7b9edea21720aa\"",
-            "fit_wall_clock_seconds: 1.835783 -> 1.91888"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"d18c18d1ccdbf463e19aacf1d80ce2d5258e33934b9b926f88cab90f45c0b46c\" -> \"33edaa3b9fc2a3d604747b0c89a094492ceae8ce8d0aedea6119bca9189301bb\"",
-            "fit_manifest_sha256: \"981bdcd3506b0f323ecab226a759b2371cabe577b2e8ab4c512730ca34118c76\" -> \"f38d373a1762c55ae7682d2db19d79c2d45c22e416c812d74241da4f3957e067\"",
-            "fit_wall_clock_seconds: 1.944536 -> 2.017201"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"552c2a532a87ec63085cab544b974019aad5d4b9d6dc464050b6453d0ba38c8d\" -> \"93931737a0ce5b8604d3ed472d33520c11e71779ce1c11d51715234723a2a484\"",
-            "fit_manifest_sha256: \"4cd14d7a0b235867105514322048836a8815596e303f68c11a03b56c248207f7\" -> \"2e079c271b680534b5eb0d060a711f453e33ad04e552de99e84ce25f97ca116d\"",
-            "fit_wall_clock_seconds: 2.08058 -> 2.255693"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"f70f7330ac47f8c6c1dc3a720d9497844faec653265a7e07709fd4767fbc3599\" -> \"14ba4f0fd034e20661e97719006908aaa0e5b82c3fc04463ffc7299e772f1f1d\"",
-            "fit_manifest_sha256: \"298d98bf2b409bc8514b83b4dd36679cfe7c5fdc3d643fae14d1fb7f081e2a73\" -> \"01c5743c30ef4b13730bf28081dfb038ce06d814ffbd3bc6758329a82b89e57e\"",
-            "fit_wall_clock_seconds: 2.347742 -> 2.439225"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c1d30e02f6a24169ab1f2d4b121fc0fa44e53d868a404c2e17390e60051e1e43\" -> \"81f004e49ace26eec89bd4a738b5fe8b24c14f63145271e83c0c938ecb89d78d\"",
-            "fit_manifest_sha256: \"e62de053c4acc07ff19e43cb56f9e35de8c9d031397a2b14c9369fd0116d8e28\" -> \"a1f0018b8362226a1557713116923a70a766c66a7b55f52c1e46b893df15d69b\"",
-            "fit_wall_clock_seconds: 2.452489 -> 2.472084"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"79b5b4df6c9dae1cd98ee87a9bd55d9c45ec32fdbb7e00a8f11050cb5730453d\" -> \"45699b07c3627135ee485b23385d986bf442417653f9291009b2d02fc61f8e87\"",
-            "fit_manifest_sha256: \"b63070878a4ee5c5d989735a73672d40f0214ccdc72375ee60b39606901e3445\" -> \"7a1dbef6633c89ef66234136038ed6d078ffa895d7979e2231fae309d7af94e9\"",
-            "fit_wall_clock_seconds: 2.352218 -> 2.38365"
-          ],
-          "kind": "json"
-        },
-        "attempts/2020/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"eb2ff59b64c23cb67fb5f823add6d9d5edd44418ee1ba731d141baca961da022\" -> \"6206093b73f3aad47d78308c20445f7f42eccba840fb66c3bd19228272ff2b7c\"",
-            "fit_manifest_sha256: \"7c10dd4fab487edde872111465cec1b65b239d6894a0c15bf4cea380d75637af\" -> \"9b29afa0165bca102f817aa629f7828db35903fa49aee488293d470282fe262a\"",
-            "fit_wall_clock_seconds: 2.457477 -> 2.495441"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"d9d860b15f2d0515b622c8de2c8b86146c8f2d798b02a8b36e4f6aaa3b5124ba\" -> \"7cb8e8a07396d774074b8d162f373f6c5bde1742078bae85600371cb4cb16af4\"",
-            "fit_manifest_sha256: \"971107cb9cde5af4dfc5f43d1ee1f81d4342a30570f10ec1adf878a126e05251\" -> \"99c169d537c5a8d14955bda15cff7d338b4aeba62a84e348af8d34f12407620f\"",
-            "fit_wall_clock_seconds: 1.33194 -> 1.397818"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"1f15f365f5d0407e5539a477a6a3f9b996f8ff83b76d7a6aee66db4153c87c55\" -> \"69789c3f557e00bfcaa7ca35b234f611fa90b9b705b0c722072503f7d0673a0d\"",
-            "fit_manifest_sha256: \"4a2971e8d3b2c3f441befdf4b1c480a099d920811e9d751958ca244186987380\" -> \"afe48a7e694bd12bb9c1f52e32ff8d88e4063844c43be3c67b268fc824007f5b\"",
-            "fit_wall_clock_seconds: 1.385133 -> 1.454273"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"adae89643b2ee5d97d777948247f6a34e1495bae0813720fd423db325c252423\" -> \"8c815c66c3a62b26fef082846c30f8eb913453306c7bab1189e81b14fd865dd4\"",
-            "fit_manifest_sha256: \"500681887e95805093182270187f17c8e51beed7e9ca96b9db8a4fda08c78d18\" -> \"73dee102073fdd366a14365d2c7af5597e9519f50e07a965b0129889c27d8d4f\"",
-            "fit_wall_clock_seconds: 1.572597 -> 1.61029"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"50060290e5d49f6264595c3d86a2afecba406384b03bf62979dd8ae33fedd886\" -> \"e479354c631e93c8965fc095d2268af5073ca1b8c4f4d992002b0914643aa5f8\"",
-            "fit_manifest_sha256: \"40f126bd5f3b62d167e515ae0a227d9529f0edd8e1b27d3b152b4764da385f0e\" -> \"f2782c099f318e8cd74e3d702406a49ad7c853d7da1b03bf2f2d97f5386c9d4b\"",
-            "fit_wall_clock_seconds: 1.639144 -> 1.691356"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"4f9cc11ef5f9b5810741533cc71c420b605d3eca967262e61e5bb48bea4bb896\" -> \"50209d8197b41bd911dfadb53d657a142428f2c891cb19005044e6a905226e50\"",
-            "fit_manifest_sha256: \"778d3417531048f505bddffd2200f53ff2eee73dd36d1a80f74fb9f2d6a86381\" -> \"554462a71a5753dfa81121f573d7218a4a133dc8cb6bf5f2f7e25473b97598ab\"",
-            "fit_wall_clock_seconds: 1.790286 -> 1.848065"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"15874239d0ec3c5bda8de9af243d0043cac4bfbf744ebc803b64c81797852f0d\" -> \"68a59de2d0d1f6f665c0529df6a4043ce891e20c6e8e820365132522ccf978a4\"",
-            "fit_manifest_sha256: \"0bab89e47b74275e633956299da280915643dff456b851a445bdbda9892f4a85\" -> \"86376c685d0961029873141e6990374934be7aee12ff941506a05b7fa185d52d\"",
-            "fit_wall_clock_seconds: 1.878012 -> 1.931865"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"a44f1f233025123a06c7305333e018832e56e2b702311ab821a86030f42e54f9\" -> \"c301519314d75cdab471c184bec73e55d44510b09e473efa5dc706dd7ef949f4\"",
-            "fit_manifest_sha256: \"862b81fc36800fc53bf996003b3ef0daccf8cfa295d380604eb579ad2f847a9b\" -> \"a61490518cece9495988af59a1a5856c4b4ff90a224e87ecb98d838ffcc6bd69\"",
-            "fit_wall_clock_seconds: 2.106244 -> 2.151276"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"75fcb1e3790ed81cb42488c8cca510d0a2e2688e9c09adf9a20587c1ef483909\" -> \"24684a946e5d8d1b52a96a0b81695c0f57a3d08aec5e144d3168f26568489ed5\"",
-            "fit_manifest_sha256: \"4b9c7a733523b54a14efec8a2e7471e0664a5d61ec328da403c0b5f5c7e3a044\" -> \"33bcffab98184654ef9741bedc4d36e7758b2f0725f74e14b9600dc90e8f41da\"",
-            "fit_wall_clock_seconds: 2.200043 -> 2.248834"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8a0d5f6b2bbddd83b2275eed053ab16dcbc07f6b2f18ffa2a1bdf200e7e53a7b\" -> \"ea8983675528568936375d599a37f6b4c98f55a62c999f4dc209cf7036dc55e1\"",
-            "fit_manifest_sha256: \"2424e14a9f6cd8c743864e1fc7ebbade44f9e5f4c905b024464d2a04f3b281b7\" -> \"17c444f4893cddf38a98de842bc249ed636841a41cbfbb9a32068841c522ed7d\"",
-            "fit_wall_clock_seconds: 2.140416 -> 2.182612"
-          ],
-          "kind": "json"
-        },
-        "attempts/2021/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"fb882b17a2d74fd04f9ce3a160353904bc42615d8e6396bd70b4514929bc325a\" -> \"672126f1512b2c6debf28e183f35dbf6adf19b06bb1c3dcd8b1113433ea664c4\"",
-            "fit_manifest_sha256: \"5fa0253ea10d47c67461e2409aa0d2809aec7778fd065436dd67d64343e7e274\" -> \"62851926028d6790c56506850a89e15df1ecaaa870bc73cad961f35255cd8c7f\"",
-            "fit_wall_clock_seconds: 2.256348 -> 2.376016"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c96166104f3f088b66f3013992faed4e9c8ce2feeb7ae3ed0d1c357ef7c6e042\" -> \"cf21f930c3c59a0d23426b5f59adc7eefc599455a68edb3dd15b7ae2bf1b9242\"",
-            "fit_manifest_sha256: \"9078d5c625187adb3d9fb0ea2970115bfa2e5b8838c9837e81952009cbbde43c\" -> \"249c94d32ccde6953ea77198cfc6d3629866a06967806e12afd8f0e9fa137d5b\"",
-            "fit_wall_clock_seconds: 1.363241 -> 1.423052"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"65c6b01484c0bad13b84993990634fd48dfc16ef7284db6a1a9cb5ad083e87fe\" -> \"51ff9070b1682bb290f67ecbbc4bd9fec96fd37c4ab2cd3b08b6d12bf51c1d92\"",
-            "fit_manifest_sha256: \"42759a0fbc95f1609d6be16623f0202718a1d3cff810a68ce2cdb494c7d09ff3\" -> \"e2566357c74c067f3a2cc33dfe80d5ff4c54f49f26070da3673362e59bc450df\"",
-            "fit_wall_clock_seconds: 1.418525 -> 1.43516"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8213a89e01f25292a588cdb69d2c2d5a8a02eb7958efcddeb226228a659146d2\" -> \"9eb8b16265a42e884480f44d6870da3d18993af4fa7217035c5cfe2b3575552a\"",
-            "fit_manifest_sha256: \"227f93310226ffef43890923ddae69e92297aafba9f577953f308b782eb5ab88\" -> \"bfc57a69564e6f350c83c3ced42538d0526c3a4b56926e9c0fa74c8df081765e\"",
-            "fit_wall_clock_seconds: 1.617593 -> 1.622986"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"14313e41757cded31f63869ac14a5ce16419234a2c7ba2fb3e1276d078aeb3c0\" -> \"2bbf20d565ff0d623518948bf00db45efd1d63a94678e29b96691b275cd62a30\"",
-            "fit_manifest_sha256: \"2ee26e248542776945207a51467fd5aa147570262ed8b41a61e9b23f8cae698c\" -> \"9aa0dda26b85603ea158822ae1cb713daefcb37d93e5217b711d3f767817921d\"",
-            "fit_wall_clock_seconds: 1.663609 -> 1.714267"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c23cfce795f6a8e22717941d91507140b1e949c0ee9afc469cfdd188001336d2\" -> \"c464b585062069ff717c98ff08db2b4c28f15684df056e838394b007a008eaf4\"",
-            "fit_manifest_sha256: \"9b4264da1355f869d0aa95c265d2d9f281f17436cdcd3b7484cc57419a845a70\" -> \"463429e9b002d134122cee174c19d55e7a51a197c5624a0d6db204c1276fb5d3\"",
-            "fit_wall_clock_seconds: 1.829591 -> 1.861734"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"7b26f12c4b7a1d0e3085cec3b34373bbaa445bb16cd733553f4fdf5acba01f09\" -> \"63f4695559c6291ec28d06c4f7eca6cf246e0651f7a91796b4e3620ba0a24f2f\"",
-            "fit_manifest_sha256: \"cfc7e280ee570663e1cc66f7d8fdab17242c491bd32824800bd8b1fee8ee8243\" -> \"50b4a41b7a139f208002536192ed0f6b74dd0172003819c758d7e13bceb2368d\"",
-            "fit_wall_clock_seconds: 1.903282 -> 1.962306"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"ac49c25983999ff8128b935b25328d06664b539ed07f7a175e223eb651ec6fcd\" -> \"3a57458d35ce00aa80fdeb45ccb1b3b7ca8b865c5c577ec6a4ab0f15a9fa6dc2\"",
-            "fit_manifest_sha256: \"ad39e35a76352139cdb76f187d65c1b45efe8c434ed90cd958d7ab5b4c33f266\" -> \"e009220255071b992287de8c9450d8719ae3d94e878e5bbecd996d3438a17ae8\"",
-            "fit_wall_clock_seconds: 2.123858 -> 2.247758"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"eb2898d2a7d0f6c2da2f5fb1c4319dcc06b6b79cf5b5ef01909b1fa41203971e\" -> \"d35f36ea8e3c96db4f592e4ca9ec4c6e22b86d7cbd528fcec3e2e34b8293e079\"",
-            "fit_manifest_sha256: \"af2531224d786296313ab65f106861b68bcad0b59c38bbc85a9a87f2f086bb7c\" -> \"ab34c4aec3d41db0c1af2a64caffd941b2681fa31a4477d8aaab94ec9e87241d\"",
-            "fit_wall_clock_seconds: 2.208222 -> 2.375592"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"66c3d24bec004f2b708902e11d264c3636f8a12619eb25853dfd2854232d395a\" -> \"3b9df8085a85c6df0b91347a55090af03cf8c864ed0582147449123f00d232af\"",
-            "fit_manifest_sha256: \"48953f3639e2ddb344acf742e50e43c295169f44a6b85c7999e752bb73c0f59a\" -> \"d932f53cce8a66b6263fa6eaafce7aff5cf3e22e7219d03a2a63b348d69b2d4b\"",
-            "fit_wall_clock_seconds: 2.122251 -> 2.244834"
-          ],
-          "kind": "json"
-        },
-        "attempts/2022/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"665f2483e8cf94b5a9567886b65874f8a3cd9ab850feaec4629a4e638df1af3e\" -> \"a458a8bd289be753595432c5093884702c936fcc98ff7b776509b8cbd3d4de45\"",
-            "fit_manifest_sha256: \"140d035ecab4ce17ea244a362047ce7a0085a04071a9a3d73925807eff11d9cd\" -> \"ed97d4400b6a4825d01badde93a4934df142e04ff29a16f2a928170b49ef600a\"",
-            "fit_wall_clock_seconds: 2.208755 -> 2.427041"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"8f25ad104475e346520416ff2526f0615f4c4bc6da2ac41099520dc7facc23d4\" -> \"017da23c9d43ffa2ed866d286852921a4d862a938100d23b096cf5d1c8ad1354\"",
-            "fit_manifest_sha256: \"faa2bc9fdfeeb5f79802445445b493a8885ffd5363072ab3f91aa0bb2ec6c59a\" -> \"5c30389510040562a6754e2949768bb4aff6d358304f74e19b554e4c5d076137\"",
-            "fit_wall_clock_seconds: 1.350967 -> 1.436768"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c3801965ae0312bfb378af70f86e005a67ad953b1abcdc1f0847123caf30ee67\" -> \"88ff54897d28b3d248276810f8985f103738086ddc6f777e00388f3ae7faded3\"",
-            "fit_manifest_sha256: \"40bc29505d9dc8a7eb54ea0a02d63ece1e6ba00ada1bdd4e4c8c889023c8d1da\" -> \"3f008f1a592c58bc9b038b9a6e9c3e069738544c549dc07f6e99c316b2ff7f47\"",
-            "fit_wall_clock_seconds: 1.407917 -> 1.450813"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"7c5dac423e65b9892d7cbb4bf08f4093bc7a1c857d22ab86f59bc2f39045863d\" -> \"59f184c6d64ec8d4067d23eaace8e3dbf66688a4ce388b4f995aa6c5deb06638\"",
-            "fit_manifest_sha256: \"fe187cb5a4ac59f80071cd5f52ecdb99af24979e7f3f24508bdf83cc86b67ab0\" -> \"ec67e96a4ff433bae6d23436f0a004f379ea45e9c43ec996f41a9ba1dfa83a8f\"",
-            "fit_wall_clock_seconds: 1.614724 -> 1.657029"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"d27a682b6f0d411b19a5ef3b3cb4cf4846607d4762c786239771f5307df7a1d1\" -> \"6ab28f48e6e6f2c921a05394f3a45ee0e49d6775f33a220b018d25ca08bad4fa\"",
-            "fit_manifest_sha256: \"4e32bbbc7f8530dba22a0aad3e919bf63b7284b0da1d7e1a76f7cc0dad8c7017\" -> \"65c3163b4c3f8c0dcf9c9f0743d7b75b3b4f106c69c60885614172b6194b5715\"",
-            "fit_wall_clock_seconds: 1.677543 -> 1.741506"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"9b4ea52c11a47c91d125555367ebc047e8686f07326e6a78cbb1a9afbd1b85f8\" -> \"2a343be5da21fdcd0186b902eea699c717c4d49edae7988e0d72341d9cf3d793\"",
-            "fit_manifest_sha256: \"1716f1f1674cb3b9e26242755eb3e4998bbe609824d2ed0d4a1c03a7d6804dc7\" -> \"99eebb57597750149e6940c1ed48b73a2135874b9ecd41806bf2b23f22cebf9d\"",
-            "fit_wall_clock_seconds: 1.848874 -> 1.876903"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"cce2dbe83c57076a3d0c04d48e5df5fb29e77007d324d0e0d8dc7006f2d3b7ac\" -> \"5fedfba532c379dbb977578a1a90cc72b4c5fb507161b364e0a138b8882031a8\"",
-            "fit_manifest_sha256: \"69bd227f215528d6d1cdd015b3d10f3ceee5e737a6122a82b242cb3fe947a5a0\" -> \"5ed5f5871b2a5da0819cd6b8bf05aebaf58f923ec16810c40f78b4ca3b22ab8c\"",
-            "fit_wall_clock_seconds: 1.897798 -> 1.963175"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"7f7e0e2b4ae11a348a88e8068bb752c367b3cf1c9e2ed422e62192a21506ff9f\" -> \"f18c19f54cc64530ad97f975cdbc690d243c0e6553e42af0219b0099c9a72943\"",
-            "fit_manifest_sha256: \"208e9a0f7cb62aa2093bf17e6a2a7f9ff20df945143d46906efd749675cce6cb\" -> \"2c2226ec3a23bfe788c5d55beb4ac9c669807dc55df7d4fb24256bc2d1a7f522\"",
-            "fit_wall_clock_seconds: 2.13539 -> 2.194596"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"f0129fa03dbcf4b84421e63cd3097a715c6b28f7ac7faf15442009ab94d9bc34\" -> \"d69eaade11ceb13a70f1e493a3db5f71f84f74c938649b611a048d2cce8e0b3c\"",
-            "fit_manifest_sha256: \"173bd654ba66beb20d07d56646d6c5b29d4529d32880f57d5f9cc4fdcdc51c19\" -> \"2a48911986e0a9e23f8f71fe485eee11febfbb46e79598a6326f75e3bee60668\"",
-            "fit_wall_clock_seconds: 2.227888 -> 2.294808"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"e76159346d49012f68acad163a410d7e91aac89ed4dc06898a7b3a3f9ef6195f\" -> \"bf55be0a21f46523432f1812489a7231654bf22e808c5b72f807386083d4a4c9\"",
-            "fit_manifest_sha256: \"def108d7137a9b17b038fa78beb056759516e588759c7f6046a7bf1b40390f2f\" -> \"55d51ce6e80fb42a3f991c813e37448031cedcc50c3f30a9d78dfa998144b3ed\"",
-            "fit_wall_clock_seconds: 2.147245 -> 2.214015"
-          ],
-          "kind": "json"
-        },
-        "attempts/2023/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"c297f59545901de723bd4667a9d7ba2a094b7bb84bdd3d6105de76ff7aa5397e\" -> \"2c79b8501c3a49385562b13d5be6f3d00ab96bb9fb3b3426e2565bfbd8bc7742\"",
-            "fit_manifest_sha256: \"ffba32b48f8a6e1f2e4c1fe0b42f6db43378c8e82589ce9fbcc17be932e8ffa2\" -> \"d7117a5cf4324b919ec126c256d9c1331a62eef6ac2d9d01c149e5769788049c\"",
-            "fit_wall_clock_seconds: 2.223923 -> 2.308486"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/base/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"4cee50d40d76dba3abc08c280f6ba4c161cde4c04ce031be341d716175331808\" -> \"a137775eac6dff792c108a6b0646183dc13b26e9a9d657310ce1d763a48b4a3d\"",
-            "fit_manifest_sha256: \"0078eb01c6f442f8fb0a5bf6c5fe14cc66787e6031740fd6796dee707f336ccd\" -> \"ec6758dc8504697b669c72fb1ff0a1b98b3ed7c7b7107b8e7dd97e10df85087d\"",
-            "fit_wall_clock_seconds: 1.361276 -> 1.410846"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/base/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"2038780ace252ae1d8531a69b1e22038bc740c7d344b70a1af322fc24cc39306\" -> \"40883e8a9a106a51f6ac48a905d1a7555157f3bd6adee329a59d16f73e6a5161\"",
-            "fit_manifest_sha256: \"8df848d449cd78e99e459c75aa2a2cf48c1b0f9f4836ac790ed4f4739e87654f\" -> \"6709fe65bcadeec33d36155d36581f74bafae8445c353dea169395050f20212d\"",
-            "fit_wall_clock_seconds: 1.428777 -> 1.491739"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/base_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"3bd6fd76dc4fa89ef19a9b967da20dd5233d01aa8126fca280bd526a2ff2a294\" -> \"b1e282985ccac11883a61d5963520b6bd1d2e470a6d24c861191764cc77e7533\"",
-            "fit_manifest_sha256: \"f49807fdb1b08fcbff605d2a08e4a811bf05aab68de215c68846553eb133a89c\" -> \"56295b5c557265ec7e0a6a0d9a016c0625b27dcc54baac3095dac392d5e2f4de\"",
-            "fit_wall_clock_seconds: 1.619635 -> 1.680213"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/base_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"6836c65b380e4f3806fd3a717f75f8a236b1232a6d56a55dceab4ab64d760219\" -> \"a6996a0c18d5d7c2595f53f29ccc651bec8d4994eddb413c3ca190324e290796\"",
-            "fit_manifest_sha256: \"b088de869e9cb9494984b8a9644f32eac7f3f26192de7bff9aede7f817165d85\" -> \"585263b48c6adb18fb4ca981bf3479903c07f04370c442ebdf0dc567af0b2a25\"",
-            "fit_wall_clock_seconds: 1.678822 -> 1.773815"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"a2d888a61d4b6b6c98fbc0611ed50e37d8e303e28804df72c2b3d7e9704dd5d7\" -> \"4dfc9e5f386f8ebb7b2d6466ca8a915b3207740a2008431f3a91ee417ee50049\"",
-            "fit_manifest_sha256: \"81970f16f6be5bb6ee70c121479a80ef55adb536b3f96419416d723d2f922bfa\" -> \"ac4aa87b5a95dcc75b8e4d12ac426c68535b4d77f7dcdac94c54aa524a0e865c\"",
-            "fit_wall_clock_seconds: 1.843711 -> 1.928476"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"634dc5530009f156c505f3b84346cda4ca9066f647f479f84f3aad50ec1baaa8\" -> \"5e0bff474c74f0c231cf1d3aa511853c58474f5bfa66900006b94234e52c92ba\"",
-            "fit_manifest_sha256: \"59ce7e6f17e3b43ff6749a734d02bf6d85d899ae2d5f6941f8f9038728780ab5\" -> \"a32119c049392084b62b3b5540874d8dafa9c7be7c94d11f19f43157837e03ea\"",
-            "fit_wall_clock_seconds: 1.913096 -> 1.998317"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full_tier/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"2eadd695112fbedcadb1c8d2a49454e65c65e4291ff502a5493c67806ca57064\" -> \"6fd675f8eadf888e40ce413e24a297928dedce6a315d2b9f9f6f2199cd7d187f\"",
-            "fit_manifest_sha256: \"7fca782a7f26f6270d64d4634a37c02cd15f97a0519abc2be2d7c4a07fbff897\" -> \"b107c9a5fb84b88b577c4ac7ae9312553a4199d5e0fd205fa3f055a75e1399e4\"",
-            "fit_wall_clock_seconds: 2.144278 -> 2.310975"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full_tier/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"67ac4dddc6cc51ccb1ef117fbe00b80f06d90cec3879fc23e08ace43af95fcf5\" -> \"de2693f13bc9e758806a0c6ec5da281a699d79317f49aff0e876df8c0ad59897\"",
-            "fit_manifest_sha256: \"5fd39934a281626e6ac9f947688fbea9ed69005575416989b8d3826fe345075c\" -> \"5173672025e683c5820899df878b786a58f646228954dc388b622d75fcecca70\"",
-            "fit_wall_clock_seconds: 2.229509 -> 2.377191"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full_tier_noqual/hgb_leaf07_depth3.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"9bbaa1c877d3061294651dfb717365307fa3e80e2bcb1381ed5d4821cc38e6aa\" -> \"e30a1bd7a36fc944475b69f0c83b2ef4e5fff1d25c465cddfdaa9c4fac7b66ed\"",
-            "fit_manifest_sha256: \"0da963f8c97d42a3cff6a5a3c664321a83b44eb60da52098930c37b8b6d66782\" -> \"ba7178a0fbcd4486880738f77c275aea9cc2e753633e3c4afe6e0664cbde26c1\"",
-            "fit_wall_clock_seconds: 2.143045 -> 2.25543"
-          ],
-          "kind": "json"
-        },
-        "attempts/2024/hgb/full_tier_noqual/hgb_leaf15_depth4.json": {
-          "changed_leaves": 3,
-          "first": [
-            "fit_identity_sha256: \"47baa67e56ee106669c136316062063a42563c752f718926f24a5a56db09fa82\" -> \"f3397f666a8b78449cd361b26b6b14a221eaed4e78a6a7c8ac6c12f6e464fd6f\"",
-            "fit_manifest_sha256: \"661b07d9fbc43f8c554051f148c0968985331de7dd0b43423008664b13b71adf\" -> \"9358f8cf8ecc9a9684808e56d74ed12e4c668519d4a3254df3206c1565d58f33\"",
-            "fit_wall_clock_seconds: 2.236715 -> 2.364829"
-          ],
-          "kind": "json"
-        },
-        "raw_complete.json": {
-          "changed_leaves": 334,
-          "first": [
-            "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
-            "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\"",
-            "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
-            "raw_attempts.0.fit_identity_sha256: \"75ba6bc916e68bec9f3bf8182f0cb0516a6f80544a904f4ab9b51df524ed8a03\" -> \"49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3\"",
-            "raw_attempts.0.fit_manifest_sha256: \"de22305a89b1e8b1e2efe2b216b68ecd2c8ea9b61216bbcd457fdc388d3403a3\" -> \"de5f6f183a9520dc2f317c5f8bd1ee3731e9b5bf92935bf3eb6cf835710eabb5\"",
-            "raw_attempts.0.fit_wall_clock_seconds: 0.924088 -> 0.925076",
-            "raw_attempts.1.fit_identity_sha256: \"370b509a37066efa088a31379da4d1de49232dd26ac1dfae0787e48ada6bb4b5\" -> \"52d435db6c11aab7e0e768b02581d936399284d54b572d776205f8408f14ae51\"",
-            "raw_attempts.1.fit_manifest_sha256: \"3aea83ef75051333e9a8ea8f8f613ad6db41c8a3287f0b05368e0a415d1a9358\" -> \"a79d3620763863b1b59de7d81660a50b89ad5b9823912aa7fa353af9a2cdea67\"",
-            "raw_attempts.1.fit_wall_clock_seconds: 0.964643 -> 0.971733",
-            "raw_attempts.2.fit_identity_sha256: \"c0d7cfb2df8573036d3dff734139d959b280ace535c5b54ea41ff5148d6a67f6\" -> \"a1df61853c941a3045a5d878c4313982d2570f68d3969d8098e502233b2151e5\"",
-            "raw_attempts.2.fit_manifest_sha256: \"617068175ffff4e03acc49f58b3364e67db53ea0bbf7bc6d700414cfd1c0b7f4\" -> \"d605aaf87ac05f082207ced111178cea91fe69e757dba40d9e0042731dc6b6e5\"",
-            "raw_attempts.2.fit_wall_clock_seconds: 1.243275 -> 1.258101",
-            "raw_attempts.3.fit_identity_sha256: \"61b5cb83bdcdf7965f109f96b422511bfaf7b27ef5594dcf263fe5ff3d3f2861\" -> \"e69a208bdb337152fde535c3d5b44b9e072f696bbd231dcb004c4f0cebee9c21\"",
-            "raw_attempts.3.fit_manifest_sha256: \"2090f4352c4d3726bbd90588fa39697450edb6c2fc1ee85a0cff36efd62aa4a8\" -> \"c49261edb4f76e7f6fe12750c04ad9095a3aaaaa6b748586711c66545b9b8e21\"",
-            "raw_attempts.3.fit_wall_clock_seconds: 1.301096 -> 1.313592",
-            "raw_attempts.4.fit_identity_sha256: \"8b5f94b8a96b6a3a6f6526a5b2ad4ed4ad7a901a79c99a16e04b068b36642001\" -> \"f31673888a43673def8005002e9ebc6357ba8e86956136097d09be33be5559d5\"",
-            "raw_attempts.4.fit_manifest_sha256: \"edcb3784fb9b928fc05751229fa1f940de78adc28201ffc224e4676a56e5583e\" -> \"fabf0ec3ec20e7b6ec7c25056261efaf47d24fe1df9689a11b21108446ff950d\"",
-            "raw_attempts.4.fit_wall_clock_seconds: 1.091299 -> 1.10877",
-            "raw_attempts.5.fit_identity_sha256: \"4ae53f6b8850a7f9b0ad9b3a2b2ee40956d65ad75b07ed259b2c2ff349b88570\" -> \"911313045cdbf523628f37752d6aec52d7df1e7ee354ef27fc4dd631b663f621\"",
-            "raw_attempts.5.fit_manifest_sha256: \"f1d05d792a71b64747ca8c11e3bccb716d0ab242d968e8392214ec7c0a00ba86\" -> \"f55e9adaa20ef409cc29f14dbaa91340ae0ef90516d9cbc0e00fcf4603c6db6a\"",
-            "raw_attempts.5.fit_wall_clock_seconds: 1.139784 -> 1.150423",
-            "raw_attempts.6.fit_identity_sha256: \"ed8eae9b84858344ca37a6d33d9a9c860d67764fe16feb27cf55ebd4f29d38db\" -> \"f05420a59cc93b99a09720000b356687fcd953e4786767cafa717d12f8653e01\"",
-            "raw_attempts.6.fit_manifest_sha256: \"abc4dcb6b21be8272e9c7bfbe49b5a1858ab0f4ce124bfd089a242651b246b03\" -> \"dedc14810f04841931a7a3161938bd72a27a649acc1b637336767a2b9e611671\"",
-            "raw_attempts.6.fit_wall_clock_seconds: 1.470788 -> 1.494445",
-            "raw_attempts.7.fit_identity_sha256: \"ecfc21412ed5abe37174acf492b987056de0ff902e664f0d784a1e5d664e1e5e\" -> \"7d803c101a23aa8970da15f28e823695e0033a707e4d7887153edd029477f2a8\"",
-            "raw_attempts.7.fit_manifest_sha256: \"b5c9bbe4e426a37647713df884c7ca27a4172c913e6eaff0add3754746cde62b\" -> \"0ed0c23527275b19464346990eb7f9d08cee1222fcd1e23b7001079e83d7e5d4\"",
-            "raw_attempts.7.fit_wall_clock_seconds: 1.544725 -> 1.592892",
-            "raw_attempts.8.fit_identity_sha256: \"80349bb4c2dfd69868e2d84874339ede034d594489f9d40a45f0d3aef9692b4d\" -> \"9a1521eb23874c62a03c51bc2e082d8a4d13146d22d471f2083bc82b30d2dc31\"",
-            "raw_attempts.8.fit_manifest_sha256: \"11ac0008656418dd3079e0c63d199ec5637f45a20a6ebaf34371e2f386071ad7\" -> \"bb073cf4dd48e3fea9e651f9ac6cbd0ff57248f6555c242f94b3c02d9ea14b46\"",
-            "raw_attempts.8.fit_wall_clock_seconds: 1.471788 -> 1.518557",
-            "raw_attempts.9.fit_identity_sha256: \"7eccc8b260780a859ef8ee9879e7d893ea70cc90689c9022c8fb6da9efd0f2f0\" -> \"c9269d4b65c8fb4a8cb5d2c49ce5f9430cd5f5a242641e30e581f98486c5de49\"",
-            "raw_attempts.9.fit_manifest_sha256: \"ca3f277da02cffa181ea78f8076ebf46136c5dc5c5b7b2eb91c2212f265d1388\" -> \"a802789a76bcaec39b093a760725f09a22fbe7df8860a4ea1b32e5762b847cca\"",
-            "raw_attempts.9.fit_wall_clock_seconds: 1.546756 -> 1.621047",
-            "raw_attempts.10.fit_identity_sha256: \"764a39c399364c4156087954701589a4f5aa6fa48bec76c5fdaf2c709712e9db\" -> \"eaac9e6c64f9004fab9639ed5f53c612d875da9d35715ae74ad02fc5a0b22bb4\"",
-            "raw_attempts.10.fit_manifest_sha256: \"1557c14f437b9510a7ef966116fe9db58ad55512843689c329d69add9e4f133e\" -> \"6d6285a8245bd7283ec0eed874804c964eae2117d20a2ed73877d82ea7d0be94\"",
-            "raw_attempts.10.fit_wall_clock_seconds: 1.18176 -> 1.20869",
-            "raw_attempts.11.fit_identity_sha256: \"e3959d6b927f030e53925f3cdc41d3d78d7cb0fee27d28c0f13c0eeb75221ca4\" -> \"5dd1f47aa000057a90ef81c55498327403b6633201dc64a7eecaabb23a144b42\"",
-            "raw_attempts.11.fit_manifest_sha256: \"c3d082978ee4a3c14e979ff9731b20753a49026377b35258ce51e80afafca476\" -> \"39e0f35eed73d6eb45bffc0701456d12844bced607c39dddb11f5f277d0d5520\"",
-            "raw_attempts.11.fit_wall_clock_seconds: 1.230184 -> 1.284092"
-          ],
-          "kind": "json"
-        },
-        "raw_progress.json": {
-          "changed_leaves": 1,
-          "first": [
-            "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\""
-          ],
-          "kind": "json"
-        },
-        "selection_complete.json": {
-          "changed_leaves": 5,
-          "first": [
-            "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
-            "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\"",
-            "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
-            "raw_complete_sha256: \"f44ceacff5e2e79b13693b9f4b38adb8735d9df5244848d1c6ddd10c1e8c0bf5\" -> \"8fb5162ef0cc497c44d6b415b02934b2d54d1e9d5a2e8362520eb2fa67109ba6\""
-          ],
-          "kind": "json"
-        },
-        "selection_progress.json": {
-          "changed_leaves": 1,
-          "first": [
-            "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\""
-          ],
-          "kind": "json"
-        },
-        "stdout.txt": {
-          "changed_lines": 25,
-          "first": [
-            "@@ -3,2 +3,21 @@",
-            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
-            "-  \"config_sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\",",
-            "+  \"code\": {",
-            "+    \"numerical\": {",
-            "+      \"module\": \"tennislab.models.numerical\",",
-            "+      \"package_version\": \"0.1.0\",",
-            "+      \"sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\"",
-            "+    },",
-            "+    \"runner\": {",
-            "+      \"module\": \"tennislab.models.pipeline\",",
-            "+      \"package_version\": \"0.1.0\",",
-            "+      \"sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
-            "+    }",
-            "+  },",
-            "+  \"config_path\": \"work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
-            "+  \"config_sha256\": \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\",",
-            "+  \"declared_binding\": {",
-            "+    \"numerical_path\": \"tennislab.models.numerical\",",
-            "+    \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\",",
-            "+    \"package_version\": \"0.1.0\",",
-            "+    \"runner_path\": \"tennislab.models.pipeline\",",
-            "+    \"runner_sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
-            "+  },",
-            "@@ -424 +443 @@",
-            "-  \"raw_complete_sha256\": \"f44ceacff5e2e79b13693b9f4b38adb8735d9df5244848d1c6ddd10c1e8c0bf5\",",
-            "+  \"raw_complete_sha256\": \"8fb5162ef0cc497c44d6b415b02934b2d54d1e9d5a2e8362520eb2fa67109ba6\","
-          ],
-          "kind": "text",
-          "lines_archive": 6755,
-          "lines_ported": 6774
-        }
-      },
-      "extra": [
-        "fit_cache/002e302c0246e4626d8a86267e69bb88ace09e9e50fdff58ba54b3c3312531eb/fit_manifest.json",
-        "fit_cache/002e302c0246e4626d8a86267e69bb88ace09e9e50fdff58ba54b3c3312531eb/model.joblib",
-        "fit_cache/002e302c0246e4626d8a86267e69bb88ace09e9e50fdff58ba54b3c3312531eb/training_keys.csv",
-        "fit_cache/00883abbd5661df0c54295a66aa50b16c32472c9d4ba9e354b2509e1b970d023/fit_manifest.json",
-        "fit_cache/00883abbd5661df0c54295a66aa50b16c32472c9d4ba9e354b2509e1b970d023/model.joblib",
-        "fit_cache/00883abbd5661df0c54295a66aa50b16c32472c9d4ba9e354b2509e1b970d023/training_keys.csv",
-        "fit_cache/017da23c9d43ffa2ed866d286852921a4d862a938100d23b096cf5d1c8ad1354/fit_manifest.json",
-        "fit_cache/017da23c9d43ffa2ed866d286852921a4d862a938100d23b096cf5d1c8ad1354/model.joblib",
-        "fit_cache/017da23c9d43ffa2ed866d286852921a4d862a938100d23b096cf5d1c8ad1354/training_keys.csv",
-        "fit_cache/0429d872b4e2bda929c0234ca994cb8b99e3d1644b663317a51cd5ffd9ff178b/fit_manifest.json",
-        "fit_cache/0429d872b4e2bda929c0234ca994cb8b99e3d1644b663317a51cd5ffd9ff178b/model.joblib",
-        "fit_cache/0429d872b4e2bda929c0234ca994cb8b99e3d1644b663317a51cd5ffd9ff178b/training_keys.csv",
-        "fit_cache/09a0d11bd1648ae4eeab2a71f4d1b5bd1d0c4ee70c7b015151f8057c15cae1f6/fit_manifest.json",
-        "fit_cache/09a0d11bd1648ae4eeab2a71f4d1b5bd1d0c4ee70c7b015151f8057c15cae1f6/model.joblib",
-        "fit_cache/09a0d11bd1648ae4eeab2a71f4d1b5bd1d0c4ee70c7b015151f8057c15cae1f6/training_keys.csv",
-        "fit_cache/0ad587d2b8a2a6a806e64005ca5bea09dad8dbc244168d72121c9191e52fab11/fit_manifest.json",
-        "fit_cache/0ad587d2b8a2a6a806e64005ca5bea09dad8dbc244168d72121c9191e52fab11/model.joblib",
-        "fit_cache/0ad587d2b8a2a6a806e64005ca5bea09dad8dbc244168d72121c9191e52fab11/training_keys.csv",
-        "fit_cache/10f1f12d473475adf52994c4f37d5e040572fa2af66b34d87f15edb4971dc940/fit_manifest.json",
-        "fit_cache/10f1f12d473475adf52994c4f37d5e040572fa2af66b34d87f15edb4971dc940/model.joblib",
-        "fit_cache/10f1f12d473475adf52994c4f37d5e040572fa2af66b34d87f15edb4971dc940/training_keys.csv",
-        "fit_cache/14ba4f0fd034e20661e97719006908aaa0e5b82c3fc04463ffc7299e772f1f1d/fit_manifest.json",
-        "fit_cache/14ba4f0fd034e20661e97719006908aaa0e5b82c3fc04463ffc7299e772f1f1d/model.joblib",
-        "fit_cache/14ba4f0fd034e20661e97719006908aaa0e5b82c3fc04463ffc7299e772f1f1d/training_keys.csv",
-        "fit_cache/218e073b466acae360d67f4fe34418e67ce280dcfd8cd7c3d2d7682ddcb52c9d/fit_manifest.json",
-        "fit_cache/218e073b466acae360d67f4fe34418e67ce280dcfd8cd7c3d2d7682ddcb52c9d/model.joblib",
-        "fit_cache/218e073b466acae360d67f4fe34418e67ce280dcfd8cd7c3d2d7682ddcb52c9d/training_keys.csv",
-        "fit_cache/24684a946e5d8d1b52a96a0b81695c0f57a3d08aec5e144d3168f26568489ed5/fit_manifest.json",
-        "fit_cache/24684a946e5d8d1b52a96a0b81695c0f57a3d08aec5e144d3168f26568489ed5/model.joblib",
-        "fit_cache/24684a946e5d8d1b52a96a0b81695c0f57a3d08aec5e144d3168f26568489ed5/training_keys.csv",
-        "fit_cache/2a343be5da21fdcd0186b902eea699c717c4d49edae7988e0d72341d9cf3d793/fit_manifest.json",
-        "fit_cache/2a343be5da21fdcd0186b902eea699c717c4d49edae7988e0d72341d9cf3d793/model.joblib",
-        "fit_cache/2a343be5da21fdcd0186b902eea699c717c4d49edae7988e0d72341d9cf3d793/training_keys.csv",
-        "fit_cache/2ab959005312301f54a8fd3332d9c5ae56e16ff8a943c7d287a769d701299764/fit_manifest.json",
-        "fit_cache/2ab959005312301f54a8fd3332d9c5ae56e16ff8a943c7d287a769d701299764/model.joblib",
-        "fit_cache/2ab959005312301f54a8fd3332d9c5ae56e16ff8a943c7d287a769d701299764/training_keys.csv",
-        "fit_cache/2bbf20d565ff0d623518948bf00db45efd1d63a94678e29b96691b275cd62a30/fit_manifest.json",
-        "fit_cache/2bbf20d565ff0d623518948bf00db45efd1d63a94678e29b96691b275cd62a30/model.joblib",
-        "fit_cache/2bbf20d565ff0d623518948bf00db45efd1d63a94678e29b96691b275cd62a30/training_keys.csv",
-        "fit_cache/2c79b8501c3a49385562b13d5be6f3d00ab96bb9fb3b3426e2565bfbd8bc7742/fit_manifest.json",
-        "fit_cache/2c79b8501c3a49385562b13d5be6f3d00ab96bb9fb3b3426e2565bfbd8bc7742/model.joblib",
-        "fit_cache/2c79b8501c3a49385562b13d5be6f3d00ab96bb9fb3b3426e2565bfbd8bc7742/training_keys.csv",
-        "fit_cache/31ae522335e98c2a200648cbeeef8659506dbdcfb9486a15051045a1a7c9798a/fit_manifest.json",
-        "fit_cache/31ae522335e98c2a200648cbeeef8659506dbdcfb9486a15051045a1a7c9798a/model.joblib",
-        "fit_cache/31ae522335e98c2a200648cbeeef8659506dbdcfb9486a15051045a1a7c9798a/training_keys.csv",
-        "fit_cache/33edaa3b9fc2a3d604747b0c89a094492ceae8ce8d0aedea6119bca9189301bb/fit_manifest.json",
-        "fit_cache/33edaa3b9fc2a3d604747b0c89a094492ceae8ce8d0aedea6119bca9189301bb/model.joblib",
-        "fit_cache/33edaa3b9fc2a3d604747b0c89a094492ceae8ce8d0aedea6119bca9189301bb/training_keys.csv",
-        "fit_cache/3a57458d35ce00aa80fdeb45ccb1b3b7ca8b865c5c577ec6a4ab0f15a9fa6dc2/fit_manifest.json",
-        "fit_cache/3a57458d35ce00aa80fdeb45ccb1b3b7ca8b865c5c577ec6a4ab0f15a9fa6dc2/model.joblib",
-        "fit_cache/3a57458d35ce00aa80fdeb45ccb1b3b7ca8b865c5c577ec6a4ab0f15a9fa6dc2/training_keys.csv",
-        "fit_cache/3b9df8085a85c6df0b91347a55090af03cf8c864ed0582147449123f00d232af/fit_manifest.json",
-        "fit_cache/3b9df8085a85c6df0b91347a55090af03cf8c864ed0582147449123f00d232af/model.joblib",
-        "fit_cache/3b9df8085a85c6df0b91347a55090af03cf8c864ed0582147449123f00d232af/training_keys.csv",
-        "fit_cache/3f3550ea5e3f0bf12d5f06c0f67746619bf27faf62cda14815ffda9ece6a4745/fit_manifest.json",
-        "fit_cache/3f3550ea5e3f0bf12d5f06c0f67746619bf27faf62cda14815ffda9ece6a4745/model.joblib",
-        "fit_cache/3f3550ea5e3f0bf12d5f06c0f67746619bf27faf62cda14815ffda9ece6a4745/training_keys.csv",
-        "fit_cache/40883e8a9a106a51f6ac48a905d1a7555157f3bd6adee329a59d16f73e6a5161/fit_manifest.json",
-        "fit_cache/40883e8a9a106a51f6ac48a905d1a7555157f3bd6adee329a59d16f73e6a5161/model.joblib",
-        "fit_cache/40883e8a9a106a51f6ac48a905d1a7555157f3bd6adee329a59d16f73e6a5161/training_keys.csv",
-        "fit_cache/40fd232ea4d590d2197bde942b0dd5c6bc8afc1418830bec6dbac8f074a487d1/fit_manifest.json",
-        "fit_cache/40fd232ea4d590d2197bde942b0dd5c6bc8afc1418830bec6dbac8f074a487d1/model.joblib",
-        "fit_cache/40fd232ea4d590d2197bde942b0dd5c6bc8afc1418830bec6dbac8f074a487d1/training_keys.csv",
-        "fit_cache/426bd55432be4cd7cbe7af93770f6522a9d94df6217e08a45386044e9df261e3/fit_manifest.json",
-        "fit_cache/426bd55432be4cd7cbe7af93770f6522a9d94df6217e08a45386044e9df261e3/model.joblib",
-        "fit_cache/426bd55432be4cd7cbe7af93770f6522a9d94df6217e08a45386044e9df261e3/training_keys.csv",
-        "fit_cache/4507610ad24816d47731a3d20941b745b66caa5d1e212675cac713a95f3d5b45/fit_manifest.json",
-        "fit_cache/4507610ad24816d47731a3d20941b745b66caa5d1e212675cac713a95f3d5b45/model.joblib",
-        "fit_cache/4507610ad24816d47731a3d20941b745b66caa5d1e212675cac713a95f3d5b45/training_keys.csv",
-        "fit_cache/45699b07c3627135ee485b23385d986bf442417653f9291009b2d02fc61f8e87/fit_manifest.json",
-        "fit_cache/45699b07c3627135ee485b23385d986bf442417653f9291009b2d02fc61f8e87/model.joblib",
-        "fit_cache/45699b07c3627135ee485b23385d986bf442417653f9291009b2d02fc61f8e87/training_keys.csv",
-        "fit_cache/49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3/fit_manifest.json",
-        "fit_cache/49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3/model.joblib",
-        "fit_cache/49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3/training_keys.csv",
-        "fit_cache/4a967bf57ac38720af742be71e9f5aa1f5e0f9fb1c2403bdc873ecb4f6403639/fit_manifest.json",
-        "fit_cache/4a967bf57ac38720af742be71e9f5aa1f5e0f9fb1c2403bdc873ecb4f6403639/model.joblib",
-        "fit_cache/4a967bf57ac38720af742be71e9f5aa1f5e0f9fb1c2403bdc873ecb4f6403639/training_keys.csv",
-        "fit_cache/4c71727e3ff46ac8043e43db3a0838568c048a1f27e408069eab7dbdc62dda9a/fit_manifest.json",
-        "fit_cache/4c71727e3ff46ac8043e43db3a0838568c048a1f27e408069eab7dbdc62dda9a/model.joblib",
-        "fit_cache/4c71727e3ff46ac8043e43db3a0838568c048a1f27e408069eab7dbdc62dda9a/training_keys.csv",
-        "fit_cache/4dfc9e5f386f8ebb7b2d6466ca8a915b3207740a2008431f3a91ee417ee50049/fit_manifest.json",
-        "fit_cache/4dfc9e5f386f8ebb7b2d6466ca8a915b3207740a2008431f3a91ee417ee50049/model.joblib",
-        "fit_cache/4dfc9e5f386f8ebb7b2d6466ca8a915b3207740a2008431f3a91ee417ee50049/training_keys.csv",
-        "fit_cache/50209d8197b41bd911dfadb53d657a142428f2c891cb19005044e6a905226e50/fit_manifest.json",
-        "fit_cache/50209d8197b41bd911dfadb53d657a142428f2c891cb19005044e6a905226e50/model.joblib",
-        "fit_cache/50209d8197b41bd911dfadb53d657a142428f2c891cb19005044e6a905226e50/training_keys.csv",
-        "fit_cache/51bd6e85141b33c6eaaf0262229a68b3c1c3421c9843ed4eac76e08f75e90c03/fit_manifest.json",
-        "fit_cache/51bd6e85141b33c6eaaf0262229a68b3c1c3421c9843ed4eac76e08f75e90c03/model.joblib",
-        "fit_cache/51bd6e85141b33c6eaaf0262229a68b3c1c3421c9843ed4eac76e08f75e90c03/training_keys.csv",
-        "fit_cache/51ff9070b1682bb290f67ecbbc4bd9fec96fd37c4ab2cd3b08b6d12bf51c1d92/fit_manifest.json",
-        "fit_cache/51ff9070b1682bb290f67ecbbc4bd9fec96fd37c4ab2cd3b08b6d12bf51c1d92/model.joblib",
-        "fit_cache/51ff9070b1682bb290f67ecbbc4bd9fec96fd37c4ab2cd3b08b6d12bf51c1d92/training_keys.csv",
-        "fit_cache/52d435db6c11aab7e0e768b02581d936399284d54b572d776205f8408f14ae51/fit_manifest.json",
-        "fit_cache/52d435db6c11aab7e0e768b02581d936399284d54b572d776205f8408f14ae51/model.joblib",
-        "fit_cache/52d435db6c11aab7e0e768b02581d936399284d54b572d776205f8408f14ae51/training_keys.csv",
-        "fit_cache/59f184c6d64ec8d4067d23eaace8e3dbf66688a4ce388b4f995aa6c5deb06638/fit_manifest.json",
-        "fit_cache/59f184c6d64ec8d4067d23eaace8e3dbf66688a4ce388b4f995aa6c5deb06638/model.joblib",
-        "fit_cache/59f184c6d64ec8d4067d23eaace8e3dbf66688a4ce388b4f995aa6c5deb06638/training_keys.csv",
-        "fit_cache/5dd1f47aa000057a90ef81c55498327403b6633201dc64a7eecaabb23a144b42/fit_manifest.json",
-        "fit_cache/5dd1f47aa000057a90ef81c55498327403b6633201dc64a7eecaabb23a144b42/model.joblib",
-        "fit_cache/5dd1f47aa000057a90ef81c55498327403b6633201dc64a7eecaabb23a144b42/training_keys.csv",
-        "fit_cache/5e0bff474c74f0c231cf1d3aa511853c58474f5bfa66900006b94234e52c92ba/fit_manifest.json",
-        "fit_cache/5e0bff474c74f0c231cf1d3aa511853c58474f5bfa66900006b94234e52c92ba/model.joblib",
-        "fit_cache/5e0bff474c74f0c231cf1d3aa511853c58474f5bfa66900006b94234e52c92ba/training_keys.csv",
-        "fit_cache/5f35a5774c151c37d377ebbdb242f3c0351e10c6d233b9f1fbb9ad1ccbc939e6/fit_manifest.json",
-        "fit_cache/5f35a5774c151c37d377ebbdb242f3c0351e10c6d233b9f1fbb9ad1ccbc939e6/model.joblib",
-        "fit_cache/5f35a5774c151c37d377ebbdb242f3c0351e10c6d233b9f1fbb9ad1ccbc939e6/training_keys.csv",
-        "fit_cache/5fedfba532c379dbb977578a1a90cc72b4c5fb507161b364e0a138b8882031a8/fit_manifest.json",
-        "fit_cache/5fedfba532c379dbb977578a1a90cc72b4c5fb507161b364e0a138b8882031a8/model.joblib",
-        "fit_cache/5fedfba532c379dbb977578a1a90cc72b4c5fb507161b364e0a138b8882031a8/training_keys.csv",
-        "fit_cache/6206093b73f3aad47d78308c20445f7f42eccba840fb66c3bd19228272ff2b7c/fit_manifest.json",
-        "fit_cache/6206093b73f3aad47d78308c20445f7f42eccba840fb66c3bd19228272ff2b7c/model.joblib",
-        "fit_cache/6206093b73f3aad47d78308c20445f7f42eccba840fb66c3bd19228272ff2b7c/training_keys.csv",
-        "fit_cache/626b82e6e60178fb3ccdcf6de691dae427c72d3f05b25fe1b54cf8b7ac532f4d/fit_manifest.json",
-        "fit_cache/626b82e6e60178fb3ccdcf6de691dae427c72d3f05b25fe1b54cf8b7ac532f4d/model.joblib",
-        "fit_cache/626b82e6e60178fb3ccdcf6de691dae427c72d3f05b25fe1b54cf8b7ac532f4d/training_keys.csv",
-        "fit_cache/63f4695559c6291ec28d06c4f7eca6cf246e0651f7a91796b4e3620ba0a24f2f/fit_manifest.json",
-        "fit_cache/63f4695559c6291ec28d06c4f7eca6cf246e0651f7a91796b4e3620ba0a24f2f/model.joblib",
-        "fit_cache/63f4695559c6291ec28d06c4f7eca6cf246e0651f7a91796b4e3620ba0a24f2f/training_keys.csv",
-        "fit_cache/672126f1512b2c6debf28e183f35dbf6adf19b06bb1c3dcd8b1113433ea664c4/fit_manifest.json",
-        "fit_cache/672126f1512b2c6debf28e183f35dbf6adf19b06bb1c3dcd8b1113433ea664c4/model.joblib",
-        "fit_cache/672126f1512b2c6debf28e183f35dbf6adf19b06bb1c3dcd8b1113433ea664c4/training_keys.csv",
-        "fit_cache/6783d0425399a82c4d0fc72a2af43b4e4d6562a39821c75a554337d09acb8991/fit_manifest.json",
-        "fit_cache/6783d0425399a82c4d0fc72a2af43b4e4d6562a39821c75a554337d09acb8991/model.joblib",
-        "fit_cache/6783d0425399a82c4d0fc72a2af43b4e4d6562a39821c75a554337d09acb8991/training_keys.csv",
-        "fit_cache/68a59de2d0d1f6f665c0529df6a4043ce891e20c6e8e820365132522ccf978a4/fit_manifest.json",
-        "fit_cache/68a59de2d0d1f6f665c0529df6a4043ce891e20c6e8e820365132522ccf978a4/model.joblib",
-        "fit_cache/68a59de2d0d1f6f665c0529df6a4043ce891e20c6e8e820365132522ccf978a4/training_keys.csv",
-        "fit_cache/69789c3f557e00bfcaa7ca35b234f611fa90b9b705b0c722072503f7d0673a0d/fit_manifest.json",
-        "fit_cache/69789c3f557e00bfcaa7ca35b234f611fa90b9b705b0c722072503f7d0673a0d/model.joblib",
-        "fit_cache/69789c3f557e00bfcaa7ca35b234f611fa90b9b705b0c722072503f7d0673a0d/training_keys.csv",
-        "fit_cache/6ab28f48e6e6f2c921a05394f3a45ee0e49d6775f33a220b018d25ca08bad4fa/fit_manifest.json",
-        "fit_cache/6ab28f48e6e6f2c921a05394f3a45ee0e49d6775f33a220b018d25ca08bad4fa/model.joblib",
-        "fit_cache/6ab28f48e6e6f2c921a05394f3a45ee0e49d6775f33a220b018d25ca08bad4fa/training_keys.csv",
-        "fit_cache/6ed3a5fa10e01c093787d75661ffefda386a6dcbc68a2a6be023331acc746676/fit_manifest.json",
-        "fit_cache/6ed3a5fa10e01c093787d75661ffefda386a6dcbc68a2a6be023331acc746676/model.joblib",
-        "fit_cache/6ed3a5fa10e01c093787d75661ffefda386a6dcbc68a2a6be023331acc746676/training_keys.csv",
-        "fit_cache/6fd675f8eadf888e40ce413e24a297928dedce6a315d2b9f9f6f2199cd7d187f/fit_manifest.json",
-        "fit_cache/6fd675f8eadf888e40ce413e24a297928dedce6a315d2b9f9f6f2199cd7d187f/model.joblib",
-        "fit_cache/6fd675f8eadf888e40ce413e24a297928dedce6a315d2b9f9f6f2199cd7d187f/training_keys.csv",
-        "fit_cache/71cd271dad2370328926e1f68ed209a6fc17b16bdfed22f7d4c75e505a8962ce/fit_manifest.json",
-        "fit_cache/71cd271dad2370328926e1f68ed209a6fc17b16bdfed22f7d4c75e505a8962ce/model.joblib",
-        "fit_cache/71cd271dad2370328926e1f68ed209a6fc17b16bdfed22f7d4c75e505a8962ce/training_keys.csv",
-        "fit_cache/75a67c0ac48b00e688cf92767f2d3b84c9464e96aa9f89837d40cd5dc70e9cb4/fit_manifest.json",
-        "fit_cache/75a67c0ac48b00e688cf92767f2d3b84c9464e96aa9f89837d40cd5dc70e9cb4/model.joblib",
-        "fit_cache/75a67c0ac48b00e688cf92767f2d3b84c9464e96aa9f89837d40cd5dc70e9cb4/training_keys.csv",
-        "fit_cache/78caf190dd5951c1ebf74fb002677256e41e7e38e3a40823e4a45d057c5c4d30/fit_manifest.json",
-        "fit_cache/78caf190dd5951c1ebf74fb002677256e41e7e38e3a40823e4a45d057c5c4d30/model.joblib",
-        "fit_cache/78caf190dd5951c1ebf74fb002677256e41e7e38e3a40823e4a45d057c5c4d30/training_keys.csv",
-        "fit_cache/7cb8e8a07396d774074b8d162f373f6c5bde1742078bae85600371cb4cb16af4/fit_manifest.json",
-        "fit_cache/7cb8e8a07396d774074b8d162f373f6c5bde1742078bae85600371cb4cb16af4/model.joblib",
-        "fit_cache/7cb8e8a07396d774074b8d162f373f6c5bde1742078bae85600371cb4cb16af4/training_keys.csv",
-        "fit_cache/7d803c101a23aa8970da15f28e823695e0033a707e4d7887153edd029477f2a8/fit_manifest.json",
-        "fit_cache/7d803c101a23aa8970da15f28e823695e0033a707e4d7887153edd029477f2a8/model.joblib",
-        "fit_cache/7d803c101a23aa8970da15f28e823695e0033a707e4d7887153edd029477f2a8/training_keys.csv",
-        "fit_cache/7ea23a4d15e719afe033f72fb033f19d681479a08df5e4c00f9eb4ceaa539bdd/fit_manifest.json",
-        "fit_cache/7ea23a4d15e719afe033f72fb033f19d681479a08df5e4c00f9eb4ceaa539bdd/model.joblib",
-        "fit_cache/7ea23a4d15e719afe033f72fb033f19d681479a08df5e4c00f9eb4ceaa539bdd/training_keys.csv",
-        "fit_cache/81db3b189d64034e0cc2488fb4a9e521d76fa3dff3323f32c5ea3cdccc21d7aa/fit_manifest.json",
-        "fit_cache/81db3b189d64034e0cc2488fb4a9e521d76fa3dff3323f32c5ea3cdccc21d7aa/model.joblib",
-        "fit_cache/81db3b189d64034e0cc2488fb4a9e521d76fa3dff3323f32c5ea3cdccc21d7aa/training_keys.csv",
-        "fit_cache/81f004e49ace26eec89bd4a738b5fe8b24c14f63145271e83c0c938ecb89d78d/fit_manifest.json",
-        "fit_cache/81f004e49ace26eec89bd4a738b5fe8b24c14f63145271e83c0c938ecb89d78d/model.joblib",
-        "fit_cache/81f004e49ace26eec89bd4a738b5fe8b24c14f63145271e83c0c938ecb89d78d/training_keys.csv",
-        "fit_cache/82b323d291cd997b5b015c7ee1073ac195e5af66f22fea151234e9abac0cb6ff/fit_manifest.json",
-        "fit_cache/82b323d291cd997b5b015c7ee1073ac195e5af66f22fea151234e9abac0cb6ff/model.joblib",
-        "fit_cache/82b323d291cd997b5b015c7ee1073ac195e5af66f22fea151234e9abac0cb6ff/training_keys.csv",
-        "fit_cache/83487989a78549eaaf513a34a35c8ab6777c36282c00a2df12f0742eaa32037e/fit_manifest.json",
-        "fit_cache/83487989a78549eaaf513a34a35c8ab6777c36282c00a2df12f0742eaa32037e/model.joblib",
-        "fit_cache/83487989a78549eaaf513a34a35c8ab6777c36282c00a2df12f0742eaa32037e/training_keys.csv",
-        "fit_cache/88ff54897d28b3d248276810f8985f103738086ddc6f777e00388f3ae7faded3/fit_manifest.json",
-        "fit_cache/88ff54897d28b3d248276810f8985f103738086ddc6f777e00388f3ae7faded3/model.joblib",
-        "fit_cache/88ff54897d28b3d248276810f8985f103738086ddc6f777e00388f3ae7faded3/training_keys.csv",
-        "fit_cache/8c815c66c3a62b26fef082846c30f8eb913453306c7bab1189e81b14fd865dd4/fit_manifest.json",
-        "fit_cache/8c815c66c3a62b26fef082846c30f8eb913453306c7bab1189e81b14fd865dd4/model.joblib",
-        "fit_cache/8c815c66c3a62b26fef082846c30f8eb913453306c7bab1189e81b14fd865dd4/training_keys.csv",
-        "fit_cache/8fd384eac43011df2448b612d85ea22dcaf53b40ff20aaa8461553d56f116920/fit_manifest.json",
-        "fit_cache/8fd384eac43011df2448b612d85ea22dcaf53b40ff20aaa8461553d56f116920/model.joblib",
-        "fit_cache/8fd384eac43011df2448b612d85ea22dcaf53b40ff20aaa8461553d56f116920/training_keys.csv",
-        "fit_cache/911313045cdbf523628f37752d6aec52d7df1e7ee354ef27fc4dd631b663f621/fit_manifest.json",
-        "fit_cache/911313045cdbf523628f37752d6aec52d7df1e7ee354ef27fc4dd631b663f621/model.joblib",
-        "fit_cache/911313045cdbf523628f37752d6aec52d7df1e7ee354ef27fc4dd631b663f621/training_keys.csv",
-        "fit_cache/91b458867ac089883ee34a23ec633a03ca22737efaa8c4389c25dc655b66f53d/fit_manifest.json",
-        "fit_cache/91b458867ac089883ee34a23ec633a03ca22737efaa8c4389c25dc655b66f53d/model.joblib",
-        "fit_cache/91b458867ac089883ee34a23ec633a03ca22737efaa8c4389c25dc655b66f53d/training_keys.csv",
-        "fit_cache/92c7007f8c2af1d97c1fef1b833e316f7b22d37594b2d0686eea6ed5a6dbd1ce/fit_manifest.json",
-        "fit_cache/92c7007f8c2af1d97c1fef1b833e316f7b22d37594b2d0686eea6ed5a6dbd1ce/model.joblib",
-        "fit_cache/92c7007f8c2af1d97c1fef1b833e316f7b22d37594b2d0686eea6ed5a6dbd1ce/training_keys.csv",
-        "fit_cache/93931737a0ce5b8604d3ed472d33520c11e71779ce1c11d51715234723a2a484/fit_manifest.json",
-        "fit_cache/93931737a0ce5b8604d3ed472d33520c11e71779ce1c11d51715234723a2a484/model.joblib",
-        "fit_cache/93931737a0ce5b8604d3ed472d33520c11e71779ce1c11d51715234723a2a484/training_keys.csv",
-        "fit_cache/98dcf1dcdd03f4b836a3c1e1f984f6b87bae98ca889a94ab68a9f709f4536ff9/fit_manifest.json",
-        "fit_cache/98dcf1dcdd03f4b836a3c1e1f984f6b87bae98ca889a94ab68a9f709f4536ff9/model.joblib",
-        "fit_cache/98dcf1dcdd03f4b836a3c1e1f984f6b87bae98ca889a94ab68a9f709f4536ff9/training_keys.csv",
-        "fit_cache/9a1521eb23874c62a03c51bc2e082d8a4d13146d22d471f2083bc82b30d2dc31/fit_manifest.json",
-        "fit_cache/9a1521eb23874c62a03c51bc2e082d8a4d13146d22d471f2083bc82b30d2dc31/model.joblib",
-        "fit_cache/9a1521eb23874c62a03c51bc2e082d8a4d13146d22d471f2083bc82b30d2dc31/training_keys.csv",
-        "fit_cache/9b4a00c18cbd5bdcddf8e64d9760f6e45008f4b4210f671c966e343c3c283eb5/fit_manifest.json",
-        "fit_cache/9b4a00c18cbd5bdcddf8e64d9760f6e45008f4b4210f671c966e343c3c283eb5/model.joblib",
-        "fit_cache/9b4a00c18cbd5bdcddf8e64d9760f6e45008f4b4210f671c966e343c3c283eb5/training_keys.csv",
-        "fit_cache/9e8413c846bbad7735f5f0cd04b72cc77a9e47bd5d472fc2dbc729cf9985042e/fit_manifest.json",
-        "fit_cache/9e8413c846bbad7735f5f0cd04b72cc77a9e47bd5d472fc2dbc729cf9985042e/model.joblib",
-        "fit_cache/9e8413c846bbad7735f5f0cd04b72cc77a9e47bd5d472fc2dbc729cf9985042e/training_keys.csv",
-        "fit_cache/9eb8b16265a42e884480f44d6870da3d18993af4fa7217035c5cfe2b3575552a/fit_manifest.json",
-        "fit_cache/9eb8b16265a42e884480f44d6870da3d18993af4fa7217035c5cfe2b3575552a/model.joblib",
-        "fit_cache/9eb8b16265a42e884480f44d6870da3d18993af4fa7217035c5cfe2b3575552a/training_keys.csv",
-        "fit_cache/9eed21b2e12eb205e124b4fef90002829e439c64dff544002f5f04f5df245e55/fit_manifest.json",
-        "fit_cache/9eed21b2e12eb205e124b4fef90002829e439c64dff544002f5f04f5df245e55/model.joblib",
-        "fit_cache/9eed21b2e12eb205e124b4fef90002829e439c64dff544002f5f04f5df245e55/training_keys.csv",
-        "fit_cache/9eff3aa352d0e6d20ef74d029fda26021b4580c47e3f124903f5c02edfa9cc0b/fit_manifest.json",
-        "fit_cache/9eff3aa352d0e6d20ef74d029fda26021b4580c47e3f124903f5c02edfa9cc0b/model.joblib",
-        "fit_cache/9eff3aa352d0e6d20ef74d029fda26021b4580c47e3f124903f5c02edfa9cc0b/training_keys.csv",
-        "fit_cache/a137775eac6dff792c108a6b0646183dc13b26e9a9d657310ce1d763a48b4a3d/fit_manifest.json",
-        "fit_cache/a137775eac6dff792c108a6b0646183dc13b26e9a9d657310ce1d763a48b4a3d/model.joblib",
-        "fit_cache/a137775eac6dff792c108a6b0646183dc13b26e9a9d657310ce1d763a48b4a3d/training_keys.csv",
-        "fit_cache/a1df61853c941a3045a5d878c4313982d2570f68d3969d8098e502233b2151e5/fit_manifest.json",
-        "fit_cache/a1df61853c941a3045a5d878c4313982d2570f68d3969d8098e502233b2151e5/model.joblib",
-        "fit_cache/a1df61853c941a3045a5d878c4313982d2570f68d3969d8098e502233b2151e5/training_keys.csv",
-        "fit_cache/a2e7f81f6d615e01752f12930272e4489330b7f2ea2010b841fb1332e4777ad5/fit_manifest.json",
-        "fit_cache/a2e7f81f6d615e01752f12930272e4489330b7f2ea2010b841fb1332e4777ad5/model.joblib",
-        "fit_cache/a2e7f81f6d615e01752f12930272e4489330b7f2ea2010b841fb1332e4777ad5/training_keys.csv",
-        "fit_cache/a458a8bd289be753595432c5093884702c936fcc98ff7b776509b8cbd3d4de45/fit_manifest.json",
-        "fit_cache/a458a8bd289be753595432c5093884702c936fcc98ff7b776509b8cbd3d4de45/model.joblib",
-        "fit_cache/a458a8bd289be753595432c5093884702c936fcc98ff7b776509b8cbd3d4de45/training_keys.csv",
-        "fit_cache/a6996a0c18d5d7c2595f53f29ccc651bec8d4994eddb413c3ca190324e290796/fit_manifest.json",
-        "fit_cache/a6996a0c18d5d7c2595f53f29ccc651bec8d4994eddb413c3ca190324e290796/model.joblib",
-        "fit_cache/a6996a0c18d5d7c2595f53f29ccc651bec8d4994eddb413c3ca190324e290796/training_keys.csv",
-        "fit_cache/aaef66688a23f7df12c6fb44c3770fde505495eefd1d29fe5d61104bbd88a948/fit_manifest.json",
-        "fit_cache/aaef66688a23f7df12c6fb44c3770fde505495eefd1d29fe5d61104bbd88a948/model.joblib",
-        "fit_cache/aaef66688a23f7df12c6fb44c3770fde505495eefd1d29fe5d61104bbd88a948/training_keys.csv",
-        "fit_cache/b1e282985ccac11883a61d5963520b6bd1d2e470a6d24c861191764cc77e7533/fit_manifest.json",
-        "fit_cache/b1e282985ccac11883a61d5963520b6bd1d2e470a6d24c861191764cc77e7533/model.joblib",
-        "fit_cache/b1e282985ccac11883a61d5963520b6bd1d2e470a6d24c861191764cc77e7533/training_keys.csv",
-        "fit_cache/b74db03c8519bcb3b3752331f879638d5d8023c75b4321ee2796e65f5ff6bb4b/fit_manifest.json",
-        "fit_cache/b74db03c8519bcb3b3752331f879638d5d8023c75b4321ee2796e65f5ff6bb4b/model.joblib",
-        "fit_cache/b74db03c8519bcb3b3752331f879638d5d8023c75b4321ee2796e65f5ff6bb4b/training_keys.csv",
-        "fit_cache/bf55be0a21f46523432f1812489a7231654bf22e808c5b72f807386083d4a4c9/fit_manifest.json",
-        "fit_cache/bf55be0a21f46523432f1812489a7231654bf22e808c5b72f807386083d4a4c9/model.joblib",
-        "fit_cache/bf55be0a21f46523432f1812489a7231654bf22e808c5b72f807386083d4a4c9/training_keys.csv",
-        "fit_cache/c1998ba3dca6fd10706dfac74052b5093b59e41f591fa4f028df23c8aa1c852d/fit_manifest.json",
-        "fit_cache/c1998ba3dca6fd10706dfac74052b5093b59e41f591fa4f028df23c8aa1c852d/model.joblib",
-        "fit_cache/c1998ba3dca6fd10706dfac74052b5093b59e41f591fa4f028df23c8aa1c852d/training_keys.csv",
-        "fit_cache/c261843b1d96bcf64fc4471b7c651a9181000b6cc7e0993e390eec5779e0d143/fit_manifest.json",
-        "fit_cache/c261843b1d96bcf64fc4471b7c651a9181000b6cc7e0993e390eec5779e0d143/model.joblib",
-        "fit_cache/c261843b1d96bcf64fc4471b7c651a9181000b6cc7e0993e390eec5779e0d143/training_keys.csv",
-        "fit_cache/c301519314d75cdab471c184bec73e55d44510b09e473efa5dc706dd7ef949f4/fit_manifest.json",
-        "fit_cache/c301519314d75cdab471c184bec73e55d44510b09e473efa5dc706dd7ef949f4/model.joblib",
-        "fit_cache/c301519314d75cdab471c184bec73e55d44510b09e473efa5dc706dd7ef949f4/training_keys.csv",
-        "fit_cache/c464b585062069ff717c98ff08db2b4c28f15684df056e838394b007a008eaf4/fit_manifest.json",
-        "fit_cache/c464b585062069ff717c98ff08db2b4c28f15684df056e838394b007a008eaf4/model.joblib",
-        "fit_cache/c464b585062069ff717c98ff08db2b4c28f15684df056e838394b007a008eaf4/training_keys.csv",
-        "fit_cache/c523c2cf7522420e22663047be1a5131c4f450e8be98ca782b0b090539b1d80e/fit_manifest.json",
-        "fit_cache/c523c2cf7522420e22663047be1a5131c4f450e8be98ca782b0b090539b1d80e/model.joblib",
-        "fit_cache/c523c2cf7522420e22663047be1a5131c4f450e8be98ca782b0b090539b1d80e/training_keys.csv",
-        "fit_cache/c9269d4b65c8fb4a8cb5d2c49ce5f9430cd5f5a242641e30e581f98486c5de49/fit_manifest.json",
-        "fit_cache/c9269d4b65c8fb4a8cb5d2c49ce5f9430cd5f5a242641e30e581f98486c5de49/model.joblib",
-        "fit_cache/c9269d4b65c8fb4a8cb5d2c49ce5f9430cd5f5a242641e30e581f98486c5de49/training_keys.csv",
-        "fit_cache/cbd60c3ec2afc62f3b98492d2e2a2a7c4e9b240eaaef0ee1c11c3127cfb03ffa/fit_manifest.json",
-        "fit_cache/cbd60c3ec2afc62f3b98492d2e2a2a7c4e9b240eaaef0ee1c11c3127cfb03ffa/model.joblib",
-        "fit_cache/cbd60c3ec2afc62f3b98492d2e2a2a7c4e9b240eaaef0ee1c11c3127cfb03ffa/training_keys.csv",
-        "fit_cache/ccaf811a101deafac74f7465b962b88fd518a9789011a8f3e35daea3e1bf55e7/fit_manifest.json",
-        "fit_cache/ccaf811a101deafac74f7465b962b88fd518a9789011a8f3e35daea3e1bf55e7/model.joblib",
-        "fit_cache/ccaf811a101deafac74f7465b962b88fd518a9789011a8f3e35daea3e1bf55e7/training_keys.csv",
-        "fit_cache/ce26dc27865f8e281fe478944ad27f23db1c25c2b7a254fd7ad6ed6ac413d9ae/fit_manifest.json",
-        "fit_cache/ce26dc27865f8e281fe478944ad27f23db1c25c2b7a254fd7ad6ed6ac413d9ae/model.joblib",
-        "fit_cache/ce26dc27865f8e281fe478944ad27f23db1c25c2b7a254fd7ad6ed6ac413d9ae/training_keys.csv",
-        "fit_cache/cee3153f523582afbfee221c5337b1d2a71d0177f08de6dc2474af91eafc32c9/fit_manifest.json",
-        "fit_cache/cee3153f523582afbfee221c5337b1d2a71d0177f08de6dc2474af91eafc32c9/model.joblib",
-        "fit_cache/cee3153f523582afbfee221c5337b1d2a71d0177f08de6dc2474af91eafc32c9/training_keys.csv",
-        "fit_cache/cf21f930c3c59a0d23426b5f59adc7eefc599455a68edb3dd15b7ae2bf1b9242/fit_manifest.json",
-        "fit_cache/cf21f930c3c59a0d23426b5f59adc7eefc599455a68edb3dd15b7ae2bf1b9242/model.joblib",
-        "fit_cache/cf21f930c3c59a0d23426b5f59adc7eefc599455a68edb3dd15b7ae2bf1b9242/training_keys.csv",
-        "fit_cache/d35f36ea8e3c96db4f592e4ca9ec4c6e22b86d7cbd528fcec3e2e34b8293e079/fit_manifest.json",
-        "fit_cache/d35f36ea8e3c96db4f592e4ca9ec4c6e22b86d7cbd528fcec3e2e34b8293e079/model.joblib",
-        "fit_cache/d35f36ea8e3c96db4f592e4ca9ec4c6e22b86d7cbd528fcec3e2e34b8293e079/training_keys.csv",
-        "fit_cache/d40d2f51659b4e5b3962eec0a8f0a363c3c79d5046ba5d115ffa36dbbe38e487/fit_manifest.json",
-        "fit_cache/d40d2f51659b4e5b3962eec0a8f0a363c3c79d5046ba5d115ffa36dbbe38e487/model.joblib",
-        "fit_cache/d40d2f51659b4e5b3962eec0a8f0a363c3c79d5046ba5d115ffa36dbbe38e487/training_keys.csv",
-        "fit_cache/d445ff18e9a527a33008a079dc29ce95ffd6e1314dca1c8da4da3baf32d47072/fit_manifest.json",
-        "fit_cache/d445ff18e9a527a33008a079dc29ce95ffd6e1314dca1c8da4da3baf32d47072/model.joblib",
-        "fit_cache/d445ff18e9a527a33008a079dc29ce95ffd6e1314dca1c8da4da3baf32d47072/training_keys.csv",
-        "fit_cache/d69eaade11ceb13a70f1e493a3db5f71f84f74c938649b611a048d2cce8e0b3c/fit_manifest.json",
-        "fit_cache/d69eaade11ceb13a70f1e493a3db5f71f84f74c938649b611a048d2cce8e0b3c/model.joblib",
-        "fit_cache/d69eaade11ceb13a70f1e493a3db5f71f84f74c938649b611a048d2cce8e0b3c/training_keys.csv",
-        "fit_cache/ddcdcc6219157196a0a0cb625ccdd2a5757d2ed08829199df47b4e44d5879391/fit_manifest.json",
-        "fit_cache/ddcdcc6219157196a0a0cb625ccdd2a5757d2ed08829199df47b4e44d5879391/model.joblib",
-        "fit_cache/ddcdcc6219157196a0a0cb625ccdd2a5757d2ed08829199df47b4e44d5879391/training_keys.csv",
-        "fit_cache/de2693f13bc9e758806a0c6ec5da281a699d79317f49aff0e876df8c0ad59897/fit_manifest.json",
-        "fit_cache/de2693f13bc9e758806a0c6ec5da281a699d79317f49aff0e876df8c0ad59897/model.joblib",
-        "fit_cache/de2693f13bc9e758806a0c6ec5da281a699d79317f49aff0e876df8c0ad59897/training_keys.csv",
-        "fit_cache/e30a1bd7a36fc944475b69f0c83b2ef4e5fff1d25c465cddfdaa9c4fac7b66ed/fit_manifest.json",
-        "fit_cache/e30a1bd7a36fc944475b69f0c83b2ef4e5fff1d25c465cddfdaa9c4fac7b66ed/model.joblib",
-        "fit_cache/e30a1bd7a36fc944475b69f0c83b2ef4e5fff1d25c465cddfdaa9c4fac7b66ed/training_keys.csv",
-        "fit_cache/e38d19b158661440e5fc2c94190b793ea9439ac35b497ee0f673407adc943770/fit_manifest.json",
-        "fit_cache/e38d19b158661440e5fc2c94190b793ea9439ac35b497ee0f673407adc943770/model.joblib",
-        "fit_cache/e38d19b158661440e5fc2c94190b793ea9439ac35b497ee0f673407adc943770/training_keys.csv",
-        "fit_cache/e479354c631e93c8965fc095d2268af5073ca1b8c4f4d992002b0914643aa5f8/fit_manifest.json",
-        "fit_cache/e479354c631e93c8965fc095d2268af5073ca1b8c4f4d992002b0914643aa5f8/model.joblib",
-        "fit_cache/e479354c631e93c8965fc095d2268af5073ca1b8c4f4d992002b0914643aa5f8/training_keys.csv",
-        "fit_cache/e69a208bdb337152fde535c3d5b44b9e072f696bbd231dcb004c4f0cebee9c21/fit_manifest.json",
-        "fit_cache/e69a208bdb337152fde535c3d5b44b9e072f696bbd231dcb004c4f0cebee9c21/model.joblib",
-        "fit_cache/e69a208bdb337152fde535c3d5b44b9e072f696bbd231dcb004c4f0cebee9c21/training_keys.csv",
-        "fit_cache/ea3c7754d6ba34865d0ee09bd57dc11dc3823b5de5978b13f541b732faad37b3/fit_manifest.json",
-        "fit_cache/ea3c7754d6ba34865d0ee09bd57dc11dc3823b5de5978b13f541b732faad37b3/model.joblib",
-        "fit_cache/ea3c7754d6ba34865d0ee09bd57dc11dc3823b5de5978b13f541b732faad37b3/training_keys.csv",
-        "fit_cache/ea8983675528568936375d599a37f6b4c98f55a62c999f4dc209cf7036dc55e1/fit_manifest.json",
-        "fit_cache/ea8983675528568936375d599a37f6b4c98f55a62c999f4dc209cf7036dc55e1/model.joblib",
-        "fit_cache/ea8983675528568936375d599a37f6b4c98f55a62c999f4dc209cf7036dc55e1/training_keys.csv",
-        "fit_cache/eaac9e6c64f9004fab9639ed5f53c612d875da9d35715ae74ad02fc5a0b22bb4/fit_manifest.json",
-        "fit_cache/eaac9e6c64f9004fab9639ed5f53c612d875da9d35715ae74ad02fc5a0b22bb4/model.joblib",
-        "fit_cache/eaac9e6c64f9004fab9639ed5f53c612d875da9d35715ae74ad02fc5a0b22bb4/training_keys.csv",
-        "fit_cache/ecfd0e398fa1eaea9fd6427ade3347e18d53578601ff9b68c70e6a5cbac6db8f/fit_manifest.json",
-        "fit_cache/ecfd0e398fa1eaea9fd6427ade3347e18d53578601ff9b68c70e6a5cbac6db8f/model.joblib",
-        "fit_cache/ecfd0e398fa1eaea9fd6427ade3347e18d53578601ff9b68c70e6a5cbac6db8f/training_keys.csv",
-        "fit_cache/f05420a59cc93b99a09720000b356687fcd953e4786767cafa717d12f8653e01/fit_manifest.json",
-        "fit_cache/f05420a59cc93b99a09720000b356687fcd953e4786767cafa717d12f8653e01/model.joblib",
-        "fit_cache/f05420a59cc93b99a09720000b356687fcd953e4786767cafa717d12f8653e01/training_keys.csv",
-        "fit_cache/f18c19f54cc64530ad97f975cdbc690d243c0e6553e42af0219b0099c9a72943/fit_manifest.json",
-        "fit_cache/f18c19f54cc64530ad97f975cdbc690d243c0e6553e42af0219b0099c9a72943/model.joblib",
-        "fit_cache/f18c19f54cc64530ad97f975cdbc690d243c0e6553e42af0219b0099c9a72943/training_keys.csv",
-        "fit_cache/f31673888a43673def8005002e9ebc6357ba8e86956136097d09be33be5559d5/fit_manifest.json",
-        "fit_cache/f31673888a43673def8005002e9ebc6357ba8e86956136097d09be33be5559d5/model.joblib",
-        "fit_cache/f31673888a43673def8005002e9ebc6357ba8e86956136097d09be33be5559d5/training_keys.csv",
-        "fit_cache/f3397f666a8b78449cd361b26b6b14a221eaed4e78a6a7c8ac6c12f6e464fd6f/fit_manifest.json",
-        "fit_cache/f3397f666a8b78449cd361b26b6b14a221eaed4e78a6a7c8ac6c12f6e464fd6f/model.joblib",
-        "fit_cache/f3397f666a8b78449cd361b26b6b14a221eaed4e78a6a7c8ac6c12f6e464fd6f/training_keys.csv",
-        "fit_cache/f524e6b98fdd06af7df3c8642c841efeabb0d4f522f15dfdaaef2d891c6310c2/fit_manifest.json",
-        "fit_cache/f524e6b98fdd06af7df3c8642c841efeabb0d4f522f15dfdaaef2d891c6310c2/model.joblib",
-        "fit_cache/f524e6b98fdd06af7df3c8642c841efeabb0d4f522f15dfdaaef2d891c6310c2/training_keys.csv"
-      ],
-      "identical": [
-        "market/2017/calibrated_ps.csv",
-        "market/2017/calibration.json",
-        "market/2017/raw_ps.csv",
-        "market/2018/calibrated_ps.csv",
-        "market/2018/calibration.json",
-        "market/2018/raw_ps.csv",
-        "market/2019/calibrated_ps.csv",
-        "market/2019/calibration.json",
-        "market/2019/raw_ps.csv",
-        "market/2020/calibrated_ps.csv",
-        "market/2020/calibration.json",
-        "market/2020/raw_ps.csv",
-        "market/2021/calibrated_ps.csv",
-        "market/2021/calibration.json",
-        "market/2021/raw_ps.csv",
-        "market/2022/calibrated_ps.csv",
-        "market/2022/calibration.json",
-        "market/2022/raw_ps.csv",
-        "market/2023/calibrated_ps.csv",
-        "market/2023/calibration.json",
-        "market/2023/raw_ps.csv",
-        "market/2024/calibrated_ps.csv",
-        "market/2024/calibration.json",
-        "market/2024/raw_ps.csv",
-        "raw/2014/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2014/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2014/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2014/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2014/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2014/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2014/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2014/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2014/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2014/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2015/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2015/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2015/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2015/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2015/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2015/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2015/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2015/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2015/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2015/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2016/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2016/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2016/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2016/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2016/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2016/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2016/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2016/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2016/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2016/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2017/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2017/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2017/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2017/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2017/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2017/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2017/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2017/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2017/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2017/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2018/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2018/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2018/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2018/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2018/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2018/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2018/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2018/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2018/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2018/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2019/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2019/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2019/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2019/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2019/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2019/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2019/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2019/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2019/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2019/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2020/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2020/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2020/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2020/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2020/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2020/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2020/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2020/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2020/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2020/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2021/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2021/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2021/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2021/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2021/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2021/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2021/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2021/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2021/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2021/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2022/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2022/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2022/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2022/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2022/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2022/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2022/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2022/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2022/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2022/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2023/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2023/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2023/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2023/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2023/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2023/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2023/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2023/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2023/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2023/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "raw/2024/hgb/base/hgb_leaf07_depth3.csv",
-        "raw/2024/hgb/base/hgb_leaf15_depth4.csv",
-        "raw/2024/hgb/base_tier/hgb_leaf07_depth3.csv",
-        "raw/2024/hgb/base_tier/hgb_leaf15_depth4.csv",
-        "raw/2024/hgb/full/hgb_leaf07_depth3.csv",
-        "raw/2024/hgb/full/hgb_leaf15_depth4.csv",
-        "raw/2024/hgb/full_tier/hgb_leaf07_depth3.csv",
-        "raw/2024/hgb/full_tier/hgb_leaf15_depth4.csv",
-        "raw/2024/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
-        "raw/2024/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
-        "selected/2017/hgb/base.csv",
-        "selected/2017/hgb/base_tier.csv",
-        "selected/2017/hgb/full.csv",
-        "selected/2017/hgb/full_tier.csv",
-        "selected/2017/hgb/full_tier_noqual.csv",
-        "selected/2018/hgb/base.csv",
-        "selected/2018/hgb/base_tier.csv",
-        "selected/2018/hgb/full.csv",
-        "selected/2018/hgb/full_tier.csv",
-        "selected/2018/hgb/full_tier_noqual.csv",
-        "selected/2019/hgb/base.csv",
-        "selected/2019/hgb/base_tier.csv",
-        "selected/2019/hgb/full.csv",
-        "selected/2019/hgb/full_tier.csv",
-        "selected/2019/hgb/full_tier_noqual.csv",
-        "selected/2020/hgb/base.csv",
-        "selected/2020/hgb/base_tier.csv",
-        "selected/2020/hgb/full.csv",
-        "selected/2020/hgb/full_tier.csv",
-        "selected/2020/hgb/full_tier_noqual.csv",
-        "selected/2021/hgb/base.csv",
-        "selected/2021/hgb/base_tier.csv",
-        "selected/2021/hgb/full.csv",
-        "selected/2021/hgb/full_tier.csv",
-        "selected/2021/hgb/full_tier_noqual.csv",
-        "selected/2022/hgb/base.csv",
-        "selected/2022/hgb/base_tier.csv",
-        "selected/2022/hgb/full.csv",
-        "selected/2022/hgb/full_tier.csv",
-        "selected/2022/hgb/full_tier_noqual.csv",
-        "selected/2023/hgb/base.csv",
-        "selected/2023/hgb/base_tier.csv",
-        "selected/2023/hgb/full.csv",
-        "selected/2023/hgb/full_tier.csv",
-        "selected/2023/hgb/full_tier_noqual.csv",
-        "selected/2024/hgb/base.csv",
-        "selected/2024/hgb/base_tier.csv",
-        "selected/2024/hgb/full.csv",
-        "selected/2024/hgb/full_tier.csv",
-        "selected/2024/hgb/full_tier_noqual.csv",
-        "selection/2017/hgb/base.json",
-        "selection/2017/hgb/base_tier.json",
-        "selection/2017/hgb/full.json",
-        "selection/2017/hgb/full_tier.json",
-        "selection/2017/hgb/full_tier_noqual.json",
-        "selection/2018/hgb/base.json",
-        "selection/2018/hgb/base_tier.json",
-        "selection/2018/hgb/full.json",
-        "selection/2018/hgb/full_tier.json",
-        "selection/2018/hgb/full_tier_noqual.json",
-        "selection/2019/hgb/base.json",
-        "selection/2019/hgb/base_tier.json",
-        "selection/2019/hgb/full.json",
-        "selection/2019/hgb/full_tier.json",
-        "selection/2019/hgb/full_tier_noqual.json",
-        "selection/2020/hgb/base.json",
-        "selection/2020/hgb/base_tier.json",
-        "selection/2020/hgb/full.json",
-        "selection/2020/hgb/full_tier.json",
-        "selection/2020/hgb/full_tier_noqual.json",
-        "selection/2021/hgb/base.json",
-        "selection/2021/hgb/base_tier.json",
-        "selection/2021/hgb/full.json",
-        "selection/2021/hgb/full_tier.json",
-        "selection/2021/hgb/full_tier_noqual.json",
-        "selection/2022/hgb/base.json",
-        "selection/2022/hgb/base_tier.json",
-        "selection/2022/hgb/full.json",
-        "selection/2022/hgb/full_tier.json",
-        "selection/2022/hgb/full_tier_noqual.json",
-        "selection/2023/hgb/base.json",
-        "selection/2023/hgb/base_tier.json",
-        "selection/2023/hgb/full.json",
-        "selection/2023/hgb/full_tier.json",
-        "selection/2023/hgb/full_tier_noqual.json",
-        "selection/2024/hgb/base.json",
-        "selection/2024/hgb/base_tier.json",
-        "selection/2024/hgb/full.json",
-        "selection/2024/hgb/full_tier.json",
-        "selection/2024/hgb/full_tier_noqual.json",
-        "shared_base/2017/hgb/base.csv",
-        "shared_base/2017/hgb/base.json",
-        "shared_base/2017/hgb/base_tier.csv",
-        "shared_base/2017/hgb/base_tier.json",
-        "shared_base/2017/hgb/full.csv",
-        "shared_base/2017/hgb/full.json",
-        "shared_base/2017/hgb/full_tier.csv",
-        "shared_base/2017/hgb/full_tier.json",
-        "shared_base/2017/hgb/full_tier_noqual.csv",
-        "shared_base/2017/hgb/full_tier_noqual.json",
-        "shared_base/2018/hgb/base.csv",
-        "shared_base/2018/hgb/base.json",
-        "shared_base/2018/hgb/base_tier.csv",
-        "shared_base/2018/hgb/base_tier.json",
-        "shared_base/2018/hgb/full.csv",
-        "shared_base/2018/hgb/full.json",
-        "shared_base/2018/hgb/full_tier.csv",
-        "shared_base/2018/hgb/full_tier.json",
-        "shared_base/2018/hgb/full_tier_noqual.csv",
-        "shared_base/2018/hgb/full_tier_noqual.json",
-        "shared_base/2019/hgb/base.csv",
-        "shared_base/2019/hgb/base.json",
-        "shared_base/2019/hgb/base_tier.csv",
-        "shared_base/2019/hgb/base_tier.json",
-        "shared_base/2019/hgb/full.csv",
-        "shared_base/2019/hgb/full.json",
-        "shared_base/2019/hgb/full_tier.csv",
-        "shared_base/2019/hgb/full_tier.json",
-        "shared_base/2019/hgb/full_tier_noqual.csv",
-        "shared_base/2019/hgb/full_tier_noqual.json",
-        "shared_base/2020/hgb/base.csv",
-        "shared_base/2020/hgb/base.json",
-        "shared_base/2020/hgb/base_tier.csv",
-        "shared_base/2020/hgb/base_tier.json",
-        "shared_base/2020/hgb/full.csv",
-        "shared_base/2020/hgb/full.json",
-        "shared_base/2020/hgb/full_tier.csv",
-        "shared_base/2020/hgb/full_tier.json",
-        "shared_base/2020/hgb/full_tier_noqual.csv",
-        "shared_base/2020/hgb/full_tier_noqual.json",
-        "shared_base/2021/hgb/base.csv",
-        "shared_base/2021/hgb/base.json",
-        "shared_base/2021/hgb/base_tier.csv",
-        "shared_base/2021/hgb/base_tier.json",
-        "shared_base/2021/hgb/full.csv",
-        "shared_base/2021/hgb/full.json",
-        "shared_base/2021/hgb/full_tier.csv",
-        "shared_base/2021/hgb/full_tier.json",
-        "shared_base/2021/hgb/full_tier_noqual.csv",
-        "shared_base/2021/hgb/full_tier_noqual.json",
-        "shared_base/2022/hgb/base.csv",
-        "shared_base/2022/hgb/base.json",
-        "shared_base/2022/hgb/base_tier.csv",
-        "shared_base/2022/hgb/base_tier.json",
-        "shared_base/2022/hgb/full.csv",
-        "shared_base/2022/hgb/full.json",
-        "shared_base/2022/hgb/full_tier.csv",
-        "shared_base/2022/hgb/full_tier.json",
-        "shared_base/2022/hgb/full_tier_noqual.csv",
-        "shared_base/2022/hgb/full_tier_noqual.json",
-        "shared_base/2023/hgb/base.csv",
-        "shared_base/2023/hgb/base.json",
-        "shared_base/2023/hgb/base_tier.csv",
-        "shared_base/2023/hgb/base_tier.json",
-        "shared_base/2023/hgb/full.csv",
-        "shared_base/2023/hgb/full.json",
-        "shared_base/2023/hgb/full_tier.csv",
-        "shared_base/2023/hgb/full_tier.json",
-        "shared_base/2023/hgb/full_tier_noqual.csv",
-        "shared_base/2023/hgb/full_tier_noqual.json",
-        "shared_base/2024/hgb/base.csv",
-        "shared_base/2024/hgb/base.json",
-        "shared_base/2024/hgb/base_tier.csv",
-        "shared_base/2024/hgb/base_tier.json",
-        "shared_base/2024/hgb/full.csv",
-        "shared_base/2024/hgb/full.json",
-        "shared_base/2024/hgb/full_tier.csv",
-        "shared_base/2024/hgb/full_tier.json",
-        "shared_base/2024/hgb/full_tier_noqual.csv",
-        "shared_base/2024/hgb/full_tier_noqual.json",
-        "stderr.txt"
-      ],
+      "different": {},
+      "extra": [],
+      "identical": [],
       "missing": [
+        "attempts/2014/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2014/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2014/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2014/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2014/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2014/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2014/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2014/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2014/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2014/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2015/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2015/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2015/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2015/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2015/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2015/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2015/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2015/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2015/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2015/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2016/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2016/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2016/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2016/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2016/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2016/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2016/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2016/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2016/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2016/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2017/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2017/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2017/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2017/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2017/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2017/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2017/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2017/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2017/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2017/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2018/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2018/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2018/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2018/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2018/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2018/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2018/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2018/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2018/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2018/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2019/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2019/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2019/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2019/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2019/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2019/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2019/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2019/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2019/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2019/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2020/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2020/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2020/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2020/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2020/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2020/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2020/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2020/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2020/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2020/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2021/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2021/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2021/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2021/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2021/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2021/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2021/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2021/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2021/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2021/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2022/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2022/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2022/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2022/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2022/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2022/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2022/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2022/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2022/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2022/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2023/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2023/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2023/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2023/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2023/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2023/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2023/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2023/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2023/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2023/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
+        "attempts/2024/hgb/base/hgb_leaf07_depth3.json",
+        "attempts/2024/hgb/base/hgb_leaf15_depth4.json",
+        "attempts/2024/hgb/base_tier/hgb_leaf07_depth3.json",
+        "attempts/2024/hgb/base_tier/hgb_leaf15_depth4.json",
+        "attempts/2024/hgb/full/hgb_leaf07_depth3.json",
+        "attempts/2024/hgb/full/hgb_leaf15_depth4.json",
+        "attempts/2024/hgb/full_tier/hgb_leaf07_depth3.json",
+        "attempts/2024/hgb/full_tier/hgb_leaf15_depth4.json",
+        "attempts/2024/hgb/full_tier_noqual/hgb_leaf07_depth3.json",
+        "attempts/2024/hgb/full_tier_noqual/hgb_leaf15_depth4.json",
         "fit_cache/03496e16c706c5b8ed3d446f2b8c9e96e683e4778659c8105b108eb9635f419b/fit_manifest.json",
         "fit_cache/03496e16c706c5b8ed3d446f2b8c9e96e683e4778659c8105b108eb9635f419b/model.joblib",
         "fit_cache/03496e16c706c5b8ed3d446f2b8c9e96e683e4778659c8105b108eb9635f419b/training_keys.csv",
@@ -2347,80 +747,333 @@
         "fit_cache/fb882b17a2d74fd04f9ce3a160353904bc42615d8e6396bd70b4514929bc325a/training_keys.csv",
         "fit_cache/ff96351d74dfd5c2474eafaf29afb2697ffe0afb5e997bcfed2f3b1c627d917b/fit_manifest.json",
         "fit_cache/ff96351d74dfd5c2474eafaf29afb2697ffe0afb5e997bcfed2f3b1c627d917b/model.joblib",
-        "fit_cache/ff96351d74dfd5c2474eafaf29afb2697ffe0afb5e997bcfed2f3b1c627d917b/training_keys.csv"
+        "fit_cache/ff96351d74dfd5c2474eafaf29afb2697ffe0afb5e997bcfed2f3b1c627d917b/training_keys.csv",
+        "market/2017/calibrated_ps.csv",
+        "market/2017/calibration.json",
+        "market/2017/raw_ps.csv",
+        "market/2018/calibrated_ps.csv",
+        "market/2018/calibration.json",
+        "market/2018/raw_ps.csv",
+        "market/2019/calibrated_ps.csv",
+        "market/2019/calibration.json",
+        "market/2019/raw_ps.csv",
+        "market/2020/calibrated_ps.csv",
+        "market/2020/calibration.json",
+        "market/2020/raw_ps.csv",
+        "market/2021/calibrated_ps.csv",
+        "market/2021/calibration.json",
+        "market/2021/raw_ps.csv",
+        "market/2022/calibrated_ps.csv",
+        "market/2022/calibration.json",
+        "market/2022/raw_ps.csv",
+        "market/2023/calibrated_ps.csv",
+        "market/2023/calibration.json",
+        "market/2023/raw_ps.csv",
+        "market/2024/calibrated_ps.csv",
+        "market/2024/calibration.json",
+        "market/2024/raw_ps.csv",
+        "raw/2014/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2014/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2014/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2014/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2014/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2014/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2014/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2014/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2014/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2014/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2015/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2015/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2015/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2015/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2015/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2015/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2015/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2015/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2015/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2015/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2016/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2016/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2016/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2016/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2016/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2016/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2016/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2016/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2016/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2016/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2017/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2017/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2017/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2017/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2017/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2017/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2017/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2017/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2017/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2017/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2018/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2018/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2018/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2018/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2018/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2018/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2018/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2018/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2018/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2018/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2019/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2019/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2019/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2019/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2019/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2019/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2019/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2019/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2019/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2019/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2020/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2020/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2020/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2020/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2020/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2020/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2020/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2020/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2020/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2020/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2021/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2021/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2021/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2021/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2021/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2021/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2021/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2021/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2021/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2021/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2022/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2022/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2022/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2022/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2022/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2022/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2022/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2022/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2022/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2022/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2023/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2023/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2023/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2023/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2023/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2023/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2023/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2023/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2023/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2023/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw/2024/hgb/base/hgb_leaf07_depth3.csv",
+        "raw/2024/hgb/base/hgb_leaf15_depth4.csv",
+        "raw/2024/hgb/base_tier/hgb_leaf07_depth3.csv",
+        "raw/2024/hgb/base_tier/hgb_leaf15_depth4.csv",
+        "raw/2024/hgb/full/hgb_leaf07_depth3.csv",
+        "raw/2024/hgb/full/hgb_leaf15_depth4.csv",
+        "raw/2024/hgb/full_tier/hgb_leaf07_depth3.csv",
+        "raw/2024/hgb/full_tier/hgb_leaf15_depth4.csv",
+        "raw/2024/hgb/full_tier_noqual/hgb_leaf07_depth3.csv",
+        "raw/2024/hgb/full_tier_noqual/hgb_leaf15_depth4.csv",
+        "raw_complete.json",
+        "raw_progress.json",
+        "selected/2017/hgb/base.csv",
+        "selected/2017/hgb/base_tier.csv",
+        "selected/2017/hgb/full.csv",
+        "selected/2017/hgb/full_tier.csv",
+        "selected/2017/hgb/full_tier_noqual.csv",
+        "selected/2018/hgb/base.csv",
+        "selected/2018/hgb/base_tier.csv",
+        "selected/2018/hgb/full.csv",
+        "selected/2018/hgb/full_tier.csv",
+        "selected/2018/hgb/full_tier_noqual.csv",
+        "selected/2019/hgb/base.csv",
+        "selected/2019/hgb/base_tier.csv",
+        "selected/2019/hgb/full.csv",
+        "selected/2019/hgb/full_tier.csv",
+        "selected/2019/hgb/full_tier_noqual.csv",
+        "selected/2020/hgb/base.csv",
+        "selected/2020/hgb/base_tier.csv",
+        "selected/2020/hgb/full.csv",
+        "selected/2020/hgb/full_tier.csv",
+        "selected/2020/hgb/full_tier_noqual.csv",
+        "selected/2021/hgb/base.csv",
+        "selected/2021/hgb/base_tier.csv",
+        "selected/2021/hgb/full.csv",
+        "selected/2021/hgb/full_tier.csv",
+        "selected/2021/hgb/full_tier_noqual.csv",
+        "selected/2022/hgb/base.csv",
+        "selected/2022/hgb/base_tier.csv",
+        "selected/2022/hgb/full.csv",
+        "selected/2022/hgb/full_tier.csv",
+        "selected/2022/hgb/full_tier_noqual.csv",
+        "selected/2023/hgb/base.csv",
+        "selected/2023/hgb/base_tier.csv",
+        "selected/2023/hgb/full.csv",
+        "selected/2023/hgb/full_tier.csv",
+        "selected/2023/hgb/full_tier_noqual.csv",
+        "selected/2024/hgb/base.csv",
+        "selected/2024/hgb/base_tier.csv",
+        "selected/2024/hgb/full.csv",
+        "selected/2024/hgb/full_tier.csv",
+        "selected/2024/hgb/full_tier_noqual.csv",
+        "selection/2017/hgb/base.json",
+        "selection/2017/hgb/base_tier.json",
+        "selection/2017/hgb/full.json",
+        "selection/2017/hgb/full_tier.json",
+        "selection/2017/hgb/full_tier_noqual.json",
+        "selection/2018/hgb/base.json",
+        "selection/2018/hgb/base_tier.json",
+        "selection/2018/hgb/full.json",
+        "selection/2018/hgb/full_tier.json",
+        "selection/2018/hgb/full_tier_noqual.json",
+        "selection/2019/hgb/base.json",
+        "selection/2019/hgb/base_tier.json",
+        "selection/2019/hgb/full.json",
+        "selection/2019/hgb/full_tier.json",
+        "selection/2019/hgb/full_tier_noqual.json",
+        "selection/2020/hgb/base.json",
+        "selection/2020/hgb/base_tier.json",
+        "selection/2020/hgb/full.json",
+        "selection/2020/hgb/full_tier.json",
+        "selection/2020/hgb/full_tier_noqual.json",
+        "selection/2021/hgb/base.json",
+        "selection/2021/hgb/base_tier.json",
+        "selection/2021/hgb/full.json",
+        "selection/2021/hgb/full_tier.json",
+        "selection/2021/hgb/full_tier_noqual.json",
+        "selection/2022/hgb/base.json",
+        "selection/2022/hgb/base_tier.json",
+        "selection/2022/hgb/full.json",
+        "selection/2022/hgb/full_tier.json",
+        "selection/2022/hgb/full_tier_noqual.json",
+        "selection/2023/hgb/base.json",
+        "selection/2023/hgb/base_tier.json",
+        "selection/2023/hgb/full.json",
+        "selection/2023/hgb/full_tier.json",
+        "selection/2023/hgb/full_tier_noqual.json",
+        "selection/2024/hgb/base.json",
+        "selection/2024/hgb/base_tier.json",
+        "selection/2024/hgb/full.json",
+        "selection/2024/hgb/full_tier.json",
+        "selection/2024/hgb/full_tier_noqual.json",
+        "selection_complete.json",
+        "selection_progress.json",
+        "shared_base/2017/hgb/base.csv",
+        "shared_base/2017/hgb/base.json",
+        "shared_base/2017/hgb/base_tier.csv",
+        "shared_base/2017/hgb/base_tier.json",
+        "shared_base/2017/hgb/full.csv",
+        "shared_base/2017/hgb/full.json",
+        "shared_base/2017/hgb/full_tier.csv",
+        "shared_base/2017/hgb/full_tier.json",
+        "shared_base/2017/hgb/full_tier_noqual.csv",
+        "shared_base/2017/hgb/full_tier_noqual.json",
+        "shared_base/2018/hgb/base.csv",
+        "shared_base/2018/hgb/base.json",
+        "shared_base/2018/hgb/base_tier.csv",
+        "shared_base/2018/hgb/base_tier.json",
+        "shared_base/2018/hgb/full.csv",
+        "shared_base/2018/hgb/full.json",
+        "shared_base/2018/hgb/full_tier.csv",
+        "shared_base/2018/hgb/full_tier.json",
+        "shared_base/2018/hgb/full_tier_noqual.csv",
+        "shared_base/2018/hgb/full_tier_noqual.json",
+        "shared_base/2019/hgb/base.csv",
+        "shared_base/2019/hgb/base.json",
+        "shared_base/2019/hgb/base_tier.csv",
+        "shared_base/2019/hgb/base_tier.json",
+        "shared_base/2019/hgb/full.csv",
+        "shared_base/2019/hgb/full.json",
+        "shared_base/2019/hgb/full_tier.csv",
+        "shared_base/2019/hgb/full_tier.json",
+        "shared_base/2019/hgb/full_tier_noqual.csv",
+        "shared_base/2019/hgb/full_tier_noqual.json",
+        "shared_base/2020/hgb/base.csv",
+        "shared_base/2020/hgb/base.json",
+        "shared_base/2020/hgb/base_tier.csv",
+        "shared_base/2020/hgb/base_tier.json",
+        "shared_base/2020/hgb/full.csv",
+        "shared_base/2020/hgb/full.json",
+        "shared_base/2020/hgb/full_tier.csv",
+        "shared_base/2020/hgb/full_tier.json",
+        "shared_base/2020/hgb/full_tier_noqual.csv",
+        "shared_base/2020/hgb/full_tier_noqual.json",
+        "shared_base/2021/hgb/base.csv",
+        "shared_base/2021/hgb/base.json",
+        "shared_base/2021/hgb/base_tier.csv",
+        "shared_base/2021/hgb/base_tier.json",
+        "shared_base/2021/hgb/full.csv",
+        "shared_base/2021/hgb/full.json",
+        "shared_base/2021/hgb/full_tier.csv",
+        "shared_base/2021/hgb/full_tier.json",
+        "shared_base/2021/hgb/full_tier_noqual.csv",
+        "shared_base/2021/hgb/full_tier_noqual.json",
+        "shared_base/2022/hgb/base.csv",
+        "shared_base/2022/hgb/base.json",
+        "shared_base/2022/hgb/base_tier.csv",
+        "shared_base/2022/hgb/base_tier.json",
+        "shared_base/2022/hgb/full.csv",
+        "shared_base/2022/hgb/full.json",
+        "shared_base/2022/hgb/full_tier.csv",
+        "shared_base/2022/hgb/full_tier.json",
+        "shared_base/2022/hgb/full_tier_noqual.csv",
+        "shared_base/2022/hgb/full_tier_noqual.json",
+        "shared_base/2023/hgb/base.csv",
+        "shared_base/2023/hgb/base.json",
+        "shared_base/2023/hgb/base_tier.csv",
+        "shared_base/2023/hgb/base_tier.json",
+        "shared_base/2023/hgb/full.csv",
+        "shared_base/2023/hgb/full.json",
+        "shared_base/2023/hgb/full_tier.csv",
+        "shared_base/2023/hgb/full_tier.json",
+        "shared_base/2023/hgb/full_tier_noqual.csv",
+        "shared_base/2023/hgb/full_tier_noqual.json",
+        "shared_base/2024/hgb/base.csv",
+        "shared_base/2024/hgb/base.json",
+        "shared_base/2024/hgb/base_tier.csv",
+        "shared_base/2024/hgb/base_tier.json",
+        "shared_base/2024/hgb/full.csv",
+        "shared_base/2024/hgb/full.json",
+        "shared_base/2024/hgb/full_tier.csv",
+        "shared_base/2024/hgb/full_tier.json",
+        "shared_base/2024/hgb/full_tier_noqual.csv",
+        "shared_base/2024/hgb/full_tier_noqual.json",
+        "stderr.txt",
+        "stdout.txt"
       ]
     },
     "predictor_config": {
-      "different": {
-        "stdout.txt": {
-          "changed_lines": 2,
-          "first": [
-            "@@ -6 +6 @@",
-            "-  \"sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\"",
-            "+  \"sha256\": \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\""
-          ],
-          "kind": "text",
-          "lines_archive": 7,
-          "lines_ported": 7
-        }
-      },
+      "different": {},
       "extra": [],
-      "identical": [
-        "stderr.txt"
-      ],
-      "missing": []
+      "identical": [],
+      "missing": [
+        "stderr.txt",
+        "stdout.txt"
+      ]
     },
     "preflight": {
-      "different": {
-        "stdout.txt": {
-          "changed_lines": 25,
-          "first": [
-            "@@ -2,2 +2,21 @@",
-            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
-            "-  \"config_sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\",",
-            "+  \"code\": {",
-            "+    \"numerical\": {",
-            "+      \"module\": \"tennislab.models.numerical\",",
-            "+      \"package_version\": \"0.1.0\",",
-            "+      \"sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\"",
-            "+    },",
-            "+    \"runner\": {",
-            "+      \"module\": \"tennislab.models.pipeline\",",
-            "+      \"package_version\": \"0.1.0\",",
-            "+      \"sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
-            "+    }",
-            "+  },",
-            "+  \"config_path\": \"work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
-            "+  \"config_sha256\": \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\",",
-            "+  \"declared_binding\": {",
-            "+    \"numerical_path\": \"tennislab.models.numerical\",",
-            "+    \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\",",
-            "+    \"package_version\": \"0.1.0\",",
-            "+    \"runner_path\": \"tennislab.models.pipeline\",",
-            "+    \"runner_sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
-            "+  },",
-            "@@ -42 +60,0 @@",
-            "-  \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367\",",
-            "@@ -44 +61,0 @@",
-            "-  \"runner_sha256\": \"2fa405f7c0220655cf74b6826a4d4bbce240717dbafce379939e6d9bfb655260\","
-          ],
-          "kind": "text",
-          "lines_archive": 46,
-          "lines_ported": 63
-        }
-      },
+      "different": {},
       "extra": [],
-      "identical": [
-        "stderr.txt"
-      ],
-      "missing": []
+      "identical": [],
+      "missing": [
+        "stderr.txt",
+        "stdout.txt"
+      ]
     },
     "prepare_panel": {
       "different": {
         "manifest.json": {
           "changed_leaves": 4,
           "first": [
-            "code: \"<absent>\" -> {\"prepare\": {\"module\": \"tennislab.panel.prepare\", \"sha256\": \"312af04cc0cd8c4656fa0bb1db09c1abe20e8f6ec1112cd3770513f5bba",
+            "code: \"<absent>\" -> {\"prepare\": {\"module\": \"tennislab.panel.prepare\", \"sha256\": \"d983b5b2e5949bd0a830a701aac4dd852011c8603c45d464197f965d5d9",
             "inputs.references/TIER01_models/join_candidates.py: \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\" -> \"<absent>\"",
             "inputs.references/TIER01_models/prepare_panel.py: \"342c590ba9cff0942e8a6fa7ba2740ea2dfc92b69cb5b6868db3ffd065821b2e\" -> \"<absent>\"",
             "upstream.archive_quality_report.sha256: \"539e7e4d65c03ea662116be08eb7aafafadc8622c5364e902d70e68a793caa0b\" -> \"f975b1b8f0f6bc4a12815866832fe478381ae36a0f350ad043482f9537569b3b\""
@@ -2439,7 +1092,9 @@
           "lines_ported": 2
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "corrections.csv",
         "coverage.csv",
@@ -2469,7 +1124,9 @@
           "lines_ported": 1156
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "annual_rankings.csv",
         "annual_results_join.csv",
@@ -2511,62 +1168,13 @@
       "missing": []
     },
     "report": {
-      "different": {
-        "artifact_manifest.json": {
-          "changed_leaves": 4,
-          "first": [
-            "files.9.sha256: \"467f13ad3d9b2f1e539a3a9b4b51af7d6f6b9a9f56002eaf4b5a314d93389a41\" -> \"57fd77e81a787abcabd6dd0203ebdde6de7cb963840bae807e7a33f2b23f7d2e\"",
-            "files.11.sha256: \"b44832afb6113c0f736470639b23b530324ea704625828fd101a2a059152be64\" -> \"e08d04f79e8b2a5ef85181e605e15b85db36b739fe56413df3be063fbfca1769\"",
-            "files.12.bytes: 874 -> 1252",
-            "files.12.sha256: \"c0f72045f2688d84edd60ef3f90939e562e87f3dc785681113d00aba766dee6b\" -> \"5355ffa2ca536f515d56e910e4e843d27e6a55763efb9ee3a149944a1a2a508f\""
-          ],
-          "kind": "json"
-        },
-        "result.json": {
-          "changed_leaves": 2,
-          "first": [
-            "completed_utc: \"2026-09-12T20:17:35.921488+00:00\" -> \"2026-09-14T02:33:40.186755+00:00\"",
-            "files.selection_receipts.json: \"b44832afb6113c0f736470639b23b530324ea704625828fd101a2a059152be64\" -> \"e08d04f79e8b2a5ef85181e605e15b85db36b739fe56413df3be063fbfca1769\""
-          ],
-          "kind": "json"
-        },
-        "selection_receipts.json": {
-          "changed_leaves": 1,
-          "first": [
-            "selection_complete_sha256: \"cd47631c958d002ad9a3e683a3f0e2814e1384e02bd01cb6a9105e990d6347f4\" -> \"d276fefa6cd72c277a9fab7c30348462a910905ebaad873b45066c3dfe6c2c2f\""
-          ],
-          "kind": "json"
-        },
-        "start.json": {
-          "changed_leaves": 8,
-          "first": [
-            "binding_hashes.predictor_config: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\"",
-            "binding_hashes.raw_complete: \"f44ceacff5e2e79b13693b9f4b38adb8735d9df5244848d1c6ddd10c1e8c0bf5\" -> \"8fb5162ef0cc497c44d6b415b02934b2d54d1e9d5a2e8362520eb2fa67109ba6\"",
-            "binding_hashes.report_config: \"d5e2912e6649953e8f11029e69c1aadf2e78c37055df3a4e3f5b0d79d549cca3\" -> \"b23e737a5fe52be2a2adac96aec768474972d00689c3987e8170dcf161e2073e\"",
-            "binding_hashes.reporter: \"b576711b0e1545e147f3e54dc620f848cf93b36b108ca32bd234135646826d58\" -> \"77df693d35e4a45c763a0f7f67d09ab06f248944ae6a1777f1174af6e07cb129\"",
-            "binding_hashes.selection_complete: \"cd47631c958d002ad9a3e683a3f0e2814e1384e02bd01cb6a9105e990d6347f4\" -> \"d276fefa6cd72c277a9fab7c30348462a910905ebaad873b45066c3dfe6c2c2f\"",
-            "code: \"<absent>\" -> {\"module\": \"tennislab.evaluation.report\", \"package_version\": \"0.1.0\", \"sha256\": \"77df693d35e4a45c763a0f7f67d09ab06f24894",
-            "declared_binding: \"<absent>\" -> {\"package_version\": \"0.1.0\", \"reporter_path\": \"tennislab.evaluation.report\", \"reporter_sha256\": \"77df693d35e4a45c763a0f7",
-            "started_utc: \"2026-09-12T20:17:32.784949+00:00\" -> \"2026-09-14T02:33:36.981000+00:00\""
-          ],
-          "kind": "json"
-        },
-        "stdout.txt": {
-          "changed_lines": 2,
-          "first": [
-            "@@ -13 +13 @@",
-            "-    \"selection_receipts.json\": \"b44832afb6113c0f736470639b23b530324ea704625828fd101a2a059152be64\"",
-            "+    \"selection_receipts.json\": \"e08d04f79e8b2a5ef85181e605e15b85db36b739fe56413df3be063fbfca1769\""
-          ],
-          "kind": "text",
-          "lines_archive": 79,
-          "lines_ported": 79
-        }
-      },
+      "different": {},
       "extra": [],
-      "identical": [
+      "identical": [],
+      "missing": [
         "annual_contrasts.csv",
         "annual_metrics.csv",
+        "artifact_manifest.json",
         "bootstrap.csv",
         "contrast_summary.csv",
         "coverage.csv",
@@ -2574,30 +1182,22 @@
         "primary.json",
         "reliability.csv",
         "report.md",
+        "result.json",
         "selection_diagnostics.csv",
-        "stderr.txt"
-      ],
-      "missing": []
+        "selection_receipts.json",
+        "start.json",
+        "stderr.txt",
+        "stdout.txt"
+      ]
     },
     "reporting_config": {
-      "different": {
-        "stdout.txt": {
-          "changed_lines": 2,
-          "first": [
-            "@@ -6 +6 @@",
-            "-  \"sha256\": \"d5e2912e6649953e8f11029e69c1aadf2e78c37055df3a4e3f5b0d79d549cca3\"",
-            "+  \"sha256\": \"b23e737a5fe52be2a2adac96aec768474972d00689c3987e8170dcf161e2073e\""
-          ],
-          "kind": "text",
-          "lines_archive": 7,
-          "lines_ported": 7
-        }
-      },
+      "different": {},
       "extra": [],
-      "identical": [
-        "stderr.txt"
-      ],
-      "missing": []
+      "identical": [],
+      "missing": [
+        "stderr.txt",
+        "stdout.txt"
+      ]
     },
     "rule_mapping": {
       "different": {
@@ -2607,13 +1207,15 @@
             "inputs.code.module: \"<absent>\" -> \"tennislab.panel.rules\"",
             "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
             "inputs.code.path: \"references/TIER01_models/carry_rule_rows.py\" -> \"<absent>\"",
-            "inputs.code.sha256: \"4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce\" -> \"f3f00596eda4e41852de1a8d233cfe03df797319baeeda2be500306fd4ef236b\"",
-            "manifest_sha256_of_inputs: \"83e5ec9f3ad3aa1212431ee000677daf7f75ea50e18a1208b4fb78384fb5a16f\" -> \"b635e36511536a3c87b163850b33b3e074d2a0bc1e9b086f83025c1a530ff2e5\""
+            "inputs.code.sha256: \"4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce\" -> \"b8712d4dc7d35d880ad404085f8d11bf6f1b91a4abcc353228c81f2d9c4a4217\"",
+            "manifest_sha256_of_inputs: \"83e5ec9f3ad3aa1212431ee000677daf7f75ea50e18a1208b4fb78384fb5a16f\" -> \"23e75aa6af282355d858b7282bb3731219a6809c3abfc0c023eb28739db03c21\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "rule_rows_carried_forward.csv",
         "rule_rows_tour_default.csv",
@@ -2628,18 +1230,20 @@
         "manifest.json": {
           "changed_leaves": 7,
           "first": [
-            "config.sha256: \"138048f0b23cec69e15ec72e361df408fc1d0844018b664c6aeb4886e2f2fa93\" -> \"1a5dc822f86385232ee9ddd8c92f9b2c78610bb168bd98e611c3ebe67ec1b40a\"",
+            "config.sha256: \"138048f0b23cec69e15ec72e361df408fc1d0844018b664c6aeb4886e2f2fa93\" -> \"b2918eb1a314711e329ba3062687830624ed9e303897b185e68b25d06836c433\"",
             "executed_builder.module: \"<absent>\" -> \"tennislab.features.sidecar\"",
             "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
             "executed_builder.path: \"references/TIER01_models/build_sidecar.py\" -> \"<absent>\"",
-            "executed_builder.sha256: \"9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308\" -> \"7afeded6d4032ec98902dfeffa4c78da7e3d469b380cbfa41f1325e2384208cd\"",
-            "inputs.base_manifest.sha256: \"71dc6db9df3c71a27d9b1f1b35a5c302188bb0d7fbab9ee8fcfabc1eaab0f907\" -> \"8158ca4cbcf7e04af61fcd300b2b36c9cfdd104df402352f383d0ca48dbd6bea\"",
-            "inputs.sr02_run_manifest.sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"ff93993e09a8c9a4e9a5fa3e5a3150af37831d54d0568c3327baf33cc6eb4a8a\""
+            "executed_builder.sha256: \"9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308\" -> \"f84eca18642f536e991679ef0160beb3dc99a0161865180c341bfa091e153bb2\"",
+            "inputs.base_manifest.sha256: \"71dc6db9df3c71a27d9b1f1b35a5c302188bb0d7fbab9ee8fcfabc1eaab0f907\" -> \"cfe06660169ed354d99bffa2d351bbd6c096b232f14c07aca97851123b0879b5\"",
+            "inputs.sr02_run_manifest.sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"0c2651797299bbe0c5ed7989da4f3f425876ef8a9e6b68c8e4b19ad5ee5d4d81\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "column_dictionary.json",
         "stderr.txt",
@@ -2659,16 +1263,18 @@
           "first": [
             "code.declared_binding: \"<absent>\" -> {\"dynamic_path\": \"references/SR02_models/dynamic.py\", \"dynamic_sha256\": \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef",
             "code.dynamic: \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef1c7c080259bf13637\" -> {\"module\": \"tennislab.dynamics.dynamic\", \"package_version\": \"0.1.0\", \"sha256\": \"9a5b10e8cda19d1a64ceccc4074580a53ab40a8a",
-            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d35f1924fa71707f534b519baeea3dc7c0cb",
+            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d8d1feab50e5407e7623251a63973818f049",
             "code.replay.module: \"<absent>\" -> \"tennislab.dynamics.replay\"",
             "code.replay.package_version: \"<absent>\" -> \"0.1.0\"",
             "code.replay.path: \"references/TIER01_models/sr02_replay.py\" -> \"<absent>\"",
-            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"5178410e105471b4e89f6f2734c309934f1dfc1b36422434b174fae6071daa7f\""
+            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"aa4230e236e25918ed04ccab66074e10c15ef706ea3a383892ac43b4ba49ceb6\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "selected_matches.csv",
         "selection_carry_forward.csv",
@@ -2686,16 +1292,18 @@
           "first": [
             "code.declared_binding: \"<absent>\" -> {\"dynamic_path\": \"references/SR02_models/dynamic.py\", \"dynamic_sha256\": \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef",
             "code.dynamic: \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef1c7c080259bf13637\" -> {\"module\": \"tennislab.dynamics.dynamic\", \"package_version\": \"0.1.0\", \"sha256\": \"9a5b10e8cda19d1a64ceccc4074580a53ab40a8a",
-            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d35f1924fa71707f534b519baeea3dc7c0cb",
+            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d8d1feab50e5407e7623251a63973818f049",
             "code.replay.module: \"<absent>\" -> \"tennislab.dynamics.replay\"",
             "code.replay.package_version: \"<absent>\" -> \"0.1.0\"",
             "code.replay.path: \"references/TIER01_models/sr02_replay.py\" -> \"<absent>\"",
-            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"5178410e105471b4e89f6f2734c309934f1dfc1b36422434b174fae6071daa7f\""
+            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"aa4230e236e25918ed04ccab66074e10c15ef706ea3a383892ac43b4ba49ceb6\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "same_event_qualifying_membership.csv",
         "selected_matches.csv",
@@ -2715,16 +1323,18 @@
           "first": [
             "code.declared_binding: \"<absent>\" -> {\"dynamic_path\": \"references/SR02_models/dynamic.py\", \"dynamic_sha256\": \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef",
             "code.dynamic: \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef1c7c080259bf13637\" -> {\"module\": \"tennislab.dynamics.dynamic\", \"package_version\": \"0.1.0\", \"sha256\": \"9a5b10e8cda19d1a64ceccc4074580a53ab40a8a",
-            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d35f1924fa71707f534b519baeea3dc7c0cb",
+            "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d8d1feab50e5407e7623251a63973818f049",
             "code.replay.module: \"<absent>\" -> \"tennislab.dynamics.replay\"",
             "code.replay.package_version: \"<absent>\" -> \"0.1.0\"",
             "code.replay.path: \"references/TIER01_models/sr02_replay.py\" -> \"<absent>\"",
-            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"5178410e105471b4e89f6f2734c309934f1dfc1b36422434b174fae6071daa7f\""
+            "code.replay.sha256: \"7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2\" -> \"aa4230e236e25918ed04ccab66074e10c15ef706ea3a383892ac43b4ba49ceb6\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "same_event_qualifying_membership.csv",
         "selected_matches.csv",
@@ -2740,39 +1350,49 @@
     "sr03_calibration": {
       "different": {
         "run_manifest.json": {
-          "changed_leaves": 4,
+          "changed_leaves": 10,
           "first": [
-            "artifacts.start.json: \"34b6729858a7ce81696680b2de5cdb69c65b5788e8f6fe753188641fb0d024a8\" -> \"24bfa5c8aab46c5582b79ffaf9a0b25cfab17cdeaa51ba875a15c01825d05bf7\"",
-            "code: \"<absent>\" -> {\"calibrate\": {\"module\": \"tennislab.dynamics.calibrate\", \"package_version\": \"0.1.0\", \"sha256\": \"2b34f7c3ae48704a45332884",
-            "config_sha256: \"6a542c728d19cf3357ef2756aa2da7d8cbacfd5b7c2a79676cb3f19a64e19104\" -> \"47bcaaf9210c41e21bf0a8ad0c324e27d7979b7a38cdea0272f5168f04bde0f2\"",
-            "point_manifest_sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"ff93993e09a8c9a4e9a5fa3e5a3150af37831d54d0568c3327baf33cc6eb4a8a\""
+            "artifacts.cohort_counts.json: \"c71fadeaa1f147494fbb032a3378f5c38da00f95a6f90f676413ad28e5aadbcb\" -> \"<absent>\"",
+            "artifacts.comparisons.json: \"a5323a515742c166f6143428a984ad011562d82f9d22bd89c833d2cb273acd2c\" -> \"<absent>\"",
+            "artifacts.metrics.csv: \"a80d6398c32c2b40fac43bbdacb0b52fcd2034b513dcd152a676b351f335ee8d\" -> \"<absent>\"",
+            "artifacts.reliability.csv: \"ffd46d3a987eead8f8d3d70004845b4e062e2880c66f3d62e96ff457ab0629ae\" -> \"<absent>\"",
+            "artifacts.scoring_boundary.json: \"<absent>\" -> \"3d5131418638fa35b3ebfd6f6da9558f109c987b1a1d983f698d922d52dc0c7f\"",
+            "artifacts.start.json: \"34b6729858a7ce81696680b2de5cdb69c65b5788e8f6fe753188641fb0d024a8\" -> \"b526dcbd3b430a326a41d6b31819c8d808d15b95e17771a33ebf8feba0fea03f\"",
+            "code: \"<absent>\" -> {\"calibrate\": {\"module\": \"tennislab.dynamics.calibrate\", \"package_version\": \"0.1.0\", \"sha256\": \"7a10a40add865b6b84a3c075",
+            "config_sha256: \"6a542c728d19cf3357ef2756aa2da7d8cbacfd5b7c2a79676cb3f19a64e19104\" -> \"7a072e66cf40b5d67dc1fb659b4dafb2a7f211afb8dec0df72c4b7433744d76d\"",
+            "point_manifest_sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"0c2651797299bbe0c5ed7989da4f3f425876ef8a9e6b68c8e4b19ad5ee5d4d81\"",
+            "scored: \"<absent>\" -> 0"
           ],
           "kind": "json"
         },
         "start.json": {
           "changed_leaves": 2,
           "first": [
-            "config_sha256: \"6a542c728d19cf3357ef2756aa2da7d8cbacfd5b7c2a79676cb3f19a64e19104\" -> \"47bcaaf9210c41e21bf0a8ad0c324e27d7979b7a38cdea0272f5168f04bde0f2\"",
-            "point_manifest_sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"ff93993e09a8c9a4e9a5fa3e5a3150af37831d54d0568c3327baf33cc6eb4a8a\""
+            "config_sha256: \"6a542c728d19cf3357ef2756aa2da7d8cbacfd5b7c2a79676cb3f19a64e19104\" -> \"7a072e66cf40b5d67dc1fb659b4dafb2a7f211afb8dec0df72c4b7433744d76d\"",
+            "point_manifest_sha256: \"a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743\" -> \"0c2651797299bbe0c5ed7989da4f3f425876ef8a9e6b68c8e4b19ad5ee5d4d81\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl",
+        "scoring_boundary.json"
+      ],
       "identical": [
-        "cohort_counts.json",
-        "comparisons.json",
         "fit_events.jsonl",
         "fits.json",
-        "metrics.csv",
         "predictions.csv",
         "predictions_boundary.json",
-        "reliability.csv",
         "stderr.txt",
         "stdout.txt",
         "training_membership.csv"
       ],
-      "missing": []
+      "missing": [
+        "cohort_counts.json",
+        "comparisons.json",
+        "metrics.csv",
+        "reliability.csv"
+      ]
     },
     "tier_block": {
       "different": {
@@ -2780,14 +1400,16 @@
           "changed_leaves": 4,
           "first": [
             "code.path: \"references/TIER01_models/tier_block.py\" -> \"<absent>\"",
-            "code.runner: \"<absent>\" -> {\"module\": \"tennislab.models.pipeline\", \"package_version\": \"0.1.0\", \"sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a5919",
+            "code.runner: \"<absent>\" -> {\"module\": \"tennislab.models.pipeline\", \"package_version\": \"0.1.0\", \"sha256\": \"3cd6f3c983455bb568f02fe2095ca3b0948ddc1bc",
             "code.sha256: \"381ae65bddfb08f83f379d4008144c34ec83c006ffbd6a2b5c6fa6f7643ae291\" -> \"<absent>\"",
-            "code.tier_block: \"<absent>\" -> {\"module\": \"tennislab.features.tier_block\", \"package_version\": \"0.1.0\", \"sha256\": \"55fd7700f2dc06fb9061f3c0045ec00673923"
+            "code.tier_block: \"<absent>\" -> {\"module\": \"tennislab.features.tier_block\", \"package_version\": \"0.1.0\", \"sha256\": \"e7a8dcaf5fe4ca3117090dc58b0ab03e03721"
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "coverage_by_year.csv",
         "stderr.txt",
@@ -2812,13 +1434,15 @@
             "code.tier_elo.module: \"<absent>\" -> \"tennislab.ratings.tier_elo\"",
             "code.tier_elo.package_version: \"<absent>\" -> \"0.1.0\"",
             "code.tier_elo.path: \"references/TIER01_models/tier_elo.py\" -> \"<absent>\"",
-            "code.tier_elo.sha256: \"13fe3563073c9b9a56ebfa8ed99d68634e133aedd5c6c8e5c004df4884683d45\" -> \"c237fac2d5e8e86408f64b514d60a33bb7f76fe1b91ce1138cc87d8d8db37d69\"",
+            "code.tier_elo.sha256: \"13fe3563073c9b9a56ebfa8ed99d68634e133aedd5c6c8e5c004df4884683d45\" -> \"ad9cdadd8ca95c28fa638d1ba38642aa7c2e82ca263f4289b1eb0754a3db1f39\"",
             "outcome_reads: \"<absent>\" -> [{\"purpose\": \"elo_state_replay\", \"rows\": 51222, \"year_ceiling\": 2024}]"
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "stderr.txt",
         "stdout.txt",
@@ -2836,12 +1460,14 @@
             "code.module: \"<absent>\" -> \"tennislab.ratings.tier_stream\"",
             "code.package_version: \"<absent>\" -> \"0.1.0\"",
             "code.path: \"references/TIER01_models/tier_stream.py\" -> \"<absent>\"",
-            "code.sha256: \"9ea809196fe0e378712053cdfd85a1209823f4a48d58ecb0645470c139d1e45b\" -> \"050bdb74444dccfb46621200f4a9c63ba7972a61da2012af5f3556e2a16b59c3\""
+            "code.sha256: \"9ea809196fe0e378712053cdfd85a1209823f4a48d58ecb0645470c139d1e45b\" -> \"b1328e82ca194a5bbc4e144e3a6fa39c9850fab86c044582dddbc5bf736d4480\""
           ],
           "kind": "json"
         }
       },
-      "extra": [],
+      "extra": [
+        "access_log.jsonl"
+      ],
       "identical": [
         "stderr.txt",
         "stdout.txt",

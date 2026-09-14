@@ -66,6 +66,8 @@ PURPOSES = frozenset(
         "calibration_slope_fit",
         # sr03_calibration: the panel's metadata, outcome columns projected out.
         "calibration_metadata",
+        # any stage declared none that needs a table's metadata: outcome columns dropped.
+        "metadata_projection",
         # the post-barrier component evaluation of the persisted SR03 predictions.
         "component_scoring",
     }

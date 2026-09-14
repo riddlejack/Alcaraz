@@ -41,7 +41,7 @@ so (`rows_parsed`).
 
 Derived from the audit hook on the synthetic chain and re-checked against the code.
 Four declarations: "none" (the runner fails the stage if it parses any outcome-bearing
-file; hash-only opens are allowed), "history" (a state replay or panel builder that
+file; hash-only opens and `projected_rows` opens, which drop the outcome columns, are allowed), "history" (a state replay or panel builder that
 parses whole outcome files as past history), "fold" (a fit or selection stage: every
 parse of an outcome-bearing file must go through `chain.labels` -- `LabelHistory`,
 `PanelOutcomeHistory` or the metadata projection `projected_rows`, which drops the
@@ -60,7 +60,7 @@ it), and "target" (a post-barrier stage).
 | sidecar | history | the panel is parsed (the audit hook records it) and projected to `PANEL_MEASUREMENT_FIELDS` before use; `labels.csv` is never opened | none needed; no outcome value is used or emitted |
 | tier_stream | history | the Sackmann tarball's lower-tier members | archive seasons only |
 | tier_elo | history | `labels.csv` through `EloStateHistory`, `tier_results.csv.gz` | D−2 cursor inside the replay; ceiling = panel end year (state history, no fit) |
-| tier_block | none | sidecar, tier_elo features, SR02 selected matches | – |
+| tier_block | none | sidecar, tier_elo features, SR02 selected matches; the panel through `projected_rows` (outcome columns dropped) for the prior tour-match counts | D−2 lag on the counts; no outcome value reaches the module |
 | predictor_config | none | hashes `labels.csv` (bytes, never parsed) | recorded as a hash-only open |
 | preflight | none | – | – |
 | pipeline | fold | `labels.csv` through `LabelHistory` per fold: `training_fit`, `past_selection_calibration`, `past_market_calibration` | ceiling = outer year − 1; the runner refuses a receipt whose ceiling reaches its fold's outer year, a receipt without a fold, or a parse outside the accessors |
