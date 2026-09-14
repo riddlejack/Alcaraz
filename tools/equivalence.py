@@ -599,10 +599,28 @@ def run_chain(spec: RunSpec, archive: Path, chain_config: Path, start: str | Non
 
 
 def compare_chain(spec: RunSpec, archive: Path) -> dict[str, Any]:
-    """Compare every stage of the live chain run against the frozen run, plus the side trees."""
+    """Compare source-manifest outputs for shared stages, plus selected side trees.
+
+    This is not a complete union inventory: ``hash_tree`` excludes stage manifests,
+    product-only stages have no source manifest to drive the loop, and the chain ledger is
+    outside every stage directory. Outcome-bound bindings that need full inventory must add
+    a separate complete recursive comparator.
+    """
     ws = REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_") / "_chain"
     frozen = archive / spec.frozen_dir
-    summary: dict[str, Any] = {"run": spec.name, "stages": {}}
+    summary: dict[str, Any] = {
+        "run": spec.name,
+        "scope": {
+            "kind": "source_manifest_outputs_for_shared_stages_plus_selected_side_trees",
+            "excludes": [
+                "stage_manifest.json",
+                "run/chain_ledger.jsonl",
+                "product-only stages without a source manifest",
+            ],
+            "complete_union_inventory_required_separately": True,
+        },
+        "stages": {},
+    }
     for stage in spec.stages:
         manifest_path = frozen / "run" / stage / STAGE_MANIFEST
         if not manifest_path.exists():
