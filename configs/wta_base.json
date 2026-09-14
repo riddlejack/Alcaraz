@@ -1,0 +1,1 @@
+{"name": "wta_base", "tour": "WTA", "description": "WTA base HistGradientBoosting on match-history features under the WTA01 procedure.", "chain_config": "configs/chains/wta02_2025_2026.json", "bundle": "base", "learner": "hgb", "forecast": {"kind": "selected_calibrated"}}

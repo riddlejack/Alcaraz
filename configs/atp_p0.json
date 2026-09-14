@@ -1,0 +1,1 @@
+{"name": "atp_p0", "tour": "ATP", "description": "P0: base HistGradientBoosting on match-history features (Elo logits, serve/return count differences, workload, rankings, context), past-only candidate selection and calibration.", "chain_config": "configs/chains/atp_tier01_2017_2024.json", "bundle": "base", "learner": "hgb", "forecast": {"kind": "selected_calibrated"}}

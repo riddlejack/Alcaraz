@@ -1,0 +1,165 @@
+{
+  "chain": {
+    "annual_eligible_floor_year": 2016,
+    "blocks": [
+      "base",
+      "traits",
+      "dynamic",
+      "full"
+    ],
+    "bootstrap_seed": 20260912,
+    "bootstrap_unit": "match",
+    "bridge_carry_forward_years": [
+      2023,
+      2024,
+      2025
+    ],
+    "bridge_seasons": [
+      2025,
+      2026
+    ],
+    "bridge_sources": {
+      "2025": {
+        "tennis_data": {
+          "path": "data/raw/RES2026/raw/tennis_data_wta_2025.xlsx",
+          "sha256": "aac890b7465d0c74812578b2a962b4e5cb4c76455dccb6cece2efa5067448c13"
+        },
+        "wikipedia": []
+      },
+      "2026": {
+        "tennis_data": {
+          "path": "data/raw/RES2026/raw/tennis_data_wta_2026.xlsx",
+          "sha256": "d134630c6d12a9a46981c4baf09fb1ac1f7fdbc0d51aa99a726cc13569235d7c"
+        },
+        "wikipedia": [
+          "data/raw/RES2026/parsed/wta_Athens_Open_singles.csv",
+          "data/raw/RES2026/parsed/wta_Bad_Homburg_Open_singles.csv",
+          "data/raw/RES2026/parsed/wta_Berlin_Tennis_Open_singles.csv",
+          "data/raw/RES2026/parsed/wta_Cincinnati_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Eastbourne_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_French_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Hamburg_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Ia_i_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Lib_ma_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Memphis_Classic_singles.csv",
+          "data/raw/RES2026/parsed/wta_Monterrey_Open_singles.csv",
+          "data/raw/RES2026/parsed/wta_Mubadala_DC_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_National_Bank_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Nottingham_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Prague_Open_singles.csv",
+          "data/raw/RES2026/parsed/wta_Queen_s_Club_Championships_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_US_Open_womens_singles.csv",
+          "data/raw/RES2026/parsed/wta_Wimbledon_Championships_womens_singles.csv"
+        ]
+      }
+    },
+    "cohort": "aligned_primary",
+    "configs": {
+      "archive_panel": "data/runs/wta02/configs/archive_panel.json",
+      "bridge": "data/runs/wta02/configs/bridge.json",
+      "event_carry_forward": "data/runs/wta02/configs/event_carry_forward.json",
+      "features": "data/runs/wta02/configs/features.json",
+      "format_corrections": "data/runs/wta02/configs/format_corrections.json",
+      "join": "data/runs/wta02/configs/join.json",
+      "prepare_panel": "data/runs/wta02/configs/prepare_panel.json",
+      "rankings": "data/runs/wta02/configs/rankings.json",
+      "rule_mapping": "data/runs/wta02/configs/rule_mapping.json",
+      "sidecar": "data/runs/wta02/configs/sidecar.json",
+      "sr02_replay": "data/runs/wta02/configs/sr02_replay.json",
+      "sr03": "data/runs/wta02/configs/sr03.json",
+      "year_plan": "data/runs/wta02/configs/year_plan.json"
+    },
+    "configs_dir": "data/runs/wta02/configs",
+    "count_history_from_year": 2016,
+    "decision": "D59",
+    "design": "experiments/WTA02.design.md",
+    "dictionary": "data/runs/wta02/run/features/column_dictionary.json",
+    "event_map_dir": "references/WTA01_event_map",
+    "experiment_id": "WTA02",
+    "features": "data/runs/wta02/run/features/features.csv",
+    "infobox_html_dir": "data/raw/RES2026/raw/wikipedia",
+    "inputs": {
+      "archive": {
+        "path": "data/raw/ARCHIVE01/snapshot/tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d.tar.gz",
+        "sha256": "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4",
+        "tar_root": "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d"
+      },
+      "bio_contract": {
+        "path": "references/BIO01.md",
+        "sha256": "72280020f971b45430ebc6b010752e3d01c6f6c0a79bf9dfdac391caa8d14788"
+      },
+      "features_design": {
+        "path": "experiments/WTA02.design.md",
+        "sha256": "9982327e0f50ef07eb4bf79288d03d5bb92fb7b9d2218d9d937789177f87770c"
+      },
+      "panel_manifest": {
+        "path": "data/manifests/WTA01-event-map.json",
+        "sha256": "0992f0c7279c28b03cabaf88399d1fe3b59d050353c45af04109514474a853f3"
+      },
+      "ranking_lookup_module": {
+        "path": "work/MULTI01_ranking_lookup/ranking_lookup.py",
+        "sha256": "d64e1640e11a137b7c5584af54f87577f928369904d622e14a4febf3c9583496"
+      },
+      "sr02_primary_config": {
+        "path": "experiments/SR02-C1.json",
+        "sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182"
+      },
+      "sr02_saved_selections": {
+        "path": "experiments/runs/SR02/attempt_002/selections.csv",
+        "sha256": "7740d54723b33ec2c65d09a61e0d43381631e7814498a130e501d2d5b3b8d87c"
+      },
+      "wta_event_map_manifest": {
+        "path": "data/manifests/WTA01-event-map.json",
+        "sha256": "0992f0c7279c28b03cabaf88399d1fe3b59d050353c45af04109514474a853f3"
+      },
+      "wta_market_manifest": {
+        "path": "data/manifests/WTAODDS01.json",
+        "sha256": "d0effd1959a59800694be0f48940d5f5c06d80ddb7b9c12879778c857d823386"
+      },
+      "wta_rule_config": {
+        "path": "references/WTA02_models/wta_rules.json",
+        "sha256": "48194cefcd5657c02c17aa4871c3b4c9e0585bf90d78a900e7d756f4346fffa8"
+      },
+      "wta_rule_inventory": {
+        "path": "references/WTA01_event_map/rule_inventory_by_edition.csv",
+        "sha256": "5fe1bb256ac80de255e63781c189f6f33b2cc9f09f918c5b1b835d0ead5a7974"
+      },
+      "wta_sources_module": {
+        "path": "references/WTA01_event_map/wta_sources.py",
+        "sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866"
+      }
+    },
+    "inputs_dir": "data/runs/wta02/inputs",
+    "labels": "data/runs/wta02/run/features/labels.csv",
+    "learners": [
+      "ridge",
+      "hgb"
+    ],
+    "panel_start_year": 2007,
+    "predictor_config": "data/runs/wta02/predictor_config/config.json",
+    "primary_contrast": "full_minus_base",
+    "ranking_year_min": 2000,
+    "rankings_source": "data/runs/wta02/run/rankings/rankings_2000_2026.csv.gz",
+    "reporting_config": "data/runs/wta02/reporting_config/reporting.json",
+    "reserved_release_acknowledged": true,
+    "rule_carry_from_year": 2024,
+    "run_root": "data/runs/wta02/run",
+    "selection_complete": "data/runs/wta02/run/pipeline/selection_complete.json",
+    "selection_year_min": 2011,
+    "sidecar": "data/runs/wta02/run/sidecar/trait_latent_sidecar.csv",
+    "sidecar_program": "tennislab.features.sidecar",
+    "tour": "WTA",
+    "unresolved_event_policy": "quarantine"
+  },
+  "year_plan": {
+    "calibration_years_back": 3,
+    "feature_end_year": 2026,
+    "history_floor_year": 2011,
+    "panel_end_year": 2026,
+    "target_years": [
+      2025,
+      2026
+    ],
+    "training_window_years": 5
+  }
+}

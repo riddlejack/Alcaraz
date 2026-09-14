@@ -1,0 +1,28 @@
+{
+  "interval": {
+    "type": "match_level_bootstrap_stratified_by_year",
+    "replicates": 2000,
+    "seed": 20260912,
+    "level": 0.95
+  },
+  "rounding_decimals": 4,
+  "cohort": "primary targets present in every rung's forecast file and in the market file for that year (identical priced population)",
+  "tours": {
+    "ATP": {
+      "chain_config": "configs/chains/atp_tier01_2017_2024.json",
+      "rungs": ["elo", "atp_p0", "atp_p1", "atp_full_tier"],
+      "reference": "pinnacle_normalised",
+      "learner": "hgb"
+    },
+    "WTA": {
+      "chain_config": "configs/chains/wta02_2025_2026.json",
+      "rungs": ["elo", "wta_base", "wta_full"],
+      "reference": "pinnacle_normalised",
+      "learner": "hgb"
+    }
+  },
+  "references": {
+    "pinnacle_normalised": {"kind": "market", "file": "raw_ps.csv", "note": "implied probabilities normalised to sum to one; closing-like, quote time unknown"},
+    "pinnacle_calibrated": {"kind": "market", "file": "calibrated_ps.csv", "note": "past-only logistic calibration of the normalised price"}
+  }
+}
