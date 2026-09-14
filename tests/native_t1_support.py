@@ -327,9 +327,16 @@ def target_rows(path: Path, targets: set[str]) -> list[dict[str, str]]:
     return sorted(selected, key=lambda row: json.dumps(row, sort_keys=True))
 
 
-def assert_same_targets(clean: Path, changed: Path, targets: set[str]) -> int:
+def assert_same_targets(
+    clean: Path, changed: Path, targets: set[str], expected_targets: set[str] | None = None
+) -> int:
+    expected = targets if expected_targets is None else expected_targets
+    assert expected <= targets
+    # Inspect every chosen target, including those forbidden from the priced subset.
     before, after = target_rows(clean, targets), target_rows(changed, targets)
-    assert {row["match_id"] for row in before} == targets, f"target coverage: {clean}"
+    for path, records in ((clean, before), (changed, after)):
+        assert {row["match_id"] for row in records} == expected, f"target coverage: {path}"
+        assert len(records) == len(expected), f"duplicate target rows: {path}"
     assert before == after, f"future outcome changed target rows: {clean}"
     return len(before)
 
@@ -372,10 +379,18 @@ def compare_runs(clean: dict[str, Any], changed: dict[str, Any]) -> dict[str, in
         assert before == after and before
         count = 0
         for filename in before:
-            if target_rows(clean["run_root"] / filename, expected_targets):
-                compared[str(filename)] = assert_same_targets(
-                    clean["run_root"] / filename, changed["run_root"] / filename, expected_targets
-                )
-                count += 1
+            # All registered target-year forecasts must cover their declared targets;
+            # neither an empty file nor an equally omitted target can disappear here.
+            if filename.parts[2] != TARGET_DATE[:4]:
+                continue
+            if directory == "market" and filename.name == "selection_keys.csv":
+                continue  # Past calibration membership, not a forecast artifact.
+            compared[str(filename)] = assert_same_targets(
+                clean["run_root"] / filename,
+                changed["run_root"] / filename,
+                changed["targets"],
+                expected_targets,
+            )
+            count += 1
         assert count > 0, directory
     return compared
