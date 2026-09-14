@@ -562,12 +562,15 @@ def chain_main(argv: Sequence[str]) -> int:
         help="the archive chain config (paths relative to the workspace)",
     )
     parser.add_argument("--compare-only", action="store_true")
+    parser.add_argument(
+        "--from", dest="start", help="resume an existing chain workspace from this stage"
+    )
     args = parser.parse_args(argv)
     spec = RUNS[args.run]
     archive = archive_root()
     status = 0
     if not args.compare_only:
-        status = run_chain(spec, archive, args.chain_config)
+        status = run_chain(spec, archive, args.chain_config, args.start)
     compare_chain(spec, archive)
     return status
 
