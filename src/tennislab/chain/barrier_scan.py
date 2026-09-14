@@ -121,7 +121,7 @@ def scan_tree(run_root: Path, stages: list[str]) -> dict[str, Any]:
             continue
         for path in sorted(item for item in directory.rglob("*") if item.is_file()):
             relative = path.relative_to(run_root).as_posix()
-            if path.name in SKIPPED_NAMES or "__pycache__" in relative:
+            if (path.parent == directory and path.name in SKIPPED_NAMES) or "__pycache__" in relative:
                 continue
             if not inspectable(path):
                 uninspected.append(relative)
