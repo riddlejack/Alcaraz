@@ -179,7 +179,7 @@ def test_nested_bookkeeping_names_do_not_hide_metrics(tmp_path: Path) -> None:
     assert len(result["findings"]) == 2
 
 
-@pytest.mark.parametrize("change", ["ceiling", "date"])
+@pytest.mark.parametrize("change", ["ceiling", "date", "cutoff"])
 def test_verify_rejects_a_consistently_rebound_bad_access_log(
     change: str, sample_run: dict[str, Any], tmp_path: Path
 ) -> None:
@@ -197,6 +197,8 @@ def test_verify_rejects_a_consistently_rebound_bad_access_log(
         receipt["year_ceiling"] = receipt["fold_outer_year"]
     else:
         receipt["max_match_date_returned"] = "2099-01-01"
+        if change == "cutoff":
+            receipt["cutoff_date"] = "2099-01-01"
     path.write_text("".join(json.dumps(item) + "\n" for item in entries))
     record = manifest(run, name)
     record["outcome_access"]["receipts"] = [
@@ -208,7 +210,7 @@ def test_verify_rejects_a_consistently_rebound_bad_access_log(
     record["outputs_sha256"] = canonical_hash(record["outputs"])
     (run["run_root"] / name / runner.STAGE_MANIFEST).write_text(json.dumps(record))
     _bind_manifest(run, name)
-    with pytest.raises(ChainError, match="ceiling|beyond cutoff"):
+    with pytest.raises(ChainError, match="ceiling|beyond cutoff|exceeds fold cutoff"):
         drive(run["workspace"], ["verify", "--config", run["config"]])
 
 
