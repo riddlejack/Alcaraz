@@ -8,10 +8,10 @@ questions; this repository follows the narrowest applicable boundary.
 
 The intended public boundary may contain code, source receipts and hashes, identity/event
 mappings, aggregates, forecasts, scores, and synthetic acceptance fixtures. It is not
-intended to contain raw provider files or row-level reproductions of a source. A current
-real-input fixture exception is disclosed under the tracked inventory below while its
-replacement and provenance review remain open. Every published derived table must name
-its source and applicable terms.
+intended to contain raw provider files or row-level reproductions of a source. A former
+real-input regression fixture has been replaced with a synthetic case; its copy in Git
+history is disclosed below and remains subject to a separate publication decision.
+Every published derived table must name its source and applicable terms.
 
 ## Sources
 
@@ -30,9 +30,8 @@ its source and applicable terms.
 
 > Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission
 > under `PERM-TA-001`, as supplemented by `PERM-TA-002`. Any published derived table must
-> carry this attribution and its applicable licence. The collection was paused on
-> 2026-09-14 for offline parser diagnosis and is not part of the accepted retrospective
-> model runs described above.
+> carry this attribution and its applicable licence. The collection is not part of the
+> accepted retrospective model runs described above.
 
 When the first qualified Tennis Abstract-derived release is created, append the exact
 collection start/end dates and source-version hashes to this block and to the product
@@ -43,7 +42,7 @@ README. Do not infer completion from a progress file.
 | Path | Contents | Redistribution basis |
 |---|---|---|
 | `data/sample/**`, `data/sample_tier/**` | Synthetic acceptance fixtures and expected results | MIT |
-| `tests/fixtures/solver_precision_2005-06-25.json` | Numeric regression fixture containing real archived inputs; not synthetic | Publication qualification pending; synthetic replacement and history/provenance review active |
+| `tests/test_dynamics_numerical_repair.py` | Independently generated, seeded synthetic numerical regression; provenance in `tests/fixtures/README.md` | MIT |
 | `data/mappings/wta_event_map/*.csv` | Event/edition and identifier mapping metadata; no odds or full result rows | R3 mapping boundary; Sackmann-derived columns under CC BY-NC-SA 4.0 |
 | `data/manifests/**` | Hashes, receipts, bindings, and crosswalk metadata; not raw source payloads | Metadata only; underlying source terms still govern |
 | `data/registries/**` | Project-generated experiment and score records | MIT, subject to cited source-result limits |
@@ -52,12 +51,16 @@ The archive files `td_row_date_defects.csv` and `winner_orientation_conflicts.cs
 deliberately not copied because they reproduce tennis-data result rows. Other candidate
 crosswalk and coverage files not required by the product trunk were also left out.
 
-The real-input fixture is a publication-qualification exception, not by itself a finding
-of a legal violation. The R3 mapping boundary likewise does not settle the pending
-history/provenance review. The release owner retains the history and visibility decision;
-the exception should be removed from the current tree only after the synthetic
-replacement and cleanup are verified, while retained history remains subject to its own
-qualification.
+Earlier commits contain `tests/fixtures/solver_precision_2005-06-25.json`, a real
+11-match numerical regression capture derived from Jeff Sackmann's historical data via
+the hash-pinned `ARCHIVE01` mirror. Its source-data attribution and CC BY-NC-SA 4.0
+treatment apply separately from the MIT code license. The current test generates an
+independent artificial case and preserves the original numerical failure check.
+
+Replacing the fixture does not remove its earlier Git objects. The historical copy falls
+outside the intended no-source-row rule; its disposition is still open. This records a
+project-policy inconsistency, not a finding of legal infringement or an approved
+historical exception.
 
 ## Attribution
 

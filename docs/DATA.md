@@ -96,8 +96,11 @@ At the dated 2026-09-14T22:42Z snapshot, collection had been paused since 22:20Z
 retained 39-field WTA parse failure: 1,326 players were complete, 20 were
 evidence-bearing unavailable, 1,346 of 5,683 were terminal, and 337,419 rows had been
 parsed. Offline parser diagnosis was underway at that snapshot. These are acquisition
-counts, not evidence that the player set is complete,
-source-qualified, or integrated. No accepted model run ingests this collection.
+counts, not evidence that the player set is complete, source-qualified, or integrated.
+An offline review subsequently verified that the source renderer fills five omitted
+trailing metadata fields with blanks. The collector resumed at the same 3.0–3.5 second
+tier, with a healthy monitor reported at 2026-09-14T22:51:45Z. The earlier failure and
+receipts remain retained. No accepted model run ingests this collection.
 
 ## Release snapshot status
 
@@ -118,8 +121,8 @@ explicit configurations at the top of this page.
 
 The intended public product boundary carries code, manifests and hashes, mapping/alias
 tables, aggregates, forecasts, scores, and synthetic acceptance fixtures. A publication
-audit identified one current exception: `tests/fixtures/solver_precision_2005-06-25.json`
-contains real archived numeric inputs and is not synthetic. Its synthetic replacement
-and history/provenance review are active; the exception remains explicit until cleanup
-is verified. Odds-provider rows and payloads governed by local or provider-specific
-terms remain outside Git. `DATA_LICENSES.md` lists the exact tracked-artifact treatment.
+audit identified a real-input numerical fixture, now replaced by an independently
+generated synthetic regression. Its earlier copy remains in Git history, with disposition
+still open; current-tree replacement does not erase previous objects. Odds-provider rows
+and payloads governed by local or provider-specific terms remain outside Git.
+`DATA_LICENSES.md` records the current inventory and historical fixture provenance.
