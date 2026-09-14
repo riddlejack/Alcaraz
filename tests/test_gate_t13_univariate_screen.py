@@ -18,7 +18,10 @@ the true label, its reversed orientation and player A's next-match outcome
 1.0 discrimination against their own target in every target year and fail the screen.
 A four-row oracle checks the shifted-target construction itself.
 
-NOT COVERED HERE: nothing of the C2 criterion; the screen is a monotone numeric
+NOT COVERED HERE: the SR02-eligibility half of the archive's ``aligned_primary`` cohort
+predicate (the sidecar fields are not joined); the cohort here is the reporter's
+label-based primary cohort, and the positive test asserts it equals the pipeline's
+committed primary membership on the sample. The screen is a monotone numeric
 current/next-player copy alarm, not a general future-data detector, as C2 declared.
 """
 
@@ -199,6 +202,10 @@ def test_the_auc_matches_the_closed_form_on_small_cases() -> None:
 def test_no_numeric_feature_copies_the_current_or_next_outcome(sample_run: dict[str, Any]) -> None:
     header, rows, labels, excluded, years = _inputs(sample_run)
     assert len(rows) > 1000 and sum(labels) not in (0, len(labels))
+    reporting = read_json(
+        sample_run["workspace"] / chain_document(sample_run)["chain"]["reporting_config"]
+    )
+    assert len(rows) == reporting["expected_membership"]["selected_primary_rows"]
     result = screen(rows, header, labels, excluded, years)
     assert_screen(result)
     assert result["columns_screened"] >= 200
