@@ -56,6 +56,12 @@ class RunSpec:
     modules: dict[str, str]  # stage -> ported module (python -m)
     inputs_stage: str = "bridge"  # the stage that writes <work_dir>/inputs
     side_dirs: tuple[str, ...] = ("predictor_config", "reporting_config")
+    work_links: tuple[str, ...] | None = None
+    link_live_siblings: bool = True
+    # (workspace-relative path, archive git commit, expected sha256). Historical
+    # amendments remain visible in the archive; the reconstruction can still bind the
+    # exact blob the accepted run used without editing the archive working tree.
+    git_file_overlays: tuple[tuple[str, str, str], ...] = ()
 
 
 ATP_STAGES = (
@@ -88,6 +94,25 @@ WTA_STAGES = (
     "bridge",
     "archive_panel",
     "event_carry_forward",
+    "join",
+    "prepare_panel",
+    "format_corrections",
+    "rule_mapping",
+    "sr02_replay",
+    "sr03_calibration",
+    "rankings",
+    "edition_index",
+    "features",
+    "sidecar",
+    "predictor_config",
+    "preflight",
+    "pipeline",
+    "barrier",
+    "reporting_config",
+    "report",
+)
+WTA01_STAGES = (
+    "archive_panel",
     "join",
     "prepare_panel",
     "format_corrections",
@@ -154,6 +179,23 @@ RUNS = {
         WTA_STAGES,
         WTA_MODULES,
     ),
+    "WTA01-binding/attempt_002": RunSpec(
+        "WTA01-binding/attempt_002",
+        "work/WTA01/run_001_primary",
+        "experiments/runs/WTA01/attempt_001/primary",
+        WTA01_STAGES,
+        WTA_MODULES,
+        inputs_stage="archive_panel",
+        work_links=("MULTI01_ranking_lookup",),
+        link_live_siblings=False,
+        git_file_overlays=(
+            (
+                "experiments/WTA01.design.md",
+                "1f18978828293c745b93879ea7fae41c821b2900",
+                "0428751403cbd8b1d52ef65f83a1a630d0b61d94f446a3ea5e286354071950f0",
+            ),
+        ),
+    ),
 }
 
 
@@ -209,23 +251,66 @@ def fresh_dir(path: Path) -> None:
     path.mkdir(parents=True)
 
 
+def link_archive_tops(spec: RunSpec, archive: Path, ws: Path) -> None:
+    """Link the archive roots, materialising only explicitly pinned historical blobs."""
+    for top in ("data", "references", "experiments"):
+        overlays = [item for item in spec.git_file_overlays if Path(item[0]).parts[0] == top]
+        if not overlays:
+            link(archive / top, ws / top)
+            continue
+        target_top = ws / top
+        fresh_dir(target_top)
+        direct_names: set[str] = set()
+        for relative, _commit, _expected in overlays:
+            parts = Path(relative).parts
+            if len(parts) != 2:
+                raise ValueError(f"git file overlay must be a direct child of {top}: {relative}")
+            direct_names.add(parts[1])
+        for child in sorted((archive / top).iterdir()):
+            if child.name not in direct_names:
+                link(child, target_top / child.name)
+        for relative, commit, expected in overlays:
+            completed = subprocess.run(
+                ["git", "-C", str(archive), "show", f"{commit}:{relative}"],
+                capture_output=True,
+                check=True,
+            )
+            target = ws / relative
+            target.write_bytes(completed.stdout)
+            observed = sha256(target)
+            if observed != expected:
+                raise ValueError(
+                    f"historical overlay hash mismatch for {relative}: {observed} != {expected}"
+                )
+
+
+def link_required_work(spec: RunSpec, archive: Path, work: Path, run_top: str) -> None:
+    """Expose only the declared support work directories when a run narrows the set."""
+    names = (
+        {child.name for child in (archive / "work").iterdir()}
+        if spec.work_links is None
+        else set(spec.work_links)
+    )
+    for name in sorted(names):
+        if name != run_top:
+            link(archive / "work" / name, work / name)
+
+
 def prepare(spec: RunSpec, stage: str, archive: Path) -> Path:
     """Build the scratch workspace: links into the archive, a real dir for ``stage``."""
     ws = workspace_root(spec, stage)
     ws.mkdir(parents=True, exist_ok=True)
-    for top in ("data", "references", "experiments"):
-        link(archive / top, ws / top)
+    link_archive_tops(spec, archive, ws)
     work = ws / "work"
     work.mkdir(exist_ok=True)
     run_top = Path(spec.work_dir).parts[1]  # e.g. TIER01
-    for child in sorted((archive / "work").iterdir()):
-        if child.name != run_top:
-            link(child, work / child.name)
+    link_required_work(spec, archive, work, run_top)
     live = ws / spec.work_dir
     live.mkdir(parents=True, exist_ok=True)
-    for child in sorted((archive / Path(spec.work_dir).parent).iterdir()):
-        if child.name != Path(spec.work_dir).name:
-            link(child, live.parent / child.name)
+    if spec.link_live_siblings:
+        for child in sorted((archive / Path(spec.work_dir).parent).iterdir()):
+            if child.name != Path(spec.work_dir).name:
+                link(child, live.parent / child.name)
     frozen = archive / spec.frozen_dir
     link(frozen / "configs", live / "configs")
     if stage == spec.inputs_stage:
@@ -473,19 +558,17 @@ def prepare_chain_workspace(spec: RunSpec, archive: Path) -> Path:
     if ws.exists():
         shutil.rmtree(ws)
     ws.mkdir(parents=True)
-    for top in ("data", "references", "experiments"):
-        link(archive / top, ws / top)
+    link_archive_tops(spec, archive, ws)
     work = ws / "work"
     work.mkdir()
     run_top = Path(spec.work_dir).parts[1]
-    for child in sorted((archive / "work").iterdir()):
-        if child.name != run_top:
-            link(child, work / child.name)
+    link_required_work(spec, archive, work, run_top)
     live = ws / spec.work_dir
     live.mkdir(parents=True)
-    for child in sorted((archive / Path(spec.work_dir).parent).iterdir()):
-        if child.name != Path(spec.work_dir).name:
-            link(child, live.parent / child.name)
+    if spec.link_live_siblings:
+        for child in sorted((archive / Path(spec.work_dir).parent).iterdir()):
+            if child.name != Path(spec.work_dir).name:
+                link(child, live.parent / child.name)
     frozen = archive / spec.frozen_dir
     shutil.copytree(frozen / "configs", live / "configs")
     for stale in (live / "configs").glob("*.filled.json"):
@@ -506,7 +589,7 @@ def run_chain(spec: RunSpec, archive: Path, chain_config: Path, start: str | Non
         "run",
         "--include-report",
         "--config",
-        str(chain_config),
+        str(chain_config.resolve()),
     ]
     if start:
         command += ["--from", start]

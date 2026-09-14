@@ -1,0 +1,14 @@
+{
+  "attempt_id": "WTA01-BINDING-002",
+  "audit_revision": 2,
+  "chain_artifacts_modified_after_failure": false,
+  "finding": {
+    "historical_forecast_bytes_different": 0,
+    "historical_forecast_bytes_identical": 288,
+    "market_selection_key_receipts_added_by_repaired_product": 6,
+    "reason": "The audit glob included the repaired product's six market selection-key receipts as extra forecasts.",
+    "substantive_acceptance_checks_failed": 0
+  },
+  "resolution": "Version the audit result, classify the six receipts as explicit semantic extras, and retain the exact 288-file forecast byte check.",
+  "status": "audit_scope_failed_on_expected_receipt_extras"
+}

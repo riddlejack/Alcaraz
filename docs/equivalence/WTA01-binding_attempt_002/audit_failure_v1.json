@@ -1,0 +1,24 @@
+{
+  "attempt_id": "WTA01-BINDING-002",
+  "audit_revision": 1,
+  "chain_artifacts_modified_after_failure": false,
+  "command": "TENNISLAB_ARCHIVE=<ARCHIVE_ROOT> uv run python tools/wta01_binding.py audit",
+  "failure": {
+    "exception": "TypeError: string indices must be integers, not 'str'",
+    "location": "arithmetic_audit reading primary.json annual_deltas",
+    "reason": "The read-only auditor expected a list of year/delta records, but the retained and rebuilt reports both store a year-to-delta mapping."
+  },
+  "model_run": {
+    "chain_comparator_sha256": "6bfc61877818e4497281d37d9ea7c0a66be474ac13fd6bab6468380566083967",
+    "exit_code": 0,
+    "integrity_problems": [],
+    "ledger_entries_verified": 18,
+    "status": "completed_and_verified_before_audit_exception"
+  },
+  "product": {
+    "audit_tool_sha256": "961dd63d806353211acb058187ca946d40eb0fb7b5ccb1fa95018fc3ac6a5a09",
+    "base_commit": "6d0f3adba3c7ca7a44fd8461f667d9f85e61fb08",
+    "config_sha256": "dcd93c8e7bc01a54759210c4bcd28df2bd2d22e892238711c13eaa3492e0c3c6"
+  },
+  "status": "audit_implementation_failed_after_verified_run"
+}

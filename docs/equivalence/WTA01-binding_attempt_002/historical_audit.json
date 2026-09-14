@@ -1,0 +1,552 @@
+{
+  "acceptance_checks": {
+    "active_crawl_latest_and_wta02_not_read": true,
+    "all_180_attempt_semantics_match": true,
+    "all_180_training_key_files_semantically_and_byte_match": true,
+    "all_288_forecasts_byte_identical": true,
+    "all_48_selection_records_and_key_receipts_match": true,
+    "all_6_market_selection_key_receipts_match": true,
+    "canonical_inputs_and_intermediates_byte_identical": true,
+    "generated_predictor_scientific_and_data_contract_match": true,
+    "join_market_rows_semantically_match_without_bridge_rows": true,
+    "primary_arithmetic_independently_recomputed": true,
+    "target_and_priced_membership_exact": true,
+    "ten_named_final_report_files_byte_identical": true
+  },
+  "access_audit": {
+    "access_logs": 17,
+    "forbidden_active_crawl_latest_or_wta02_references": [],
+    "records": 2263
+  },
+  "archive_commit_at_audit": "bc403865593fb2c4547ab09abac1024d60feb554",
+  "attempt_id": "WTA01-BINDING-002",
+  "attempt_semantics": {
+    "expected": 180,
+    "matched": 180,
+    "mismatches": []
+  },
+  "canonical_artifact_equivalence": {
+    "corrected_panel": {
+      "expected_sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+      "identical": true,
+      "observed_sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+      "path": "run/format_corrections/panel.csv",
+      "required_byte_identity": true
+    },
+    "feature_dictionary": {
+      "expected_sha256": "bafe9a5033875cee32cc86792d1b8c703d4b93453eb196f28289371e98b2262e",
+      "identical": true,
+      "observed_sha256": "bafe9a5033875cee32cc86792d1b8c703d4b93453eb196f28289371e98b2262e",
+      "path": "run/features/column_dictionary.json",
+      "required_byte_identity": true
+    },
+    "features": {
+      "expected_sha256": "08be99583ee8b06ab07222e017231b79d03d74506e4a4c724a97488c0eb8d6d1",
+      "identical": true,
+      "observed_sha256": "08be99583ee8b06ab07222e017231b79d03d74506e4a4c724a97488c0eb8d6d1",
+      "path": "run/features/features.csv",
+      "required_byte_identity": true
+    },
+    "labels": {
+      "expected_sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396",
+      "identical": true,
+      "observed_sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396",
+      "path": "run/features/labels.csv",
+      "required_byte_identity": true
+    },
+    "predictor_config": {
+      "expected_sha256": "41acb089a79c96d3c890102bc6c38d0eb838dfdd9bf7411800e66283f2ab6fdf",
+      "identical": false,
+      "observed_sha256": "05281c39c946f626f9f212c563a1a4254b84bfc935e5662f592144953c27c604",
+      "path": "predictor_config/config.json",
+      "required_byte_identity": false
+    },
+    "prepared_panel": {
+      "expected_sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+      "identical": true,
+      "observed_sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+      "path": "run/prepare_panel/panel.csv",
+      "required_byte_identity": true
+    },
+    "rules": {
+      "expected_sha256": "f647ff5d1c843450a1cf9cfbc95180b688ee588a3460171ef5c488639a8222ae",
+      "identical": true,
+      "observed_sha256": "f647ff5d1c843450a1cf9cfbc95180b688ee588a3460171ef5c488639a8222ae",
+      "path": "run/rule_mapping/rules.csv",
+      "required_byte_identity": true
+    },
+    "sidecar": {
+      "expected_sha256": "284a835d57fe9079a2a59f688f34714bc2a5e6a4020421b0d522c5b822b8863c",
+      "identical": true,
+      "observed_sha256": "284a835d57fe9079a2a59f688f34714bc2a5e6a4020421b0d522c5b822b8863c",
+      "path": "run/sidecar/trait_latent_sidecar.csv",
+      "required_byte_identity": true
+    },
+    "source_panel": {
+      "expected_sha256": "df2cb0e1c49a72853313c03b83a4b13a9e28dc48172c08d01e36dea8003e5476",
+      "identical": true,
+      "observed_sha256": "df2cb0e1c49a72853313c03b83a4b13a9e28dc48172c08d01e36dea8003e5476",
+      "path": "run/archive_panel/source_panel.csv",
+      "required_byte_identity": true
+    },
+    "sr02_history": {
+      "expected_sha256": "bed4a8661825c478ec7029834a85192eaa847655eadabc681d9583ccf48a426e",
+      "identical": true,
+      "observed_sha256": "bed4a8661825c478ec7029834a85192eaa847655eadabc681d9583ccf48a426e",
+      "path": "run/sr02_replay/selected_matches.csv",
+      "required_byte_identity": true
+    },
+    "sr03_fits": {
+      "expected_sha256": "a703f5609acd66fcad4fee28772fc84d960fc687fb10a75fc500fc54be0d9335",
+      "identical": true,
+      "observed_sha256": "a703f5609acd66fcad4fee28772fc84d960fc687fb10a75fc500fc54be0d9335",
+      "path": "run/sr03_calibration/fits.json",
+      "required_byte_identity": true
+    },
+    "sr03_forecasts": {
+      "expected_sha256": "14fa15a5608debc1604dfe26dc03c348205a98ff31b982dfb4e31fce58c09869",
+      "identical": true,
+      "observed_sha256": "14fa15a5608debc1604dfe26dc03c348205a98ff31b982dfb4e31fce58c09869",
+      "path": "run/sr03_calibration/predictions.csv",
+      "required_byte_identity": true
+    },
+    "sr03_training_membership": {
+      "expected_sha256": "81b5dd9202119f37823846bf02025845650585db022a2fdf63c9533a80e92a40",
+      "identical": true,
+      "observed_sha256": "81b5dd9202119f37823846bf02025845650585db022a2fdf63c9533a80e92a40",
+      "path": "run/sr03_calibration/training_membership.csv",
+      "required_byte_identity": true
+    }
+  },
+  "forecast_equivalence": {
+    "market": {
+      "different": [],
+      "expected": 12,
+      "extra": [
+        "market/2019/selection_keys.csv",
+        "market/2020/selection_keys.csv",
+        "market/2021/selection_keys.csv",
+        "market/2022/selection_keys.csv",
+        "market/2023/selection_keys.csv",
+        "market/2024/selection_keys.csv"
+      ],
+      "identical": 12,
+      "missing": [],
+      "observed": 18
+    },
+    "raw": {
+      "different": [],
+      "expected": 180,
+      "extra": [],
+      "identical": 180,
+      "missing": [],
+      "observed": 180
+    },
+    "selected": {
+      "different": [],
+      "expected": 48,
+      "extra": [],
+      "identical": 48,
+      "missing": [],
+      "observed": 48
+    },
+    "shared_base": {
+      "different": [],
+      "expected": 48,
+      "extra": [],
+      "identical": 48,
+      "missing": [],
+      "observed": 48
+    }
+  },
+  "generated_predictor_config_semantics": {
+    "changed_top_level_fields": [
+      "code",
+      "created_at_utc"
+    ],
+    "scientific_and_data_contract_equal": true
+  },
+  "independent_arithmetic": {
+    "annual": {
+      "2019": {
+        "log_loss_delta": -0.004169524416960188,
+        "n": 2337
+      },
+      "2020": {
+        "log_loss_delta": -0.001456133219032542,
+        "n": 1019
+      },
+      "2021": {
+        "log_loss_delta": -0.0059248004413184775,
+        "n": 2363
+      },
+      "2022": {
+        "log_loss_delta": -0.0035699118138680986,
+        "n": 2324
+      },
+      "2023": {
+        "log_loss_delta": -0.005825181319985827,
+        "n": 2453
+      },
+      "2024": {
+        "log_loss_delta": -0.006466933869557674,
+        "n": 2404
+      }
+    },
+    "basis": "independent row-wise log loss from rebuilt selected HGB full/base and labels, aligned-primary keys only",
+    "equal_year_log_loss_delta": -0.004568747513453801,
+    "match_weighted_log_loss_delta": -0.0049116616752896925,
+    "report_arithmetic_matches": true,
+    "tolerance": 2e-15
+  },
+  "join_market_rows_semantics": {
+    "accepted_carried_forward_rows": 0,
+    "added_columns": [
+      "market_date_basis"
+    ],
+    "added_market_date_basis_values": [
+      "tennis_data_reported_date"
+    ],
+    "differing_common_cells": 0,
+    "historical_rows_semantically_equal": true,
+    "observed_season_max": 2024,
+    "observed_season_min": 2007,
+    "rebuilt_columns": 49,
+    "removed_columns": [],
+    "rows": 42905,
+    "source_columns": 48,
+    "unequal_length": false
+  },
+  "limitations": [
+    "Passing bytes, membership and arithmetic establishes reconstruction only, not source truth, comprehensive leak freedom or scientific validity.",
+    "The product intentionally moves pre-barrier SR03 and selection scores behind the barrier; those artifact-location differences are adjudicated separately by the chain comparator.",
+    "Historical WTA01 remains exposed retrospective development with outcome-assisted rule-era provenance and a constant 2016 dynamic training window.",
+    "The original failed secondary attempts remain failed and were not reopened.",
+    "The market reference has unknown quote clocks and cannot support a market-efficiency, edge or value claim."
+  ],
+  "market_selection_receipts": {
+    "checked": [
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "134d8e65c0adee4b2907e2e4d95eb0ab023f53db5c8f24e4967e6f47bc9867b6",
+        "path": "market/2019/selection_keys.csv",
+        "rows": 7150,
+        "year": 2019
+      },
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "3b9723e541a825b666dfbbc8f974c11354b5fb0115053fad0e1f4fbca0ace9a3",
+        "path": "market/2020/selection_keys.csv",
+        "rows": 7050,
+        "year": 2020
+      },
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "403cb0176abb2a1004b0b2f46292119415fbde978ac97b00d3ab297859a01553",
+        "path": "market/2021/selection_keys.csv",
+        "rows": 5663,
+        "year": 2021
+      },
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "7aca638110fe13c0d2761c28b44dd33ad2ff2ef533c13d78e818ec719f09377c",
+        "path": "market/2022/selection_keys.csv",
+        "rows": 5651,
+        "year": 2022
+      },
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "29bd448ddb3db7d07f58000d02d783e9f5b3e090f641e8d7d8c78cdceb0b8ab8",
+        "path": "market/2023/selection_keys.csv",
+        "rows": 5641,
+        "year": 2023
+      },
+      {
+        "checks": {
+          "membership": true,
+          "outer_labels_unused": true,
+          "rows": true,
+          "selection_years": true
+        },
+        "membership_sha256": "323fc741b1bf1ae1fe07625a1b2e4d677ad3c6e825d7ccf4c086584bd5a9a3a2",
+        "path": "market/2024/selection_keys.csv",
+        "rows": 7067,
+        "year": 2024
+      }
+    ],
+    "expected": 6,
+    "problems": []
+  },
+  "membership": {
+    "basis": "aligned_primary from features plus SR02 sidecar; price is a projection afterward",
+    "priced_rows": 12785,
+    "primary_rows": 12900,
+    "years": {
+      "2019": {
+        "priced_membership_sha256": "956b093ddfafdcd580aca9d778032485df349bd29b9f47e48b54b1f6f0676ec9",
+        "priced_rows": 2317,
+        "primary_membership_sha256": "ad48952f44f34618f07f477af6ba50a2b19d5327660bd382b583895ed4423e0d",
+        "primary_rows": 2337,
+        "selected_prediction_membership_sha256": "d423730948d110ad84e5d247edf0d5d26eedcc68c897aea02f8c46050912563b",
+        "selected_prediction_rows_including_provisional": 2431
+      },
+      "2020": {
+        "priced_membership_sha256": "a87d1aa53e3643ac8bb8774695cba8efed4db7c1358febbd8eb12fdcade62b5d",
+        "priced_rows": 1013,
+        "primary_membership_sha256": "39fb912517f9f9ae7a147fe8a03351c7cb89f26464e4baac8a74bcaf2378ed9b",
+        "primary_rows": 1019,
+        "selected_prediction_membership_sha256": "1fcf92ce39118c2fbd66e1ea87994491e2eaffbead51a574e312780c9dafd99c",
+        "selected_prediction_rows_including_provisional": 1042
+      },
+      "2021": {
+        "priced_membership_sha256": "9126dcd2b7c045f080507a2bd7eb846bbe23955d984d0105ee2c6dd434bc2284",
+        "priced_rows": 2321,
+        "primary_membership_sha256": "5cb69b26f0279129be46ceff50c0e3cb55e5a00c9e31c5112a0123e8ad37c1b5",
+        "primary_rows": 2363,
+        "selected_prediction_membership_sha256": "e5146b0692223c8b9de10f50c619855774ef38668d9cb713b45a9bfa43e6818a",
+        "selected_prediction_rows_including_provisional": 2412
+      },
+      "2022": {
+        "priced_membership_sha256": "92d9421e4f631b1554b1bbcda0ea146a279ff56d0a794a551f0ac7021d9ad8d0",
+        "priced_rows": 2307,
+        "primary_membership_sha256": "7c2a6e0b489c7ed9d86f1ea4f4ba5c2982357f068f96928751f2b467aa65e95b",
+        "primary_rows": 2324,
+        "selected_prediction_membership_sha256": "cc1f2ae3c86400e5c66796206abac1dc40e8ff62578d1d28aab7dbb6432af515",
+        "selected_prediction_rows_including_provisional": 2341
+      },
+      "2023": {
+        "priced_membership_sha256": "85646f398e87ffd226fbb134c53f008f3ba029717c414b0ab25f9a28f7e9c284",
+        "priced_rows": 2439,
+        "primary_membership_sha256": "a46671a6fa3a207e873529f95246103cb2bd6360046eb849629cfba3e6df0a02",
+        "primary_rows": 2453,
+        "selected_prediction_membership_sha256": "715bfadc546977d4197371dc83c36301a96ddf5d11dacba0f506006ee0cbba95",
+        "selected_prediction_rows_including_provisional": 2460
+      },
+      "2024": {
+        "priced_membership_sha256": "4b57e61fe21e3cb15646ae15b7aab643d96cd684ce8bb98ca4bf77f7d369f699",
+        "priced_rows": 2388,
+        "primary_membership_sha256": "d8ea95686b31626998afd96a69eb723b159925851417cd22bb22192b4477eb01",
+        "primary_rows": 2404,
+        "selected_prediction_membership_sha256": "f712b4c95dfbbf7e7c2a193043c23959ac73bfa1ed92484f8f859c5916d9be18",
+        "selected_prediction_rows_including_provisional": 2458
+      }
+    }
+  },
+  "named_report_equivalence": {
+    "annual_contrasts.csv": {
+      "expected_sha256": "7e461fef2f932c405b41ca97d0de3702b263825810f39aca5bfeb35929e0869b",
+      "identical": true,
+      "observed_sha256": "7e461fef2f932c405b41ca97d0de3702b263825810f39aca5bfeb35929e0869b"
+    },
+    "annual_metrics.csv": {
+      "expected_sha256": "e45142fa3aa36d13edcc4ea51ac83b20e4877345da677ff13431d5c3cac6bd15",
+      "identical": true,
+      "observed_sha256": "e45142fa3aa36d13edcc4ea51ac83b20e4877345da677ff13431d5c3cac6bd15"
+    },
+    "bootstrap.csv": {
+      "expected_sha256": "bf4c2619d4f3902f5cbd1bcced411bc745ac09e7ea0c170389f34f4e81b8feb0",
+      "identical": true,
+      "observed_sha256": "bf4c2619d4f3902f5cbd1bcced411bc745ac09e7ea0c170389f34f4e81b8feb0"
+    },
+    "contrast_summary.csv": {
+      "expected_sha256": "befa94f51e012203e41d31891fb43f5b991499f5652ad98e46404d36cb5679dc",
+      "identical": true,
+      "observed_sha256": "befa94f51e012203e41d31891fb43f5b991499f5652ad98e46404d36cb5679dc"
+    },
+    "coverage.csv": {
+      "expected_sha256": "4c1ab4016dcc565ee36fb013c4de8c90b7dc26e33b4f01f6a7b8bcc166a3925e",
+      "identical": true,
+      "observed_sha256": "4c1ab4016dcc565ee36fb013c4de8c90b7dc26e33b4f01f6a7b8bcc166a3925e"
+    },
+    "pooled_metrics.csv": {
+      "expected_sha256": "431b6e1e5f1084a7621052b31f3995af3f86eaf0df84fccb342026289334dc28",
+      "identical": true,
+      "observed_sha256": "431b6e1e5f1084a7621052b31f3995af3f86eaf0df84fccb342026289334dc28"
+    },
+    "primary.json": {
+      "expected_sha256": "1a2bfeec56939069213832ac06271b20c8f966dc236165d2493bbc78de2e9277",
+      "identical": true,
+      "observed_sha256": "1a2bfeec56939069213832ac06271b20c8f966dc236165d2493bbc78de2e9277"
+    },
+    "reliability.csv": {
+      "expected_sha256": "c80ff9a93be49e1f435a398ac7f6c03b2c686aff6d734d4e6619aa2936f90899",
+      "identical": true,
+      "observed_sha256": "c80ff9a93be49e1f435a398ac7f6c03b2c686aff6d734d4e6619aa2936f90899"
+    },
+    "report.md": {
+      "expected_sha256": "6c64dc1dfd1afce4edb83c793c2d5ea30f9c25e339a07a005c64453bc026d97b",
+      "identical": true,
+      "observed_sha256": "6c64dc1dfd1afce4edb83c793c2d5ea30f9c25e339a07a005c64453bc026d97b"
+    },
+    "selection_diagnostics.csv": {
+      "expected_sha256": "3c7f983de481f1954b2c1ce545358dd9e46cf3de817b8c927d106850d2a7cbb5",
+      "identical": true,
+      "observed_sha256": "3c7f983de481f1954b2c1ce545358dd9e46cf3de817b8c927d106850d2a7cbb5"
+    }
+  },
+  "product_commit_at_audit": "6d0f3adba3c7ca7a44fd8461f667d9f85e61fb08",
+  "report_tree_comparator": {
+    "different": [
+      "artifact_manifest.json",
+      "result.json",
+      "selection_receipts.json",
+      "stage_manifest.json",
+      "start.json",
+      "stdout.txt"
+    ],
+    "expected": 17,
+    "extra": [
+      "access_log.jsonl",
+      "selection_trials.json"
+    ],
+    "identical": 11,
+    "missing": [],
+    "observed": 19
+  },
+  "retained_original_secondary_failures": {
+    "experiments/runs/WTA01/attempt_001/STOP-secondary-2017.md": {
+      "bytes": 14378,
+      "path": "experiments/runs/WTA01/attempt_001/STOP-secondary-2017.md",
+      "sha256": "bb09fb98d6f67caf9b508b483770d25cd4370a0a41f0117b327020b8e4aee93c"
+    },
+    "experiments/runs/WTA01/attempt_001/STOP.md": {
+      "bytes": 7625,
+      "path": "experiments/runs/WTA01/attempt_001/STOP.md",
+      "sha256": "a6e12efdf53d04c51977e0798353adc87aa0d34bdfc13582ea9e56b7575ec30d"
+    }
+  },
+  "scope": "retrospective WTA01 product reconstruction only; this does not accept E/G or establish scientific validity",
+  "selection_records": {
+    "bad_selection_key_receipts": [],
+    "expected": 48,
+    "matched": 48,
+    "mismatches": [],
+    "selection_key_receipts_verified": 48
+  },
+  "semantic_exceptions": {
+    "join_manifest": {
+      "reason": "The repaired join emits a generic WTA02-era manifest schema and an explicit market_date_basis column; all 42,905 historical common-column cells match, no season exceeds 2024, and no carried-forward row exists.",
+      "rebuilt_id": "WTA02-market-join"
+    },
+    "market_selection_key_receipts_added": [
+      "market/2019/selection_keys.csv",
+      "market/2020/selection_keys.csv",
+      "market/2021/selection_keys.csv",
+      "market/2022/selection_keys.csv",
+      "market/2023/selection_keys.csv",
+      "market/2024/selection_keys.csv"
+    ],
+    "predictor_config": {
+      "expected_sha256": "41acb089a79c96d3c890102bc6c38d0eb838dfdd9bf7411800e66283f2ab6fdf",
+      "observed_sha256": "05281c39c946f626f9f212c563a1a4254b84bfc935e5662f592144953c27c604",
+      "reason": "Repaired-product code receipts and post-barrier selection-score handling change generated provenance fields; scientific settings and all forecast bytes are audited separately."
+    },
+    "sr03_component": {
+      "files": {
+        "count": 9,
+        "files": {
+          "access_log.jsonl": {
+            "bytes": 5632,
+            "sha256": "0a7684c7094f7295986af45328189e0f7d8dba32a9337f0536f7a0f27683ed88"
+          },
+          "cohort_counts.json": {
+            "bytes": 394,
+            "sha256": "87b9ae8a0007dbe81470e381b57cd7bfc350ba3a6cb4939e786fadac658df584"
+          },
+          "comparisons.json": {
+            "bytes": 7351,
+            "sha256": "2a84ee98e57935ca88e563ca696fb3fd6f44030df1f46a659b336eb60926da72"
+          },
+          "component_manifest.json": {
+            "bytes": 2992,
+            "sha256": "969fc3081b6155e8e49d71c81bc802c96615ed8da640f9a0368d4e5118f55b4f"
+          },
+          "metrics.csv": {
+            "bytes": 32530,
+            "sha256": "395044390553ed6eb530a288944bd20c4473340b1033bbdf7969baf5de8c1c4c"
+          },
+          "reliability.csv": {
+            "bytes": 5900,
+            "sha256": "f63df5671ff438e5773c0bab1ea9f10b2a76910e05734f0c61b510a9ca3b057b"
+          },
+          "stage_manifest.json": {
+            "bytes": 7963,
+            "sha256": "cd05248720ca007cf0060efed04f275f8cdfbcf73e1d48a64a8ac9b254879f5b"
+          },
+          "stderr.txt": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout.txt": {
+            "bytes": 126,
+            "sha256": "761de81718f84aabe1897aa2f6c49758557500a7e17b90fb409a759d0b7185d9"
+          }
+        },
+        "tree_sha256": "a5fcfc55740314036ccef8ed0cd208427fa30d445b66dabbc316284d12209fe5"
+      },
+      "reason": "The repaired runner adds a post-barrier SR03 component report that the retained WTA01 run did not contain."
+    }
+  },
+  "status": "historical_reconstruction_passed",
+  "training_keys": {
+    "different": [],
+    "expected": 180,
+    "extra": [],
+    "identical": 180,
+    "missing": [],
+    "observed": 180
+  },
+  "unmatched_artifacts": {
+    "forecast_different": {},
+    "forecast_extra": {
+      "market": [
+        "market/2019/selection_keys.csv",
+        "market/2020/selection_keys.csv",
+        "market/2021/selection_keys.csv",
+        "market/2022/selection_keys.csv",
+        "market/2023/selection_keys.csv",
+        "market/2024/selection_keys.csv"
+      ]
+    },
+    "forecast_missing": {},
+    "report_different": [
+      "artifact_manifest.json",
+      "result.json",
+      "selection_receipts.json",
+      "stage_manifest.json",
+      "start.json",
+      "stdout.txt"
+    ],
+    "report_extra": [
+      "access_log.jsonl",
+      "selection_trials.json"
+    ],
+    "report_missing": []
+  },
+  "workspace": "<PRODUCT_ROOT>/data/runs/equivalence/WTA01-binding_attempt_002/_chain"
+}
