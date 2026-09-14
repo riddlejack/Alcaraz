@@ -1,7 +1,8 @@
-"""`tennislab` command line: the entry points named in the rebuild plan.
+"""``tennislab``: the command line over the package.
 
-Every subcommand is a thin wrapper over a pure function in the package. Subcommands
-that are not yet ported say so and exit non-zero rather than pretending.
+Every subcommand is a thin wrapper over a function in the package; the chain commands
+delegate to :mod:`tennislab.chain.runner`, which is the only process that launches
+stages.
 """
 
 from __future__ import annotations
@@ -12,19 +13,27 @@ from collections.abc import Sequence
 
 from tennislab import __version__
 
-PORTED: dict[str, str] = {}
-PLANNED = ("panel", "features", "fit", "report", "update", "forecast", "verify")
+CHAIN_COMMANDS = ("print", "write-configs", "dry-run", "run", "report", "verify")
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tennislab", description=__doc__)
     parser.add_argument("--version", action="version", version=f"tennislab {__version__}")
     subparsers = parser.add_subparsers(dest="command", required=True)
+    chain = subparsers.add_parser(
+        "chain", help="drive a chain run stage by stage with a hash barrier"
+    )
+    chain.add_argument("chain_command", choices=CHAIN_COMMANDS)
+    chain.add_argument("--config", required=True, help="the chain configuration (JSON)")
+    chain.add_argument("--from", dest="start")
+    chain.add_argument("--to", dest="stop")
+    chain.add_argument("--include-report", action="store_true")
     subparsers.add_parser(
         "reproduce-small", help="reproduce one headline number from the committed sample"
     )
-    for name in PLANNED:
-        subparsers.add_parser(name, help=f"{name} (not yet ported)")
+    ladder = subparsers.add_parser("report", help="reporting over completed runs")
+    ladder.add_argument("--ladder", action="store_true", help="the per-tour, per-year model ladder")
+    ladder.add_argument("--runs", nargs="*", default=[], help="run directories to read")
     return parser
 
 
@@ -35,9 +44,22 @@ def reproduce_small() -> int:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if args.command == "chain":
+        from tennislab.chain import runner
+
+        forwarded = [args.chain_command, "--config", args.config]
+        if args.start:
+            forwarded += ["--from", args.start]
+        if args.stop:
+            forwarded += ["--to", args.stop]
+        if args.include_report:
+            forwarded.append("--include-report")
+        return runner.main(forwarded)
     if args.command == "reproduce-small":
         return reproduce_small()
-    print(f"tennislab {args.command}: not yet ported", file=sys.stderr)
+    if args.command == "report":
+        print("tennislab report --ladder: not yet ported", file=sys.stderr)
+        return 2
     return 2
 
 
