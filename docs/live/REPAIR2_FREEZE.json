@@ -1,0 +1,8 @@
+{
+  "base_rejected_repair_commit": "542d85e7c0c4e495e582bdbc0201a8a8001a1831",
+  "frozen_utc": "2026-09-14T22:07:03Z",
+  "repair_contract": "docs/live/REPAIR2.md",
+  "repair_contract_sha256": "6105cc44a6854b9d720dba0faf606498f8ccb4343ce1f164b8df4e7eb32fe676",
+  "scope": "Lane D reconstruction F1-F3 only; synthetic public controls; no D2, source traffic, real history, refit, real forecast, campaign, scheduler, push or merge",
+  "schema_version": "live-repair-freeze-2"
+}
