@@ -46,6 +46,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -1379,7 +1380,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     document = read_config(args.config) if args.config is not None else None
     settings = configure(document)
-    output_dir = resolve_under_root(args.output_dir, label="output_dir")
+    output_dir = resolve_output_under_root(args.output_dir, label="output_dir")
     if args.mode == "build":
         print(json.dumps(build(output_dir, settings), indent=2, sort_keys=True))
     else:

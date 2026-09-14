@@ -57,6 +57,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256_bytes,
     year_plan,
@@ -333,7 +334,7 @@ def run(config_path: Path) -> dict[str, Any]:
     inventory_hash = require_hash(
         inventory_path, section["rule_inventory"].get("sha256"), label="rule_inventory"
     )
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
 
     # Any retained rule source the era table cites is re-hashed here, so an era that
     # claims a published announcement cannot drift away from the bytes it claims.

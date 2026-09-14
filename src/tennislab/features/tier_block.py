@@ -62,6 +62,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     year_plan,
@@ -552,7 +553,7 @@ def run(config: Mapping[str, Any]) -> dict[str, Any]:
                 bucket["aligned_primary_candidates"] += 1
                 bucket["aligned_primary_thin_side"] += thin
 
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     output_dir.mkdir(parents=True, exist_ok=True)
     header = [*sidecar_header, *sidecar_columns]
     outputs = {

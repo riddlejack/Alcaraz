@@ -43,6 +43,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -225,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
     document = read_config(args.config) if args.config else None
-    output = resolve_under_root(args.output, label="output")
+    output = resolve_output_under_root(args.output, label="output")
     if args.dry_run and str((document or {}).get("tour", "ATP")).upper() == "WTA":
         section = (document or {}).get("format_corrections", document or {})
         parent = resolve_under_root(section["parent_panel"]["path"], label="parent_panel")

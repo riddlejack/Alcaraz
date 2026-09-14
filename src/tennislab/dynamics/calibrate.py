@@ -39,6 +39,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -91,7 +92,7 @@ def scoring_selection(
 
 def run(config_path: Path, output: Path) -> dict[str, Any]:
     config_path = resolve_under_root(config_path, label="config")
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     config = read_config(config_path)
     window = CalibrationWindow.from_config(config)
     calibration.validate_config(config, require_frozen=True, window=window)

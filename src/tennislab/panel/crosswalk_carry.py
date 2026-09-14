@@ -57,6 +57,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -442,7 +443,7 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         return 0
-    build(resolve_under_root(args.output, label="output"), document)
+    build(resolve_output_under_root(args.output, label="output"), document)
     return 0
 
 
