@@ -1,0 +1,31 @@
+{
+  "different": {
+    "summary.json": {
+      "changed_leaves": 10,
+      "first": [
+        "code.declared_binding: \"<absent>\" -> {\"path\": \"references/CONFIRM2026_elo/elo_engine.py\", \"sha256\": \"7400705db42a446f86968494c0c76fa416653927353522519b691195",
+        "code.elo_engine.module: \"<absent>\" -> \"tennislab.ratings.elo\"",
+        "code.elo_engine.package_version: \"<absent>\" -> \"0.1.0\"",
+        "code.elo_engine.path: \"references/CONFIRM2026_elo/elo_engine.py\" -> \"<absent>\"",
+        "code.elo_engine.sha256: \"7400705db42a446f86968494c0c76fa416653927353522519b69119591646f8b\" -> \"745e150f6ff35f6aa4c565d1dc441aefe212194cd226d98a3b5bd641bc03806e\"",
+        "code.tier_elo.module: \"<absent>\" -> \"tennislab.ratings.tier_elo\"",
+        "code.tier_elo.package_version: \"<absent>\" -> \"0.1.0\"",
+        "code.tier_elo.path: \"references/TIER01_models/tier_elo.py\" -> \"<absent>\"",
+        "code.tier_elo.sha256: \"13fe3563073c9b9a56ebfa8ed99d68634e133aedd5c6c8e5c004df4884683d45\" -> \"c237fac2d5e8e86408f64b514d60a33bb7f76fe1b91ce1138cc87d8d8db37d69\"",
+        "outcome_reads: \"<absent>\" -> [{\"purpose\": \"elo_state_replay\", \"rows\": 51222, \"year_ceiling\": 2024}]"
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt",
+    "stdout.txt",
+    "tier_elo_coverage_by_year.csv",
+    "tier_elo_features.csv",
+    "tier_offsets_by_year.csv"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "tier_elo"
+}

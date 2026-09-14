@@ -1,0 +1,27 @@
+{
+  "different": {
+    "summary.json": {
+      "changed_leaves": 4,
+      "first": [
+        "code.path: \"references/TIER01_models/tier_block.py\" -> \"<absent>\"",
+        "code.runner: \"<absent>\" -> {\"module\": \"tennislab.models.pipeline\", \"package_version\": \"0.1.0\", \"sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a5919",
+        "code.sha256: \"381ae65bddfb08f83f379d4008144c34ec83c006ffbd6a2b5c6fa6f7643ae291\" -> \"<absent>\"",
+        "code.tier_block: \"<absent>\" -> {\"module\": \"tennislab.features.tier_block\", \"package_version\": \"0.1.0\", \"sha256\": \"55fd7700f2dc06fb9061f3c0045ec00673923"
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "coverage_by_year.csv",
+    "stderr.txt",
+    "stdout.txt",
+    "thin_side_membership.csv",
+    "tier_detail.csv.gz",
+    "tier_dictionary.json",
+    "trait_latent_sidecar.csv"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "tier_block"
+}

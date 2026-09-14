@@ -1,0 +1,27 @@
+{
+  "different": {
+    "summary.json": {
+      "changed_leaves": 4,
+      "first": [
+        "code.module: \"<absent>\" -> \"tennislab.ratings.tier_stream\"",
+        "code.package_version: \"<absent>\" -> \"0.1.0\"",
+        "code.path: \"references/TIER01_models/tier_stream.py\" -> \"<absent>\"",
+        "code.sha256: \"9ea809196fe0e378712053cdfd85a1209823f4a48d58ecb0645470c139d1e45b\" -> \"050bdb74444dccfb46621200f4a9c63ba7972a61da2012af5f3556e2a16b59c3\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt",
+    "stdout.txt",
+    "tier_circuit_dating.csv",
+    "tier_counts_by_year.csv",
+    "tier_exclusions.csv",
+    "tier_results.csv.gz",
+    "tier_source_rows.csv.gz"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "tier_stream"
+}
