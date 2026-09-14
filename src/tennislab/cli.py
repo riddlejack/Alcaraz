@@ -38,7 +38,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     ladder = subparsers.add_parser("report", help="reporting over completed runs")
     ladder.add_argument("--ladder", action="store_true", help="the per-tour, per-year model ladder")
-    ladder.add_argument("--runs", nargs="*", default=[], help="run directories to read")
+    ladder.add_argument(
+        "--runs",
+        nargs="*",
+        default=[],
+        metavar="TOUR=RUN_ROOT",
+        help="completed run roots, e.g. ATP=data/runs/atp_tier01/run",
+    )
     return parser
 
 
@@ -60,8 +66,16 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         return reproduce.main(["--pin"] if args.pin else [])
     if args.command == "report":
-        print("tennislab report --ladder: not yet ported", file=sys.stderr)
-        return 2
+        if not args.ladder:
+            print("tennislab report: pass --ladder", file=sys.stderr)
+            return 2
+        from tennislab.evaluation import ladder
+
+        forwarded: list[str] = []
+        for item in args.runs:
+            forwarded += ["--run", item]
+        return ladder.main(forwarded)
+    return 2
     return 2
 
 
