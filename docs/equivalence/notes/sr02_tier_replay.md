@@ -1,0 +1,7 @@
+# sr02_tier_replay
+Base revision: TIER01_models/sr02_replay.py run with `sr02_replay.tier_feed.enabled = true` (same module as sr02_replay, `tennislab.dynamics.replay`; see sr02_replay.md for the merged switches and the `tour` reporting shape). The lower-tier feed (`tier_stream`'s gzip CSV, header asserted equal to `dynamic.SOURCE_ROW_FIELDS`, 2010–2024) is appended to the history observations only; the declared best-of-three rule a feed row would take is recorded in `tier_feed_rule_basis.json` and not consumed; the targets whose event shares a `tourney_id` with an admitted qualifying row are listed in `same_event_qualifying_membership.csv`.
+ATP TIER01/attempt_002: identical 8/9 (selected_matches.csv, selection_map.csv, selection_carry_forward.csv, stale_state_rows.csv, same_event_qualifying_membership.csv, tier_feed_rule_basis.json, stdout.txt, stderr.txt); differing: run_manifest.json (7 leaves, all under `code`: replay/dynamic/path_runner receipts and `declared_binding`) — provenance only. The solver receipts (`solver_summaries`: batch count, acceptance counts, maximum iterations, maximum gradient and Newton decrement, consumed `service_points`) and the feed summary (119,141 rows, 16,379,112 service points available) are identical to the archive's — no leaf outside `code` differs.
+WTA WTA02/attempt_002: not a WTA02 stage.
+Label reads: none.
+Learned constants: none.
+Open: nothing.

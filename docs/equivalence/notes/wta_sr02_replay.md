@@ -1,0 +1,7 @@
+# wta_sr02_replay (WTA02/attempt_002, stage sr02_replay)
+Base revision: TIER01_models/sr02_replay.py with the WTA02_models/sr02_replay.py additions merged (module `tennislab.dynamics.replay`; see sr02_replay.md). This run exercises the WTA02 switches: `relabelled_count_block_statuses = ["quarantined_invalid", "partial_missing"]` (a partial block missing the service-game count is replayed as `missing_all`), `count_history_from_year = 2016` (every earlier row's block is suppressed so the states initialise at 2016), `annual_eligible_floor_year = 2016`, source span 2007–2026 with four carried-forward selections (2025, 2026 per family), and `tour = "WTA"` selecting the WTA02 reporting shape (manifest id `CONFIRM2026-sr02-replay`, `dynamic_dispersion_by_year`, `years_with_a_constant_dynamic_probability`, WTA02 `limits`, stdout without the tier-feed keys).
+WTA WTA02/attempt_002: identical 6/7 (selected_matches.csv, selection_map.csv, selection_carry_forward.csv, stale_state_rows.csv, stdout.txt, stderr.txt); differing: run_manifest.json (7 leaves, all under `code`: replay/dynamic/path_runner receipts and `declared_binding`) — provenance only. The `source` summary (107 quarantined blocks, relabelling and pre-floor suppression counts), solver receipts, dispersion report and constant-probability years are identical.
+ATP TIER01/attempt_002: see sr02_replay.md.
+Label reads: none.
+Learned constants: none (carried-forward selections are inherited, not learned).
+Open: nothing.

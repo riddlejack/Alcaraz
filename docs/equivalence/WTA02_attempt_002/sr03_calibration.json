@@ -1,0 +1,30 @@
+{
+  "different": {
+    "run_manifest.json": {
+      "changed_leaves": 1,
+      "first": [
+        "code: \"<absent>\" -> {\"calibrate\": {\"module\": \"tennislab.dynamics.calibrate\", \"package_version\": \"0.1.0\", \"sha256\": \"2b34f7c3ae48704a45332884"
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "cohort_counts.json",
+    "comparisons.json",
+    "fit_events.jsonl",
+    "fits.json",
+    "metrics.csv",
+    "predictions.csv",
+    "predictions_boundary.json",
+    "reliability.csv",
+    "scoring_boundary.json",
+    "start.json",
+    "stderr.txt",
+    "stdout.txt",
+    "training_membership.csv"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "sr03_calibration"
+}

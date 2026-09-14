@@ -1,0 +1,399 @@
+"""Archive ``references/SR03_calibration/test_calibration.py``, importing from the package.
+
+Adaptations: the fit-failure tests expect :class:`CalibrationError` (a ``ChainError``)
+where the archive raised ``RuntimeError``; the corrupted-binding test builds a synthetic
+workspace instead of relying on the archive's own files; a stage-level test covers the
+``score_years_max`` switch of ``calibrate``.
+"""
+
+import copy
+import hashlib
+import json
+import os
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+from tennislab.config import reset_workspace_cache
+from tennislab.dynamics import calibrate, calibration
+from tennislab.dynamics.calibration import CalibrationError, CalibrationWindow
+
+FIXTURES = Path(__file__).resolve().parent / "fixtures"
+EDGES = [i / 10 for i in range(11)]
+
+
+def synthetic_rows():
+    rows = []
+    outcomes = {}
+    probabilities = (0.24, 0.34, 0.44, 0.56, 0.66, 0.76)
+    for year in range(2011, 2016):
+        dates = [f"{year}-03-{index + 1:02d}" for index in range(4)] + [
+            f"{year}-12-30",
+            f"{year}-12-31",
+        ]
+        for index, (date, probability) in enumerate(zip(dates, probabilities, strict=True)):
+            match_id = f"{year}-S/{index}"
+            tier = "provisional" if year >= 2014 and index == 5 else "primary"
+            row = {
+                "match_id": match_id,
+                "match_date": date,
+                "date": calibration.parse_date(date),
+                "source_season": str(year),
+                "source_key": match_id,
+                "tourney_id": f"{year}-S{index // 2}",
+                "surface": "Hard" if index % 2 else "Clay",
+                "best_of": "3",
+                "player_a": str(1000 + index),
+                "player_b": str(2000 + index),
+                "identity_tier": tier,
+                "played": True,
+                "completed": index != 0,
+                "source_agreement": index != 1,
+                "annual_target_eligible": year >= 2012,
+                "raw_dynamic": probability,
+                "raw_unadjusted": 0.5 + 0.8 * (probability - 0.5),
+                "raw_simple_unadjusted": 0.5 + 0.6 * (probability - 0.5),
+                "pinnacle_raw_normalized": 0.5 + 0.9 * (probability - 0.5),
+            }
+            rows.append(row)
+            outcomes[match_id] = int(index >= 3 if year % 2 else index >= 2)
+    return rows, outcomes
+
+
+class ProtocolTests(unittest.TestCase):
+    def test_candidate_config_cannot_run(self):
+        config = json.loads((FIXTURES / "sr03_config.candidate.json").read_text())
+        with self.assertRaisesRegex(ValueError, "frozen configuration"):
+            calibration.validate_config(config, require_frozen=True)
+
+    def test_three_year_cutoff_excludes_preceding_december_31(self):
+        rows, outcomes = synthetic_rows()
+        selected = calibration.training_rows(rows, outcomes, 2014)
+        self.assertEqual({row["date"].year for row in selected}, {2011, 2012, 2013})
+        self.assertEqual(selected[-1]["match_date"], "2013-12-30")
+        self.assertNotIn("2013-S/5", {row["match_id"] for row in selected})
+
+    def test_future_labels_cannot_change_earlier_fit_or_prediction(self):
+        rows, outcomes = synthetic_rows()
+        first_predictions, first_fits, _ = calibration.fit_and_predict(rows, outcomes, [2014, 2015])
+        mutated = dict(outcomes)
+        for row in rows:
+            if row["date"].year >= 2014:
+                mutated[row["match_id"]] = 1 - mutated[row["match_id"]]
+        second_predictions, second_fits, _ = calibration.fit_and_predict(
+            rows, mutated, [2014, 2015]
+        )
+        first_2014 = [row for row in first_predictions if row["calibration_year"] == 2014]
+        second_2014 = [row for row in second_predictions if row["calibration_year"] == 2014]
+        self.assertEqual(first_2014, second_2014)
+        self.assertEqual(
+            [row for row in first_fits if row["outer_year"] == 2014],
+            [row for row in second_fits if row["outer_year"] == 2014],
+        )
+        self.assertNotEqual(
+            [row for row in first_fits if row["outer_year"] == 2015],
+            [row for row in second_fits if row["outer_year"] == 2015],
+        )
+        self.assertTrue(
+            all("a_won" not in row and "completed" not in row for row in first_predictions)
+        )
+
+    def test_orientation_swap_complements_forecasts_and_preserves_slopes(self):
+        rows, outcomes = synthetic_rows()
+        predictions, fits, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        swapped = copy.deepcopy(rows)
+        swapped_outcomes = {}
+        for row in swapped:
+            row["player_a"], row["player_b"] = row["player_b"], row["player_a"]
+            for family, _ in calibration.FAMILIES:
+                row[f"raw_{family}"] = 1 - row[f"raw_{family}"]
+            row["pinnacle_raw_normalized"] = 1 - row["pinnacle_raw_normalized"]
+            swapped_outcomes[row["match_id"]] = 1 - outcomes[row["match_id"]]
+        swapped_predictions, swapped_fits, _ = calibration.fit_and_predict(
+            swapped, swapped_outcomes, [2014]
+        )
+        for left, right in zip(fits, swapped_fits, strict=True):
+            self.assertAlmostEqual(
+                left["fit"]["market_slope"], right["fit"]["market_slope"], places=10
+            )
+        by_id = {row["match_id"]: row for row in swapped_predictions}
+        for row in predictions:
+            other = by_id[row["match_id"]]
+            for family, _ in calibration.FAMILIES:
+                self.assertAlmostEqual(
+                    row[f"calibrated_{family}"] + other[f"calibrated_{family}"], 1.0, places=12
+                )
+
+    def test_fit_contract_is_one_nonnegative_unpenalized_slope(self):
+        rows, outcomes = synthetic_rows()
+        _, fits, membership = calibration.fit_and_predict(rows, outcomes, [2014])
+        self.assertEqual(len(fits), 3)
+        self.assertEqual(len(membership), len(calibration.training_rows(rows, outcomes, 2014)))
+        for record in fits:
+            fit = record["fit"]
+            self.assertIsNone(fit["penalty"])
+            self.assertEqual(fit["residual_coefficient"], 0.0)
+            self.assertGreaterEqual(fit["market_slope"], 0.0)
+            self.assertEqual(record["training_max_date"], "2013-12-30")
+
+    def test_constant_half_probability_uses_unit_slope_convention(self):
+        rows, outcomes = synthetic_rows()
+        for row in rows:
+            for family, _ in calibration.FAMILIES:
+                row[f"raw_{family}"] = 0.5
+        predictions, fits, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        self.assertTrue(all(record["fit"]["market_slope"] == 1.0 for record in fits))
+        self.assertTrue(
+            all(
+                prediction[f"calibrated_{family}"] == 0.5
+                for prediction in predictions
+                for family, _ in calibration.FAMILIES
+            )
+        )
+
+    def test_window_from_year_plan_reproduces_sr03_for_the_2024_plan(self):
+        plan = {
+            "panel_end_year": 2024,
+            "feature_end_year": 2024,
+            "target_years": list(range(2017, 2025)),
+            "calibration_years_back": 3,
+            "history_floor_year": 2011,
+            "training_window_years": 5,
+        }
+        self.assertEqual(
+            CalibrationWindow.from_config({"year_plan": plan}), calibration.SR03_WINDOW
+        )
+        self.assertEqual(CalibrationWindow.from_config({}), calibration.SR03_WINDOW)
+        with self.assertRaises(CalibrationError):
+            CalibrationWindow(
+                outer_years=(2010,),
+                training_calendar_years=3,
+                date_year_min=2011,
+                date_year_max=2024,
+                source_season_min=2000,
+                source_season_max=2024,
+                annual_eligible_floor_year=2012,
+            )
+
+
+class EvaluationTests(unittest.TestCase):
+    def test_all_models_use_paired_cohorts_and_fixed_bins(self):
+        rows, outcomes = synthetic_rows()
+        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        metrics, bins, comparisons, counts = calibration.evaluate(
+            rows, outcomes, predictions, edges=EDGES, bootstrap_seed=71101, bootstrap_repetitions=20
+        )
+        groups = {}
+        for row in metrics:
+            groups.setdefault((row["scope"], row["cohort"], row["year"]), []).append(row)
+        for (scope, _, _), items in groups.items():
+            expected_models = 7 if scope == "priced_primary_2014_2024" else 6
+            self.assertEqual(len(items), expected_models)
+            self.assertEqual(len({item["n"] for item in items}), 1)
+        self.assertEqual(len(bins), 60)
+        self.assertEqual(
+            sum(item["n"] for item in bins if item["model"] == "calibrated_dynamic"), 5
+        )
+        self.assertEqual(len(comparisons), 4)
+        self.assertEqual(counts["prediction_rows"], len(predictions))
+        self.assertEqual(counts["primary_missing_pinnacle_rows"], 0)
+        primary = comparisons["sports_2014_2024/primary/calibrated_dynamic_minus_raw_dynamic"]
+        self.assertEqual(primary["n"], 5)
+        self.assertEqual(primary["bootstrap_repetitions"], 20)
+
+    def test_target_outcome_mutation_changes_scores_not_predictions(self):
+        rows, outcomes = synthetic_rows()
+        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        frozen_predictions = copy.deepcopy(predictions)
+        first, _, _, _ = calibration.evaluate(
+            rows, outcomes, predictions, edges=EDGES, bootstrap_seed=1, bootstrap_repetitions=10
+        )
+        mutated = dict(outcomes)
+        for prediction in predictions:
+            mutated[prediction["match_id"]] = 1 - mutated[prediction["match_id"]]
+        second, _, _, _ = calibration.evaluate(
+            rows, mutated, predictions, edges=EDGES, bootstrap_seed=1, bootstrap_repetitions=10
+        )
+        self.assertEqual(predictions, frozen_predictions)
+        self.assertNotEqual(first, second)
+
+    def test_scoring_ceiling_suppresses_later_calibration_years(self):
+        rows, outcomes = synthetic_rows()
+        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014, 2015])
+        scored, boundary = calibrate.scoring_selection(
+            {"calibration": {"score_years_max": 2014}}, predictions
+        )
+        self.assertEqual({row["calibration_year"] for row in scored}, {2014})
+        self.assertEqual(boundary["outer_years_suppressed_until_report_stage"], [2015])
+        self.assertEqual(
+            boundary["predictions_persisted_for_suppressed_years"],
+            sum(1 for row in predictions if row["calibration_year"] == 2015),
+        )
+        unscored, none = calibrate.scoring_selection({"calibration": {}}, predictions)
+        self.assertEqual(unscored, predictions)
+        self.assertIsNone(none)
+        everything, declared_null = calibrate.scoring_selection(
+            {"calibration": {"score_years_max": None}}, predictions
+        )
+        self.assertEqual(everything, predictions)
+        self.assertEqual(declared_null["outer_years_suppressed_until_report_stage"], [])
+
+
+class FailureTests(unittest.TestCase):
+    def test_optimizer_failure_is_preserved_before_raise(self):
+        class BrokenAdapter:
+            @staticmethod
+            def fit(*args, **kwargs):
+                raise ValueError("synthetic optimizer failure")
+
+        rows, outcomes = synthetic_rows()
+        events = []
+        with self.assertRaisesRegex(CalibrationError, "2014/dynamic"):
+            calibration.fit_and_predict(
+                rows, outcomes, [2014], adapter=BrokenAdapter, event_sink=events.append
+            )
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["status"], "failed")
+        self.assertEqual(events[0]["outer_year"], 2014)
+        self.assertEqual(events[0]["family"], "dynamic")
+        self.assertIn("synthetic optimizer failure", events[0]["error"])
+
+    @staticmethod
+    def synthetic_workspace(root: Path, config: dict) -> None:
+        """Materialise the config's data sources under ``root`` and bind their hashes."""
+        source = config["source"]
+        contents = {
+            source["design_path"]: b"design\n",
+            source["primary_config_path"]: json.dumps(
+                {"proposal_status": "frozen_for_real_execution", "input": {"panel_sha256": "x"}}
+            ).encode(),
+            source["selected_matches_path"]: b"match_id\n",
+            source["panel_path"]: b"match_id\n",
+            source["rule_mapping_path"]: b"source_key\n",
+        }
+        for relative, payload in contents.items():
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(payload)
+        digest = {k: hashlib.sha256(v).hexdigest() for k, v in contents.items()}
+        manifest = {
+            "status": "complete",
+            "config_sha256": digest[source["primary_config_path"]],
+            "panel_sha256": digest[source["panel_path"]],
+            "rule_mapping_sha256": digest[source["rule_mapping_path"]],
+            "selected_matches_sha256": digest[source["selected_matches_path"]],
+            "selected_matches_rows": source["selected_matches_rows"],
+        }
+        manifest_path = root / source["point_manifest_path"]
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(json.dumps(manifest))
+        digest[source["point_manifest_path"]] = hashlib.sha256(
+            manifest_path.read_bytes()
+        ).hexdigest()
+        for record in config["bindings"]["files"]:
+            if record.get("path") in digest:
+                record["sha256"] = digest[record["path"]]
+        for name in (
+            "design",
+            "primary_config",
+            "point_manifest",
+            "selected_matches",
+            "panel",
+            "rule_mapping",
+        ):
+            source[f"{name}_sha256"] = digest[source[f"{name}_path"]]
+        source["panel_binding_authority"] = "point_run_manifest"
+        config["tour"] = "WTA"
+
+    def test_corrupted_source_binding_fails_preflight(self):
+        config = json.loads((FIXTURES / "sr03_config.candidate.json").read_text())
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.synthetic_workspace(root, config)
+            with mock.patch.dict(os.environ, {"TENNISLAB_WORKSPACE": str(root)}):
+                reset_workspace_cache()
+                try:
+                    bound = calibration.validate_bindings(config)
+                    self.assertEqual(
+                        bound["declared_binding"]["implementation"],
+                        "references/SR03_calibration/calibration.py",
+                    )
+                    self.assertEqual(len(bound["declared_binding"]["files"]), 3)
+                    corrupted = copy.deepcopy(config)
+                    corrupted["source"]["design_sha256"] = "0" * 64
+                    with self.assertRaisesRegex(ValueError, "source hash differs"):
+                        calibration.validate_bindings(corrupted)
+                    missing_code = copy.deepcopy(config)
+                    missing_code["bindings"]["files"] = [
+                        record
+                        for record in missing_code["bindings"]["files"]
+                        if not record["path"].endswith("runner.py")
+                    ]
+                    with self.assertRaisesRegex(ValueError, "required code boundary"):
+                        calibration.validate_bindings(missing_code)
+                finally:
+                    reset_workspace_cache()
+
+    def test_chain_driver_binding_shape_records_package_receipts(self):
+        config = json.loads((FIXTURES / "sr03_config.candidate.json").read_text())
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.synthetic_workspace(root, config)
+            receipts = [
+                {
+                    "module": "tennislab.dynamics.calibrate",
+                    "sha256": "a" * 64,
+                    "package_version": "0.1.0",
+                },
+                {
+                    "module": "tennislab.dynamics.market",
+                    "sha256": "b" * 64,
+                    "package_version": "0.1.0",
+                },
+            ]
+            config["bindings"] = {
+                "implementation": "tennislab.dynamics.calibrate",
+                "files": [
+                    record
+                    for record in config["bindings"]["files"]
+                    if not record["path"].endswith(".py")
+                ]
+                + receipts,
+            }
+            with mock.patch.dict(os.environ, {"TENNISLAB_WORKSPACE": str(root)}):
+                reset_workspace_cache()
+                try:
+                    bound = calibration.validate_bindings(config)
+                    self.assertEqual(
+                        bound["declared_binding"],
+                        {"implementation": "tennislab.dynamics.calibrate", "files": receipts},
+                    )
+                    no_code = copy.deepcopy(config)
+                    no_code["bindings"]["files"] = no_code["bindings"]["files"][:-2]
+                    with self.assertRaisesRegex(ValueError, "no code receipt"):
+                        calibration.validate_bindings(no_code)
+                finally:
+                    reset_workspace_cache()
+
+    def test_nonconforming_fit_result_is_rejected(self):
+        class Product:
+            def record(self):
+                return {"penalty": None, "residual_coefficient": 0.1, "market_slope": 1.0, "n": 15}
+
+        class BadAdapter:
+            @staticmethod
+            def fit(*args, **kwargs):
+                return Product()
+
+        rows, outcomes = synthetic_rows()
+        events = []
+        with self.assertRaisesRegex(CalibrationError, "nonconforming"):
+            calibration.fit_and_predict(
+                rows, outcomes, [2014], adapter=BadAdapter, event_sink=events.append
+            )
+        self.assertEqual(events[0]["status"], "failed")
+
+
+if __name__ == "__main__":
+    unittest.main()

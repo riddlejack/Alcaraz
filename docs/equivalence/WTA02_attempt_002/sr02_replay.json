@@ -1,0 +1,29 @@
+{
+  "different": {
+    "run_manifest.json": {
+      "changed_leaves": 7,
+      "first": [
+        "code.declared_binding: \"<absent>\" -> {\"dynamic_path\": \"references/SR02_models/dynamic.py\", \"dynamic_sha256\": \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef",
+        "code.dynamic: \"3d8e3fd0850882c6d85363807edef3438ac630de298ecef1c7c080259bf13637\" -> {\"module\": \"tennislab.dynamics.dynamic\", \"package_version\": \"0.1.0\", \"sha256\": \"9a5b10e8cda19d1a64ceccc4074580a53ab40a8a",
+        "code.path_runner: \"50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2\" -> {\"module\": \"tennislab.dynamics.path_runner\", \"package_version\": \"0.1.0\", \"sha256\": \"d35f1924fa71707f534b519baeea3dc7c0cb",
+        "code.replay.module: \"<absent>\" -> \"tennislab.dynamics.replay\"",
+        "code.replay.package_version: \"<absent>\" -> \"0.1.0\"",
+        "code.replay.path: \"references/WTA02_models/sr02_replay.py\" -> \"<absent>\"",
+        "code.replay.sha256: \"3aab5154963570a74ae9632ed2d1e1e427a2afe71a987afc047f7bf966b7cbb9\" -> \"5178410e105471b4e89f6f2734c309934f1dfc1b36422434b174fae6071daa7f\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "selected_matches.csv",
+    "selection_carry_forward.csv",
+    "selection_map.csv",
+    "stale_state_rows.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "sr02_replay"
+}
