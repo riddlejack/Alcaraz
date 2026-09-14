@@ -1,0 +1,41 @@
+{
+  "different": {
+    "stdout.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -6 +6 @@",
+        "-  \"sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\"",
+        "+  \"sha256\": \"06b6e48f5b4897679b4472454e40a09f3be5527c80c47e405dc74a33e01430f8\""
+      ],
+      "kind": "text",
+      "lines_archive": 7,
+      "lines_ported": 7
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "side_tree": {
+    "different": {
+      "config.2017_2024.json": {
+        "changed_leaves": 6,
+        "first": [
+          "code.numerical_path: \"references/MULTI01_models/numerical.py\" -> \"tennislab.models.numerical\"",
+          "code.numerical_sha256: \"e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367\" -> \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\"",
+          "code.package_version: \"<absent>\" -> \"0.1.0\"",
+          "code.runner_path: \"references/TIER01_models/runner.py\" -> \"tennislab.models.pipeline\"",
+          "code.runner_sha256: \"2fa405f7c0220655cf74b6826a4d4bbce240717dbafce379939e6d9bfb655260\" -> \"923db2317ab67cc6afae842192491181d7002e23304794af86d66591c4f7b02a\"",
+          "created_at_utc: \"2026-09-12T20:13:34.525961+00:00\" -> \"2026-09-14T01:51:23.039496+00:00\""
+        ],
+        "kind": "json"
+      }
+    },
+    "extra": [],
+    "identical": [],
+    "missing": []
+  },
+  "stage": "predictor_config"
+}

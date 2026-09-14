@@ -1,0 +1,45 @@
+{
+  "different": {
+    "stdout.txt": {
+      "changed_lines": 22,
+      "first": [
+        "@@ -2 +2,13 @@",
+        "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+        "+  \"code\": {",
+        "+    \"numerical\": {",
+        "+      \"module\": \"tennislab.models.numerical\",",
+        "+      \"package_version\": \"0.1.0\",",
+        "+      \"sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\"",
+        "+    },",
+        "+    \"runner\": {",
+        "+      \"module\": \"tennislab.models.pipeline\",",
+        "+      \"package_version\": \"0.1.0\",",
+        "+      \"sha256\": \"923db2317ab67cc6afae842192491181d7002e23304794af86d66591c4f7b02a\"",
+        "+    }",
+        "+  },",
+        "+  \"config_path\": \"work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+        "@@ -3,0 +16,6 @@",
+        "+  \"declared_binding\": {",
+        "+    \"numerical_path\": \"references/MULTI01_models/numerical.py\",",
+        "+    \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367\",",
+        "+    \"runner_path\": \"references/TIER01_models/runner.py\",",
+        "+    \"runner_sha256\": \"2fa405f7c0220655cf74b6826a4d4bbce240717dbafce379939e6d9bfb655260\"",
+        "+  },",
+        "@@ -42 +59,0 @@",
+        "-  \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367\",",
+        "@@ -44 +60,0 @@",
+        "-  \"runner_sha256\": \"2fa405f7c0220655cf74b6826a4d4bbce240717dbafce379939e6d9bfb655260\","
+      ],
+      "kind": "text",
+      "lines_archive": 46,
+      "lines_ported": 62
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "preflight"
+}

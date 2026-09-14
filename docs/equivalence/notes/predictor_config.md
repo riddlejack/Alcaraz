@@ -1,0 +1,7 @@
+# predictor_config
+Base revision: TIER01_models/build_config.py `predictor` (WTA02 additions merged under the tour switch: the `blocks`/`cohort`/`primary_contrast`/`bootstrap_seed`/`bootstrap_unit`/`tour`/`experiment_id` siblings of the year plan, `reporting_settings` carried into the config, and the dynamic-feature dispersion receipts; TIER01's `bundles` is read as `blocks`). Module: `tennislab.chain.configs`; the runner it binds is `tennislab.models.pipeline` imported by name.
+ATP TIER01/attempt_002: identical 1/2 (stderr.txt); differing: stdout.txt (`sha256` of the written config, which carries the timestamp). Side tree `config.2017_2024.json`: 6 leaves — `code.runner_path`/`code.numerical_path` (archive file path -> package module name), `code.runner_sha256`/`code.numerical_sha256` (archive file hash -> package file hash), `code.package_version` (added), `created_at_utc`. Every membership binding, expected count, ordered model column list, settings document (`tier_columns`), input hash and design hash is identical.
+WTA WTA02/attempt_002: identical 1/2; side tree `config.json`: the same 6 leaves. The dispersion receipts, `reporting_settings`, `cohort`, `tour` and `experiment_id` are identical.
+Label reads: none (memberships come from the feature/sidecar metadata; `--labels` is only hashed into `inputs.labels`).
+Learned constants: none.
+Open: nothing. A `code` block that names the package modules is verified by the pipeline against the executing files; the archive's file bindings are recorded as `declared_binding` and not verified (guide rule 2).

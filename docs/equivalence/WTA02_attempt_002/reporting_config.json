@@ -1,0 +1,39 @@
+{
+  "different": {
+    "stdout.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -6 +6 @@",
+        "-  \"sha256\": \"d97109a47669fa090c37e74d204c11a13fbc1e1ae4ed68439da38994eb9343c4\"",
+        "+  \"sha256\": \"b344ff7a945ba3dd10b0a0dd486b71a0a0c2868306c4ff3c0514c37769270f6c\""
+      ],
+      "kind": "text",
+      "lines_archive": 7,
+      "lines_ported": 7
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "side_tree": {
+    "different": {
+      "reporting.json": {
+        "changed_leaves": 4,
+        "first": [
+          "code.package_version: \"<absent>\" -> \"0.1.0\"",
+          "code.reporter_path: \"references/WTA02_models/report.py\" -> \"tennislab.evaluation.report\"",
+          "code.reporter_sha256: \"c9c01644990aed7298eeb30890c877ac3b6635940003e2c1625655b33d668b4a\" -> \"a09da49870051a981fde4b715ea6bc844e22272ae0dbe85969473a2511866d6f\"",
+          "frozen_at_utc: \"2026-09-12T19:58:48.101043+00:00\" -> \"2026-09-14T01:59:59.196253+00:00\""
+        ],
+        "kind": "json"
+      }
+    },
+    "extra": [],
+    "identical": [],
+    "missing": []
+  },
+  "stage": "reporting_config"
+}

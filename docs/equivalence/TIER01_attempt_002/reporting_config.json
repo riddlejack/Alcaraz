@@ -1,0 +1,39 @@
+{
+  "different": {
+    "stdout.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -6 +6 @@",
+        "-  \"sha256\": \"d5e2912e6649953e8f11029e69c1aadf2e78c37055df3a4e3f5b0d79d549cca3\"",
+        "+  \"sha256\": \"e23c0566ad66b6dc5ce4b88ab1cb724315facdce56cbe14dd33ee8dfe795df98\""
+      ],
+      "kind": "text",
+      "lines_archive": 7,
+      "lines_ported": 7
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "side_tree": {
+    "different": {
+      "reporting.2017_2024.json": {
+        "changed_leaves": 4,
+        "first": [
+          "code.package_version: \"<absent>\" -> \"0.1.0\"",
+          "code.reporter_path: \"references/TIER01_models/report.py\" -> \"tennislab.evaluation.report\"",
+          "code.reporter_sha256: \"b576711b0e1545e147f3e54dc620f848cf93b36b108ca32bd234135646826d58\" -> \"a09da49870051a981fde4b715ea6bc844e22272ae0dbe85969473a2511866d6f\"",
+          "frozen_at_utc: \"2026-09-12T20:17:30.657949+00:00\" -> \"2026-09-14T01:56:04.339845+00:00\""
+        ],
+        "kind": "json"
+      }
+    },
+    "extra": [],
+    "identical": [],
+    "missing": []
+  },
+  "stage": "reporting_config"
+}
