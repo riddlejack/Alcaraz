@@ -17,13 +17,15 @@ Lane B2 (decision RB14, `docs/INTEGRITY.md`): the chain driver derives each stag
 outcome access from an audit hook on file opens and fails an undeclared read; fit and
 selection stages read outcomes only through fold-specific accessors with receipts; the
 barrier refuses to freeze a run tree that carries any metric-shaped artifact. SR03
-component metrics and the pipeline's selection-criterion scores are computed after the
-barrier (values unchanged; the archive wrote them before it). `tests/test_barrier_gate.py`
-demonstrates the clean run and planted leaks through the driver; the five Lane C2 gates
-admitted with negative controls (T2, T9, T10, T11, T13) run on the committed synthetic
-sample and fail, not skip, without it. Independent different-model review of this repair
-is pending (`docs/DECISIONS.md` RB11, RB14); nothing here is a new result, and the
-archive's 2025–2026 window is spent development data.
+component metrics are computed after the barrier; selection-criterion scores are
+recomputed and published there after being used in memory for selection. The archive
+wrote these scores before the barrier. `tests/test_barrier_gate.py`
+demonstrates clean runs and controlled violations through the driver. Four scoped C2
+ports (T9, T10, ATP T11/T13) and the separately repaired T2 dtype sentinel run on the
+committed synthetic sample and fail without it. The different-model review found and
+prompted further runtime repairs (RB16, `docs/B2_REVIEW.md`); final reconstruction and
+integration remain pending. These are software integrity checks, not a new scientific
+result; the archive's 2025–2026 window is spent development data.
 
 On the 18,882 priced ATP matches of 2017–2024 (match-weighted log loss, lower is better):
 pooled Elo 0.6237, P0 0.6121, P1 0.6053, full_tier 0.5984, Pinnacle 0.5873.

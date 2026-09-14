@@ -1680,11 +1680,11 @@ def write_market_workbook(
 ) -> str:
     """One `Data` sheet, header first, every cell from `_cell`.
 
-    The document timestamps and the zip entry times are fixed, so the workbook's bytes
-    are a function of its cells alone: openpyxl stamps the wall clock into
-    `docProps/core.xml` and into every zip entry, and that hour was the only content
-    of the archive's copy that its inputs did not determine (its `sheet1.xml`,
-    styles and workbook parts are byte-identical to this writer's).
+    ZIP entry times and the created property are fixed. The B2 reconstruction found
+    that openpyxl resets the modified property during save, so strict workbook byte
+    determinism is not established. That residual docProps timestamp and its downstream
+    source-hash columns are an explicit provenance difference (docs/EQUIVALENCE.md).
+    Cell contents, styles and workbook parts are unchanged by timestamp normalization.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
     workbook = openpyxl.Workbook(write_only=True)
