@@ -5,17 +5,35 @@ tennis that measures how far public match statistics can take a pre-match model,
 benchmarks it against published public models and against the closing market, and records
 every forecast prospectively.
 
-**Status: rebuild in progress.** This repository is being reconstructed, stage by stage,
-from the research archive so that one package reproduces the archive's accepted results
-from the same frozen inputs. `docs/EQUIVALENCE.md` records which stages reproduce
-byte-identically and which differ, with the cause. Nothing here is a new result.
+**Status (2026-09-14): the trunk is rebuilt and reproduces the archive's accepted results.**
+One package reruns the accepted ATP run (TIER01/attempt_002, five bundles, 2017–2024) and
+the accepted WTA run (WTA02/attempt_002, 2025–2026) from the same frozen inputs through
+the ported chain driver; every prediction file, the primary contrasts, the pooled and
+annual metrics, the bootstraps and the reliability tables reproduce byte-identically.
+The remaining differences are named provenance fields (code receipts, hash cascades from
+two artifacts that are now timestamp-free). `docs/EQUIVALENCE.md` records every stage;
+`docs/RESULTS.md` is the generated ladder. Nothing here is a new result; the archive's
+2025–2026 window is spent and every number is exposed development data.
+
+On the 18,882 priced ATP matches of 2017–2024 (match-weighted log loss, lower is better):
+pooled Elo 0.6237, P0 0.6121, P1 0.6053, full_tier 0.5984, Pinnacle 0.5873.
 
 ## Run
 
 ```sh
 make setup            # pinned environment from uv.lock (Python 3.14.6)
-make test             # unit tests
-make reproduce-small  # one headline number from the committed sample
+make test             # unit, regression and label-barrier tests (about two minutes)
+make reproduce-small  # the chain on the synthetic sample, one pinned number (about 35 s)
+```
+
+Reproducing the accepted runs needs a local copy of the research archive (see
+`docs/ARCHIVE.md`):
+
+```sh
+export TENNISLAB_ARCHIVE=/path/to/the/archive
+uv run python tools/equivalence.py chain --run TIER01/attempt_002 \
+  --chain-config "$TENNISLAB_ARCHIVE/experiments/runs/TIER01/attempt_002/chain_tier01_run_002.json"
+uv run tennislab report --ladder --runs ATP=<run root> WTA=<run root>
 ```
 
 ## Layout
@@ -27,7 +45,8 @@ configs/         one file per model configuration (elo, atp_p0, atp_p1, atp_full
                  wta_base, wta_full)
 data/manifests/  receipts and hashes still referenced by the trunk
 data/sample/     small redistributable sample so CI runs without the full data
-docs/            METHODS, RESULTS, PROCESS, DECISIONS, EQUIVALENCE, ARCHIVE
+docs/            METHODS, RESULTS (generated), PROCESS, DECISIONS, EQUIVALENCE, ARCHIVE, PORTING
+tools/           equivalence harness against the archive; the sample generator
 ```
 
 ## Licences

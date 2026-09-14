@@ -5,8 +5,8 @@ def test_reproduce_small_runs() -> None:
     assert cli.main(["reproduce-small"]) == 0
 
 
-def test_ladder_not_yet_ported_fails_loudly() -> None:
-    assert cli.main(["report", "--ladder"]) == 2
+def test_report_without_ladder_fails_loudly() -> None:
+    assert cli.main(["report"]) == 2
 
 
 def test_chain_commands_are_forwarded_to_the_runner(tmp_path) -> None:
