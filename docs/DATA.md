@@ -95,8 +95,8 @@ operating choice, not a new fixed permission ceiling.
 At the dated 2026-09-14T22:42Z snapshot, collection had been paused since 22:20Z on a
 retained 39-field WTA parse failure: 1,326 players were complete, 20 were
 evidence-bearing unavailable, 1,346 of 5,683 were terminal, and 337,419 rows had been
-parsed. Only offline diagnosis is authorised; no resume or new traffic is part of this
-update. These are acquisition counts, not evidence that the player set is complete,
+parsed. Offline parser diagnosis was underway at that snapshot. These are acquisition
+counts, not evidence that the player set is complete,
 source-qualified, or integrated. No accepted model run ingests this collection.
 
 ## Release snapshot status

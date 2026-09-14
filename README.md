@@ -63,7 +63,7 @@ forecast/report/training-key matches. The engineering contract and its open scop
   chronology defects. The Tennis Abstract crawl and TennisMyLife files are not integrated
   into either accepted run; [`docs/DATA.md`](docs/DATA.md) separates acquisition,
   qualification, and use.
-- **Hosted CI:** green on exact public-main commit
+- **Hosted CI:** green on tested commit
   `4c83d283290dcdb8977ca455aebf9506e4d3cc6e`. GitHub Actions run
   [`34903105291`](https://github.com/riddlejack/tennis-lab/actions/runs/34903105291)
   installed Python 3.14.6, passed lint, reported 434 tests passed with one optional skip,
