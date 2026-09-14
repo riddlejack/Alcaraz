@@ -14,6 +14,7 @@ from collections.abc import Sequence
 from tennislab import __version__
 
 CHAIN_COMMANDS = ("print", "write-configs", "dry-run", "run", "report", "verify")
+BENCHMARK_COMMANDS = ("project", "forecast", "barrier", "report")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -51,6 +52,12 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="TOUR=RUN_ROOT",
         help="completed run roots, e.g. ATP=data/runs/atp_tier01/run",
     )
+    benchmark = subparsers.add_parser(
+        "benchmark", help="run the barrier-separated Lane G benchmark workflow"
+    )
+    benchmark.add_argument("benchmark_command", choices=BENCHMARK_COMMANDS)
+    benchmark.add_argument("--config", required=True, help="the benchmark configuration (JSON)")
+    benchmark.add_argument("--attempt", help="immutable attempt id (not used by project)")
     return parser
 
 
@@ -82,7 +89,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         for item in args.runs:
             forwarded += ["--run", item]
         return ladder.main(forwarded)
-    return 2
+    if args.command == "benchmark":
+        import json
+
+        from tennislab.benchmark import workflow
+
+        if args.benchmark_command == "project":
+            print(json.dumps(workflow.project(args.config), indent=2, sort_keys=True))
+            return 0
+        if not args.attempt:
+            parser = build_parser()
+            parser.error(f"benchmark {args.benchmark_command} requires --attempt")
+        function = getattr(workflow, args.benchmark_command)
+        destination = function(args.config, args.attempt)
+        print(destination)
+        return 0
     return 2
 
 

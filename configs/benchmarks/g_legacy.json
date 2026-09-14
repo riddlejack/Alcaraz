@@ -4,7 +4,7 @@
   "execution_scope": "real_structural_projection_and_synthetic_rehearsal_only",
   "design": {
     "path": "docs/benchmarks/G_LEGACY_DESIGN.md",
-    "sha256": "d5f0fb1d25dbe37604fd03ed038e9ea5fe116d29808167f5b4521d77bc6b833e"
+    "sha256": "063a1ac0683ee8289a7fe9c7b16493e2ad1400a5f5b83af764016fafff0573b0"
   },
   "constants": {
     "probability_clip": 1e-6,
@@ -43,6 +43,12 @@
     "ATP": {
       "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
       "major_level_codes": ["G"],
+      "incumbent_native_dispatch": {
+        "experiment_id": "TIER01",
+        "tour_setting": "omitted",
+        "learner": "hgb",
+        "block": "full_tier"
+      },
       "inputs": {
         "features": {
           "path": "inputs/archive/experiments/runs/TIER01/attempt_002/run/features/features.csv",
@@ -77,7 +83,7 @@
         "2018": {"sha256": "0bf4cab31fde5355052a4dc3fa1aa9ed49f68b39760fd296e5a59d30a6f4164d", "rows": 2606},
         "2019": {"sha256": "09f27dbed33153c73848bc0c9348f79bc2d40a2ce12f9332bb1cf0951b748f01", "rows": 2554},
         "2020": {"sha256": "410098303efd5e9252637aba348897c7831df05ddce83f8ec3e2446cd7e49214", "rows": 1250},
-        "2021": {"sha256": "8600cce0b31a2b8cd3661290517cabe188d22575f50e8ae734622bccbec52", "rows": 2441},
+        "2021": {"sha256": "8600cce0b31c2952b8cd3661290517cabe188d22575f50e8ae734622bccbec52", "rows": 2441},
         "2022": {"sha256": "358977344b3c23303ea10e88a125962ff9bf8448c3a06ed4109537d07d7d93e4", "rows": 2565},
         "2023": {"sha256": "f1cff812183537507855a0ddf43a0830d76bfac8c31aa0c5180017eb1e95a84b", "rows": 2682},
         "2024": {"sha256": "03c8341d01ca38509c49835790fd4408f08d1edc57aaafafd45735295f1ce9a7", "rows": 2681}
@@ -98,6 +104,12 @@
     "WTA": {
       "target_years": [2019, 2020, 2021, 2022, 2023, 2024],
       "major_level_codes": ["G"],
+      "incumbent_native_dispatch": {
+        "experiment_id": "WTA01",
+        "tour_setting": "WTA",
+        "learner": "hgb",
+        "block": "full"
+      },
       "inputs": {
         "features": {
           "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/features/features.csv",
