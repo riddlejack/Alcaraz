@@ -10,6 +10,11 @@ One package reruns the accepted ATP run (TIER01/attempt_002, five bundles, 2017�
 the accepted WTA run (WTA02/attempt_002, 2025–2026) from the same frozen inputs through
 the ported chain driver; every prediction file, the primary contrasts, the pooled and
 annual metrics, the bootstraps and the reliability tables reproduce byte-identically.
+An independent fresh clone passed lint, 327 tests (one archive-dependent skip), and the
+synthetic reproduction on 2026-09-14. **Integration acceptance remains pending:** SR03
+still writes metrics before the report barrier, and Lane C's initial integrity suite
+was rejected after planted leaks escaped detection. The existing tests establish their
+stated cases, not a comprehensive leak audit; see `docs/DECISIONS.md` RB9–RB13.
 The remaining differences are named provenance fields (code receipts, hash cascades from
 two artifacts that are now timestamp-free). `docs/EQUIVALENCE.md` records every stage;
 `docs/RESULTS.md` is the generated ladder. Nothing here is a new result; the archive's
