@@ -15,11 +15,18 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
-from tennislab.chain.common import ChainError, atomic_json, resolve_under_root
+from tennislab.chain.common import ChainError, atomic_json, resolve_under_root, sha256
 from tennislab.live import fixtures as fx
 from tennislab.live import settle as st
 from tennislab.live import sources, versions
-from tennislab.live.common import LiveConfig, LiveError, iso_utc, read_json, utc_now
+from tennislab.live.common import (
+    LiveConfig,
+    LiveError,
+    iso_utc,
+    read_json,
+    safe_output_id,
+    utc_now,
+)
 from tennislab.live.identity import IdentityTable
 from tennislab.live.ledger import Ledger, OfflineProofAdapter
 from tennislab.live.receipts import advance_latest, begin_attempt, write_receipt
@@ -209,9 +216,88 @@ def cmd_update(args: argparse.Namespace) -> int:
 
 
 def _batch_dir(config: LiveConfig, batch_id: str) -> Path:
-    if not batch_id or "/" in batch_id:
-        raise LiveError("batch id must be a single path segment")
-    return config.sub("fixtures", batch_id)
+    return config.sub("fixtures", safe_output_id(batch_id, label="batch id"))
+
+
+FIXTURE_QUALIFICATION_FIELDS = (
+    "fixture_id",
+    "fixture_status",
+    "exclusion_reasons",
+    "tour",
+    "event_id",
+    "event_name",
+    "level",
+    "round",
+    "surface",
+    "best_of",
+    "best_of_source",
+    "scheduled_start_utc",
+    "scheduled_start_local_date",
+    "scheduled_start_source",
+    "scheduled_start_timezone",
+    "start_uncertainty_hours",
+    "player_a_id",
+    "player_b_id",
+    "information_cutoff",
+    "cutoff_rule",
+    "version_id",
+    "live_config_sha256",
+    "design_sha256",
+    "repair_design_sha256",
+)
+
+
+def _verified_batch(
+    config: LiveConfig, ledger: Ledger, batch_id: str
+) -> tuple[Path, list[dict[str, Any]]]:
+    ledger.verify()
+    directory = _batch_dir(config, batch_id)
+    fixture_path = directory / "fixtures.jsonl"
+    manifest_path = directory / "manifest.json"
+    if not fixture_path.is_file() or not manifest_path.is_file():
+        raise LiveError(f"batch {batch_id} has no complete fixture binding")
+    manifest = read_json(manifest_path)
+    if manifest.get("batch_id") != batch_id:
+        raise LiveError(f"batch {batch_id}: manifest batch id mismatch")
+    if sha256(fixture_path) != manifest.get("fixtures_sha256"):
+        raise LiveError(f"batch {batch_id}: fixtures bytes hash mismatch")
+    records: list[dict[str, Any]] = []
+    for number, line in enumerate(fixture_path.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            raise LiveError(f"batch {batch_id}: blank fixture line {number}")
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as error:
+            raise LiveError(f"batch {batch_id}: fixture line {number} is not JSON") from error
+        if record.get("batch_id") != batch_id or record.get("version_id") not in manifest.get(
+            "version_ids", []
+        ):
+            raise LiveError(f"batch {batch_id}: fixture line {number} binding mismatch")
+        if record.get("fixture_status") == "qualified":
+            expected = fx.fixture_identity(
+                record["tour"],
+                record["event_id"],
+                record["round"],
+                record["player_a_id"],
+                record["player_b_id"],
+                record["scheduled_start_local_date"],
+            )
+            if expected != record.get("fixture_id"):
+                raise LiveError(f"batch {batch_id}: fixture identity mismatch on line {number}")
+            qualifications = [
+                item for item in ledger.by_subject(expected) if item["kind"] == "fixture_qualified"
+            ]
+            if not qualifications:
+                raise LiveError(f"batch {batch_id}: fixture has no ledger qualification")
+            bound = qualifications[-1]["payload"]
+            if any(bound.get(field) != record.get(field) for field in FIXTURE_QUALIFICATION_FIELDS):
+                raise LiveError(
+                    f"batch {batch_id}: qualification payload mismatch for fixture {expected[:12]}"
+                )
+        records.append(record)
+    if len(records) != manifest.get("fixture_count"):
+        raise LiveError(f"batch {batch_id}: fixture count does not match manifest")
+    return directory, records
 
 
 def cmd_fixture(args: argparse.Namespace) -> int:
@@ -226,19 +312,37 @@ def cmd_fixture(args: argparse.Namespace) -> int:
     directory = _batch_dir(config, args.batch_id)
     if directory.exists():
         raise LiveError(f"batch {args.batch_id} already exists; batches are immutable")
-    directory.mkdir(parents=True)
     ledger = Ledger(config)
+    ledger.verify()
+    directory.mkdir(parents=True)
     written = []
+    batch_records = []
     for record in records:
         payload = fx.public_fixture({k: v for k, v in record.items() if k != "identity"})
         payload["version_id"] = version["manifest"]["version_id"]
         payload["batch_id"] = args.batch_id
+        payload["live_config_sha256"] = config.sha256
+        payload["design_sha256"] = config.design_hash()
+        payload["repair_design_sha256"] = config.repair_design_hash()
         if record["fixture_status"] == "qualified":
             subject = record["fixture_id"]
             history = ledger.by_subject(subject)
             if not history:
                 ledger.append("fixture_proposed", subject, payload)
                 ledger.append("fixture_qualified", subject, payload)
+            else:
+                qualifications = [item for item in history if item["kind"] == "fixture_qualified"]
+                if not qualifications:
+                    raise LiveError(f"known fixture {subject[:12]} has no qualification record")
+                original = qualifications[-1]["payload"]
+                payload["version_id"] = original["version_id"]
+                if any(
+                    original.get(field) != payload.get(field)
+                    for field in FIXTURE_QUALIFICATION_FIELDS
+                ):
+                    raise LiveError(
+                        f"known fixture {subject[:12]} does not match its original qualification"
+                    )
             written.append(
                 {
                     "fixture_ref": record["fixture_ref"],
@@ -259,21 +363,24 @@ def cmd_fixture(args: argparse.Namespace) -> int:
                     "reasons": record["exclusion_reasons"],
                 }
             )
-    with (directory / "fixtures.jsonl").open("w", encoding="utf-8") as handle:
-        for record in records:
-            handle.write(
-                json.dumps({k: v for k, v in record.items() if k != "identity"}, sort_keys=True)
-                + "\n"
-            )
+        batch_records.append(payload)
+    fixture_path = directory / "fixtures.jsonl"
+    with fixture_path.open("w", encoding="utf-8") as handle:
+        for record in batch_records:
+            handle.write(json.dumps(record, sort_keys=True) + "\n")
     atomic_json(
         directory / "manifest.json",
         {
             "batch_id": args.batch_id,
             "written_utc": iso_utc(utc_now()),
-            "version_id": version["manifest"]["version_id"],
+            "constructed_from_version": version["manifest"]["version_id"],
+            "version_ids": sorted({record["version_id"] for record in batch_records}),
+            "fixture_count": len(batch_records),
+            "fixtures_sha256": sha256(fixture_path),
             "fixtures": written,
             "live_config_sha256": config.sha256,
             "design_sha256": config.design_hash(),
+            "repair_design_sha256": config.repair_design_hash(),
         },
     )
     print(json.dumps({"batch_id": args.batch_id, "fixtures": written}, indent=2, sort_keys=True))
@@ -282,22 +389,15 @@ def cmd_fixture(args: argparse.Namespace) -> int:
 
 def cmd_forecast(args: argparse.Namespace) -> int:
     config = LiveConfig(args.config)
-    directory = _batch_dir(config, args.batch_id)
-    if not (directory / "fixtures.jsonl").is_file():
-        raise LiveError(f"batch {args.batch_id} has no fixtures")
+    ledger = Ledger(config)
+    directory, fixtures = _verified_batch(config, ledger, args.batch_id)
     if (directory / "forecasts.jsonl").exists():
         raise LiveError(f"batch {args.batch_id} already has forecasts; issue a new batch instead")
-    latest = versions.latest_version(config)
-    if latest is None:
-        raise LiveError("no version exists")
-    version = versions.load_version(latest)
-    receipts = fx.receipt_times(config, version)
-    ledger = Ledger(config)
     proofs = OfflineProofAdapter(config)
     issue_time = utc_now()
     issued: list[dict[str, Any]] = []
-    for line in (directory / "fixtures.jsonl").read_text(encoding="utf-8").splitlines():
-        fixture = json.loads(line)
+    loaded_versions: dict[str, dict[str, Any]] = {}
+    for fixture in fixtures:
         if fixture["fixture_status"] != "qualified":
             continue
         if fixture["scheduled_start_utc"] and iso_utc(issue_time) >= fixture["scheduled_start_utc"]:
@@ -310,6 +410,11 @@ def cmd_forecast(args: argparse.Namespace) -> int:
                 }
             )
             continue
+        version_id = safe_output_id(str(fixture["version_id"]), label="version id")
+        if version_id not in loaded_versions:
+            loaded_versions[version_id] = versions.load_version(config.sub("versions", version_id))
+        version = loaded_versions[version_id]
+        receipts = fx.receipt_times(version)
         for forecast in fx.forecast_all(
             config, fixture, version, issue_time=issue_time, receipts=receipts
         ):
@@ -445,7 +550,7 @@ def cmd_settle(args: argparse.Namespace) -> int:
         target = (
             versions.latest_version(config)
             if args.version in (None, "latest")
-            else config.sub("versions", args.version)
+            else config.sub("versions", safe_output_id(args.version, label="version id"))
         )
         if target is None or not target.is_dir():
             raise LiveError("no such version")

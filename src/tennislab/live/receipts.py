@@ -117,26 +117,51 @@ def write_receipt(attempt: Attempt) -> str:
     return atomic_json(attempt.directory / "receipt.json", attempt.receipt)
 
 
-def retained_hashes(attempt_dir: Path) -> dict[str, str]:
-    raw = attempt_dir / "raw"
-    if not raw.is_dir():
-        return {}
-    return {relative_in(attempt_dir, p): sha256(p) for p in sorted(raw.rglob("*")) if p.is_file()}
-
-
 def validate_attempt(attempt_dir: Path) -> dict[str, Any]:
     """A complete receipt whose retained files still hash-verify; otherwise refuse."""
     receipt = read_json(attempt_dir / "receipt.json")
+    if receipt.get("schema_version") != RECEIPT_SCHEMA:
+        raise LiveError(
+            f"attempt {attempt_dir.name} has receipt schema {receipt.get('schema_version')!r}"
+        )
     if receipt.get("status") != "complete":
         raise LiveError(f"attempt {attempt_dir.name} is {receipt.get('status')!r}, not complete")
-    observed = retained_hashes(attempt_dir)
     for request in receipt.get("requests", []):
-        path = request.get("retained_path")
-        if path is None:
+        retained = request.get("retained_path")
+        if retained is None:
             continue
-        if observed.get(path) != request.get("sha256"):
-            raise LiveError(f"retained file {path} in {attempt_dir.name} does not hash-verify")
+        relative = Path(str(retained))
+        if relative.is_absolute() or ".." in relative.parts:
+            raise LiveError(
+                f"retained file path {retained!r} in {attempt_dir.name} is not confined"
+            )
+        path = attempt_dir / relative
+        current = attempt_dir
+        for part in relative.parts:
+            current = current / part
+            if current.is_symlink():
+                raise LiveError(
+                    f"retained file {retained} in {attempt_dir.name} passes through a symbolic link"
+                )
+        if not path.is_file() or sha256(path) != request.get("sha256"):
+            raise LiveError(f"retained file {retained} in {attempt_dir.name} does not hash-verify")
     return receipt
+
+
+def bind_receipt(config: LiveConfig, source_id: str, attempt_id: str) -> dict[str, str]:
+    """Hash-bind one complete acquisition receipt for a version manifest."""
+    directory = config.sub("sources", source_id, "attempts", attempt_id)
+    receipt = validate_attempt(directory)
+    if receipt.get("source_id") != source_id or receipt.get("attempt_id") != attempt_id:
+        raise LiveError(f"acquisition receipt identity mismatch for {source_id}/{attempt_id}")
+    path = directory / "receipt.json"
+    return {
+        "source_id": source_id,
+        "attempt_id": attempt_id,
+        "path": relative_in(config.root, path),
+        "sha256": sha256(path),
+        "finished_utc": str(receipt["finished_utc"]),
+    }
 
 
 def advance_latest(config: LiveConfig, source_id: str, attempt: Attempt) -> Path:

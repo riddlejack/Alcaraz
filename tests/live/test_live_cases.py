@@ -937,9 +937,9 @@ def test_named_timezone_controls_local_cutoff(ws) -> None:
     payload = forecast_payload(workspace, fixture_id)
     qualified = [
         json.loads(line)
-        for line in (
-            workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
-        ).read_text(encoding="utf-8").splitlines()
+        for line in (workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl")
+        .read_text(encoding="utf-8")
+        .splitlines()
     ][0]
     assert qualified["scheduled_start_local_date"] == "2026-08-10"
     assert payload["information_cutoff"] == "2026-08-08"
@@ -992,9 +992,7 @@ def test_mutated_acquisition_receipt_is_refused_before_fixture_use(ws) -> None:
 def test_fixture_bytes_and_ledger_bound_identity_are_verified_before_forecast(ws) -> None:
     workspace, runner = ws
     update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
-    world.write_fixtures(
-        workspace, [world.fixture_row("f1", "300001", "300004")], name="bound.csv"
-    )
+    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")], name="bound.csv")
     runner.ok("fixture", "--config", CONFIG, "--input", "bound.csv", "--batch-id", "bound")
     directory = workspace / "data" / "live" / "fixtures" / "bound"
     fixtures_path = directory / "fixtures.jsonl"
@@ -1031,9 +1029,7 @@ def test_invalid_settlement_output_id_is_refused(ws) -> None:
         "../escaped",
         str(workspace / "data" / "live" / "settlement" / "absolute"),
     ):
-        err = runner.fails(
-            "settle", "score", "--config", CONFIG, "--settlement-id", settlement_id
-        )
+        err = runner.fails("settle", "score", "--config", CONFIG, "--settlement-id", settlement_id)
         assert "settlement id" in err and "single safe path segment" in err
     assert not (workspace / "data" / "live" / "escaped").exists()
 

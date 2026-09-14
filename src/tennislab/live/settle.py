@@ -21,6 +21,7 @@ from tennislab.live.common import (
     iso_utc,
     parse_utc,
     read_json,
+    safe_output_id,
     stamp_id,
     utc_now,
 )
@@ -173,7 +174,10 @@ def score(config: LiveConfig, ledger: Ledger, *, settlement_id: str | None = Non
     ledger.verify()
     clip = float(config.section("settlement")["log_loss_clip"])
     now = utc_now()
-    settlement_id = settlement_id or stamp_id(now, canonical_hash({"settle": iso_utc(now)}))
+    settlement_id = safe_output_id(
+        settlement_id or stamp_id(now, canonical_hash({"settle": iso_utc(now)})),
+        label="settlement id",
+    )
     directory = config.sub("settlement", settlement_id)
     if directory.exists():
         raise LiveError(f"settlement {settlement_id} already exists")
@@ -316,6 +320,7 @@ def report(config: LiveConfig, ledger: Ledger, settlement_id: str | None = None)
     root = config.sub("settlement")
     candidates = sorted(p for p in root.iterdir() if p.is_dir()) if root.is_dir() else []
     if settlement_id:
+        settlement_id = safe_output_id(settlement_id, label="settlement id")
         candidates = [p for p in candidates if p.name == settlement_id]
     if not candidates:
         raise LiveError(

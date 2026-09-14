@@ -21,10 +21,12 @@ from tennislab.live.common import (
     iso_utc,
     read_json,
     replace_pointer,
+    safe_output_id,
     stamp_id,
     utc_now,
 )
 from tennislab.live.identity import IdentityTable
+from tennislab.live.receipts import bind_receipt, validate_attempt
 
 RESULT_COLUMNS = (
     "row_id",
@@ -361,17 +363,70 @@ def latest_version(config: LiveConfig) -> Path | None:
     if not pointer.is_file():
         return None
     record = read_json(pointer)
-    directory = config.sub("versions", str(record["version_id"]))
+    version_id = safe_output_id(str(record["version_id"]), label="latest version id")
+    directory = config.sub("versions", version_id)
     verify_version(directory)
+    expected_manifest = record.get("manifest_sha256")
+    if not expected_manifest or sha256(directory / "manifest.json") != expected_manifest:
+        raise LiveError(f"latest version {directory.name}: manifest hash mismatch")
     return directory
+
+
+def _confined_version_path(root: Path, relative: str, *, label: str) -> Path:
+    value = Path(str(relative))
+    if value.is_absolute() or ".." in value.parts:
+        raise LiveError(f"{label} path is not confined: {relative!r}")
+    path = root / value
+    current = root
+    for part in value.parts:
+        current = current / part
+        if current.is_symlink():
+            raise LiveError(f"{label} path passes through a symbolic link: {current}")
+    return path
 
 
 def verify_version(directory: Path) -> dict[str, Any]:
     manifest = read_json(directory / "manifest.json")
+    if manifest.get("schema_version") != "live-version-2":
+        raise LiveError(
+            f"version {directory.name}: unsupported schema {manifest.get('schema_version')!r}"
+        )
+    if manifest.get("version_id") != directory.name:
+        raise LiveError(f"version {directory.name}: manifest names another version")
     for relative, digest in manifest["files"].items():
-        path = directory / relative
+        path = _confined_version_path(directory, relative, label=f"version {directory.name}")
         if not path.is_file() or sha256(path) != digest:
             raise LiveError(f"version {directory.name}: {relative} does not hash-verify")
+    bindings = manifest.get("acquisition_receipts")
+    if not isinstance(bindings, dict) or set(bindings) != set(manifest.get("attempts", {})):
+        raise LiveError(f"version {directory.name}: acquisition receipt bindings are incomplete")
+    live_root = directory.parent.parent
+    for source_id, binding in sorted(bindings.items()):
+        if not isinstance(binding, dict):
+            raise LiveError(f"version {directory.name}: invalid acquisition receipt binding")
+        attempt_id = manifest["attempts"][source_id]
+        if binding.get("source_id") != source_id or binding.get("attempt_id") != attempt_id:
+            raise LiveError(
+                f"version {directory.name}: acquisition receipt identity mismatch for {source_id}"
+            )
+        path = _confined_version_path(
+            live_root,
+            str(binding.get("path", "")),
+            label=f"acquisition receipt {source_id}/{attempt_id}",
+        )
+        if not path.is_file() or sha256(path) != binding.get("sha256"):
+            raise LiveError(
+                f"version {directory.name}: acquisition receipt hash mismatch for {source_id}/{attempt_id}"
+            )
+        receipt = validate_attempt(path.parent)
+        if (
+            receipt.get("source_id") != source_id
+            or receipt.get("attempt_id") != attempt_id
+            or receipt.get("finished_utc") != binding.get("finished_utc")
+        ):
+            raise LiveError(
+                f"version {directory.name}: acquisition receipt content mismatch for {source_id}/{attempt_id}"
+            )
     return manifest
 
 
@@ -428,14 +483,19 @@ def write_version(
     no_change = (
         previous_manifest is not None and previous_manifest["content_sha256"] == content_hash
     )
+    receipt_bindings = {
+        source_id: bind_receipt(config, source_id, attempt_id)
+        for source_id, attempt_id in sorted(attempts.items())
+    }
     manifest = {
-        "schema_version": "live-version-1",
+        "schema_version": "live-version-2",
         "version_id": version_id,
         "written_utc": iso_utc(now),
         "previous_version": previous_dir.name if previous_dir else None,
         "content_sha256": content_hash,
         "no_change": no_change,
         "attempts": attempts,
+        "acquisition_receipts": receipt_bindings,
         "carried_forward": carried,
         "counts": {
             "results": len(results),
@@ -458,7 +518,11 @@ def write_version(
     verify_version(directory)
     replace_pointer(
         config.sub("versions", "latest.json"),
-        {"version_id": version_id, "content_sha256": content_hash},
+        {
+            "version_id": version_id,
+            "content_sha256": content_hash,
+            "manifest_sha256": sha256(directory / "manifest.json"),
+        },
     )
     return directory
 
