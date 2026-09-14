@@ -298,6 +298,30 @@ OUTCOME_COLUMNS = frozenset(
 )
 
 
+# Closed projections: adding a new source column cannot silently expose its values.
+PROJECTION_FIELDS = {
+    "metadata_projection": ("match_id", "match_date", "player_a", "player_b", "identity_tier"),
+    "calibration_metadata": (
+        "match_id",
+        "match_date",
+        "source_season",
+        "source_key",
+        "tourney_id",
+        "surface",
+        "best_of",
+        "player_a",
+        "player_b",
+        "identity_tier",
+        "played",
+        "completed",
+        "source_field_agreement",
+        "PS_valid",
+        "PS_decimal_a",
+        "PS_decimal_b",
+    ),
+}
+
+
 def projected_rows(
     path: Path,
     expected_sha256: str,
@@ -311,7 +335,12 @@ def projected_rows(
     ``column`` is non-blank, so a caller can tell a resolved match from a prospective one
     without seeing the value. The read is receipted like the accessors.
     """
-    _check_purpose_and_ceiling(purpose, None)
+    if purpose not in PROJECTION_FIELDS:
+        raise LabelHistoryError(f"undeclared metadata projection purpose: {purpose}")
+    if resolution_flag not in (None, ("a_won", "outcome_known")):
+        raise LabelHistoryError("only the outcome-known resolution flag is supported")
+    if purpose == "metadata_projection" and resolution_flag is not None:
+        raise LabelHistoryError("metadata_projection does not expose outcome resolution")
     if sha256(path) != expected_sha256:
         raise LabelHistoryError("table hash mismatch")
     rows: list[dict[str, str]] = []
@@ -319,9 +348,13 @@ def projected_rows(
     with Path(path).open(newline="", encoding="utf-8") as handle:  # projected read
         reader = csv.DictReader(handle)
         fields = list(reader.fieldnames or ())
-        dropped = {field for field in fields if field.lower() in OUTCOME_COLUMNS}
+        allowed = PROJECTION_FIELDS[purpose]
+        missing = set(allowed) - set(fields)
+        if missing:
+            raise LabelHistoryError(f"projection header missing fields: {sorted(missing)}")
+        dropped = set(fields) - set(allowed)
         for row in reader:
-            projected = {key: value for key, value in row.items() if key not in dropped}
+            projected = {key: row[key] for key in allowed}
             if resolution_flag is not None:
                 column, name = resolution_flag
                 projected[name] = "1" if row.get(column, "") != "" else "0"
@@ -336,7 +369,9 @@ def projected_rows(
         "rows_parsed": len(rows),
         "rows_returned": len(rows),
         "max_season_returned": None,
-        "outcome_columns_dropped": sorted(dropped),
+        "outcome_columns_dropped": sorted(dropped & OUTCOME_COLUMNS),
+        "columns_returned": list(PROJECTION_FIELDS[purpose]),
+        "columns_dropped": sorted(dropped),
     }
     access.record_receipt(receipt)
     return rows

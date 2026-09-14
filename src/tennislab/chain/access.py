@@ -28,7 +28,7 @@ from collections import Counter
 from typing import Any
 
 LOG_ENVIRONMENT_VARIABLE = "TENNISLAB_ACCESS_LOG"
-_WRITE_MODES = frozenset("wax+")
+SCHEMA_VERSION = 2
 _state: dict[str, Any] = {"installed": False, "log": None, "root": None}
 _opens: Counter[tuple[str, str, str]] = Counter()
 _receipts: list[dict[str, Any]] = []
@@ -67,10 +67,10 @@ def _hook(event: str, args: tuple[Any, ...]) -> None:
     try:
         path, mode, flags = args
         if mode is None:
-            if int(flags or 0) & (os.O_WRONLY | os.O_RDWR):
+            if int(flags or 0) & os.O_ACCMODE == os.O_WRONLY:
                 return
-            mode = "r"
-        if _WRITE_MODES & set(str(mode)):
+            mode = "r+" if int(flags or 0) & os.O_ACCMODE == os.O_RDWR else "r"
+        if "r" not in str(mode) and "+" not in str(mode):
             return
         relative = _relative(path)
         if relative is None:
@@ -98,9 +98,17 @@ def _flush() -> None:
         for (path, mode, opener), count in sorted(_opens.items())
     ]
     lines += [json.dumps({"kind": "receipt", **receipt}, sort_keys=True) for receipt in _receipts]
-    if not lines:
-        return
-    with open(log, "a", encoding="utf-8") as handle:
+    lines.append(
+        json.dumps(
+            {
+                "kind": "complete",
+                "schema": SCHEMA_VERSION,
+                "opens": len(_opens),
+                "receipts": len(_receipts),
+            }
+        )
+    )
+    with open(log, "w", encoding="utf-8") as handle:
         handle.write("\n".join(lines) + "\n")
 
 
@@ -119,17 +127,24 @@ def install() -> bool:
 
 
 def read_log(path: Any) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    """``(opens, receipts)`` from a log file; both empty when it does not exist."""
+    """``(opens, receipts)`` from a complete log; missing/incomplete evidence fails."""
     opens: list[dict[str, Any]] = []
     receipts: list[dict[str, Any]] = []
-    try:
-        with open(path, encoding="utf-8") as handle:
-            for line in handle:
-                if not line.strip():
-                    continue
-                entry = json.loads(line)
-                kind = entry.pop("kind", None)
-                (opens if kind == "open" else receipts).append(entry)
-    except FileNotFoundError:
-        pass
+    with open(path, encoding="utf-8") as handle:
+        entries = [json.loads(line) for line in handle if line.strip()]
+    if not entries or entries[-1].get("kind") != "complete":
+        raise ValueError("missing completed audit log (schema 2 required)")
+    completion = entries.pop()
+    for entry in entries:
+        kind = entry.pop("kind", None)
+        if kind not in {"open", "receipt"}:
+            raise ValueError("invalid audit record kind")
+        (opens if kind == "open" else receipts).append(entry)
+    if completion != {
+        "kind": "complete",
+        "schema": SCHEMA_VERSION,
+        "opens": len(opens),
+        "receipts": len(receipts),
+    }:
+        raise ValueError("inconsistent audit completion record")
     return opens, receipts
