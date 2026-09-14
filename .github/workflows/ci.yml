@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.11.8"
+          enable-cache: true
+      - name: Install pinned environment
+        run: make setup
+      - name: Lint
+        run: make lint
+      - name: Unit and integrity tests
+        run: make test
+      - name: Small reproduction from the committed sample
+        run: make reproduce-small
