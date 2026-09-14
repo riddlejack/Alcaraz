@@ -56,6 +56,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     year_plan,
@@ -884,7 +885,7 @@ def fill_pending(
                 f"automatic fill; first: {remaining[0]}"
             )
         target = config_path.with_name(f"{config_path.stem}.filled.json")
-        digest = atomic_json(target, filled)
+        digest = guarded_json(target, filled)
         overrides[f"configs.{key}"] = relative_to_root(target)
         record[key] = {
             "template": relative_to_root(config_path),
@@ -907,7 +908,16 @@ def observed_outcome_access(
     innermost package function that opened it; ``receipts`` are the accessor receipts;
     ``violations`` names an undeclared parse or a receipt beyond its fold's horizon.
     """
-    opens, receipts = access.read_log(stage_dir / ACCESS_LOG)
+    try:
+        opens, receipts = access.read_log(stage_dir / ACCESS_LOG) if stage.module else ([], [])
+    except (OSError, ValueError, TypeError) as error:
+        return {
+            "declared": stage.outcome_access,
+            "observed": [],
+            "receipts": [],
+            "violations": [f"stage {stage.name}: invalid audit evidence: {error}"],
+            "basis": "completed audit log required (schema 2)",
+        }
     observed: list[dict[str, Any]] = []
     classified: dict[str, dict[str, Any]] = {}
     for entry in opens:
@@ -966,6 +976,12 @@ def observed_outcome_access(
         ceiling = receipt.get("year_ceiling")
         fold = receipt.get("fold_outer_year")
         latest = receipt.get("max_season_returned")
+        cutoff = receipt.get("cutoff_date")
+        latest_date = receipt.get("max_match_date_returned")
+        if cutoff is not None and latest_date is not None and latest_date > cutoff:
+            violations.append(
+                f"stage {stage.name}: returned date {latest_date} beyond cutoff {cutoff}"
+            )
         if ceiling is not None and latest is not None and int(latest) > int(ceiling):
             violations.append(
                 f"stage {stage.name}: {receipt.get('purpose')} returned season {latest} "
@@ -1010,14 +1026,24 @@ def run_stage(
     earlier: Sequence[str],
     panel_end_year: int | None = None,
 ) -> dict[str, Any]:
+    # Check every runner-owned destination before filling configs or launching code.
+    stage_dir = resolve_output_under_root(run_root / stage.name, label="stage output")
+    if stage_dir.exists():
+        for child in stage_dir.rglob("*"):
+            if child.is_symlink():
+                resolve_output_under_root(child, label="stage output descendant")
+    for name in ("stdout.txt", "stderr.txt", ACCESS_LOG, STAGE_MANIFEST):
+        resolve_output_under_root(stage_dir / name, label=f"stage {name}")
+    resolve_output_under_root(run_root / LEDGER, label="chain ledger")
     verify_earlier(run_root, earlier)
+    if earlier:
+        verify_stage_records(run_root, earlier)
     overrides, filled = fill_pending(stage, section, run_root)
     missing = missing_stage_inputs(stage, section, overrides)
     if missing:
         raise ChainError(
             f"stage {stage.name} declares {len(missing)} input(s) that do not exist; first: {missing[0]}"
         )
-    stage_dir = run_root / stage.name
     stage_dir.mkdir(parents=True, exist_ok=True)
     command = command_for(stage, section, run_root, overrides)
     workspace_root = resolve_under_root(".", label="workspace")
@@ -1029,6 +1055,8 @@ def run_stage(
     }
     started = dt.datetime.now(dt.UTC)
     if command:
+        # No previous launch's completed receipt can stand in for this launch.
+        (stage_dir / ACCESS_LOG).unlink(missing_ok=True)
         completed = subprocess.run(
             command,
             cwd=workspace_root,
@@ -1046,6 +1074,14 @@ def run_stage(
     outcome_access = observed_outcome_access(stage, stage_dir, workspace_root, panel_end_year)
     problems = list(outcome_access["violations"])
     content_scan: dict[str, Any] | None = None
+    if stage.name == "barrier" or stage.outcome_access == "target":
+        recheck = verify_integrity(
+            run_root,
+            earlier,
+            stage_table=[*stages(section), *post_barrier_stages(section)],
+            panel_end_year=panel_end_year,
+        )
+        problems.extend(recheck["problems"])
     if stage.name == "barrier":
         scan = barrier_scan.scan_tree(run_root, list(earlier))
         content_scan = {
@@ -1090,12 +1126,13 @@ def run_stage(
             manifest["instruction"] = (
                 "Timestamp run_tree_sha256 externally now. Nothing after this point may rerun an earlier stage."
             )
-    atomic_json(stage_dir / STAGE_MANIFEST, manifest)
+    guarded_json(stage_dir / STAGE_MANIFEST, manifest)
     entry = {
         "stage": stage.name,
         "exit_status": status,
         "outputs_sha256": manifest["outputs_sha256"],
         "finished_utc": manifest["finished_utc"],
+        "manifest_sha256": sha256(stage_dir / STAGE_MANIFEST),
     }
     if problems:
         entry["integrity"] = "fail"
@@ -1107,23 +1144,86 @@ def run_stage(
     return manifest
 
 
-def verify_integrity(run_root: Path, names: Sequence[str]) -> dict[str, Any]:
-    """Re-check every completed stage's recorded access and rescan the pre-barrier tree."""
+def guarded_json(path: Path, value: Any) -> str:
+    path = resolve_output_under_root(path, label="runner JSON output")
+    resolve_output_under_root(
+        path.with_suffix(path.suffix + f".tmp.{os.getpid()}"), label="runner JSON temporary output"
+    )
+    return atomic_json(path, value)
+
+
+def verify_stage_records(run_root: Path, names: Sequence[str]) -> None:
+    """Bind manifests to ledger entries, and ledger entries to the actual output map."""
+    entries = verify_ledger(run_root)
+    if [entry.get("stage") for entry in entries] != list(names):
+        raise ChainError("ledger stage inventory differs from completed manifests")
+    for name, entry in zip(names, entries, strict=True):
+        path = run_root / name / STAGE_MANIFEST
+        manifest = read_config(path)
+        if entry.get("manifest_sha256") != sha256(path):
+            raise ChainError(f"stage {name} manifest digest differs from ledger")
+        observed = hash_tree(run_root / name)
+        if (
+            manifest.get("outputs") != observed
+            or manifest.get("outputs_sha256") != canonical_hash(observed)
+            or entry.get("outputs_sha256") != canonical_hash(observed)
+        ):
+            raise ChainError(f"stage {name} output digest differs from ledger")
+        if (
+            manifest.get("stage") != name
+            or manifest.get("exit_status") != 0
+            or entry.get("exit_status") != 0
+        ):
+            raise ChainError(f"stage {name} has invalid identity or exit status")
+        if entry.get("integrity") == "fail":
+            raise ChainError(f"stage {name} failed integrity")
+
+
+def verify_integrity(
+    run_root: Path,
+    names: Sequence[str],
+    *,
+    stage_table: Sequence[Stage] | None = None,
+    panel_end_year: int | None = None,
+) -> dict[str, Any]:
+    """Re-derive completed stage access under configured declarations and rescan artifacts."""
     problems: list[str] = []
     checked: list[str] = []
+    table = {
+        stage.name: stage for stage in (stage_table or [*stages({}), *post_barrier_stages({})])
+    }
+    workspace_root = resolve_under_root(".", label="workspace")
     for name in names:
         manifest_path = run_root / name / STAGE_MANIFEST
         if not manifest_path.is_file():
+            problems.append(f"stage {name} missing manifest")
             continue
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest = read_config(manifest_path)
         checked.append(name)
+        if name not in table:
+            problems.append(f"stage {name} is not configured")
+            continue
+        actual = observed_outcome_access(
+            table[name], run_root / name, workspace_root, panel_end_year
+        )
+        problems.extend(actual["violations"])
+        if actual != manifest.get("outcome_access"):
+            problems.append(
+                f"stage {name} recorded outcome access differs from reconstructed access"
+            )
         recorded = manifest.get("integrity_violations")
         if recorded is None:
             problems.append(f"stage {name} ran before the access record existed (RB14)")
         else:
-            problems += recorded
-        if name == "barrier" and "run_tree_sha256" not in manifest:
-            problems.append("barrier was refused; the run tree was never frozen")
+            problems.extend(recorded)
+        if name == "barrier":
+            expected = {prior: hash_tree(run_root / prior) for prior in names[: names.index(name)]}
+            if (
+                not expected
+                or manifest.get("run_tree") != expected
+                or manifest.get("run_tree_sha256") != canonical_hash(expected)
+            ):
+                problems.append("barrier run tree differs from completed stage outputs")
     if "barrier" in checked:
         scan = barrier_scan.scan_tree(run_root, list(names[: names.index("barrier")]))
         problems += [
@@ -1148,13 +1248,13 @@ def write_configs(
     plan_document = plan.as_document()
     inputs = section.get("inputs", {})
     overrides = section.get("stage_config_overrides", {})
-    target = resolve_under_root(section["configs_dir"], label="configs_dir")
+    target = resolve_output_under_root(section["configs_dir"], label="configs_dir")
     target.mkdir(parents=True, exist_ok=True)
     emitted: dict[str, Any] = {}
     for name, body in _stage_config_bodies(section, inputs, plan_document).items():
         merged = _deep_merge(body, overrides.get(name, {}))
         path = target / f"{name}.json"
-        emitted[name] = {"path": relative_to_root(path), "sha256": atomic_json(path, merged)}
+        emitted[name] = {"path": relative_to_root(path), "sha256": guarded_json(path, merged)}
     plan_path = target / "year_plan.json"
     plan_document_out: dict[str, Any] = {"year_plan": plan_document}
     for key in (
@@ -1170,7 +1270,7 @@ def write_configs(
             plan_document_out[key] = list(section[key])
     emitted["year_plan"] = {
         "path": relative_to_root(plan_path),
-        "sha256": atomic_json(plan_path, plan_document_out),
+        "sha256": guarded_json(plan_path, plan_document_out),
     }
     return {
         "configs_dir": relative_to_root(target),
@@ -1973,7 +2073,15 @@ def main(argv: list[str] | None = None) -> int:
         present = [name for name in all_names if (run_root / name / STAGE_MANIFEST).is_file()]
         verified = verify_earlier(run_root, present)
         entries = verify_ledger(run_root)
-        integrity = verify_integrity(run_root, present)
+        if not present or present != all_names[: len(present)]:
+            raise ChainError("completed stages are empty or not a configured prefix")
+        verify_stage_records(run_root, present)
+        integrity = verify_integrity(
+            run_root,
+            present,
+            stage_table=[*table, *after_barrier],
+            panel_end_year=plan.panel_end_year,
+        )
         print(
             json.dumps(
                 {
