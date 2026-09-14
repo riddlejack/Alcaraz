@@ -1,0 +1,36 @@
+{
+  "acceptance_criteria": "docs/live/DESIGN.md section 7; one test per criterion in tests/live/test_live_cases.py",
+  "base_commit": "d677c3f65780ef6468d693bf8787ce39d3428253",
+  "branch": "d-update",
+  "design": "docs/live/DESIGN.md",
+  "files": {
+    "configs/elo.json": "e8c2bae779e44a81dbcc9cee8fc03efc7a7d3b36ec1f5275760aaca91137bba5",
+    "configs/live/live.json": "03be585a495d47b73a3b3e24c6575e9c17c9e395cd11872903f36084b37663d4",
+    "docs/live/DESIGN.md": "fe02f6f9ae848471bbde1e42d511d2df7e43953b298b11aedda8d53e616ee379",
+    "src/tennislab/cli.py": "8557fd6d794f2568c0bfeb1e7fdf9f1655ab1456988a4ea89915bf0054206cf4",
+    "src/tennislab/live/__init__.py": "69971a8ed4d0271094abb1e609a7b9f8e317c2f0c015399cc65e9183647b5fce",
+    "src/tennislab/live/cli.py": "977c82a041e4fcf6136859ddb8a72525c1d5de51c791aca0ab39538b7210e97a",
+    "src/tennislab/live/common.py": "6dbe3dada10bda2ee8a333b80f3cbf12b2f8379bb4628c51c41121784bb9f707",
+    "src/tennislab/live/fixtures.py": "fd0216a60fa3382dc8ccad9e2a8269bc9c69bd0099678983d785d26de0135ff3",
+    "src/tennislab/live/identity.py": "ef6156bfed2f176fa3c3dec3689eed5981317c233829133230d521177cc2aa91",
+    "src/tennislab/live/ledger.py": "738fe8c7cdde808b0582a0e39cee4308787a93562298e1b1d1a8b01084c6278d",
+    "src/tennislab/live/receipts.py": "b17830a6e6c9e089b948ca9601dfc2777ddbfabf9d71318e32adf231ad1f4542",
+    "src/tennislab/live/settle.py": "c0e6ca04443fbcacbede862c92871d48bcfb25584d28ad0be64883c540984f0c",
+    "src/tennislab/live/sources.py": "279bff92c4fb616c643f9c147c4011134ffa3b39c579c13409ecc82021081180",
+    "src/tennislab/live/transport.py": "a955c9a1b62ef038548bae5302b82958b18ede569de4a76fda0d1803d4bb41c9",
+    "src/tennislab/live/versions.py": "48b6d94f066687f5045817d050822e79d52d049e0ae0801a94e3e91bbb043e2b",
+    "src/tennislab/live/wikitext.py": "2f10366966a066f6303eb33c0a03c564134936f90cadb11318a3479d84d4583d",
+    "tests/live/test_live_cases.py": "2f98b114de59e3decfdc5b678ae155b1ce300bc008c78ef5e77a82f916f4ffa6",
+    "tests/live/world.py": "940a7064e950a5a9b7c2c0fa87090574a6de87aaef565e18cb411d103031864a"
+  },
+  "frozen_utc": "2026-09-14T21:30:00Z",
+  "lane": "D",
+  "not_frozen_here": "no campaign, no population, no real history binding (history.ATP/WTA are PENDING in the committed config), no rung other than elo",
+  "rehearsal": "synthetic world only (tests/live/world.py); no real event, page, player, result or network request; the parser was additionally checked for structure (template names, match counts per round and status) against five retained archive draw pages without printing names or scores",
+  "revisions_before_freeze": [
+    "fixture records name their state `fixture_status` (the field `status` is reserved for outcome-like vocabulary and refused on fixture input)",
+    "the version content hash excludes each row's receipt_id so an identical capture is recognised as no_change while keeping its own receipt",
+    "unused helpers deleted after the first full gate passed (no behaviour change; the 17 live cases, hygiene and CLI tests re-run green)"
+  ],
+  "schema_version": "live-freeze-1"
+}

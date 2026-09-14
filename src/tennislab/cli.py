@@ -14,6 +14,7 @@ from collections.abc import Sequence
 from tennislab import __version__
 
 CHAIN_COMMANDS = ("print", "write-configs", "dry-run", "run", "report", "verify")
+LIVE_COMMANDS = ("update", "fixture", "forecast", "ledger", "settle")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -51,10 +52,17 @@ def build_parser() -> argparse.ArgumentParser:
         metavar="TOUR=RUN_ROOT",
         help="completed run roots, e.g. ATP=data/runs/atp_tier01/run",
     )
+    for name in LIVE_COMMANDS:
+        subparsers.add_parser(name, help=f"live commands: tennislab {name} --help", add_help=False)
     return parser
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] in LIVE_COMMANDS:
+        from tennislab.live import cli as live_cli
+
+        return live_cli.main(argv)
     args = build_parser().parse_args(argv)
     if args.command == "chain":
         from tennislab.chain import runner
@@ -82,7 +90,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         for item in args.runs:
             forwarded += ["--run", item]
         return ladder.main(forwarded)
-    return 2
     return 2
 
 

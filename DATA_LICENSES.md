@@ -39,6 +39,9 @@ no odds and no tennis-data.co.uk rows. Its provenance is stated in `data/sample/
 | `data/manifests/**` | receipts, hashes, identity and event crosswalks (ids and names) | mapping tables and receipts; no odds, no result rows |
 | `data/registries/*` | scores and experiment records produced by this project | MIT |
 | `data/sample/**` | synthetic (see its README) | MIT |
+| `data/live/versions/*/results.csv` (workspace, untracked) | match results parsed from English Wikipedia draw articles; article title and revision id recorded per row | facts; CC BY-SA 4.0 attribution by article URL and revision; raw wikitext stays local |
+| `data/live/versions/*/serve_state.csv` (workspace, untracked) | per-player serve/return coverage from the Tennis Abstract feed | Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission under PERM-TA-001; derived tables CC BY-NC-SA 4.0 |
+| `tests/live/**` | synthetic | MIT |
 
 Files reviewed and deliberately not copied from the archive's `references/WTA01_event_map/`:
 `td_row_date_defects.csv` and `winner_orientation_conflicts.csv` (they reproduce

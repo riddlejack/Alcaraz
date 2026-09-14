@@ -64,6 +64,30 @@ docs/            METHODS, RESULTS (generated), PROCESS, DECISIONS, INTEGRITY, EQ
 tools/           equivalence harness against the archive; the sample generator
 ```
 
+## Live update, prospective fixtures and the ledger (Lane D, branch `d-update`)
+
+Verified on the synthetic rehearsal world only; no campaign is registered and no real
+forecast has been issued. `docs/live/DESIGN.md` is the frozen design, `docs/live/FREEZE.json`
+its hashes, `configs/live/live.json` the manifest-bound configuration.
+
+```sh
+uv run tennislab update   --config configs/live/live.json --events events.json --replay <dir>
+uv run tennislab fixture  --config configs/live/live.json --input pending.csv --batch-id b1
+uv run tennislab forecast --config configs/live/live.json --batch-id b1
+uv run tennislab ledger   verify --config configs/live/live.json
+uv run tennislab settle   results|score|report --config configs/live/live.json
+```
+
+What is demonstrated by `tests/live/`: a versioned results-only refresh with immutable
+attempt receipts and retained bytes; identical-content reruns; interrupted attempts that
+never become latest; revisions without history loss; quarantine of ambiguous identities,
+duplicates and conflicts; serve/ranking freshness that a results-only update cannot
+advance; the D−2 same-cutoff boundary and overlap withholding (RB13); outcome-free
+fixtures with neutral orientation; duplicate issuance and tamper refusal on the
+hash-chained ledger; late or failed proofs kept unconfirmed; provisional, final and
+corrected settlement; report refusal before the barrier. Only the `elo` rung issues a
+forecast; every other rung writes an explicit unavailable record (see RB14).
+
 ## Licences
 
 Code: MIT (`LICENSE`). Data: see `DATA_LICENSES.md`; nothing derived from odds providers

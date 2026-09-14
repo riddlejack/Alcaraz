@@ -1,0 +1,79 @@
+{
+  "schema_version": "live-config-1",
+  "design": "docs/live/DESIGN.md",
+  "workspace_dir": "data/live",
+  "cutoff": {
+    "lag_calendar_days": 2,
+    "rule": "R6/R12/R17/RB13: a results row is eligible for a fixture starting on date S iff completion_upper_bound <= S - lag (inclusive), publication_upper_bound_utc <= issue time, receipt time <= issue time, and overlap_unresolved is false. Serve state and rankings are as-of the last block or list whose declared bound is <= S - lag. A results-only update never advances serve or ranking freshness."
+  },
+  "sources": {
+    "wikipedia_results": {
+      "kind": "wikipedia_core_rest",
+      "status": "qualified",
+      "qualified_fields": ["winner", "score", "round", "status", "seed", "entry", "source_revision", "publication_upper_bound_utc"],
+      "not_supplied": ["match_date", "serve_counts", "rankings", "minutes", "player_id"],
+      "endpoint": "https://api.wikimedia.org/core/v1/wikipedia/en/page/{title}",
+      "never_request": ["https://en.wikipedia.org/w/"],
+      "terms_reference": "archive acquisition/probes/WIKI.md section 7: CC BY-SA 4.0 text, facts reusable, API etiquette (serial requests, descriptive user agent)",
+      "attribution": "Results parsed from English Wikipedia draw articles (CC BY-SA 4.0); article URL and revision id recorded per row",
+      "min_interval_seconds": 2.0,
+      "user_agent": "tennis-lab/0.1 (research; contact via repository)"
+    },
+    "tennisabstract_serve": {
+      "kind": "parsed_csv_feed",
+      "status": "qualified_serve_state",
+      "permission_id": "PERM-TA-001",
+      "date_basis": "event_anchor",
+      "qualified_fields": ["p_ace", "p_df", "p_svpt", "p_1stIn", "p_1stWon", "p_2ndWon", "p_SvGms", "p_bpSaved", "p_bpFaced", "o_ace", "o_df", "o_svpt", "o_1stIn", "o_1stWon", "o_2ndWon", "o_SvGms", "o_bpSaved", "o_bpFaced"],
+      "not_supplied": ["match_date"],
+      "attribution": "Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission under PERM-TA-001; derived tables CC BY-NC-SA 4.0"
+    },
+    "rankings_feed": {
+      "kind": "sackmann_rankings_csv",
+      "status": "qualified_last_known",
+      "publication_basis": "ranking_date",
+      "qualified_fields": ["rank", "points"]
+    },
+    "tennismylife": {
+      "kind": "parsed_csv_feed",
+      "status": "candidate_not_qualified",
+      "refuse_reason": "R22: licence statements conflict (site MIT versus README non-commercial); identity mapping unresolved; Lane A3 qualification pending"
+    },
+    "wta_official": {"kind": "api", "status": "blocked_terms", "refuse_reason": "R14: terms prohibit automated access; written permission required"},
+    "atp_official": {"kind": "api", "status": "blocked_terms", "refuse_reason": "R14: terms prohibit systematic retrieval"},
+    "tennis_data": {"kind": "workbook", "status": "unreachable", "refuse_reason": "R14: no automated probe; origin returns 503"}
+  },
+  "serve_frontier_declared": {"ATP": "2026-05-17", "WTA": "2026-05-18", "note": "retained population frontiers (Lane A); compared with the ingested feed, never assumed"},
+  "identity": {
+    "players_csv": "data/live/identity/players.csv",
+    "aliases_csv": "data/live/identity/aliases.csv",
+    "rule": "exact normalised full name against the player master, then the alias table; more than one candidate or none is quarantined; no synthetic identity"
+  },
+  "history": {
+    "schema": "CONFIRM2026 results (tennislab.ratings.elo.RESULT_COLUMNS)",
+    "ATP": {"results_csv": "PENDING", "sha256": "PENDING"},
+    "WTA": {"results_csv": "PENDING", "sha256": "PENDING"}
+  },
+  "rungs": {
+    "elo": {"status": "available", "module": "tennislab.ratings.elo", "config": "configs/elo.json", "learned_constants": "fixed (K 32, scale 400, initial 1500, pooling 0.5/0.5); no fit, horizon none"},
+    "atp_p0": {"status": "unavailable", "reason": "no single-fixture feature route in the trunk; exact route is live-panel append plus chain replay features..pipeline with blank fixture-year labels; fitted artifacts not bound in this lane"},
+    "atp_p1": {"status": "unavailable", "reason": "as atp_p0"},
+    "atp_full_tier": {"status": "unavailable", "reason": "as atp_p0; native tier acceptance (RB9) also pending"},
+    "wta_base": {"status": "unavailable", "reason": "as atp_p0"},
+    "wta_full": {"status": "unavailable", "reason": "as atp_p0"}
+  },
+  "exclusion": {
+    "unknown_identity": "excluded",
+    "unknown_surface": "excluded",
+    "unknown_format": "excluded",
+    "start_without_source_or_timezone": "excluded",
+    "start_uncertainty_hours_max": 36
+  },
+  "settlement": {
+    "estimand": "completed matches only; retired, walkover, default and withdrawn fixtures excluded with counts",
+    "finality_rule": "final when two captures with distinct source revisions agree on winner, score and status",
+    "log_loss_clip": 1e-15
+  },
+  "ledger": {"schema_version": "ledger-1", "genesis_text": "tennislab prospective ledger genesis v1"},
+  "proof": {"adapter": "offline", "scope": "hash-only; attestation obtained outside this code; no data bytes uploaded (D30)"}
+}
