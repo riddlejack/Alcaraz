@@ -1,46 +1,55 @@
-# Data licences
+# Data licences and redistribution
 
-The code in this repository is MIT-licensed (see `LICENSE`). The data it consumes is not,
-and this file states what is and is not redistributed here.
+The package code is MIT-licensed under `LICENSE`. Source data is governed separately.
+Permission to collect, permission to model, and permission to redistribute are different
+questions; this repository follows the narrowest applicable boundary.
 
-## Rule
+## Repository rule
 
-This repository carries code, manifests and hashes, mapping and alias tables, aggregates,
-forecasts and scores. It never carries raw source files or row-level reproductions of a
-source. Every derived table that is tracked here names its source and licence below.
+The public product may contain code, source receipts and hashes, identity/event mappings,
+aggregates, forecasts, scores, and synthetic fixtures. It does not contain raw provider
+files or row-level reproductions of a source. Every published derived table must name its
+source and applicable terms.
 
 ## Sources
 
-| Source | Terms | What this repository does |
+| Source | Governing record | Treatment in this repository |
 |---|---|---|
-| Jeff Sackmann, `tennis_atp` and `tennis_wta` (match results, rankings, players) | CC BY-NC-SA 4.0 | Consumed locally from a hash-pinned mirror (`data/manifests/ARCHIVE01.json`). Tables derived from it are published here under CC BY-NC-SA 4.0 with this attribution. The mirror itself is not redistributed. |
-| Jeff Sackmann, Match Charting Project | CC BY-NC-SA 4.0 | Not consumed by the modelling trunk. |
-| tennis-data.co.uk annual results and odds workbooks | Site terms; no redistribution granted | Consumed locally only. Nothing derived from its odds or full result rows is redistributed. Sample data contains no tennis-data rows. |
-| Wikipedia draw and season-calendar pages | CC BY-SA 4.0 | Parsed locally; small event-name and date mapping tables may be tracked with attribution. |
-| The Odds API and Software Heritage payloads | Provider terms | Stay local, never tracked. |
+| Jeff Sackmann, `tennis_atp` and `tennis_wta` | CC BY-NC-SA 4.0 | Consumed locally from the hash-pinned mirror named by `data/manifests/ARCHIVE01.json`. The mirror is not redistributed. Any table carrying derived match, ranking, or player rows must use the same licence and attribution. |
+| Jeff Sackmann, Match Charting Project | CC BY-NC-SA 4.0 | Used for limited corroboration in the archive, not as a current product-model input. Any future derived table must preserve attribution and the same licence. |
+| Jeff Sackmann / Tennis Abstract player data | Owner permission record `PERM-TA-001`; derived-table attribution required; CC BY-NC-SA 4.0 treatment adopted by rebuild decision R16 | The permitted crawl remains outside this product repository and is not integrated into the accepted model runs. Raw responses are not tracked here. Any later derived table must carry the attribution block below and its collection dates. |
+| tennis-data.co.uk annual results and odds workbooks | Provider/site terms; no redistribution right granted | Local input and descriptive market reference only. No odds, full result rows, or row-level derived reproduction is published. Event-name mapping metadata is permitted under the rebuild's R3 boundary. |
+| Wikipedia draw and calendar pages | CC BY-SA 4.0 | Parsed locally for historical bridge rows. Small mapping tables may be tracked with source attribution; raw page captures are not copied into the product. |
+| TennisMyLife yearly and ongoing files | The current site states MIT; the owner adopted that statement under R23. An older retained README contains a conflicting non-commercial/no-redistribution statement | No TML raw or derived table is tracked or integrated today. If a qualified version is later published, retain source attribution, the version hash, the R23 terms decision, and the chronology/field conditions described in `docs/DATA.md`. |
+| The Odds API and Software Heritage payloads | Provider-specific terms | Payloads stay local and are never tracked. |
+| ATP/WTA official feeds and ITF | No automated-use authority established under the reviewed terms/bot boundary | Not collected or redistributed by this product. |
+
+## Required Tennis Abstract attribution
+
+> Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission
+> under `PERM-TA-001`. Any published derived table must carry this attribution and its
+> applicable licence. The permitted collection is still in progress and is not part of
+> the accepted retrospective model runs described above.
+
+When the first qualified Tennis Abstract-derived release is created, append the exact
+collection start/end dates and source-version hashes to this block and to the product
+README. Do not infer completion from a progress file.
+
+## Current tracked data inventory
+
+| Path | Contents | Redistribution basis |
+|---|---|---|
+| `data/sample/**`, `data/sample_tier/**` | Synthetic acceptance fixtures and expected results | MIT |
+| `data/mappings/wta_event_map/*.csv` | Event/edition and identifier mapping metadata; no odds or full result rows | R3 mapping boundary; Sackmann-derived columns under CC BY-NC-SA 4.0 |
+| `data/manifests/**` | Hashes, receipts, bindings, and crosswalk metadata; not raw source payloads | Metadata only; underlying source terms still govern |
+| `data/registries/**` | Project-generated experiment and score records | MIT, subject to cited source-result limits |
+
+The archive files `td_row_date_defects.csv` and `winner_orientation_conflicts.csv` were
+deliberately not copied because they reproduce tennis-data result rows. Other candidate
+crosswalk and coverage files not required by the product trunk were also left out.
 
 ## Attribution
 
-Match, ranking and player data © Jeff Sackmann, licensed under
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Derived tables in
-this repository that carry Sackmann-derived rows are released under the same licence and
-may not be used commercially.
-
-## Sample data
-
-`data/sample/` is either synthetic or Sackmann-derived under the terms above. It contains
-no odds and no tennis-data.co.uk rows. Its provenance is stated in `data/sample/README.md`.
-
-## Tracked derived tables
-
-| Path | Source | Terms |
-|---|---|---|
-| `data/mappings/wta_event_map/*.csv` | tennis-data event names paired with Sackmann tournament ids; format inventory from Sackmann score strings | mapping tables; Sackmann-derived rows CC BY-NC-SA 4.0 |
-| `data/manifests/**` | receipts, hashes, identity and event crosswalks (ids and names) | mapping tables and receipts; no odds, no result rows |
-| `data/registries/*` | scores and experiment records produced by this project | MIT |
-| `data/sample/**` | synthetic (see its README) | MIT |
-
-Files reviewed and deliberately not copied from the archive's `references/WTA01_event_map/`:
-`td_row_date_defects.csv` and `winner_orientation_conflicts.csv` (they reproduce
-tennis-data result rows), `event_crosswalk_candidates.csv`, `event_name_pairs_by_edition.csv`,
-`surname_class_links.csv`, `unmapped_*` and `per_season_coverage.csv` (not read by the trunk).
+Match, ranking, and player data © Jeff Sackmann, licensed under
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Wikipedia-derived
+material remains subject to [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

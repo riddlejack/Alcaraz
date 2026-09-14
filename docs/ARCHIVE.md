@@ -6,9 +6,9 @@ as-is so that every hash its manifests cite stays valid; nothing in it is rewrit
 
 | | |
 |---|---|
-| Archive repository | `tennis-research-lab-archive` (proposed name), the repository formerly at `Tennis Research Lab/` |
+| Archive repository | `riddlejack/tennis-research-lab-archive`, currently private; no public archive link is claimed |
 | Archive commit the rebuild reads | `0ffd1bd935e4965d4419b5f556d94a95cea20ed3` (2026-09-12) |
-| Proposed tag on that commit | `rebuild-source-2026-09-13` |
+| Source tag | not created as of 2026-09-14; the full commit hash above is the binding |
 | Accepted ATP run | `experiments/runs/TIER01/attempt_002` (decision D63), manifest `data/manifests/TIER01-run-002.json` |
 | Accepted WTA run | `experiments/runs/WTA02/attempt_002` (decisions D61, D62), manifest `data/manifests/WTA02-run-002.json` |
 | Elo baseline | `references/CONFIRM2026_elo/`, run `experiments/runs/CONFIRM2026/elo_001` |
