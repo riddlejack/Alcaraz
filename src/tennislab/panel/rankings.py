@@ -51,6 +51,44 @@ ARCHIVE_ROOT = f"tennis-sackmann-archive-{ARCHIVE_COMMIT}"
 ARCHIVE_SHA256 = "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4"
 ARCHIVE_PATH = f"data/raw/ARCHIVE01/snapshot/{ARCHIVE_ROOT}.tar.gz"
 
+
+@dataclass(frozen=True)
+class ArchivePin:
+    """The tarball the stage reads: its path, the hash it must carry, its member root.
+
+    The default is ARCHIVE01, the pinned Sackmann mirror every accepted run read. A
+    config may declare another tarball with the same member layout under ``archive``
+    (``path``, ``sha256``, ``tar_root`` and optionally ``commit``); the sample chain
+    does, with a synthetic tarball. ``commit`` is what the manifests record as
+    ``archive_commit`` and defaults to the member root.
+    """
+
+    path: str = ARCHIVE_PATH
+    sha256: str = ARCHIVE_SHA256
+    root: str = ARCHIVE_ROOT
+    commit: str = ARCHIVE_COMMIT
+
+    @classmethod
+    def from_config(cls, document: dict[str, Any] | None) -> ArchivePin:
+        if not document or "archive" not in document:
+            return cls()
+        section = document["archive"]
+        try:
+            root = str(section["tar_root"])
+            return cls(
+                path=str(section["path"]),
+                sha256=str(section["sha256"]),
+                root=root,
+                commit=str(section.get("commit", root)),
+            )
+        except (KeyError, TypeError) as error:
+            raise ChainError(
+                "config archive must be an object with path, sha256 and tar_root"
+            ) from error
+
+
+DEFAULT_ARCHIVE = ArchivePin()
+
 DEFAULT_WINDOW: dict[str, int] = {
     "ranking_year_min": 2000,
     "ranking_year_max": 2024,
@@ -234,18 +272,22 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, Any]]) -> 
 
 
 def extract_selected(
-    archive_path: Path, raw_dir: Path, out_dir: Path, selection: Selection
+    archive_path: Path,
+    raw_dir: Path,
+    out_dir: Path,
+    selection: Selection,
+    pin: ArchivePin = DEFAULT_ARCHIVE,
 ) -> list[dict[str, Any]]:
     if raw_dir.exists():
         raise ChainError(f"refusing to overwrite extracted raw directory: {raw_dir}")
-    if sha256(archive_path) != ARCHIVE_SHA256:
-        raise ChainError("preserved archive SHA-256 does not match ARCHIVE01")
+    if sha256(archive_path) != pin.sha256:
+        raise ChainError("preserved archive SHA-256 does not match the declared pin")
     raw_dir.mkdir(parents=True)
     records = []
     with tarfile.open(archive_path, "r:gz") as archive:
         members = {member.name: member for member in archive.getmembers() if member.isfile()}
         for relative in selection.selected_members:
-            archive_name = f"{ARCHIVE_ROOT}/{relative}"
+            archive_name = f"{pin.root}/{relative}"
             member = members.get(archive_name)
             if member is None:
                 raise ChainError(f"archive member missing: {archive_name}")
@@ -1043,7 +1085,12 @@ CONFLICT_FIELDS = [
 ]  # fmt: skip
 
 
-def build(archive_path: Path, out_dir: Path, selection: Selection) -> dict[str, Any]:
+def build(
+    archive_path: Path,
+    out_dir: Path,
+    selection: Selection,
+    pin: ArchivePin = DEFAULT_ARCHIVE,
+) -> dict[str, Any]:
     """The stage's whole work: extract, qualify, join, write. Returns the qualification."""
     out_dir.mkdir(parents=True, exist_ok=True)
     normalized = out_dir / selection.normalized_output_name()
@@ -1062,11 +1109,11 @@ def build(archive_path: Path, out_dir: Path, selection: Selection) -> dict[str, 
     if existing:
         raise ChainError("refusing to overwrite outputs: " + ", ".join(existing))
 
-    extracted = extract_selected(archive_path, out_dir / "raw", out_dir, selection)
+    extracted = extract_selected(archive_path, out_dir / "raw", out_dir, selection, pin)
     extraction_manifest = {
         "qualification_id": "MULTI01_rankings",
         "archive_path": relative_to_root(archive_path, label="archive"),
-        "archive_commit": ARCHIVE_COMMIT,
+        "archive_commit": pin.commit,
         "archive_bytes": archive_path.stat().st_size,
         "archive_sha256": sha256(archive_path),
         "selected_member_count": len(extracted),
@@ -1142,8 +1189,8 @@ def build(archive_path: Path, out_dir: Path, selection: Selection) -> dict[str, 
             "Targets dated more than 14 days after that date carry ranking_global_stale=1, and "
             "targets with no prior edition carry rank_missing=1; neither is imputed."
         ),
-        "archive_commit": ARCHIVE_COMMIT,
-        "archive_sha256": ARCHIVE_SHA256,
+        "archive_commit": pin.commit,
+        "archive_sha256": pin.sha256,
         "definitions": {
             "source_grain": "one player row per source ranking_date and rank position, subject to reported duplicate-key checks",
             "effective_date": "ISO conversion of source ranking_date; a provider-recorded ranking snapshot date, not independently verified publication time",
@@ -1207,16 +1254,13 @@ def build(archive_path: Path, out_dir: Path, selection: Selection) -> dict[str, 
     return qualification
 
 
-def validate_existing(archive_path: Path, out_dir: Path) -> None:
+def validate_existing(archive_path: Path, out_dir: Path, pin: ArchivePin = DEFAULT_ARCHIVE) -> None:
     manifest = json.loads((out_dir / "extraction_manifest.json").read_text())
     qualification = json.loads((out_dir / "qualification.json").read_text())
     selection = select(qualification.get("tour", "ATP"), qualification.get("window"))
-    if sha256(archive_path) != ARCHIVE_SHA256:
+    if sha256(archive_path) != pin.sha256:
         raise ChainError("archive hash drift")
-    if (
-        manifest["archive_sha256"] != ARCHIVE_SHA256
-        or qualification["archive_sha256"] != ARCHIVE_SHA256
-    ):
+    if manifest["archive_sha256"] != pin.sha256 or qualification["archive_sha256"] != pin.sha256:
         raise ChainError("recorded archive hash drift")
     for record in manifest["selected_members"]:
         path = out_dir / record["extracted_path"]
@@ -1241,7 +1285,11 @@ def validate_existing(archive_path: Path, out_dir: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=["build", "validate"])
-    parser.add_argument("--archive", type=Path, default=Path(ARCHIVE_PATH))
+    parser.add_argument(
+        "--archive",
+        type=Path,
+        help="the tarball to read (default: the config's archive.path, else ARCHIVE01)",
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--config", type=Path, help="JSON holding the ranking/result window keys")
     parser.add_argument("--tour", default="ATP", choices=sorted(TOUR_PROFILES))
@@ -1253,22 +1301,24 @@ def main(argv: list[str] | None = None) -> int:
 
     window: dict[str, Any] = {}
     tour = args.tour
+    pin = DEFAULT_ARCHIVE
     if args.config is not None:
         document = read_config(resolve_under_root(args.config, label="config"))
         window.update({key: document[key] for key in DEFAULT_WINDOW if key in document})
         tour = document.get("tour", args.tour)
+        pin = ArchivePin.from_config(document)
     for key in DEFAULT_WINDOW:
         value = getattr(args, key)
         if value is not None:
             window[key] = value
     selection = select(tour, window)
-    archive_path = resolve_under_root(args.archive, label="archive")
+    archive_path = resolve_under_root(args.archive or pin.path, label="archive")
     out_dir = resolve_under_root(args.output_dir, label="output_dir")
     if args.mode == "build":
-        qualification = build(archive_path, out_dir, selection)
+        qualification = build(archive_path, out_dir, selection, pin)
         print(json.dumps(qualification, indent=2, sort_keys=True))
     else:
-        validate_existing(archive_path, out_dir)
+        validate_existing(archive_path, out_dir, pin)
     return 0
 
 

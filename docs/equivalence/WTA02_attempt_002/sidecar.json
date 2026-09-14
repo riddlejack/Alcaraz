@@ -6,7 +6,7 @@
         "executed_builder.module: \"<absent>\" -> \"tennislab.features.sidecar\"",
         "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
         "executed_builder.path: \"references/WTA02_models/build_sidecar.py\" -> \"<absent>\"",
-        "executed_builder.sha256: \"1de77fe01ff7c2c443049b85ad2b13a4391825d57fa3f962c99d0324eaebef05\" -> \"01bbb22233621fd4a1d157101e7e6feaf976ca532006b0cf59c444fe930dfb00\""
+        "executed_builder.sha256: \"1de77fe01ff7c2c443049b85ad2b13a4391825d57fa3f962c99d0324eaebef05\" -> \"7afeded6d4032ec98902dfeffa4c78da7e3d469b380cbfa41f1325e2384208cd\""
       ],
       "kind": "json"
     }

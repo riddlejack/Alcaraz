@@ -5,7 +5,7 @@
       "first": [
         "@@ -6 +6 @@",
         "-  \"sha256\": \"507961d0f24fad239ac6e52a866538d7f255c8055796a06e3adfce0b1b4b3e07\"",
-        "+  \"sha256\": \"c86fa6ea29ef5a0f8a03075e285ddba3ec15120b5a21aee54711b673343b8f0e\""
+        "+  \"sha256\": \"529ce000dc3344f6b7d2437b1033115f67f79ceec9efca2782abc9d65fbb460e\""
       ],
       "kind": "text",
       "lines_archive": 7,
@@ -27,8 +27,8 @@
           "code.numerical_sha256: \"e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367\" -> \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723ed00b8b49ed2ea6\"",
           "code.package_version: \"<absent>\" -> \"0.1.0\"",
           "code.runner_path: \"references/WTA02_models/runner.py\" -> \"tennislab.models.pipeline\"",
-          "code.runner_sha256: \"b7d769c982eac1342433877ecc9d71e4dff9dc54a9d0e168a50b2ff3e4f56c27\" -> \"923db2317ab67cc6afae842192491181d7002e23304794af86d66591c4f7b02a\"",
-          "created_at_utc: \"2026-09-12T19:57:01.146460+00:00\" -> \"2026-09-14T01:56:24.250759+00:00\""
+          "code.runner_sha256: \"b7d769c982eac1342433877ecc9d71e4dff9dc54a9d0e168a50b2ff3e4f56c27\" -> \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
+          "created_at_utc: \"2026-09-12T19:57:01.146460+00:00\" -> \"2026-09-14T02:16:57.210510+00:00\""
         ],
         "kind": "json"
       }

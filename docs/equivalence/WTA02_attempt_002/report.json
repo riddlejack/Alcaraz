@@ -3,26 +3,26 @@
     "artifact_manifest.json": {
       "changed_leaves": 3,
       "first": [
-        "files.9.sha256: \"175f3fb382e1d5dd260b8201e14e8ba1f7a0a0175690e19c6593a9ec34b73035\" -> \"94d640afdc3a809dfc055b122573ae278b7297887a7214d88e3d5538252435ce\"",
+        "files.9.sha256: \"175f3fb382e1d5dd260b8201e14e8ba1f7a0a0175690e19c6593a9ec34b73035\" -> \"aa8c4254443e0ae030fbd5d1c3c56140fb1a0858fcb7d854a12588409b78ee82\"",
         "files.12.bytes: 890 -> 1242",
-        "files.12.sha256: \"501e519dc153909b0728b4f52f241bf77976572d1ab46ab1651b86a2b522f91d\" -> \"9ef3899565e1ce7287f7cc5b471219d381557222c50ff47233f28bf7414c57ea\""
+        "files.12.sha256: \"501e519dc153909b0728b4f52f241bf77976572d1ab46ab1651b86a2b522f91d\" -> \"9c6f0c2e95f29de2fb3736f60100b701fec7c6c2df98aef51127d36ad461a30e\""
       ],
       "kind": "json"
     },
     "result.json": {
       "changed_leaves": 1,
       "first": [
-        "completed_utc: \"2026-09-12T19:58:52.086218+00:00\" -> \"2026-09-14T02:00:03.209815+00:00\""
+        "completed_utc: \"2026-09-12T19:58:52.086218+00:00\" -> \"2026-09-14T02:16:56.553403+00:00\""
       ],
       "kind": "json"
     },
     "start.json": {
       "changed_leaves": 4,
       "first": [
-        "binding_hashes.reporter: \"c9c01644990aed7298eeb30890c877ac3b6635940003e2c1625655b33d668b4a\" -> \"a09da49870051a981fde4b715ea6bc844e22272ae0dbe85969473a2511866d6f\"",
-        "code: \"<absent>\" -> {\"module\": \"tennislab.evaluation.report\", \"package_version\": \"0.1.0\", \"sha256\": \"a09da49870051a981fde4b715ea6bc844e22272",
+        "binding_hashes.reporter: \"c9c01644990aed7298eeb30890c877ac3b6635940003e2c1625655b33d668b4a\" -> \"77df693d35e4a45c763a0f7f67d09ab06f248944ae6a1777f1174af6e07cb129\"",
+        "code: \"<absent>\" -> {\"module\": \"tennislab.evaluation.report\", \"package_version\": \"0.1.0\", \"sha256\": \"77df693d35e4a45c763a0f7f67d09ab06f24894",
         "declared_binding: \"<absent>\" -> {\"reporter_path\": \"references/WTA02_models/report.py\", \"reporter_sha256\": \"c9c01644990aed7298eeb30890c877ac3b6635940003e",
-        "started_utc: \"2026-09-12T19:58:49.881391+00:00\" -> \"2026-09-14T02:00:00.871477+00:00\""
+        "started_utc: \"2026-09-12T19:58:49.881391+00:00\" -> \"2026-09-14T02:16:52.437864+00:00\""
       ],
       "kind": "json"
     }

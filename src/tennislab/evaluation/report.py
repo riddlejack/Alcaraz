@@ -832,6 +832,12 @@ def _read_source_tables(labels_path: Path, features_path: Path) -> tuple[dict, d
             key = (row["calendar_year"], row["match_id"])
             if key in labels:
                 raise ReportError(f"duplicate label key: {key}")
+            if row["a_won"] == "":
+                # RB3: an unresolved outcome is refused, never scored or skipped silently.
+                raise ReportError(
+                    f"unresolved outcome (blank a_won) at {key}: the report scores no "
+                    "target year whose outcomes are not yet known"
+                )
             if row["a_won"] not in {"0", "1"}:
                 raise ReportError(f"invalid a_won at {key}")
             if row["status"] not in {"completed", "retired", "default"}:

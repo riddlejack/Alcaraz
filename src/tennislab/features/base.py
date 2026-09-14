@@ -338,7 +338,9 @@ class Record:
     court_recorded: str
     player_a: int
     player_b: int
-    a_won: bool
+    # None is an unresolved outcome: a target whose result is not yet known. Such a
+    # row is a target like any other and never updates the result Elo state.
+    a_won: bool | None
     identity_tier: str
     status: str
     date_basis: str
@@ -431,7 +433,8 @@ def parse_record(
         player_a=player_a,
         player_b=player_b,
         # outcome-history read: the panel's a_won is carried into the label file only.
-        a_won=parse_bool(row["a_won"], "a_won"),
+        # A blank is an outcome not yet known (a prospective target), never a value.
+        a_won=None if row["a_won"] == "" else parse_bool(row["a_won"], "a_won"),
         identity_tier=row["identity_tier"],
         status=row["status"],
         date_basis=row["date_basis"],
@@ -544,7 +547,13 @@ class EloHistory:
         used: list[Record] = []
         for record in batch:
             # outcome-history read: past results update the state; no score is computed.
-            y_a = record.ps_probability_a if pseudo_outcome else float(record.a_won)
+            # A row without a price (pseudo outcome) or without a resolved outcome
+            # updates nothing.
+            y_a: float | None
+            if pseudo_outcome:
+                y_a = record.ps_probability_a
+            else:
+                y_a = None if record.a_won is None else float(record.a_won)
             if y_a is None:
                 continue
             p_overall = self.probability(
@@ -998,7 +1007,7 @@ def label_row(record: Record) -> dict[str, Any]:
         "tourney_id": record.tourney_id,
         "identity_tier": record.identity_tier,
         "primary_target": int(record.identity_tier == PRIMARY_TIER),
-        "a_won": int(record.a_won),
+        "a_won": None if record.a_won is None else int(record.a_won),
         "status": record.status,
         "source_field_agreement": int(record.source_field_agreement),
     }
@@ -1284,7 +1293,8 @@ def validate_written_outputs(
             if int(feature["primary_target"]) != int(record.identity_tier == PRIMARY_TIER):
                 raise ChainError(f"wrong primary flag for {record.match_id}")
             # outcome-history read: the written label is checked against the parsed row.
-            if int(label["a_won"]) != int(record.a_won) or label["status"] != record.status:
+            expected_label = "" if record.a_won is None else str(int(record.a_won))
+            if label["a_won"] != expected_label or label["status"] != record.status:
                 raise ChainError(f"label mismatch for {record.match_id}")
             expected_context = context_values(record)
             for field, value in expected_context.items():

@@ -812,8 +812,8 @@ def run(config_path: Path) -> dict[str, object]:
         },
         "counts": {
             "rows": len(outputs),
-            "sr02_present": summary["counts"]["sr02_present"],
-            "sr02_missing": summary["counts"]["sr02_missing"],
+            "sr02_present": summary["counts"].get("sr02_present", 0),
+            "sr02_missing": summary["counts"].get("sr02_missing", 0),
             "lineage_groups": len(history.lineage),
             "same_date_target_conflicts": len(conflicts),
         },

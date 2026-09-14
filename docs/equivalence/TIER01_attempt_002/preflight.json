@@ -14,7 +14,7 @@
         "+    \"runner\": {",
         "+      \"module\": \"tennislab.models.pipeline\",",
         "+      \"package_version\": \"0.1.0\",",
-        "+      \"sha256\": \"923db2317ab67cc6afae842192491181d7002e23304794af86d66591c4f7b02a\"",
+        "+      \"sha256\": \"ead7d9f06a5ee0cc6e2e97b281c697d7b7b5a591955b03a7d29ba9a17579300a\"",
         "+    }",
         "+  },",
         "+  \"config_path\": \"work/TIER01/run_002/predictor_config/config.2017_2024.json\",",

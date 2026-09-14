@@ -482,7 +482,9 @@ def load_dataset(
             sr02_market.probabilities([item["pinnacle_raw_normalized"]])
         result.append(item)
         if labels:
-            if not played:
+            if not played or source_row["a_won"] == "":
+                # A blank a_won is an outcome not yet known (a prospective target): the
+                # row is still predicted, and it trains and scores nothing.
                 continue
             # outcome-history read: the panel's a_won for every played selected match,
             # every calendar year in the window, target years included.
