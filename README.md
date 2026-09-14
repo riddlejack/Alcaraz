@@ -1,9 +1,9 @@
 # tennis-lab
 
-A leak-audited, pre-registered forecasting program for men's and women's professional
-tennis that measures how far public match statistics can take a pre-match model,
-benchmarks it against published public models and against the closing market, and records
-every forecast prospectively.
+A forecasting program for men's and women's professional tennis, designed for a leakage
+audit and pre-registration. It measures how far public match statistics can take a
+pre-match model, benchmarks it against published public models and the closing market,
+and will record forecasts prospectively only after the pending integration gates close.
 
 **Status (2026-09-14): the trunk is rebuilt and reproduces the archive's accepted results.**
 One package reruns the accepted ATP run (TIER01/attempt_002, five bundles, 2017–2024) and
