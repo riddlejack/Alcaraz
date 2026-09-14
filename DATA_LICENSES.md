@@ -40,6 +40,7 @@ README. Do not infer completion from a progress file.
 | Path | Contents | Redistribution basis |
 |---|---|---|
 | `data/sample/**`, `data/sample_tier/**` | Synthetic acceptance fixtures and expected results | MIT |
+| `tests/live/**` | Synthetic manual workflow and adversarial controls | MIT |
 | `tests/test_dynamics_numerical_repair.py` | Independently generated, seeded synthetic numerical regression; provenance in `tests/fixtures/README.md` | MIT |
 | `data/mappings/wta_event_map/*.csv` | Event/edition and identifier mapping metadata; no odds or full result rows | R3 mapping boundary; Sackmann-derived columns under CC BY-NC-SA 4.0 |
 | `data/manifests/**` | Hashes, receipts, bindings, and crosswalk metadata; not raw source payloads | Metadata only; underlying source terms still govern |
@@ -48,6 +49,15 @@ README. Do not infer completion from a progress file.
 The archive files `td_row_date_defects.csv` and `winner_orientation_conflicts.csv` were
 deliberately not copied because they reproduce tennis-data result rows. Other candidate
 crosswalk and coverage files not required by the product trunk were also left out.
+
+## Local live-workflow outputs
+
+These are workspace outputs, not tracked redistributable datasets:
+
+| Path | Provenance and treatment |
+|---|---|
+| `data/live/versions/*/results.csv` | Parsed English Wikipedia draw articles; retain article URL and revision attribution under CC BY-SA 4.0. Raw wikitext stays local. |
+| `data/live/versions/*/serve_state.csv` | Tennis Abstract serve/return coverage; retain Jeff Sackmann / Tennis Abstract attribution and CC BY-NC-SA 4.0 treatment. |
 
 ## Attribution
 

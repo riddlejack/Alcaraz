@@ -55,8 +55,8 @@ The corrected ATP tier run dates each satellite circuit at its last possible com
 and re-estimates learned debut offsets before the training window that consumes them.
 
 The current product has regression and mutation checks for parts of this contract, but it
-does not prove every historical row's real-world availability. The rejected live/snapshot
-implementation is documented separately in the process page.
+does not prove every historical row's real-world availability. The live workflow's
+rejections and scoped synthetic acceptance are documented in the process page.
 
 ## Model ladder
 
@@ -172,6 +172,6 @@ their broader ideas.
 
 Nothing here is prospective confirmation. The 2025–2026 window was opened, repaired,
 and reviewed; it is development data. No real batch has been issued before play and later
-scored under a frozen stopping rule. The unfinished manual update/forecast/score path must
-first pass independent reconstruction, source binding, and CI before it can create such
-evidence.
+scored under a frozen stopping rule. The manual workflow has passed scoped independent
+synthetic reconstruction; qualified real-source binding, the D2 snapshot, and integrated
+CI remain separate prerequisites before real issuance can create such evidence.
