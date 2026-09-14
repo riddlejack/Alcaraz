@@ -11,6 +11,7 @@ from tennislab.benchmark.core import (
     TargetMatch,
     decaying_k,
     elo_probability,
+    rank_base_probability,
     rating_forecasts,
     winner_game_share,
 )
@@ -59,6 +60,30 @@ def test_equations_and_first_update() -> None:
     assert math.isclose(
         suite.welo.ratings["1"], 1500.0 + ordinary * winner_game_share("6-4 6-4")
     )
+
+
+def test_declared_missingness_fallbacks() -> None:
+    assert rank_base_probability(None, 12.0) == 0.5
+    suite = RatingSuite()
+    row = history("unparsed", 1)
+    suite.apply_batch(
+        [
+            HistoryMatch(
+                match_id=row.match_id,
+                tour=row.tour,
+                match_date=row.match_date,
+                player_a=row.player_a,
+                player_b=row.player_b,
+                surface=row.surface,
+                level=row.level,
+                a_won=row.a_won,
+                score="RET",
+                retired=True,
+            )
+        ]
+    )
+    assert suite.fallback_counts()["welo_unparsed_games_standard_updates"] == 1
+    assert math.isclose(suite.welo.ratings["1"], 1500.0 + decaying_k(0) * 0.5)
 
 
 def test_major_is_kovalchik_only_and_surface_blend_is_distinct() -> None:
