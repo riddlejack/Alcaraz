@@ -1,0 +1,243 @@
+{
+  "id": "SR02-inputs",
+  "status": "four_guarded_format_metadata_corrections",
+  "panel_path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+  "panel_sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e",
+  "rows": 51222,
+  "parent_panel": "data/raw/MULTI01/prepare/attempt_003/panel.csv",
+  "parent_panel_sha256": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47",
+  "correction_proposals": "data/raw/SR02/format_cases/correction_proposals.csv",
+  "correction_proposals_sha256": "8d0f13cea5c89d1e87d8cdf5d4f6a3a6bbb34c3fae3c157051b0798e5df425d5",
+  "changes": [
+    {
+      "source_key": "2007-496/5",
+      "field": "best_of",
+      "before": "5",
+      "after": "3",
+      "evidence": "data/raw/SR02/format_cases/correction_proposals.csv"
+    },
+    {
+      "source_key": "2007-533/6",
+      "field": "best_of",
+      "before": "5",
+      "after": "3",
+      "evidence": "data/raw/SR02/format_cases/correction_proposals.csv"
+    },
+    {
+      "source_key": "2007-506/533",
+      "field": "best_of",
+      "before": "5",
+      "after": "3",
+      "evidence": "data/raw/SR02/format_cases/correction_proposals.csv"
+    },
+    {
+      "source_key": "2012-319/5",
+      "field": "best_of",
+      "before": "5",
+      "after": "3",
+      "evidence": "data/raw/SR02/format_cases/correction_proposals.csv"
+    }
+  ],
+  "all_other_fields": "Retained exactly as parent strings; parent metadata field definitions remain unchanged.",
+  "limits": [
+    "Derived from explicit Tennis-Data Best of values with official draw identity corroboration, not pre-match announcement custody.",
+    "Original inputs, fits and scores remain unchanged. Their source version is now known to contain four format defects.",
+    "This is only a data preparation step, not a frozen modeling experiment or complete scoring-rule mapping."
+  ],
+  "preparation_code": {
+    "path": "references/SR02_source/apply_format_corrections.py",
+    "sha256": "3451336490d023d2db77f942f03657f282a712a541e807260cd4ebcf59acfa7d"
+  },
+  "root_validation": {
+    "rows_compared": 51222,
+    "only_changes": [
+      [
+        "2007-496/5",
+        "best_of",
+        "5",
+        "3"
+      ],
+      [
+        "2007-533/6",
+        "best_of",
+        "5",
+        "3"
+      ],
+      [
+        "2007-506/533",
+        "best_of",
+        "5",
+        "3"
+      ],
+      [
+        "2012-319/5",
+        "best_of",
+        "5",
+        "3"
+      ]
+    ]
+  },
+  "source_review": "data/raw/SR02/format_cases/findings.md",
+  "source_files": [
+    {
+      "path": "data/raw/SR02/format_cases/artifact_manifest.json",
+      "sha256": "8e4164dc6f7e5190b37e82ec0f2b34b0ee310f49e23ee8d4acf2c6fcae6e4675",
+      "bytes": 6412
+    },
+    {
+      "path": "data/raw/SR02/format_cases/audit.py",
+      "sha256": "c928cc3cfcfe78221dafd6673db12c5ce0c108c2fe6eb359c2722bf149234ba9",
+      "bytes": 17379
+    },
+    {
+      "path": "data/raw/SR02/format_cases/audit_stdout.txt",
+      "sha256": "09296469f50c028b019a6f9f6d6492cc618ee5e700a181d74a09038b996664df",
+      "bytes": 59
+    },
+    {
+      "path": "data/raw/SR02/format_cases/correction_proposals.csv",
+      "sha256": "8d0f13cea5c89d1e87d8cdf5d4f6a3a6bbb34c3fae3c157051b0798e5df425d5",
+      "bytes": 4256
+    },
+    {
+      "path": "data/raw/SR02/format_cases/downstream_impact.json",
+      "sha256": "afd27632bdc1863956f75c57aeed90088cbffdbf8398ffb22490b532ac9d1f26",
+      "bytes": 6861
+    },
+    {
+      "path": "data/raw/SR02/format_cases/feature_impact.csv",
+      "sha256": "76d7d10d4f11f86b66e45526ad940ad7472f3958cc8272551a2debb7488a366a",
+      "bytes": 998
+    },
+    {
+      "path": "data/raw/SR02/format_cases/findings.md",
+      "sha256": "10f57f12103c116e4c62abe0e0b4c55a65a8d17a4224feafe774e62953d4b26c",
+      "bytes": 5868
+    },
+    {
+      "path": "data/raw/SR02/format_cases/progress.json",
+      "sha256": "b6dd1e4f34b234080d6d8cf1e10137f237737f5cbb9157da9615b41a78561ec7",
+      "bytes": 424
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_496_mds.pdf",
+      "sha256": "ea9b865fd8d0ae53f72a7b11d09a7ec45be2464feddea7ca8edc9b28bfca8dae",
+      "bytes": 100092
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_496_mds.txt",
+      "sha256": "057c70479d4f0420fafeb785e1206c2b1dfb3c76a93e19c95f0dbf2edce3e979",
+      "bytes": 5980
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_506_mds.pdf",
+      "sha256": "bb2fc29dc6f317f0428199c2ae351982f56c0f9ab37d9f0689acf02a61be21b4",
+      "bytes": 18827
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_506_mds.txt",
+      "sha256": "1371cab9ed21a23d6b44d2318e2e828180afebe085d9c8acb68b48710cac6c88",
+      "bytes": 16920
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_533_mds.pdf",
+      "sha256": "2526f1bcc8aaff83b44665d11ec43a62fc4d6271279c4c7193d97257a5dcca23",
+      "bytes": 15176
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2007_533_mds.txt",
+      "sha256": "fa25610bbc97a91c3cd0cab1dd34454200da6c0398dfea5ccd3e454f0e16eec1",
+      "bytes": 6339
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2012_319_mds.pdf",
+      "sha256": "47023849b95f421e26bb2fe74e88bd508c2e5a2e3fe33476b99d4ec71914846f",
+      "bytes": 31540
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/2012_319_mds.txt",
+      "sha256": "fd26635e7f07facb36e473ebe7d4b1cc96a74ca9f4dd29ee76a492df113d75cc",
+      "bytes": 6787
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/draw_2007_533.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/draw_2012_319.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/results_2007_533.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "data/raw/SR02/format_cases/raw/tournament_2007_533.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/2007_496_mds.headers.txt",
+      "sha256": "bac694662c63fdc233552bc634c123bc4d0112277fbdbce998312635302ab5c2",
+      "bytes": 689
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/2007_506_mds.headers.txt",
+      "sha256": "0096d7d714639ced94b6944ddf0b7eb5b2778441d671f08d614426c96f9ca3c1",
+      "bytes": 688
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/2007_533_mds.headers.txt",
+      "sha256": "63d71e5ead61c484c3a790dedb2c6104fe76cc021599a37f9550f917b50e29a9",
+      "bytes": 690
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/2012_319_mds.headers.txt",
+      "sha256": "10c77ebd7c9dd25977605bbc6c4897aca27ffcaec4f7e33296c72f8264935eb1",
+      "bytes": 716
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/draw_2007_533.headers.txt",
+      "sha256": "dbf613058cbf05f503513dfb2a2a3020f56b24e632d6c81a0b6cff62e3debf5b",
+      "bytes": 569
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/draw_2012_319.headers.txt",
+      "sha256": "db3c242660e25ecc19ce31915baddb04591e79871b7d716d19842403302b9fd2",
+      "bytes": 569
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/results_2007_533.headers.txt",
+      "sha256": "55688ed5657d2dd44013d471068d0b5947733607ceb59cb39505c315a5c50917",
+      "bytes": 569
+    },
+    {
+      "path": "data/raw/SR02/format_cases/receipts/tournament_2007_533.headers.txt",
+      "sha256": "675fa188b1e8b2ad3280910060d94ba1b5176e0103a1bbcbd9ebdd921e319003",
+      "bytes": 569
+    },
+    {
+      "path": "data/raw/SR02/format_cases/source_failures.json",
+      "sha256": "ca7cbb06e8b6e7ee92d1f7b3ab34c4fc8e6da45e49696d0f5c820f1e06b47e4e",
+      "bytes": 2299
+    },
+    {
+      "path": "data/raw/SR02/format_cases/source_receipts.json",
+      "sha256": "afba02956033d114c8e03d31b62b42d402b1a2b4e744cb0c6f33d86d86ca7459",
+      "bytes": 6664
+    },
+    {
+      "path": "data/raw/SR02/format_cases/tennis_data_rows.csv",
+      "sha256": "6bc242831b96795c6e780cfeb2b1a5f09085cf6ca64108ab3d3897df446537e6",
+      "bytes": 1126
+    },
+    {
+      "path": "data/raw/SR02/format_cases/training_memberships.csv",
+      "sha256": "e39fdac33404f379acaa26638b38eff539ed3f111a5291254025a7f50d70c173",
+      "bytes": 5507
+    }
+  ]
+}

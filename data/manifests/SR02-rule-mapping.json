@@ -1,0 +1,44 @@
+{
+  "id": "SR02-rule-mapping",
+  "status": "complete_with_explicit_historical_assumptions",
+  "rows": 51222,
+  "group_counts": {
+    "grand_slam_520_2005_2021": 2140,
+    "grand_slam_520_2022_2024": 375,
+    "grand_slam_540_2005_2018": 1699,
+    "grand_slam_540_2019_2021": 248,
+    "grand_slam_540_2022_2024": 375,
+    "grand_slam_560_2005_2021": 2086,
+    "grand_slam_560_2022_2024": 376,
+    "grand_slam_580_2005_2018": 1709,
+    "grand_slam_580_2019_2024": 752,
+    "historical_atp_best_of_five_final": 29,
+    "ordinary_atp_best_of_three": 41433
+  },
+  "inputs": [
+    {
+      "path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+      "sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e"
+    },
+    {
+      "path": "data/manifests/SR02-rule-sources.json",
+      "sha256": "9e8fdf2ee4b08c6d2ae306aab0d848e2cceb443146ac7159521b4f831b267786"
+    },
+    {
+      "path": "experiments/SR02.rules.json",
+      "sha256": "a831480f0897c4c319e0b5fad230a79c35b2ca408a49d44f867d587fc79d2fe5"
+    },
+    {
+      "path": "references/SR02_source/map_rules.py",
+      "sha256": "56c79799d3bf2bdd016f69e7c73500de419dff3f8dae2903fc577842816e6d55"
+    }
+  ],
+  "output": {
+    "path": "data/raw/SR02/rule_mapping/attempt_001/rules.csv",
+    "sha256": "d5c279b37ea526130bb9caf8b48e7e846e96fe7c24bfcfaf00b714b0eaa193ce"
+  },
+  "limits": [
+    "Official change announcements support eras; no assertion of annual rulebook or contemporaneous data custody for every row. Target scores, status and serve counts are not mapping inputs.",
+    "iid service-point play-to-completion proxy; no retirement hazard, no causal interpretation"
+  ]
+}

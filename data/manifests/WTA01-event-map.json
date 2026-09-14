@@ -1,0 +1,253 @@
+{
+  "bound_documents": {
+    "experiments/WTA01.design.md": {
+      "bytes": 4246,
+      "sha256": "0428751403cbd8b1d52ef65f83a1a630d0b61d94f446a3ea5e286354071950f0"
+    },
+    "references/TIER01-audit.md": {
+      "bytes": 25473,
+      "sha256": "54e021eaf733e802384030cd6eadff935eff2d4845ff23978c47041df15771c8"
+    },
+    "references/WTA01-event-map.md": {
+      "bytes": 28585,
+      "sha256": "5c40086b14cc5c59bd280553b15f49aec8708e6ed864159e1154904b1034f25d"
+    },
+    "references/WTAODDS01.md": {
+      "bytes": 16717,
+      "sha256": "ad1443348069ba1ee2b8ee43bc8ab6af0c034f3cbbaaa027584f7a06064e93bc"
+    }
+  },
+  "bound_source_manifests": {
+    "data/manifests/ARCHIVE01.json": {
+      "bytes": 2619,
+      "sha256": "ce5e58531bf1e7f874861a8dd5977901ea9f5751358b625e5c444807d44cf150"
+    },
+    "data/manifests/WTAODDS01.json": {
+      "bytes": 41652,
+      "sha256": "d0effd1959a59800694be0f48940d5f5c06d80ddb7b9c12879778c857d823386"
+    }
+  },
+  "claim_limits": [
+    "Event identity only.  Player identity, row truth and the 136 residual participant keys are unresolved.",
+    "The 13 winner-orientation conflicts and the 2 date defects are preserved unrepaired and unresolved.",
+    "Surname classes were developed against outcome-bearing result files on both sides; WTA 2007-2024 is exposed development data.",
+    "tourney_date is an event anchor, not a match timestamp; no price here is a pre-match quote at a declared cutoff."
+  ],
+  "copy": {
+    "excluded": [
+      "__pycache__/ (compiled bytecode, not source)"
+    ],
+    "files_copied": 22,
+    "files_new": 1,
+    "frozen_dir": "references/WTA01_event_map",
+    "origin_dir": "work/WTA01_event_map",
+    "total_bytes": 3669364,
+    "verification": "every copied file re-hashed after the copy against its origin; all match"
+  },
+  "crosswalk_contract": {
+    "admitted_by_wta01": {
+      "note": "the 3 ambiguous and 1 unmapped editions are reported, never guessed",
+      "rows": 995,
+      "statuses": [
+        "accepted",
+        "accepted_split"
+      ]
+    },
+    "alias_rows": 168,
+    "file": "wta_event_crosswalk.csv",
+    "key": "(season, td_location, td_tournament[, td_event_number for the 2022 Adelaide split])",
+    "quarantine_inputs": {
+      "accepted_edition_key_residuals": 136,
+      "tennis_data_date_defect_rows": 2,
+      "tennis_data_only_matches": 4,
+      "winner_orientation_conflicts": 13
+    },
+    "rows": 999,
+    "rule_inventory_editions": 3023,
+    "seasons": {
+      "count": 18,
+      "max": 2024,
+      "min": 2007
+    },
+    "status_counts": {
+      "accepted": 993,
+      "accepted_split": 2,
+      "ambiguous": 3,
+      "unmapped": 1
+    },
+    "target": "(tourney_id, tourney_name) in the ARCHIVE01 WTA mirror",
+    "validation": {
+      "checks": 16,
+      "program": "validate_crosswalk.py",
+      "re_run_against_this_copy": "2026-09-12, validation.json byte-identical to the frozen file",
+      "status": "PASS"
+    }
+  },
+  "files": {
+    "README.md": {
+      "bytes": 4285,
+      "origin": null,
+      "sha256": "6fd8f962b66965726716f88b57db96813aff0d1a8be5151b45cab0d6f77db553",
+      "status": "new_for_WTA01"
+    },
+    "accepted_edition_key_residuals.csv": {
+      "bytes": 13273,
+      "origin": "work/WTA01_event_map/accepted_edition_key_residuals.csv",
+      "origin_sha256": "14a82108d33ea9e05c9bfc2fac25b50d4b8836b71d256b4dcfeb82cdaf8cd9fe",
+      "sha256": "14a82108d33ea9e05c9bfc2fac25b50d4b8836b71d256b4dcfeb82cdaf8cd9fe",
+      "status": "byte_identical_copy"
+    },
+    "build_crosswalk.py": {
+      "bytes": 32131,
+      "origin": "work/WTA01_event_map/build_crosswalk.py",
+      "origin_sha256": "5d8badb435e2ef957ea73766b41840c1bb22a833ebb4af6f2cb50957779a319e",
+      "sha256": "5d8badb435e2ef957ea73766b41840c1bb22a833ebb4af6f2cb50957779a319e",
+      "status": "byte_identical_copy"
+    },
+    "crosswalk_summary.json": {
+      "bytes": 2795,
+      "origin": "work/WTA01_event_map/crosswalk_summary.json",
+      "origin_sha256": "e625e164861e776232fee15d3379e8e6b90c550b50671a85ac7f7d4fc713086f",
+      "sha256": "e625e164861e776232fee15d3379e8e6b90c550b50671a85ac7f7d4fc713086f",
+      "status": "byte_identical_copy"
+    },
+    "event_crosswalk_candidates.csv": {
+      "bytes": 2111158,
+      "origin": "work/WTA01_event_map/event_crosswalk_candidates.csv",
+      "origin_sha256": "17e0b7b9daeff2fe9aedab26d931d66cd88178726c0ec7a1307b302a8154de7e",
+      "sha256": "17e0b7b9daeff2fe9aedab26d931d66cd88178726c0ec7a1307b302a8154de7e",
+      "status": "byte_identical_copy"
+    },
+    "event_name_pairs_by_edition.csv": {
+      "bytes": 121220,
+      "origin": "work/WTA01_event_map/event_name_pairs_by_edition.csv",
+      "origin_sha256": "a4ca54dc8440135b7106794f1862389d281d411b01a2643cb2c67aca58cf7b2b",
+      "sha256": "a4ca54dc8440135b7106794f1862389d281d411b01a2643cb2c67aca58cf7b2b",
+      "status": "byte_identical_copy"
+    },
+    "per_season_coverage.csv": {
+      "bytes": 2022,
+      "origin": "work/WTA01_event_map/per_season_coverage.csv",
+      "origin_sha256": "ca3e72ffd65d16d8ad41c6315abcc1c7c5f0d62779684ebc07c716875dbd0782",
+      "sha256": "ca3e72ffd65d16d8ad41c6315abcc1c7c5f0d62779684ebc07c716875dbd0782",
+      "status": "byte_identical_copy"
+    },
+    "rule_inventory.py": {
+      "bytes": 15244,
+      "origin": "work/WTA01_event_map/rule_inventory.py",
+      "origin_sha256": "60fe7a6b9ff71d1b66b85454f6ec4ee2815fbfea70e9df444b51d2b6141e23b8",
+      "sha256": "60fe7a6b9ff71d1b66b85454f6ec4ee2815fbfea70e9df444b51d2b6141e23b8",
+      "status": "byte_identical_copy"
+    },
+    "rule_inventory_by_edition.csv": {
+      "bytes": 583976,
+      "origin": "work/WTA01_event_map/rule_inventory_by_edition.csv",
+      "origin_sha256": "5fe1bb256ac80de255e63781c189f6f33b2cc9f09f918c5b1b835d0ead5a7974",
+      "sha256": "5fe1bb256ac80de255e63781c189f6f33b2cc9f09f918c5b1b835d0ead5a7974",
+      "status": "byte_identical_copy"
+    },
+    "rule_inventory_eras.csv": {
+      "bytes": 7085,
+      "origin": "work/WTA01_event_map/rule_inventory_eras.csv",
+      "origin_sha256": "d1e4b46c8c7e40ccec49cf5123c243382e6eb6450055df2a43b4ec0444137202",
+      "sha256": "d1e4b46c8c7e40ccec49cf5123c243382e6eb6450055df2a43b4ec0444137202",
+      "status": "byte_identical_copy"
+    },
+    "rule_inventory_summary.json": {
+      "bytes": 8700,
+      "origin": "work/WTA01_event_map/rule_inventory_summary.json",
+      "origin_sha256": "103813eea75a0dd6a13f81fd67b5b71124f112027aa3eb60f62111ca184d07dd",
+      "sha256": "103813eea75a0dd6a13f81fd67b5b71124f112027aa3eb60f62111ca184d07dd",
+      "status": "byte_identical_copy"
+    },
+    "sample_review.json": {
+      "bytes": 74913,
+      "origin": "work/WTA01_event_map/sample_review.json",
+      "origin_sha256": "b6c90b41bb3512310889909a2260c2543e5c13ad29c4ff39ce2db5a5b560fc45",
+      "sha256": "b6c90b41bb3512310889909a2260c2543e5c13ad29c4ff39ce2db5a5b560fc45",
+      "status": "byte_identical_copy"
+    },
+    "sample_review.py": {
+      "bytes": 8239,
+      "origin": "work/WTA01_event_map/sample_review.py",
+      "origin_sha256": "56bec844524eb7759414df985a55f221d3ea195ba682acc6d39ec57a093f1ed5",
+      "sha256": "56bec844524eb7759414df985a55f221d3ea195ba682acc6d39ec57a093f1ed5",
+      "status": "byte_identical_copy"
+    },
+    "surname_class_links.csv": {
+      "bytes": 5767,
+      "origin": "work/WTA01_event_map/surname_class_links.csv",
+      "origin_sha256": "9bcbd2b4f24e80b09e59ee29bb3234a557e7c03ea14865bdcfd724184c84d9a4",
+      "sha256": "9bcbd2b4f24e80b09e59ee29bb3234a557e7c03ea14865bdcfd724184c84d9a4",
+      "status": "byte_identical_copy"
+    },
+    "td_row_date_defects.csv": {
+      "bytes": 322,
+      "origin": "work/WTA01_event_map/td_row_date_defects.csv",
+      "origin_sha256": "76d1ee17ff04e43cddc5d207f6df35bcc1502afa55acda937a699fa880ff11da",
+      "sha256": "76d1ee17ff04e43cddc5d207f6df35bcc1502afa55acda937a699fa880ff11da",
+      "status": "byte_identical_copy"
+    },
+    "unmapped_ambiguous_editions.csv": {
+      "bytes": 2231,
+      "origin": "work/WTA01_event_map/unmapped_ambiguous_editions.csv",
+      "origin_sha256": "d430774b0bb875a5b959d0b0976c4d99b7dce53b9f74b2be63be8c640bf6bed4",
+      "sha256": "d430774b0bb875a5b959d0b0976c4d99b7dce53b9f74b2be63be8c640bf6bed4",
+      "status": "byte_identical_copy"
+    },
+    "unmapped_mirror_editions.csv": {
+      "bytes": 176459,
+      "origin": "work/WTA01_event_map/unmapped_mirror_editions.csv",
+      "origin_sha256": "a6dfd11bef4392e71de9652b1b50f4c7f4d451b54634f92e25ce459a9868e76e",
+      "sha256": "a6dfd11bef4392e71de9652b1b50f4c7f4d451b54634f92e25ce459a9868e76e",
+      "status": "byte_identical_copy"
+    },
+    "validate_crosswalk.py": {
+      "bytes": 5124,
+      "origin": "work/WTA01_event_map/validate_crosswalk.py",
+      "origin_sha256": "4b0494681c41af4967a07b016dcccc6558239b304d8766927cb65dd61f69d6d8",
+      "sha256": "4b0494681c41af4967a07b016dcccc6558239b304d8766927cb65dd61f69d6d8",
+      "status": "byte_identical_copy"
+    },
+    "validation.json": {
+      "bytes": 988,
+      "origin": "work/WTA01_event_map/validation.json",
+      "origin_sha256": "c4b7bb0e9beb89ee472a55742b63924054a729083f4874ef1bb512e7a4d7a38a",
+      "sha256": "c4b7bb0e9beb89ee472a55742b63924054a729083f4874ef1bb512e7a4d7a38a",
+      "status": "byte_identical_copy"
+    },
+    "winner_orientation_conflicts.csv": {
+      "bytes": 2044,
+      "origin": "work/WTA01_event_map/winner_orientation_conflicts.csv",
+      "origin_sha256": "697924abed276884ee9c71eb3d9f067143fac77fe4196c16826adbf9449ca639",
+      "sha256": "697924abed276884ee9c71eb3d9f067143fac77fe4196c16826adbf9449ca639",
+      "status": "byte_identical_copy"
+    },
+    "wta_event_alias_table.csv": {
+      "bytes": 25985,
+      "origin": "work/WTA01_event_map/wta_event_alias_table.csv",
+      "origin_sha256": "de96f9e61b119e80b8e025a01f7357c881cf9573012823d50e5b32a29c048195",
+      "sha256": "de96f9e61b119e80b8e025a01f7357c881cf9573012823d50e5b32a29c048195",
+      "status": "byte_identical_copy"
+    },
+    "wta_event_crosswalk.csv": {
+      "bytes": 445431,
+      "origin": "work/WTA01_event_map/wta_event_crosswalk.csv",
+      "origin_sha256": "8e8c776de46c1c58e1283b3e9816ac9cd5d9cbf2d4d4eeff49ab98533aba98e2",
+      "sha256": "8e8c776de46c1c58e1283b3e9816ac9cd5d9cbf2d4d4eeff49ab98533aba98e2",
+      "status": "byte_identical_copy"
+    },
+    "wta_sources.py": {
+      "bytes": 19972,
+      "origin": "work/WTA01_event_map/wta_sources.py",
+      "origin_sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866",
+      "sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866",
+      "status": "byte_identical_copy"
+    }
+  },
+  "manifest_id": "WTA01-event-map",
+  "purpose": "Bind the frozen copy of the qualified WTA event-edition crosswalk that the WTA01 chain joins through.  work/ is git-ignored, so references/WTA01_event_map/ is the durable, hash-bound copy.  Event identity only: no player identity, no accepted source row, no repaired value, no score or price.",
+  "reserved_data_boundary": "No 2025 or 2026 file was read to build or to freeze this crosswalk; the loader refuses those seasons and the validation re-checks that no row carries either season.",
+  "written": "2026-09-12",
+  "written_by": "WTA01 implementation (Sol)"
+}

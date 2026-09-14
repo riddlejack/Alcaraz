@@ -1,0 +1,16 @@
+{
+  "global_source_id_aliases": {
+    "208597": 209409
+  },
+  "global_alias_evidence": "MQ02: same player master DOB, country and Wikidata ID; official ATP Hong Kong debut identity corroborates.",
+  "record_identity_corrections": {
+    "2023-520/114": {
+      "loser": {
+        "expected_source_id": 124013,
+        "canonical_player_id": 207182,
+        "evidence": "CH01-2023-cases: official Roland-Garros and ATP identify Emilio Nava. Eduardo remains distinct. Do not transfer Eduardo age, height, rank or biography into Emilio features."
+      }
+    }
+  },
+  "scope": "Derived entity identity only. Source raw bytes, source names and other attributes remain preserved; no odds reassignment."
+}

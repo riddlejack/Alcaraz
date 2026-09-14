@@ -1,0 +1,950 @@
+{
+  "acquisition_id": "WTAODDS01",
+  "acquisition_summary": "data/raw/WTAODDS01/acquisition_summary.json",
+  "bound_utc": "2026-09-12T15:24:29.613664+00:00",
+  "counts": {
+    "direct_attempts": 36,
+    "direct_successes": 0,
+    "receipts": 75,
+    "retained_data_files": 19,
+    "years_requested": 18,
+    "years_retained": 18
+  },
+  "evidence_root": "data/raw/WTAODDS01",
+  "records": [
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260421123326id_/http://www.tennis-data.co.uk/2007w/2007.xls",
+      "bytes": 970752,
+      "capture_original_url": "http://www.tennis-data.co.uk/2007w/2007.xls",
+      "capture_timestamp": "20260421123326",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2007.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Tue, 21 Apr 2026 12:33:26 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:23:03 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2007.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2007w/2007.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2007_20260421123326.json",
+      "retrieved_utc": "2026-09-12T15:19:18.872976+00:00",
+      "sha256": "276b61366afe8016eb5b5822e0f83efe33b8449743ffc07781f0be48e2b8aa1a",
+      "sha256_on_disk": "276b61366afe8016eb5b5822e0f83efe33b8449743ffc07781f0be48e2b8aa1a",
+      "tour": "WTA",
+      "year": 2007
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150611id_/http://www.Tennis-Data.co.uk/2008w/2008.xls",
+      "bytes": 952832,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2008w/2008.xls",
+      "capture_timestamp": "20230514150611",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2008.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Sun, 14 May 2023 15:06:11 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:22:29 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2008.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2008w/2008.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2008_20230514150611.json",
+      "retrieved_utc": "2026-09-12T15:19:22.648507+00:00",
+      "sha256": "eb745d440250d321f02353c135b91bc1fcb39d2c30757d116f60fd0f6a8902d9",
+      "sha256_on_disk": "eb745d440250d321f02353c135b91bc1fcb39d2c30757d116f60fd0f6a8902d9",
+      "tour": "WTA",
+      "year": 2008
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150613id_/http://www.Tennis-Data.co.uk/2009w/2009.xls",
+      "bytes": 947712,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2009w/2009.xls",
+      "capture_timestamp": "20230514150613",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2009.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Sun, 14 May 2023 15:06:13 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:20:04 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2009.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2009w/2009.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2009_20230514150613.json",
+      "retrieved_utc": "2026-09-12T15:19:36.684414+00:00",
+      "sha256": "20c2b846a5d20f4c297d5ea058503b12c8f8bfd9994ec298bdb64615e0f3234f",
+      "sha256_on_disk": "20c2b846a5d20f4c297d5ea058503b12c8f8bfd9994ec298bdb64615e0f3234f",
+      "tour": "WTA",
+      "year": 2009
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150614id_/http://www.Tennis-Data.co.uk/2010w/2010.xls",
+      "bytes": 988160,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2010w/2010.xls",
+      "capture_timestamp": "20230514150614",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2010.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Sun, 14 May 2023 15:06:14 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:19:33 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2010.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2010w/2010.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2010_20230514150614.json",
+      "retrieved_utc": "2026-09-12T15:19:53.446278+00:00",
+      "sha256": "9eb750c4e8d17ea0255a9b9144f8e77460bd0926fdae992f5f47a650d8259039",
+      "sha256_on_disk": "9eb750c4e8d17ea0255a9b9144f8e77460bd0926fdae992f5f47a650d8259039",
+      "tour": "WTA",
+      "year": 2010
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260421123421id_/http://www.tennis-data.co.uk/2011w/2011.xls",
+      "bytes": 996352,
+      "capture_original_url": "http://www.tennis-data.co.uk/2011w/2011.xls",
+      "capture_timestamp": "20260421123421",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2011.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Tue, 21 Apr 2026 12:34:21 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:18:49 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2011.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2011w/2011.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2011_20260421123421.json",
+      "retrieved_utc": "2026-09-12T15:19:56.964977+00:00",
+      "sha256": "bfa3c9803c8e2b4bc512f9d1a3938d0aed4a3079e0acc404f7f737359a4190f8",
+      "sha256_on_disk": "bfa3c9803c8e2b4bc512f9d1a3938d0aed4a3079e0acc404f7f737359a4190f8",
+      "tour": "WTA",
+      "year": 2011
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260421123442id_/http://www.tennis-data.co.uk/2012w/2012.xls",
+      "bytes": 969216,
+      "capture_original_url": "http://www.tennis-data.co.uk/2012w/2012.xls",
+      "capture_timestamp": "20260421123442",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2012.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xls",
+      "memento_datetime": "Tue, 21 Apr 2026 12:34:42 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:18:25 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2012.xls",
+      "publisher_url": "http://www.tennis-data.co.uk/2012w/2012.xls",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2012_20260421123442.json",
+      "retrieved_utc": "2026-09-12T15:20:00.679402+00:00",
+      "sha256": "204e823154e57723ea8b7c00dd837e6eb319485373d59f82e41439abf8f87111",
+      "sha256_on_disk": "204e823154e57723ea8b7c00dd837e6eb319485373d59f82e41439abf8f87111",
+      "tour": "WTA",
+      "year": 2012
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150558id_/http://www.Tennis-Data.co.uk/2013w/2013.xlsx",
+      "bytes": 515133,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2013w/2013.xlsx",
+      "capture_timestamp": "20230514150558",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2013.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:58 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:18:02 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2013.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2013w/2013.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2013_20230514150558.json",
+      "retrieved_utc": "2026-09-12T15:20:03.890816+00:00",
+      "sha256": "94b8c1033b45ebe01b25e6faf2f86a052c4c991ae1950d7100e1bb29d97ab492",
+      "sha256_on_disk": "94b8c1033b45ebe01b25e6faf2f86a052c4c991ae1950d7100e1bb29d97ab492",
+      "tour": "WTA",
+      "year": 2013
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150559id_/http://www.Tennis-Data.co.uk/2014w/2014.xlsx",
+      "bytes": 540026,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2014w/2014.xlsx",
+      "capture_timestamp": "20230514150559",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2014.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:59 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:17:31 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2014.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2014w/2014.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2014_20230514150559.json",
+      "retrieved_utc": "2026-09-12T15:20:06.942537+00:00",
+      "sha256": "0e1ae9ad8d781825ca79df0be18ebf861383b9f2b3630e4bcc0166a8adc9f047",
+      "sha256_on_disk": "0e1ae9ad8d781825ca79df0be18ebf861383b9f2b3630e4bcc0166a8adc9f047",
+      "tour": "WTA",
+      "year": 2014
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150559id_/http://www.Tennis-Data.co.uk/2015w/2015.xlsx",
+      "bytes": 496722,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2015w/2015.xlsx",
+      "capture_timestamp": "20230514150559",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2015.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:59 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:17:05 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2015.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2015w/2015.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2015_20230514150559.json",
+      "retrieved_utc": "2026-09-12T15:20:11.083293+00:00",
+      "sha256": "f2625eb24820743514a635f2daf57945d40d0108c5aafd244345df8368197648",
+      "sha256_on_disk": "f2625eb24820743514a635f2daf57945d40d0108c5aafd244345df8368197648",
+      "tour": "WTA",
+      "year": 2015
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150600id_/http://www.Tennis-Data.co.uk/2016w/2016.xlsx",
+      "bytes": 496904,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2016w/2016.xlsx",
+      "capture_timestamp": "20230514150600",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2016.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:06:00 GMT",
+      "origin_last_modified": "Wed, 15 Nov 2017 15:16:37 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2016.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2016w/2016.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2016_20230514150600.json",
+      "retrieved_utc": "2026-09-12T15:20:14.314223+00:00",
+      "sha256": "810ec9c7fe558614331cac2d9b328545ea6d3c0c840863ad5653efa0bbd9a40a",
+      "sha256_on_disk": "810ec9c7fe558614331cac2d9b328545ea6d3c0c840863ad5653efa0bbd9a40a",
+      "tour": "WTA",
+      "year": 2016
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150547id_/http://www.Tennis-Data.co.uk/2017w/2017.xlsx",
+      "bytes": 463132,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2017w/2017.xlsx",
+      "capture_timestamp": "20230514150547",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2017.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:47 GMT",
+      "origin_last_modified": "Wed, 05 May 2021 21:48:33 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2017.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2017w/2017.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2017_20230514150547.json",
+      "retrieved_utc": "2026-09-12T15:20:20.260279+00:00",
+      "sha256": "5476fa98ea38a885a5f7141e6aa6c4979dfb2d7f93715f7d13b46a17c1f140e0",
+      "sha256_on_disk": "5476fa98ea38a885a5f7141e6aa6c4979dfb2d7f93715f7d13b46a17c1f140e0",
+      "tour": "WTA",
+      "year": 2017
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150545id_/http://www.Tennis-Data.co.uk/2018w/2018.xlsx",
+      "bytes": 488666,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2018w/2018.xlsx",
+      "capture_timestamp": "20230514150545",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2018.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:45 GMT",
+      "origin_last_modified": "Sun, 04 Nov 2018 16:10:44 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2018.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2018w/2018.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2018_20230514150545.json",
+      "retrieved_utc": "2026-09-12T15:20:24.397471+00:00",
+      "sha256": "e96cc8317a634f0238c51f375896bfc47f53de96554adb0291003cc9b26c7278",
+      "sha256_on_disk": "e96cc8317a634f0238c51f375896bfc47f53de96554adb0291003cc9b26c7278",
+      "tour": "WTA",
+      "year": 2018
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20240204051208id_/http://www.tennis-data.co.uk/2019w/2019.xlsx",
+      "bytes": 383919,
+      "capture_original_url": "http://www.tennis-data.co.uk/2019w/2019.xlsx",
+      "capture_timestamp": "20240204051208",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2019.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 04 Feb 2024 05:12:08 GMT",
+      "origin_last_modified": "Tue, 20 Apr 2021 21:02:56 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2019.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2019w/2019.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2019_20240204051208.json",
+      "retrieved_utc": "2026-09-12T15:20:40.381731+00:00",
+      "sha256": "3302aa2b04e4873cd1079ef470d8b63778b35b9b821d2ca52621b933f88a567d",
+      "sha256_on_disk": "3302aa2b04e4873cd1079ef470d8b63778b35b9b821d2ca52621b933f88a567d",
+      "tour": "WTA",
+      "year": 2019
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150541id_/http://www.Tennis-Data.co.uk/2020w/2020.xlsx",
+      "bytes": 168741,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2020w/2020.xlsx",
+      "capture_timestamp": "20230514150541",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2020.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:41 GMT",
+      "origin_last_modified": "Sun, 25 Oct 2020 22:17:03 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2020.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2020w/2020.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2020_20230514150541.json",
+      "retrieved_utc": "2026-09-12T15:20:56.852095+00:00",
+      "sha256": "f7dd7c632d8fc3a02c259983ab2dfd83a2e4516a3011d9b70caef6cd49c3eae1",
+      "sha256_on_disk": "f7dd7c632d8fc3a02c259983ab2dfd83a2e4516a3011d9b70caef6cd49c3eae1",
+      "tour": "WTA",
+      "year": 2020
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150542id_/http://www.Tennis-Data.co.uk/2021w/2021.xlsx",
+      "bytes": 382230,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2021w/2021.xlsx",
+      "capture_timestamp": "20230514150542",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2021.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:42 GMT",
+      "origin_last_modified": "Thu, 18 Nov 2021 12:25:33 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2021.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2021w/2021.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2021_20230514150542.json",
+      "retrieved_utc": "2026-09-12T15:21:00.941908+00:00",
+      "sha256": "a364ca800b49b6ffc770b6766b8b15cec50ecfa9baf850c7973076dc936b1cc3",
+      "sha256_on_disk": "a364ca800b49b6ffc770b6766b8b15cec50ecfa9baf850c7973076dc936b1cc3",
+      "tour": "WTA",
+      "year": 2021
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20230514150533id_/http://www.Tennis-Data.co.uk/2022w/2022.xlsx",
+      "bytes": 370069,
+      "capture_original_url": "http://www.Tennis-Data.co.uk/2022w/2022.xlsx",
+      "capture_timestamp": "20230514150533",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2022.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Sun, 14 May 2023 15:05:33 GMT",
+      "origin_last_modified": "Tue, 27 Dec 2022 16:53:14 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2022.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2022w/2022.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2022_20230514150533.json",
+      "retrieved_utc": "2026-09-12T15:21:05.213544+00:00",
+      "sha256": "d173f08e2607e2a3259448261f50cbe5bed6f298dd204427ea07b7795b4cc155",
+      "sha256_on_disk": "d173f08e2607e2a3259448261f50cbe5bed6f298dd204427ea07b7795b4cc155",
+      "tour": "WTA",
+      "year": 2022
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260421123522id_/http://www.tennis-data.co.uk/2023w/2023.xlsx",
+      "bytes": 407251,
+      "capture_original_url": "http://www.tennis-data.co.uk/2023w/2023.xlsx",
+      "capture_timestamp": "20260421123522",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2023.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Tue, 21 Apr 2026 12:35:22 GMT",
+      "origin_last_modified": "Mon, 06 Nov 2023 23:03:45 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2023.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2023w/2023.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2023_20260421123522.json",
+      "retrieved_utc": "2026-09-12T15:21:08.296838+00:00",
+      "sha256": "ea4c4556c841ad696cd417885015fe0c63b7a2414c94d856f9515a238f2fef2a",
+      "sha256_on_disk": "ea4c4556c841ad696cd417885015fe0c63b7a2414c94d856f9515a238f2fef2a",
+      "tour": "WTA",
+      "year": 2023
+    },
+    {
+      "acquisition_route": "1b_tennis_data_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260421123151id_/http://www.tennis-data.co.uk/2024w/2024.xlsx",
+      "bytes": 406783,
+      "capture_original_url": "http://www.tennis-data.co.uk/2024w/2024.xlsx",
+      "capture_timestamp": "20260421123151",
+      "cdx_receipt": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2024.json",
+      "direct_route_status": "503 on both attempts",
+      "format": "xlsx",
+      "memento_datetime": "Tue, 21 Apr 2026 12:31:51 GMT",
+      "origin_last_modified": "Mon, 28 Jul 2025 09:20:52 GMT",
+      "path": "data/raw/WTAODDS01/raw/annual/2024.xlsx",
+      "publisher_url": "http://www.tennis-data.co.uk/2024w/2024.xlsx",
+      "receipt": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2024_20260421123151.json",
+      "retrieved_utc": "2026-09-12T15:21:11.585540+00:00",
+      "sha256": "0ce3a4e87c269253dd61e1ab4a3bbeb2d9acdd512f316189e5ad872c86c67b53",
+      "sha256_on_disk": "0ce3a4e87c269253dd61e1ab4a3bbeb2d9acdd512f316189e5ad872c86c67b53",
+      "tour": "WTA",
+      "year": 2024
+    },
+    {
+      "acquisition_route": "0b_index_wayback",
+      "acquisition_status": 200,
+      "acquisition_url": "https://web.archive.org/web/20260824190449id_/http://www.tennis-data.co.uk/alldata.php",
+      "bytes": 7970,
+      "capture_timestamp": "20260824190449",
+      "content_encoding": "gzip (retained as archived; decode to read)",
+      "format": "html",
+      "path": "data/raw/WTAODDS01/raw/index/alldata_php.html",
+      "publisher_url": "http://www.tennis-data.co.uk/alldata.php",
+      "receipt": "data/raw/WTAODDS01/receipts/route0_index_wayback_alldata_php_20260824190449.json",
+      "role": "evidence for the WTA annual URL pattern",
+      "sha256": "269b935ed21216cfcb9fd2902dced0a5903545dc93885b864245957ee7512502",
+      "sha256_on_disk": "269b935ed21216cfcb9fd2902dced0a5903545dc93885b864245957ee7512502",
+      "tour": "both",
+      "year": null
+    }
+  ],
+  "reference": "references/WTAODDS01.md",
+  "reuse_rights": "unresolved: no licence, research grant or redistribution terms found on the publisher's site; nothing republished",
+  "source": "tennis-data.co.uk WTA annual results-and-odds workbooks",
+  "supporting_files": [
+    {
+      "bytes": 1447,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route0_index_cdx_alldata_php.json",
+      "sha256": "c6e635fdd1fc12d0f65bf93e5bfd894cdca263bee6696dcc83fb0c53bc8e3561"
+    },
+    {
+      "bytes": 911,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route0_index_direct_alldata_php.json",
+      "sha256": "ff4c9ca1870df94673e8f8d96dab4c0890e91869bdaa238c226e4c977e384789"
+    },
+    {
+      "bytes": 2751,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route0_index_wayback_alldata_php_20260824190449.json",
+      "sha256": "461a8a5ee1dbd39d445386f60e0d58d0982f0e7f6444b6159575b07ab8084f80"
+    },
+    {
+      "bytes": 934,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2007_attempt1.json",
+      "sha256": "f8db1258b5c6efe8bab28aa8e9a9be3c48adb140a682e4be2690e7784a12ad2b"
+    },
+    {
+      "bytes": 934,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2007_attempt2.json",
+      "sha256": "491d2472fb2127720be2c07706408a7394862a2095917c6090f64e484f5d41ce"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2008_attempt1.json",
+      "sha256": "c157dd3b4ea7be1e64f659f312872be0b97a0aa531990b6cc4919395de23be9a"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2008_attempt2.json",
+      "sha256": "fe8640f9276798899709d3c6e085f529b104ad1d7ed35e448eb59f857e7b2e26"
+    },
+    {
+      "bytes": 934,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2009_attempt1.json",
+      "sha256": "e2d5eb12ca0899e5af0c4cdd365646ef7c10b68f916a6e820d272837d123939a"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2009_attempt2.json",
+      "sha256": "5c551a247712d260effb0285a209c7635e1d8af0320f4a5a6131320fbc584bab"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2010_attempt1.json",
+      "sha256": "e0a73bf6eb28d063c2110b12bbe7b7b93d0b90d05c0b9b045f8c3d0a2c7f1345"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2010_attempt2.json",
+      "sha256": "5f0c95afeb608ea3cd0056cd6b780e83e70ba9a1e8226ae4ef45503dcf54c3cf"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2011_attempt1.json",
+      "sha256": "566ecd48ff7e2b0707c8ab1354217594329e9a1502cf3b4435fb7269827472a2"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2011_attempt2.json",
+      "sha256": "dbf93d2521cbc16c758b70e10eb3ece4b4c8c9c7281de2e9b5a29a4cad7c6114"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2012_attempt1.json",
+      "sha256": "92f57e30733cd009b3cb4a87beef10299626a50850f3a99ac1e67482cd5e590f"
+    },
+    {
+      "bytes": 935,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2012_attempt2.json",
+      "sha256": "681327ef30454f07e882b742d04f54b2b0eaa5d7568646810dadf798506471f2"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2013_attempt1.json",
+      "sha256": "fbe264925fad33728c3a65b3b1c3a9e6cc1177d728ff8dc9bd8e8945366cb057"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2013_attempt2.json",
+      "sha256": "3bd1e2fdc7ffb2aaa4b8d2f62bce64311f9f504a14df731f1fd8ac477f1946ea"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2014_attempt1.json",
+      "sha256": "b8bb9e19d7586f572fb2daaf09c508e8b59c83a6ea70f161921aaf97510eab00"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2014_attempt2.json",
+      "sha256": "761682f1589ff724c59ee2d240e8f91098874a59b496364956a42945d9e710e9"
+    },
+    {
+      "bytes": 977,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2015_attempt1.json",
+      "sha256": "0f61e5053d16c60424c7e1673645bb5ceb9b3ba41b96fbc6c954578a60af7d8e"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2015_attempt2.json",
+      "sha256": "22d8d642f8557e794d21eb10de4540b11569a1e7809df46005ca4eef1769747f"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2016_attempt1.json",
+      "sha256": "552b95074e78432ce89b7d17cc97fe7ea8cae69ddfb7c9307252fd719fd54724"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2016_attempt2.json",
+      "sha256": "40151175d123c85e2c7a57cfbba53cce33eda38119960e4bd5e8c81e8da811ec"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2017_attempt1.json",
+      "sha256": "3f8794e355d048a593a983acba82ace335c06cac788e68cdbfabf5257f269884"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2017_attempt2.json",
+      "sha256": "d8a2779daed2a9420ca197dea5e7f1ef073aa6ed9185f831753ce99cab517ef1"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2018_attempt1.json",
+      "sha256": "31470cd42f365c35aa181b5a44ce3481ee078a26f723607b1b4619c6d04a76c7"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2018_attempt2.json",
+      "sha256": "69368b0e9c6da1efb623a1acdfd6d7335627a53a61eadabdac91445f0d49a022"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2019_attempt1.json",
+      "sha256": "6df111bd3a127e14dedfc74af49da7f291b0464734038b10fad44a22a082658e"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2019_attempt2.json",
+      "sha256": "bd0534e50cc248fef0c0cec4aee0f86e68990935ae6993017b3092d1a2e8b15c"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2020_attempt1.json",
+      "sha256": "39a9ecb7d4274fd55a209b619a9c1f459a22e5210378697d6906082fe192d9de"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2020_attempt2.json",
+      "sha256": "5bed84905054c0576bb7749d360782474037a0b77d2423bb09b35b74a359a717"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2021_attempt1.json",
+      "sha256": "311f0041d7993e0bf8c0ddd5c9b9627b84d08a79dddc94872bcabc34fae5727a"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2021_attempt2.json",
+      "sha256": "0c9b6c27d3a0178c0513f01a2be86ec489ca81c168310c943f6b27ffddef08f7"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2022_attempt1.json",
+      "sha256": "54cd03bb5a14f019048e9702b05ae1f5f2d5229d5390d6c2628eb28763c2e029"
+    },
+    {
+      "bytes": 977,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2022_attempt2.json",
+      "sha256": "0b163702a8db26e9f63480401eb5100b462e0c12ea73d2dbf386c12c6d2c3e85"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2023_attempt1.json",
+      "sha256": "fddd0d3eeaa5e01ee72619ff1eb6a1198a38536e8804bb777b8808020b76160f"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2023_attempt2.json",
+      "sha256": "3d97e9dee032c379434c8aa80b02963381ba58bf71b436169b59b740e3a97ed3"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2024_attempt1.json",
+      "sha256": "bccddc8524040596c4218d8b55992e26e1e9f918f27b0540e54d4e8b3b0d471a"
+    },
+    {
+      "bytes": 978,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1_direct_wta_2024_attempt2.json",
+      "sha256": "7b17fe97c1f80ba0fe28196ca8ccdadb2c2aab5fea3fac42d6e65d58ed29e79e"
+    },
+    {
+      "bytes": 1470,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2007.json",
+      "sha256": "7899377e7f377a8c69efba5300cd4251b6e13b16815b1478eaa512f1b501bb67"
+    },
+    {
+      "bytes": 1470,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2008.json",
+      "sha256": "d75d121f248fd35ade345dfe8552f6449f68b9a1784d5ce530cf6e8df353d5b3"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2009.json",
+      "sha256": "c4266838fa7cf8c97c1b6ba51c08617fcb8b67ae9eef69bd6cf3d94a0024a146"
+    },
+    {
+      "bytes": 1471,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2010.json",
+      "sha256": "e05beba6897a02936d025bb1e0fe73493144cfdbb6e55e1d4300e5da86c4cefd"
+    },
+    {
+      "bytes": 1470,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2011.json",
+      "sha256": "2629ee84a54584f9104b56f2bfb527c4bd43de850e0c18ee4f34476390e9f027"
+    },
+    {
+      "bytes": 1470,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2012.json",
+      "sha256": "c8ca1c7aade91aaf2aeb3612c1d0215ea90c8394150d4dc0b414d5fd7d103928"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2013.json",
+      "sha256": "fd5f7d8f35bbcfce99b6a42ecb53fcd1761e1565059f443cde71609ae565244f"
+    },
+    {
+      "bytes": 1471,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2014.json",
+      "sha256": "d4324ab932b75107cef962563d87b9de18725d163aca08b3c19a30bced120aeb"
+    },
+    {
+      "bytes": 1473,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2015.json",
+      "sha256": "c0a8e666abd482c4d9e5ff2ff8df6b305f249aef68bf68db78695c425e0df5bd"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2016.json",
+      "sha256": "fe5b02a3ad25bc543c32685e1354189741507a37eba064b798df64efe305d3bf"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2017.json",
+      "sha256": "a80571d5905259d40981b6fff7b409b05d15c59c85d06c3b27375f525891c2d1"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2018.json",
+      "sha256": "ca3882de9ea6645ae7aa524f549410b475c93af177c0b15145d0d687765d9388"
+    },
+    {
+      "bytes": 1474,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2019.json",
+      "sha256": "20dcc95ab446df2cbc5ca6c31dd9eed1a9651160f6788a5882dbc7b88d1ff3af"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2020.json",
+      "sha256": "3a58d3efe7e8fac50ca1641fabd2bce5a97e55c3ff9a56305e14d62b5f797f5b"
+    },
+    {
+      "bytes": 1471,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2021.json",
+      "sha256": "4377214a7a7c8ed61d4b3b50d48f14a7029b9232c594d812c6ccd8a55a15c4c7"
+    },
+    {
+      "bytes": 1473,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2022.json",
+      "sha256": "2ceb4c69e67d2c7c4c184ea0f8f34f04044356988d147f0c0769fb5f6f9c098d"
+    },
+    {
+      "bytes": 1471,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2023.json",
+      "sha256": "07c72e4fd519eeddb677715bad667c0b5074dd4b73c8ce5f646c6a6151c103cd"
+    },
+    {
+      "bytes": 1472,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_cdx_wta_2024.json",
+      "sha256": "840c0a767cc247403e8b3fc08c3256aecc980661dc923e6726a27ad80f437633"
+    },
+    {
+      "bytes": 2866,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2007_20260421123326.json",
+      "sha256": "259394e8b3921ff8d0d992925eb64fe04444542cfcdc2d97e416cb8baf373acb"
+    },
+    {
+      "bytes": 2699,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2008_20230514150611.json",
+      "sha256": "2a5ba167aa2b4d6dd02f6ffda94eab9af593ef3743a9cb4fd520290323659178"
+    },
+    {
+      "bytes": 2699,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2009_20230514150613.json",
+      "sha256": "97165d1c9d08c0a2543155f96e2301075ab700340debef768d3021255c660c5e"
+    },
+    {
+      "bytes": 2700,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2010_20230514150614.json",
+      "sha256": "945c6c9ac04b763d0a0f0c2adf04cc73141b7066aee761c93491854e40b6109b"
+    },
+    {
+      "bytes": 2866,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2011_20260421123421.json",
+      "sha256": "9e703148a4ca1e56d272a64bbe42ada5140ee4679fe7bd118249c39fe6d44722"
+    },
+    {
+      "bytes": 2866,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2012_20260421123442.json",
+      "sha256": "5c1fa79f894da60d5d04324a36b0f9eb1254c0c1ff47161c104ba2e183517c2d"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2013_20230514150558.json",
+      "sha256": "55273f12f652dfbb1bba05d3c7f5b222b516e88e7b31f0aea369629b868de849"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2014_20230514150559.json",
+      "sha256": "9378bc678a772704588b8d21dbaf5d81ed96a904bbc76bc3d31a5ab163cb8132"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2015_20230514150559.json",
+      "sha256": "07f185b0cf13badd19109768aeb41cb2b3eb5c7a2baf6a8d55ed814de918b735"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2016_20230514150600.json",
+      "sha256": "d3af64123f55e12e4b143932c39e355a87c5b245e32667bef6c276c900dc40b7"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2017_20230514150547.json",
+      "sha256": "40bb0d3d99e3c5be65d3685f0180b3a2947d776c077a2b0f02beb4874417e0b1"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2018_20230514150545.json",
+      "sha256": "3d27372a1c4f2d94e11788643f4809cfe7afed8dadadaa75cc399f3dd285dfcd"
+    },
+    {
+      "bytes": 2754,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2019_20240204051208.json",
+      "sha256": "8f5016d07155c9312da61655bcd9f2657f781ada90677f7c958219c636c9226f"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2020_20230514150541.json",
+      "sha256": "8891667b65b7fba2b4d65d6fffa3e1a6b9c8b989b5c873edcdaf62167095abec"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2021_20230514150542.json",
+      "sha256": "051c373359cf4a439a9637410d77bae863e4bf605deb5b98cc0628bccdbea12c"
+    },
+    {
+      "bytes": 2746,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2022_20230514150533.json",
+      "sha256": "4a453a0eae04d4ef7d80fd6b59740d3281c45a8d737cb40870dfd2ed8b72c77b"
+    },
+    {
+      "bytes": 2913,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2023_20260421123522.json",
+      "sha256": "7206b660d1eb739c5ff8ed02f7ece89c38b6d2f628c39aa5518bb610d74c630b"
+    },
+    {
+      "bytes": 2913,
+      "class": "receipts",
+      "path": "data/raw/WTAODDS01/receipts/route1b_wayback_wta_2024_20260421123151.json",
+      "sha256": "8c3dba30a2f39cce6c0467ee8bbe2b7d558b75673bc32b76ca0ba9e0b1bf8803"
+    },
+    {
+      "bytes": 3666,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/compare_2024_names.py",
+      "sha256": "df1ca64d5f095b811ed3320ae79b8d0a06793f9b37713160a2cef473f62ae729"
+    },
+    {
+      "bytes": 3821,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/fetchlib.py",
+      "sha256": "3037244696c3bd3b5c69fca78a6316917e0423f1a6246eecabc33791c05d37b7"
+    },
+    {
+      "bytes": 11197,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/finalize.py",
+      "sha256": "1f763ff9dcdf7cbcdf4e9a7c7e5ca65fa9258220214b021a22a58a88b6a3eb71"
+    },
+    {
+      "bytes": 6830,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/profile_wta.py",
+      "sha256": "062a41a57316d30050c424c3d694a28dda43a3dbfba2c2667ebad759e60a470f"
+    },
+    {
+      "bytes": 3189,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route0_index.py",
+      "sha256": "dc8d89031022b01456cac58c7626c7d5265b61e6cca566fbcd68303f8ee84835"
+    },
+    {
+      "bytes": 1317,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route0_outcome.json",
+      "sha256": "e24d68020551a5bd25c9404ec579c952f45cb988f6e985170427fbd889da7648"
+    },
+    {
+      "bytes": 2007,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route1_direct.py",
+      "sha256": "26bf944867b0ba192e9b6bf9aa5c76a3e4717bd2dae5895dcf79bad4dea7a86d"
+    },
+    {
+      "bytes": 9642,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route1_outcome.json",
+      "sha256": "fe5c2b60bebeb1f0a597a71e5717c23d4128c37510af6c51145b82ec3a57475b"
+    },
+    {
+      "bytes": 34689,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route1b_outcome.json",
+      "sha256": "a2bc7627a5f2922fe3e035f75b507fd6afe3b7ae89e1f06e62812deb0c5501a3"
+    },
+    {
+      "bytes": 4150,
+      "class": "code",
+      "path": "data/raw/WTAODDS01/code/route1b_wayback.py",
+      "sha256": "f31854f6c3e5475c7ff1709d8e22f23cbf963c075d803733bca69cde9e8e53fa"
+    },
+    {
+      "bytes": 84134,
+      "class": "derived",
+      "path": "data/raw/WTAODDS01/profiles.json",
+      "sha256": "c3b1ae0377dfe165cf0156678d1c934eb6420484e78a49363b57a516de5d6e19"
+    },
+    {
+      "bytes": 9447,
+      "class": "derived",
+      "path": "data/raw/WTAODDS01/acquisition_summary.json",
+      "sha256": "374d2911701beacdce6685b2ed6bc289d4a5d3d65b95182a3484f8b3f0d15beb"
+    },
+    {
+      "bytes": 13570,
+      "class": "derived",
+      "path": "data/raw/WTAODDS01/wta_annual_summary.csv",
+      "sha256": "78da428992ec3be303404a47914ae4d4df81607354fad8fb73e52d05dc5b5258"
+    },
+    {
+      "bytes": 5288,
+      "class": "derived",
+      "path": "data/raw/WTAODDS01/event_name_comparison_2024.json",
+      "sha256": "a7e593be61a8f787af5279e4dba67eeb9861c3999fc373be8e0d7c9af939bb5c"
+    }
+  ]
+}
