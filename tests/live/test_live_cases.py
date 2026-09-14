@@ -1203,3 +1203,122 @@ def test_malformed_timestamp_is_a_typed_fixture_exclusion(ws) -> None:
     assert not any(
         json.loads(line)["kind"] == "fixture_qualified" for line in ledger_lines(workspace)
     )
+
+
+# --- third repair attempt: one settlement-resolver invariant ----------------------------------
+
+
+def _set_event_tour(workspace: Path, tour: str) -> None:
+    if tour == "ATP":
+        return
+    events_path = workspace / "events.json"
+    events = json.loads(events_path.read_text(encoding="utf-8"))
+    for event in events["events"]:
+        event["tour"] = tour
+    events_path.write_text(json.dumps(events, indent=2) + "\n", encoding="utf-8")
+
+
+def _qualify_current_version(
+    workspace: Path, runner: Runner, *, tour: str = "ATP", batch: str = "b1"
+) -> dict:
+    _set_event_tour(workspace, tour)
+    updated = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("qualified", "300001", "300004", tour=tour)],
+    )
+    runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", batch)
+    return updated
+
+
+def _rebind_receipt_manifest_and_latest_pointer(workspace: Path, version_id: str) -> str:
+    _coherently_rebind_receipt_finish(workspace, version_id, finished_utc="2026-08-10T13:00:00Z")
+    manifest = version_dir(workspace, version_id) / "manifest.json"
+    digest = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    pointer = workspace / "data" / "live" / "versions" / "latest.json"
+    document = json.loads(pointer.read_text(encoding="utf-8"))
+    document["manifest_sha256"] = digest
+    pointer.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return digest
+
+
+@pytest.mark.parametrize("tour", ["ATP", "WTA"])
+def test_explicit_current_settlement_refuses_pointer_qualification_conflict(ws, tour: str) -> None:
+    workspace, runner = ws
+    updated = _qualify_current_version(workspace, runner, tour=tour)
+    ledger_path = workspace / "data" / "live" / "ledger" / "ledger.jsonl"
+    fixture_path = workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
+    trusted_ledger = ledger_path.read_bytes()
+    trusted_fixture = fixture_path.read_bytes()
+    _rebind_receipt_manifest_and_latest_pointer(workspace, updated["version_id"])
+
+    code, out, err = runner.run(
+        "settle", "results", "--config", CONFIG, "--version", updated["version_id"]
+    )
+    assert code != 0, f"explicit settlement trusted a conflicting pointer\n{out}\n{err}"
+    assert "conflict" in (out + err)
+    assert ledger_path.read_bytes() == trusted_ledger
+    assert fixture_path.read_bytes() == trusted_fixture
+
+
+@pytest.mark.parametrize("tour", ["ATP", "WTA"])
+def test_default_current_settlement_refuses_pointer_qualification_conflict(ws, tour: str) -> None:
+    workspace, runner = ws
+    updated = _qualify_current_version(workspace, runner, tour=tour)
+    ledger_path = workspace / "data" / "live" / "ledger" / "ledger.jsonl"
+    fixture_path = workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
+    trusted_ledger = ledger_path.read_bytes()
+    trusted_fixture = fixture_path.read_bytes()
+    _rebind_receipt_manifest_and_latest_pointer(workspace, updated["version_id"])
+
+    code, out, err = runner.run("settle", "results", "--config", CONFIG)
+    assert code != 0, f"default settlement trusted a conflicting pointer\n{out}\n{err}"
+    assert "conflict" in (out + err)
+    assert ledger_path.read_bytes() == trusted_ledger
+    assert fixture_path.read_bytes() == trusted_fixture
+
+
+def test_settlement_refuses_multiple_qualification_digests_for_one_version(ws) -> None:
+    workspace, runner = ws
+    updated = _qualify_current_version(workspace, runner)
+    _rebind_receipt_manifest_and_latest_pointer(workspace, updated["version_id"])
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("second", "300002", "300003")],
+        name="second.csv",
+    )
+    runner.ok("fixture", "--config", CONFIG, "--input", "second.csv", "--batch-id", "b2")
+
+    for extra in ((), ("--version", updated["version_id"])):
+        code, out, err = runner.run("settle", "results", "--config", CONFIG, *extra)
+        assert code != 0, f"settlement accepted multiple qualification digests\n{out}\n{err}"
+        assert "conflicting" in (out + err)
+
+
+def test_settlement_resolver_preserves_unqualified_and_new_current_versions(ws) -> None:
+    workspace, runner = ws
+    first = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    expected = {"corrected": 0, "final": 0, "no_row": 0, "pending": 0, "provisional": 0}
+    assert runner.ok("settle", "results", "--config", CONFIG) == expected
+    assert (
+        runner.ok("settle", "results", "--config", CONFIG, "--version", first["version_id"])
+        == expected
+    )
+
+    world.write_fixtures(workspace, [world.fixture_row("old", "300001", "300004")])
+    runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "old")
+    runner.at(world.ISSUE_CLOCK + dt.timedelta(minutes=1))
+    second = update(
+        runner,
+        world.replay_dir_for(
+            workspace, world.complete_rounds(), revision=101, name="second-replay"
+        ),
+    )
+    assert second["version_id"] != first["version_id"]
+    assert runner.ok("settle", "results", "--config", CONFIG) == {
+        **expected,
+        "no_row": 1,
+    }
+    assert runner.ok(
+        "settle", "results", "--config", CONFIG, "--version", second["version_id"]
+    ) == {**expected, "no_row": 1}
