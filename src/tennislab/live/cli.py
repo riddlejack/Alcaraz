@@ -246,6 +246,7 @@ FIXTURE_QUALIFICATION_FIELDS = (
     "design_sha256",
     "repair_design_sha256",
     "repair2_design_sha256",
+    "repair3_design_sha256",
 )
 
 
@@ -329,6 +330,7 @@ def cmd_fixture(args: argparse.Namespace) -> int:
         payload["design_sha256"] = config.design_hash()
         payload["repair_design_sha256"] = config.repair_design_hash()
         payload["repair2_design_sha256"] = config.repair2_design_hash()
+        payload["repair3_design_sha256"] = config.repair3_design_hash()
         if record["fixture_status"] == "qualified":
             subject = record["fixture_id"]
             history = ledger.by_subject(subject)
@@ -391,6 +393,7 @@ def cmd_fixture(args: argparse.Namespace) -> int:
             "design_sha256": config.design_hash(),
             "repair_design_sha256": config.repair_design_hash(),
             "repair2_design_sha256": config.repair2_design_hash(),
+            "repair3_design_sha256": config.repair3_design_hash(),
         },
     )
     print(json.dumps({"batch_id": args.batch_id, "fixtures": written}, indent=2, sort_keys=True))
@@ -564,26 +567,36 @@ def _forecast_record(ledger: Ledger, subject: str, prefix: str | None) -> dict[s
 # --- settle ------------------------------------------------------------------------------------
 
 
-def _explicit_version_manifest_binding(config: LiveConfig, ledger: Ledger, version_id: str) -> str:
-    """Return an earlier trusted digest for an explicit version selection."""
-    pointer = config.sub("versions", "latest.json")
-    if pointer.is_file():
-        record = read_json(pointer)
-        pointed_id = safe_output_id(str(record.get("version_id", "")), label="latest version id")
-        if pointed_id == version_id:
-            return str(record.get("manifest_sha256", ""))
+def _trusted_version_manifest_binding(config: LiveConfig, ledger: Ledger, version_id: str) -> str:
+    """Reconcile chain-bound qualifications with the matching current pointer."""
     ledger.verify()
-    digests = {
+    qualification_digests = {
         str(record["payload"].get("version_manifest_sha256", ""))
         for record in ledger.records()
         if record["kind"] == "fixture_qualified"
         and record["payload"].get("version_id") == version_id
         and record["payload"].get("version_manifest_sha256")
     }
-    if len(digests) == 1:
-        return digests.pop()
-    if len(digests) > 1:
-        raise LiveError(f"version {version_id}: conflicting trusted manifest bindings")
+    if len(qualification_digests) > 1:
+        raise LiveError(f"version {version_id}: conflicting trusted qualification digests")
+
+    pointer_digest = None
+    pointer = config.sub("versions", "latest.json")
+    if pointer.is_file():
+        record = read_json(pointer)
+        pointed_id = safe_output_id(str(record.get("version_id", "")), label="latest version id")
+        if pointed_id == version_id:
+            pointer_digest = str(record.get("manifest_sha256", ""))
+
+    if qualification_digests:
+        qualification_digest = qualification_digests.pop()
+        if pointer_digest is not None and pointer_digest != qualification_digest:
+            raise LiveError(
+                f"version {version_id}: latest pointer conflicts with trusted qualification digest"
+            )
+        return qualification_digest
+    if pointer_digest is not None:
+        return pointer_digest
     raise LiveError(f"version {version_id}: no prior trusted manifest digest")
 
 
@@ -600,11 +613,8 @@ def cmd_settle(args: argparse.Namespace) -> int:
         )
         if target is None or not target.is_dir():
             raise LiveError("no such version")
-        expected_manifest = (
-            _explicit_version_manifest_binding(config, ledger, version_id)
-            if explicit and version_id is not None
-            else None
-        )
+        resolved_version_id = version_id if explicit and version_id is not None else target.name
+        expected_manifest = _trusted_version_manifest_binding(config, ledger, resolved_version_id)
         print(
             json.dumps(
                 st.record_results(

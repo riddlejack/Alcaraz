@@ -176,6 +176,13 @@ class LiveConfig:
         path = resolve_under_root(design, label="second repair design")
         return sha256(path) if path.is_file() else None
 
+    def repair3_design_hash(self) -> str | None:
+        design = self.document.get("repair3_design")
+        if not design:
+            return None
+        path = resolve_under_root(design, label="third repair design")
+        return sha256(path) if path.is_file() else None
+
 
 def read_json(path: Path) -> Any:
     try:

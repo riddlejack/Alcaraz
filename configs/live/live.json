@@ -3,6 +3,7 @@
   "design": "docs/live/DESIGN.md",
   "repair_design": "docs/live/REPAIR.md",
   "repair2_design": "docs/live/REPAIR2.md",
+  "repair3_design": "docs/live/REPAIR3.md",
   "workspace_dir": "data/live",
   "cutoff": {
     "lag_calendar_days": 2,
