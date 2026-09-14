@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-09-14 — portable numerical regression
+
+- Replaced the single synthetic seed after Linux correctly revealed that it did not
+  trigger the legacy failure there. The bounded synthetic bank selects on legacy failure
+  and independent BFGS qualification before testing the repaired solver.
+- Focused checks pass on macOS and pinned hosted Linux, using different qualifying seeds.
+  Production solver, numerical tolerances and full CI gates are unchanged; the temporary
+  branch-only Linux workflow is excluded from main.
+
 ## 2026-09-14 — historical WTA campaign input
 
 - Integrated the independently reconstructed WTA01 2019–2024 binding and its repaired
