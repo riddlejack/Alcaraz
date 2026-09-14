@@ -23,8 +23,9 @@ wrote these scores before the barrier. `tests/test_barrier_gate.py`
 demonstrates clean runs and controlled violations through the driver. Four scoped C2
 ports (T9, T10, ATP T11/T13) and the separately repaired T2 dtype sentinel run on the
 committed synthetic sample and fail without it. The different-model review found and
-prompted further runtime repairs (RB16, `docs/B2_REVIEW.md`); final reconstruction and
-integration remain pending. These are software integrity checks, not a new scientific
+prompted further runtime repairs (RB16, `docs/B2_REVIEW.md`). Independent review, fresh
+historical reconstruction and native ATP tier/WTA base T1 checks are complete. B2 is
+accepted for local integration; WTA tier and full-bundle T3 remain open under RB9. These are software integrity checks, not a new scientific
 result; the archive's 2025–2026 window is spent development data.
 
 On the 18,882 priced ATP matches of 2017–2024 (match-weighted log loss, lower is better):
@@ -34,7 +35,7 @@ pooled Elo 0.6237, P0 0.6121, P1 0.6053, full_tier 0.5984, Pinnacle 0.5873.
 
 ```sh
 make setup            # pinned environment from uv.lock (Python 3.14.6)
-make test             # unit, regression, barrier-gate and integrity tests (about five minutes)
+make test             # unit, regression, barrier-gate and integrity tests (about eight minutes)
 make reproduce-small  # the chain on the synthetic sample, one pinned number (about 40 s)
 make reproduce-tier   # the same with the five tier stages on data/sample_tier (about 90 s)
 ```

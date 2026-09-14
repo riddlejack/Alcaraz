@@ -51,6 +51,29 @@ The final [native T1 comparator review](equivalence/b2_review/native_t1_review.m
 reproduced two membership omissions and verified their repair in `50d9fba`: every
 expected target-year artifact must contain exactly its applicable chosen targets,
 without duplicates. Four fast controls catch extra unpriced targets, dropped targets,
-duplicates and an empty sibling forecast on both sides. Integrated synthetic checks
-are recorded below when complete. No frozen model settings, source horizons or accepted numbers
+duplicates and an empty sibling forecast on both sides. The complete integrated suite passed: **434 tests passed, one pre-existing optional
+archive ranking test skipped**, including the final 12 native T1/comparator tests.
+`docs/NATIVE_T1.md` and its machine receipts record the four fresh native runs. No frozen model settings, source horizons or accepted numbers
 are changed. Native T1 and the broader RB9 campaign gate have separate dispositions.
+
+
+The first integrated check is retained in `local/review_b2/make_check_attempt_001.log`:
+428 passed, two failed, one skipped. Both failures were corrected without changing model
+behavior: the old label-barrier assertion expected a deliberately failed report to verify
+clean, and one portable review missed a scratch-path placeholder. The revised test checks
+the clean prefix before the expected report refusal and requires the failed run to be
+rejected. The evidence original stayed byte-identical during placeholder correction.
+Focused reruns passed before the full 434-test rerun.
+
+Simplification review: current access and admission descriptions are consolidated here,
+in `docs/INTEGRITY.md` and RB16/RB17; obsolete static-flag and universal T2 claims were
+corrected. Original baseline and failed-attempt evidence is retained because it explains
+the acceptance boundary. No new model or generic enforcement framework was added.
+
+Final `make check` exited 0: Ruff passed, all 161 files met formatting, pytest reported
+434 passed / one pre-existing optional skip, and both standalone pinned reproductions
+passed (base full minus base 0.0010578138814451785, n 1,578; tier full_tier minus full
+−0.0005904833739188241, n 1,582). The full log is retained locally at
+`local/review_b2/final_make_check.log`. This closes the scoped RB11 B2 integration
+prerequisite; RB9 and the other explicitly unqualified C2 gates remain open. Hosted CI
+was not run because no push was requested.

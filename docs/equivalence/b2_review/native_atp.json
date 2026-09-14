@@ -1,0 +1,48 @@
+{
+  "compared_rows_by_artifact": {
+    "features/features.csv": 4,
+    "pipeline/market/2020/calibrated_ps.csv": 4,
+    "pipeline/market/2020/raw_ps.csv": 4,
+    "pipeline/raw/2020/hgb/base/hgb_leaf07_depth3.csv": 4,
+    "pipeline/raw/2020/hgb/base/hgb_leaf15_depth4.csv": 4,
+    "pipeline/raw/2020/hgb/base_tier/hgb_leaf07_depth3.csv": 4,
+    "pipeline/raw/2020/hgb/base_tier/hgb_leaf15_depth4.csv": 4,
+    "pipeline/raw/2020/hgb/full/hgb_leaf07_depth3.csv": 4,
+    "pipeline/raw/2020/hgb/full/hgb_leaf15_depth4.csv": 4,
+    "pipeline/raw/2020/hgb/full_tier/hgb_leaf07_depth3.csv": 4,
+    "pipeline/raw/2020/hgb/full_tier/hgb_leaf15_depth4.csv": 4,
+    "pipeline/raw/2020/hgb/full_tier_noqual/hgb_leaf07_depth3.csv": 4,
+    "pipeline/raw/2020/hgb/full_tier_noqual/hgb_leaf15_depth4.csv": 4,
+    "pipeline/selected/2020/hgb/base.csv": 4,
+    "pipeline/selected/2020/hgb/base_tier.csv": 4,
+    "pipeline/selected/2020/hgb/full.csv": 4,
+    "pipeline/selected/2020/hgb/full_tier.csv": 4,
+    "pipeline/selected/2020/hgb/full_tier_noqual.csv": 4,
+    "pipeline/shared_base/2020/hgb/base.csv": 4,
+    "pipeline/shared_base/2020/hgb/base_tier.csv": 4,
+    "pipeline/shared_base/2020/hgb/full.csv": 4,
+    "pipeline/shared_base/2020/hgb/full_tier.csv": 4,
+    "pipeline/shared_base/2020/hgb/full_tier_noqual.csv": 4,
+    "sidecar/trait_latent_sidecar.csv": 4,
+    "sr02_replay/selected_matches.csv": 4,
+    "sr02_tier_noqual_replay/selected_matches.csv": 4,
+    "sr02_tier_replay/selected_matches.csv": 4,
+    "sr03_calibration/predictions.csv": 4,
+    "tier_block/trait_latent_sidecar.csv": 4,
+    "tier_elo/tier_elo_features.csv": 4
+  },
+  "eligible_through_date": "2020-01-06",
+  "mutation": {
+    "lower_rows": 490,
+    "panel_rows": 531
+  },
+  "runtime_seconds": 165.7034917910005,
+  "target_date": "2020-01-08",
+  "targets": [
+    "2020-301/10",
+    "2020-301/11",
+    "2020-301/12",
+    "2020-301/9"
+  ],
+  "tour": "ATP"
+}

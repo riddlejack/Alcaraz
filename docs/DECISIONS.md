@@ -26,4 +26,9 @@ would reopen it.
 
 | RB17 | Native T1 is a bounded engineering check for the actual ATP tier and WTA base chains. Keep WTA tier support and full-bundle T3 open under RB9; do not add a new WTA tier model merely to close a test label. | `docs/NATIVE_T1.md` freezes a calendar-selected final-year target and strictly-future full outcome/stat intervention. Both actual tour dispatch paths, shared-base/selected/market forecasts and outcome-dependent sidecar controls are exercised. WTA market coverage is the exact pre-match priced subset. | Claiming the base WTA fixture covers nonexistent WTA tier stages; treating T1 mutation invariance as the separate T3 null experiment or as comprehensive leakage/campaign acceptance. | A future registered campaign adds WTA tier support, changes the information set, or completes full-bundle T3. |
 
-These are integration dispositions, not evidence that the pending repairs have been implemented. The archive rebuild directory contains `LANE_B_acceptance.md` and the implementation/reconstruction briefs.
+Current B2 disposition (2026-09-14): the scoped RB11 integration prerequisite is closed
+by independent enforcement review, fresh historical reconstruction, native ATP tier/WTA
+base T1 checks and the passing full `make check` recorded in `docs/B2_REVIEW.md`. The
+original RB11 warning remains as history. This does not close RB9: WTA tier support and
+full-bundle T3 remain open, and the other unqualified C2 detectors remain unqualified.
+The archive rebuild directory contains `LANE_B_acceptance.md` and the original briefs.

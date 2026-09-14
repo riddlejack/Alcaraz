@@ -58,7 +58,8 @@ recorded after execution below.
 
 Design commit: `7e93a51`. Native comparisons ran after the B2 audit-log repair
 `89de382`; the final validation-only cutoff guard `907b79e` is merged. The integrating
-owner will rerun the full suite at the combined HEAD.
+owner reran the complete integrated suite: 434 passed, one pre-existing optional
+archive test skipped; all 12 native T1/comparator tests passed.
 
 | Native path | Chosen targets | Mutated panel / lower-tier rows | Artifacts compared | Complete target rows compared |
 |---|---:|---:|---:|---:|
@@ -85,3 +86,14 @@ skipped `bridge` stage when no bridge is configured, required WTA rule-contract
 metadata, and the WTA ranking stream's fifth `tours` column. No production model,
 frozen horizon, candidate setting, or original sample file was changed to obtain these
 results. WTA tier support and full-bundle T3 remain separate open requirements.
+
+
+## Integrated final check
+
+The complete suite reran all four native chains with the final membership comparator
+and four additional small negative controls. Exact comparison remains ATP 30 artifacts /
+120 target rows and WTA 14 artifacts / 52 target rows. Final pair runtimes were 165.70 s
+and 58.00 s, respectively; machine receipts are
+`docs/equivalence/b2_review/native_atp.json` and `native_wta.json`.
+The independent final comparator review is
+`docs/equivalence/b2_review/native_t1_review.md`. RB9 campaign requirements remain open.
