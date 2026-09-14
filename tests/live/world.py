@@ -24,7 +24,7 @@ from tennislab.config import WORKSPACE_ENVIRONMENT_VARIABLE, reset_workspace_cac
 from tennislab.live import common
 from tennislab.live.transport import write_replay_response
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path.cwd()
 PLAYERS = [
     ("300001", "Ada", "Alpha"),
     ("300002", "Bo", "Beta"),
@@ -292,6 +292,13 @@ def history_rows() -> list[dict[str, str]]:
                 "winner_name": n(winner),
                 "loser_name": n(loser),
                 "source": "synthetic",
+                "date_basis": "reported_match_date",
+                "completion_upper_bound": date,
+                "completion_basis": "reported_match_date",
+                "publication_upper_bound_utc": "2026-08-01T00:00:00Z",
+                "receipt_time_utc": "2026-08-01T01:00:00Z",
+                "status": "completed",
+                "overlap_unresolved": "false",
             }
         )
     return rows
@@ -460,6 +467,13 @@ def build_workspace(tmp_path: Path) -> Path:
             "winner_name",
             "loser_name",
             "source",
+            "date_basis",
+            "completion_upper_bound",
+            "completion_basis",
+            "publication_upper_bound_utc",
+            "receipt_time_utc",
+            "status",
+            "overlap_unresolved",
         ],
         history_rows(),
     )
@@ -467,6 +481,7 @@ def build_workspace(tmp_path: Path) -> Path:
     config["history"]["ATP"] = {
         "results_csv": "data/live/history/atp_results.csv",
         "sha256": sha256(history),
+        "admissible_completion_bases": ["reported_match_date"],
     }
     (workspace / "configs" / "live").mkdir()
     (workspace / "configs" / "live" / "live.json").write_text(

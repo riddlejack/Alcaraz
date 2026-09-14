@@ -292,26 +292,17 @@ def test_results_only_update_never_advances_serve_or_ranking_freshness(ws) -> No
 
 def test_candidate_source_is_refused_by_status(ws) -> None:
     workspace, runner = ws
-    from tennislab.live.common import LiveConfig, LiveError
-
-    runner.run(
-        "ledger", "verify", "--config", CONFIG
-    )  # installs the workspace env for this call only
-    import os
-
-    from tennislab.config import WORKSPACE_ENVIRONMENT_VARIABLE, reset_workspace_cache
-
-    os.environ[WORKSPACE_ENVIRONMENT_VARIABLE] = str(workspace)
-    reset_workspace_cache()
-    try:
-        config = LiveConfig(CONFIG)
-        with pytest.raises(LiveError, match="candidate_not_qualified"):
-            config.require_source_status("tennismylife", "qualified_serve_state")
-        with pytest.raises(LiveError, match="R14"):
-            config.require_source_status("wta_official", "qualified")
-    finally:
-        os.environ.pop(WORKSPACE_ENVIRONMENT_VARIABLE, None)
-        reset_workspace_cache()
+    config_path = workspace / CONFIG
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    source = config["sources"]["wikipedia_results"]
+    source["status"] = "candidate_not_qualified"
+    source["refuse_reason"] = "synthetic planted status defect"
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+    replay = world.replay_dir_for(workspace, world.complete_rounds(), revision=100)
+    err = runner.fails(
+        "update", "--config", CONFIG, "--events", "events.json", "--replay", replay.name
+    )
+    assert "candidate_not_qualified" in err and "synthetic planted status defect" in err
 
 
 # --- 7, 8, 9, 10: fixtures and eligibility ------------------------------------------------------
@@ -869,3 +860,190 @@ def test_history_binding_must_be_bound_and_hash_verified(ws) -> None:
     runner.ok("fixture", "--config", CONFIG, "--input", "h.csv", "--batch-id", "h")
     err = runner.fails("forecast", "--config", CONFIG, "--batch-id", "h")
     assert "hash mismatch" in err
+
+
+# --- repair controls: reconstructed public failures -------------------------------------------
+
+
+def _plant_history_row(workspace: Path, **changes: str) -> None:
+    path = workspace / "data" / "live" / "history" / "atp_results.csv"
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        header = list(reader.fieldnames or [])
+        rows = [dict(row) for row in reader]
+    planted = {
+        **world.history_rows()[0],
+        "date": "2026-08-09",
+        "tournament": "Synthetic planted history",
+        "winner_id": "300004",
+        "loser_id": "300007",
+        "winner_name": world.name_of("300004"),
+        "loser_name": world.name_of("300007"),
+        "completion_upper_bound": "2026-08-09",
+        "publication_upper_bound_utc": "2026-08-10T11:00:00Z",
+        "receipt_time_utc": "2026-08-10T11:30:00Z",
+        **changes,
+    }
+    world.write_csv(path, header, [*rows, planted])
+    config_path = workspace / CONFIG
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    config["history"]["ATP"]["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("changes", "reason"),
+    [
+        ({"completion_upper_bound": "2026-08-10"}, "after_cutoff"),
+        ({"publication_upper_bound_utc": "2026-08-10T12:01:00Z"}, "published_after_issue"),
+        ({"receipt_time_utc": "2026-08-10T12:01:00Z"}, "received_after_issue"),
+        ({"status": "walkover"}, "not_played"),
+        ({"overlap_unresolved": "true"}, "overlap_unresolved"),
+        ({"completion_basis": "event_anchor"}, "completion_basis_not_admissible"),
+    ],
+)
+def test_bound_history_uses_every_eligibility_predicate_through_forecast(
+    ws, changes: dict[str, str], reason: str
+) -> None:
+    workspace, runner = ws
+    _plant_history_row(workspace, **changes)
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    fixtures, _ = issue_one(workspace, runner)
+    history = forecast_payload(workspace, fixtures["fixtures"][0]["fixture_id"])["lineage"][
+        "history"
+    ]
+    assert history["rows_used"] == 10
+    assert history["withheld"][reason] == 1
+
+
+def test_named_timezone_controls_local_cutoff(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    fixtures, _ = issue_one(
+        workspace,
+        runner,
+        rows=[
+            world.fixture_row(
+                "chi",
+                "300002",
+                "300004",
+                round_code="QF",
+                start="2026-08-11T00:30:00Z",
+                tz="America/Chicago",
+            )
+        ],
+    )
+    fixture_id = fixtures["fixtures"][0]["fixture_id"]
+    payload = forecast_payload(workspace, fixture_id)
+    qualified = [
+        json.loads(line)
+        for line in (
+            workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
+        ).read_text(encoding="utf-8").splitlines()
+    ][0]
+    assert qualified["scheduled_start_local_date"] == "2026-08-10"
+    assert payload["information_cutoff"] == "2026-08-08"
+    assert payload["lineage"]["live_rows_used"] == 0
+    assert payload["lineage"]["withheld"]["after_cutoff"] == 6
+
+
+def test_invalid_named_timezone_is_excluded_through_fixture(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("bad-zone", "300001", "300004", tz="Mars/Olympus")],
+        name="bad-zone.csv",
+    )
+    out = runner.ok(
+        "fixture", "--config", CONFIG, "--input", "bad-zone.csv", "--batch-id", "bad-zone"
+    )
+    assert out["fixtures"][0]["status"] == "excluded"
+    assert out["fixtures"][0]["reasons"] == ["start_timezone_invalid"]
+
+
+def test_mutated_acquisition_receipt_is_refused_before_fixture_use(ws) -> None:
+    workspace, runner = ws
+    out = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    manifest = json.loads((version_dir(workspace, out["version_id"]) / "manifest.json").read_text())
+    attempt = manifest["attempts"]["wikipedia_results"]
+    receipt = (
+        workspace
+        / "data"
+        / "live"
+        / "sources"
+        / "wikipedia_results"
+        / "attempts"
+        / attempt
+        / "receipt.json"
+    )
+    document = json.loads(receipt.read_text(encoding="utf-8"))
+    document["finished_utc"] = "2026-08-09T00:00:00Z"
+    receipt.write_text(json.dumps(document), encoding="utf-8")
+    world.write_fixtures(
+        workspace, [world.fixture_row("f1", "300001", "300004")], name="receipt.csv"
+    )
+    err = runner.fails(
+        "fixture", "--config", CONFIG, "--input", "receipt.csv", "--batch-id", "receipt"
+    )
+    assert "acquisition receipt" in err and "hash mismatch" in err
+
+
+def test_fixture_bytes_and_ledger_bound_identity_are_verified_before_forecast(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(
+        workspace, [world.fixture_row("f1", "300001", "300004")], name="bound.csv"
+    )
+    runner.ok("fixture", "--config", CONFIG, "--input", "bound.csv", "--batch-id", "bound")
+    directory = workspace / "data" / "live" / "fixtures" / "bound"
+    fixtures_path = directory / "fixtures.jsonl"
+    row = json.loads(fixtures_path.read_text(encoding="utf-8"))
+    row["player_a_id"], row["player_b_id"] = row["player_b_id"], row["player_a_id"]
+    fixtures_path.write_text(json.dumps(row, sort_keys=True) + "\n", encoding="utf-8")
+    err = runner.fails("forecast", "--config", CONFIG, "--batch-id", "bound")
+    assert "fixtures bytes hash mismatch" in err
+
+    manifest_path = directory / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["fixtures_sha256"] = hashlib.sha256(fixtures_path.read_bytes()).hexdigest()
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    err = runner.fails("forecast", "--config", CONFIG, "--batch-id", "bound")
+    assert "fixture identity mismatch" in err or "qualification payload mismatch" in err
+
+
+def test_required_source_field_is_enforced_by_public_update(ws) -> None:
+    workspace, runner = ws
+    config_path = workspace / CONFIG
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    config["sources"]["wikipedia_results"]["qualified_fields"].remove("winner")
+    config_path.write_text(json.dumps(config), encoding="utf-8")
+    replay = world.replay_dir_for(workspace, world.complete_rounds(), revision=100)
+    err = runner.fails(
+        "update", "--config", CONFIG, "--events", "events.json", "--replay", replay.name
+    )
+    assert "missing required qualified fields" in err and "winner" in err
+
+
+def test_invalid_settlement_output_id_is_refused(ws) -> None:
+    workspace, runner = ws
+    for settlement_id in (
+        "../escaped",
+        str(workspace / "data" / "live" / "settlement" / "absolute"),
+    ):
+        err = runner.fails(
+            "settle", "score", "--config", CONFIG, "--settlement-id", settlement_id
+        )
+        assert "settlement id" in err and "single safe path segment" in err
+    assert not (workspace / "data" / "live" / "escaped").exists()
+
+
+def test_escaping_ledger_symlink_is_refused_through_public_verify(ws) -> None:
+    workspace, runner = ws
+    outside = workspace.parent / "outside-ledger"
+    outside.mkdir()
+    live = workspace / "data" / "live"
+    (live / "ledger").symlink_to(outside, target_is_directory=True)
+    err = runner.fails("ledger", "verify", "--config", CONFIG)
+    assert "symbolic link" in err
+    assert not any(outside.iterdir())
