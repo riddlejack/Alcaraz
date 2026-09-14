@@ -2,7 +2,7 @@
 
 Ported from ``references/TIER01_models/crosswalk_v2.py`` (byte-identical to the
 ``WTA02_models`` copy, so there is nothing to merge). What changed: the three frozen Elo
-modules were loaded by path through ``load_sibling_package`` and are now imported by
+modules were loaded by path through the archive's sibling-package helper and are now imported by
 name (``tennislab.ratings.elo``, ``tennislab.panel.elo_crosswalk``,
 ``tennislab.panel.mirror``); the CLI's ``--archive`` string resolves under the workspace
 through ``mirror.resolve_archive``. Arithmetic, indexes, iteration order, record fields

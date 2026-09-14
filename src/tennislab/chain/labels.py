@@ -47,6 +47,8 @@ PURPOSES = frozenset(
         "training_fit",
         "past_selection_calibration",
         "past_market_calibration",
+        # tier_elo: every panel outcome as Elo state history under the D-2 cursor.
+        "elo_state_replay",
     }
 )
 
