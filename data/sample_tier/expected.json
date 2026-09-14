@@ -1,0 +1,25 @@
+{
+  "equal_year_log_loss_delta": -0.0005904833739188241,
+  "match_weighted_log_loss_delta": -0.0005860217432911288,
+  "n": 1582,
+  "pinned_on": {
+    "environment": "uv.lock",
+    "numpy": "2.5.3",
+    "package_version": "0.1.0",
+    "python": "3.14.6",
+    "scikit_learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "pooled_log_loss_match_weighted": {
+    "cohort": "primary_priced",
+    "market/calibrated_ps": 0.5393907024219846,
+    "selected/hgb/base": 0.5463693339215431,
+    "selected/hgb/base_tier": 0.545810160295632,
+    "selected/hgb/full": 0.5471414504637202,
+    "selected/hgb/full_tier": 0.5463798882973111,
+    "selected/hgb/full_tier_noqual": 0.5468157151520708
+  },
+  "primary_contrast": "full_tier_minus_full",
+  "source": "tennislab reproduce-small --pin --scenario tier",
+  "tolerance": 1e-09
+}

@@ -32,9 +32,15 @@ def build_parser() -> argparse.ArgumentParser:
         "reproduce-small", help="reproduce one headline number from the committed sample"
     )
     reproduce.add_argument(
+        "--scenario",
+        choices=("base", "tier"),
+        default="base",
+        help="the committed sample to reproduce: base (data/sample) or tier (data/sample_tier)",
+    )
+    reproduce.add_argument(
         "--pin",
         action="store_true",
-        help="write data/sample/expected.json from this run instead of comparing against it",
+        help="write the sample's expected.json from this run instead of comparing against it",
     )
     ladder = subparsers.add_parser("report", help="reporting over completed runs")
     ladder.add_argument("--ladder", action="store_true", help="the per-tour, per-year model ladder")
@@ -64,7 +70,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "reproduce-small":
         from tennislab import reproduce
 
-        return reproduce.main(["--pin"] if args.pin else [])
+        forwarded = ["--scenario", args.scenario] if args.scenario != "base" else []
+        return reproduce.main([*forwarded, "--pin"] if args.pin else forwarded)
     if args.command == "report":
         if not args.ladder:
             print("tennislab report: pass --ladder", file=sys.stderr)

@@ -32,8 +32,9 @@ pooled Elo 0.6237, P0 0.6121, P1 0.6053, full_tier 0.5984, Pinnacle 0.5873.
 
 ```sh
 make setup            # pinned environment from uv.lock (Python 3.14.6)
-make test             # unit, regression, barrier-gate and integrity tests (about three minutes)
+make test             # unit, regression, barrier-gate and integrity tests (about five minutes)
 make reproduce-small  # the chain on the synthetic sample, one pinned number (about 40 s)
+make reproduce-tier   # the same with the five tier stages on data/sample_tier (about 90 s)
 ```
 
 Reproducing the accepted runs needs a local copy of the research archive (see
@@ -55,6 +56,7 @@ configs/         one file per model configuration (elo, atp_p0, atp_p1, atp_full
                  wta_base, wta_full)
 data/manifests/  receipts and hashes still referenced by the trunk
 data/sample/     small redistributable sample so CI runs without the full data
+data/sample_tier/ the second synthetic scenario: the same world with a lower tier (RB9)
 docs/            METHODS, RESULTS (generated), PROCESS, DECISIONS, INTEGRITY, EQUIVALENCE, ARCHIVE, PORTING
 tools/           equivalence harness against the archive; the sample generator
 ```

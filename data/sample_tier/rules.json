@@ -1,0 +1,79 @@
+{
+  "grand_slams": {
+    "501": {
+      "eras": [
+        [
+          2011,
+          2020,
+          "tiebreak",
+          6,
+          10,
+          "synthetic"
+        ]
+      ],
+      "name": "Sample G501"
+    },
+    "502": {
+      "eras": [
+        [
+          2011,
+          2020,
+          "tiebreak",
+          6,
+          10,
+          "synthetic"
+        ]
+      ],
+      "name": "Sample G502"
+    },
+    "503": {
+      "eras": [
+        [
+          2011,
+          2020,
+          "tiebreak",
+          6,
+          10,
+          "synthetic"
+        ]
+      ],
+      "name": "Sample G503"
+    },
+    "504": {
+      "eras": [
+        [
+          2011,
+          2020,
+          "tiebreak",
+          6,
+          10,
+          "synthetic"
+        ]
+      ],
+      "name": "Sample G504"
+    }
+  },
+  "id": "SAMPLE-scoring-rules",
+  "ordinary_atp": {
+    "basis": "synthetic",
+    "best_of": 3,
+    "deciding_set": {
+      "mode": "tiebreak",
+      "tiebreak_at_games": 6,
+      "tiebreak_points": 7
+    },
+    "levels": [
+      "A",
+      "M",
+      "F"
+    ]
+  },
+  "regular_set": {
+    "mode": "tiebreak",
+    "tiebreak_at_games": 6,
+    "tiebreak_points": 7
+  },
+  "scope": "synthetic 2011-2020 sample panel",
+  "unknown_policy": "fail_mapping_no_guessed_rule",
+  "year_field": "source_season"
+}
