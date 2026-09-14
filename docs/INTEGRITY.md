@@ -2,7 +2,7 @@
 
 Lane B2 repair design, written before the code (archive brief
 `docs/reviews/rebuild_2026-09-13/LANE_B2_integrity_integration.md`; archive decisions
-R9, R15, R17; product decisions RB3, RB9, RB11, RB14). This page states the contract the
+R9, R15, R17, R28; product decisions RB3, RB9, RB11, RB14, RB16). This page states the contract the
 chain enforces at run time, what each stage actually reads, and which artifacts were
 moved behind the barrier. `tests/test_label_barrier.py` and `tests/test_barrier_gate.py`
 demonstrate the clean and the planted-leak behaviour on the synthetic sample.
@@ -16,7 +16,7 @@ report could see a 2017 outcome. The frozen walk-forward estimand contradicts it
 2018 fold trains on 2013–2017, the 2018 selection window is 2015–2017, and the SR03 slope
 for 2018 is fitted on 2015–2017. Those are development years of the fold that consumes
 them and target years of an earlier fold. RB11 resolves the conflict: **horizons are
-fold-specific.** A reader may consume an outcome only when the outcome's season is below
+fold-specific.** A reader may consume an outcome only when the outcome's season is at or below
 the fold's own ceiling (the outer year minus one, or the D−2 cursor of a state replay),
 and no stage before the barrier may *emit a score* of any outer year, whichever fold it
 belongs to. R9's "zero pre-barrier scores of any outer year" (T8b) is kept verbatim;
@@ -40,12 +40,17 @@ so (`rows_parsed`).
 ## 2. Reader inventory (product chain, both tours)
 
 Derived from the audit hook on the synthetic chain and re-checked against the code.
+Schema 2 requires a completed access log for every stage subprocess, including an empty
+reader inventory. Read-capable update modes are observed. The ledger binds manifests;
+verification re-derives access against the configured declaration and checks fold/year/date
+horizons, output membership and the frozen barrier tree. The runner rejects symlinked
+write destinations, including existing descendants in a stage output directory (RB16).
+
 Four declarations: "none" (the runner fails the stage if it parses any outcome-bearing
-file; hash-only opens and `projected_rows` opens, which drop the outcome columns, are allowed), "history" (a state replay or panel builder that
+file; hash-only opens and `projected_rows` opens, which return a closed metadata field set, are allowed), "history" (a state replay or panel builder that
 parses whole outcome files as past history), "fold" (a fit or selection stage: every
 parse of an outcome-bearing file must go through `chain.labels` -- `LabelHistory`,
-`PanelOutcomeHistory` or the metadata projection `projected_rows`, which drops the
-outcome columns -- and every outcome receipt must name its fold and a ceiling before
+`PanelOutcomeHistory` or the metadata projection `projected_rows`, which returns a closed field set by purpose -- and every outcome receipt must name its fold and a ceiling before
 it), and "target" (a post-barrier stage).
 
 | Stage | Declared | What is actually opened | Horizon and how it is enforced |
@@ -82,7 +87,7 @@ the run tree if it finds any. `verify` repeats the scan. The historical baseline
 
 | Was (before the barrier) | Now (after the barrier) | Values |
 |---|---|---|
-| `sr03_calibration/metrics.csv`, `reliability.csv`, `comparisons.json`, `cohort_counts.json` | `sr03_component/` (stage after `report`): the same four files computed by `dynamics.calibrate evaluate` from the persisted `predictions.csv` and the panel | identical rows for every year the archive scored; the component stage scores every outer year with a resolved outcome, so where a frozen config carried `score_years_max` (WTA02) the post-barrier files are a superset |
+| `sr03_calibration/metrics.csv`, `reliability.csv`, `comparisons.json`, `cohort_counts.json` | `sr03_component/` (stage after `report`): the same four files computed by `dynamics.calibrate evaluate` from the persisted `predictions.csv` and the panel | ATP: all four files identical. WTA: 93 shared annual metric rows and 12 annual comparison entries identical; added 2025–2026 scoring changes pooled rows, reliability bins and cohort totals. These aggregate files are not a byte-identical superset. |
 | `pipeline/selection/<y>/<learner>/<block>.json: candidate_trials[*].annual[*].mean_log_loss`, `equal_year_mean_log_loss`, `selection.ranked[*].score`, `minimum_equal_year_mean_log_loss`, `runner_up_gap` | `report/selection_trials.json`: recomputed by the reporter from the persisted raw predictions, the persisted selection keys and the labels, and checked against the pipeline's commitment hash | identical numbers; the selected candidate, slope and every forecast are unchanged |
 | `pipeline/market/<y>/calibration.json: slope_fit.annual[*].mean_log_loss`, `equal_year_mean_log_loss` | `report/selection_trials.json` (market section), same recomputation | identical |
 | `pipeline/selection_complete.json` (copies of the above) | same | identical |
@@ -97,27 +102,35 @@ decision inconsistent with the recomputed criterion fails the report.
 
 ## 4. What this does not establish
 
-The audit hook sees `open` calls in the stage's own process; it does not prove dataflow
-inside a process, and a stage could in principle read outcomes through a channel that is
-not a file open. The planted-leak tests cover the channels the chain has: an undeclared
+The audit hook sees read-capable `open` calls with paths under the workspace in the
+stage's own process. It does not prove dataflow, independent custody, or coverage of
+non-file channels, other processes, paths outside the workspace, uninspected encodings
+or outcomes hidden under unknown field names. The scanner covers the declared
+CSV/CSV.GZ/JSON/JSONL content patterns; unsupported formats are listed, not audited.
+The closed SR03 metadata projection retains played/completed/agreement eligibility
+flags, quoted market prices and a Boolean outcome-resolution flag. Those flags are not
+proof of pre-match availability and do not expose target serve counts or the winner. The planted-leak tests cover the channels the chain has: an undeclared
 opener, a nested metric writer, an accessor asked for a later season. Historical
 equivalence is a separate verdict (`docs/EQUIVALENCE.md`); the relocation above is an
 intentional artifact change, listed there, not an explained provenance difference.
 
 ## 5. Ported Lane C2 gates
 
-Archive decision R15/R17 admitted five of Lane C2's thirteen checks as gates (C2 report
-table, `docs/reviews/rebuild_2026-09-13/LANE_C2_report.md`); product decision RB12 requires
-each to be ported with the negative control that proves it fails on its planted defect.
-The five modules below run on the session's synthetic run (`tests/conftest.py:
-sample_run`), fail rather than skip when the sample cannot be built, share only
-`tests/gate_support.py`, and use the standard library plus numpy. T8 is not ported: it
-is the barrier gate itself (§3, `tests/test_barrier_gate.py`). T1, T3–T7 and T12 stay
-`not_a_gate` (C2 addendum) and are not turned into acceptance claims here.
+Archive R28 supersedes the earlier five-gate admission: C2 admitted T9, T10 and ATP
+T11/T13 within their stated scopes, while rejecting T2 automatic discovery because it
+missed a declared `datetime64[ns]` future date. Product commit `8f02b8f` repairs that exact
+counterexample and adds clean/future controls for declared calendar dtypes in keyed,
+named and column dictionary layouts. T2 is a separately repaired product sentinel;
+it must not be described as an unchanged gate accepted by C2.
+
+The five modules below run on the mandatory committed synthetic run
+(`tests/conftest.py:sample_run`) and fail if its fixture is absent. They share only
+`tests/gate_support.py`. T8 is the native barrier gate (§3); native T1's separate
+scope is documented in `docs/NATIVE_T1.md`. T3–T7 and T12 remain unqualified.
 
 | Gate | Product test | Criterion on the synthetic run | Negative controls (same assertion function) | Not covered here |
 |---|---|---|---|---|
-| T2 feature dates | `tests/test_gate_t02_feature_dates.py` | Date columns discovered from the header and the dictionary's names, groups and roles; `match_date` target, `eligible_through_date` cutoff, `date_basis` / `archive_date_basis` textual; every other date is a source/snapshot date and must be ≤ cutoff on every row (unknown roles fail closed); cutoff precedes target. Sample: 5,350 rows, 5 source columns (`ranking_snapshot_date`, `elo_/count_/workload_/lagged_market_latest_source_date`), 0 violations, min lag 0 days. | A new future source date, a renamed one, an opaque column with dictionary role `source_date`, an opaque column in a `source_date_columns` group, one real row's `elo_latest_source_date` moved one day past its cutoff, and a cutoff equal to the target date each fail and name the column. | T2b satellite circuit dating and T2c base/tier Elo replay at 1e-12: the base sample runs no tier stages. Dates inside serialized free text. |
+| T2 feature dates | `tests/test_gate_t02_feature_dates.py` | Date columns discovered from the header and the dictionary's names, groups, roles and supported calendar dtypes; `match_date` target, `eligible_through_date` cutoff, `date_basis` / `archive_date_basis` textual; every other date is a source/snapshot date and must be ≤ cutoff on every row (unknown roles fail closed); cutoff precedes target. Sample: 5,350 rows, 5 source columns (`ranking_snapshot_date`, `elo_/count_/workload_/lagged_market_latest_source_date`), 0 violations, min lag 0 days. | A new future source date, a renamed one, an opaque column with dictionary role `source_date`, an opaque column in a `source_date_columns` group, one real row's `elo_latest_source_date` moved one day past its cutoff, and a cutoff equal to the target date each fail and name the column. The original R28 opaque `datetime64[ns]` case and calendar dtype aliases also fail when future and pass when eligible. | T2b satellite circuit dating and T2c base/tier Elo replay at 1e-12: the base sample runs no tier stages. Dates inside serialized free text, untyped opaque columns and encodings not declared as calendar dtypes. |
 | T9 learned constants | `tests/test_gate_t09_learned_constants.py` | Every raw fit, candidate trial, selected slope, shared-base slope, market slope and SR03 family slope has a non-empty receipt; fit and selection horizons ≤ 30 December of the year before application; selection window is exactly the configured past years; every training key a fitted model consumed carries a season before its application year and inside the training window; selected/shared slopes equal a recorded trial; per-use receipt files equal the completion inventory with no orphans; learned model and training-key bytes re-hash. Sample: 62 receipts (20 fits, 12 candidate slopes, 6 selected, 6 shared, 3 market, 15 SR03). | Empty selection / market / shared-base inventories, an application-year selection cutoff, a missing candidate trial, a shared slope without a trial, a selected slope without a trial, a missing market receipt, a missing fit manifest, an application-year fit cutoff, an application-year training key (byte hashes rebound), empty raw fits, an application-year SR03 horizon and empty SR03 fits: 14 plants, each rejected. | Annual tier offsets and the retired 2016-12-31 offset counterfactual (no tier stages in the base sample). Metadata horizons only, not a numerical replay of the estimators. |
 | T10 manifest integrity | `tests/test_gate_t10_manifest_integrity.py` | Every stage manifest's output table re-hashes from disk with exact membership; `outputs_sha256` is the canonical hash of that table and equals the ledger entry; the ledger chains from genesis; the barrier's `run_tree` names exactly the pre-barrier stages, agrees with each stage's manifest, every leaf re-hashes, and `run_tree_sha256` is non-placeholder and canonical; the report artifact manifest and SR03 run manifest re-hash. A placeholder digest is a defect only over non-empty content (empty `stderr.txt`, empty barrier output map are accurate). Sample: 14 ledger links, 262 manifest files, 233 run-tree leaves, 21 artifact-manifest files. | A changed byte in `features/features.csv`, a broken ledger link, a placeholder `run_tree_sha256`, and a run-tree leaf with its hash omitted (first caught as disagreement with the stage manifest, then as a malformed leaf once the manifest is made to agree): each rejected. | Source truth: matching hashes show the tree is the one the chain froze, not that its inputs were correct. |
 | T11 estimand consistency | `tests/test_gate_t11_estimand.py` | (a) Selection records are a complete, duplicate-free inventory with positive primary populations and identical membership per year across blocks. (b) For the primary and priced cohorts the annual and pooled log-loss and Brier deltas of the primary contrast, annual n and membership hashes, pooled n and per-block scores, the raw market score and every number in `primary.json` reproduce from `pipeline/selected/*`, `labels.csv` and `features.csv` within 1e-12. Sample: n = 1,578 / 1,497, 34 comparisons, max error 1.1e-16; primary equal-year / pooled delta 0.0010578 / 0.0010575. | A 1e-8 shift of the priced pooled delta, of an annual delta and of a pooled block score; a corrupted annual membership hash; a NaN pooled market score; a dropped prediction row; a wrong priced n in `primary.json`; a corrupted primary-population hash and a duplicated selection identity: 9 plants, each rejected. | The archive leaderboard rows (`registries/leaderboard.csv`); the product publishes no leaderboard. WTA scoring, as in C2. |

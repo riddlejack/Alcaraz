@@ -213,6 +213,10 @@ def chain(
             pipeline.run_raw_stage(predictor_path, output, execute_frozen_real=True)
             pipeline.run_selection_stage(predictor_path, output, execute_frozen_real=True)
         record["label_reads"] = list(RecordingLabelHistory.log)
+        # The completed pre-report prefix verifies before deliberately attempting a
+        # report that must fail. A failed report is retained and must not verify clean.
+        record["pre_report_verify"] = inside(workspace, ["verify", "--config", config])
+        assert record["pre_report_verify"] == 0
         # The report refuses the year whose outcomes are unknown.
         with pytest.raises(ChainError, match="stage report exited"):
             inside(workspace, ["report", "--config", config])
@@ -238,7 +242,9 @@ def test_every_stage_before_the_report_completes(chain: dict[str, Any]) -> None:
         assert manifest["exit_status"] == 0, name
         if name != "barrier":
             assert manifest["output_count"] > 0, name
-    assert inside(chain["workspace"], ["verify", "--config", chain["config"]]) == 0
+    assert chain["pre_report_verify"] == 0
+    with pytest.raises(ChainError, match="invalid identity or exit status"):
+        inside(chain["workspace"], ["verify", "--config", chain["config"]])
 
 
 def test_the_final_year_has_no_label_and_updates_no_state(chain: dict[str, Any]) -> None:

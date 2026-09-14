@@ -3,8 +3,10 @@
 The different-model review of Fable's `791f020` implementation rejected three integration
 claims before the repair: read/write file modes escaped observation; runner-owned stage
 records could write through symlinks; and verification trusted cached verdicts instead of
-reconstructing access. Original scripts, review, command logs and the saved-run hash
-inventory are retained in ignored `local/review_b2/`. These findings concern ordinary
+reconstructing access. The [baseline review](equivalence/b2_review/baseline.md) and
+[follow-up review](equivalence/b2_review/followup.md) are portable tracked representations
+of the independent reports. Their byte-originals and hashes live in `local/evidence/`;
+scripts, command logs and full saved-run hash inventory are retained in `local/review_b2/`. These findings concern ordinary
 file I/O and local consistency, not a security sandbox or independent holdout custody.
 
 The integrating owner separately reproduced two gaps: the metadata projection returned
@@ -32,6 +34,12 @@ The repair design was frozen before production edits in
   files carrying the same names are inspected.
 
 The new public-interface controls are in `tests/test_b2_review_regressions.py`.
-Final follow-up review, synthetic checks and fresh historical reconstruction are pending
-at this design commit. No frozen model settings, source horizons or accepted numbers
+The different-model follow-up closes the three original defects. It reproduced one
+further cutoff-horizon hole, fixed in `907b79e`, and independently checked the same
+control after repair. Its 43 targeted tests passed; a retained schema-2 sample verified
+under the final date guard (14 stages), and three consistently rebound bad-log controls
+were rejected on their actual horizon violations. T2's original R28 counterexample was
+independently rejected; 28 calendar-dtype and explicit limitation cases passed.
+Fresh historical reconstruction and integrated synthetic checks are recorded below
+when complete. No frozen model settings, source horizons or accepted numbers
 are changed. Native T1 and the broader RB9 campaign gate have separate dispositions.
