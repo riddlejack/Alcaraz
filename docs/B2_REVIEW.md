@@ -40,6 +40,17 @@ control after repair. Its 43 targeted tests passed; a retained schema-2 sample v
 under the final date guard (14 stages), and three consistently rebound bad-log controls
 were rejected on their actual horizon violations. T2's original R28 counterexample was
 independently rejected; 28 calendar-dtype and explicit limitation cases passed.
-Fresh historical reconstruction and integrated synthetic checks are recorded below
-when complete. No frozen model settings, source horizons or accepted numbers
+Fresh historical reconstruction is accepted within the stated numerical/provenance
+scope: [review](equivalence/b2_review/reconstruction.md),
+[hash-backed summary](equivalence/b2_review/reconstruction.json). Both tour chains and
+final verification pass; all 342 forecasts, ten final report files per tour and 210
+training-key files match. Permitted signed-zero estimator differences and the residual
+WTA workbook modified-time variation remain explicit in `docs/EQUIVALENCE.md`.
+
+The final [native T1 comparator review](equivalence/b2_review/native_t1_review.md)
+reproduced two membership omissions and verified their repair in `50d9fba`: every
+expected target-year artifact must contain exactly its applicable chosen targets,
+without duplicates. Four fast controls catch extra unpriced targets, dropped targets,
+duplicates and an empty sibling forecast on both sides. Integrated synthetic checks
+are recorded below when complete. No frozen model settings, source horizons or accepted numbers
 are changed. Native T1 and the broader RB9 campaign gate have separate dispositions.

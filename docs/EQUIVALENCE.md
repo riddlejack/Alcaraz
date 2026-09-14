@@ -117,3 +117,43 @@ the per-stage `access_log.jsonl` receipts aside).
 | `report/selection_trials.json` | – | added: the recomputed criterion tables | every value equals the archive's pre-barrier value (ATP 128 of 128 compared: 80 candidate trials' equal-year and annual losses, 40 runner-up gaps, 8 market fits; WTA checked on the first record and gap) |
 | `report/selection_receipts.json` | different (provenance) | different (copies the public records; points at `selection_trials.json`) | – |
 | `<stage>/access_log.jsonl`, `stage_manifest.json: outcome_access`, `integrity_violations`, barrier `content_scan` | – | added on every stage | – |
+
+
+## Independent B2 follow-up reconstruction
+
+The [fresh reconstruction review](equivalence/b2_review/reconstruction.md) and
+[machine summary](equivalence/b2_review/reconstruction.json) supersede builder-only
+claims for the B2 repair. Both full historical chains were rerun from immutable source
+`89de382`, with the same frozen archive configs and lock hash
+`00be4f800e7f0da7e89b29ad6f032a8bda5a2cb2ff072a1965e21b6b5b794764`.
+The original B2 run trees were preserved. A briefly started editable-source attempt
+was stopped and retained before restarting in a separate immutable-source workspace.
+
+| Check | ATP TIER01 | WTA WTA02 |
+|---|---:|---:|
+| Forecast CSVs, identical to archive and saved B2 | 206 / 206 | 136 / 136 |
+| Named final report files, identical | 10 / 10 | 10 / 10 |
+| Training-key files and membership hashes, identical | 110 / 110 | 100 / 100 |
+| Fitted model files byte-identical | 37 / 110 | 69 / 100 |
+| Remaining model files, signed-zero differences only (R27) | 73; 95 entries | 31; 39 entries |
+| Completed stages passing snapshot and final verification | 25 | 20 |
+| Scanned pre-barrier artifacts / metric findings | 767 / 0 | 567 / 0 |
+
+All changed files and renamed caches were adjudicated, including complete fitted-object
+state. Forecasts, SR03 predictions/fits/training membership and all final report values
+are unchanged. Cache names, audit schema, code/config/manifest/ledger hashes and timing
+receipts differ as expected. No raw archive artifact or frozen source/config was edited.
+
+WTA retains one pre-existing provenance nondeterminism: openpyxl overwrites
+`docProps/core.xml`'s modified property at save time. All other workbook members and ZIP
+times match; only `market_source_sha256` changes in 2,095 of 47,505 market rows and 1,945
+of 46,827 rows in each panel. This is an explicit RB7 exception, not workbook byte
+identity. A separate serialization repair should test and remove that variation.
+The WTA SR03 expanded-population aggregate differences are listed above, separately.
+
+The final verifier also passed both fresh trees after `907b79e` tightened the date
+receipt ceiling. AST comparison of all 60 package Python modules found only that
+validation behavior changed after the immutable run source; formatting and the corrected
+bridge docstring have no behavioral difference. This avoids mislabelling the execution
+commit as the final documentation/integration commit. Exposure is recorded as
+`REBUILD-B2-ASTRA-001`; these remain retrospective development results.
