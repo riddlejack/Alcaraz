@@ -1,84 +1,174 @@
-# Process
+# Process: build it, try to break it, keep the evidence
 
-This page is a placeholder for the narrative of how the research loop worked. The
-roadblocks section below is the archive's own register of every recorded failure and the
-rule now in force, copied from `docs/reviews/rebuild_2026-09-13/SCAR_TISSUE.md` at the
-archive commit named in `ARCHIVE.md`. The 'Enforced by' column names the rebuild lane.
+The first version of this project produced plausible model results. Reviewers then found
+that plausible was not the same as trustworthy: dates had been invented, one learned
+constant could see the future, a calibration stage scored before its barrier, and an
+all-green leakage suite missed planted defects. The project became useful when those
+failures were kept rather than edited out.
 
-## Roadblocks
+The result is two related artifacts:
 
+- a research archive containing designs, attempts, failures, exposure records, source
+  receipts, and reviews; and
+- this smaller product repository, which rebuilds the accepted retrospective chains as
+  one Python trunk with reproducible configurations and scoped integrity controls.
 
-Compiled 2026-09-13 from the decision record, the three adversarial reviews, the experiment and exposure ledgers, run records and handoffs. Each row names where the evidence lives, the rule now in force, and which lane enforces it. Lane briefs cite rows by number. This file also becomes the "roadblocks" section of the product repo's PROCESS page.
+Passing tests establishes only the behavior those tests exercise. The tennis findings
+remain retrospective, and the live/snapshot path remains unfinished.
 
-Severity: **P0** would invalidate a headline claim; **P1** would materially change a number or its interpretation; **P2** cost time or credibility.
+## The human–LLM operating model
 
-## A. Chronology and information sets
+The owner set the research question, scope, licensing and source-use boundaries, kept ATP
+and WTA in scope, chose when to stop or reopen work, and required failed attempts to stay
+visible. The work was then split by role:
 
-| # | Sev | What happened | Evidence | Rule now | Enforced by |
-|---|---|---|---|---|---|
-| A1 | P0 | Draw-page rows for June–September 2026 had no match date. The chain invented one (event start plus one day per round) and labelled it as a reported date. A Canada final was dated four days early, and its result entered two later Cincinnati targets' Elo features. | Astra review finding 1; D60; `AUDIT-ASOF-CONTRACT-ATP.md` | Every date carries a typed `date_basis`. Inferred dates are bounds at the event's end, never clocks. A provenance label may never be attached to an invented value. Future-mutation test on every feed. | B (types), C (T1, T2, T5) |
-| A2 | P0 | Even with event-end dating, overlapping events leak forward: Toronto ends 08-13, Cincinnati starts 08-10; about 85 Cincinnati rows consume a Toronto result that postdates them. | D62 | Overlapping weeks need per-match dates; until acquired, the rows are flagged and excluded from cutoff-sensitive features. | A (per-match date qualification), C (T2) |
-| A3 | P0 | Satellite circuits (four component draws sharing one start date) were released at anchor + 7 days; Spain 1 2006 ran to 03-26 but all legs were dated 03-06. 911 circuits, 110,681 rows. | Astra finding 3; TIER01 attempt 002 | Multi-leg events are dated at the last possible completion, anchor + 7 × legs. The Spain 1 2006 case is a regression test. | B (chronology module), C (T2) |
-| A4 | P0 | The TIER01 debut-rating offset (−117) was learned on data through 2016 and applied to rows inside 2014–2016 selection folds. | Astra finding 4; TIER01 attempt 002 | Every learned constant has a receipt naming its data horizon; the horizon precedes the earliest row it touches; per-boundary re-estimation when needed. | B (ratings receipts), C (T9) |
-| A5 | P1 | Same-event qualifying rows updated the tournament latent term used by later main-draw predictions in the same event; the design did not declare this channel. | Astra finding 8 | Every information channel into a stateful feature is declared in the design and ablatable. | B (design template), E |
-| A6 | P1 | The D−2 cutoff excluded every previous-day match, which is where acute fatigue lives; FAT01's null was then read as a fatigue null. | Astra finding 10; D57 | The cutoff is a declared design parameter. A feature is evaluated under the cutoff the live system will actually use. | A (date quality), E |
-| A7 | P1 | Reported calendar dates have no clocks; annual Pinnacle prices are closing-like with unknown quote times. Model-versus-market comparisons were sometimes written as if equal-cutoff. | D31; leaderboard notes | Market comparisons are labelled descriptive unless both clocks are known. The prospective ledger records receipt times for both. | D, docs |
-| A8 | P1 | Tennis Abstract's published court-speed index uses the whole year, so using it as a feature leaks. | Fable review 2026-09-10 | Any index computed over the target event's matches is a validation target, not a feature; build point-in-time versions in-house. | E |
+- **Claude Fable 5.1** led the research build, wrote designs and decision records, ran the
+  experiment program, planned the rebuild, and implemented the first product trunk.
+- **GPT-6 (Astra)** performed adversarial and acceptance reviews, including the review
+  that found the chronology and barrier failures.
+- **Claude Opus 4.8** handled bounded acquisition probes and the owner-permitted Tennis
+  Abstract collection under explicit traffic and write limits.
+- **OpenAI Codex** reconstructed accepted outputs, reviewed integrity repairs, integrated
+  the B2 product work, and recorded the limits that remained.
 
-## B. Barriers, exposure and confirmation
+The point was not a relay race between chat windows. One integrating owner issued narrow
+briefs with evidence roots, read-only inputs, write boundaries, acceptance tests, and
+stop conditions. Builders did not accept their own consequential claims. A different
+model received the report and repository, re-derived the important numbers, and tried to
+produce counterexamples.
 
-| # | Sev | What happened | Evidence | Rule now | Enforced by |
-|---|---|---|---|---|---|
-| B1 | P0 | The SR03 calibration stage loaded labels and wrote reserved-year scores during CONFIRM2026 attempt 005, before the end-of-chain barrier. The final barrier could not stop an upstream scorer. | Astra finding 2; exposure log | Only the report stage can open labels; every earlier stage runs with the label file physically absent; a test makes labels unreadable and asserts every pre-report stage still completes. | B (module boundary), C (T8) |
-| B2 | P0 | Five chain attempts on the reserved window failed mechanically (paths, calendar-cell parsing, event-name mapping, stage order, output guard) because workers could not see the reserved inputs and guessed formats; fixes happened after first outcome access. | exposure log; handoff 2026-09-11; memory | Structural probe of real inputs (columns, types, counts; no players or scores) before any parser is written. Dry-run and full rehearsal on exposed years with the exact command before a real run. | all lanes |
-| B3 | P0 | 2025–2026 was the only reserved window; it is now spent and degraded (a third of 2026 rows rank-stale, states a median 37 days stale). | D52, D60, RESERVED01 | No historical window is confirmation. Confirmation is prospective, with fixture universe, update policy and stopping rule declared in advance. | D |
-| B4 | P1 | Design said probability-space blending; code did rating-space blending (ELO-DATE-002). Found only by independent arithmetic. | D27 | Design and implementation are reviewed against each other by a different model before freeze; a closed-form fixture pins the exact arithmetic. | B, reconstruction threads |
-| B5 | P1 | A run manifest recorded the SHA-256 of `{}` as the run-tree digest and nobody noticed. | Astra finding 12 | Manifests reject empty or placeholder digests; verification re-hashes the tree. | B (chain), C (T10) |
-| B6 | P1 | Copied reporters hard-coded the primary contrast and seed; FAT01's machine artifact attached the wrong bootstrap to the wrong contrast. | Astra finding 12; handoff item 5 | The primary contrast, seed and interval type are configuration, read by one parameterised reporter; a test asserts the artifact names match the config. | B (evaluation) |
-| B7 | P1 | The conditional-selection risk regression could predict a log-loss advantage outside the range either outcome permits; it selected 6,101 matches even when the market was stipulated exactly correct. | TEACHER03/04; D69 | Any decision rule gets a label-free diagnostic under a "market is exactly right" world before use. | E |
-| B8 | P2 | 145 leaderboard entries and 113 ledger entries over the same 2017–2024 window; readers cannot see selection risk. | assessment §3.2 | A research-degrees-of-freedom summary is generated with every leaderboard. | B (evaluation), docs |
+## The contract that emerged
 
-## C. Source qualification and coverage
+The final workflow is stricter than the one the project started with.
 
-| # | Sev | What happened | Evidence | Rule now | Enforced by |
-|---|---|---|---|---|---|
-| C1 | P0 | Upstream Sackmann repositories were deleted (last full visit 2026-05-08); tennis-data.co.uk returned 503 on all direct requests; the fallback was Wikipedia draws with no stats and no dates. | RES2026.md; SRC02.md | Every source has a preserved mirror, a named fallback and a monthly liveness probe. A fallback with weaker semantics is typed as such and cannot silently replace the primary. | A |
-| C2 | P1 | Serve statistics are absent by era and family: ATP Challenger/qualifying before 2010, ATP Futures entirely, WTA before 2016 in full form (service games missing 2003–2015), lower tiers after May 2026. | TIER01-audit.md | A coverage matrix by tour, year, level and field is maintained and versioned; features declare the eras they are valid in and carry missingness indicators. | A |
-| C3 | P1 | The WTA 2016 floor discarded 1,535 usable earlier blocks; a missing service-games field made whole rows "unusable" when 16 of 18 counts were present. | Astra finding 11 | Adapters accept partial blocks with explicit per-field missingness; floors are declared before results, never chosen after. | A, B |
-| C4 | P1 | SR01's service-count qualification was revoked after missed internal constraints. | README source limits | Qualification means an explicit constraint list, tested (e.g. first-serve-in ≤ service points; points won ≤ points played). | A |
-| C5 | P1 | Four `best_of` fields were wrong in the archive; the raw source age field was defective; `ServeNumber` changed meaning by year in point files. | D37, BIO01, D43 | Never trust a column name across years; per-field, per-year contracts with corroborating official documents; corrections are new versions with receipts. | A |
-| C6 | P1 | 2009 WTA odds files lack Pinnacle columns; a 2018 ATP odds file needed recovery; RES2026's first Wikipedia attempt failed on URL encoding (37 superseded receipts). | WTAODDS01; Astra reconciliations; RES2026 | Coverage matrices per source, year and field precede use. Failed attempts keep their receipts. | A |
-| C7 | P1 | Retrospectively revised annual workbooks and current player tables have no historical publication custody; DOB and height tables are current snapshots. | JOINT04-features.md | Custody status is a typed field on every source; "no publication clock" is stated in every result that depends on it. | A, docs |
-| C8 | P2 | Data downloaded in 2026 was at risk of being described as if it were a 2024 system receipt. | ARCHITECTURE.md clocks section | Event, availability, receipt and decision times are separate fields; a later download supports historical analysis only with external availability evidence. | A, B |
+1. **Pre-register the question.** Name the population, cutoff, information set, fitting
+   and selection process, baselines, primary contrast, uncertainty method, and stopping
+   rule before the target outcomes are read.
+2. **Probe structure before writing a parser.** Inspect columns, types, and counts without
+   exposing player identities or scores. Rehearse the exact command and output class on
+   development data.
+3. **Freeze one attempt.** Hash the configuration and inputs. A changed method gets a new
+   attempt identifier; it does not overwrite the old one.
+4. **Run with receipts.** Stages record code and input bindings, outcome-read receipts,
+   output hashes, and a linked chain ledger.
+5. **Enforce the report barrier.** Fold-specific past outcomes may be read for fitting,
+   but no target-year score may be emitted before the post-barrier evaluation stage.
+6. **Plant a failure before admitting a detector.** A leak check must reject the defect it
+   claims to detect. A green check without that counterexample stays diagnostic.
+7. **Reconstruct independently.** A different model reproduces the arithmetic and the
+   relevant bytes, challenges interpretation, and records exceptions rather than
+   normalizing them away.
+8. **Count exposure.** Every look at a development target is logged. Nothing repeatedly
+   inspected becomes a holdout because a folder is called “reserved.”
 
-## D. Engineering and reproducibility
+## What reviewers caught
 
-| # | Sev | What happened | Evidence | Rule now | Enforced by |
-|---|---|---|---|---|---|
-| D1 | P1 | Freezing by copying whole pipelines produced 27 byte-identical file groups, 165k Python lines and 55 files over 1,000 lines. | assessment §1 | Freeze by git tag plus manifest hash. One trunk, configurations per model. | B |
-| D2 | P1 | 135 of 295 tracked scripts read from the ignored 20 GB `work/`; 22 files carry absolute paths; no dependency spec, lockfile or CI. Nothing runs from a clean clone. | assessment §1 | Product repo installs from a lockfile and reproduces one headline number from a committed sample in CI. No tracked code reads outside the repo except declared data roots. | B |
-| D3 | P1 | A relative-path error in MULTI03's frozen reporter; SR02's first numerical run failed to converge; both had to be repaired under new identifiers. | ARCHITECTURE.md | Runs execute from the repo root with config-only paths; numerical adapters emit convergence receipts; failures are preserved. | B |
-| D4 | P2 | Documentation drift: README said 105 entries when there were 134; "largest sports gain" was wrong; `experiments/README.md` still says no study has run; TIER01.md says attempt 002 was not reconstructed while D63 says it was; "Rust-first" describes nothing current. | Astra finding 13; assessment §3.4 | Numbers in docs are generated from registries; a consistency check runs in CI; status prose is replaced, not appended. | B (docs), Lane 0 |
-| D5 | P2 | The leaderboard summary placed a sports score on all targets beside a market score on the priced subset; the WTA/ATP comparison mixed equal-year with match-weighted means over different year spans. | Astra findings 6, 13 | One summary path; paired populations only; estimand named in every table header. | B (evaluation) |
-| D6 | P2 | Nine-decimal deltas and several interval types, with the wider one sometimes chosen after seeing results. | Astra conceptual critique | Four decimals; one pre-declared interval type; dependence caveats stated once. | B (evaluation), docs |
-| D7 | P2 | Workers were barred from reserved files and guessed formats (see B2); long single-agent builds shipped defects that a fresh-context review caught. | handoff 2026-09-12 rules | Structural probe first; fresh-context implementation review before any freeze. | all lanes |
-| D8 | P2 | Credentials were correctly kept out of Git at `~/.config/tennis-research-lab/credentials.env`. | handoffs | Keep it. Never in Git, logs or process arguments. | all lanes |
+The archive's `SCAR_TISSUE.md` is the complete register. These were the failures that most
+changed the project.
 
-## E. Interpretation and claims
+| Failure | Consequence | Rule or repair |
+|---|---|---|
+| Draw-page rounds were converted into invented match dates and labelled “reported” | A 2026 Canada final entered two later Cincinnati feature rows | Every date has a typed basis; anchors are identifiers or bounds, never clocks |
+| Toronto and Cincinnati overlapped | Event-end dating alone could not order about 85 target rows | Unresolved overlaps are quarantined until completion evidence is admissible |
+| Four-leg satellite circuits were released after one week | Lower-tier history entered too early | Completion is bounded by the whole circuit; Spain 1 2006 is a regression case |
+| A −117 debut offset was learned through 2016 and used inside 2014–2016 folds | Selection data influenced a supposedly past-only constant | Every learned constant carries a horizon receipt preceding its use |
+| SR03 wrote scores before the final barrier | A downstream barrier could not stop an upstream scorer | Current trunk emits forecasts before the barrier and computes components after it |
+| 145 leaderboard entries and 113 experiment-ledger entries accumulated | A clean final table could hide the search history | The generated ladder reports degrees of freedom and all results are called exposed |
+| The first leakage suite passed 24 checks, then several planted leaks passed too | “All green” was not evidence of comprehensive coverage | A detector enters CI only after its negative control fails as intended |
+| Whole pipelines were copied to freeze them | 27 byte-identical groups, 165k Python lines, laptop-only paths | One trunk, model configurations, a lockfile, synthetic fixtures, and manifest hashes |
+| Tables mixed all-target sports scores with priced-subset market scores | Apparent comparisons used different populations | Paired comparisons use identical cohorts and name the estimand in the header |
+| Nine-decimal deltas and multiple interval types encouraged over-reading | Presentation implied more certainty than the design supported | Four decimals and one declared interval method, with its missing uncertainty stated |
+| A model–market gap was described as market efficiency | The design identified model performance, not market structure | Market comparisons are descriptive until quote and forecast times align |
+| Eight years were called eight confirmations | Shared players, data, and model ancestry were ignored | Years are robustness evidence, not independent replications |
 
-| # | Sev | What happened | Evidence | Rule now | Enforced by |
-|---|---|---|---|---|---|
-| E1 | P1 | "The women's market is not less efficient" was written from a model-minus-market gap; the gap depends on model quality and coverage, not market efficiency. | Astra finding 6; D60 | A model-minus-market gap is a statement about the model. Market-efficiency claims need equal-cutoff prices and a separate design. | docs, E |
-| E2 | P1 | TIER01's primary bundled several changes; the report claimed "opponent information rather than more rows", which the design could not identify. | Astra conceptual critique | Mechanism claims need a planned decomposition; a bundle result is a bundle result. | E |
-| E3 | P1 | "8 of 8 years" was read as eight replications; five residual designs were called five confirmations. They share data and ancestry. | Astra conceptual critique | Years are robustness evidence, not replications; state the dependence once per table. | docs |
-| E4 | P2 | Acquisition success (bytes preserved) was described as measurement readiness. | Astra finding 14 | "Acquired", "qualified" and "modelled" are three statuses. | A, docs |
-| E5 | P2 | The first review found the project mining a single 2,595-match season and treating Rust as a scientific choice. | Fable review 2026-09-10 | Walk-forward over the full history; engineering choices described as engineering. | B |
+Not every correction changed a score. The corrected ATP lower-tier run's registered
+equal-year `full_tier − full` delta moved from −0.0067 to −0.0068 on the same 18,972
+all-target matches. The sports result survived; the earlier claim that its process was
+leak-free did not. Both outcomes remain in the registry.
 
-## Red-team questions to re-ask at every acceptance
+## From archive to one trunk
 
-1. Can any feature be historically valid yet unknowable at the forecast time?
-2. Would shuffling rows within an event change any feature? If yes and only event dates exist, chronology is invented.
-3. Does re-running after a correction change old features? Then the original result is not reproducible.
-4. Does the result survive the strongest same-time baseline and the whole family of attempted specifications?
-5. Do the row counts and every exclusion reason reconcile to the declared universe?
-6. Does a number in the README trace to a generated table?
+The production-readiness review found that the research archive was not a product: many
+tracked scripts depended on an ignored 20 GB work directory, absolute paths were common,
+and no clean-clone environment or CI contract existed. The rebuild kept the archive as
+evidence and ported only the accepted path into a Python package.
+
+The scoped B2 repair was consequential. An independent reviewer first reproduced read
+escapes, symlinked writes, cached-verdict trust, incomplete target membership, and an
+additional fold-cutoff defect. The integrating owner repaired them, then a fresh
+reconstruction checked the result. At `f659114`:
+
+- 206 ATP and 136 WTA forecast files matched;
+- 20 final report files matched;
+- 210 training-key files and membership hashes matched; and
+- the local suite reported 434 passing tests and one optional archive-dependent skip.
+
+The exceptions are part of the evidence: fitted estimators can differ at signed-zero and
+pickle-memo bits without changing predictions, and WTA workbook metadata creates a
+documented source-hash cascade. “Byte-identical” is used only for the files that actually
+matched. The B2 checks are not comprehensive source truth, scientific validity, or
+independent custody.
+
+## Research comparison, including the nulls
+
+On matched priced cohorts, each statistics rung improved over the one below it, and the
+normalised Pinnacle line remained better. That is the front-page result. The archive also
+preserves attempts to add market residuals, weather, and fatigue:
+
+- MULTI02's small improvement against its calibrated-price control had an equal-season
+  interval crossing zero.
+- MULTI03 selected a fallback equivalent to the calibrated market.
+- JOINT05 was slightly worse than its calibrated-market baseline.
+- TEACHER04 failed all scientific gates and promoted nothing.
+- WX11's exact weather block made forecasts worse.
+- FAT01's exact fatigue block was null.
+
+These are negative or inconclusive results for specific designs. They are not proof that
+weather, fatigue, or public statistics can never help. Likewise, losing to Pinnacle does
+not decide whether tennis-lab is stronger than other public statistics-only models. Lane
+G completed its source inventory and comparison design, but adapter implementation,
+frozen execution, and an accepted external score on the same cutoff and cohort remain
+pending.
+
+## The rejected live slice
+
+The first manual update/forecast/score implementation passed its synthetic arithmetic but
+failed independent reconstruction. Five ineligible history cases entered state; a named
+timezone was ignored; receipt and fixture bytes were not fully bound; required field
+qualifications could be bypassed; and absolute identifiers or symlinks could escape the
+workspace. The clean-clone test also failed.
+
+That commit remains rejected evidence. A first repair at exact commit
+`542d85e7c0c4e495e582bdbc0201a8a8001a1831` passed its builder's full local check (464
+tests passed, one optional skip; base and tier synthetic deltas unchanged) but failed
+independent review: its version manifest was a mutable trust anchor, and leaf/temp symlink
+writes could escape the intended output boundary. A further repair is in progress under
+a new commit and has not been merged.
+The first repair issued only synthetic Elo; the later D2 task must separately assemble
+real history and all six tour-appropriate rungs into a versioned snapshot. None of this
+work has been silently folded into this narrative branch.
+
+## What remains before a broader release claim
+
+- Repair and independently reconstruct the rejected live contracts.
+- Complete and qualify the permitted Tennis Abstract collection; do not treat progress
+  counts as qualified-player counts.
+- Resolve the TennisMyLife date-disagreement cases before using its dates as availability
+  bounds, then integrate any accepted source version through D2.
+- Close or explicitly exclude WTA tier and the full-bundle T3 scope.
+- Run an accepted external public-model benchmark before making a comparative claim.
+- Re-run hosted CI on the final integrated release commit. The repaired bootstrap is green
+  at product commit `6d0f3ad`, including lint, 434 passing tests with one skip, and both
+  synthetic reproductions.
+- Issue and score a real forecast batch before describing any result as prospective.
+
+## What transfers beyond tennis
+
+The reusable artifact is the discipline: separate event time from publication and receipt
+time; separate source acquisition from qualification and model use; preserve negative
+results; make every summary trace to a machine artifact; require a planted counterexample
+for an audit; and let a fresh reviewer challenge both arithmetic and interpretation.
+
+That is a stronger demonstration of LLM-assisted engineering than a spotless story would
+have been, because the record shows where the system failed and what evidence changed the
+rules.
