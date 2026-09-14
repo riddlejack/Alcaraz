@@ -6,10 +6,10 @@ questions; this repository follows the narrowest applicable boundary.
 
 ## Repository rule
 
-The public product may contain code, source receipts and hashes, identity/event mappings,
-aggregates, forecasts, scores, and synthetic fixtures. It does not contain raw provider
-files or row-level reproductions of a source. Every published derived table must name its
-source and applicable terms.
+The intended public boundary may contain code, source receipts and hashes, identity/event
+mappings, aggregates, forecasts, scores, and synthetic acceptance fixtures. It is not
+intended to contain raw provider files or row-level reproductions of a source. Every published
+derived table must name its source and applicable terms.
 
 ## Sources
 
@@ -17,7 +17,7 @@ source and applicable terms.
 |---|---|---|
 | Jeff Sackmann, `tennis_atp` and `tennis_wta` | CC BY-NC-SA 4.0 | Consumed locally from the hash-pinned mirror named by `data/manifests/ARCHIVE01.json`. The mirror is not redistributed. Any table carrying derived match, ranking, or player rows must use the same licence and attribution. |
 | Jeff Sackmann, Match Charting Project | CC BY-NC-SA 4.0 | Used for limited corroboration in the archive, not as a current product-model input. Any future derived table must preserve attribution and the same licence. |
-| Jeff Sackmann / Tennis Abstract player data | Derived-table attribution required; CC BY-NC-SA 4.0 treatment adopted by rebuild decision R16 | The crawl remains outside this product repository and is not integrated into the accepted model runs. Raw responses are not tracked here. Any later derived table must carry the attribution block below and its collection dates. |
+| Jeff Sackmann / Tennis Abstract player data | Purpose, non-commercial attribution, and no-betting limits; CC BY-NC-SA 4.0 treatment adopted by rebuild decision R16 | The collection remains outside this product repository and is not integrated into the accepted model runs. Raw responses are not tracked here. Any later derived table must carry the attribution block below and its collection dates. |
 | tennis-data.co.uk annual results and odds workbooks | Provider/site terms; no redistribution right granted | Local input and descriptive market reference only. No odds, full result rows, or row-level derived reproduction is published. Event-name mapping metadata is permitted under the rebuild's R3 boundary. |
 | Wikipedia draw and calendar pages | CC BY-SA 4.0 | Parsed locally for historical bridge rows. Small mapping tables may be tracked with source attribution; raw page captures are not copied into the product. |
 | TennisMyLife yearly and ongoing files | The current site states MIT; the project adopted that statement under R23. An older retained README contains a conflicting non-commercial/no-redistribution statement | No TML raw or derived table is tracked or integrated today. If a qualified version is later published, retain source attribution, the version hash, the R23 terms decision, and the chronology/field conditions described in `docs/DATA.md`. |
@@ -27,9 +27,10 @@ source and applicable terms.
 ## Required Tennis Abstract attribution
 
 > Data by Jeff Sackmann / Tennis Abstract.
-> Any published derived table must carry this attribution and its
-> applicable licence. The collection is still in progress and is not part of
-> the accepted retrospective model runs described above.
+> Any published derived table must
+> carry this attribution and its applicable licence. The collection was paused on
+> 2026-09-14 for offline parser diagnosis and is not part of the accepted retrospective
+> model runs described above.
 
 When the first qualified Tennis Abstract-derived release is created, append the exact
 collection start/end dates and source-version hashes to this block and to the product

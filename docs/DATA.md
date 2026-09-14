@@ -31,7 +31,7 @@ performance on the broader universe of public result rows.
 | tennis-data.co.uk annual workbooks | Versioned local workbooks and hashes | Results/date fields used under recorded semantics; prices are closing-like with unknown quote time; no redistribution right | Yes, as a local join and market reference; ATP 2017–2024 and WTA 2025–2026 scored on matched priced cohorts |
 | Wikipedia draw/calendar pages | Receipted parsed bridge files, including 2024 ATP and 2026 WTA paths bound by the configs | Results-only; dates are event anchors or completion bounds, not match clocks | Yes, in the historical bridge paths; those weaknesses limit chronology claims |
 | Match Charting Project | Retained charting evidence | Charter-asserted dates and partial serve counts; selective coverage | Corroboration/audit only, not a model trunk source |
-| Tennis Abstract player data | Crawl in progress over a 5,683-player inventory | Integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; crawl output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the crawl |
+| Tennis Abstract player data | Acquisition over a 5,683-player inventory; paused at the 2026-09-14T22:42Z snapshot on a retained WTA parse failure | Integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
 | TennisMyLife yearly and ongoing files | Downloaded 172-file zip plus retained read-only comparisons | Results/count roles qualified with conditions; source versioning, anomaly quarantine, and cross-source count rules required. Date admissibility is open because retained comparisons include early as well as late offsets | No. Neither accepted run nor a release snapshot uses TML |
 | ATP/WTA official feeds and ITF | Limited read-only probes | Automated access not authorised under the reviewed terms/bot boundary | No |
 
@@ -96,8 +96,7 @@ explicit configurations at the top of this page.
 
 ## Redistribution rule
 
-The public product carries code, manifests and hashes, mapping/alias tables, aggregates,
-forecasts, scores, and synthetic fixtures. It does not carry raw provider files or a
-row-level reproduction of a source. Odds-provider rows and payloads governed by local or
-provider-specific terms remain outside Git. `DATA_LICENSES.md` lists the exact source and
-tracked-artifact treatment.
+The intended public product boundary carries code, manifests and hashes, mapping/alias
+tables, aggregates, forecasts, scores, and synthetic acceptance fixtures. Odds-provider
+rows and payloads governed by local or provider-specific terms remain outside Git.
+`DATA_LICENSES.md` lists the exact tracked-artifact treatment.
