@@ -173,15 +173,19 @@ def write_csv_gz(path: Path, fields: Sequence[str], rows: Iterable[Mapping[str, 
 
 
 def load_panel(path: Path) -> list[dict[str, str]]:
-    """Stream the panel and keep only the five fields this stage needs."""
-    kept: list[dict[str, str]] = []
-    with path.open(newline="", encoding="utf-8") as handle:
-        reader = csv.DictReader(handle)
-        missing = sorted(set(PANEL_FIELDS_USED) - set(reader.fieldnames or ()))
+    """The panel projected to the five metadata fields this stage needs.
+
+    The read goes through ``chain.labels.projected_rows`` (RB14): the outcome columns are
+    dropped before any row reaches this module, and the stage stays declared ``none``.
+    """
+    from tennislab.chain.labels import projected_rows
+
+    rows = projected_rows(path, sha256(path), purpose="metadata_projection", resolution_flag=None)
+    if rows:
+        missing = sorted(set(PANEL_FIELDS_USED) - set(rows[0]))
         if missing:
             raise TierBlockError(f"panel header missing fields: {missing}")
-        for row in reader:
-            kept.append({field: row[field] for field in PANEL_FIELDS_USED})
+    kept = [{field: row[field] for field in PANEL_FIELDS_USED} for row in rows]
     if len({row["match_id"] for row in kept}) != len(kept):
         raise TierBlockError("duplicate panel match_id")
     return kept

@@ -112,6 +112,7 @@ SR03_CODE_BINDINGS = (
 
 
 OUTCOME_ACCESS_DECLARATIONS = ("none", "history", "fold", "target")
+PROJECTION_OPENER = "tennislab.chain.labels:projected_rows"
 ACCESSOR_OPENERS = frozenset(
     {"tennislab.chain.labels:selected", "tennislab.chain.labels:projected_rows"}
 )
@@ -936,7 +937,8 @@ def observed_outcome_access(
     violations: list[str] = []
     if stage.outcome_access == "none":
         for item in observed:
-            if item["access"] == "parsed":
+            # A projection drops the outcome columns before any row is returned.
+            if item["access"] == "parsed" and item["opener"] != PROJECTION_OPENER:
                 violations.append(
                     f"stage {stage.name} declares no outcome access but parsed "
                     f"{item['path']} ({item['content']}: {item['outcome_columns']}) "
