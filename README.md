@@ -69,8 +69,12 @@ tools/           equivalence harness against the archive; the sample generator
 Verified on the synthetic rehearsal world only; no campaign is registered and no real
 forecast has been issued. The original `docs/live/DESIGN.md` and `docs/live/FREEZE.json`
 are preserved with the rejected `50518be` attempt. `docs/live/REPAIR.md` and
-`docs/live/REPAIR_FREEZE.json` bind the repair; `configs/live/live.json` is the
-manifest-bound configuration.
+`docs/live/REPAIR_FREEZE.json` bind the first repair, which independent reconstruction
+also rejected at `542d85e`: fixture qualification did not bind the exact version-manifest
+digest, and forecast/proof/atomic-temporary leaves could follow escaping symlinks.
+`docs/live/REPAIR2.md` and `docs/live/REPAIR2_FREEZE.json` freeze the targeted follow-up;
+`configs/live/live.json` binds both repair contracts. Builder verification is not
+independent acceptance; the second repair remains reconstruction-pending.
 
 ```sh
 uv run tennislab update   --config configs/live/live.json --events events.json --replay <dir>
@@ -87,11 +91,13 @@ history loss; quarantine of ambiguous identities, duplicates and conflicts; serv
 freshness that a results-only update cannot advance; typed completion, publication,
 receipt, played-status and overlap eligibility for both bound history and incremental
 rows; an IANA-timezone-derived D−2 cutoff; outcome-free fixtures whose bytes and stable
-identity are checked against the ledger qualification; field-level source qualification;
-confined output IDs and symlinks; duplicate issuance and ledger tamper refusal; late or
-failed proofs kept unconfirmed; provisional, final and corrected settlement; and report
-refusal before the barrier. Only the `elo` rung issues a forecast; every other rung writes
-an explicit unavailable record (see RB18–RB19).
+identity plus exact version-manifest digest are checked against the ledger qualification;
+explicit settlement versions checked against a prior pointer or qualification digest;
+field-level source qualification; confined output IDs, actual write leaves and securely
+created atomic temporary files; typed malformed-timestamp exclusion; duplicate issuance
+and ledger tamper refusal; late or failed proofs kept unconfirmed; provisional, final and
+corrected settlement; and report refusal before the barrier. Only the `elo` rung issues a
+forecast; every other rung writes an explicit unavailable record (see RB18–RB20).
 
 ## Licences
 

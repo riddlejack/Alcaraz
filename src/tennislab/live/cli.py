@@ -241,9 +241,11 @@ FIXTURE_QUALIFICATION_FIELDS = (
     "information_cutoff",
     "cutoff_rule",
     "version_id",
+    "version_manifest_sha256",
     "live_config_sha256",
     "design_sha256",
     "repair_design_sha256",
+    "repair2_design_sha256",
 )
 
 
@@ -306,6 +308,7 @@ def cmd_fixture(args: argparse.Namespace) -> int:
     if latest is None:
         raise LiveError("no version exists; run `tennislab update` first")
     version = versions.load_version(latest)
+    version_manifest_sha256 = sha256(latest / "manifest.json")
     events = {e["event_id"]: e for e in version["events"]}
     rows = fx.read_fixture_input(resolve_under_root(args.input, label="fixture input"))
     records = fx.construct(config, rows, _identity(config), events)
@@ -320,10 +323,12 @@ def cmd_fixture(args: argparse.Namespace) -> int:
     for record in records:
         payload = fx.public_fixture({k: v for k, v in record.items() if k != "identity"})
         payload["version_id"] = version["manifest"]["version_id"]
+        payload["version_manifest_sha256"] = version_manifest_sha256
         payload["batch_id"] = args.batch_id
         payload["live_config_sha256"] = config.sha256
         payload["design_sha256"] = config.design_hash()
         payload["repair_design_sha256"] = config.repair_design_hash()
+        payload["repair2_design_sha256"] = config.repair2_design_hash()
         if record["fixture_status"] == "qualified":
             subject = record["fixture_id"]
             history = ledger.by_subject(subject)
@@ -336,6 +341,7 @@ def cmd_fixture(args: argparse.Namespace) -> int:
                     raise LiveError(f"known fixture {subject[:12]} has no qualification record")
                 original = qualifications[-1]["payload"]
                 payload["version_id"] = original["version_id"]
+                payload["version_manifest_sha256"] = original.get("version_manifest_sha256")
                 if any(
                     original.get(field) != payload.get(field)
                     for field in FIXTURE_QUALIFICATION_FIELDS
@@ -375,12 +381,16 @@ def cmd_fixture(args: argparse.Namespace) -> int:
             "written_utc": iso_utc(utc_now()),
             "constructed_from_version": version["manifest"]["version_id"],
             "version_ids": sorted({record["version_id"] for record in batch_records}),
+            "version_manifests": {
+                record["version_id"]: record["version_manifest_sha256"] for record in batch_records
+            },
             "fixture_count": len(batch_records),
             "fixtures_sha256": sha256(fixture_path),
             "fixtures": written,
             "live_config_sha256": config.sha256,
             "design_sha256": config.design_hash(),
             "repair_design_sha256": config.repair_design_hash(),
+            "repair2_design_sha256": config.repair2_design_hash(),
         },
     )
     print(json.dumps({"batch_id": args.batch_id, "fixtures": written}, indent=2, sort_keys=True))
@@ -391,12 +401,15 @@ def cmd_forecast(args: argparse.Namespace) -> int:
     config = LiveConfig(args.config)
     ledger = Ledger(config)
     directory, fixtures = _verified_batch(config, ledger, args.batch_id)
-    if (directory / "forecasts.jsonl").exists():
+    forecast_path = config.sub(
+        "fixtures", safe_output_id(args.batch_id, label="batch id"), "forecasts.jsonl"
+    )
+    if forecast_path.exists():
         raise LiveError(f"batch {args.batch_id} already has forecasts; issue a new batch instead")
     proofs = OfflineProofAdapter(config)
     issue_time = utc_now()
     issued: list[dict[str, Any]] = []
-    loaded_versions: dict[str, dict[str, Any]] = {}
+    loaded_versions: dict[tuple[str, str], dict[str, Any]] = {}
     for fixture in fixtures:
         if fixture["fixture_status"] != "qualified":
             continue
@@ -411,9 +424,14 @@ def cmd_forecast(args: argparse.Namespace) -> int:
             )
             continue
         version_id = safe_output_id(str(fixture["version_id"]), label="version id")
-        if version_id not in loaded_versions:
-            loaded_versions[version_id] = versions.load_version(config.sub("versions", version_id))
-        version = loaded_versions[version_id]
+        manifest_digest = str(fixture.get("version_manifest_sha256", ""))
+        version_key = (version_id, manifest_digest)
+        if version_key not in loaded_versions:
+            loaded_versions[version_key] = versions.load_version(
+                config.sub("versions", version_id),
+                expected_manifest_sha256=manifest_digest,
+            )
+        version = loaded_versions[version_key]
         receipts = fx.receipt_times(version)
         for forecast in fx.forecast_all(
             config, fixture, version, issue_time=issue_time, receipts=receipts
@@ -448,9 +466,12 @@ def cmd_forecast(args: argparse.Namespace) -> int:
                     },
                 )
             issued.append(entry)
-    with (directory / "forecasts.jsonl").open("w", encoding="utf-8") as handle:
-        for entry in issued:
-            handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    try:
+        with forecast_path.open("x", encoding="utf-8") as handle:
+            for entry in issued:
+                handle.write(json.dumps(entry, sort_keys=True) + "\n")
+    except FileExistsError as error:
+        raise LiveError(f"batch {args.batch_id} forecast output already exists") from error
     print(
         json.dumps(
             {"batch_id": args.batch_id, "issued_at_utc": iso_utc(issue_time), "forecasts": issued},
@@ -543,20 +564,55 @@ def _forecast_record(ledger: Ledger, subject: str, prefix: str | None) -> dict[s
 # --- settle ------------------------------------------------------------------------------------
 
 
+def _explicit_version_manifest_binding(config: LiveConfig, ledger: Ledger, version_id: str) -> str:
+    """Return an earlier trusted digest for an explicit version selection."""
+    pointer = config.sub("versions", "latest.json")
+    if pointer.is_file():
+        record = read_json(pointer)
+        pointed_id = safe_output_id(str(record.get("version_id", "")), label="latest version id")
+        if pointed_id == version_id:
+            return str(record.get("manifest_sha256", ""))
+    ledger.verify()
+    digests = {
+        str(record["payload"].get("version_manifest_sha256", ""))
+        for record in ledger.records()
+        if record["kind"] == "fixture_qualified"
+        and record["payload"].get("version_id") == version_id
+        and record["payload"].get("version_manifest_sha256")
+    }
+    if len(digests) == 1:
+        return digests.pop()
+    if len(digests) > 1:
+        raise LiveError(f"version {version_id}: conflicting trusted manifest bindings")
+    raise LiveError(f"version {version_id}: no prior trusted manifest digest")
+
+
 def cmd_settle(args: argparse.Namespace) -> int:
     config = LiveConfig(args.config)
     ledger = Ledger(config)
     if args.settle_command == "results":
+        explicit = args.version not in (None, "latest")
+        version_id = safe_output_id(args.version, label="version id") if explicit else None
         target = (
-            versions.latest_version(config)
-            if args.version in (None, "latest")
-            else config.sub("versions", safe_output_id(args.version, label="version id"))
+            config.sub("versions", version_id)
+            if explicit and version_id is not None
+            else versions.latest_version(config)
         )
         if target is None or not target.is_dir():
             raise LiveError("no such version")
+        expected_manifest = (
+            _explicit_version_manifest_binding(config, ledger, version_id)
+            if explicit and version_id is not None
+            else None
+        )
         print(
             json.dumps(
-                st.record_results(config, ledger, versions.load_version(target)), sort_keys=True
+                st.record_results(
+                    config,
+                    ledger,
+                    versions.load_version(target, expected_manifest_sha256=expected_manifest),
+                ),
+                sort_keys=True,
             )
         )
         return 0

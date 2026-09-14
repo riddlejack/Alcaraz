@@ -1070,12 +1070,25 @@ def _coherently_rebind_receipt_finish(
 def test_qualified_version_manifest_digest_is_verified_before_forecast(ws) -> None:
     workspace, runner = ws
     updated = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
-    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")])
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("f1", "300001", "300004", round_code="QF")],
+    )
     runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "b1")
     ledger_path = workspace / "data" / "live" / "ledger" / "ledger.jsonl"
     batch_path = workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
     trusted_ledger = ledger_path.read_bytes()
     trusted_batch = batch_path.read_bytes()
+    trusted_manifest = hashlib.sha256(
+        (version_dir(workspace, updated["version_id"]) / "manifest.json").read_bytes()
+    ).hexdigest()
+    qualification = next(
+        json.loads(line)
+        for line in trusted_ledger.decode().splitlines()
+        if json.loads(line)["kind"] == "fixture_qualified"
+    )
+    assert qualification["payload"]["version_manifest_sha256"] == trusted_manifest
+    assert json.loads(trusted_batch)["version_manifest_sha256"] == trusted_manifest
 
     _coherently_rebind_receipt_finish(
         workspace, updated["version_id"], finished_utc="2026-08-10T13:00:00Z"
@@ -1143,7 +1156,10 @@ def test_dangling_proof_request_leaf_cannot_escape_workspace(tmp_path: Path, cap
     workspace = world.build_workspace(subject_root)
     runner = Runner(workspace, capsys)
     update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
-    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")])
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("f1", "300001", "300004", round_code="QF")],
+    )
     runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "b1")
     outside = workspace.parent / "proof-outside"
     outside.mkdir()
