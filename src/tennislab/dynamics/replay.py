@@ -75,6 +75,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     year_plan,
@@ -883,7 +884,7 @@ def replay(config_path: Path, *, save_paths: bool = False) -> dict[str, Any]:
     for row in merged:
         row.update(stale[str(row["match_id"])])
 
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     if output_dir.exists() and any(output_dir.iterdir()):
         raise ChainError(f"refusing to overwrite a nonempty output directory: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)

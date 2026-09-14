@@ -41,6 +41,7 @@ from tennislab.chain.common import (
     atomic_json,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     sha256_bytes,
@@ -1313,7 +1314,7 @@ def main(argv: list[str] | None = None) -> int:
             window[key] = value
     selection = select(tour, window)
     archive_path = resolve_under_root(args.archive or pin.path, label="archive")
-    out_dir = resolve_under_root(args.output_dir, label="output_dir")
+    out_dir = resolve_output_under_root(args.output_dir, label="output_dir")
     if args.mode == "build":
         qualification = build(archive_path, out_dir, selection, pin)
         print(json.dumps(qualification, indent=2, sort_keys=True))

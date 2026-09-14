@@ -13,7 +13,9 @@ by hash.
 
 ``run`` prepares the workspace, executes the stage and compares. Results are written to
 ``docs/equivalence/<run>/<stage>.json`` and summarised on stdout. Nothing is written
-inside the archive.
+inside the archive. The tracked record replaces host prefixes (archive root, repository
+root, site-packages) with placeholders; the original goes to ``local/evidence/`` (see
+``tennislab.evidence``).
 """
 
 from __future__ import annotations
@@ -31,6 +33,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+from tennislab.evidence import host_placeholders, write_evidence
 
 REPO = Path(__file__).resolve().parents[1]
 STAGE_MANIFEST = "stage_manifest.json"
@@ -385,10 +389,16 @@ def compare(spec: RunSpec, stage: str, archive: Path) -> dict[str, Any]:
                 "missing": sorted(set(exp_side) - set(obs_side)),
                 "extra": sorted(set(obs_side) - set(exp_side)),
             }
-    out = REPO / "docs" / "equivalence" / spec.name.replace("/", "_") / f"{stage}.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_record(archive, spec, f"{stage}.json", result)
     return result
+
+
+def write_record(archive: Path, spec: RunSpec, name: str, record: dict[str, Any]) -> None:
+    """The tracked placeholder representation under ``docs/equivalence/<run>/`` and the
+    original under ``local/evidence/``."""
+    relative = Path("docs") / "equivalence" / spec.name.replace("/", "_") / name
+    text = json.dumps(record, indent=2, sort_keys=True) + "\n"
+    write_evidence(REPO, relative, text, host_placeholders(repo_root=REPO, archive_root=archive))
 
 
 def summarize(result: dict[str, Any]) -> None:
@@ -540,8 +550,7 @@ def compare_chain(spec: RunSpec, archive: Path) -> dict[str, Any]:
             "missing": sorted(set(exp) - set(obs)),
             "extra": sorted(set(obs) - set(exp)),
         }
-    out = REPO / "docs" / "equivalence" / spec.name.replace("/", "_") / "_chain.json"
-    out.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_record(archive, spec, "_chain.json", summary)
     for stage, block in summary["stages"].items():
         print(
             f"{stage:26s} identical={len(block['identical']):4d} different={len(block['different']):3d} "

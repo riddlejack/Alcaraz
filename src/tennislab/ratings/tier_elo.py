@@ -68,6 +68,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     year_plan,
 )
@@ -730,7 +731,7 @@ def run(
     if len(emitted) != len({row["match_id"] for row in tour}):
         raise TierEloError("emitted rows differ from the panel row count")
 
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     if output_dir.exists() and any(output_dir.iterdir()):
         raise TierEloError(f"refusing to overwrite a nonempty output directory: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)

@@ -40,6 +40,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -105,7 +106,7 @@ def _source_hashes(config: dict[str, Any]) -> dict[str, str]:
 
 def run(config_path: Path, output: Path) -> dict[str, Any]:
     config_path = resolve_under_root(config_path, label="config")
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     config, window, manifest = _load(config_path)
     _refuse_nonempty(output)
     start = {
@@ -209,7 +210,7 @@ def evaluate(config_path: Path, calibration_dir: Path, output: Path) -> dict[str
     """
     config_path = resolve_under_root(config_path, label="config")
     calibration_dir = resolve_under_root(calibration_dir, label="calibration_dir")
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     config, window, manifest = _load(config_path)
     run_manifest = read_config(calibration_dir / "run_manifest.json")
     if run_manifest.get("status") != "complete":

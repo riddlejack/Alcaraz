@@ -33,6 +33,7 @@ from tennislab.chain.common import (
     read_config,
     relative_to_root,
     require_nonempty_digest,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -339,7 +340,7 @@ def build_reporting(
 
 
 def write_config(document: dict[str, Any], output: Path) -> tuple[Path, str]:
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     if output.exists():
         raise ConfigError(f"refusing to replace an existing config: {output}")
     output.parent.mkdir(parents=True, exist_ok=True)

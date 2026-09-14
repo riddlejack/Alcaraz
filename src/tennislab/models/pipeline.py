@@ -71,6 +71,7 @@ from tennislab.chain.common import (
     read_config,
     relative_to_root,
     require_nonempty_digest,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -2303,7 +2304,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "preflight":
             result = run_preflight(args.config)
         else:
-            output = resolve_under_root(args.output, label="output")
+            output = resolve_output_under_root(args.output, label="output")
             if args.command == "raw":
                 result = run_raw_stage(
                     args.config, output, execute_frozen_real=args.execute_frozen_real

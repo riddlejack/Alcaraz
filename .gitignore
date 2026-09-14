@@ -8,6 +8,7 @@ data/raw/
 data/derived/
 data/runs/
 work/
+local/
 *.sqlite
 *.parquet
 *.pkl

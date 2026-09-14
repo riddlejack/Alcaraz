@@ -105,6 +105,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     sha256_bytes,
@@ -1980,7 +1981,7 @@ def build(config_path: Path, *, allow_reserved: bool) -> dict[str, Any]:
     tour = section.get("tour", "ATP").upper()
     wta = tour == "WTA"
     carry_years = [int(year) for year in section["carry_forward_years"]]
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     policy = str(section.get("unresolved_event_policy", "refuse"))
 
     index = event_index(archive, tar_root, tour, carry_years, allow_reserved=allow_reserved)

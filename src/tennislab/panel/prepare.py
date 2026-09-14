@@ -40,6 +40,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -766,7 +767,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true", help="resolve and hash the inputs only")
     args = parser.parse_args(argv)
     document = read_config(args.config) if args.config else None
-    output = resolve_under_root(args.output, label="output")
+    output = resolve_output_under_root(args.output, label="output")
     if args.dry_run and str((document or {}).get("tour", "ATP")).upper() == "WTA":
         section = (document or {}).get("wta_prepare", {})
         resolved = {}

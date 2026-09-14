@@ -58,6 +58,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     year_plan,
@@ -512,7 +513,7 @@ def main(argv: list[str] | None = None) -> int:
             )
         print(json.dumps({"status": "dry_run_ok", "year_plan": plan.as_document()}, sort_keys=True))
         return 0
-    build(resolve_under_root(args.output, label="output"), args.config)
+    build(resolve_output_under_root(args.output, label="output"), args.config)
     return 0
 
 
