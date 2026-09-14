@@ -1,0 +1,42 @@
+{
+  "counts": {
+    "base_rule_rows": 4815,
+    "events": 250,
+    "lower_tier_rows": 6422,
+    "lower_tier_seasons": 13,
+    "panel_rows": 5350,
+    "players": 120,
+    "ranking_rows": 62640,
+    "seasons": 10
+  },
+  "files": {
+    "archive.tar.gz": "c6e113ece79c7633605864408757c2f81c52cde99afc484f2b5c011302fea2b0",
+    "archive_manifest.json": "70278255a17f14f3ca02962bdb0b2ec8485db07adeaed4d0443b710f563caa16",
+    "base_rules.csv": "f87ce64b44259e0e0bb424f4a84769c23514d7f581b1cb71b1450e19795bf22c",
+    "design.md": "f7eb23377c9a1f78a5047e5d30b5e7f7c18f5a3d3e62e17e940a99e704843d35",
+    "panel.csv": "26cb2c87d4f7357611b23435e4093d938c4b1c52c83d746bc8fd18345024b24a",
+    "panel_manifest.json": "ed69a930004ea0a47da9108361375bc6a6bc8207a74799a242e17bb8d89c983a",
+    "players.csv": "395d7133225f559f6f2b9bb4cf432dae8d34e7b35b9b3a3edc2197a7d397f2f3",
+    "rules.json": "9ac085e307e68a5a244dd88d065c0945d2d3c15585fcb1d097f090b72e208f3e",
+    "selections.csv": "a931bebdc5922550ca6bba68550cfdc9fa9dacc235230b62f346f95c273fbc88",
+    "snapshot_file_inventory.csv": "295533f3468a9da231633ecb18711b5153115148342fac07436feca47157d74d",
+    "sr02_primary.json": "f338d3cc568790c6bd9f1b0b8ebfc47644007604abe2e16e47828895e47d16d1"
+  },
+  "generator": "tools/make_sample.py",
+  "scenario": "tier",
+  "seed": 20260913,
+  "synthetic": true,
+  "tier_initial_rating_offset_by_year": {
+    "2011": 0.0,
+    "2012": 0.0,
+    "2013": 0.0,
+    "2014": 0.0,
+    "2015": 0.0,
+    "2016": 0.0,
+    "2017": 5.427732051187099,
+    "2018": -9.312189457975185,
+    "2019": -1.2662064721709265,
+    "2020": -9.1611424309204
+  },
+  "unknown_outcomes_final_year": false
+}

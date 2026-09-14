@@ -1,0 +1,221 @@
+{
+  "chain": {
+    "annual_eligible_floor_year": 2012,
+    "bundles": [
+      "base",
+      "full",
+      "base_tier",
+      "full_tier",
+      "full_tier_noqual"
+    ],
+    "configs": {
+      "features": "work/sample_atp_tier/configs/features.json",
+      "rankings": "work/sample_atp_tier/configs/rankings.json",
+      "rule_mapping": "work/sample_atp_tier/configs/rule_mapping.json",
+      "sidecar": "work/sample_atp_tier/configs/sidecar.json",
+      "sr02_replay": "work/sample_atp_tier/configs/sr02_replay.json",
+      "sr02_tier_noqual_replay": "work/sample_atp_tier/configs/sr02_tier_noqual_replay.json",
+      "sr02_tier_replay": "work/sample_atp_tier/configs/sr02_tier_replay.json",
+      "sr03": "work/sample_atp_tier/configs/sr03.json",
+      "tier_block": "work/sample_atp_tier/configs/tier_block.json",
+      "tier_elo": "work/sample_atp_tier/configs/tier_elo.json",
+      "tier_stream": "work/sample_atp_tier/configs/tier_stream.json",
+      "year_plan": "work/sample_atp_tier/configs/year_plan.json"
+    },
+    "configs_dir": "work/sample_atp_tier/configs",
+    "decision": "RB9",
+    "design": "data/sample_tier/design.md",
+    "dictionary": "work/sample_atp_tier/run/features/column_dictionary.json",
+    "experiment_id": "SAMPLE_TIER",
+    "features": "work/sample_atp_tier/run/features/features.csv",
+    "inputs": {
+      "archive": {
+        "path": "data/sample_tier/archive.tar.gz",
+        "sha256": "c6e113ece79c7633605864408757c2f81c52cde99afc484f2b5c011302fea2b0",
+        "tar_root": "synthetic-sample-archive"
+      },
+      "archive_inventory": {
+        "path": "data/sample_tier/snapshot_file_inventory.csv",
+        "sha256": "295533f3468a9da231633ecb18711b5153115148342fac07436feca47157d74d"
+      },
+      "archive_manifest": {
+        "path": "data/sample_tier/archive_manifest.json",
+        "sha256": "70278255a17f14f3ca02962bdb0b2ec8485db07adeaed4d0443b710f563caa16"
+      },
+      "base_panel": {
+        "path": "data/sample_tier/panel.csv",
+        "sha256": "26cb2c87d4f7357611b23435e4093d938c4b1c52c83d746bc8fd18345024b24a"
+      },
+      "base_rules": {
+        "path": "data/sample_tier/base_rules.csv",
+        "sha256": "f87ce64b44259e0e0bb424f4a84769c23514d7f581b1cb71b1450e19795bf22c"
+      },
+      "bio_contract": {
+        "path": "data/sample_tier/design.md",
+        "sha256": "f7eb23377c9a1f78a5047e5d30b5e7f7c18f5a3d3e62e17e940a99e704843d35"
+      },
+      "bio_players": {
+        "path": "data/sample_tier/players.csv",
+        "sha256": "395d7133225f559f6f2b9bb4cf432dae8d34e7b35b9b3a3edc2197a7d397f2f3"
+      },
+      "correction_proposals": {
+        "note": "format_corrections is skipped for the sample; the emitted config is never run",
+        "path": "data/sample_tier/design.md",
+        "sha256": "f7eb23377c9a1f78a5047e5d30b5e7f7c18f5a3d3e62e17e940a99e704843d35"
+      },
+      "elo_engine": {
+        "module": "tennislab.ratings.elo",
+        "note": "the package engine runs; tier_elo records this binding and never selects code by it"
+      },
+      "features_design": {
+        "path": "data/sample_tier/design.md",
+        "sha256": "f7eb23377c9a1f78a5047e5d30b5e7f7c18f5a3d3e62e17e940a99e704843d35"
+      },
+      "panel_manifest": {
+        "path": "data/sample_tier/panel_manifest.json",
+        "sha256": "ed69a930004ea0a47da9108361375bc6a6bc8207a74799a242e17bb8d89c983a"
+      },
+      "ranking_lookup_module": {
+        "module": "tennislab.chronology.ranking_lookup",
+        "note": "the package module runs; the sample pins no archive copy"
+      },
+      "rule_config": {
+        "path": "data/sample_tier/rules.json",
+        "sha256": "9ac085e307e68a5a244dd88d065c0945d2d3c15585fcb1d097f090b72e208f3e"
+      },
+      "sr02_primary_config": {
+        "path": "data/sample_tier/sr02_primary.json",
+        "sha256": "f338d3cc568790c6bd9f1b0b8ebfc47644007604abe2e16e47828895e47d16d1"
+      },
+      "sr02_saved_selections": {
+        "path": "data/sample_tier/selections.csv",
+        "sha256": "a931bebdc5922550ca6bba68550cfdc9fa9dacc235230b62f346f95c273fbc88"
+      }
+    },
+    "inputs_dir": "work/sample_atp_tier/inputs",
+    "labels": "work/sample_atp_tier/run/features/labels.csv",
+    "learners": [
+      "hgb"
+    ],
+    "panel_start_year": 2011,
+    "predictor_config": "work/sample_atp_tier/predictor_config/config.json",
+    "ranking_year_min": 2011,
+    "rankings_source": "work/sample_atp_tier/run/rankings/rankings_2011_2020.csv.gz",
+    "reporting_bootstrap_seed": 20260911,
+    "reporting_config": "work/sample_atp_tier/reporting_config/reporting.json",
+    "reporting_primary_contrast": "full_tier_minus_full",
+    "reporting_secondary_contrast": "base_tier_minus_base",
+    "reserved_release_acknowledged": false,
+    "rule_carry_from_year": 2019,
+    "run_root": "work/sample_atp_tier/run",
+    "selection_complete": "work/sample_atp_tier/run/pipeline/selection_complete.json",
+    "selection_year_min": 2011,
+    "sidecar": "work/sample_atp_tier/run/tier_block/trait_latent_sidecar.csv",
+    "sidecar_program": "tennislab.features.sidecar",
+    "skip_stages": [
+      "bridge",
+      "archive_panel",
+      "join",
+      "event_carry_forward",
+      "prepare_panel",
+      "format_corrections"
+    ],
+    "stage_config_overrides": {
+      "features": {
+        "panel": {
+          "path": "data/sample_tier/panel.csv"
+        }
+      },
+      "rankings": {
+        "archive": {
+          "commit": "synthetic",
+          "path": "data/sample_tier/archive.tar.gz",
+          "sha256": "c6e113ece79c7633605864408757c2f81c52cde99afc484f2b5c011302fea2b0",
+          "tar_root": "synthetic-sample-archive"
+        }
+      },
+      "rule_mapping": {
+        "rule_carry_forward": {
+          "extended_panel": {
+            "path": "data/sample_tier/panel.csv",
+            "sha256": "26cb2c87d4f7357611b23435e4093d938c4b1c52c83d746bc8fd18345024b24a"
+          }
+        }
+      },
+      "sidecar": {
+        "inputs": {
+          "sr02_panel": {
+            "path": "data/sample_tier/panel.csv"
+          }
+        }
+      },
+      "sr02_replay": {
+        "sr02_replay": {
+          "panel": {
+            "path": "data/sample_tier/panel.csv"
+          }
+        }
+      },
+      "sr02_tier_noqual_replay": {
+        "sr02_replay": {
+          "panel": {
+            "path": "data/sample_tier/panel.csv"
+          }
+        }
+      },
+      "sr02_tier_replay": {
+        "sr02_replay": {
+          "panel": {
+            "path": "data/sample_tier/panel.csv"
+          }
+        }
+      },
+      "sr03": {
+        "source": {
+          "design_path": "data/sample_tier/design.md",
+          "panel_path": "data/sample_tier/panel.csv"
+        }
+      },
+      "tier_block": {
+        "tier_block": {
+          "panel": {
+            "path": "data/sample_tier/panel.csv"
+          }
+        }
+      }
+    },
+    "tier_first_year": 2008,
+    "tier_initial_rating_offset_by_year": {
+      "2011": 0.0,
+      "2012": 0.0,
+      "2013": 0.0,
+      "2014": 0.0,
+      "2015": 0.0,
+      "2016": 0.0,
+      "2017": 5.427732051187099,
+      "2018": -9.312189457975185,
+      "2019": -1.2662064721709265,
+      "2020": -9.1611424309204
+    },
+    "tier_offset_measurement_end_year": 2017,
+    "tier_offset_mode": "per_training_window",
+    "tier_reported_date_offset_days": 7,
+    "tier_same_event_qualifying_ablation": true,
+    "tier_satellite_circuit_dating": true,
+    "tier_serve_counts_start_year": 2012,
+    "tier_thin_side_threshold": 20,
+    "tour": "ATP"
+  },
+  "year_plan": {
+    "calibration_years_back": 2,
+    "feature_end_year": 2020,
+    "history_floor_year": 2011,
+    "panel_end_year": 2020,
+    "target_years": [
+      2018,
+      2019,
+      2020
+    ],
+    "training_window_years": 5
+  }
+}

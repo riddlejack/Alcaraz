@@ -22,3 +22,5 @@ jobs:
         run: make test
       - name: Small reproduction from the committed sample
         run: make reproduce-small
+      - name: Tier reproduction from the committed tier sample
+        run: make reproduce-tier
