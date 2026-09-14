@@ -101,6 +101,5 @@ redistributed. Source-specific terms and the tracked-artifact inventory are in
 
 > Data by Jeff Sackmann / Tennis Abstract.
 > Any published derived table must
-> carry this attribution and its applicable licence. The collection was paused on
-> 2026-09-14 for offline parser diagnosis and is not part of the accepted retrospective
-> model runs described above.
+> carry this attribution and its applicable licence. The collection is not part of the
+> accepted retrospective model runs described above.

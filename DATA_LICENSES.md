@@ -8,8 +8,8 @@ questions; this repository follows the narrowest applicable boundary.
 
 The intended public boundary may contain code, source receipts and hashes, identity/event
 mappings, aggregates, forecasts, scores, and synthetic acceptance fixtures. It is not
-intended to contain raw provider files or row-level reproductions of a source. Every published
-derived table must name its source and applicable terms.
+intended to contain raw provider files or row-level reproductions of a source.
+Every published derived table must name its source and applicable terms.
 
 ## Sources
 
@@ -28,9 +28,8 @@ derived table must name its source and applicable terms.
 
 > Data by Jeff Sackmann / Tennis Abstract.
 > Any published derived table must
-> carry this attribution and its applicable licence. The collection was paused on
-> 2026-09-14 for offline parser diagnosis and is not part of the accepted retrospective
-> model runs described above.
+> carry this attribution and its applicable licence. The collection is not part of the
+> accepted retrospective model runs described above.
 
 When the first qualified Tennis Abstract-derived release is created, append the exact
 collection start/end dates and source-version hashes to this block and to the product
@@ -41,6 +40,7 @@ README. Do not infer completion from a progress file.
 | Path | Contents | Redistribution basis |
 |---|---|---|
 | `data/sample/**`, `data/sample_tier/**` | Synthetic acceptance fixtures and expected results | MIT |
+| `tests/test_dynamics_numerical_repair.py` | Independently generated, seeded synthetic numerical regression; provenance in `tests/fixtures/README.md` | MIT |
 | `data/mappings/wta_event_map/*.csv` | Event/edition and identifier mapping metadata; no odds or full result rows | R3 mapping boundary; Sackmann-derived columns under CC BY-NC-SA 4.0 |
 | `data/manifests/**` | Hashes, receipts, bindings, and crosswalk metadata; not raw source payloads | Metadata only; underlying source terms still govern |
 | `data/registries/**` | Project-generated experiment and score records | MIT, subject to cited source-result limits |

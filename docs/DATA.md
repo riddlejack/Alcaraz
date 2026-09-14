@@ -99,4 +99,4 @@ explicit configurations at the top of this page.
 The intended public product boundary carries code, manifests and hashes, mapping/alias
 tables, aggregates, forecasts, scores, and synthetic acceptance fixtures. Odds-provider
 rows and payloads governed by local or provider-specific terms remain outside Git.
-`DATA_LICENSES.md` lists the exact tracked-artifact treatment.
+`DATA_LICENSES.md` records the current inventory.
