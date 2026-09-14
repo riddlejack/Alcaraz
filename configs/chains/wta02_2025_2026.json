@@ -74,7 +74,7 @@
     "decision": "D59",
     "design": "experiments/WTA02.design.md",
     "dictionary": "data/runs/wta02/run/features/column_dictionary.json",
-    "event_map_dir": "references/WTA01_event_map",
+    "event_map_dir": "data/mappings/wta_event_map",
     "experiment_id": "WTA02",
     "features": "data/runs/wta02/run/features/features.csv",
     "infobox_html_dir": "data/raw/RES2026/raw/wikipedia",
@@ -121,12 +121,12 @@
         "sha256": "48194cefcd5657c02c17aa4871c3b4c9e0585bf90d78a900e7d756f4346fffa8"
       },
       "wta_rule_inventory": {
-        "path": "references/WTA01_event_map/rule_inventory_by_edition.csv",
+        "path": "data/mappings/wta_event_map/rule_inventory_by_edition.csv",
         "sha256": "5fe1bb256ac80de255e63781c189f6f33b2cc9f09f918c5b1b835d0ead5a7974"
       },
       "wta_sources_module": {
-        "path": "references/WTA01_event_map/wta_sources.py",
-        "sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866"
+        "module": "tennislab.sources.wta_sources",
+        "note": "package module; the archive bound references/WTA01_event_map/wta_sources.py by hash"
       }
     },
     "inputs_dir": "data/runs/wta02/inputs",
