@@ -1,7 +1,7 @@
 [project]
 name = "tennis-lab"
 version = "0.1.0"
-description = "Leak-audited, pre-registered pre-match forecasting for men's and women's professional tennis, benchmarked against public models and the closing market."
+description = "Reproducible pre-match tennis research with scoped integrity tests and retrospective market comparisons."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.14,<3.15"
