@@ -82,3 +82,38 @@ local originals; `docs/equivalence/LOCAL_EVIDENCE.md` records the placeholders a
 |---|---|---|
 | WTA02/attempt_002 | all 136 prediction CSVs, `primary.json`, `pooled_metrics.csv`, `annual_metrics.csv`, `annual_contrasts.csv`, `contrast_summary.csv`, `bootstrap.csv`, `reliability.csv`, `report.md` byte-identical; rankings 38/38, sr03 12/14, sidecar 8/9 | the rewritten 2026 workbook is timestamp-free (RB6), so its hash differs and cascades (RB7): one provenance column in `market_rows.csv` and both `panel.csv` (2,095 and 1,945 rows, no other cell differs), then every config, manifest and receipt that binds the panel hash, the edition-index hash (no wall clock, RB6) and the fit-cache directory names (keyed by config hash; 300 cache files renamed, contents equivalent bar the pickled module path). Attempt records differ in fit timing and those hashes. Code receipts throughout. |
 | TIER01/attempt_002 | all 206 prediction CSVs (five bundles, 2014–2024 raw and 2017–2024 selected, market), `primary.json`, `pooled_metrics.csv`, `annual_metrics.csv`, `annual_contrasts.csv`, `contrast_summary.csv`, `bootstrap.csv`, `reliability.csv`, `report.md` byte-identical; both `panel.csv` files, `rules.csv`, all three SR02 replays' `selected_matches.csv`, the rankings, feature, label, sidecar and tier tables identical | composed tarball gzip-header mtime (stream identical) and the provenance CSV's three added columns; edition-index hash (RB6) and code receipts cascading into configs, manifests, receipts and the 330 fit-cache directory names; attempt records differ in fit timing |
+
+## Repaired chain (decision RB14, Lane B2) against the same frozen runs
+
+The historical baseline `180cb2d` (tag `historical-baseline-180cb2d`) reproduced the
+archive's pre-barrier SR03 scoring and selection-score artifacts and stays the
+reconstructor's oracle for that. The repaired chain (`b2-integrity`) was run through the
+same driver against the same frozen inputs and configs on 2026-09-14
+(`tools/equivalence.py chain`; TIER01 resumed from `tier_block` after two integrity
+refusals that the gate itself raised and that were fixed by routing `tier_block`'s panel
+read through the metadata projection). Records: `docs/equivalence/<run>/_chain.json`
+(placeholder representations; originals under `local/evidence/`). `verify` passes on
+both workspaces with zero integrity problems; the barrier scanned 767 (ATP) and 567
+(WTA) pre-barrier files and found no metric-shaped content.
+
+**Unchanged (byte-identical to the archive):** every prediction CSV (206 ATP, 136 WTA),
+`sr03_calibration/predictions.csv`, `fits.json` and `training_membership.csv`, and the
+report's `primary.json`, `pooled_metrics.csv`, `annual_metrics.csv`,
+`annual_contrasts.csv`, `contrast_summary.csv`, `bootstrap.csv`, `reliability.csv`,
+`report.md`, `coverage.csv` and `selection_diagnostics.csv`. ATP primary equal-year
+full_tier − full −0.006768047240019573 (n 18,972); WTA full − base
+−0.0044273519249091045 (n 4,296). Every stage's classification against the archive is
+the baseline's except the intentional changes below (`fit_cache` directory renames and
+the per-stage `access_log.jsonl` receipts aside).
+
+**Intentionally moved or deleted (an artifact change, not explained provenance):**
+
+| Artifact | Baseline `180cb2d` | Repaired chain | Values |
+|---|---|---|---|
+| `sr03_calibration/metrics.csv`, `reliability.csv`, `comparisons.json`, `cohort_counts.json` | identical to the archive, written before the barrier | absent; written by stage `sr03_component` after the report | ATP: all four byte-identical to the archive's. WTA: rows for 2022–2024 identical (93 metric rows, all reliability bins, the annual comparison entries); 2025–2026 rows added because the component stage scores every outer year with a resolved outcome, where the frozen WTA02 config had capped scoring at 2024 |
+| `sr03_calibration/scoring_boundary.json` | ATP absent, WTA identical | present on both: nothing scored, every outer year deferred, the historical `score_years_max` recorded | – |
+| `pipeline/selection/<y>/<learner>/<block>.json` (40 ATP, 16 WTA), `pipeline/market/<y>/calibration.json` (8, 2) | identical | different: `candidate_trials[*].equal_year_mean_log_loss`, `annual[*].mean_log_loss`, `selection.ranked[*].score`, `minimum_equal_year_mean_log_loss`, `runner_up_gap` and `slope_fit` scores removed; `criterion_sha256` and `selection_keys_path` added | selected candidate, slope, ranked order, membership hashes unchanged |
+| `pipeline/selection/<y>/selection_keys.csv`, `pipeline/market/<y>/selection_keys.csv` | – | added (8+8 ATP, 2+2 WTA) | membership hash equals the record's `selection_membership_sha256` |
+| `report/selection_trials.json` | – | added: the recomputed criterion tables | every value equals the archive's pre-barrier value (ATP 128 of 128 compared: 80 candidate trials' equal-year and annual losses, 40 runner-up gaps, 8 market fits; WTA checked on the first record and gap) |
+| `report/selection_receipts.json` | different (provenance) | different (copies the public records; points at `selection_trials.json`) | – |
+| `<stage>/access_log.jsonl`, `stage_manifest.json: outcome_access`, `integrity_violations`, barrier `content_scan` | – | added on every stage | – |
