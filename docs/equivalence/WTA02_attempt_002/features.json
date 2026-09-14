@@ -18,7 +18,7 @@
         "-  \"manifest_sha256\": \"fe14bf610cc1b9fa2a0b9001e22c36eca6798e62f22d6486f0058da4591b48c9\",",
         "+  \"manifest_sha256\": \"5243357d9a535a93b380ebfd465357256d6302d1b09dfcf460c2781011c6c1b8\",",
         "@@ -94 +94 @@",
-        "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/run/features\",",
+        "-  \"output_dir\": \"<ARCHIVE_ROOT>/work/WTA02/run_002/run/features\",",
         "+  \"output_dir\": \"work/WTA02/run_002/run/features\","
       ],
       "kind": "text",

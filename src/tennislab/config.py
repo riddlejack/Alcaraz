@@ -10,7 +10,9 @@ equivalence run against the research archive points the workspace at a scratch t
 whose read-only parts are links into the archive; see ``tools/equivalence.py``.
 
 Containment is checked lexically, without following symbolic links, so a workspace may
-link its inputs from elsewhere while every write still lands inside it.
+link its inputs from elsewhere. An *output* path is additionally checked physically: no
+ancestor below the root may be a symbolic link and the deepest existing ancestor must
+resolve inside the root, so a linked read-only input can never become a write target.
 """
 
 from __future__ import annotations
@@ -48,6 +50,34 @@ class Workspace:
         normalized = Path(os.path.normpath(candidate))
         if normalized != self.root and self.root not in normalized.parents:
             raise WorkspaceError(f"{label} lies outside the workspace {self.root}: {normalized}")
+        return normalized
+
+    def output_path(self, value: str | os.PathLike[str], *, label: str = "output") -> Path:
+        """Resolve ``value`` as a write destination: lexically contained like :meth:`path`
+        and physically inside the root.
+
+        Walking from the root down, no existing component of the path (the path itself
+        included) may be a symbolic link, and the deepest existing component must resolve
+        inside the resolved root. Either failure names the offending component.
+        """
+        normalized = self.path(value, label=label)
+        real_root = Path(os.path.realpath(self.root))
+        deepest = self.root
+        current = self.root
+        for part in normalized.relative_to(self.root).parts:
+            current = current / part
+            if current.is_symlink():
+                raise WorkspaceError(
+                    f"{label} passes through a symbolic link inside the workspace: {current}"
+                )
+            if not current.exists():
+                break
+            deepest = current
+        real_deepest = Path(os.path.realpath(deepest))
+        if real_deepest != real_root and real_root not in real_deepest.parents:
+            raise WorkspaceError(
+                f"{label} resolves outside the workspace {self.root}: {deepest} -> {real_deepest}"
+            )
         return normalized
 
     def relative(self, value: str | os.PathLike[str], *, label: str = "path") -> str:

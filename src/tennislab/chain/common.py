@@ -98,6 +98,15 @@ def resolve_under_root(value: str | Path, *, label: str) -> Path:
         raise ChainError(str(error)) from error
 
 
+def resolve_output_under_root(value: str | Path, *, label: str = "output") -> Path:
+    """Resolve a write destination under the workspace: lexical containment plus the
+    physical check that no linked input directory becomes an output target."""
+    try:
+        return workspace().output_path(value, label=label)
+    except WorkspaceError as error:
+        raise ChainError(str(error)) from error
+
+
 def relative_to_root(value: str | Path, *, label: str = "path") -> str:
     """The workspace-relative form of a path, for manifests and receipts."""
     try:

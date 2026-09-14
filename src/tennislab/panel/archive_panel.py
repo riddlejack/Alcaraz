@@ -32,6 +32,7 @@ from tennislab.chain.common import (
     read_config,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     sha256_bytes,
@@ -1285,7 +1286,7 @@ def run(config_path: Path, output_dir: Path | None = None) -> dict[str, Any]:
 
     start = int(section.get("panel_start_year", profile.default_panel_start_year))
     end = int(section.get("panel_end_year", plan.panel_end_year))
-    destination = output_dir or resolve_under_root(section["output_dir"], label="output_dir")
+    destination = output_dir or resolve_output_under_root(section["output_dir"], label="output_dir")
 
     report = build(ArchiveSource(composed, composed_hash), profile, destination, start, end)
 

@@ -68,6 +68,7 @@ from tennislab.chain.common import (
     read_config,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     year_plan,
 )
@@ -462,7 +463,7 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
 
     tar_root = str(section["archive"]["tar_root"])
     wanted = members_wanted(parameters, last_year)
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     if output_dir.exists() and any(output_dir.iterdir()):
         raise TierStreamError(f"refusing to overwrite a nonempty output directory: {output_dir}")
 

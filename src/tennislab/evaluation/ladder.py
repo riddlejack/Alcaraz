@@ -17,6 +17,7 @@ import argparse
 import csv
 import json
 import math
+import os
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -24,7 +25,9 @@ from typing import Any
 
 import numpy as np
 
-from tennislab.chain.common import ChainError, read_config
+from tennislab.chain.common import ChainError, read_config, relative_to_root
+from tennislab.config import workspace
+from tennislab.evidence import host_placeholders, write_evidence
 
 CLIP = 1e-15
 
@@ -361,6 +364,18 @@ def write_csv(path: Path, ladder: Mapping[str, Any], decimals: int) -> None:
         writer.writerows(rows)
 
 
+def write_ladder_json(output: Path, ladder: Mapping[str, Any]) -> None:
+    """``run_root`` names the host; the tracked file carries placeholders and the original
+    goes to ``local/evidence/`` under the workspace (see :mod:`tennislab.evidence`)."""
+    archive = os.environ.get("TENNISLAB_ARCHIVE")
+    root = workspace().root
+    placeholders = host_placeholders(
+        repo_root=root, archive_root=Path(archive) if archive else None
+    )
+    text = json.dumps(ladder, indent=2, sort_keys=True) + "\n"
+    write_evidence(root, relative_to_root(output, label="output_json"), text, placeholders)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=Path("configs/ladder.json"))
@@ -389,9 +404,7 @@ def main(argv: list[str] | None = None) -> int:
     ladder["research_degrees_of_freedom"] = dof
     args.output_markdown.write_text(render_markdown(ladder, dof), encoding="utf-8")
     write_csv(args.output_csv, ladder, int(config["rounding_decimals"]))
-    args.output_json.write_text(
-        json.dumps(ladder, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    write_ladder_json(args.output_json, ladder)
     for tour, block in ladder["tours"].items():
         p = block["pooled"]
         print(

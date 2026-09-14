@@ -2094,7 +2094,7 @@
       "changed_leaves": 223,
       "first": [
         "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-        "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
+        "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
         "declared_binding: \"<absent>\" -> {\"numerical_path\": \"references/MULTI01_models/numerical.py\", \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a238",
         "raw_attempts.0.fit_manifest_sha256: \"de22305a89b1e8b1e2efe2b216b68ecd2c8ea9b61216bbcd457fdc388d3403a3\" -> \"048d5a7e8f483a7fbcb5f882ec2c06becff15f36aafe587314865bf07f1d3f47\"",
         "raw_attempts.0.fit_wall_clock_seconds: 0.924088 -> 1.063986",
@@ -2140,7 +2140,7 @@
       "changed_leaves": 4,
       "first": [
         "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-        "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
+        "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
         "declared_binding: \"<absent>\" -> {\"numerical_path\": \"references/MULTI01_models/numerical.py\", \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a238",
         "raw_complete_sha256: \"f44ceacff5e2e79b13693b9f4b38adb8735d9df5244848d1c6ddd10c1e8c0bf5\" -> \"86bf9430b88730fa65cb06029587f991362fb436db26df0867c2e157c9c18ae6\""
       ],
@@ -2150,7 +2150,7 @@
       "changed_lines": 22,
       "first": [
         "@@ -3 +3,13 @@",
-        "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+        "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
         "+  \"code\": {",
         "+    \"numerical\": {",
         "+      \"module\": \"tennislab.models.numerical\",",

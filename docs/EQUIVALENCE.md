@@ -75,7 +75,8 @@ Stage-by-stage checks run each ported stage on the archive's frozen *inputs*. Th
 chain run (`tools/equivalence.py chain`) runs the ported driver from the bridge to the
 report in a fresh workspace, so every stage consumes the rebuild's own upstream outputs,
 and then compares every stage against the frozen run. Results in
-`docs/equivalence/<run>/_chain.json`.
+`docs/equivalence/<run>/_chain.json`. Tracked records are host-portable representations of
+local originals; `docs/equivalence/LOCAL_EVIDENCE.md` records the placeholders and hashes.
 
 | Run | Result | Differences and causes |
 |---|---|---|

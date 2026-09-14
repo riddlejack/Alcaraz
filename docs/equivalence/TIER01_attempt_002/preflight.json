@@ -4,7 +4,7 @@
       "changed_lines": 22,
       "first": [
         "@@ -2 +2,13 @@",
-        "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+        "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
         "+  \"code\": {",
         "+    \"numerical\": {",
         "+      \"module\": \"tennislab.models.numerical\",",

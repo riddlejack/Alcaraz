@@ -311,7 +311,7 @@
         ]
       },
       "reference": "pinnacle_normalised",
-      "run_root": "/Users/jackriddle/Documents/Tennis Research Lab/experiments/runs/TIER01/attempt_002/run",
+      "run_root": "<ARCHIVE_ROOT>/experiments/runs/TIER01/attempt_002/run",
       "rungs": [
         {
           "description": "Probability-pooled Elo (ELO-DATE-002-C1): the mean of the overall and surface Elo probabilities, tour-level results only, K 32, scale 400, D-2 cutoff. Read from the feature table's elo_overall_logit and elo_surface_logit; no fit, no calibration.",
@@ -435,7 +435,7 @@
         ]
       },
       "reference": "pinnacle_normalised",
-      "run_root": "/Users/jackriddle/Documents/Tennis Research Lab/experiments/runs/WTA02/attempt_002/run",
+      "run_root": "<ARCHIVE_ROOT>/experiments/runs/WTA02/attempt_002/run",
       "rungs": [
         {
           "description": "Probability-pooled Elo (ELO-DATE-002-C1): the mean of the overall and surface Elo probabilities, tour-level results only, K 32, scale 400, D-2 cutoff. Read from the feature table's elo_overall_logit and elo_surface_logit; no fit, no calibration.",

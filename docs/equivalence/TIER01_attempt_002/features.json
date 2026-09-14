@@ -26,7 +26,7 @@
         "+    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\",",
         "+    \"diverged_serve_return_history_summaries counts targets where a side had serve count history without return history (a match served zero points by one player). The missing_* flag means no count history in that domain and each rate falls back to its prior; nothing is imputed.\"",
         "@@ -90 +92 @@",
-        "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/run/features\",",
+        "-  \"output_dir\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/run/features\",",
         "+  \"output_dir\": \"work/TIER01/run_002/run/features\","
       ],
       "kind": "text",
