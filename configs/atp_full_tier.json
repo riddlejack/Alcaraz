@@ -1,0 +1,1 @@
+{"name": "atp_full_tier", "tour": "ATP", "description": "full_tier: P1 plus qualifying, Challenger and Futures history (tier-inclusive pooled Elo with per-training-window debut offsets, experience counts, the tier SR02 replay).", "chain_config": "configs/chains/atp_tier01_2017_2024.json", "bundle": "full_tier", "learner": "hgb", "forecast": {"kind": "selected_calibrated"}}

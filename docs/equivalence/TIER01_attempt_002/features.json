@@ -1,0 +1,58 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 7,
+      "first": [
+        "declared_binding: \"<absent>\" -> {\"module\": \"tennislab.chronology.ranking_lookup\", \"ranking_lookup_module\": {\"path\": \"work/MULTI01_ranking_lookup/ranking",
+        "executed_builder.module: \"<absent>\" -> \"tennislab.features.base\"",
+        "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
+        "executed_builder.path: \"references/TIER01_models/build_features.py\" -> \"<absent>\"",
+        "executed_builder.sha256: \"15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf\" -> \"cf81008ce3748bedf960e32c9f6ee456d7123e6b4f2f4476ed8f3f69e7658984\"",
+        "outputs.summary.json.bytes: 2534 -> 2865",
+        "outputs.summary.json.sha256: \"7debb0770d0cd28588ce6f6bed04dde7cd220e9511a265b5517e223172bf3f4b\" -> \"7e4aec57a85b8a9e05b30a556f38cc989611ff0f9474420a0493660df8e87a52\""
+      ],
+      "kind": "json"
+    },
+    "stdout.txt": {
+      "changed_lines": 8,
+      "first": [
+        "@@ -76,0 +77 @@",
+        "+  \"diverged_serve_return_history_summaries\": {},",
+        "@@ -81 +82 @@",
+        "-  \"manifest_sha256\": \"71dc6db9df3c71a27d9b1f1b35a5c302188bb0d7fbab9ee8fcfabc1eaab0f907\",",
+        "+  \"manifest_sha256\": \"91103fb3303dad143c7952c46412ec9e63036c44125db48b75b7f8cf3136effc\",",
+        "@@ -88 +89,2 @@",
+        "-    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\"",
+        "+    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\",",
+        "+    \"diverged_serve_return_history_summaries counts targets where a side had serve count history without return history (a match served zero points by one player). The missing_* flag means no count history in that domain and each rate falls back to its prior; nothing is imputed.\"",
+        "@@ -90 +92 @@",
+        "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/run/features\",",
+        "+  \"output_dir\": \"work/TIER01/run_002/run/features\","
+      ],
+      "kind": "text",
+      "lines_archive": 99,
+      "lines_ported": 101
+    },
+    "summary.json": {
+      "changed_leaves": 2,
+      "first": [
+        "diverged_serve_return_history_summaries: \"<absent>\" -> {}",
+        "notes: [\"No model was fit and no proper score was computed.\", \"Provisional targets use primary-only states and never update tho -> [\"No model was fit and no proper score was computed.\", \"Provisional targets use primary-only states and never update tho"
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "column_dictionary.json",
+    "features.csv",
+    "labels.csv",
+    "rejections.csv",
+    "resolved_config.json",
+    "stderr.txt",
+    "validation.json"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "features"
+}

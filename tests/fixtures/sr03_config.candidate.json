@@ -1,0 +1,102 @@
+{
+  "bindings": {
+    "files": [
+      {
+        "path": "references/SR03_calibration/calibration.py",
+        "sha256": "c9a880e38e684d3b7fd114175cfe5432b478d5f37c1bc66ddc921de506de1d0e"
+      },
+      {
+        "path": "experiments/SR03.design.md",
+        "sha256": "cd5a95c60c04dac452ab4737d64581d8eedfa4ca23efcc89ce1efcace993b56c"
+      },
+      {
+        "path": "references/SR02_models/market.py",
+        "sha256": "ce32d254e4d8dde22adc7253a68e83597823aaac4857f0cce69f713e1574b566"
+      },
+      {
+        "path": "references/SR02_models/runner.py",
+        "sha256": "e6adf888af7621b3c519cc07914e8a6218f290d4876c732ba503efe085b02050"
+      },
+      {
+        "path": "experiments/SR02-C1.json",
+        "sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182"
+      },
+      {
+        "path": "experiments/runs/SR02/attempt_002/run_manifest.json",
+        "sha256": "78147da2637a502f6f7cad8d1259b78fdc5c51fbb0c8952bb25df842aa38f791"
+      },
+      {
+        "path": "experiments/runs/SR02/attempt_002/selected_matches.csv",
+        "sha256": "9bae263db1f3a915425d39ee32f441222ad2597f9d30e3c4e69cfbd8dd9e43cf"
+      },
+      {
+        "path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+        "sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e"
+      },
+      {
+        "path": "data/raw/SR02/rule_mapping/attempt_001/rules.csv",
+        "sha256": "d5c279b37ea526130bb9caf8b48e7e846e96fe7c24bfcfaf00b714b0eaa193ce"
+      }
+    ],
+    "implementation_path": "references/SR03_calibration/calibration.py"
+  },
+  "calibration": {
+    "availability_lag_days": 2,
+    "families": {
+      "dynamic": "dynamic_match_probability_a",
+      "simple_unadjusted": "simple_unadjusted_match_probability_a",
+      "unadjusted": "unadjusted_match_probability_a"
+    },
+    "fit_intercept": false,
+    "outer_years": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "penalty": null,
+    "reliability_bin_edges": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "slope_constraint": "nonnegative",
+    "training_calendar_years": 3
+  },
+  "comparisons": {
+    "bootstrap_repetitions": 2000,
+    "bootstrap_seed": 20260911
+  },
+  "experiment_id": "SR03",
+  "proposal_status": "candidate_for_root_freeze_no_real_execution",
+  "source": {
+    "design_path": "experiments/SR03.design.md",
+    "design_sha256": "cd5a95c60c04dac452ab4737d64581d8eedfa4ca23efcc89ce1efcace993b56c",
+    "panel_path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+    "panel_sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e",
+    "point_manifest_path": "experiments/runs/SR02/attempt_002/run_manifest.json",
+    "point_manifest_sha256": "78147da2637a502f6f7cad8d1259b78fdc5c51fbb0c8952bb25df842aa38f791",
+    "primary_config_path": "experiments/SR02-C1.json",
+    "primary_config_sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182",
+    "rule_mapping_path": "data/raw/SR02/rule_mapping/attempt_001/rules.csv",
+    "rule_mapping_sha256": "d5c279b37ea526130bb9caf8b48e7e846e96fe7c24bfcfaf00b714b0eaa193ce",
+    "selected_matches_path": "experiments/runs/SR02/attempt_002/selected_matches.csv",
+    "selected_matches_rows": 34724,
+    "selected_matches_sha256": "9bae263db1f3a915425d39ee32f441222ad2597f9d30e3c4e69cfbd8dd9e43cf"
+  }
+}

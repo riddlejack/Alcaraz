@@ -1,0 +1,43 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 5,
+      "first": [
+        "declared_binding: \"<absent>\" -> {\"module\": \"tennislab.chronology.ranking_lookup\", \"ranking_lookup_module\": {\"path\": \"work/MULTI01_ranking_lookup/ranking",
+        "executed_builder.module: \"<absent>\" -> \"tennislab.features.base\"",
+        "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
+        "executed_builder.path: \"references/WTA02_models/build_features.py\" -> \"<absent>\"",
+        "executed_builder.sha256: \"24be234dd011f42ad94dc14ff9fce0465767f77fcbffcff5aa4cd774324a66c9\" -> \"cf81008ce3748bedf960e32c9f6ee456d7123e6b4f2f4476ed8f3f69e7658984\""
+      ],
+      "kind": "json"
+    },
+    "stdout.txt": {
+      "changed_lines": 4,
+      "first": [
+        "@@ -84 +84 @@",
+        "-  \"manifest_sha256\": \"fe14bf610cc1b9fa2a0b9001e22c36eca6798e62f22d6486f0058da4591b48c9\",",
+        "+  \"manifest_sha256\": \"4216bbb5e062243355da8cd748b238ee1ede052eabdc89fcb251bd2ef532bde2\",",
+        "@@ -94 +94 @@",
+        "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/run/features\",",
+        "+  \"output_dir\": \"work/WTA02/run_002/run/features\","
+      ],
+      "kind": "text",
+      "lines_archive": 103,
+      "lines_ported": 103
+    }
+  },
+  "extra": [],
+  "identical": [
+    "column_dictionary.json",
+    "features.csv",
+    "labels.csv",
+    "rejections.csv",
+    "resolved_config.json",
+    "stderr.txt",
+    "summary.json",
+    "validation.json"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "features"
+}

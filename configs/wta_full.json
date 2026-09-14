@@ -1,0 +1,1 @@
+{"name": "wta_full", "tour": "WTA", "description": "WTA full bundle: base plus traits and dynamic serve/return states.", "chain_config": "configs/chains/wta02_2025_2026.json", "bundle": "full", "learner": "hgb", "forecast": {"kind": "selected_calibrated"}}

@@ -1,0 +1,28 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 4,
+      "first": [
+        "executed_builder.module: \"<absent>\" -> \"tennislab.features.sidecar\"",
+        "executed_builder.package_version: \"<absent>\" -> \"0.1.0\"",
+        "executed_builder.path: \"references/TIER01_models/build_sidecar.py\" -> \"<absent>\"",
+        "executed_builder.sha256: \"9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308\" -> \"01bbb22233621fd4a1d157101e7e6feaf976ca532006b0cf59c444fe930dfb00\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "column_dictionary.json",
+    "stderr.txt",
+    "stdout.txt",
+    "summary.json",
+    "trait_conflicts.csv",
+    "trait_latent_sidecar.csv",
+    "trait_lineage_groups.csv.gz",
+    "validation.json"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "sidecar"
+}

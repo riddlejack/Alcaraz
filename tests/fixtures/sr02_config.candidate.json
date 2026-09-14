@@ -1,0 +1,366 @@
+{
+  "chronology": {
+    "availability_lag_calendar_days": 2,
+    "history_identity_tier": "primary",
+    "history_statuses": [
+      "completed",
+      "retired",
+      "default"
+    ],
+    "same_source_date_updates": "one_frozen_batch",
+    "source_date_field": "match_date"
+  },
+  "dynamic_filter": {
+    "approximation": "joint_frozen_batch_MAP_full_Hessian_then_diagonal_marginal_assumed_density_projection",
+    "discarded_uncertainty": "all_cross_state_covariance_after_each_source_date_batch",
+    "global_initial_mean_logit": 0.5,
+    "global_initial_sd": 0.12,
+    "learned_population_terms": [
+      "global_serve_logit_state",
+      "surface_mean_logit_state",
+      "exact_event_edition_logit_state"
+    ],
+    "likelihood": "two_aggregate_binomial_service_contests_per_match",
+    "posterior_predictive_integration": "not_implemented_candidate_for_separate_freeze_using_2D_logit_approximation",
+    "prediction_mode": "plug_in_posterior_state_means",
+    "retained_uncertainty": "diagonal_state_marginals_and_two_serve_logit_covariance_X_diagV_XT",
+    "return_initial_sd": 0.2,
+    "return_process_sd_per_60_days": 0.04,
+    "serve_initial_sd": 0.2,
+    "serve_process_sd_per_60_days": 0.04,
+    "solver_gradient_tolerance": 1e-06,
+    "solver_max_iterations": 50,
+    "solver_newton_decrement_tolerance": 1e-07,
+    "surface_initial_sd": 0.08,
+    "surface_mean_initial_sd": 0.08,
+    "surface_process_sd_per_60_days": 0.0,
+    "surface_structure": "one_shared_player_surface_deviation_entering_server_minus_returner",
+    "tournament_initial_sd": 0.06,
+    "tournament_structure": "exact_event_edition_intercept_keyed_by_supplied_tourney_id_unseen_mean_zero",
+    "update": "coupled_convex_Newton_MAP_from_prebatch_prior_full_batch_Hessian_then_retain_inverse_Hessian_diagonal"
+  },
+  "experiment_id": "SR02-DYNAMIC-CANDIDATE",
+  "exposure": "2005_2024_development_outcomes_already_exposed_but_not_scored_here",
+  "hyperparameter_selection_proposal": {
+    "candidate_menu": [
+      {
+        "candidate_id": "q020_g040_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.02,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q020_g040_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.02,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      },
+      {
+        "candidate_id": "q020_g100_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.02,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q020_g100_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.02,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      },
+      {
+        "candidate_id": "q050_g040_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.05,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q050_g040_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.05,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      },
+      {
+        "candidate_id": "q050_g100_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.05,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q050_g100_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.05,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      },
+      {
+        "candidate_id": "q100_g040_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.1,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q100_g040_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.1,
+        "shared_surface_initial_sd": 0.04,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      },
+      {
+        "candidate_id": "q100_g100_tight",
+        "global_initial_sd": 0.08,
+        "prior_bundle": "tight",
+        "role_initial_sd": 0.15,
+        "role_process_sd_per_60_days": 0.1,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.05,
+        "tournament_initial_sd": 0.04
+      },
+      {
+        "candidate_id": "q100_g100_moderate",
+        "global_initial_sd": 0.15,
+        "prior_bundle": "moderate",
+        "role_initial_sd": 0.3,
+        "role_process_sd_per_60_days": 0.1,
+        "shared_surface_initial_sd": 0.1,
+        "surface_mean_initial_sd": 0.1,
+        "tournament_initial_sd": 0.08
+      }
+    ],
+    "candidate_state_paths": "one_forward_prequential_path_per_fixed_candidate_from_2005_through_2024_no_outer_year_reset",
+    "fallback_candidate_id": "q050_g040_moderate",
+    "fixed_within_menu": "serve and return share the listed role initial/process SD; population and event-edition terms are static; shared player-surface process SD is zero",
+    "insufficient_validation_coverage": "fallback_q050_g040_moderate_only_if_a_required_prior_validation_year_has_zero_eligible_service_contests; record_reason_and_counts",
+    "match_outcomes": "never_used_for_representation_hyperparameter_selection; matched match-level scoring is an outer report",
+    "outer_year_selection": "for_Y_2011_through_2024_use_only_equal_year_point_loss_from_Y_minus_3_through_Y_minus_1_through_December_30_of_Y_minus_1",
+    "selection_data": "one_forward_candidate_path_from_2005; for_each_selection_year_score_service_point_predictive_log_loss_in_the_three_prior_calendar_years_with_the_outer_cutoff_January_1_Y_minus_2_days",
+    "selection_weighting": "each_validation_calendar_year_equal_total_weight_then_each_service_point_equal_within_year",
+    "solver_or_nonfinite_failure": "fatal_run_failure_never_silent_fallback",
+    "status": "proposal_root_must_freeze_before_real_fit",
+    "tie_break": "within_1e-10_choose_smaller_role_process_sd_then_smaller_surface_sd_then_tight_prior_then_candidate_id",
+    "tie_break_order": [
+      "lowest_mean_point_log_loss_within_1e-10",
+      "smaller_role_process_sd_per_60_days",
+      "smaller_shared_surface_initial_sd",
+      "tight_before_moderate_prior_bundle",
+      "candidate_id_lexicographic_final_total_order"
+    ],
+    "warmup": "the_2005_forward_start gives 2005_through_2007 warmup before the first 2008 validation year for the 2011 selection"
+  },
+  "input": {
+    "manifest_path": "data/manifests/SR02-inputs.json",
+    "panel_path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+    "panel_rows": 51222,
+    "panel_sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e"
+  },
+  "match_conversion": {
+    "historical_rule_limit": "modern primary rules do not prove all earlier event-year-round formats; unresolved keys emit point representation only",
+    "initial_server": "average_A_and_B_starting_server_with_equal_weight",
+    "missing_rule": "emit_point_probabilities_and_refuse_match_probability",
+    "probability_semantics": "play_to_completion_iid_point_proxy_under_explicit_rule_not_official_retirement_or_default_hazard",
+    "rule_key_required_for_real_run": [
+      "source_season",
+      "tourney_id",
+      "round",
+      "source_key"
+    ],
+    "rule_mapping_manifest": "data/manifests/SR02-rule-mapping.json",
+    "rule_mapping_path": "data/raw/SR02/rule_mapping/attempt_001/rules.csv",
+    "rule_mapping_sha256": "d5c279b37ea526130bb9caf8b48e7e846e96fe7c24bfcfaf00b714b0eaa193ce",
+    "rule_schema": {
+      "deciding_set": {
+        "mode": "tiebreak_or_advantage",
+        "tiebreak_at_games": "integer_or_null",
+        "tiebreak_points": "7_or_10_or_null"
+      },
+      "regular_set": {
+        "mode": "tiebreak",
+        "tiebreak_at_games": 6,
+        "tiebreak_points": 7
+      },
+      "sets_to_win": "2_or_3"
+    },
+    "rule_source_manifest": "data/manifests/SR02-rule-sources.json",
+    "started_target_scope": "emit_from_label_free_match_metadata_for_every_rule_qualified_started_target_including_retirements_and_commenced_defaults; do_not_condition_emission_on_target_resolution"
+  },
+  "parameter_status": "all_numeric_latent_prior_and_process_values_are_synthetic_test_defaults_not_scientifically_accepted",
+  "population": {
+    "count_block_status": "usable_only",
+    "history_primary": "primary_identity ordinary_started rows with usable counts, including completed retired and independently commenced defaults",
+    "history_sensitivity": "completed_only_updates",
+    "missing_counts": "retain target and skip update; if exactly one service contest is arithmetically valid use only that contest and flag the invalid side without imputation",
+    "provisional_identity": "retain_target_never_update_history",
+    "rankings": "not_used",
+    "retired_default_abandoned": "target forecast never depends on target status; started retirements and qualified commenced defaults remain in the primary target population; walkovers and unresolved abandonments are not started targets",
+    "status_limit": "default history requires nonblank independent commencement evidence; unresolved status is retained but not used",
+    "surfaces": [
+      "Hard",
+      "Clay",
+      "Grass",
+      "Carpet"
+    ],
+    "target_match_counts": "forbidden_from_prediction_and_state_until_their_reported_source_date_becomes_D_minus_2_eligible_for_later_targets"
+  },
+  "prediction_input_allowlist": [
+    "match_id",
+    "match_date",
+    "surface",
+    "best_of",
+    "player_a",
+    "player_b",
+    "tourney_id",
+    "match_rule"
+  ],
+  "proposal_status": "implementation_and_synthetic_tests_only_no_real_fit_or_score",
+  "selection_years": [
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "unadjusted_baseline": {
+    "combination": "add_server_serve_and_opponent_return_logit_deviations_around_population_surface_serve_level",
+    "count_half_life_days": 180.0,
+    "estimation": "opponent_agnostic_decayed_player_serve_and_return_rates",
+    "name": "unadjusted_decayed_marginal_logit_additive",
+    "overall_prior_denominator_units": 50.0,
+    "secondary_simple_reference": "probability_mean_of_the_same_server_serve_and_one_minus_opponent_return_marginal_rates",
+    "selection_proposal": {
+      "candidate_menu": [
+        {
+          "candidate_id": "h090_o050_s050",
+          "half_life_days": 90.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h090_o050_s250",
+          "half_life_days": 90.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 250.0
+        },
+        {
+          "candidate_id": "h090_o250_s050",
+          "half_life_days": 90.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h090_o250_s250",
+          "half_life_days": 90.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 250.0
+        },
+        {
+          "candidate_id": "h180_o050_s050",
+          "half_life_days": 180.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h180_o050_s250",
+          "half_life_days": 180.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 250.0
+        },
+        {
+          "candidate_id": "h180_o250_s050",
+          "half_life_days": 180.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h180_o250_s250",
+          "half_life_days": 180.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 250.0
+        },
+        {
+          "candidate_id": "h365_o050_s050",
+          "half_life_days": 365.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h365_o050_s250",
+          "half_life_days": 365.0,
+          "overall_prior_units": 50.0,
+          "surface_prior_units": 250.0
+        },
+        {
+          "candidate_id": "h365_o250_s050",
+          "half_life_days": 365.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 50.0
+        },
+        {
+          "candidate_id": "h365_o250_s250",
+          "half_life_days": 365.0,
+          "overall_prior_units": 250.0,
+          "surface_prior_units": 250.0
+        }
+      ],
+      "candidate_state_paths": "one_forward_prequential_path_per_fixed_candidate_from_2005_through_2024",
+      "fallback_candidate_id": "h180_o250_s250",
+      "insufficient_validation_coverage": "fallback_h180_o250_s250_only_if_a_required_prior_validation_year_has_zero_eligible_service_contests",
+      "selection_criterion": "same_equal_validation_year_service_point_predictive_log_loss_as_dynamic_family",
+      "solver_or_nonfinite_failure": "fatal_run_failure",
+      "tie_break_order": [
+        "lowest_mean_point_log_loss_within_1e-10",
+        "longer_half_life_days",
+        "larger_overall_prior_units",
+        "larger_surface_prior_units",
+        "candidate_id_lexicographic_final_total_order"
+      ]
+    },
+    "surface_prior": "personal_overall_logit_plus_eligible_population_surface_minus_overall_logit_shift",
+    "surface_prior_denominator_units": 50.0
+  }
+}

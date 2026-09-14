@@ -1,0 +1,40 @@
+{
+  "different": {
+    "edition_index.json": {
+      "changed_leaves": 1,
+      "first": [
+        "generated_at_utc: \"2026-09-12T19:56:36.376456Z\" -> \"2026-09-14T01:48:37.408415Z\""
+      ],
+      "kind": "json"
+    },
+    "stdout.txt": {
+      "changed_lines": 4,
+      "first": [
+        "@@ -7 +7 @@",
+        "-  \"edition_index_sha256\": \"3294f49894b9c9d5044e6feaa3cc30447fb6891da925b6c4aaeb56b315fe2417\",",
+        "+  \"edition_index_sha256\": \"394aa6923781f808b4b89ef965177fa4a8d2aeb0994f77ef871c8b880ce77375\",",
+        "@@ -9 +9 @@",
+        "-  \"generated_at_utc\": \"2026-09-12T19:56:36.377937Z\",",
+        "+  \"generated_at_utc\": \"2026-09-14T01:48:37.412503Z\","
+      ],
+      "kind": "text",
+      "lines_archive": 36,
+      "lines_ported": 36
+    },
+    "summary.json": {
+      "changed_leaves": 2,
+      "first": [
+        "edition_index_sha256: \"3294f49894b9c9d5044e6feaa3cc30447fb6891da925b6c4aaeb56b315fe2417\" -> \"394aa6923781f808b4b89ef965177fa4a8d2aeb0994f77ef871c8b880ce77375\"",
+        "generated_at_utc: \"2026-09-12T19:56:36.377937Z\" -> \"2026-09-14T01:48:37.412503Z\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "edition_index"
+}

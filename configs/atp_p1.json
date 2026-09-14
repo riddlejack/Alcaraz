@@ -1,0 +1,1 @@
+{"name": "atp_p1", "tour": "ATP", "description": "P1: the full bundle, P0 features plus player traits and the replayed SR02 dynamic serve/return states.", "chain_config": "configs/chains/atp_tier01_2017_2024.json", "bundle": "full", "learner": "hgb", "forecast": {"kind": "selected_calibrated"}}

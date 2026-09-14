@@ -1,0 +1,44 @@
+{
+  "different": {
+    "edition_index.json": {
+      "changed_leaves": 1,
+      "first": [
+        "generated_at_utc: \"2026-09-12T20:08:45.963663Z\" -> \"<absent>\""
+      ],
+      "kind": "json"
+    },
+    "stdout.txt": {
+      "changed_lines": 5,
+      "first": [
+        "@@ -7 +7 @@",
+        "-  \"edition_index_sha256\": \"bdcee6b989fa10b609e97253651fec6a2d95e180dce81ae9b463c00cec3a01e6\",",
+        "+  \"edition_index_sha256\": \"a5a7f24d3eb74e3340660bf8e29fa0a6261083953af033676a796a6a95a77e34\",",
+        "@@ -9 +8,0 @@",
+        "-  \"generated_at_utc\": \"2026-09-12T20:08:45.964847Z\",",
+        "@@ -29,0 +29,2 @@",
+        "+  \"source_effective_date_order_decreases\": 0,",
+        "+  \"source_order_policy\": \"streamed in nondecreasing source order\","
+      ],
+      "kind": "text",
+      "lines_archive": 34,
+      "lines_ported": 35
+    },
+    "summary.json": {
+      "changed_leaves": 4,
+      "first": [
+        "edition_index_sha256: \"bdcee6b989fa10b609e97253651fec6a2d95e180dce81ae9b463c00cec3a01e6\" -> \"a5a7f24d3eb74e3340660bf8e29fa0a6261083953af033676a796a6a95a77e34\"",
+        "generated_at_utc: \"2026-09-12T20:08:45.964847Z\" -> \"<absent>\"",
+        "source_effective_date_order_decreases: \"<absent>\" -> 0",
+        "source_order_policy: \"<absent>\" -> \"streamed in nondecreasing source order\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "stderr.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "edition_index"
+}

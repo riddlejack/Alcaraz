@@ -1,0 +1,455 @@
+{
+  "interval": {
+    "level": 0.95,
+    "replicates": 2000,
+    "seed": 20260912,
+    "type": "match_level_bootstrap_stratified_by_year"
+  },
+  "research_degrees_of_freedom": {
+    "entries_by_cohort": {
+      "C1-FULL-2024-2607": 2,
+      "CONFIRM2026-RESERVED-ELO-F-2025-2026-7528": 1,
+      "CONFIRM2026-RESERVED-ELO-F2-2025-2026-8428": 1,
+      "CONFIRM2026-RESERVED-PINNACLE-2025-2278": 4,
+      "CONFIRM2026-RESERVED-SPORTS-2025-2026-4225": 2,
+      "FABLE-ANCHOR-FULL-2024-2607": 4,
+      "FABLE-MARKET-2024-2595": 11,
+      "FAT01-PRIMARY-SPORTS-2017-2024-18972": 2,
+      "JOINT04-PRIMARY-PINNACLE-2017-2024-18882": 11,
+      "JOINT04-PRIMARY-SPORTS-2017-2024-18972": 8,
+      "MKT03-PRIMARY-2024-2595": 4,
+      "MULTI01-PRIMARY-PINNACLE-2012-2024-31021": 13,
+      "MULTI02-PRIMARY-PINNACLE-2017-2024-18903": 4,
+      "MULTI03-PRIMARY-PINNACLE-2017-2024-18903": 6,
+      "PP10-USO-MEN-2017-2024-995": 7,
+      "REVIEWED-LAG2-MARKET-2024-2595": 6,
+      "SR02-C1-PRIMARY-PINNACLE-2017-2024-18882": 7,
+      "SR02-C1-PRIMARY-SPORTS-2012-2024-31097": 3,
+      "SR03-PRIMARY-PINNACLE-2014-2024-26035": 11,
+      "SR03-PRIMARY-SPORTS-2014-2024-26149": 10,
+      "TIER01-ATTEMPT002-PINNACLE-2017-2024-18882": 1,
+      "TIER01-ATTEMPT002-SPORTS-2017-2024-18972": 3,
+      "TIER01-PRIMARY-PINNACLE-2017-2024-18882": 1,
+      "TIER01-PRIMARY-SPORTS-2017-2024-18972": 2,
+      "WTA01-PRIMARY-PINNACLE-2019-2024-12785": 4,
+      "WTA01-PRIMARY-SPORTS-2019-2024-12900": 4,
+      "WTA02-RESERVED-PINNACLE-2025-2026": 3,
+      "WTA02-RESERVED-SPORTS-2025-2026-4296": 4,
+      "WX11-PRIMARY-PINNACLE-2023-2024-1685": 4,
+      "WX11-PRIMARY-SPORTS-2023-2024-1687": 2
+    },
+    "entries_by_family": {
+      "C1": 2,
+      "CONFIRM2026": 8,
+      "FAT01": 2,
+      "FBL": 15,
+      "JOINT04": 18,
+      "JOINT05": 1,
+      "MKT03": 4,
+      "MULTI01": 13,
+      "MULTI02": 4,
+      "MULTI03": 6,
+      "PP10": 7,
+      "RVW": 6,
+      "SR02": 10,
+      "SR03": 13,
+      "TIER01": 7,
+      "UNC01": 8,
+      "WTA01": 8,
+      "WTA02": 7,
+      "WX11": 6
+    },
+    "experiment_ledger_entries": 113,
+    "leaderboard_entries": 145,
+    "leaderboard_entries_on_cohorts_naming_a_year_in_2017_2024": 130,
+    "note": "Every entry is an exposed pass over development data; years are robustness evidence, not replications. Nothing on disk is holdout."
+  },
+  "rounding_decimals": 4,
+  "tours": {
+    "ATP": {
+      "contrasts": [
+        {
+          "contrast": "elo_minus_atp_p0",
+          "equal_year_delta": 0.011407076980910551,
+          "interval_lower": 0.009343128872286445,
+          "interval_upper": 0.013827842406123579,
+          "match_weighted_delta": 0.011592031484481078,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "elo_minus_pinnacle_normalised",
+          "equal_year_delta": 0.03676351314150135,
+          "interval_lower": 0.033106935559759076,
+          "interval_upper": 0.0397884405226269,
+          "match_weighted_delta": 0.03643649388787511,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "atp_p0_minus_atp_p1",
+          "equal_year_delta": 0.006807061456197057,
+          "interval_lower": 0.005064975076211557,
+          "interval_upper": 0.008474917582169405,
+          "match_weighted_delta": 0.006760426346802779,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "atp_p0_minus_pinnacle_normalised",
+          "equal_year_delta": 0.0253564361605908,
+          "interval_lower": 0.022018997644683857,
+          "interval_upper": 0.027633836637305304,
+          "match_weighted_delta": 0.024844462403394024,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "atp_p1_minus_atp_full_tier",
+          "equal_year_delta": 0.006891938836028996,
+          "interval_lower": 0.005128071601044285,
+          "interval_upper": 0.008607154430375368,
+          "match_weighted_delta": 0.006910902971339069,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "atp_p1_minus_pinnacle_normalised",
+          "equal_year_delta": 0.018549374704393745,
+          "interval_lower": 0.015399027905924652,
+          "interval_upper": 0.020628536078536933,
+          "match_weighted_delta": 0.018084036056591243,
+          "years": 8,
+          "years_negative": 0
+        },
+        {
+          "contrast": "atp_full_tier_minus_pinnacle_normalised",
+          "equal_year_delta": 0.011657435868364749,
+          "interval_lower": 0.008969593866608236,
+          "interval_upper": 0.01339336519699259,
+          "match_weighted_delta": 0.011173133085252177,
+          "years": 8,
+          "years_negative": 0
+        }
+      ],
+      "per_year": [
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.006324224314036975,
+          "delta_atp_p0_minus_atp_p1": 0.0045557809588628664,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.015449232514447932,
+          "delta_atp_p1_minus_atp_full_tier": 0.004569227241548093,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.010893451555585066,
+          "delta_elo_minus_atp_p0": 0.009505341932532801,
+          "delta_elo_minus_pinnacle_normalised": 0.024954574446980734,
+          "log_loss_atp_full_tier": 0.593790591565371,
+          "log_loss_atp_p0": 0.602915599765782,
+          "log_loss_atp_p1": 0.598359818806919,
+          "log_loss_elo": 0.6124209416983147,
+          "log_loss_pinnacle_calibrated": 0.5884509534891338,
+          "log_loss_pinnacle_normalised": 0.587466367251334,
+          "n": 2311,
+          "tour": "ATP",
+          "year": 2017
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.012888538977665997,
+          "delta_atp_p0_minus_atp_p1": 0.008058798522093406,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.02841628908036366,
+          "delta_atp_p1_minus_atp_full_tier": 0.007468951580604261,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.020357490558270255,
+          "delta_elo_minus_atp_p0": 0.014506512634315854,
+          "delta_elo_minus_pinnacle_normalised": 0.042922801714679513,
+          "log_loss_atp_full_tier": 0.6044391951582586,
+          "log_loss_atp_p0": 0.6199669452609564,
+          "log_loss_atp_p1": 0.6119081467388631,
+          "log_loss_elo": 0.6344734578952722,
+          "log_loss_pinnacle_calibrated": 0.5914616014122852,
+          "log_loss_pinnacle_normalised": 0.5915506561805927,
+          "n": 2587,
+          "tour": "ATP",
+          "year": 2018
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.010949692003142726,
+          "delta_atp_p0_minus_atp_p1": 0.004644514578161438,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.021542654723335632,
+          "delta_atp_p1_minus_atp_full_tier": 0.005948448142031468,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.016898140145174195,
+          "delta_elo_minus_atp_p0": 0.011995202187713709,
+          "delta_elo_minus_pinnacle_normalised": 0.03353785691104934,
+          "log_loss_atp_full_tier": 0.6053161994504137,
+          "log_loss_atp_p0": 0.6159091621706066,
+          "log_loss_atp_p1": 0.6112646475924453,
+          "log_loss_elo": 0.6279043643583204,
+          "log_loss_pinnacle_calibrated": 0.5943956238868849,
+          "log_loss_pinnacle_normalised": 0.594366507447271,
+          "n": 2491,
+          "tour": "ATP",
+          "year": 2019
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.020530416656384737,
+          "delta_atp_p0_minus_atp_p1": 0.007436674845921657,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.034557160181775126,
+          "delta_atp_p1_minus_atp_full_tier": 0.006590068679468725,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.027120485335853463,
+          "delta_elo_minus_atp_p0": 0.009835974633041523,
+          "delta_elo_minus_pinnacle_normalised": 0.044393134814816645,
+          "log_loss_atp_full_tier": 0.5952526525681503,
+          "log_loss_atp_p0": 0.6092793960935406,
+          "log_loss_atp_p1": 0.601842721247619,
+          "log_loss_elo": 0.6191153707265822,
+          "log_loss_pinnacle_calibrated": 0.574785893339811,
+          "log_loss_pinnacle_normalised": 0.5747222359117656,
+          "n": 1241,
+          "tour": "ATP",
+          "year": 2020
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.0068706059095397275,
+          "delta_atp_p0_minus_atp_p1": 0.010575858287534594,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.028112221782498316,
+          "delta_atp_p1_minus_atp_full_tier": 0.010665757585423995,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.017536363494963722,
+          "delta_elo_minus_atp_p0": 0.008740893151954683,
+          "delta_elo_minus_pinnacle_normalised": 0.03685311493445299,
+          "log_loss_atp_full_tier": 0.5973316239237999,
+          "log_loss_atp_p0": 0.6185732397967585,
+          "log_loss_atp_p1": 0.607997381509224,
+          "log_loss_elo": 0.6273141329487132,
+          "log_loss_pinnacle_calibrated": 0.5905840561893336,
+          "log_loss_pinnacle_normalised": 0.5904610180142601,
+          "n": 2384,
+          "tour": "ATP",
+          "year": 2021
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.010114568802518055,
+          "delta_atp_p0_minus_atp_p1": 0.006758960153404855,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.0233977821813054,
+          "delta_atp_p1_minus_atp_full_tier": 0.006524253225382495,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.016638822027900547,
+          "delta_elo_minus_atp_p0": 0.010322383962668456,
+          "delta_elo_minus_pinnacle_normalised": 0.03372016614397386,
+          "log_loss_atp_full_tier": 0.592556648135299,
+          "log_loss_atp_p0": 0.6058398615140863,
+          "log_loss_atp_p1": 0.5990809013606815,
+          "log_loss_elo": 0.6161622454767547,
+          "log_loss_pinnacle_calibrated": 0.582248970913069,
+          "log_loss_pinnacle_normalised": 0.582442079332781,
+          "n": 2525,
+          "tour": "ATP",
+          "year": 2022
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.012398628092334793,
+          "delta_atp_p0_minus_atp_p1": 0.006638470014411081,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.024203969520000587,
+          "delta_atp_p1_minus_atp_full_tier": 0.005166871413254712,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.017565499505589503,
+          "delta_elo_minus_atp_p0": 0.015072231067835302,
+          "delta_elo_minus_pinnacle_normalised": 0.03927620058783588,
+          "log_loss_atp_full_tier": 0.5998429302247881,
+          "log_loss_atp_p0": 0.6116482716524538,
+          "log_loss_atp_p1": 0.6050098016380427,
+          "log_loss_elo": 0.626720502720289,
+          "log_loss_pinnacle_calibrated": 0.5873601561439289,
+          "log_loss_pinnacle_normalised": 0.5874443021324532,
+          "n": 2672,
+          "tour": "ATP",
+          "year": 2023
+        },
+        {
+          "delta_atp_full_tier_minus_pinnacle_normalised": 0.013182812191294972,
+          "delta_atp_p0_minus_atp_p1": 0.005787434289186558,
+          "delta_atp_p0_minus_pinnacle_normalised": 0.027172179300999747,
+          "delta_atp_p1_minus_atp_full_tier": 0.008201932820518225,
+          "delta_atp_p1_minus_pinnacle_normalised": 0.021384745011813193,
+          "delta_elo_minus_atp_p0": 0.011278076277222082,
+          "delta_elo_minus_pinnacle_normalised": 0.03845025557822184,
+          "log_loss_atp_full_tier": 0.5967716499489499,
+          "log_loss_atp_p0": 0.6107610170586547,
+          "log_loss_atp_p1": 0.604973582769468,
+          "log_loss_elo": 0.6220390933358768,
+          "log_loss_pinnacle_calibrated": 0.5832761623826824,
+          "log_loss_pinnacle_normalised": 0.5835888377576549,
+          "n": 2671,
+          "tour": "ATP",
+          "year": 2024
+        }
+      ],
+      "pooled": {
+        "clip_count_atp_full_tier": 0,
+        "clip_count_atp_p0": 0,
+        "clip_count_atp_p1": 0,
+        "clip_count_elo": 0,
+        "clip_count_pinnacle_calibrated": 0,
+        "clip_count_pinnacle_normalised": 0,
+        "log_loss_atp_full_tier_equal_year": 0.5981626863718787,
+        "log_loss_atp_full_tier_match_weighted": 0.5984263830208819,
+        "log_loss_atp_p0_equal_year": 0.6118616866641049,
+        "log_loss_atp_p0_match_weighted": 0.6120977123390238,
+        "log_loss_atp_p1_equal_year": 0.6050546252079078,
+        "log_loss_atp_p1_match_weighted": 0.6053372859922209,
+        "log_loss_elo_equal_year": 0.6232687636450154,
+        "log_loss_elo_match_weighted": 0.6236897438235047,
+        "log_loss_pinnacle_calibrated_equal_year": 0.5865704272196411,
+        "log_loss_pinnacle_calibrated_match_weighted": 0.5873031520789905,
+        "log_loss_pinnacle_normalised_equal_year": 0.5865052505035141,
+        "log_loss_pinnacle_normalised_match_weighted": 0.5872532499356297,
+        "n": 18882,
+        "tour": "ATP",
+        "years": [
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ]
+      },
+      "reference": "pinnacle_normalised",
+      "run_root": "/Users/jackriddle/Documents/Tennis Research Lab/experiments/runs/TIER01/attempt_002/run",
+      "rungs": [
+        {
+          "description": "Probability-pooled Elo (ELO-DATE-002-C1): the mean of the overall and surface Elo probabilities, tour-level results only, K 32, scale 400, D-2 cutoff. Read from the feature table's elo_overall_logit and elo_surface_logit; no fit, no calibration.",
+          "name": "elo"
+        },
+        {
+          "description": "P0: base HistGradientBoosting on match-history features (Elo logits, serve/return count differences, workload, rankings, context), past-only candidate selection and calibration.",
+          "name": "atp_p0"
+        },
+        {
+          "description": "P1: the full bundle, P0 features plus player traits and the replayed SR02 dynamic serve/return states.",
+          "name": "atp_p1"
+        },
+        {
+          "description": "full_tier: P1 plus qualifying, Challenger and Futures history (tier-inclusive pooled Elo with per-training-window debut offsets, experience counts, the tier SR02 replay).",
+          "name": "atp_full_tier"
+        }
+      ]
+    },
+    "WTA": {
+      "contrasts": [
+        {
+          "contrast": "elo_minus_wta_base",
+          "equal_year_delta": -0.0020031524722347272,
+          "interval_lower": -0.0028632182617759003,
+          "interval_upper": 0.009434986478621989,
+          "match_weighted_delta": 0.0034712864563543953,
+          "years": 2,
+          "years_negative": 1
+        },
+        {
+          "contrast": "elo_minus_pinnacle_normalised",
+          "equal_year_delta": 0.030834946029887816,
+          "interval_lower": 0.022383374791478464,
+          "interval_upper": 0.040223628194954265,
+          "match_weighted_delta": 0.031171500786138267,
+          "years": 2,
+          "years_negative": 0
+        },
+        {
+          "contrast": "wta_base_minus_wta_full",
+          "equal_year_delta": 0.008689344017674143,
+          "interval_lower": 0.00324091294406299,
+          "interval_upper": 0.0121727233720782,
+          "match_weighted_delta": 0.007697306728906376,
+          "years": 2,
+          "years_negative": 0
+        },
+        {
+          "contrast": "wta_base_minus_pinnacle_normalised",
+          "equal_year_delta": 0.03283809850212255,
+          "interval_lower": 0.02003577029499128,
+          "interval_upper": 0.03556146337616563,
+          "match_weighted_delta": 0.027700214329783875,
+          "years": 2,
+          "years_negative": 0
+        },
+        {
+          "contrast": "wta_full_minus_pinnacle_normalised",
+          "equal_year_delta": 0.024148754484448406,
+          "interval_lower": 0.012718268375324115,
+          "interval_upper": 0.02792996067891999,
+          "match_weighted_delta": 0.020002907600877497,
+          "years": 2,
+          "years_negative": 0
+        }
+      ],
+      "per_year": [
+        {
+          "delta_elo_minus_pinnacle_normalised": 0.031203239376596994,
+          "delta_elo_minus_wta_base": 0.0039875500714687765,
+          "delta_wta_base_minus_pinnacle_normalised": 0.027215689305128223,
+          "delta_wta_base_minus_wta_full": 0.007603753259097279,
+          "delta_wta_full_minus_pinnacle_normalised": 0.01961193604603094,
+          "log_loss_elo": 0.6276600956521394,
+          "log_loss_pinnacle_calibrated": 0.5964358261917908,
+          "log_loss_pinnacle_normalised": 0.5964568562755423,
+          "log_loss_wta_base": 0.6236725455806704,
+          "log_loss_wta_full": 0.6160687923215733,
+          "n": 2243,
+          "tour": "WTA",
+          "year": 2025
+        },
+        {
+          "delta_elo_minus_pinnacle_normalised": 0.03046665268317864,
+          "delta_elo_minus_wta_base": -0.007993855015938231,
+          "delta_wta_base_minus_pinnacle_normalised": 0.03846050769911688,
+          "delta_wta_base_minus_wta_full": 0.009774934776251007,
+          "delta_wta_full_minus_pinnacle_normalised": 0.02868557292286587,
+          "log_loss_elo": 0.6002542358738401,
+          "log_loss_pinnacle_calibrated": 0.5681921817004777,
+          "log_loss_pinnacle_normalised": 0.5697875831906613,
+          "log_loss_wta_base": 0.6082480908897782,
+          "log_loss_wta_full": 0.5984731561135272,
+          "n": 101,
+          "tour": "WTA",
+          "year": 2026
+        }
+      ],
+      "pooled": {
+        "clip_count_elo": 0,
+        "clip_count_pinnacle_calibrated": 0,
+        "clip_count_pinnacle_normalised": 0,
+        "clip_count_wta_base": 0,
+        "clip_count_wta_full": 0,
+        "log_loss_elo_equal_year": 0.6139571657629898,
+        "log_loss_elo_match_weighted": 0.6264792117623748,
+        "log_loss_pinnacle_calibrated_equal_year": 0.5823140039461343,
+        "log_loss_pinnacle_calibrated_match_weighted": 0.5952188432166957,
+        "log_loss_pinnacle_normalised_equal_year": 0.5831222197331019,
+        "log_loss_pinnacle_normalised_match_weighted": 0.5953077109762364,
+        "log_loss_wta_base_equal_year": 0.6159603182352242,
+        "log_loss_wta_base_match_weighted": 0.6230079253060203,
+        "log_loss_wta_full_equal_year": 0.6072709742175503,
+        "log_loss_wta_full_match_weighted": 0.6153106185771139,
+        "n": 2344,
+        "tour": "WTA",
+        "years": [
+          2025,
+          2026
+        ]
+      },
+      "reference": "pinnacle_normalised",
+      "run_root": "/Users/jackriddle/Documents/Tennis Research Lab/experiments/runs/WTA02/attempt_002/run",
+      "rungs": [
+        {
+          "description": "Probability-pooled Elo (ELO-DATE-002-C1): the mean of the overall and surface Elo probabilities, tour-level results only, K 32, scale 400, D-2 cutoff. Read from the feature table's elo_overall_logit and elo_surface_logit; no fit, no calibration.",
+          "name": "elo"
+        },
+        {
+          "description": "WTA base HistGradientBoosting on match-history features under the WTA01 procedure.",
+          "name": "wta_base"
+        },
+        {
+          "description": "WTA full bundle: base plus traits and dynamic serve/return states.",
+          "name": "wta_full"
+        }
+      ]
+    }
+  }
+}
