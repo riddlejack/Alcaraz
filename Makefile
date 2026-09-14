@@ -1,4 +1,4 @@
-.PHONY: setup lint test reproduce-small check
+.PHONY: setup lint test reproduce-small reproduce-tier check
 
 UV ?= uv
 
@@ -15,4 +15,7 @@ test:
 reproduce-small:
 	$(UV) run tennislab reproduce-small
 
-check: lint test reproduce-small
+reproduce-tier:
+	$(UV) run tennislab reproduce-small --scenario tier
+
+check: lint test reproduce-small reproduce-tier

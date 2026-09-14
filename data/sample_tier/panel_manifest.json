@@ -1,0 +1,9 @@
+{
+  "generator": "tools/make_sample.py",
+  "id": "SAMPLE-panel",
+  "panel_path": "data/sample_tier/panel.csv",
+  "panel_sha256": "26cb2c87d4f7357611b23435e4093d938c4b1c52c83d746bc8fd18345024b24a",
+  "rows": 5350,
+  "seed": 20260913,
+  "status": "synthetic_no_corrections"
+}
