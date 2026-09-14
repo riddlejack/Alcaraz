@@ -43,7 +43,7 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 
 | # | Stage | Status | Data outputs | Cause of difference |
 |---|---|---|---|---|
-| 1 | bridge | pending | | |
+| 1 | bridge | explained | stage outputs 2/2 identical; inputs tree 5/8: composed tarball gzip-header mtime only (stream identical), bridge_summary.json code receipts and WTA02-revision descriptive keys, provenance CSV gains three columns (archive columns identical on all 2,703 rows) |
 | 2 | archive_panel | explained | 7/9 identical | `archive_panel_launch.json` provenance only (code receipt, launcher id); `quality_report.json` gains three descriptive keys from the WTA02 revision (`tour`, `correction_policy`, `excluded_reason_counts`), all shared keys identical |
 | 3 | event_carry_forward | explained | 3/4 identical | carry_forward_report.json code receipt |
 | 4 | join | explained | 4/6 identical | manifest code receipt; openpyxl warning in stderr embeds the interpreter path |
