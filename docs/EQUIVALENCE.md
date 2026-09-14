@@ -14,26 +14,26 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 
 | # | Stage | Status | Data outputs | Cause of difference |
 |---|---|---|---|---|
-| 1 | bridge | pending | | |
+| 1 | bridge | identical | 2/2 identical | provenance leaves; see docs/equivalence/notes |
 | 2 | archive_panel | explained | 7/9 identical | `archive_panel_launch.json` provenance only (code receipt, launcher id); `quality_report.json` gains three descriptive keys from the WTA02 revision (`tour`, `correction_policy`, `excluded_reason_counts`), all shared keys identical |
-| 3 | join | pending | | |
-| 4 | event_carry_forward | pending | | |
-| 5 | prepare_panel | pending | | |
-| 6 | format_corrections | pending | | |
-| 7 | rule_mapping | pending | | |
-| 8 | sr02_replay | pending | | |
-| 9 | sr03_calibration | pending | | |
-| 10 | rankings | pending | | |
-| 11 | edition_index | pending | | |
-| 12 | features | pending | | |
-| 13 | sidecar | pending | | |
+| 3 | join | explained | 10/13 identical | manifest code receipt; openpyxl warning in stderr embeds the interpreter path |
+| 4 | event_carry_forward | explained | 3/4 identical | carry_forward_report.json code receipt |
+| 5 | prepare_panel | explained | 5/7 identical | manifest.json code receipt; openpyxl warning path in stderr |
+| 6 | format_corrections | identical | 4/4 identical |  |
+| 7 | rule_mapping | explained | 5/6 identical | manifest.json code receipt and its canonical hash |
+| 8 | sr02_replay | explained | 6/7 identical | run_manifest.json code receipts and declared binding |
+| 9 | sr03_calibration | explained | 12/13 identical | run_manifest.json code receipt |
+| 10 | rankings | explained | 36/38 identical | qualification.json and stdout gain `tour` (WTA02 revision) |
+| 11 | edition_index | explained | 1/4 identical | wall-clock stamp removed (RB6); summary.json gains two WTA02 keys and the dependent index hash |
+| 12 | features | explained | 7/10 identical | manifest.json code receipt, declared binding, workspace-relative output_dir; summary.json gains one WTA02 key |
+| 13 | sidecar | explained | 8/9 identical | manifest.json executed_builder code receipt |
 | 14 | tier_stream | pending | | |
 | 15 | tier_elo | pending | | |
-| 16 | sr02_tier_replay | pending | | |
-| 17 | sr02_tier_noqual_replay | pending | | |
+| 16 | sr02_tier_replay | explained | 8/9 identical | run_manifest.json code receipts and declared binding |
+| 17 | sr02_tier_noqual_replay | explained | 8/9 identical | run_manifest.json code receipts and declared binding |
 | 18 | tier_block | pending | | |
-| 19 | predictor_config | pending | | |
-| 20 | preflight | pending | | |
+| 19 | predictor_config | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
+| 20 | preflight | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
 | 21 | pipeline | pending | | |
 | 22 | barrier | n/a | no outputs | the barrier hashes the run tree; verified by `chain.runner verify` |
 | 23 | reporting_config | pending | | |
@@ -45,17 +45,17 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 |---|---|---|---|---|
 | 1 | bridge | pending | | |
 | 2 | archive_panel | explained | 7/9 identical | `archive_panel_launch.json` provenance only (code receipt, launcher id); `quality_report.json` gains three descriptive keys from the WTA02 revision (`tour`, `correction_policy`, `excluded_reason_counts`), all shared keys identical |
-| 3 | event_carry_forward | pending | | |
-| 4 | join | pending | | |
-| 5 | prepare_panel | pending | | |
-| 6 | format_corrections | pending | | |
-| 7 | rule_mapping | pending | | |
-| 8 | sr02_replay | pending | | |
-| 9 | sr03_calibration | pending | | |
-| 10 | rankings | pending | | |
-| 11 | edition_index | pending | | |
-| 12 | features | pending | | |
-| 13 | sidecar | pending | | |
+| 3 | event_carry_forward | explained | 3/4 identical | carry_forward_report.json code receipt |
+| 4 | join | explained | 4/6 identical | manifest code receipt; openpyxl warning in stderr embeds the interpreter path |
+| 5 | prepare_panel | explained | 6/7 identical | manifest.json code receipt; openpyxl warning path in stderr |
+| 6 | format_corrections | identical | 4/4 identical |  |
+| 7 | rule_mapping | explained | 6/7 identical | manifest.json code receipt and its canonical hash |
+| 8 | sr02_replay | explained | 6/7 identical | run_manifest.json code receipts and declared binding |
+| 9 | sr03_calibration | explained | 13/14 identical | run_manifest.json code receipt |
+| 10 | rankings | identical | 38/38 identical | qualification.json and stdout gain `tour` (WTA02 revision) |
+| 11 | edition_index | explained | 1/4 identical | wall-clock stamp removed (RB6); summary.json gains two WTA02 keys and the dependent index hash |
+| 12 | features | explained | 8/10 identical | manifest.json code receipt, declared binding, workspace-relative output_dir; summary.json gains one WTA02 key |
+| 13 | sidecar | explained | 8/9 identical | manifest.json executed_builder code receipt |
 | 14 | predictor_config | pending | | |
 | 15 | preflight | pending | | |
 | 16 | pipeline | pending | | |
