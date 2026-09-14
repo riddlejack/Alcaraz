@@ -10,7 +10,7 @@ The intended public boundary may contain code, source receipts and hashes, ident
 mappings, aggregates, forecasts, scores, and synthetic acceptance fixtures. It is not
 intended to contain raw provider files or row-level reproductions of a source. A former
 real-input regression fixture has been replaced with a synthetic case; its copy in Git
-history is disclosed below and remains subject to a separate publication decision.
+history is retained under the owner-approved one-file exception documented below.
 Every published derived table must name its source and applicable terms.
 
 ## Sources
@@ -42,6 +42,7 @@ README. Do not infer completion from a progress file.
 | Path | Contents | Redistribution basis |
 |---|---|---|
 | `data/sample/**`, `data/sample_tier/**` | Synthetic acceptance fixtures and expected results | MIT |
+| `tests/live/**` | Synthetic manual workflow and adversarial controls | MIT |
 | `tests/test_dynamics_numerical_repair.py` | Independently generated, seeded synthetic numerical regression; provenance in `tests/fixtures/README.md` | MIT |
 | `data/mappings/wta_event_map/*.csv` | Event/edition and identifier mapping metadata; no odds or full result rows | R3 mapping boundary; Sackmann-derived columns under CC BY-NC-SA 4.0 |
 | `data/manifests/**` | Hashes, receipts, bindings, and crosswalk metadata; not raw source payloads | Metadata only; underlying source terms still govern |
@@ -57,10 +58,25 @@ the hash-pinned `ARCHIVE01` mirror. Its source-data attribution and CC BY-NC-SA 
 treatment apply separately from the MIT code license. The current test generates an
 independent artificial case and preserves the original numerical failure check.
 
-Replacing the fixture does not remove its earlier Git objects. The historical copy falls
-outside the intended no-source-row rule; its disposition is still open. This records a
-project-policy inconsistency, not a finding of legal infringement or an approved
-historical exception.
+On 2026-09-14 the owner approved preserving Git history with a one-file exception to
+the project's no-source-row rule. The exception covers only the historical
+`tests/fixtures/solver_precision_2005-06-25.json` introduced at
+`f66f953acd6b3cf123bf528480f20810a9e65b66`: 20,755 bytes, 11 matches and 69 numerical
+states; SHA-256 `06f690d8e7318790c273b57e2d4eff5fe2f2f89da2f07c637203ec41e0700814`.
+It does not authorize restoring the file to the current tree or publishing other archive
+rows. Preserve Jeff Sackmann attribution and CC BY-NC-SA 4.0 terms for this historical
+data; MIT applies separately to code. The audit found a project-policy inconsistency,
+not legal infringement. This decision resolves that inconsistency without rewriting
+commit history.
+
+## Local live-workflow outputs
+
+These are workspace outputs, not tracked redistributable datasets:
+
+| Path | Provenance and treatment |
+|---|---|
+| `data/live/versions/*/results.csv` | Parsed English Wikipedia draw articles; retain article URL and revision attribution under CC BY-SA 4.0. Raw wikitext stays local. |
+| `data/live/versions/*/serve_state.csv` | Tennis Abstract serve/return coverage; retain Jeff Sackmann / Tennis Abstract attribution, PERM-TA-001 as supplemented by PERM-TA-002, and CC BY-NC-SA 4.0 treatment. |
 
 ## Attribution
 

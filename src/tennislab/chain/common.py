@@ -15,6 +15,7 @@ import importlib
 import json
 import os
 import sys
+import tempfile
 from collections.abc import Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -165,28 +166,50 @@ def read_csv_rows(path: Path | str) -> tuple[tuple[str, ...], list[dict[str, str
 def atomic_csv(path: Path, fields: Sequence[str], rows: Iterable[Mapping[str, Any]]) -> str:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + f".tmp.{os.getpid()}")
-    with temporary.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(fields), extrasaction="raise")
-        writer.writeheader()
-        for row in rows:
-            writer.writerow({field: serialize_cell(row.get(field)) for field in fields})
-        handle.flush()
-        os.fsync(handle.fileno())
-    os.replace(temporary, path)
+    if path.is_symlink():
+        raise ChainError(f"atomic CSV destination is a symbolic link: {path}")
+    descriptor, name = tempfile.mkstemp(prefix=f".{path.name}.tmp.", dir=path.parent)
+    temporary = Path(name)
+    try:
+        with os.fdopen(descriptor, "w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(fields), extrasaction="raise")
+            writer.writeheader()
+            for row in rows:
+                writer.writerow({field: serialize_cell(row.get(field)) for field in fields})
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.close(descriptor)
+        except OSError:
+            pass
+        temporary.unlink(missing_ok=True)
+        raise
     return sha256(path)
 
 
 def atomic_json(path: Path, value: Any) -> str:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + f".tmp.{os.getpid()}")
-    with temporary.open("w", encoding="utf-8") as handle:
-        json.dump(value, handle, indent=2, sort_keys=True)
-        handle.write("\n")
-        handle.flush()
-        os.fsync(handle.fileno())
-    os.replace(temporary, path)
+    if path.is_symlink():
+        raise ChainError(f"atomic JSON destination is a symbolic link: {path}")
+    descriptor, name = tempfile.mkstemp(prefix=f".{path.name}.tmp.", dir=path.parent)
+    temporary = Path(name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            json.dump(value, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.close(descriptor)
+        except OSError:
+            pass
+        temporary.unlink(missing_ok=True)
+        raise
     return sha256(path)
 
 

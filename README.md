@@ -53,9 +53,9 @@ forecast/report/training-key matches. The engineering contract and its open scop
 
 - **Retrospective trunk:** reconstructed and accepted within the documented integrity
   scope.
-- **Live/snapshot path:** under repair. The first implementation and its first repair were
-  rejected in independent review; the real-history, six-rung D2 snapshot remains
-  incomplete.
+- **Manual update/forecast/settlement path:** independently accepted at `5089b24` on
+  synthetic controls, with Elo issuance only. The real-history, six-rung D2 snapshot
+  remains incomplete. See [`docs/live/README.md`](docs/live/README.md).
 - **Prospective evidence:** none. No real forecast batch has been issued and scored.
 - **Data horizon:** the date of this repository is not the model's through-date. The ATP
   run uses a 2005–2024 panel with 2017–2024 targets. The WTA run uses a 2007–2026 panel
@@ -97,8 +97,9 @@ as described in [`docs/ARCHIVE.md`](docs/ARCHIVE.md).
 
 ## Licence and attribution
 
-Code is MIT-licensed. Raw source data and restricted odds-provider rows are not
-redistributed. Source-specific terms and the tracked-artifact inventory are in
+Code is MIT-licensed. The current tree excludes raw provider files and source result
+rows. One former numerical fixture remains in Git history under a documented owner
+exception. Source-specific terms and the tracked-artifact inventory are in
 [`DATA_LICENSES.md`](DATA_LICENSES.md).
 
 > Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission

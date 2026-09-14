@@ -130,7 +130,7 @@ G completed its source inventory and comparison design, but adapter implementati
 frozen execution, and an accepted external score on the same cutoff and cohort remain
 pending.
 
-## The rejected live slice
+## How the live workflow earned scoped acceptance
 
 The first manual update/forecast/score implementation passed its synthetic arithmetic but
 failed independent reconstruction. Five ineligible history cases entered state; a named
@@ -142,15 +142,20 @@ That commit remains rejected evidence. A first repair at exact commit
 `542d85e7c0c4e495e582bdbc0201a8a8001a1831` passed its builder's full local check (464
 tests passed, one optional skip; base and tier synthetic deltas unchanged) but failed
 independent review: its version manifest was a mutable trust anchor, and leaf/temp symlink
-writes could escape the intended output boundary. A further repair is in progress under
-a new commit and has not been merged.
-The first repair issued only synthetic Elo; the later D2 task must separately assemble
-real history and all six tour-appropriate rungs into a versioned snapshot. None of this
-work has been silently folded into this narrative branch.
+writes could escape the intended output boundary. A second repair at `4295df4` closed
+those write escapes but still let settlement trust a coherently rewritten current pointer
+instead of the earlier ledger qualification.
+
+The final targeted repair at `5089b24` reconciles every prior qualification before
+accepting a current pointer, on both explicit and default settlement paths. Independent
+review accepted it after 36 adversarial/positive controls and 62 affected tests. The
+rejected attempts and contracts remain visible in [the live workflow](live/README.md).
+Only synthetic Elo issuance is demonstrated. D2 must separately assemble qualified real
+history and all six tour-appropriate rungs into a versioned snapshot.
 
 ## What remains before a broader release claim
 
-- Repair and independently reconstruct the rejected live contracts.
+- Complete the real-history snapshot and six-rung D2 integration using the accepted live contracts.
 - Complete and qualify the permitted Tennis Abstract collection; do not treat progress
   counts as qualified-player counts.
 - Resolve the TennisMyLife date-disagreement cases before using its dates as availability
@@ -158,7 +163,7 @@ work has been silently folded into this narrative branch.
 - Close or explicitly exclude WTA tier and the full-bundle T3 scope.
 - Run an accepted external public-model benchmark before making a comparative claim.
 - Re-run hosted CI on the final integrated release commit. The repaired bootstrap is green
-  at product commit `6d0f3ad`, including lint, 434 passing tests with one skip, and both
+  at product commit `4c83d28`, including lint, 434 passing tests with one skip, and both
   synthetic reproductions.
 - Issue and score a real forecast batch before describing any result as prospective.
 

@@ -16,4 +16,6 @@ The former `solver_precision_2005-06-25.json` fixture was removed because it was
 copy of a real archived match-level regression fixture. Its deletion from the current
 tree does not remove it from prior Git objects. The repository's MIT license applies to
 the new synthetic construction; it does not change the terms governing historical
-source-derived data.
+source-derived data. The owner approved preserving this one historical file on
+2026-09-14; [DATA_LICENSES.md](../../DATA_LICENSES.md) records its exact identity,
+provenance, terms, and the exception's narrow scope.

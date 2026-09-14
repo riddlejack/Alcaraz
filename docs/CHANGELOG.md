@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-09-14 — manual workflow integration and fixture provenance
+
+- Integrated independently accepted synthetic manual workflow repair `5089b24`: immutable
+  source receipts, qualified fixtures, ledger-bound versions, confined writes, and
+  provisional/final/corrected settlement. Elo only; the real-data D2 snapshot is pending.
+- Replaced the source-derived solver regression fixture with an independent synthetic
+  construction, preserving the legacy-failure and independent numerical comparison.
+- Recorded the owner-approved exception retaining exactly the former fixture in Git
+  history, with source attribution and CC BY-NC-SA 4.0 terms.
+- Reconciled release status and the collector's dated offline repair/resumption.
+
 ## 2026-09-14 — release narrative candidate
 
 - Reframed the front page around the supported retrospective result and the value of the

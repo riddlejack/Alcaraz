@@ -1,0 +1,9 @@
+{
+  "base_commit": "954f449513fc922699fdc1e15334931e6420f77d",
+  "failed_source_commit": "50518bee790a69ae0b50b14d2a8969520fc10089",
+  "frozen_utc": "2026-09-14T21:31:37Z",
+  "repair_contract": "docs/live/REPAIR.md",
+  "repair_contract_sha256": "7cd1b855c186a47db8d8ca15366f53a5cbf4a26a72e337f4a6a25aeec2441537",
+  "scope": "Lane D rejected-contract repair only; synthetic tests; no D2, source qualification, refit, Lane E, campaign, network request or real forecast",
+  "schema_version": "live-repair-freeze-1"
+}
