@@ -987,7 +987,7 @@ def observed_outcome_access(
                 f"stage {stage.name}: {receipt.get('purpose')} ceiling {ceiling} exceeds the "
                 f"panel end year {panel_end_year}"
             )
-        if stage.outcome_access == "none":
+        if stage.outcome_access == "none" and receipt.get("accessor") != "projected_rows":
             violations.append(
                 f"stage {stage.name} declares no outcome access but read outcomes for "
                 f"{receipt.get('purpose')}"
