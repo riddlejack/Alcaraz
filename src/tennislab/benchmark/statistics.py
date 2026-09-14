@@ -66,7 +66,9 @@ def _stationary_indices(length: int, mean_block: int, rng: np.random.Generator) 
     restarts = rng.random(length - 1) < (1.0 / mean_block)
     fresh = rng.integers(length, size=length - 1)
     for index in range(1, length):
-        indices[index] = int(fresh[index - 1]) if restarts[index - 1] else (indices[index - 1] + 1) % length
+        indices[index] = (
+            int(fresh[index - 1]) if restarts[index - 1] else (indices[index - 1] + 1) % length
+        )
     return indices
 
 
@@ -82,6 +84,20 @@ def simultaneous_intervals(
     degenerate_tolerance: float = 1e-15,
 ) -> dict[str, object]:
     """Stationary bootstrap on full per-year week grids, shared across procedures."""
+    if not isinstance(replicates, int) or isinstance(replicates, bool) or replicates < 2:
+        raise BenchmarkError("replicates must be an integer >= 2")
+    if (
+        not isinstance(maximum_draws, int)
+        or isinstance(maximum_draws, bool)
+        or maximum_draws < replicates
+    ):
+        raise BenchmarkError("maximum_draws must be an integer >= replicates")
+    if not isinstance(mean_block, int) or isinstance(mean_block, bool) or mean_block <= 0:
+        raise BenchmarkError("mean_block must be a positive integer")
+    if not math.isfinite(level) or not 0.0 < level < 1.0:
+        raise BenchmarkError("level must lie strictly between zero and one")
+    if not math.isfinite(degenerate_tolerance) or degenerate_tolerance < 0.0:
+        raise BenchmarkError("degenerate_tolerance must be finite and nonnegative")
     if not contrasts:
         raise BenchmarkError("the multiplicity family is empty")
     points = equal_year_means(rows)
@@ -133,14 +149,9 @@ def simultaneous_intervals(
     active = [name for name, value in standard_errors.items() if value > degenerate_tolerance]
     if active:
         t_values = np.column_stack(
-            [
-                (arrays[name] - point_contrasts[name]) / standard_errors[name]
-                for name in active
-            ]
+            [(arrays[name] - point_contrasts[name]) / standard_errors[name] for name in active]
         )
-        critical = float(
-            np.quantile(np.max(np.abs(t_values), axis=1), level, method="linear")
-        )
+        critical = float(np.quantile(np.max(np.abs(t_values), axis=1), level, method="linear"))
     else:
         critical = 0.0
     intervals: dict[str, object] = {}
