@@ -1,0 +1,3231 @@
+{
+  "acquisition_summary": "data/raw/RES2026/acquisition_summary.json",
+  "counts": {
+    "odds_api_completed_events": 10,
+    "quarantine_rows": 6,
+    "tennis_data_2026_window_rows": 1139,
+    "wikipedia_matches_atp": 978,
+    "wikipedia_matches_total": 1931,
+    "wikipedia_matches_wta": 953,
+    "wikipedia_uso2026_refetch_20260911T202233Z": {
+      "atp_mens_singles_matches_parsed": 124,
+      "atp_mens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "wta_womens_singles_matches_parsed": 126,
+      "wta_womens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "SF"
+      ]
+    },
+    "wikipedia_uso2026_refetch_20260911T205127Z": {
+      "atp_mens_singles_matches_parsed": 124,
+      "atp_mens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "wta_womens_singles_matches_parsed": 126,
+      "wta_womens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "SF"
+      ]
+    },
+    "wikipedia_uso2026_refetch_20260911T210658Z": {
+      "atp_mens_singles_matches_parsed": 124,
+      "atp_mens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "wta_womens_singles_matches_parsed": 126,
+      "wta_womens_singles_rounds": [
+        "QF",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "SF"
+      ]
+    }
+  },
+  "evidence_root": "data/raw/RES2026",
+  "extensions": [
+    {
+      "by": "experiments/runs/CONFIRM2026/joint04_005",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-11T20:22:57.877375+00:00",
+      "files_added": [
+        "data/raw/RES2026/refetch_20260911T202233Z.json",
+        "data/raw/RES2026/code/refetch_uso2026_20260911.py",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T202233Z.html",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T202233Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T202233Z.json",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T202233Z.html",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T202233Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T202233Z.json"
+      ],
+      "finding": "both pages are byte-identical to the 15:12Z capture of the same day (men's sha256 2a9f4ffa..., women's 9addde7f...); the men's draw still carries R1-QF only and no SF row, the women's still carries SF. No new result was recorded and nothing was inferred.",
+      "reason": "daily results refresh (references/CONFIRM2026_elo/DAILY.md step 1): the two 2026 US Open singles draw pages re-fetched with the route-2 fetcher at 2026-09-11T20:22:33Z to look for a men's semifinal result",
+      "script": "data/raw/RES2026/code/refetch_uso2026_20260911.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/joint04_006",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-11T20:52:09.953933+00:00",
+      "files_added": [
+        "data/raw/RES2026/refetch_20260911T205127Z.json",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T205127Z.html",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T205127Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T205127Z.json",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T205127Z.html",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T205127Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T205127Z.json"
+      ],
+      "finding": "men's page byte-identical to the 20:22Z and 15:12Z captures of the same day (sha256 2a9f4ffa...): still R1-QF only, no SF row. The women's page bytes changed (9addde7f... -> 9b2d8196...) but its 126 parsed match rows are identical to the 20:22Z capture field for field apart from retrieved_at_utc, so the edit carried no new result. Neither men's semifinal is recorded by any source; nothing was inferred.",
+      "reason": "daily results refresh for CONFIRM2026 attempt 006: the two 2026 US Open singles draw pages re-fetched with the route-2 fetcher at 20260911T205127Z",
+      "script": "data/raw/RES2026/code/refetch_uso2026_20260911.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/joint04_006",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-11T21:07:07.596728+00:00",
+      "files_added": [
+        "data/raw/RES2026/refetch_20260911T210658Z.json",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T210658Z.html",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T210658Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T210658Z.json",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T210658Z.html",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T210658Z.csv",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T210658Z.json"
+      ],
+      "finding": "second refresh of attempt 006, 15 minutes after the first and about two hours after the first men's semifinal was scheduled to start. Men's page still byte-identical to every earlier capture of the day (sha256 2a9f4ffa...): 124 matches, R1-QF only, no SF row. Women's page byte-identical to the 20:51Z capture (9b2d8196...). Neither men's semifinal is recorded by any source; nothing was inferred and no ledger outcome line was appended.",
+      "reason": "daily results refresh for CONFIRM2026 attempt 006: the two 2026 US Open singles draw pages re-fetched with the route-2 fetcher at 20260911T210658Z",
+      "script": "data/raw/RES2026/code/refetch_uso2026_20260911.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/elo_001 (daily ledger worker)",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-11T21:41:56.044388+00:00",
+      "files_added": [
+        "data/raw/RES2026/code/scores_atp_uso_daysfrom1.py",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T210957Z.csv",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T212058Z.csv",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T213058Z.csv",
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T214059Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T210957Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T212058Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T213058Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T214059Z.csv",
+        "data/raw/RES2026/raw/odds_api/scores_tennis_atp_us_open_daysFrom1_20260911T211025Z.json",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T210957Z.html",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T212058Z.html",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T213058Z.html",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T214059Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T210957Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T212058Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T213058Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T214059Z.html",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T210957Z.json",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T212058Z.json",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T213058Z.json",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T214059Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T210957Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T212058Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T213058Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T214059Z.json",
+        "data/raw/RES2026/receipts/scores_tennis_atp_us_open_daysFrom1_20260911T211025Z.json",
+        "data/raw/RES2026/refetch_20260911T210957Z.json",
+        "data/raw/RES2026/refetch_20260911T212058Z.json",
+        "data/raw/RES2026/refetch_20260911T213058Z.json",
+        "data/raw/RES2026/refetch_20260911T214059Z.json",
+        "data/raw/RES2026/scores_probe_20260911T211025Z.json"
+      ],
+      "finding": "No source records a completed men's semifinal. The men's draw page came back byte-identical on all four captures (sha256 2a9f4ffa...): 124 matches, rounds R1-R4 and QF, no SF row. The women's page was byte-identical on all four (9b2d8196...), 126 matches, SF present. The Odds API scores payload at 21:10:25Z shows Zverev-Khachanov (commence 2026-09-11T19:12:43Z) IN PROGRESS: completed=false, sets 1-0 to Zverev, last_update 2026-09-11T21:10:07Z; Tiafoe-Shelton (23:00Z) completed=false with scores=null. x-requests-remaining 15722, x-requests-used 4278. No outcome line was appended, no result was stated and nothing was inferred; an in-progress set count is not a result.",
+      "reason": "DAILY.md step 1 for the daily-ledger worker: four route-2 re-fetches of the two 2026 US Open singles draw pages at 21:09:57Z, 21:20:58Z, 21:30:58Z and 21:40:59Z (the 21:09:57Z capture plus three 10-minute polls), and one Odds API /scores?daysFrom=1 call for tennis_atp_us_open at 21:10:25Z (2 credits) because the men's draw page was stale.",
+      "script": "experiments/runs/CONFIRM2026/elo_001/extend_res2026_manifest_daily.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/elo_001 (daily ledger worker)",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-12T15:28:58.450459+00:00",
+      "files_added": [
+        "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260912T151723Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T151723Z.csv",
+        "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260912T151723Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T151723Z.html",
+        "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260912T151723Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T151723Z.json",
+        "data/raw/RES2026/refetch_20260912T151723Z.json"
+      ],
+      "finding": "Men's page bytes changed (2a9f4ffa... -> 6527c2b2...) and now carries 126 matches with an SF round: Alexander Zverev d. Karen Khachanov 6-3 7-6(9) 7-6(8) (completed) and Ben Shelton d. Frances Tiafoe 4-6 6-3 6-3 7-5 (completed). Women's page bytes changed (9b2d8196... -> 704a5b49...), still 126 matches, SF rows unchanged, no women's final row. Because both men's semifinals are recorded as completed by this source, no Odds API scores call was made and no credit was spent.",
+      "reason": "daily results refresh for 2026-09-12: the two 2026 US Open singles draw pages re-fetched with the route-2 fetcher at 20260912T151723Z",
+      "script": "experiments/runs/CONFIRM2026/elo_001/extend_res2026_manifest_daily.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/elo_001 (daily ledger worker)",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-12T20:06:32.641691+00:00",
+      "files_added": [
+        "data/raw/RES2026/code/refetch_uso2026_womens_20260912.py",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T200428Z.csv",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T200428Z.html",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T200428Z.json",
+        "data/raw/RES2026/refetch_20260912T200428Z.json"
+      ],
+      "finding": "WTA02 refresh 2026-09-12T20:04:28Z: the women's US Open 2026 draw page carries 126 completed matches (R1-SF) and no final row; the final (Sabalenka-Rybakina, 20:00Z) is in progress; no outcome appended",
+      "reason": "WTA02 ledger step: retained page and receipt for the women's final check before the retrospective WTA01-full line",
+      "script": "experiments/runs/CONFIRM2026/elo_001/extend_res2026_manifest_daily.py"
+    },
+    {
+      "by": "experiments/runs/CONFIRM2026/elo_001 (daily ledger worker)",
+      "earlier_captures_retained": true,
+      "extended_at_utc": "2026-09-12T22:11:48.636643+00:00",
+      "files_added": [
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T201029Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T202029Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T203030Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T204030Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T205031Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T210031Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T211032Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T212032Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T213033Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214033Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214134Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214635Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T215135Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T215636Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T220136Z.csv",
+        "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T220637Z.csv",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T201029Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T202029Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T203030Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T204030Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T205031Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T210031Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T211032Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T212032Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T213033Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214033Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214134Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214635Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T215135Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T215636Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T220136Z.html",
+        "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T220637Z.html",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T201029Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T202029Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T203030Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T204030Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T205031Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T210031Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T211032Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T212032Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T213033Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214033Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214134Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214635Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T215135Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T215636Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T220136Z.json",
+        "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T220637Z.json",
+        "data/raw/RES2026/refetch_20260912T201029Z.json",
+        "data/raw/RES2026/refetch_20260912T202029Z.json",
+        "data/raw/RES2026/refetch_20260912T203030Z.json",
+        "data/raw/RES2026/refetch_20260912T204030Z.json",
+        "data/raw/RES2026/refetch_20260912T205031Z.json",
+        "data/raw/RES2026/refetch_20260912T210031Z.json",
+        "data/raw/RES2026/refetch_20260912T211032Z.json",
+        "data/raw/RES2026/refetch_20260912T212032Z.json",
+        "data/raw/RES2026/refetch_20260912T213033Z.json",
+        "data/raw/RES2026/refetch_20260912T214033Z.json",
+        "data/raw/RES2026/refetch_20260912T214134Z.json",
+        "data/raw/RES2026/refetch_20260912T214635Z.json",
+        "data/raw/RES2026/refetch_20260912T215135Z.json",
+        "data/raw/RES2026/refetch_20260912T215636Z.json",
+        "data/raw/RES2026/refetch_20260912T220136Z.json",
+        "data/raw/RES2026/refetch_20260912T220637Z.json"
+      ],
+      "finding": "16 route-2 re-fetches of the 2026 US Open women's singles draw page between 20:10Z and 22:07Z, every 10 minutes to 21:41Z and every 5 minutes after. Three distinct page states: 126 matches through SF until 20:20Z, a text-only edit at 20:30Z, and from 21:40Z a 127th row for the final carrying a SINGLE set, Rybakina 6-4 over Sabalenka, with the other two set cells empty and NEITHER name bolded in the RD3 bracket template. The final was still being played at the last capture and NO retained source records a completed result.",
+      "reason": "DAILY.md step 1 for the women's final; earlier captures retained, nothing overwritten",
+      "script": "experiments/runs/CONFIRM2026/elo_001/extend_res2026_manifest_daily.py"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 28056,
+      "path": "data/raw/RES2026/acquisition_summary.json",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "3ca3c0e6663bb546deca3eb2e6a3bf0174d835c0df1953625a2a4a2d540252db",
+      "source_url": ""
+    },
+    {
+      "bytes": 3952,
+      "path": "data/raw/RES2026/code/fetchlib.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "69fc08487c7d208201dbd83bf3c193840f20b07147ce1b73da5fc4d177388390",
+      "source_url": ""
+    },
+    {
+      "bytes": 11243,
+      "path": "data/raw/RES2026/code/finalize.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "beb7fa636273d5ff7524607f66b940b204ebed0015a81700ac995fa644ba1efb",
+      "source_url": ""
+    },
+    {
+      "bytes": 3961,
+      "path": "data/raw/RES2026/code/profile_td.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "77ac54745bc1b4366de9aebc84fd2cb16d3b18387a8ecc0e5e1590ee6e6d2738",
+      "source_url": ""
+    },
+    {
+      "bytes": 17527,
+      "path": "data/raw/RES2026/code/reconcile.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "8411eb67607f97039d1324cd592709851ac037cf2319b38c498cfb9b53fdbf8f",
+      "source_url": ""
+    },
+    {
+      "bytes": 3803,
+      "path": "data/raw/RES2026/code/reparse.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "44af876be0ba3488242a2c48d171b0799347ebf2e4a159dc1f293ae314e1da92",
+      "source_url": ""
+    },
+    {
+      "bytes": 5127,
+      "path": "data/raw/RES2026/code/route1.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "0ea8eff7fbf3410253565d40bac3ab03013f06cf6262d5246241686f4a0c053c",
+      "source_url": ""
+    },
+    {
+      "bytes": 3989,
+      "path": "data/raw/RES2026/code/route1b.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "2e37d47136c4b248ad8e7570e90b0d363427b4c4f9a41772237a4f8ee9b1da06",
+      "source_url": ""
+    },
+    {
+      "bytes": 9476,
+      "path": "data/raw/RES2026/code/route2.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "daa47abac50889c2d59b7ffa30ccc3013c75b425aac995cc884a8f1d31571004",
+      "source_url": ""
+    },
+    {
+      "bytes": 4146,
+      "path": "data/raw/RES2026/code/route3.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "baea433adfe35649e73dc7fc84fc3907e19a932b82f22110495e4df9a501cd1b",
+      "source_url": ""
+    },
+    {
+      "bytes": 5799,
+      "path": "data/raw/RES2026/code/route4.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "b8b4f54c077651eeb808bd138c7a2be081dd2e2b714a6992e9a7665b298727a3",
+      "source_url": ""
+    },
+    {
+      "bytes": 2818,
+      "path": "data/raw/RES2026/code/route5_probes.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "73bb57d06ceb3c1cc4e7fb1351e96b0e172c7e8cb279a28d45dc855be6dd3fcf",
+      "source_url": ""
+    },
+    {
+      "bytes": 12829,
+      "path": "data/raw/RES2026/code/wikidraw.py",
+      "retrieved_at_utc": "2026-09-11T15:29:44.916836+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "90eebacd8fab65831102f2b4fb44c42bf3c125d36a11ee24a3ae4617781946bf",
+      "source_url": ""
+    },
+    {
+      "bytes": 8408,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_BOSS_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9dae948a5258c15ce29286e207a2f49a14ef51a43902059e2a749cbd67894658",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 32399,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Cincinnati_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ca3abb9f3926e6c9e2e3038e7f463f82551046b33545bed1af1b6b887f33ad13",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9077,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Croatia_Open_Umag_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2797ec47f0e8ec406b8b63b785017c14c4f6e24a45a00ede17369e73c46b1f3d",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9263,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Eastbourne_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7d6787c60196fe7c0957a3fe24f06929078ed8dfca5a673e4737cf4d4e098b84",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8512,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Estoril_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6361a4f03151a832af597b4b54d03fa8960bd32e9274799788c4f8b5d33c3ea8",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 42285,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_French_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "d7dd5f1900d6c6a496803aebf84cca84434abf6b38858d6abe2b7914a0426b16",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9465,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Generali_Open_Kitzb_hel_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "fc50bd96dc418eb7a76da87be850d91881a236ebbc9836face4a064d89604627",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9571,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Halle_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "428bad04ba7d101b92d2c72963640fda55614a6f0a3d2b1d9a00dd23d093c86a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8903,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Lib_ma_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b105ffc36fd177f0aa2b0bb0dd6baee140845da00cda39950071c27224640b92",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8696,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Los_Cabos_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c002b5e026c8da7561eb10d6e835c41615903309084fee8b88db26dec2a9986a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9373,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Mallorca_Championships_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3bf5563e2eb151161a07ef18abce43b60b59b620d7eadaf2ab116cae5d3c2d1e",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10611,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Mubadala_DC_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b956462e0da508d18277cf636e29476e68734e40d2531c2f60029baf956e4f3",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 33085,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_National_Bank_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "26cd65f3c7202aa88e965d320e76c91734def81e34bb6dfda26eaa3a5523e46a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 11808,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Queen_s_Club_Championships_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "98ac8a26af49fe52c9322e846dd9bcd792889ff92c77fdb298f42e3880d1de1c",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8985,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Swedish_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b751e3186b855ba797d5f1378eaa70efbdf74b6b221e43d6fabe36c95107364f",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9062,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Swiss_Open_Gstaad_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "112830f9694f61cf45242973476486973f4113fcfd21046db000dceb3269fe17",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 39680,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2ea7da206b0a77436e1e43ebaf221e1301d93f010a1dd446c2a22bb50ed3bc58",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 46847,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Wimbledon_Championships_mens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "89c7598a61c54b439fa11d314629c778ace096409cca8bc121391584a170923d",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 15675,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/atp_Winston_Salem_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a30fa65fe252bba07ea4a6da26f90fc7e3d9f8a4c86b198d054739c49d6eb95b",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 12037,
+      "derivation": "derived from collector-retained bytes; not a new fetch",
+      "path": "data/raw/RES2026/parsed/polymarket_TICK01_usopen_resolutions.csv",
+      "retrieved_at_utc": "2026-09-11T15:25:32.648464+00:00",
+      "route": "4_polymarket_via_TICK01",
+      "sha256": "6af988de4dd33d512914d4611b4982f4cff737fc3215d8bde9104506ceaa8b9a",
+      "source_url": "data/raw/TICK01/live (read-only)"
+    },
+    {
+      "bytes": 166276,
+      "derivation": "window export from the retained workbook bytes",
+      "path": "data/raw/RES2026/parsed/tennis_data_atp_2026_window.csv",
+      "retrieved_at_utc": "2026-09-11T15:19:29.514589+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "167c876e6eb2c066b5c00a323be2cfc368e34b7058f86f1d1a4c526164e35484",
+      "source_url": "http://www.tennis-data.co.uk/ (annual workbook)"
+    },
+    {
+      "bytes": 161467,
+      "derivation": "window export from the retained workbook bytes",
+      "path": "data/raw/RES2026/parsed/tennis_data_wta_2026_window.csv",
+      "retrieved_at_utc": "2026-09-11T15:19:29.514589+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "2e80b762aca3af059a3d58430807f4f1b49111c3424125d6187bfadb43e67a72",
+      "source_url": "http://www.tennis-data.co.uk/ (annual workbook)"
+    },
+    {
+      "bytes": 9514,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Athens_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "bfcc077ab7dbdfc865ff5bcf817a4303c59d56a2f5cc69cbf5851ff5b73f37da",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8662,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Bad_Homburg_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "95829c4ec7a21afc7bac1b3b34e5506d06f70d0dc5a1e50e684dd7529fa06306",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8943,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Berlin_Tennis_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f677c8bfc778eda2bfac621912e51da0eae3534b03ac6ff2212de7332842054a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 32623,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Cincinnati_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "509024e70c4dfbdd02093247634ea6078c2528fc7488c4bf33aef8bb828a979a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10745,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Eastbourne_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "556b8972b0fdb5ffd9a5dc89811e347eb7254f61b75f0da49b2d0d4615f1ed8e",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 41667,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_French_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6ac718079ef09f15b511dd34554f8b7518e83ea46072f81e9ff7b40134933d33",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10369,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Hamburg_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f2d7775d4672e300c04f63f1bd645a68937e63a3d528ca57df7418bb59022079",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10105,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Ia_i_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "1c0cac3c83364bfc53074067e9f9dbf5a298309525145e60a69eb5e3c7a5d72d",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10434,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Lib_ma_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "4e4d37b897468d8b02d1c7004b6c9e0fb15832cb59a7e322dfbfab38b5328c1f",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9940,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Memphis_Classic_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "d64cf6f1a327ee7efc5ba3a8000eb6d6218687e536b3623387f5aaa7cc573baf",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 8629,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Monterrey_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b703404a92f4124cc19f00e9c17f7d9dfa6be58a1185dd136dcb60c8d3fcbf1a",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9347,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Mubadala_DC_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c58132b82299131b520cee079c4e950c4aa8393997f1cde897b60a57788c4f68",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 33272,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_National_Bank_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "57da1c29dfcddbd34f5a50c3745aa8546d6e5fd5cf9b92d2863c7194899f3ee0",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10865,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Nottingham_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f40c26bc714d7b3cb72a1899d6ec4caf2322c076fbf93726c488aa923f0023c6",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 9721,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Prague_Open_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "48b24b6a07c40d261b171463d844f0cd0adb75126473943e146ba5da97ff3f02",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 10273,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Queen_s_Club_Championships_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2c54621d70d9a7a54b1ab711ca7da8f147875b5062ab338c0a6528fb36b0e5ce",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 40040,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "19719df216052d1ffd2be8a5045d6b492e6a6f6e64833ec5052af12e144f83b3",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 46706,
+      "derivation": "parsed from retained HTML by RES2026-wikidraw-1.2.0",
+      "path": "data/raw/RES2026/parsed/wta_Wimbledon_Championships_womens_singles.csv",
+      "retrieved_at_utc": "2026-09-11T15:15:58.813720+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9c8c350a4b45a596e08c1c3a6fb7e84e37a6b885550600603860ccd4d83acb2c",
+      "source_url": "see source_url column in the CSV"
+    },
+    {
+      "bytes": 2465,
+      "derivation": "cross-source comparison of retained sources",
+      "path": "data/raw/RES2026/quarantine/RES2026_disagreements.csv",
+      "retrieved_at_utc": "2026-09-11T15:24:43.429167+00:00",
+      "route": "reconciliation",
+      "sha256": "45d7dc9bde79c5aaefd0998046a955fae10fa23eb68923810e1b4e41785fa7f9",
+      "source_url": ""
+    },
+    {
+      "bytes": 1890,
+      "path": "data/raw/RES2026/raw/odds_api/scores_tennis_atp_us_open_daysFrom3.json",
+      "receipt": "data/raw/RES2026/receipts/route3_scores_tennis_atp_us_open.json",
+      "retrieved_at_utc": "2026-09-11T15:16:37.267238+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "56b89130e26e24dc8035b5cea5cc7e28ca4d168c023639f47fc45a8208c05bbc",
+      "source_url": "/v4/sports/tennis_atp_us_open/scores"
+    },
+    {
+      "bytes": 2278,
+      "path": "data/raw/RES2026/raw/odds_api/scores_tennis_wta_us_open_daysFrom3.json",
+      "receipt": "data/raw/RES2026/receipts/route3_scores_tennis_wta_us_open.json",
+      "retrieved_at_utc": "2026-09-11T15:16:37.404692+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "26606b5bb0754741743dcee31c8dd4e6c9fb66e3cc013c49f3c6d4fb801bb93c",
+      "source_url": "/v4/sports/tennis_wta_us_open/scores"
+    },
+    {
+      "bytes": 13079,
+      "path": "data/raw/RES2026/raw/odds_api/sports_catalog.json",
+      "receipt": "data/raw/RES2026/receipts/route3_sports_catalog.json",
+      "retrieved_at_utc": "2026-09-11T15:16:37.145466+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "ec9f9e368db79ddc02fd3f6b628fb1423d13f80ac9ea7ffbd52190a5be6cbc1e",
+      "source_url": "/v4/sports"
+    },
+    {
+      "archive_capture": "20260307200645",
+      "bytes": 427318,
+      "origin_last_modified": "Sun, 16 Nov 2025 20:04:48 GMT",
+      "path": "data/raw/RES2026/raw/tennis_data_atp_2025.xlsx",
+      "receipt": "data/raw/RES2026/receipts/route1_wayback_atp_2025_20260307200645.json",
+      "retrieved_at_utc": "2026-09-11T15:17:07.223103+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "8acfcf78d18e0024a145009ff382e940d765d6fab6087d696fae2bea2dd217e2",
+      "source_url": "http://www.tennis-data.co.uk/2025/2025.xlsx"
+    },
+    {
+      "archive_capture": "20260803192930",
+      "bytes": 286505,
+      "origin_last_modified": "Mon, 03 Aug 2026 08:12:44 GMT",
+      "path": "data/raw/RES2026/raw/tennis_data_atp_2026.xlsx",
+      "receipt": "data/raw/RES2026/receipts/route1_wayback_atp_2026_20260803192930.json",
+      "retrieved_at_utc": "2026-09-11T15:16:55.704142+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "003dd0e38f355830946b09921847ad6df1b022fe033da97dcc44aaff0e8d59bb",
+      "source_url": "http://www.tennis-data.co.uk/2026/2026.xlsx"
+    },
+    {
+      "archive_capture": "20260421123606",
+      "bytes": 399398,
+      "origin_last_modified": "Mon, 05 Jan 2026 12:27:52 GMT",
+      "path": "data/raw/RES2026/raw/tennis_data_wta_2025.xlsx",
+      "receipt": "data/raw/RES2026/receipts/route1_wayback_wta_2025_20260421123606.json",
+      "retrieved_at_utc": "2026-09-11T15:17:44.142172+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "aac890b7465d0c74812578b2a962b4e5cb4c76455dccb6cece2efa5067448c13",
+      "source_url": "http://www.tennis-data.co.uk/2025w/2025.xlsx"
+    },
+    {
+      "archive_capture": "20260803192940",
+      "bytes": 273930,
+      "origin_last_modified": "Mon, 03 Aug 2026 08:12:30 GMT",
+      "path": "data/raw/RES2026/raw/tennis_data_wta_2026.xlsx",
+      "receipt": "data/raw/RES2026/receipts/route1_wayback_wta_2026_20260803192940.json",
+      "retrieved_at_utc": "2026-09-11T15:17:29.555122+00:00",
+      "route": "1b_tennis_data_wayback",
+      "sha256": "d134630c6d12a9a46981c4baf09fb1ac1f7fdbc0d51aa99a726cc13569235d7c",
+      "source_url": "http://www.tennis-data.co.uk/2026w/2026.xlsx"
+    },
+    {
+      "bytes": 1947234,
+      "path": "data/raw/RES2026/raw/wikipedia/2026_ATP_Tour.html",
+      "receipt": "data/raw/RES2026/receipts/route2_season_atp.json",
+      "retrieved_at_utc": "2026-09-11T15:11:35.955741+00:00",
+      "route": "2_wikipedia",
+      "sha256": "8ee4786d9d7ffa09077833c0140783f5b0e2da317a13e6bd5151c0fd3c8e0301",
+      "source_url": "https://en.wikipedia.org/wiki/2026_ATP_Tour"
+    },
+    {
+      "bytes": 1918733,
+      "path": "data/raw/RES2026/raw/wikipedia/2026_WTA_Tour.html",
+      "receipt": "data/raw/RES2026/receipts/route2_season_wta.json",
+      "retrieved_at_utc": "2026-09-11T15:11:36.358755+00:00",
+      "route": "2_wikipedia",
+      "sha256": "e8941fa7ea64d0ac5a5608f69766d9e0900f8aa2a5cae6a710180d47231f7bf2",
+      "source_url": "https://en.wikipedia.org/wiki/2026_WTA_Tour"
+    },
+    {
+      "bytes": 407467,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_BOSS_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_BOSS_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:38.247678+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a53fb1bcbc6c1a0afe5b3b68599fe8c746d2006578262ef287166035daf9f13c",
+      "source_url": "https://en.wikipedia.org/wiki/2026_BOSS_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 1129687,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Cincinnati_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Cincinnati_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:00.895736+00:00",
+      "route": "2_wikipedia",
+      "sha256": "cdf16aedf938d97b9e0f2b2f805d7f5d1291acea2778facc709e19e4db1b3e56",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Cincinnati_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 403342,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Croatia_Open_Umag_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Croatia_Open_Umag_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:51.306206+00:00",
+      "route": "2_wikipedia",
+      "sha256": "e75bcf6d3a484ea57f03ad6374d65356f66da170cb8d6b757291754b728d22b0",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Croatia_Open_Umag_\u2013_Singles"
+    },
+    {
+      "bytes": 418937,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Eastbourne_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Eastbourne_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:45.610122+00:00",
+      "route": "2_wikipedia",
+      "sha256": "25d5f23d87570b8691d5acd62b3d9da383ad29d3f39507b00b1ce7f43c0b16d7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Eastbourne_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 403774,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Estoril_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Estoril_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:54.204150+00:00",
+      "route": "2_wikipedia",
+      "sha256": "de5d673635b28e43401b87b549d06de4d3e2767b957f3c220b097b4079662b99",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Estoril_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 1329954,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_French_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_French_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:36.782508+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3beef3d944af7a638a894b3424e8f724cfd948ac385e9fcb05252171cde7efd7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_French_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 403874,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Generali_Open_Kitzb_hel_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Generali_Open_Kitzb_hel_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:52.767089+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c002514eb1132bcd2ef3b9905c6c308ea44764a4a323da246a6408a5bebf91ca",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Generali_Open_Kitzb\u00fchel_\u2013_Singles"
+    },
+    {
+      "bytes": 431314,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Halle_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Halle_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:41.121162+00:00",
+      "route": "2_wikipedia",
+      "sha256": "73f6c52fa374d48457d4791fb7aac077e46c379917731ed2bf18392dc8dca24f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Halle_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 405650,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Lib_ma_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Lib_ma_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:39.803012+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ec20b737a6d7f72e2853d7cd7ecec74e36b2215a2060af7b7724049cf69a4f96",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Lib\u00e9ma_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 400847,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Los_Cabos_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Los_Cabos_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:57.726486+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c50dbc8948a2af3c353b505f21b79f8d12f64ce1f79805bb11b4f791a6253f37",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Los_Cabos_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 403690,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Mallorca_Championships_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Mallorca_Championships_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:44.209664+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c77142a38d594047b5e2b474598609e41f3e2ca96a0ea1c21e1b4a89ab865395",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Mallorca_Championships_\u2013_Singles"
+    },
+    {
+      "bytes": 472409,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Mubadala_DC_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Mubadala_DC_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:55.708942+00:00",
+      "route": "2_wikipedia",
+      "sha256": "dbe9b71a8c85f965ada7bfac331417a6e8001020491db0c2f10eabae31f55347",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Mubadala_DC_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1031144,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_National_Bank_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_National_Bank_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:59.298679+00:00",
+      "route": "2_wikipedia",
+      "sha256": "5d9f14c8596ab9a2b3e379e00b40f6603c67d03b621fb03d80db2ebdaa5f5dab",
+      "source_url": "https://en.wikipedia.org/wiki/2026_National_Bank_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 438687,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Queen_s_Club_Championships_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Queen_s_Club_Championships_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:42.576083+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7456fac909f022330823eefff8266a5bad13fbb2daf7800bf774eef873de8985",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Queen's_Club_Championships_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 401043,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Swedish_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Swedish_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:48.510738+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f7f18e5046ea0c88bfc3eb8163b3cae10eea70052dcadb4ac9a8a1f093a4cbe1",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Swedish_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 407510,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Swiss_Open_Gstaad_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Swiss_Open_Gstaad_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:49.814423+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f7a21a4c428262782d0712942ee261b3fa023c0a920c0b362d4459fdb3054920",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Swiss_Open_Gstaad_\u2013_Singles"
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:03.602527+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1332439,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Wimbledon_Championships_mens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Wimbledon_Championships_mens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:11:46.974292+00:00",
+      "route": "2_wikipedia",
+      "sha256": "cfc2cf0332eb8eb00db3ad70562ea47268ba22266a3c5ff188d9ff0b2d1f7a50",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Wimbledon_Championships_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 553321,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_Winston_Salem_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_atp_Winston_Salem_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:02.240617+00:00",
+      "route": "2_wikipedia",
+      "sha256": "afd0c1b697e0f3198480f4a33209898357daea41e2879bb54f04794eb6271fb5",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Winston-Salem_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 442338,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Athens_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Athens_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:19.205077+00:00",
+      "route": "2_wikipedia",
+      "sha256": "15d77450a424650f2e4715272fa4eec50b0111990c499224d95d128401ca265e",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Athens_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 399391,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Bad_Homburg_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Bad_Homburg_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:13.330982+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7deace3d32d4a85607176cc5538b9b476b41596db84448de7665ddc8130e44ef",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Bad_Homburg_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 441945,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Berlin_Tennis_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Berlin_Tennis_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:10.032359+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b19a7d46b50f87e49533a1333081592c783c546675a277fe84344c2317e6978c",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Berlin_Tennis_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 1133466,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Cincinnati_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Cincinnati_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:27.496284+00:00",
+      "route": "2_wikipedia",
+      "sha256": "831fbf9c6193b0fc4c06e728cbbe86268aef9beee81926bd668fb7fae70b5e34",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Cincinnati_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 469223,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Eastbourne_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Eastbourne_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:14.811273+00:00",
+      "route": "2_wikipedia",
+      "sha256": "203b9af97122950f1d6c3670f3c1071948cb688e1ffdd453be7151d070e1e463",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Eastbourne_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1124524,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_French_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_French_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:05.443590+00:00",
+      "route": "2_wikipedia",
+      "sha256": "aec5f58a534819f36b099669ad97bb5010a5692dc08a927dc255cf92afccc6ba",
+      "source_url": "https://en.wikipedia.org/wiki/2026_French_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 460913,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Hamburg_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Hamburg_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:20.598991+00:00",
+      "route": "2_wikipedia",
+      "sha256": "41ffc4cdd6cd6d58fb0932b426ba659b4b712711d1b2bf14b61537b9bf6dfa15",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Hamburg_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 463653,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Ia_i_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Ia_i_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:17.686803+00:00",
+      "route": "2_wikipedia",
+      "sha256": "75bc1826fb3d1778cd327a41140d75141cf38b868cf4b77d8c94af1906eb3d45",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Ia\u0219i_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 422944,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Lib_ma_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Lib_ma_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:08.534067+00:00",
+      "route": "2_wikipedia",
+      "sha256": "eec3a616daa62695a82a37194da3e71004b6ee9f6471a3afa41fcf49407267fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Lib\u00e9ma_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 432108,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Memphis_Classic_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Memphis_Classic_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:24.690169+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b6c0aec7058636d0e8fc308655c24e9ce11510688620b15fcc48fb00f6a7d1b0",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Memphis_Classic_\u2013_Singles"
+    },
+    {
+      "bytes": 399956,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Monterrey_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Monterrey_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:28.938275+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6b1d3a63a269259422c97599f69bbed6ba91aad8a2eec2583a67b7f327e6f73a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Monterrey_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 398474,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Mubadala_DC_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Mubadala_DC_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:23.389742+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ea3796cbc7e60631a0490f4d6367b9e4334ce6fdc6ad671404c2f0056bc757ef",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Mubadala_DC_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1004533,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_National_Bank_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_National_Bank_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:26.078310+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2f22bee2bae3ff7b72eebd68b0956d2b3a8c5d1981d9f1c0f762b023f18215df",
+      "source_url": "https://en.wikipedia.org/wiki/2026_National_Bank_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 477262,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Nottingham_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Nottingham_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:11.782531+00:00",
+      "route": "2_wikipedia",
+      "sha256": "1ae7c715291f78b9db43e8c3eff594b11f28952fadf8ac0d3c2f38eac2490701",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Nottingham_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 470009,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Prague_Open_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Prague_Open_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:21.907744+00:00",
+      "route": "2_wikipedia",
+      "sha256": "e80180f66eb15d02f4cbbeec3d0bf9f629acbc8807cfbdb5bc80a8f5003f7bcf",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Prague_Open_\u2013_Singles"
+    },
+    {
+      "bytes": 449121,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Queen_s_Club_Championships_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Queen_s_Club_Championships_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:07.010928+00:00",
+      "route": "2_wikipedia",
+      "sha256": "0ad00082d8c927507f0af1a7493dfcaf45bbdf304bb66e3c242f0e28b18a3b5b",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Queen's_Club_Championships_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147290,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:30.312942+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9addde7fb6ba015d92b2abb1af3689ed41c376c103556bed46ed935b5414b42b",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1153510,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_Wimbledon_Championships_womens_singles.html",
+      "receipt": "data/raw/RES2026/receipts/route2_draw_wta_Wimbledon_Championships_womens_singles.json",
+      "retrieved_at_utc": "2026-09-11T15:12:16.197939+00:00",
+      "route": "2_wikipedia",
+      "sha256": "cae336fdceddad3be5a4b24027c2571a9f32307f329a7176bab39bb67adc3b97",
+      "source_url": "https://en.wikipedia.org/wiki/2026_Wimbledon_Championships_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 969,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2025_attempt1.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "72762988f450e35ed662b2055889fa21f9adf2f3620e41a6091270248d7eda4d",
+      "source_url": ""
+    },
+    {
+      "bytes": 969,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2025_attempt2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "dce983f81ac7b9339dbae24507c7dd2bc0b5be19771d2f040321adf85fdc462b",
+      "source_url": ""
+    },
+    {
+      "bytes": 969,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2025_attempt3.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b89d6bfe71b1912a169cdd2d055c0d5076650f12647173ab91776a182b96cb98",
+      "source_url": ""
+    },
+    {
+      "bytes": 968,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2025_attempt4.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "40f6e2d010c2da9a2c0548a1d40ace78be70e68c73fe1107f89edb9927f9885a",
+      "source_url": ""
+    },
+    {
+      "bytes": 968,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_attempt1.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "092212e93515c1dbda6aaf259af98e8a336fa6639d44edd8ba0679d48719f869",
+      "source_url": ""
+    },
+    {
+      "bytes": 969,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_attempt2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "7e4f50ad4e58f535b589b34adb24d744591b5f8d76d93a422721776125794a1d",
+      "source_url": ""
+    },
+    {
+      "bytes": 968,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_attempt3.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8002a80485865ea979710c44946e2580daeda8345e8c87cb2c5001c0508dba33",
+      "source_url": ""
+    },
+    {
+      "bytes": 969,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_attempt4.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "760e786e87a5c7584d4bf6f62b25b938267cd12f9f81023c4d7fe715a63d5743",
+      "source_url": ""
+    },
+    {
+      "bytes": 975,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_attempt5_full_headers.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "c484fac0024a1ad374ef178d5036a212340b6648d3baf2c512f9e3949807231d",
+      "source_url": ""
+    },
+    {
+      "bytes": 920,
+      "path": "data/raw/RES2026/receipts/route1_direct_atp_2026_usopen.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "7a07650e3d28638b883ba39be97cda412c3568c9d0b49d87c9f05e93efadc3dd",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2025_attempt1.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "9135116845d89b204718e805c597dab6b04e3f50c29ea2f5e15302c82da4a56c",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2025_attempt2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "815c3851863ab18e1a5e86410aae179b8319c6f80b5f0ed13a70da486a23a8ee",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2025_attempt3.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "3fe7c1c29dffcc2dee83769190c01aeda7638daa43a590a888ae3764e1f7fe1f",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2025_attempt4.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d0879bc50e10833fd90b4c2a68f7b917e748d38180f4520c0fc5388ac4398444",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_attempt1.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "df566e08260d4aea89ba52012a64029ff5c9ff8beeb6e6e4ebcac0e72770b84e",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_attempt2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "9afed648ec2bb7fdcc17a1f259fae352da8a882956b334c671cfa79a070f1cdc",
+      "source_url": ""
+    },
+    {
+      "bytes": 971,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_attempt3.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "dde51dbd96ee04d2aaabb177b15f79fd86d69af9b41039e113133515582828fb",
+      "source_url": ""
+    },
+    {
+      "bytes": 970,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_attempt4.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5bd2c5c895909dbc64ae2444c8f13532464fd22f09e646f5f84513120bc16520",
+      "source_url": ""
+    },
+    {
+      "bytes": 977,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_attempt5_full_headers.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "67da441f7570c1dfe0e649e8964b92fed48ed35d5417e1e53835a9dd2a5e5ff3",
+      "source_url": ""
+    },
+    {
+      "bytes": 922,
+      "path": "data/raw/RES2026/receipts/route1_direct_wta_2026_usopen.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "bd555abe7b4176414734f4d92153b4be843d0c1991b6ff9a2a19616de2aba64f",
+      "source_url": ""
+    },
+    {
+      "bytes": 2801,
+      "path": "data/raw/RES2026/receipts/route1_wayback_atp_2025_20260307200645.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5606e3bac5b049e553427c8b7923421801e6fa15eb03978aa966d22f5907fde8",
+      "source_url": ""
+    },
+    {
+      "bytes": 2800,
+      "path": "data/raw/RES2026/receipts/route1_wayback_atp_2026_20260803192930.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b01e502304d30c58df92060bc52cd1da9942637d2bbcf88af828ebbef72f1457",
+      "source_url": ""
+    },
+    {
+      "bytes": 1510,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_atp_2025.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8247315495d09194c97f65233a3dccf34fa5246439bba7b1e85f06afb0724dc8",
+      "source_url": ""
+    },
+    {
+      "bytes": 1510,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_atp_2026.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "6e4739015b68cc46b9c3b8c85bcbb7e98fe533259647e2bb01bc31f608070fa8",
+      "source_url": ""
+    },
+    {
+      "bytes": 1461,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_atp_2026_annual_recheck_retry2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "9a7a48e3e678947e00de8e457158bb08a521807c8a35321905f836a3da7d3f60",
+      "source_url": ""
+    },
+    {
+      "bytes": 1217,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_atp_2026_usopen.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e79c62b9e317c03a799dd1ae6729164d7c475de0a480c6216745124c42ced8ac",
+      "source_url": ""
+    },
+    {
+      "bytes": 1459,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_atp_2026_usopen_retry2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "ca85ccd90f364c8edc45b978eb771df814bb73dd3df3cf5ffd9af2704688608b",
+      "source_url": ""
+    },
+    {
+      "bytes": 1511,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_wta_2025.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8d7bcf610ef211ba1d28109f5117b142d8992bb6d8c0baafc419c52eda3d0225",
+      "source_url": ""
+    },
+    {
+      "bytes": 1512,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_wta_2026.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8306846efbbd7aba30c4f9b65c00f26f337fbda4a549906a3004440691683613",
+      "source_url": ""
+    },
+    {
+      "bytes": 1447,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_wta_2026_usopen.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "c6826413ca2574530f8b66804fb22c677762009df4ecc699d204ced3f64aa6ba",
+      "source_url": ""
+    },
+    {
+      "bytes": 1462,
+      "path": "data/raw/RES2026/receipts/route1_wayback_cdx_wta_2026_usopen_retry2.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "7f878bf88a46c07e689efcc048b372d60fe0c13659cda145c35e1e6a4148577d",
+      "source_url": ""
+    },
+    {
+      "bytes": 2805,
+      "path": "data/raw/RES2026/receipts/route1_wayback_wta_2025_20260421123606.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5d1c4ee81a047c69b4429f90895b15036f5cb11cc9766d046fa019a74bbf02dd",
+      "source_url": ""
+    },
+    {
+      "bytes": 2806,
+      "path": "data/raw/RES2026/receipts/route1_wayback_wta_2026_20260803192940.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b73fb6fa88bb535830fb56e85d37d0c89ff24c3074a48100e0bed630e994973f",
+      "source_url": ""
+    },
+    {
+      "bytes": 6928,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_BOSS_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "1be3819ff6186d01e9990acec554f7d90465057ff0f2e9dbd398d3ba7497e2d4",
+      "source_url": ""
+    },
+    {
+      "bytes": 668,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_BOSS_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "dc689931e514ccef11000e3bf735350df8a0447e30794e5fa9e5016f8bcbb771",
+      "source_url": ""
+    },
+    {
+      "bytes": 6973,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Cincinnati_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8c8e27710c9ab0534dc1f8501aaa9047239e6b8127d694d16a1303ff6c8a8a54",
+      "source_url": ""
+    },
+    {
+      "bytes": 680,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Cincinnati_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "cf30c9b419f8b9ff618a6e7fc672f1165336e66f39c695053cb0b82d7d40d3e9",
+      "source_url": ""
+    },
+    {
+      "bytes": 6952,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Croatia_Open_Umag_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a64031197ca66691787144d16e5688f30d8fa7fbeeb8dac2de12617a17892c5a",
+      "source_url": ""
+    },
+    {
+      "bytes": 676,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Croatia_Open_Umag_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "f5c53d9d2c6e97e55a4df8b04e18846ba48e478a0eab0f1f3c775df29b41bb56",
+      "source_url": ""
+    },
+    {
+      "bytes": 6963,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Eastbourne_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "1711128775484daa4d0859fee85442413148c2949e9608f3c4498f59a3f79f9f",
+      "source_url": ""
+    },
+    {
+      "bytes": 680,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Eastbourne_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b7f8e81854d9b2f4c03773ea727831ebdb29f804fd7d8e77b50290769c2c2e83",
+      "source_url": ""
+    },
+    {
+      "bytes": 6937,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Estoril_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e9de21b3a78eece411c50e822cb4daea1f3374b48579e994f1e08b5e207903f5",
+      "source_url": ""
+    },
+    {
+      "bytes": 671,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Estoril_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "ec801cac86dc08b388bbefe0d04c3a6f85e12a22ccf8d7b7580bdbe2f013c94a",
+      "source_url": ""
+    },
+    {
+      "bytes": 6961,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_French_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b0798c1afcfc08406de81a6dfad56d52ff1817debbba92a086e65fda2406d411",
+      "source_url": ""
+    },
+    {
+      "bytes": 676,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_French_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "6dc7b3c1512121982b06d8a08624266e1c09b76167633e2129c0f663770c381c",
+      "source_url": ""
+    },
+    {
+      "bytes": 6980,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Generali_Open_Kitzb_hel_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "38fca1f795cac3838ba47c0d1eefdee741c4e1c29076f7c8710c4fde1b9a2208",
+      "source_url": ""
+    },
+    {
+      "bytes": 685,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Generali_Open_Kitzb_hel_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "84458e319649d74e4231a667e65628eafcf425f0768d232be62914e676c4065d",
+      "source_url": ""
+    },
+    {
+      "bytes": 6940,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Halle_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "b74b25f40c57c158f190917af4d3038d42eb6e39184ef4e6345a00dbf2f26f57",
+      "source_url": ""
+    },
+    {
+      "bytes": 669,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Halle_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8efb9670394b8d661f79a53191795b4dc5a6268d9218aa37fd8c1591334d7bd2",
+      "source_url": ""
+    },
+    {
+      "bytes": 6960,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Lib_ma_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "68604c12d6e04ae04b232bae0d91c47c85c9e50ed2ff6a2111a02d7c14823cb0",
+      "source_url": ""
+    },
+    {
+      "bytes": 679,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Lib_ma_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "aa89521a3aa50308b95c0780e357835bf10f65b9f2e9a3eb0ab7e01c9cac232c",
+      "source_url": ""
+    },
+    {
+      "bytes": 6943,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Los_Cabos_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5cbdb4c9b28ae4b8b35c20ac054c471a1c0ea268eb6aa5c9270107fdbf091687",
+      "source_url": ""
+    },
+    {
+      "bytes": 673,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Los_Cabos_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "40c916fe3a29c34fbd4a338b0f359f80b9ba4d9b53e7810c992c00e5cdf79614",
+      "source_url": ""
+    },
+    {
+      "bytes": 6965,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Mallorca_Championships_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e8b9abb4a3aad128f056ec3cde471fce692bf9717d01128432e8e62f6cbbb985",
+      "source_url": ""
+    },
+    {
+      "bytes": 681,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Mallorca_Championships_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "87ee32e63bd394ff0363e1794bed49f466c68d8160e4e0e2b6800dca5b700f43",
+      "source_url": ""
+    },
+    {
+      "bytes": 6966,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Mubadala_DC_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "bb41edec46631df1e9c4316ec58abbcf815e357718733ae67a7a9df7daf73a75",
+      "source_url": ""
+    },
+    {
+      "bytes": 681,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Mubadala_DC_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e91d472543daa7eda31ffc55b447cb4e3524e35bc0d07244aa123eb3cfe17570",
+      "source_url": ""
+    },
+    {
+      "bytes": 6973,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_National_Bank_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "4676b511cfd9ba91085e7cc872349d022b50624ca2d8a487698fe01d896f4f35",
+      "source_url": ""
+    },
+    {
+      "bytes": 683,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_National_Bank_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e9b920694ceb074f1800a94a1e69e03a5feaf959818970daf43b67e54692bcaa",
+      "source_url": ""
+    },
+    {
+      "bytes": 6996,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Queen_s_Club_Championships_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d34fa1891a82746dc0b05817a40b2d31dd888f3255adb91fa93a384f35d36099",
+      "source_url": ""
+    },
+    {
+      "bytes": 691,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Queen_s_Club_Championships_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "3a293696e354fe58902b0dfb0f861f45b3b3b4d9a9a25f117844c5f3e65400cf",
+      "source_url": ""
+    },
+    {
+      "bytes": 6954,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Swedish_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "ab7dc61cd63e973b1dbd458e9ced169b03e9af62c51af37ef6a04a813ed34287",
+      "source_url": ""
+    },
+    {
+      "bytes": 677,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Swedish_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "79a8f21cd7fa74e3f80522e6f1c45c6a00b019d9bf3682e77bc18666135fd470",
+      "source_url": ""
+    },
+    {
+      "bytes": 6964,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Swiss_Open_Gstaad_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "e412a499960f843d2682309c11f5f66f6b4606e0ee2a236c7a64155549092eea",
+      "source_url": ""
+    },
+    {
+      "bytes": 676,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Swiss_Open_Gstaad_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "bd3a21c7ec35dfb0535d5820a06c68b0b78689b32d9e7758b922a2f159c1c5a3",
+      "source_url": ""
+    },
+    {
+      "bytes": 6925,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "df35a2d5a6b96d0f36ba157c3d4383099f294bdaf9091a107d70b9ffae101d59",
+      "source_url": ""
+    },
+    {
+      "bytes": 672,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "f2574ba72d5c641f7a2a0e46c96f1e0fbd280cba6c0c3757079fc45640b7bc89",
+      "source_url": ""
+    },
+    {
+      "bytes": 6974,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Wimbledon_Championships_mens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "033631b713e5b22d3a00d6937613a52bd1b4ae8dc21cb19e3d52e54f357ebe20",
+      "source_url": ""
+    },
+    {
+      "bytes": 688,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Wimbledon_Championships_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "234c587d8da2bbe548957980ca2010bb64867519c4feb518bb9b4ee91b1e9701",
+      "source_url": ""
+    },
+    {
+      "bytes": 6965,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Winston_Salem_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "eacd143f1e0383a2c80e6a273fb0151c599899a2c0d21a49dbf6e3df0bd345eb",
+      "source_url": ""
+    },
+    {
+      "bytes": 677,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_Winston_Salem_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "4928921b4b52e4d16a421b872833c905da338ca7af017c6ba9e0a5c85f679a13",
+      "source_url": ""
+    },
+    {
+      "bytes": 6934,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Athens_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "535bec967f8f0f815b31c4a895c6af4cc3e22e08be5f8de79b07e2f91624f116",
+      "source_url": ""
+    },
+    {
+      "bytes": 670,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Athens_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "55871baedbd39c48493d8c2bee668634f5c7f3e53dcad593ecc0ebc39ad8c643",
+      "source_url": ""
+    },
+    {
+      "bytes": 6948,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Bad_Homburg_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "9a584338616827cddea188210dafc6786ee0fa3a10661fef44222eac8378769f",
+      "source_url": ""
+    },
+    {
+      "bytes": 675,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Bad_Homburg_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5f7221bd9f20a7666e544092be281cef39c3ca96aef12e8e32379fb487ea6d87",
+      "source_url": ""
+    },
+    {
+      "bytes": 6955,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Berlin_Tennis_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a03838833321dcffef853b5f215244287ed3e8d900565daa2e72afb77f4de2c2",
+      "source_url": ""
+    },
+    {
+      "bytes": 677,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Berlin_Tennis_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "04d272f403947e8639767922cf5c1be5b0e08de29e00ccbf0e9d8185d74bf0e8",
+      "source_url": ""
+    },
+    {
+      "bytes": 682,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Cincinnati_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "fd1e9fded5b6bf7fe3d11813e2ae4401ff58316bb90c247e3f5ccf3a033229e2",
+      "source_url": ""
+    },
+    {
+      "bytes": 6979,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Cincinnati_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "64433abb3325d257a1795203100610c507378331196d24b2e5f3b4b2b682cc54",
+      "source_url": ""
+    },
+    {
+      "bytes": 682,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Eastbourne_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "565783be48ca291b36a62edd38467c2323f7a094571189713a4ce67d6326bbe3",
+      "source_url": ""
+    },
+    {
+      "bytes": 6969,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Eastbourne_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "0ee38cb54ddee4f858a760e9e67bbe9becb0753082d338bdf5d11367f9bf600d",
+      "source_url": ""
+    },
+    {
+      "bytes": 678,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_French_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a0c7cc92f8d7f8e2688bb26be2d94a8267401b8849ad546291d6076b23909f91",
+      "source_url": ""
+    },
+    {
+      "bytes": 6967,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_French_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "3d52996fc6cee4beed225a9f3c3fc9c09dc8cee6d1e7302b76e38117f434a97b",
+      "source_url": ""
+    },
+    {
+      "bytes": 679,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Hamburg_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "4ab5458b7ba2d53cff8544c45070fc416c7b4c0bace89ad27bdd7dae12bac7f9",
+      "source_url": ""
+    },
+    {
+      "bytes": 6960,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Hamburg_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d800dd8c98421d227d18e73b6eda3e93358cce1ff62fc89c03dadfbdd9ac0587",
+      "source_url": ""
+    },
+    {
+      "bytes": 681,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Ia_i_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "4b2774d4e23c8514a30edca39545d03f50c51323c3a7f5c10780636cda831bc0",
+      "source_url": ""
+    },
+    {
+      "bytes": 6961,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Ia_i_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "427a9e6e3cf394024f88f0a72e80bf06aa182448f42f5b78b630fce8b5efb79b",
+      "source_url": ""
+    },
+    {
+      "bytes": 681,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Lib_ma_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "01e80ebfc39d78d4ff63387fe28ddd5127fc31428709590f26e2fa4bc515f757",
+      "source_url": ""
+    },
+    {
+      "bytes": 6967,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Lib_ma_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "592299411f3e6468b6373d44f61d52d5224bab047cc8eb3949392e196258d638",
+      "source_url": ""
+    },
+    {
+      "bytes": 6959,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Memphis_Classic_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d8084badbc6f0a0da4416e50441b3cd6c66fddda0cfaae7d5062491c53a1f70b",
+      "source_url": ""
+    },
+    {
+      "bytes": 674,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Memphis_Classic_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "459895b1da718d3869590d034e39ed78c88dc8048f60ab5a453e6a49197993f0",
+      "source_url": ""
+    },
+    {
+      "bytes": 6942,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Monterrey_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "adef48ccef079022e29d7886155d888ca3f3f8f7070866769c1ae8261f433aa4",
+      "source_url": ""
+    },
+    {
+      "bytes": 673,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Monterrey_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "1ec9bbeb3e0925152938985dcf5ecf31cfa88ffc479fda55852928aecb3da5d4",
+      "source_url": ""
+    },
+    {
+      "bytes": 683,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Mubadala_DC_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "40107db60a9de711ae461585ef6ea84489e884395b2d8b2dfa5ae59f84d43a48",
+      "source_url": ""
+    },
+    {
+      "bytes": 6972,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Mubadala_DC_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "0fbfb3a62fc19d2d8c6d9e51724d6f8c7204cedc0824fff3a273c6ee1b610f81",
+      "source_url": ""
+    },
+    {
+      "bytes": 685,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_National_Bank_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "dc326f699003c68d373efa34f551b58f5fdca2d2a70b7059033732dd250d3466",
+      "source_url": ""
+    },
+    {
+      "bytes": 6988,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_National_Bank_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "c37e9ddb0fd9c89544c54dd3a22d13336d5ba0164c6abfb193f182a6d5667240",
+      "source_url": ""
+    },
+    {
+      "bytes": 682,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Nottingham_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8f6247bf369176f9bcf33bb5f54a01451f85adbabb8da053b0e328d02763b360",
+      "source_url": ""
+    },
+    {
+      "bytes": 6967,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Nottingham_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "48fc3c370d691fb9a6663a32e0663f40ddb5a0053ebc42082edf02cf80eb5fd4",
+      "source_url": ""
+    },
+    {
+      "bytes": 6948,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Prague_Open_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "ce45fba89548188faa9634b0e0a2ce8552f972d27d560437092fe122daddc933",
+      "source_url": ""
+    },
+    {
+      "bytes": 670,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Prague_Open_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "26058c8f01240d36b5e9b4730828c3fb7a6b453a108eb857455d8544b2f9c286",
+      "source_url": ""
+    },
+    {
+      "bytes": 693,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Queen_s_Club_Championships_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d327590ab1d48107397978aefad165ddac79141bf3fa9f41e33341322552d4a8",
+      "source_url": ""
+    },
+    {
+      "bytes": 7011,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Queen_s_Club_Championships_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "44fd2627ce1a70afa6e65944427dbae77056a3bf00b9f8689e9c23523fe6e251",
+      "source_url": ""
+    },
+    {
+      "bytes": 674,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8a133c176b8c99d55a7cc0dc4137b4c79dace1b90d00e1c3bdbc5c458d4e6956",
+      "source_url": ""
+    },
+    {
+      "bytes": 6933,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "5edffb288599ae26181cdd7f27a52c999a0eb1b2e8ebfff44c9febd4c7be6b9c",
+      "source_url": ""
+    },
+    {
+      "bytes": 690,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Wimbledon_Championships_mens_singles_attempt1_unicode_error.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "179e78672a4b2bd197b49caf36a98365f2370e720c902aeb43eaa84d4e435dc9",
+      "source_url": ""
+    },
+    {
+      "bytes": 6976,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_Wimbledon_Championships_womens_singles.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a6c11ea27a2920f2f7b781ec0036f4de550bc52dbd9a2d34eaaf6457d9ca47f6",
+      "source_url": ""
+    },
+    {
+      "bytes": 6891,
+      "path": "data/raw/RES2026/receipts/route2_season_atp.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a899fa0c3969f6cd660676124bcdb9439e5ede3f86f0acd090261771ce848614",
+      "source_url": ""
+    },
+    {
+      "bytes": 6891,
+      "path": "data/raw/RES2026/receipts/route2_season_wta.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "8640f21e005defe3f2b6da2babc9cc99e0f93561135ba9f1ecf550aa2e40a785",
+      "source_url": ""
+    },
+    {
+      "bytes": 1623,
+      "path": "data/raw/RES2026/receipts/route3_scores_tennis_atp_us_open.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "6f8f650610c8c21781daa134a5000c7efef83ac6e268c8789b36dc362f7ed706",
+      "source_url": ""
+    },
+    {
+      "bytes": 1623,
+      "path": "data/raw/RES2026/receipts/route3_scores_tennis_wta_us_open.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "96869f011ceae01ea742899a8e0b100159211247e8c5536944cc1a32b2416705",
+      "source_url": ""
+    },
+    {
+      "bytes": 1510,
+      "path": "data/raw/RES2026/receipts/route3_sports_catalog.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "0bbc9dd0f3a6a780d64e0b264365405aca381f0228fa7352e4c5e4112856d8f9",
+      "source_url": ""
+    },
+    {
+      "bytes": 5300,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_commits_atom.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "c9a18931989931a904d96966df2ec04a48f19eba56a7678bfd06c3ef24c4fb2e",
+      "source_url": ""
+    },
+    {
+      "bytes": 1752,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_raw_atp_2026.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "a403e1267d27613e8a430c6db6d202f895637170a27f91490c47ebfa388d4175",
+      "source_url": ""
+    },
+    {
+      "bytes": 1830,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_raw_atp_2026_correct_path.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "2e8d913ca86ba246bc65f0405b05fb3d3fa63327ff1661402d7e08d903cfb06a",
+      "source_url": ""
+    },
+    {
+      "bytes": 1903,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_raw_atp_2026_pinned_commit.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "be04cd780e6399fc0870a26c4487eab01225c3c42d01b232b8adf5b2c61dc7ab",
+      "source_url": ""
+    },
+    {
+      "bytes": 1752,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_raw_wta_2026.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "d71849c742591bc8f8ffe0189c58f6aab242671e6a2e63a2d18e564e052522b1",
+      "source_url": ""
+    },
+    {
+      "bytes": 1831,
+      "path": "data/raw/RES2026/receipts/route5_head_mirror_raw_wta_2026_correct_path.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "fc68350a803eebc2e74a759ff5a18d3ecac527feb197481f0e2861369479b353",
+      "source_url": ""
+    },
+    {
+      "bytes": 5248,
+      "path": "data/raw/RES2026/receipts/route5_head_pinned_mirror_aneeshers.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "0841e1227d29be3e5499b67bb81d6717bc1474dbe17bcc2ed2f969e0746f722d",
+      "source_url": ""
+    },
+    {
+      "bytes": 5261,
+      "path": "data/raw/RES2026/receipts/route5_head_sackmann_matchcharting.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "c0381258de2cd8d8fbe7983d7df5bc2460cdccbd55ff3fcfa7e79532cca2a4b5",
+      "source_url": ""
+    },
+    {
+      "bytes": 5190,
+      "path": "data/raw/RES2026/receipts/route5_head_sackmann_slam_pointbypoint.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "9c159616ad8b860beb90498cf7672f74d2e97a7605aa5bcb99efc086c40c5646",
+      "source_url": ""
+    },
+    {
+      "bytes": 5162,
+      "path": "data/raw/RES2026/receipts/route5_head_sackmann_tennis_atp.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "2ea4efbfd4320af37e1d6cd1a8d06c8143f59c603732464b6710ebdbafaa8a2e",
+      "source_url": ""
+    },
+    {
+      "bytes": 5162,
+      "path": "data/raw/RES2026/receipts/route5_head_sackmann_tennis_wta.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "010040b1c53812e9026990e9a42b2e1c270450fae948ebbc0c322ce19bf05ddf",
+      "source_url": ""
+    },
+    {
+      "bytes": 5236,
+      "path": "data/raw/RES2026/receipts/route5_head_sackmann_user.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "54dd3cf03b403ef30d883e11701d9b19e0bc7fc9428885ce601b4fd3cc078cc1",
+      "source_url": ""
+    },
+    {
+      "bytes": 1713,
+      "path": "data/raw/RES2026/receipts/route5_head_upstream_raw_atp_2026.json",
+      "retrieved_at_utc": "",
+      "route": "receipt",
+      "sha256": "15b15341fd20983063c5922a434d973f937d0eb2a7f266bd2faea007b1b81744",
+      "source_url": ""
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T202233Z.json",
+      "retrieved_at_utc": "2026-09-11T20:22:33.701460+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "f09b2ed32e0590951c621da4d38c0d626f265a9aab3a11d9ce73a3afdc7d1e77",
+      "source_url": ""
+    },
+    {
+      "bytes": 4037,
+      "path": "data/raw/RES2026/code/refetch_uso2026_20260911.py",
+      "retrieved_at_utc": "2026-09-11T20:22:33.701460+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "08e3b2594efd3ded6da34513cc4921a1feaa498ab56abe9c4fbcd362d9966d45",
+      "source_url": ""
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T202233Z.html",
+      "retrieved_at_utc": "2026-09-11T20:22:33.701460+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T202233Z.csv",
+      "retrieved_at_utc": "2026-09-11T20:22:33.701460+00:00",
+      "route": "2_wikipedia",
+      "sha256": "4d97f80c8519db5e766901597d55ba67b539962f4ca798b445bffef649691419",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6958,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T202233Z.json",
+      "retrieved_at_utc": "2026-09-11T20:22:33.701460+00:00",
+      "route": "2_wikipedia",
+      "sha256": "fdd17baddca8db9d433236e8a7cd0d5c65d26729f6f03c517c8991dc5f2a51a3",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1147290,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T202233Z.html",
+      "retrieved_at_utc": "2026-09-11T20:22:34.109514+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9addde7fb6ba015d92b2abb1af3689ed41c376c103556bed46ed935b5414b42b",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T202233Z.csv",
+      "retrieved_at_utc": "2026-09-11T20:22:34.109514+00:00",
+      "route": "2_wikipedia",
+      "sha256": "e4da1ba208f4297b60ab732b2b14dbd012cc82f71b5ad60e383c1bb943c5c7f8",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6962,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T202233Z.json",
+      "retrieved_at_utc": "2026-09-11T20:22:34.109514+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ced1575e9ad5059baa736f333e11376aa0f5532085615f4bf7997a13f1b4605a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T205127Z.json",
+      "retrieved_at_utc": "20260911T205127Z",
+      "route": "acquisition_artifact",
+      "sha256": "9c622e0ac9601009554f3049c515790ab6d6425ba6b5ba9fd8cf21c312b97937",
+      "source_url": ""
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T205127Z.html",
+      "retrieved_at_utc": "2026-09-11T20:51:27.425029+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T205127Z.csv",
+      "retrieved_at_utc": "2026-09-11T20:51:27.425029+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "f41c64a8771070202b278ea757d6083cb835cd06ed370ecf6662f733f725f492",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6957,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T205127Z.json",
+      "retrieved_at_utc": "2026-09-11T20:51:27.425029+00:00",
+      "route": "2_wikipedia",
+      "sha256": "73f218bca418cdf60ed1ba33f109dc5fa8290033994ed5ade23756a06e78d18a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T205127Z.html",
+      "retrieved_at_utc": "2026-09-11T20:51:27.822240+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T205127Z.csv",
+      "retrieved_at_utc": "2026-09-11T20:51:27.822240+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "4d0e4837aacb0593c218827039623ad0357d937dba4321b6a07bbc021d0b56cd",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6986,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T205127Z.json",
+      "retrieved_at_utc": "2026-09-11T20:51:27.822240+00:00",
+      "route": "2_wikipedia",
+      "sha256": "662296e03206d4fe53b09bfaf73a332e2a460f46ed899d0fec029f67cab52949",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T210658Z.json",
+      "retrieved_at_utc": "20260911T210658Z",
+      "route": "acquisition_artifact",
+      "sha256": "0e4ef8df3ac00b4a0b35412577690dfb57f9f62e2f96df93333bf9eab0aca5af",
+      "source_url": ""
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T210658Z.html",
+      "retrieved_at_utc": "2026-09-11T21:06:58.021597+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T210658Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:06:58.021597+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "8a972f0d12e75d551182d6f1aa30ee48a2ecf6d385174320463cce04a3dd86fb",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6956,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T210658Z.json",
+      "retrieved_at_utc": "2026-09-11T21:06:58.021597+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a6b1a53fe9b7205e5da8bd5491e40358ce58681afbeb9a03ff88377c40b3a6d7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T210658Z.html",
+      "retrieved_at_utc": "2026-09-11T21:06:58.468341+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T210658Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:06:58.468341+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "1179d7727bb852f6122b4da7e9e95c490dfab9df7083437476d8a5fff7671d18",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6988,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T210658Z.json",
+      "retrieved_at_utc": "2026-09-11T21:06:58.468341+00:00",
+      "route": "2_wikipedia",
+      "sha256": "bf053cb3fd48f9b5f6670141584570780a7ca524176d14dee65339bc711082d2",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 2453,
+      "path": "data/raw/RES2026/code/scores_atp_uso_daysfrom1.py",
+      "retrieved_at_utc": "2026-09-11T21:10:22.408251+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "27e91f208d3be9150b3593d299a17d11f3e98e5d8dd1e9a55e6168dc1e3e9213",
+      "source_url": ""
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T210957Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:09:58.009713+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "f2832c6452c8d8913660d6291e7cfcaf3b1a68b8a79984f16e81e402b6ce426e",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T212058Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:20:58.445271+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "d06059cf3461604f9e8a770e8cc40f559cffc57da27d4e421c34053cc50516d2",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T213058Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:30:59.325775+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "eb4d9309b6ed16935248b7f640f613003e56c589e7808ec6a128388f50115b69",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39060,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260911T214059Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:41:00.177250+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "ac113419816b98ad9fe557a8e297cc7e06eadc03fe4beec658f827257e047ce6",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T210957Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:09:58.375135+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "40258845baddf9cde18240f0f389dfb90b6ad1da40b6daa7bf6d393dd5e5d2a4",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T212058Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:20:58.804542+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "f1ec8839b2372d6068c97c28202ac17d7851b3dc3615fe8e43951c2f1f545bba",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T213058Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:30:59.689779+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "a4b7f0bf08447eada9e7dad1ae06fc3e49dbd322b8533999baee1acf94ffa1ea",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260911T214059Z.csv",
+      "retrieved_at_utc": "2026-09-11T21:41:00.547562+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "d4b78d54c7c7cbc19c493713aa54d07322f8a828d67f0db7cac921267c84ff51",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 598,
+      "path": "data/raw/RES2026/raw/odds_api/scores_tennis_atp_us_open_daysFrom1_20260911T211025Z.json",
+      "retrieved_at_utc": "2026-09-11T21:10:25.815959+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "92f7fcc7a977842434be398a6371aef3fbeba75a072f5534a0dbdda07bbea072",
+      "source_url": "https://api.the-odds-api.com/v4/sports/tennis_atp_us_open/scores/?daysFrom=1&apiKey=REDACTED"
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T210957Z.html",
+      "retrieved_at_utc": "2026-09-11T21:09:57.959545+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T212058Z.html",
+      "retrieved_at_utc": "2026-09-11T21:20:58.402146+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T213058Z.html",
+      "retrieved_at_utc": "2026-09-11T21:30:59.276494+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1357184,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260911T214059Z.html",
+      "retrieved_at_utc": "2026-09-11T21:41:00.127120+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2a9f4ffac91dcb8f6a6f09c6998f8e594858a42de7db41fdfbc9e2a04579be98",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T210957Z.html",
+      "retrieved_at_utc": "2026-09-11T21:09:58.330168+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T212058Z.html",
+      "retrieved_at_utc": "2026-09-11T21:20:58.760400+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T213058Z.html",
+      "retrieved_at_utc": "2026-09-11T21:30:59.645175+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1144535,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260911T214059Z.html",
+      "retrieved_at_utc": "2026-09-11T21:41:00.501683+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9b2d81969a83d09587005ca7628bbdebe98bb4664ffc899a723ce0d8bb03deaa",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6957,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T210957Z.json",
+      "retrieved_at_utc": "2026-09-11T21:09:57.960226+00:00",
+      "route": "2_wikipedia",
+      "sha256": "0588cf4a8b44b279f9e69215e49cd972a801d719dd72798c55d7811488d2da3b",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6956,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T212058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:20:58.402735+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ccb54ded53ae7befb0c6aded81a01c5ee7498ad597b90bd04e741ea9af852847",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6958,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T213058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:30:59.277297+00:00",
+      "route": "2_wikipedia",
+      "sha256": "344f0fbe82353bcdf0015ef8616d566b99bb93ffcac45cf47bdb6c1375a8ff6a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6958,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260911T214059Z.json",
+      "retrieved_at_utc": "2026-09-11T21:41:00.127856+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7e8619ae37df3ac43e29f9c2149a5f44b3e32382c6d84f659cc55e4bf91d72a1",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6988,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T210957Z.json",
+      "retrieved_at_utc": "2026-09-11T21:09:58.330778+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ad301bd6f6d66922fc811a4548182db3a4e538ca43e076fb3f051ae165b8c6c5",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6988,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T212058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:20:58.761339+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7eef9e3a6e6293fb00b6220b950d6660cad719babea79f24e5127d3398b27ee7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6988,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T213058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:30:59.645819+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3e090ac9afc0c77a8cac6d9931641e27ec1156b6ddc48e0713a39e90ab6d949f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6989,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260911T214059Z.json",
+      "retrieved_at_utc": "2026-09-11T21:41:00.502641+00:00",
+      "route": "2_wikipedia",
+      "sha256": "5428e301d889ef464dcc1e34bb58a25016f58bbbc7e5223cd807137b4a62bf5e",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1665,
+      "path": "data/raw/RES2026/receipts/scores_tennis_atp_us_open_daysFrom1_20260911T211025Z.json",
+      "retrieved_at_utc": "2026-09-11T21:10:25.818865+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "b548fc72623f42baa9f4d4c844426d7e7d03f4e5f6139a1d6b8a9dc4fad35570",
+      "source_url": "https://api.the-odds-api.com/v4/sports/tennis_atp_us_open/scores/?daysFrom=1&apiKey=REDACTED"
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T210957Z.json",
+      "retrieved_at_utc": "2026-09-11T21:09:58.375435+00:00",
+      "route": "2_wikipedia",
+      "sha256": "7c5380ceff92e32a1a7e655d4991b7c18995995fd0e9db390cf5cbd0cda0ad88",
+      "source_url": ""
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T212058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:20:58.804832+00:00",
+      "route": "2_wikipedia",
+      "sha256": "58964d81edcf2b2dff6db72c2f5571c88703f540efc35399f41a8e07a6f32b5b",
+      "source_url": ""
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T213058Z.json",
+      "retrieved_at_utc": "2026-09-11T21:30:59.690048+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6ecb246bf76082bd42cd98dd3385e3f854a7705670d832ce02beb89ca47a1fa2",
+      "source_url": ""
+    },
+    {
+      "bytes": 1788,
+      "path": "data/raw/RES2026/refetch_20260911T214059Z.json",
+      "retrieved_at_utc": "2026-09-11T21:41:00.547825+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c73dbb7ba50b01e31cb3620b55f5183c8d2a5a88e193940ae4125a957904f613",
+      "source_url": ""
+    },
+    {
+      "bytes": 1459,
+      "path": "data/raw/RES2026/scores_probe_20260911T211025Z.json",
+      "retrieved_at_utc": "2026-09-11T21:10:25.819145+00:00",
+      "route": "3_the_odds_api",
+      "sha256": "1c1380876ece3e6bc43c4fef2ea6aa2f2d1ed0aa34a1f68a624214c60bc906fd",
+      "source_url": ""
+    },
+    {
+      "bytes": 39697,
+      "path": "data/raw/RES2026/parsed/atp_US_Open_mens_singles_20260912T151723Z.csv",
+      "retrieved_at_utc": "2026-09-12T15:17:23.959582+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "711d97bffd7f005306b414137e6b46b2819c6fd315258f64042ea93fc7180992",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T151723Z.csv",
+      "retrieved_at_utc": "2026-09-12T15:17:24.321373+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "41c551cda9abd076b21a793704793ac4c89abf3b82ab25a31ba57d31eb1234a1",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1361870,
+      "path": "data/raw/RES2026/raw/wikipedia/atp_US_Open_mens_singles_20260912T151723Z.html",
+      "retrieved_at_utc": "2026-09-12T15:17:23.906859+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6527c2b2ad382a2e0769b5815365af9df74cfb523993054c2469d9383a71ec78",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 1147891,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T151723Z.html",
+      "retrieved_at_utc": "2026-09-12T15:17:24.276611+00:00",
+      "route": "2_wikipedia",
+      "sha256": "704a5b494487a0b7b0d047325cb014b8e67ba668dc7d22a8eeb2c9dd7d9b7533",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6980,
+      "path": "data/raw/RES2026/receipts/route2_draw_atp_US_Open_mens_singles_refetch_20260912T151723Z.json",
+      "retrieved_at_utc": "2026-09-12T15:17:23.912042+00:00",
+      "route": "2_wikipedia",
+      "sha256": "34c35e60a912d270aed1f56d87d44d295861e6b66ce67604b14f38ba8158399e",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Men's_singles"
+    },
+    {
+      "bytes": 6963,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T151723Z.json",
+      "retrieved_at_utc": "2026-09-12T15:17:24.277352+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c53de627253b6e1e4bea7b93261c5badbfd9aa1000e498e2914a9665a2bdac44",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1802,
+      "path": "data/raw/RES2026/refetch_20260912T151723Z.json",
+      "retrieved_at_utc": "2026-09-12T15:17:24.321651+00:00",
+      "route": "2_wikipedia",
+      "sha256": "dd0693aefcd73118546f3723920ffd64fa3552a9e334ac987e4ceecd819137e2",
+      "source_url": ""
+    },
+    {
+      "bytes": 3854,
+      "path": "data/raw/RES2026/code/refetch_uso2026_womens_20260912.py",
+      "retrieved_at_utc": "2026-09-12T19:34:50.037167+00:00",
+      "route": "acquisition_code",
+      "sha256": "d69098a1e2b0c62dfeb4618ad4cba794994578b2a49fea576e2b7d83a1c6a8b8",
+      "source_url": ""
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T200428Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:04:29.139838+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "1e457ed60206d70b5e64b73dc4b7c0df1d57979d07dbed51514d98ac2a2f0cd0",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147913,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T200428Z.html",
+      "retrieved_at_utc": "2026-09-12T20:04:29.093976+00:00",
+      "route": "2_wikipedia",
+      "sha256": "980cbd1007bcc91e1a99ef2fa9e02c425900ccce7321dc5b37617761df673ff7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6969,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T200428Z.json",
+      "retrieved_at_utc": "2026-09-12T20:04:29.094729+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9ea17efc3e3e207fe7a50db18061974e844dbe68a603bbc69bcae8a6748f7a45",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T200428Z.json",
+      "retrieved_at_utc": "2026-09-12T20:04:29.140239+00:00",
+      "route": "2_wikipedia",
+      "sha256": "f56587aa145a06df85dd3d65d968d0ec3bd35529baeab5459164248baf67173f",
+      "source_url": ""
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T201029Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:10:29.458204+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "3c6f4c78be9f055d66397870e80f9c4c16c55a2195d3b65789150eea638527f8",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T202029Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:20:29.988387+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "3f3a2a85f7aa78ec34fddfeee5441bcd516d6e0e0cf62a4114f82f1398638294",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T203030Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:30:30.511717+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "fe289af1020cff185959a1c4f2d4f3aa75aae5976b9aa1da387b7ea6470209d8",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T204030Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:40:31.023659+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "06970c8f2c3a7a754e1adfc3ff60021a12093ffc53626ef293b299c87a36db2b",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T205031Z.csv",
+      "retrieved_at_utc": "2026-09-12T20:50:31.580630+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "ecfd981f54bde9c74bde059f034aa7b6b47665834e85d2b60b1d7d63627c3a4a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T210031Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:00:32.129283+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "4ceb7dc0b51bd5c6596f319670773e9cfc02dc2dbb4e3757cf2114ff03f888bb",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T211032Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:10:32.647992+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "ed2f91a30b86848e6de407524a704634f403f4f7fc5f59ba1d2cec1619f2fd35",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T212032Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:20:33.178877+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "ee43b355bc3a3c858e825cc6e10a2adf9b77285f6c677942f9ea99b4596222f1",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39410,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T213033Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:30:33.697908+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "6939e646cb815b3b2ec9388b47088e84ece4695ce7e3fd07de94a1e71232fc5d",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214033Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:40:34.221337+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "20c5f085deb880052493a2623ca8092ca086b93d42515a2c895be013cd608607",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214134Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:41:35.310604+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "563119968d4abc01f1b7d380b196fd3d0a0adf31e41f3e06a7d0b5995532c769",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T214635Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:46:35.831747+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "bb95381415c00d92f46aab79cddff2056db2b7aee623a79cf85023c80fbb05df",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T215135Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:51:36.358230+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "96164ace5de76a684dfae01431d50185c3baf0902d710c66c1977f21d6cbc9ef",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T215636Z.csv",
+      "retrieved_at_utc": "2026-09-12T21:56:36.868670+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "45205b3c9f2b2cbdd53ba8388dfa2c7e209021f5f57be33405f5b6855ace3b06",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T220136Z.csv",
+      "retrieved_at_utc": "2026-09-12T22:01:37.378541+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "a2d8416b27034b827344b54c29795358b8aa11926b856a860025c82e8ebdf923",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 39716,
+      "path": "data/raw/RES2026/parsed/wta_US_Open_womens_singles_20260912T220637Z.csv",
+      "retrieved_at_utc": "2026-09-12T22:06:37.901473+00:00",
+      "route": "acquisition_artifact",
+      "sha256": "5c3e664ad2e14c8c1e5b601e6be4b0ae077ff69869e3d145b091d3666c9cf40d",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147913,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T201029Z.html",
+      "retrieved_at_utc": "2026-09-12T20:10:29.428087+00:00",
+      "route": "2_wikipedia",
+      "sha256": "980cbd1007bcc91e1a99ef2fa9e02c425900ccce7321dc5b37617761df673ff7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147913,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T202029Z.html",
+      "retrieved_at_utc": "2026-09-12T20:20:29.940385+00:00",
+      "route": "2_wikipedia",
+      "sha256": "980cbd1007bcc91e1a99ef2fa9e02c425900ccce7321dc5b37617761df673ff7",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T203030Z.html",
+      "retrieved_at_utc": "2026-09-12T20:30:30.464100+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T204030Z.html",
+      "retrieved_at_utc": "2026-09-12T20:40:30.978039+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T205031Z.html",
+      "retrieved_at_utc": "2026-09-12T20:50:31.535411+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T210031Z.html",
+      "retrieved_at_utc": "2026-09-12T21:00:32.082221+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T211032Z.html",
+      "retrieved_at_utc": "2026-09-12T21:10:32.600805+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T212032Z.html",
+      "retrieved_at_utc": "2026-09-12T21:20:33.133129+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1147722,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T213033Z.html",
+      "retrieved_at_utc": "2026-09-12T21:30:33.650713+00:00",
+      "route": "2_wikipedia",
+      "sha256": "739dd9fdb7eb76781576282c98c463d182d43258f7ace899f8dfe2b437f6b0fc",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214033Z.html",
+      "retrieved_at_utc": "2026-09-12T21:40:34.176692+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214134Z.html",
+      "retrieved_at_utc": "2026-09-12T21:41:35.264045+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T214635Z.html",
+      "retrieved_at_utc": "2026-09-12T21:46:35.785680+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T215135Z.html",
+      "retrieved_at_utc": "2026-09-12T21:51:36.312793+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T215636Z.html",
+      "retrieved_at_utc": "2026-09-12T21:56:36.821972+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T220136Z.html",
+      "retrieved_at_utc": "2026-09-12T22:01:37.337527+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 1148343,
+      "path": "data/raw/RES2026/raw/wikipedia/wta_US_Open_womens_singles_20260912T220637Z.html",
+      "retrieved_at_utc": "2026-09-12T22:06:37.853769+00:00",
+      "route": "2_wikipedia",
+      "sha256": "ddd2dd7281c2f7ca3fcbdf4acbe31fab3c4e6e990f09214ed0bbd95b27849e6f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6969,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T201029Z.json",
+      "retrieved_at_utc": "2026-09-12T20:10:29.428363+00:00",
+      "route": "2_wikipedia",
+      "sha256": "1478ac6b16ead4d569f2bc0f65590dfd57d66158f0d98dc0032b0fac28dfb492",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6968,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T202029Z.json",
+      "retrieved_at_utc": "2026-09-12T20:20:29.941618+00:00",
+      "route": "2_wikipedia",
+      "sha256": "4f166db8e3fdfc83d27d9cfb930cb7f1b4bb53f9e05f12eb4fc0b5ce42ea5bfd",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6991,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T203030Z.json",
+      "retrieved_at_utc": "2026-09-12T20:30:30.465036+00:00",
+      "route": "2_wikipedia",
+      "sha256": "73ac3d1afd538e9ac092c8ce0e7882d2d15653178ab6db7ba2ceec7e0c59ba8e",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6993,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T204030Z.json",
+      "retrieved_at_utc": "2026-09-12T20:40:30.979193+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a55741e17a3ec0702068b753c2e356c3868cc99edbe97b5a86abef35cbcc4e18",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T205031Z.json",
+      "retrieved_at_utc": "2026-09-12T20:50:31.536248+00:00",
+      "route": "2_wikipedia",
+      "sha256": "eb7b39058a85382feb1c7d10e110adb0d96a8fa1d17419a1fa9efabca873de5d",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T210031Z.json",
+      "retrieved_at_utc": "2026-09-12T21:00:32.083813+00:00",
+      "route": "2_wikipedia",
+      "sha256": "6a4f12fa684192512308536d22d06738c14db319b02739098d1ec8fa3b7251ac",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6995,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T211032Z.json",
+      "retrieved_at_utc": "2026-09-12T21:10:32.603985+00:00",
+      "route": "2_wikipedia",
+      "sha256": "8edceb7cdceb8297a80de7efa5ce73a52ffdd6a6c4f8c49fbe764e2c930e0759",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T212032Z.json",
+      "retrieved_at_utc": "2026-09-12T21:20:33.133954+00:00",
+      "route": "2_wikipedia",
+      "sha256": "192d2106e17035d4e7580aa9f7658327019df1985be38e5d58cafd0a5c3f9c3f",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T213033Z.json",
+      "retrieved_at_utc": "2026-09-12T21:30:33.653788+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3fbb7521e502b0a6498db2634d480723e2262b538a24832331a2e3fb7d8ce67c",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6993,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214033Z.json",
+      "retrieved_at_utc": "2026-09-12T21:40:34.177421+00:00",
+      "route": "2_wikipedia",
+      "sha256": "895e84ba1b9f18330b064d11903e0f8b320e0f0ea09c1add11b1f54ae4be9eab",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6993,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214134Z.json",
+      "retrieved_at_utc": "2026-09-12T21:41:35.266735+00:00",
+      "route": "2_wikipedia",
+      "sha256": "35c6bc1a9076f84cb4aa788a2c61009bc414295fa2c495353b60db0bdc1da7a4",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6993,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T214635Z.json",
+      "retrieved_at_utc": "2026-09-12T21:46:35.786700+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2fd2b84fb6ce68d7231571b26580da628f79b5c4265497b5ffa386c1e1bff4f0",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T215135Z.json",
+      "retrieved_at_utc": "2026-09-12T21:51:36.313653+00:00",
+      "route": "2_wikipedia",
+      "sha256": "e2636369d5ac4ec73cfc1749ee6aef966d0c50628db4a1388479576ed94654e6",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T215636Z.json",
+      "retrieved_at_utc": "2026-09-12T21:56:36.824787+00:00",
+      "route": "2_wikipedia",
+      "sha256": "92c72ed016351ea32327f09075ef6ec832ce73ee6e7def21ac6febe923091c0a",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6995,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T220136Z.json",
+      "retrieved_at_utc": "2026-09-12T22:01:37.337881+00:00",
+      "route": "2_wikipedia",
+      "sha256": "098354c6b936e4e2a52b923fe88201bad8f48e321f06e48d5a59ca7bb09b6460",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 6994,
+      "path": "data/raw/RES2026/receipts/route2_draw_wta_US_Open_womens_singles_refetch_20260912T220637Z.json",
+      "retrieved_at_utc": "2026-09-12T22:06:37.854694+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b67ce8107c22692cd87a94cd22db3f1c792031a14955ad0745f745058120ade5",
+      "source_url": "https://en.wikipedia.org/wiki/2026_US_Open_\u2013_Women's_singles"
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T201029Z.json",
+      "retrieved_at_utc": "2026-09-12T20:10:29.458417+00:00",
+      "route": "2_wikipedia",
+      "sha256": "da690539d692153e551f619ba9caeaa7b8105647939661cdd47426b0a7710f99",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T202029Z.json",
+      "retrieved_at_utc": "2026-09-12T20:20:29.988615+00:00",
+      "route": "2_wikipedia",
+      "sha256": "30b1cfc8b513378ec62135550044a8bb252a52af94e6193d480d53f2eed3359b",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T203030Z.json",
+      "retrieved_at_utc": "2026-09-12T20:30:30.511957+00:00",
+      "route": "2_wikipedia",
+      "sha256": "85bbea5e413c8f73a5ebeda9fafc9adf0edf6cf533bdf337c0b2131d5111f807",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T204030Z.json",
+      "retrieved_at_utc": "2026-09-12T20:40:31.023921+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a0cfc17e9d0d58ffcb6624b40050e3d3ccac31ee5ae9a52e85f483f94c16e264",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T205031Z.json",
+      "retrieved_at_utc": "2026-09-12T20:50:31.580897+00:00",
+      "route": "2_wikipedia",
+      "sha256": "b9dc036f13f04eb012f854a55598bee1549072a3378068884fd656606fedd3d1",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T210031Z.json",
+      "retrieved_at_utc": "2026-09-12T21:00:32.129630+00:00",
+      "route": "2_wikipedia",
+      "sha256": "4edc6050228224387a59dc16d6e61fd26fa6d3bbf6e324d5c463f8510df16805",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T211032Z.json",
+      "retrieved_at_utc": "2026-09-12T21:10:32.648224+00:00",
+      "route": "2_wikipedia",
+      "sha256": "842075e29bef330a9a420513adea3a2a6cfeeb2a893dcb9ff19dbd64b43a6f4c",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T212032Z.json",
+      "retrieved_at_utc": "2026-09-12T21:20:33.179154+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c5f08a85f3e90cfc8fcce25c29711aca6e0e0ec8ef12546e69e731a47d8eff94",
+      "source_url": ""
+    },
+    {
+      "bytes": 934,
+      "path": "data/raw/RES2026/refetch_20260912T213033Z.json",
+      "retrieved_at_utc": "2026-09-12T21:30:33.698165+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3f46b1a535f6d28477362a812c7b7a82871ed012e3df522a837eb7f00c0b0516",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T214033Z.json",
+      "retrieved_at_utc": "2026-09-12T21:40:34.221609+00:00",
+      "route": "2_wikipedia",
+      "sha256": "fc6c0d5b6eba1de7b6a5cdd965d3bbf9c23009ba70487a9255a5945c15e31297",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T214134Z.json",
+      "retrieved_at_utc": "2026-09-12T21:41:35.310872+00:00",
+      "route": "2_wikipedia",
+      "sha256": "9d1c45de79f006d4917f06239af3244603714346d2d625f0fbb3bab145f58ded",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T214635Z.json",
+      "retrieved_at_utc": "2026-09-12T21:46:35.832037+00:00",
+      "route": "2_wikipedia",
+      "sha256": "c9a379a5a0aa0c4b92c0f9e2d24333879c310339381518adc5f5beb0d4f27994",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T215135Z.json",
+      "retrieved_at_utc": "2026-09-12T21:51:36.358510+00:00",
+      "route": "2_wikipedia",
+      "sha256": "2457ccdf2f275376e3e077dad8247368117d4ad776e4681100ab9d2005d25829",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T215636Z.json",
+      "retrieved_at_utc": "2026-09-12T21:56:36.868981+00:00",
+      "route": "2_wikipedia",
+      "sha256": "3e83180d92737582fa54ddf886d5c0571260b703983b301ef6a27d687f97e4e4",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T220136Z.json",
+      "retrieved_at_utc": "2026-09-12T22:01:37.378783+00:00",
+      "route": "2_wikipedia",
+      "sha256": "20d9eb928b53dc46eb8e74f718d38903f2d0a69f9912938a45c4a1e078d591e0",
+      "source_url": ""
+    },
+    {
+      "bytes": 947,
+      "path": "data/raw/RES2026/refetch_20260912T220637Z.json",
+      "retrieved_at_utc": "2026-09-12T22:06:37.901790+00:00",
+      "route": "2_wikipedia",
+      "sha256": "a2e9cc2e42531e7161f2ef946c4fb32e94690ab064103a7c0133534203755308",
+      "source_url": ""
+    }
+  ],
+  "handling": "reserved outcome data: acquired, hashed and reconciled across sources; not joined to any forecast and not scored in this task",
+  "id": "RES2026",
+  "limits": [
+    "The retained tennis-data 2026 workbooks are Wayback captures of 2026-08-03; they contain no row after 2026-08-03 and therefore cover neither Winston-Salem, the Canadian Open, Cincinnati, Monterrey nor the US Open.",
+    "The two 2026-08-03 Mubadala DC Open final rows in those workbooks carry a named winner with no set scores and no comment; their orientation disagrees with the played result, so they are as-of-capture provisional records, not outcomes.",
+    "Wikipedia draw pages carry no per-match date or start time. Only the tournament week label is available from the season calendar; tennis-data supplies a date field whose semantics remain the unresolved question recorded for MQ01.",
+    "Wikipedia is a labelled secondary source written after the fact. Every row is marked source=wikipedia and carries the parser version, page URL and retrieval time.",
+    "The Odds API /scores payload reports sets won, not per-set games, and only three days back; it cannot corroborate rounds before 2026-09-08.",
+    "No Polymarket market in the TICK01 live capture is resolved. The collector's discovery query filters closed=false and has only run since 2026-09-11T00:52Z, so a resolution cannot appear in it. Terminal prices are not resolutions.",
+    "Reconciliation lists disagreements and does not choose a winner for any match."
+  ],
+  "promoted_at_utc": "2026-09-11T15:29:44.934005+00:00",
+  "report": "references/RES2026.md",
+  "routes_attempted": {
+    "1_tennis_data_direct": "unavailable (HTTP 503 on every attempt)",
+    "1b_tennis_data_wayback": "succeeded (4 workbooks)",
+    "1c_tennis_data_tournament_csv": "unavailable (origin 503, no Wayback capture indexed)",
+    "2_wikipedia": "succeeded (37 tournament draws, 1931 matches)",
+    "3_the_odds_api": "succeeded (catalog + 2 scores calls, 4 credits)",
+    "4_polymarket_via_TICK01": "read-only; no resolved market present in the capture",
+    "5_sackmann_head_probe": "upstream tennis_atp/tennis_wta/tennis_slam_pointbypoint return 404; pinned mirror byte-identical to the pinned commit"
+  },
+  "title": "ATP and WTA main-draw singles results, 2026-05-26 to 2026-09-11, plus tennis-data annual odds/results workbooks for 2025 and 2026"
+}

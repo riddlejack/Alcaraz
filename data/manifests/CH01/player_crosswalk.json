@@ -1,0 +1,3662 @@
+[
+  {
+    "season": 2023,
+    "td_name": "Ajdukovic D.",
+    "canonical_player_id": 207213,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Albot R.",
+    "canonical_player_id": 105430,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Alcaraz C.",
+    "canonical_player_id": 207989,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Altmaier D.",
+    "canonical_player_id": 127157,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Alves M.",
+    "canonical_player_id": 127123,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Anderson K.",
+    "canonical_player_id": 104731,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Andreozzi G.",
+    "canonical_player_id": 105819,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Andujar P.",
+    "canonical_player_id": 104665,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Arnaldi M.",
+    "canonical_player_id": 208286,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Atmane T.",
+    "canonical_player_id": 209279,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Auger-Aliassime F.",
+    "canonical_player_id": 200000,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Baez S.",
+    "canonical_player_id": 202104,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bagnis F.",
+    "canonical_player_id": 105487,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Balazs A.",
+    "canonical_player_id": 105226,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Barrere G.",
+    "canonical_player_id": 106296,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Barrios M.",
+    "canonical_player_id": 144642,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2023,
+    "td_name": "Basilashvili N.",
+    "canonical_player_id": 105932,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bautista Agut R.",
+    "canonical_player_id": 105138,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bellier A.",
+    "canonical_player_id": 134472,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bellucci M.",
+    "canonical_player_id": 208233,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bellucci T.",
+    "canonical_player_id": 105064,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Benchetrit E.",
+    "canonical_player_id": 200611,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Berankis R.",
+    "canonical_player_id": 105575,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bergs Z.",
+    "canonical_player_id": 200267,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Berrettini J.",
+    "canonical_player_id": 202235,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Berrettini M.",
+    "canonical_player_id": 126610,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Blancaneaux G.",
+    "canonical_player_id": 144972,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Blockx A.",
+    "canonical_player_id": 210696,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bolt A.",
+    "canonical_player_id": 106109,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bonadio R.",
+    "canonical_player_id": 109686,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bonzi B.",
+    "canonical_player_id": 126127,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Borg L.",
+    "canonical_player_id": 209863,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Borges N.",
+    "canonical_player_id": 132686,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bourgue M.",
+    "canonical_player_id": 106288,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Broady L.",
+    "canonical_player_id": 106281,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Brooksby J.",
+    "canonical_player_id": 202385,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Brouwer G.",
+    "canonical_player_id": 133835,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bu Y.",
+    "canonical_player_id": 207352,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2023,
+    "td_name": "Bublik A.",
+    "canonical_player_id": 122330,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cachin P.",
+    "canonical_player_id": 106398,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Carballes Baena R.",
+    "canonical_player_id": 106148,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Carreno Busta P.",
+    "canonical_player_id": 105807,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cazaux A.",
+    "canonical_player_id": 209070,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cecchinato M.",
+    "canonical_player_id": 106065,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cerundolo F.",
+    "canonical_player_id": 202103,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cerundolo J.M.",
+    "canonical_player_id": 207678,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Chappell N.",
+    "canonical_player_id": 111436,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Chardy J.",
+    "canonical_player_id": 104871,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Chidekh C.",
+    "canonical_player_id": 206889,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Choinski J.",
+    "canonical_player_id": 123828,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Chung Y.",
+    "canonical_player_id": 126283,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cilic M.",
+    "canonical_player_id": 105227,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cobolli F.",
+    "canonical_player_id": 207925,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Coppejans K.",
+    "canonical_player_id": 106293,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Coria F.",
+    "canonical_player_id": 105948,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Coric B.",
+    "canonical_player_id": 106432,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Couacaud E.",
+    "canonical_player_id": 111505,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cressy M.",
+    "canonical_player_id": 202195,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Cui J.",
+    "canonical_player_id": 200666,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Daniel T.",
+    "canonical_player_id": 106121,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Darderi L.",
+    "canonical_player_id": 209260,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Davidovich Fokina A.",
+    "canonical_player_id": 200221,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "De Jong J.",
+    "canonical_player_id": 207411,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "De Minaur A.",
+    "canonical_player_id": 200282,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Delbonis F.",
+    "canonical_player_id": 105643,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Dellien H.",
+    "canonical_player_id": 106198,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Dhamne M.",
+    "canonical_player_id": 211768,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Diallo G.",
+    "canonical_player_id": 209113,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Diaz Acosta F.",
+    "canonical_player_id": 207680,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Dimitrov G.",
+    "canonical_player_id": 105777,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Djere L.",
+    "canonical_player_id": 111513,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Djokovic N.",
+    "canonical_player_id": 104925,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Draper J.",
+    "canonical_player_id": 207733,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Droguet T.",
+    "canonical_player_id": 208169,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Duckworth J.",
+    "canonical_player_id": 105902,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Dzumhur D.",
+    "canonical_player_id": 106000,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Edmund K.",
+    "canonical_player_id": 106378,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Escobedo E.",
+    "canonical_player_id": 124014,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Etcheverry T.",
+    "canonical_player_id": 144869,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Eubanks C.",
+    "canonical_player_id": 111153,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Evans D.",
+    "canonical_player_id": 105554,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fery A.",
+    "canonical_player_id": 209259,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fils A.",
+    "canonical_player_id": 209950,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fognini F.",
+    "canonical_player_id": 104926,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fonseca J.",
+    "canonical_player_id": 211663,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fratangelo B.",
+    "canonical_player_id": 106216,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Friberg K.",
+    "canonical_player_id": 200418,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fritz T.",
+    "canonical_player_id": 126203,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Fucsovics M.",
+    "canonical_player_id": 105916,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gakhov I.",
+    "canonical_player_id": 123809,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Galan D.E.",
+    "canonical_player_id": 123755,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Galarneau A.",
+    "canonical_player_id": 200008,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Garin C.",
+    "canonical_player_id": 106426,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gasquet R.",
+    "canonical_player_id": 104755,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gaston H.",
+    "canonical_player_id": 200384,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gerasimov E.",
+    "canonical_player_id": 106078,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Giannessi A.",
+    "canonical_player_id": 105561,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Giron M.",
+    "canonical_player_id": 106218,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Giustino L.",
+    "canonical_player_id": 105841,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Goffin D.",
+    "canonical_player_id": 105676,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gojo B.",
+    "canonical_player_id": 127339,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Gomez E.",
+    "canonical_player_id": 105877,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Grenier H.",
+    "canonical_player_id": 126409,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Griekspoor T.",
+    "canonical_player_id": 134868,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Haase R.",
+    "canonical_player_id": 104898,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Halys Q.",
+    "canonical_player_id": 111460,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hanfmann Y.",
+    "canonical_player_id": 105870,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Harris B.",
+    "canonical_player_id": 126129,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Harris L.",
+    "canonical_player_id": 144750,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hassan B.",
+    "canonical_player_id": 133975,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hemery C.",
+    "canonical_player_id": 123921,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Herbert P.H.",
+    "canonical_player_id": 105732,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hijikata R.",
+    "canonical_player_id": 208014,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Holt B.",
+    "canonical_player_id": 200587,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hsu Y.",
+    "canonical_player_id": 200318,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Huesler M.A.",
+    "canonical_player_id": 144817,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Humbert U.",
+    "canonical_player_id": 200005,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Hurkacz H.",
+    "canonical_player_id": 128034,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ilkel C.",
+    "canonical_player_id": 117356,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Isner J.",
+    "canonical_player_id": 104545,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ivashka I.",
+    "canonical_player_id": 125802,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Jarry N.",
+    "canonical_player_id": 111797,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Jaziri M.",
+    "canonical_player_id": 104291,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Johnson S.",
+    "canonical_player_id": 105449,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Jung J.",
+    "canonical_player_id": 105359,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kachmazov A.",
+    "canonical_player_id": 208230,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Karatsev A.",
+    "canonical_player_id": 106234,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kecmanovic M.",
+    "canonical_player_id": 200175,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Khachanov K.",
+    "canonical_player_id": 111575,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "King D.",
+    "canonical_player_id": 105985,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kirchheimer S.",
+    "canonical_player_id": 126177,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Klahn B.",
+    "canonical_player_id": 105614,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Klein L.",
+    "canonical_player_id": 127760,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Koepfer D.",
+    "canonical_player_id": 136440,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kokkinakis T.",
+    "canonical_player_id": 106423,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Korda S.",
+    "canonical_player_id": 200624,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kotov P.",
+    "canonical_player_id": 200303,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kovacevic A.",
+    "canonical_player_id": 206499,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kovalik J.",
+    "canonical_player_id": 106075,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Krajinovic F.",
+    "canonical_player_id": 105936,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Krall L.",
+    "canonical_player_id": 210740,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Krueger M.",
+    "canonical_player_id": 106283,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Krutykh O.",
+    "canonical_player_id": 208071,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kubler J.",
+    "canonical_player_id": 106186,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kudla D.",
+    "canonical_player_id": 106045,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kukushkin M.",
+    "canonical_player_id": 105062,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kumar O.",
+    "canonical_player_id": 208300,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kuzmanov D.",
+    "canonical_player_id": 106220,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kuznetsov An.",
+    "canonical_player_id": 105723,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kwiatkowski T.S.",
+    "canonical_player_id": 111515,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kwon S.W.",
+    "canonical_player_id": 126952,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kypson P.",
+    "canonical_player_id": 200516,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Kyrgios N.",
+    "canonical_player_id": 106401,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lajal M.",
+    "canonical_player_id": 210136,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lajovic D.",
+    "canonical_player_id": 105583,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lalami Laaroussi Y.",
+    "canonical_player_id": 207794,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lama G.",
+    "canonical_player_id": 106174,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Landaluce M.",
+    "canonical_player_id": 212021,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lazarov A.",
+    "canonical_player_id": 200247,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lehecka J.",
+    "canonical_player_id": 208103,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lestienne C.",
+    "canonical_player_id": 106005,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Li Zh.",
+    "canonical_player_id": 104810,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2023,
+    "td_name": "Llamas Ruiz P.",
+    "canonical_player_id": 208010,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lock B.",
+    "canonical_player_id": 111761,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Loffhagen G.",
+    "canonical_player_id": 207785,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lokoli L.",
+    "canonical_player_id": 106362,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lopez F.",
+    "canonical_player_id": 103852,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Lopez San Martin A.",
+    "canonical_player_id": 126533,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Machac T.",
+    "canonical_player_id": 207830,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Madaras D.",
+    "canonical_player_id": 200096,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mannarino A.",
+    "canonical_player_id": 105173,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mansouri S.",
+    "canonical_player_id": 109734,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Marchenko I.",
+    "canonical_player_id": 105011,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Marozsan F.",
+    "canonical_player_id": 206681,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Marterer M.",
+    "canonical_player_id": 109739,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Martin A.",
+    "canonical_player_id": 211346,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2023,
+    "td_name": "Martineau M.",
+    "canonical_player_id": 200188,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Martinez P.",
+    "canonical_player_id": 124079,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mayot H.",
+    "canonical_player_id": 208004,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mcdonald M.",
+    "canonical_player_id": 111456,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Medjedovic H.",
+    "canonical_player_id": 209098,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Medvedev D.",
+    "canonical_player_id": 106421,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Meligeni Alves F.",
+    "canonical_player_id": 200335,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mensik J.",
+    "canonical_player_id": 210150,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Michelsen A.",
+    "canonical_player_id": 210506,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Millman J.",
+    "canonical_player_id": 105357,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Misolic F.",
+    "canonical_player_id": 209209,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mmoh M.",
+    "canonical_player_id": 111581,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mo Y.",
+    "canonical_player_id": 202168,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mochizuki S.",
+    "canonical_player_id": 208278,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Molcan A.",
+    "canonical_player_id": 144684,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Molleker R.",
+    "canonical_player_id": 200484,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Monfils G.",
+    "canonical_player_id": 104792,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Monteiro T.",
+    "canonical_player_id": 106329,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Moreno De Alboran N.",
+    "canonical_player_id": 134457,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Moundir A.",
+    "canonical_player_id": 125842,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Moutet C.",
+    "canonical_player_id": 144895,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mpetshi G.",
+    "canonical_player_id": 208659,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mu T.",
+    "canonical_player_id": 200307,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Mukund S.",
+    "canonical_player_id": 124154,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Muller A.",
+    "canonical_player_id": 124186,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Munar J.",
+    "canonical_player_id": 144719,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Murray A.",
+    "canonical_player_id": 104918,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Musetti L.",
+    "canonical_player_id": 207518,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nadal R.",
+    "canonical_player_id": 104745,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nagal S.",
+    "canonical_player_id": 111576,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nakashima B.",
+    "canonical_player_id": 206909,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Napolitano S.",
+    "canonical_player_id": 109303,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nardi L.",
+    "canonical_player_id": 208134,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nava E.",
+    "canonical_player_id": 207182,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nishikori K.",
+    "canonical_player_id": 105453,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Nishioka Y.",
+    "canonical_player_id": 106415,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Norrie C.",
+    "canonical_player_id": 111815,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Novak D.",
+    "canonical_player_id": 110602,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "O Connell C.",
+    "canonical_player_id": 106331,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ofner S.",
+    "canonical_player_id": 124116,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Olivieri G.",
+    "canonical_player_id": 144821,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Otte O.",
+    "canonical_player_id": 106214,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pacheco Mendez R.",
+    "canonical_player_id": 210202,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Paire B.",
+    "canonical_player_id": 105332,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pannu K.",
+    "canonical_player_id": 208485,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Passaro F.",
+    "canonical_player_id": 208859,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Paul T.",
+    "canonical_player_id": 126205,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pecotic M.",
+    "canonical_player_id": 123896,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pella G.",
+    "canonical_player_id": 105550,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Peniston R.",
+    "canonical_player_id": 126106,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Piros Z.",
+    "canonical_player_id": 200436,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Polmans M.",
+    "canonical_player_id": 117360,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Popyrin A.",
+    "canonical_player_id": 200615,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pospisil V.",
+    "canonical_player_id": 105577,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Pouille L.",
+    "canonical_player_id": 106298,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Prizmic D.",
+    "canonical_player_id": 209976,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Purcell M.",
+    "canonical_player_id": 126845,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Quinn E.",
+    "canonical_player_id": 210319,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ramanathan R.",
+    "canonical_player_id": 106368,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ramos-Vinolas A.",
+    "canonical_player_id": 105077,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2023,
+    "td_name": "Raonic M.",
+    "canonical_player_id": 105683,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rehberg M.",
+    "canonical_player_id": 208819,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Riedi L.",
+    "canonical_player_id": 209857,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rincon D.",
+    "canonical_player_id": 209405,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rinderknech A.",
+    "canonical_player_id": 126239,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ritschard A.",
+    "canonical_player_id": 106310,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Roca Batalla O.",
+    "canonical_player_id": 106177,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rocha H.",
+    "canonical_player_id": 210012,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rodionov J.",
+    "canonical_player_id": 200514,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rublev A.",
+    "canonical_player_id": 126094,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rune H.",
+    "canonical_player_id": 208029,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ruud C.",
+    "canonical_player_id": 134770,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ruusuvuori E.",
+    "canonical_player_id": 200325,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Rybakov A.",
+    "canonical_player_id": 126206,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sachko V.",
+    "canonical_player_id": 126964,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Safiullin R.",
+    "canonical_player_id": 126128,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Saville L.",
+    "canonical_player_id": 106291,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Schwartzman D.",
+    "canonical_player_id": 106043,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sekulic P.",
+    "canonical_player_id": 210340,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Serdarusic N.",
+    "canonical_player_id": 126120,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Seyboth Wild T.",
+    "canonical_player_id": 205734,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shang J.",
+    "canonical_player_id": 209992,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shapovalov D.",
+    "canonical_player_id": 133430,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shelbayh A.",
+    "canonical_player_id": 209406,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shelton B.",
+    "canonical_player_id": 210097,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shevchenko A.",
+    "canonical_player_id": 207686,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Shimabukuro S.",
+    "canonical_player_id": 200647,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sinner J.",
+    "canonical_player_id": 206173,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Skatov T.",
+    "canonical_player_id": 207608,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sock J.",
+    "canonical_player_id": 106058,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sonego L.",
+    "canonical_player_id": 132283,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sousa J.",
+    "canonical_player_id": 105311,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sousa P.",
+    "canonical_player_id": 105155,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Spizzirri E.",
+    "canonical_player_id": 208118,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Stricker D.",
+    "canonical_player_id": 208502,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Struff J.L.",
+    "canonical_player_id": 105526,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Svajda Z.",
+    "canonical_player_id": 208260,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Svrcina D.",
+    "canonical_player_id": 207494,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Sweeny D.",
+    "canonical_player_id": 208013,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Taberner C.",
+    "canonical_player_id": 126535,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tabilo A.",
+    "canonical_player_id": 126214,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Te R.",
+    "canonical_player_id": 144751,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Thiem D.",
+    "canonical_player_id": 106233,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Thompson J.",
+    "canonical_player_id": 111442,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tiafoe F.",
+    "canonical_player_id": 126207,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tien L.",
+    "canonical_player_id": 210530,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tirante T.A.",
+    "canonical_player_id": 202058,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Topo M.",
+    "canonical_player_id": 209916,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Travaglia S.",
+    "canonical_player_id": 105882,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Trungelliti M.",
+    "canonical_player_id": 105477,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tseng C. H.",
+    "canonical_player_id": 202358,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tseng C.H.",
+    "canonical_player_id": 202358,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tsitsipas S.",
+    "canonical_player_id": 126774,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Tu L.",
+    "canonical_player_id": 111454,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ugo Carabelli C.",
+    "canonical_player_id": 200116,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Vacherot V.",
+    "canonical_player_id": 200473,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Valkusz M.",
+    "canonical_player_id": 200218,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Van Assche L.",
+    "canonical_player_id": 209414,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Van De Zandschulp B.",
+    "canonical_player_id": 122298,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Van Rijthoven T.",
+    "canonical_player_id": 126646,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Varillas J. P.",
+    "canonical_player_id": 122669,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Varillas J.P.",
+    "canonical_player_id": 122669,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Vatutin A.",
+    "canonical_player_id": 106072,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Vavassori A.",
+    "canonical_player_id": 131934,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Verdasco F.",
+    "canonical_player_id": 104269,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Vesely J.",
+    "canonical_player_id": 106210,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Virtanen O.",
+    "canonical_player_id": 202261,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Vukic A.",
+    "canonical_player_id": 126846,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Watanuki Y.",
+    "canonical_player_id": 133297,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Wawrinka S.",
+    "canonical_player_id": 104527,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Wessels L.",
+    "canonical_player_id": 144923,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Wolf J.J.",
+    "canonical_player_id": 200670,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Wu T.L.",
+    "canonical_player_id": 126555,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Wu Y.",
+    "canonical_player_id": 200059,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Yevseyev D.",
+    "canonical_player_id": 106187,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ymer E.",
+    "canonical_player_id": 111200,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Ymer M.",
+    "canonical_player_id": 144707,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zapata Miralles B.",
+    "canonical_player_id": 126523,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zeppieri G.",
+    "canonical_player_id": 206748,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zhang Zh.",
+    "canonical_player_id": 111190,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zhou Y.",
+    "canonical_player_id": 212044,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zhukayev B.",
+    "canonical_player_id": 202320,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2023,
+    "td_name": "Zverev A.",
+    "canonical_player_id": 100644,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ajdukovic D.",
+    "canonical_player_id": 207213,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Albot R.",
+    "canonical_player_id": 105430,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Alcaraz C.",
+    "canonical_player_id": 207989,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Altmaier D.",
+    "canonical_player_id": 127157,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Andreozzi G.",
+    "canonical_player_id": 105819,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Arnaldi M.",
+    "canonical_player_id": 208286,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Atmane T.",
+    "canonical_player_id": 209279,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Auger-Aliassime F.",
+    "canonical_player_id": 200000,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Baez S.",
+    "canonical_player_id": 202104,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bagnis F.",
+    "canonical_player_id": 105487,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bailly G.",
+    "canonical_player_id": 211451,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Barranco Cosano J.",
+    "canonical_player_id": 200266,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Barrere G.",
+    "canonical_player_id": 106296,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Barrios M.",
+    "canonical_player_id": 144642,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bautista Agut R.",
+    "canonical_player_id": 105138,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bellucci M.",
+    "canonical_player_id": 208233,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Benchetrit E.",
+    "canonical_player_id": 200611,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bergs Z.",
+    "canonical_player_id": 200267,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Berrettini M.",
+    "canonical_player_id": 126610,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Blanch D.",
+    "canonical_player_id": 210464,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Blanchet U.",
+    "canonical_player_id": 200259,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Blockx A.",
+    "canonical_player_id": 210696,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bolt A.",
+    "canonical_player_id": 106109,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bonzi B.",
+    "canonical_player_id": 126127,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Borg L.",
+    "canonical_player_id": 209863,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Borges N.",
+    "canonical_player_id": 132686,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Broady L.",
+    "canonical_player_id": 106281,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Broom C.",
+    "canonical_player_id": 200277,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Brouwer G.",
+    "canonical_player_id": 133835,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bu Y.",
+    "canonical_player_id": 207352,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Bublik A.",
+    "canonical_player_id": 122330,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Burruchaga R.",
+    "canonical_player_id": 208882,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cachin P.",
+    "canonical_player_id": 106398,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Carballes Baena R.",
+    "canonical_player_id": 106148,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Carreno Busta P.",
+    "canonical_player_id": 105807,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cazaux A.",
+    "canonical_player_id": 209070,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cerundolo F.",
+    "canonical_player_id": 202103,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cerundolo J.M.",
+    "canonical_player_id": 207678,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Choinski J.",
+    "canonical_player_id": 123828,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cilic M.",
+    "canonical_player_id": 105227,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cobolli F.",
+    "canonical_player_id": 207925,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Collarini A.",
+    "canonical_player_id": 105911,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Collignon R.",
+    "canonical_player_id": 209920,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Comesana F.",
+    "canonical_player_id": 207681,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Coria F.",
+    "canonical_player_id": 105948,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Coric B.",
+    "canonical_player_id": 106432,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Couacaud E.",
+    "canonical_player_id": 111505,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Cressy M.",
+    "canonical_player_id": 202195,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Damm M.",
+    "canonical_player_id": 102093,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Daniel T.",
+    "canonical_player_id": 106121,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Darderi L.",
+    "canonical_player_id": 209260,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Davidovich Fokina A.",
+    "canonical_player_id": 200221,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "De Jong J.",
+    "canonical_player_id": 207411,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "De Minaur A.",
+    "canonical_player_id": 200282,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Dellien H.",
+    "canonical_player_id": 106198,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Diallo G.",
+    "canonical_player_id": 209113,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Diaz Acosta F.",
+    "canonical_player_id": 207680,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Dimitrov G.",
+    "canonical_player_id": 105777,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Djere L.",
+    "canonical_player_id": 111513,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Djokovic N.",
+    "canonical_player_id": 104925,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Djuric B.",
+    "canonical_player_id": 210025,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Dodig M.",
+    "canonical_player_id": 212063,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Dougaz A.",
+    "canonical_player_id": 144826,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Draper J.",
+    "canonical_player_id": 207733,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Droguet T.",
+    "canonical_player_id": 208169,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Duckworth J.",
+    "canonical_player_id": 105902,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Dzumhur D.",
+    "canonical_player_id": 106000,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Engel J.",
+    "canonical_player_id": 211514,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Escobedo E.",
+    "canonical_player_id": 124014,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Escoffier A.",
+    "canonical_player_id": 105938,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Etcheverry T.",
+    "canonical_player_id": 144869,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Eubanks C.",
+    "canonical_player_id": 111153,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Evans D.",
+    "canonical_player_id": 105554,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fanselow S.",
+    "canonical_player_id": 110751,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Faria J.",
+    "canonical_player_id": 210262,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fearnley J.",
+    "canonical_player_id": 207985,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fery A.",
+    "canonical_player_id": 209259,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fils A.",
+    "canonical_player_id": 209950,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fognini F.",
+    "canonical_player_id": 104926,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fonseca J.",
+    "canonical_player_id": 211663,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Forbes M.",
+    "canonical_player_id": 212733,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fritz T.",
+    "canonical_player_id": 126203,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Fucsovics M.",
+    "canonical_player_id": 105916,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gakhov I.",
+    "canonical_player_id": 123809,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Galan D.E.",
+    "canonical_player_id": 123755,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Garin C.",
+    "canonical_player_id": 106426,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gasquet R.",
+    "canonical_player_id": 104755,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gaston H.",
+    "canonical_player_id": 200384,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gerasimov E.",
+    "canonical_player_id": 106078,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gigante M.",
+    "canonical_player_id": 209263,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Giron M.",
+    "canonical_player_id": 106218,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Goffin D.",
+    "canonical_player_id": 105676,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gojo B.",
+    "canonical_player_id": 127339,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Gomez F.",
+    "canonical_player_id": 144870,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Grenier H.",
+    "canonical_player_id": 126409,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Griekspoor T.",
+    "canonical_player_id": 134868,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Guinard M.",
+    "canonical_player_id": 131905,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Halys Q.",
+    "canonical_player_id": 111460,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hanfmann Y.",
+    "canonical_player_id": 105870,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hardt N.",
+    "canonical_player_id": 200572,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Harris B.",
+    "canonical_player_id": 126129,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Harris L.",
+    "canonical_player_id": 144750,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hassan B.",
+    "canonical_player_id": 133975,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Heide G.",
+    "canonical_player_id": 208361,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Herbert P.H.",
+    "canonical_player_id": 105732,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hijikata R.",
+    "canonical_player_id": 208014,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Holt B.",
+    "canonical_player_id": 200587,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hong S.",
+    "canonical_player_id": 111805,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Huesler M.A.",
+    "canonical_player_id": 144817,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Humbert U.",
+    "canonical_player_id": 200005,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hurkacz H.",
+    "canonical_player_id": 128034,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Hussey G.",
+    "canonical_player_id": 208144,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Jacquet K.",
+    "canonical_player_id": 208021,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Janvier M.",
+    "canonical_player_id": 126125,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Jarry N.",
+    "canonical_player_id": 111797,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Jasika O.",
+    "canonical_player_id": 117357,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Johnson S.",
+    "canonical_player_id": 105449,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Jorda Sanchis D.",
+    "canonical_player_id": 122554,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Jubb P.",
+    "canonical_player_id": 206703,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kachmazov A.",
+    "canonical_player_id": 208230,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Karatsev A.",
+    "canonical_player_id": 106234,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kasnikowski M.",
+    "canonical_player_id": 209874,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kecmanovic M.",
+    "canonical_player_id": 200175,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Khachanov K.",
+    "canonical_player_id": 111575,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kirchheimer S.",
+    "canonical_player_id": 126177,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Klein L.",
+    "canonical_player_id": 127760,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Koepfer D.",
+    "canonical_player_id": 136440,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kokkinakis T.",
+    "canonical_player_id": 106423,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kopriva V.",
+    "canonical_player_id": 200240,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Korda S.",
+    "canonical_player_id": 200624,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kotov P.",
+    "canonical_player_id": 200303,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kovacevic A.",
+    "canonical_player_id": 206499,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kovalik J.",
+    "canonical_player_id": 106075,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Krueger M.",
+    "canonical_player_id": 106283,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kubler J.",
+    "canonical_player_id": 106186,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kudla D.",
+    "canonical_player_id": 106045,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kukushkin M.",
+    "canonical_player_id": 105062,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kumar O.",
+    "canonical_player_id": 208300,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kwon S.W.",
+    "canonical_player_id": 126952,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kym J.",
+    "canonical_player_id": 208843,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Kypson P.",
+    "canonical_player_id": 200516,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Lajal M.",
+    "canonical_player_id": 210136,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Lajovic D.",
+    "canonical_player_id": 105583,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Landaluce M.",
+    "canonical_player_id": 212021,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Lehecka J.",
+    "canonical_player_id": 208103,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Lestienne C.",
+    "canonical_player_id": 106005,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Llamas Ruiz P.",
+    "canonical_player_id": 208010,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Machac T.",
+    "canonical_player_id": 207830,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mannarino A.",
+    "canonical_player_id": 105173,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Marozsan F.",
+    "canonical_player_id": 206681,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Marterer M.",
+    "canonical_player_id": 109739,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Martin A.",
+    "canonical_player_id": 211346,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2024,
+    "td_name": "Martineau M.",
+    "canonical_player_id": 200188,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Martinez P.",
+    "canonical_player_id": 124079,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mayot H.",
+    "canonical_player_id": 208004,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mccabe J.",
+    "canonical_player_id": 210317,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mcdonald M.",
+    "canonical_player_id": 111456,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Medjedovic H.",
+    "canonical_player_id": 209098,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Medvedev D.",
+    "canonical_player_id": 106421,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mejia N.",
+    "canonical_player_id": 200711,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Meligeni Alves F.",
+    "canonical_player_id": 200335,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mensik J.",
+    "canonical_player_id": 210150,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Michelsen A.",
+    "canonical_player_id": 210506,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mikrut L.",
+    "canonical_player_id": 210053,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Misolic F.",
+    "canonical_player_id": 209209,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mmoh M.",
+    "canonical_player_id": 111581,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mochizuki S.",
+    "canonical_player_id": 208278,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Molcan A.",
+    "canonical_player_id": 144684,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Molleker R.",
+    "canonical_player_id": 200484,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Monfils G.",
+    "canonical_player_id": 104792,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Monteiro T.",
+    "canonical_player_id": 106329,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Moreno De Alboran N.",
+    "canonical_player_id": 134457,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Moro Canas A.",
+    "canonical_player_id": 208279,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Moutet C.",
+    "canonical_player_id": 144895,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Mpetshi G.",
+    "canonical_player_id": 208659,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Muller A.",
+    "canonical_player_id": 124186,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Munar J.",
+    "canonical_player_id": 144719,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Murray A.",
+    "canonical_player_id": 104918,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Musetti L.",
+    "canonical_player_id": 207518,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nadal R.",
+    "canonical_player_id": 104745,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nagal S.",
+    "canonical_player_id": 111576,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nakashima B.",
+    "canonical_player_id": 206909,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Napolitano S.",
+    "canonical_player_id": 109303,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nardi L.",
+    "canonical_player_id": 208134,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nava E.",
+    "canonical_player_id": 207182,
+    "basis": "CH01-2023-cases"
+  },
+  {
+    "season": 2024,
+    "td_name": "Navone M.",
+    "canonical_player_id": 208363,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Neff A.",
+    "canonical_player_id": 208117,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Neumayer L.",
+    "canonical_player_id": 209903,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nishikori K.",
+    "canonical_player_id": 105453,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Nishioka Y.",
+    "canonical_player_id": 106415,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Norrie C.",
+    "canonical_player_id": 111815,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "O Connell C.",
+    "canonical_player_id": 106331,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ofner S.",
+    "canonical_player_id": 124116,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Opelka R.",
+    "canonical_player_id": 124187,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Otte O.",
+    "canonical_player_id": 106214,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Pacheco Mendez R.",
+    "canonical_player_id": 210202,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Paire B.",
+    "canonical_player_id": 105332,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Pannu K.",
+    "canonical_player_id": 208485,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Papamalamis T.",
+    "canonical_player_id": 210494,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Passaro F.",
+    "canonical_player_id": 208859,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Paul T.",
+    "canonical_player_id": 126205,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Pellegrino A.",
+    "canonical_player_id": 126504,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Poljicak M.",
+    "canonical_player_id": 209890,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Polmans M.",
+    "canonical_player_id": 117360,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Popyrin A.",
+    "canonical_player_id": 200615,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Pospisil V.",
+    "canonical_player_id": 105577,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Pouille L.",
+    "canonical_player_id": 106298,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Prizmic D.",
+    "canonical_player_id": 209976,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Purcell M.",
+    "canonical_player_id": 126845,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Quinn E.",
+    "canonical_player_id": 210319,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ramanathan R.",
+    "canonical_player_id": 106368,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ramos-Vinolas A.",
+    "canonical_player_id": 105077,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Raonic M.",
+    "canonical_player_id": 105683,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rehberg M.",
+    "canonical_player_id": 208819,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Riedi L.",
+    "canonical_player_id": 209857,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rincon D.",
+    "canonical_player_id": 209405,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rinderknech A.",
+    "canonical_player_id": 126239,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ritschard A.",
+    "canonical_player_id": 106310,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rocha H.",
+    "canonical_player_id": 210012,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rodionov J.",
+    "canonical_player_id": 200514,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rublev A.",
+    "canonical_player_id": 126094,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Rune H.",
+    "canonical_player_id": 208029,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ruud C.",
+    "canonical_player_id": 134770,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ruusuvuori E.",
+    "canonical_player_id": 200325,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sachko V.",
+    "canonical_player_id": 126964,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Safiullin R.",
+    "canonical_player_id": 126128,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sanchez Izquierdo N.",
+    "canonical_player_id": 207663,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sandgren T.",
+    "canonical_player_id": 105815,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Schoolkate T.",
+    "canonical_player_id": 209262,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Schwaerzler J.",
+    "canonical_player_id": 212082,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Schwartzman D.",
+    "canonical_player_id": 106043,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Searle H.",
+    "canonical_player_id": 211902,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Seyboth Wild T.",
+    "canonical_player_id": 205734,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Shang J.",
+    "canonical_player_id": 209992,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Shapovalov D.",
+    "canonical_player_id": 133430,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Shelbayh A.",
+    "canonical_player_id": 209406,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Shelton B.",
+    "canonical_player_id": 210097,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Shevchenko A.",
+    "canonical_player_id": 207686,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sinner J.",
+    "canonical_player_id": 206173,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Skatov T.",
+    "canonical_player_id": 207608,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sonego L.",
+    "canonical_player_id": 132283,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sousa J.",
+    "canonical_player_id": 105311,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Spizzirri E.",
+    "canonical_player_id": 208118,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Squire H.",
+    "canonical_player_id": 202260,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Stricker D.",
+    "canonical_player_id": 208502,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Struff J.L.",
+    "canonical_player_id": 105526,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sun F.",
+    "canonical_player_id": 111806,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Svajda Z.",
+    "canonical_player_id": 208260,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Svrcina D.",
+    "canonical_player_id": 207494,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Sweeny D.",
+    "canonical_player_id": 208013,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Taberner C.",
+    "canonical_player_id": 126535,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tabilo A.",
+    "canonical_player_id": 126214,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Thiem D.",
+    "canonical_player_id": 106233,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Thompson J.",
+    "canonical_player_id": 111442,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tiafoe F.",
+    "canonical_player_id": 126207,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tien L.",
+    "canonical_player_id": 210530,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tirante T.A.",
+    "canonical_player_id": 202058,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Topo M.",
+    "canonical_player_id": 209916,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Trungelliti M.",
+    "canonical_player_id": 105477,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tseng C. H.",
+    "canonical_player_id": 202358,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tseng C.H.",
+    "canonical_player_id": 202358,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tsitsipas S.",
+    "canonical_player_id": 126774,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Tu L.",
+    "canonical_player_id": 111454,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Uchiyama Y.",
+    "canonical_player_id": 106034,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ugo Carabelli C.",
+    "canonical_player_id": 200116,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Vacherot V.",
+    "canonical_player_id": 200473,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Valkusz M.",
+    "canonical_player_id": 200218,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Van Assche L.",
+    "canonical_player_id": 209414,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Van De Zandschulp B.",
+    "canonical_player_id": 122298,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Van Rijthoven T.",
+    "canonical_player_id": 126646,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Varillas J. P.",
+    "canonical_player_id": 122669,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Varillas J.P.",
+    "canonical_player_id": 122669,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Vatutin A.",
+    "canonical_player_id": 106072,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Vavassori A.",
+    "canonical_player_id": 131934,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Vesely J.",
+    "canonical_player_id": 106210,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Virtanen O.",
+    "canonical_player_id": 202261,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Vukic A.",
+    "canonical_player_id": 126846,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Walton A.",
+    "canonical_player_id": 200443,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Watanuki Y.",
+    "canonical_player_id": 133297,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Wawrinka S.",
+    "canonical_player_id": 104527,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Wolf J.J.",
+    "canonical_player_id": 200670,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Wong C.",
+    "canonical_player_id": 209409,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Wu Y.",
+    "canonical_player_id": 200059,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Yevseyev D.",
+    "canonical_player_id": 106187,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Ymer E.",
+    "canonical_player_id": 111200,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zapata Miralles B.",
+    "canonical_player_id": 126523,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zeppieri G.",
+    "canonical_player_id": 206748,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zhang Zh.",
+    "canonical_player_id": 111190,
+    "basis": "MQ02"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zhou Y.",
+    "canonical_player_id": 212044,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zhukayev B.",
+    "canonical_player_id": 202320,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  },
+  {
+    "season": 2024,
+    "td_name": "Zverev A.",
+    "canonical_player_id": 100644,
+    "basis": "unique normalized source-name alias, cross-checked by event/round/unordered opponent pair; not independently verified for every biography"
+  }
+]

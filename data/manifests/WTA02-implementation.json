@@ -1,0 +1,243 @@
+{
+  "claim_limits": [
+    "A hash binding establishes which bytes ran, not that they are scientifically right.",
+    "The rehearsal reproduces WTA01's 2023-2024 forecasts on exposed data; it is not evidence about 2025/2026."
+  ],
+  "counts": {
+    "byte_identical_copy": 17,
+    "changed_copy": 10,
+    "new_for_WTA02": 2
+  },
+  "design": "experiments/WTA02.design.md",
+  "files": {
+    "data/manifests/WTA01-event-map.json": {
+      "bytes": 11242,
+      "sha256": "0992f0c7279c28b03cabaf88399d1fe3b59d050353c45af04109514474a853f3"
+    },
+    "data/manifests/WTA01-implementation.json": {
+      "bytes": 34595,
+      "sha256": "e39675fae07d0437d581113bd94b635e64dc2eb50acd2f07eeff0531dfa102f7"
+    },
+    "data/manifests/WTAODDS01.json": {
+      "bytes": 41652,
+      "sha256": "d0effd1959a59800694be0f48940d5f5c06d80ddb7b9c12879778c857d823386"
+    },
+    "experiments/WTA02.design.md": {
+      "bytes": 12409,
+      "sha256": "9982327e0f50ef07eb4bf79288d03d5bb92fb7b9d2218d9d937789177f87770c"
+    },
+    "references/WTA01_event_map/wta_event_crosswalk.csv": {
+      "bytes": 445431,
+      "sha256": "8e8c776de46c1c58e1283b3e9816ac9cd5d9cbf2d4d4eeff49ab98533aba98e2"
+    },
+    "references/WTA01_event_map/wta_sources.py": {
+      "bytes": 19972,
+      "sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866"
+    },
+    "references/WTA02_models/README.md": {
+      "bytes": 10153,
+      "sha256": "98f034d5d79b7f363548d1baf61790cf11f40ec7b3d363d7d875a3cc785f1ed9"
+    },
+    "references/WTA02_models/apply_format_corrections.py": {
+      "bytes": 12501,
+      "sha256": "fddd8551a3727430018a8c221e8bb947d4cafbc0b7f1d995f63caef7f1adbf0a"
+    },
+    "references/WTA02_models/bridge_res2026.py": {
+      "bytes": 123257,
+      "sha256": "97b177876dabfbe73f8ba13af4c29b973569df108908acb1a4591a4804754361"
+    },
+    "references/WTA02_models/build_archive_panel.py": {
+      "bytes": 41230,
+      "sha256": "0597cdf9768c32b06c331e9e5a1056229d5ff2ca45c69356a0a01392e402c118"
+    },
+    "references/WTA02_models/build_config.py": {
+      "bytes": 15559,
+      "sha256": "a1507a6fbca5d77bf7a80f2f1b0b5859f2b8e861cfa722b48229167ceac04fde"
+    },
+    "references/WTA02_models/build_edition_index.py": {
+      "bytes": 10187,
+      "sha256": "9b19c34b20ecda4deb6e45d1c69136e99018839b220b5256561f73b559d19b40"
+    },
+    "references/WTA02_models/build_features.py": {
+      "bytes": 63485,
+      "sha256": "24be234dd011f42ad94dc14ff9fce0465767f77fcbffcff5aa4cd774324a66c9"
+    },
+    "references/WTA02_models/build_sidecar.py": {
+      "bytes": 34803,
+      "sha256": "1de77fe01ff7c2c443049b85ad2b13a4391825d57fa3f962c99d0324eaebef05"
+    },
+    "references/WTA02_models/carry_event_crosswalk.py": {
+      "bytes": 22670,
+      "sha256": "282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef"
+    },
+    "references/WTA02_models/carry_rule_rows.py": {
+      "bytes": 21291,
+      "sha256": "4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce"
+    },
+    "references/WTA02_models/chain_common.py": {
+      "bytes": 6521,
+      "sha256": "dac370d880ec6932bb09123ac23321d2255b4bf5b13f03c42e41acbd34e235ab"
+    },
+    "references/WTA02_models/crosswalk_v2.py": {
+      "bytes": 25655,
+      "sha256": "013f8a97b982354992efdeefd41021d9bea3c4705adaac888c2b65f4e10bfea9"
+    },
+    "references/WTA02_models/fixture_dynamic.py": {
+      "bytes": 21143,
+      "sha256": "45adfe47b007370a8cbc635312e0deaee6694bf6825797af040f27dd0b1cdd4c"
+    },
+    "references/WTA02_models/join_candidates.py": {
+      "bytes": 57919,
+      "sha256": "65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad"
+    },
+    "references/WTA02_models/market_event_names.json": {
+      "bytes": 28926,
+      "sha256": "335dfe31fa283125dd5e0d80675f95350f4708d4b35cc8fcecb4e9640a3d29aa"
+    },
+    "references/WTA02_models/origins.json": {
+      "bytes": 11199,
+      "sha256": "3f55f7106a406ac9e0540bd4d0baef1409f7bec443d9734be483fcb1b8dec0a6"
+    },
+    "references/WTA02_models/prepare_panel.py": {
+      "bytes": 34546,
+      "sha256": "c30d9b4cdf4706065ca96032803b3fbdd6d49588c0eaaae00497de81db5632f8"
+    },
+    "references/WTA02_models/prospective.py": {
+      "bytes": 24280,
+      "sha256": "2b9e36279105f56656ae2bcd1bb0f38dee1f85ce1c696d60975338dd5fd93163"
+    },
+    "references/WTA02_models/qualify_rankings.py": {
+      "bytes": 56006,
+      "sha256": "f8d552c49820a16da5bfa0d44db5ba167b50cc09aee4b62c867e6a0449796723"
+    },
+    "references/WTA02_models/report.py": {
+      "bytes": 76301,
+      "sha256": "c9c01644990aed7298eeb30890c877ac3b6635940003e2c1625655b33d668b4a"
+    },
+    "references/WTA02_models/run_archive_panel.py": {
+      "bytes": 12236,
+      "sha256": "e606d1f5f7530d8ee726c8b8e9df437f5f24d69361ea33c7b7f083ead203dfb2"
+    },
+    "references/WTA02_models/run_chain.py": {
+      "bytes": 77185,
+      "sha256": "07699296d53489233914fd7e962a5a9ada713168a66d00825ee28eb7a16a3458"
+    },
+    "references/WTA02_models/runner.py": {
+      "bytes": 86877,
+      "sha256": "b7d769c982eac1342433877ecc9d71e4dff9dc54a9d0e168a50b2ff3e4f56c27"
+    },
+    "references/WTA02_models/sr02_replay.py": {
+      "bytes": 39767,
+      "sha256": "3aab5154963570a74ae9632ed2d1e1e427a2afe71a987afc047f7bf966b7cbb9"
+    },
+    "references/WTA02_models/sr03_calibrate.py": {
+      "bytes": 39812,
+      "sha256": "7d251514f9d1515a43cff1f92c5df8d628864118db0bb68b3ff86207366f7683"
+    },
+    "references/WTA02_models/wta_carry_event_crosswalk.py": {
+      "bytes": 22309,
+      "sha256": "4f7429be0446f02d348a21c698fc580c101a36921bd777e43d006a6533631164"
+    },
+    "references/WTA02_models/wta_market_event_names.json": {
+      "bytes": 42704,
+      "sha256": "c2bc7858bf3ccb356176413b232caffea552dc4ffdbfffeacbc6af33c338b89a"
+    },
+    "references/WTA02_models/wta_market_join.py": {
+      "bytes": 48272,
+      "sha256": "a11a255fae19ebf7fde2b73c57a85d84f047615e4b30a04caf00e9f3c698a0f6"
+    },
+    "references/WTA02_models/wta_rule_rows.py": {
+      "bytes": 17320,
+      "sha256": "102c5568dbd0f3a1d85b8fc515674d80f672b6fc591884ae3b9a7b87f3314749"
+    },
+    "references/WTA02_models/wta_rules.json": {
+      "bytes": 8087,
+      "sha256": "48194cefcd5657c02c17aa4871c3b4c9e0585bf90d78a900e7d756f4346fffa8"
+    }
+  },
+  "id": "WTA02-implementation",
+  "origins": "references/WTA02_models/origins.json",
+  "origins_sha256": "3f55f7106a406ac9e0540bd4d0baef1409f7bec443d9734be483fcb1b8dec0a6",
+  "purpose": "Bind the WTA02 chain implementation (references/WTA02_models/), its origins, the design it implements, the frozen inputs it reads and the rehearsal that qualified it.",
+  "rehearsal": {
+    "work/WTA02/rehearsal/bridge_selftest_2024.json": {
+      "bytes": 11721,
+      "sha256": "4ebb6977a459bfbb570a4eb4ed67ce9ba6acec7ec46d29e2af41d189b353c680"
+    },
+    "work/WTA02/rehearsal/chain_rehearsal_2024.json": {
+      "bytes": 6065,
+      "sha256": "2eb3108ef2fcc58d396331cf90a406f8d4f7ad856413052029f62dc821613c6f"
+    },
+    "work/WTA02/rehearsal/comparison.json": {
+      "bytes": 4473,
+      "sha256": "3567946c169d3fc31e9b43473c7d814cdd29d0a8173b60af2d84294cc3fee0ec"
+    },
+    "work/WTA02/rehearsal/dryrun.json": {
+      "bytes": 13954,
+      "sha256": "f1ef2299040adacea835662b8428ea25657e8415c465216bcfaea3e63467479d"
+    },
+    "work/WTA02/rehearsal/wikipedia_sample.json": {
+      "bytes": 3303,
+      "sha256": "1a0bdef05d4ab38900005395478ac9b488b272ce7c9fbbe63af84d64d7396390"
+    }
+  },
+  "tooling_under_work": {
+    "work/WTA02/fixture/acceptance_fixture_dynamic.py": {
+      "bytes": 8366,
+      "sha256": "3480da68246be92dd83a2606c780cf894e54c21de271bc87249d7f033c726531"
+    },
+    "work/WTA02/fixture/acceptance_wta01_full_fixture.py": {
+      "bytes": 7873,
+      "sha256": "1f4987bfbdc189d761106fff84470387047be27e3ee15b5619058006b4a1f536"
+    },
+    "work/WTA02/ledger/anchor_ledger.py": {
+      "bytes": 4704,
+      "sha256": "0cce70d0626b8e805c212c68702d05356468c26b633139c401093f8e781856c4"
+    },
+    "work/WTA02/ledger/issue_wta_ledger.py": {
+      "bytes": 19368,
+      "sha256": "d4dd013eb1c92991a4f8808d8b5f81787a518fc70d267618cd7ece512217406d"
+    },
+    "work/WTA02/rehearsal/compare_rehearsal.py": {
+      "bytes": 6845,
+      "sha256": "d3bdb2cd27741d430ecf75886b8763b2a9a31ec095c8bf95c029bc0216ab9662"
+    },
+    "work/WTA02/rehearsal/make_rehearsal.py": {
+      "bytes": 11042,
+      "sha256": "0e8de58a1ca4a0a109a190e233f78b0ba1a562dcc802e2f2e359c9b1431f8be5"
+    },
+    "work/WTA02/run_001_stopped/make_chain_config.py": {
+      "bytes": 6752,
+      "sha256": "282127ba66ea5910b39dac76cd1dcec270299f36f99231391835f7ee6aedbd61"
+    },
+    "work/WTA02/scoreboard/update_scoreboard_women.py": {
+      "bytes": 14731,
+      "sha256": "f6a3e48b8a959637fb7a8e2365f3ede607f2837332cb85596d6bfcee7742bff1"
+    },
+    "work/WTA02/tests/test_event_end_dating.py": {
+      "bytes": 6858,
+      "sha256": "b0fe56d925aff1fe4dfeea8174cabc199f882e16d61e3eeb58816358f6ec08d4"
+    },
+    "work/WTA02/tools/derive_wta_market_event_names.py": {
+      "bytes": 2028,
+      "sha256": "db5a91914e2e8117f0a076e27c2ee7235143951722995b44cda2e1e1aaf7204a"
+    },
+    "work/WTA02/tools/make_chain_config.py": {
+      "bytes": 6746,
+      "sha256": "6d04ba05c5972f679c617044dcbceac8d5c732cf2bea643bbe46d4e3647e88ec"
+    },
+    "work/WTA02/tools/verify_frozen_code.py": {
+      "bytes": 1806,
+      "sha256": "ae950514716d64202652e0aec4039a40ccc9111a4c4f9a622ab08dc20f602711"
+    },
+    "work/WTA02/tools/write_origins_and_manifest.py": {
+      "bytes": 6410,
+      "sha256": "41f7a83b620cc0b5ecd1b4fdaaf5e48d6162a0fdd37fae2d45665b6369203147"
+    },
+    "work/WTA02/tools/write_run_manifest.py": {
+      "bytes": 2969,
+      "sha256": "730d4a07ff150130670cca9767aa3117d1d62b13caeb1a09a571c574431ec212"
+    }
+  },
+  "written_at_utc": "2026-09-12T20:06:29.357059+00:00"
+}

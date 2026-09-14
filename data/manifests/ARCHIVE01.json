@@ -1,0 +1,72 @@
+{
+  "id": "ARCHIVE01",
+  "promoted_at_utc": "2026-09-10T23:24:26.217468+00:00",
+  "scope": "Full pinned mirror preserved; mechanical ATP1990\u20132024 inventory, not source truth qualification",
+  "files": [
+    {
+      "path": "data/raw/ARCHIVE01/LICENSE",
+      "bytes": 913,
+      "sha256": "d128251e9a3725f694c97a6761df96610481f92a6a69ab936174acb0c4be0589"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/UPSTREAM_README.md",
+      "bytes": 2344,
+      "sha256": "9037ec2e60bae5b7b57e1b465f11a9a4b0cedfd6715f3ae8c0962a32585bdfee"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/acquisition_receipt.json",
+      "bytes": 9970,
+      "sha256": "c1dfba2b57fdea6c9879d26fd8b673f4a005d6eca863bdd788628b722804d5d1"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/atp_main_draw_1990_2024_anomalies.csv",
+      "bytes": 580,
+      "sha256": "91c3e5bb40c7ea665375be88038bab6b0c0569970f44f322620a0f9fc4b5a3af"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/atp_main_draw_1990_2024_inventory.csv",
+      "bytes": 8157,
+      "sha256": "7020f2741014742ef1bc74d681e235472841a52ea2a93ae5b784619f881ed8ed"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/atp_main_draw_1990_2024_inventory.json",
+      "bytes": 117331,
+      "sha256": "2f2edd78a9b1e7f158887e02c58dabfdc4a7ec9fa7349269c3188e9fbe0392d7"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/inventory_atp_main_draw.py",
+      "bytes": 19661,
+      "sha256": "380ce675509b018b5b72d96f01da316dbdff8cd279a4ca1dac8f26f445b3a8d6"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/preserve_archive.py",
+      "bytes": 13261,
+      "sha256": "f6c9ed52efb164bb91c0efa0ea9727293f5c89950f60cc2c201fdf9697b87488"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/receipts/github_commit_response.json",
+      "bytes": 296039,
+      "sha256": "79059d3e9ab826bd5a77fb128f31e3d17e00ca98caa7c642a348c1e81bcf24eb"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/receipts/github_tree_response.json",
+      "bytes": 124670,
+      "sha256": "0b2b2288459a92a235fca1137535e66d7825653d44af484edde8ed11c10418f9"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/result.md",
+      "bytes": 5959,
+      "sha256": "4803af854f0129bb72adcb855474430384c9b87dfa24e6005dcf7d4e868d0245"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/snapshot/tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d.tar.gz",
+      "bytes": 144417293,
+      "sha256": "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/snapshot_file_inventory.csv",
+      "bytes": 73712,
+      "sha256": "903fc54f5c866ad855c238a2b6fadd8d53dc32b1748862504626fd4244cd2050"
+    }
+  ]
+}

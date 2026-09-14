@@ -1,0 +1,765 @@
+{
+  "bound_inputs": {
+    "data/manifests/ARCHIVE01.json": {
+      "bytes": 2619,
+      "sha256": "ce5e58531bf1e7f874861a8dd5977901ea9f5751358b625e5c444807d44cf150"
+    },
+    "data/manifests/WTA01-event-map.json": {
+      "bytes": 11242,
+      "sha256": "0992f0c7279c28b03cabaf88399d1fe3b59d050353c45af04109514474a853f3"
+    },
+    "data/manifests/WTAODDS01.json": {
+      "bytes": 41652,
+      "sha256": "d0effd1959a59800694be0f48940d5f5c06d80ddb7b9c12879778c857d823386"
+    },
+    "experiments/JOINT04.design.md": {
+      "bytes": 13291,
+      "sha256": "5da46ee0b120bcfd6a82e2e2827883387ac0cbcefb39774dcfd9b3ee00522123"
+    },
+    "experiments/SR02-C1.json": {
+      "bytes": 17496,
+      "sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182"
+    },
+    "experiments/SR02.rules.json": {
+      "bytes": 4203,
+      "sha256": "a831480f0897c4c319e0b5fad230a79c35b2ca408a49d44f867d587fc79d2fe5"
+    },
+    "experiments/WTA01.design.md": {
+      "bytes": 4246,
+      "sha256": "0428751403cbd8b1d52ef65f83a1a630d0b61d94f446a3ea5e286354071950f0"
+    },
+    "experiments/runs/SR02/attempt_002/selections.csv": {
+      "bytes": 2470,
+      "sha256": "7740d54723b33ec2c65d09a61e0d43381631e7814498a130e501d2d5b3b8d87c"
+    },
+    "references/BIO01.md": {
+      "bytes": 5852,
+      "sha256": "72280020f971b45430ebc6b010752e3d01c6f6c0a79bf9dfdac391caa8d14788"
+    },
+    "references/CONFIRM2026_models/README.md": {
+      "bytes": 170782,
+      "sha256": "e1f20b757437ec431285de73d3cf90163871590f08f3d5fb5aa082c839ffd268"
+    },
+    "references/TIER01-audit.md": {
+      "bytes": 25473,
+      "sha256": "54e021eaf733e802384030cd6eadff935eff2d4845ff23978c47041df15771c8"
+    },
+    "references/WTA01-event-map.md": {
+      "bytes": 28585,
+      "sha256": "5c40086b14cc5c59bd280553b15f49aec8708e6ed864159e1154904b1034f25d"
+    },
+    "references/WTA01_event_map/rule_inventory_by_edition.csv": {
+      "bytes": 583976,
+      "sha256": "5fe1bb256ac80de255e63781c189f6f33b2cc9f09f918c5b1b835d0ead5a7974"
+    },
+    "references/WTA01_event_map/surname_class_links.csv": {
+      "bytes": 5767,
+      "sha256": "9bcbd2b4f24e80b09e59ee29bb3234a557e7c03ea14865bdcfd724184c84d9a4"
+    },
+    "references/WTA01_event_map/winner_orientation_conflicts.csv": {
+      "bytes": 2044,
+      "sha256": "697924abed276884ee9c71eb3d9f067143fac77fe4196c16826adbf9449ca639"
+    },
+    "references/WTA01_event_map/wta_event_crosswalk.csv": {
+      "bytes": 445431,
+      "sha256": "8e8c776de46c1c58e1283b3e9816ac9cd5d9cbf2d4d4eeff49ab98533aba98e2"
+    },
+    "references/WTA01_event_map/wta_sources.py": {
+      "bytes": 19972,
+      "sha256": "4762420afa43a928effb39085ac1b443967462f20e3676ca97523479e436f866"
+    },
+    "references/WTAODDS01.md": {
+      "bytes": 16717,
+      "sha256": "ad1443348069ba1ee2b8ee43bc8ab6af0c034f3cbbaaa027584f7a06064e93bc"
+    },
+    "work/MULTI01_ranking_lookup/ranking_lookup.py": {
+      "bytes": 11795,
+      "sha256": "d64e1640e11a137b7c5584af54f87577f928369904d622e14a4febf3c9583496"
+    }
+  },
+  "claim_limits": [
+    "This is an implementation. Nothing was fitted for WTA01, no WTA target-year comparison was computed, and the real WTA01 comparison is the lead's to freeze and run. The calibration and selection stages the design requires do write score-like quantities; results.wta_smoke.score_bearing_artifacts names all four.",
+    "Revision 2 left four review defects standing as known limits, recorded in references/WTA01_models/README.md: origins.json cites a revision label and not a commit (D6); the frozen cohort census is bound to the smoke run's feature table and not to each real configuration's own build (D8); the level rule admits one WTA 125 event and both year-end shapes (D9); and the sidecar DOB locator names a run-local path (D10).",
+    "WTA 2007-2024 is exposed development data. The event crosswalk's surname classes and the WTA rule eras were both derived from outcome-bearing files.",
+    "The WTA rule rows are inferred from the mirror's own deciding-set scores in the seasons they govern, target years included; they are not established as knowable at the declared cutoff. See wta_rules.json information_set_limit.",
+    "The 13 winner-orientation conflicts, the 4 tennis-data-only matches, the 6 ambiguous pair keys, the 2 date defects and the 2 missing market dates are excluded and counted. None is resolved.",
+    "Passing tests, a byte-identical ATP reproduction and a complete smoke run say the chain computes what is specified. They say nothing about whether the WTA sources are true or whether any WTA model is any good."
+  ],
+  "code": {
+    "copied_at_revision": "revision 9",
+    "copied_from": "references/CONFIRM2026_models",
+    "copied_on": "2026-09-12",
+    "counts": {
+      "byte_identical_copies": 9,
+      "changed_copies": 14,
+      "new_for_WTA01": 4
+    },
+    "files": {
+      "README.md": {
+        "bytes": 56121,
+        "changes": "new: this folder's report",
+        "origin": null,
+        "sha256": "0164ce4e4d5c3899bd1833e8b45e19ddb6bf718be804442b9d3c9dee0235676e",
+        "status": "new_for_WTA01"
+      },
+      "apply_format_corrections.py": {
+        "bytes": 12501,
+        "changes": "tour branch: WTA declares no correction, verifies best_of = 3 on every row and copies the panel through; the four ATP cases and their guards are unchanged",
+        "origin": "references/CONFIRM2026_models/apply_format_corrections.py",
+        "origin_sha256": "bd737d93357733deabd4037fff1d45bd095243953076858af92e9991648ef0dd",
+        "sha256": "fddd8551a3727430018a8c221e8bb947d4cafbc0b7f1d995f63caef7f1adbf0a",
+        "status": "changed_copy"
+      },
+      "bridge_res2026.py": {
+        "bytes": 104469,
+        "origin": "references/CONFIRM2026_models/bridge_res2026.py",
+        "origin_sha256": "23a6c7b230573825cbffdd725eb5e8b1d4284d0e02bcbbde4752b68e57799d10",
+        "sha256": "23a6c7b230573825cbffdd725eb5e8b1d4284d0e02bcbbde4752b68e57799d10",
+        "status": "byte_identical_copy"
+      },
+      "build_archive_panel.py": {
+        "bytes": 41230,
+        "changes": "one profile per tour (archive subtree, player master, match member, population rule, year-end inventory expectation, correction policy); no identity or count correction is applied on the WTA side because none exists",
+        "origin": "references/CONFIRM2026_models/build_archive_panel.py",
+        "origin_sha256": "9ec4342cda2b3409e03296d45a3c5976f8fbb75e3bd1df1874a9ab1c2be6f984",
+        "sha256": "0597cdf9768c32b06c331e9e5a1056229d5ff2ca45c69356a0a01392e402c118",
+        "status": "changed_copy"
+      },
+      "build_config.py": {
+        "bytes": 15559,
+        "changes": "reads the optional blocks/learners/cohort/primary_contrast/bootstrap_seed/bootstrap_unit/tour/experiment_id siblings of the year plan and installs them in the runner and the reporter; carries the reporting settings into the predictor config. Revision 2 (D2): the experiment id and the tour come from the configuration instead of a WTA01 literal, so a CONFIRM2026 predictor config is accepted and re-reported under its own id",
+        "origin": "references/CONFIRM2026_models/build_config.py",
+        "origin_sha256": "43d5fd1f6539fda6d144455384826c40c6c96e254a17a54296a197c5372a2e6f",
+        "sha256": "a1507a6fbca5d77bf7a80f2f1b0b5859f2b8e861cfa722b48229167ceac04fde",
+        "status": "changed_copy"
+      },
+      "build_edition_index.py": {
+        "bytes": 10187,
+        "changes": "--unordered-source accumulates editions per effective date instead of requiring source date order, because the normalized WTA ranking stream is not ordered",
+        "origin": "references/CONFIRM2026_models/build_edition_index.py",
+        "origin_sha256": "ba7c0ae4fa50d2b438d06444f95e3aef1a8971fef3fafea8bd241932c3c69122",
+        "sha256": "9b19c34b20ecda4deb6e45d1c69136e99018839b220b5256561f73b559d19b40",
+        "status": "changed_copy"
+      },
+      "build_features.py": {
+        "bytes": 63485,
+        "changes": "the serve/return history divergence is counted and reported instead of raising, and missing_<domain> becomes 'no count history in this domain'; unreachable on the ATP panel, so every ATP feature value is unchanged",
+        "origin": "references/CONFIRM2026_models/build_features.py",
+        "origin_sha256": "15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf",
+        "sha256": "24be234dd011f42ad94dc14ff9fce0465767f77fcbffcff5aa4cd774324a66c9",
+        "status": "changed_copy"
+      },
+      "build_sidecar.py": {
+        "bytes": 34803,
+        "changes": "the DOB locator names the bound player table instead of BIO01's path literal",
+        "origin": "references/CONFIRM2026_models/build_sidecar.py",
+        "origin_sha256": "9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308",
+        "sha256": "1de77fe01ff7c2c443049b85ad2b13a4391825d57fa3f962c99d0324eaebef05",
+        "status": "changed_copy"
+      },
+      "carry_event_crosswalk.py": {
+        "bytes": 22670,
+        "origin": "references/CONFIRM2026_models/carry_event_crosswalk.py",
+        "origin_sha256": "282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef",
+        "sha256": "282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef",
+        "status": "byte_identical_copy"
+      },
+      "carry_rule_rows.py": {
+        "bytes": 21291,
+        "origin": "references/CONFIRM2026_models/carry_rule_rows.py",
+        "origin_sha256": "4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce",
+        "sha256": "4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce",
+        "status": "byte_identical_copy"
+      },
+      "chain_common.py": {
+        "bytes": 6521,
+        "origin": "references/CONFIRM2026_models/chain_common.py",
+        "origin_sha256": "dac370d880ec6932bb09123ac23321d2255b4bf5b13f03c42e41acbd34e235ab",
+        "sha256": "dac370d880ec6932bb09123ac23321d2255b4bf5b13f03c42e41acbd34e235ab",
+        "status": "byte_identical_copy"
+      },
+      "crosswalk_v2.py": {
+        "bytes": 25655,
+        "origin": "references/CONFIRM2026_models/crosswalk_v2.py",
+        "origin_sha256": "013f8a97b982354992efdeefd41021d9bea3c4705adaac888c2b65f4e10bfea9",
+        "sha256": "013f8a97b982354992efdeefd41021d9bea3c4705adaac888c2b65f4e10bfea9",
+        "status": "byte_identical_copy"
+      },
+      "fixture_dynamic.py": {
+        "bytes": 20301,
+        "origin": "references/CONFIRM2026_models/fixture_dynamic.py",
+        "origin_sha256": "0e6311ef7fd035c5b42e99ac58b700c2d542889971048dace33aabc8101636bc",
+        "sha256": "0e6311ef7fd035c5b42e99ac58b700c2d542889971048dace33aabc8101636bc",
+        "status": "byte_identical_copy"
+      },
+      "join_candidates.py": {
+        "bytes": 57919,
+        "origin": "references/CONFIRM2026_models/join_candidates.py",
+        "origin_sha256": "65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad",
+        "sha256": "65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad",
+        "status": "byte_identical_copy"
+      },
+      "market_event_names.json": {
+        "bytes": 28926,
+        "origin": "references/CONFIRM2026_models/market_event_names.json",
+        "origin_sha256": "335dfe31fa283125dd5e0d80675f95350f4708d4b35cc8fcecb4e9640a3d29aa",
+        "sha256": "335dfe31fa283125dd5e0d80675f95350f4708d4b35cc8fcecb4e9640a3d29aa",
+        "status": "byte_identical_copy"
+      },
+      "prepare_panel.py": {
+        "bytes": 33333,
+        "changes": "tour branch: build_wta turns the WTA join's paired market rows into the same 99-column panel, with the WTA identity tier and the WTA exclusion list. Revision 2 (D5): the WTA start-status branch names Walkover only, because the vocabulary check above it claims a Cancelled comment first; no count changes",
+        "origin": "references/CONFIRM2026_models/prepare_panel.py",
+        "origin_sha256": "342c590ba9cff0942e8a6fa7ba2740ea2dfc92b69cb5b6868db3ffd065821b2e",
+        "sha256": "4c61fe09faa4542f2e7c7d135762440219707e75802ad187a0d850728a32690e",
+        "status": "changed_copy"
+      },
+      "prospective.py": {
+        "bytes": 23948,
+        "origin": "references/CONFIRM2026_models/prospective.py",
+        "origin_sha256": "a5c05bcbba1645bc5ec372b59cf5e8d94ffe94a3c055a71a30fd967c5dd4e19c",
+        "sha256": "a5c05bcbba1645bc5ec372b59cf5e8d94ffe94a3c055a71a30fd967c5dd4e19c",
+        "status": "byte_identical_copy"
+      },
+      "qualify_rankings.py": {
+        "bytes": 56006,
+        "changes": "one profile per tour (decade and current ranking members, result member, player master, document members, ranking header); row and identity policy unchanged",
+        "origin": "references/CONFIRM2026_models/qualify_rankings.py",
+        "origin_sha256": "22af786ec9cf1b32bccfa96a2abebe8ed38b850fbc209888f8c867be3e1c6881",
+        "sha256": "f8d552c49820a16da5bfa0d44db5ba167b50cc09aee4b62c867e6a0449796723",
+        "status": "changed_copy"
+      },
+      "report.py": {
+        "bytes": 76301,
+        "changes": "the primary contrast, the bootstrap seed, the blocks/learners and the cohort label come from the reporting config, and the contrast list is derived from the blocks actually fitted. Revision 2: the design-registered match-level bootstrap is computed and published alongside the edition-blocked one, which stays available as a labelled secondary and as an ATP-mode primary (D1); the experiment id and the tour come from the configuration and the tour is cross-checked against the predictor config (D2)",
+        "origin": "references/CONFIRM2026_models/report.py",
+        "origin_sha256": "3b6fa5ebf6350a625ce783bf9456aa120903eb10c93324796a0d1960c1dede67",
+        "sha256": "c9c01644990aed7298eeb30890c877ac3b6635940003e2c1625655b33d668b4a",
+        "status": "changed_copy"
+      },
+      "run_archive_panel.py": {
+        "bytes": 11983,
+        "changes": "tour selection, an optional bridge (no bridge reads the pinned mirror directly) and the extracted player master for a tour whose traits come from the archive. Revision 2 (D4): require_bridge restores the structural check that an ATP panel reaching past 2024 declares a bridge_summary, in both the run and dry-run paths",
+        "origin": "references/CONFIRM2026_models/run_archive_panel.py",
+        "origin_sha256": "b10e2eabeb3905e5f60af2a80c2bba690c53b8ae4a631bada2a8db118e70498f",
+        "sha256": "d755adf988f7edd9ff09a031b834353a2a46e287e56f06fe9f0455ebd1f6190c",
+        "status": "changed_copy"
+      },
+      "run_chain.py": {
+        "bytes": 72684,
+        "changes": "tour selection with a fifteen-stage WTA table and WTA stage configs, skip_stages, the floor-consistency check, the sr03 annual-eligible floor and tour authority, the year plan's bundle/cohort/primary settings, and this folder's sr03 binding. Revision 2 (D2): experiment_of installs the configured experiment id in the sidecar, feature and sr03 bodies, and the emitted year plan carries the tour, the experiment id and the bootstrap unit",
+        "origin": "references/CONFIRM2026_models/run_chain.py",
+        "origin_sha256": "615ac2ee0a78180939433cd3e2eae3654536aec27de2683579878e235f42cbcc",
+        "sha256": "0bb4d718657c71e2f406de5e64ca059ddc7914d2a294567a74004927d81e4d93",
+        "status": "changed_copy"
+      },
+      "runner.py": {
+        "bytes": 86877,
+        "changes": "configure_bundles and configure_cohort installed from the frozen settings; is_aligned_primary/provisional drop the two SR02 requirements under the no-dynamic cohort and nothing else. Revision 2 (D2): configure_identity installs the experiment id and the tour from the frozen config and the tour joins the settings contract",
+        "origin": "references/CONFIRM2026_models/runner.py",
+        "origin_sha256": "f8fc467521611697324bfcbd67b60dafb7ee03e23413adb915e91a2eafe844de",
+        "sha256": "b7d769c982eac1342433877ecc9d71e4dff9dc54a9d0e168a50b2ff3e4f56c27",
+        "status": "changed_copy"
+      },
+      "sr02_replay.py": {
+        "bytes": 39767,
+        "changes": "relabelled_count_block_statuses and count_history_from_year extend the declared no-update path, so the SvGms-absent partial blocks and every pre-2016 block are replayed as matches without counts; both default to CONFIRM2026's behaviour",
+        "origin": "references/CONFIRM2026_models/sr02_replay.py",
+        "origin_sha256": "9dff77d6ebe3b04f8390fd07aca9dd2645b2bd241dc851c11b56e452457d86ad",
+        "sha256": "3aab5154963570a74ae9632ed2d1e1e427a2afe71a987afc047f7bf966b7cbb9",
+        "status": "changed_copy"
+      },
+      "sr03_calibrate.py": {
+        "bytes": 38241,
+        "changes": "point_run_manifest is also the panel binding authority for a tour other than the frozen SR02-C1 execution's, and the tour is recorded in the manifest",
+        "origin": "references/CONFIRM2026_models/sr03_calibrate.py",
+        "origin_sha256": "70d86d1782a5437eeea20309649ae0f40b29e12dfb5e55e54ec4d223b0d906be",
+        "sha256": "d1273acb434b749c559f3370157da993a30807471bb3337cf695fa67d5567f2e",
+        "status": "changed_copy"
+      },
+      "wta_market_join.py": {
+        "bytes": 37236,
+        "changes": "new: the WTA branch of the join stage. Pairs retained tennis-data rows with the WTA mirror panel through the frozen event crosswalk and its own surname classes",
+        "origin": null,
+        "sha256": "888c54d768ce65a2a2472859c2de8a9134276ab40ea574b277bc4585dbdce011",
+        "status": "new_for_WTA01"
+      },
+      "wta_rule_rows.py": {
+        "bytes": 15250,
+        "changes": "new: the WTA branch of the rule stage. One era rule row per panel row from wta_rules.json, with the event map's inventory joined as evidence",
+        "origin": null,
+        "sha256": "c6599f9f8ef8df1e9641c387c1c166f7133afe6460f774a26dbb53fa1864b7da",
+        "status": "new_for_WTA01"
+      },
+      "wta_rules.json": {
+        "bytes": 8087,
+        "changes": "new: the WTA era table, its declared assumptions and its information-set limit",
+        "origin": null,
+        "sha256": "48194cefcd5657c02c17aa4871c3b4c9e0585bf90d78a900e7d756f4346fffa8",
+        "status": "new_for_WTA01"
+      }
+    },
+    "note": "A file whose origin_sha256 no longer matches the origin file on disk means CONFIRM2026 moved after this copy was taken; the results recorded in README.md were produced with the bytes below.",
+    "origins_json": {
+      "bytes": 13281,
+      "sha256": "daef15d2b5e12336d53a3ffd99e02ceefcc7819eff5ddede879cbffa8775b84b"
+    }
+  },
+  "configurations": {
+    "atp_regression": {
+      "bytes": 5558,
+      "path": "work/WTA01/atp_regression/chain_atp_regression.json",
+      "sha256": "b6c85dcd30616ae90f9bb6cef65ce69b0db31211c8a8f2f0fb43a61258d2b1c7"
+    },
+    "smoke": {
+      "bytes": 4635,
+      "path": "work/WTA01/smoke/chain_smoke.json",
+      "sha256": "e2d9f779f9682a0653200c856c713a29d7d02a219081ccf18af9396ba1cd54b4"
+    },
+    "wta01_primary_2019_2024": {
+      "bytes": 5139,
+      "path": "work/WTA01/wta01_primary_2019_2024/chain_wta01_primary_2019_2024.json",
+      "sha256": "a8a3d092042841d07a92880b7807e5cb2323e530e609a79932eda717b7de2a10"
+    },
+    "wta01_secondary_2014_2024": {
+      "bytes": 5225,
+      "path": "work/WTA01/wta01_secondary_2014_2024/chain_wta01_secondary_2014_2024.json",
+      "sha256": "ee7357af1de4390b4d73074456a56b86ee42a8cc937ae2708be9e31d07eff9c9"
+    }
+  },
+  "decision": "D56",
+  "evidence": {
+    "atp_regression_comparison": {
+      "bytes": 91058,
+      "path": "work/WTA01/atp_regression/comparison.json",
+      "sha256": "fe4e13990a20fea596eae12cc7f83077df8e8107f5ef30bf51da97baac618c32"
+    },
+    "counts": {
+      "bytes": 56586,
+      "path": "work/WTA01/wta01_counts.json",
+      "sha256": "1790ba5d897e2ef29228c7534bcb6f4f7bf60327bce9a656eade0aa27e6b6d79"
+    },
+    "primary_dry_run": {
+      "bytes": 13254,
+      "path": "work/WTA01/wta01_primary_2019_2024/dryrun.json",
+      "sha256": "07178ecacf137f9aff3c312971dc42e49f9b2d25d1f03f13ff801bd0aa5e1c87"
+    },
+    "primary_preflight": {
+      "bytes": 61632,
+      "path": "work/WTA01/preflight/config.wta01_primary_2019_2024.json",
+      "sha256": "310fd2dedcfe814d1f46c32cdeff15d10a501408de09fce745284f446eb8d4d0"
+    },
+    "runtime_estimate": {
+      "bytes": 6339,
+      "path": "work/WTA01/runtime_estimate.json",
+      "sha256": "0940bd9106b5f5e2b6ccea130a1348a2a11151f4ba9d29ecee271ddcc07483c3"
+    },
+    "secondary_dry_run": {
+      "bytes": 13452,
+      "path": "work/WTA01/wta01_secondary_2014_2024/dryrun.json",
+      "sha256": "a6c7557bd9d5fdcf7c7a923e05f5dfed1c47e9d7f1b6e40fcf59ac43347e05b4"
+    },
+    "secondary_preflight": {
+      "bytes": 48886,
+      "path": "work/WTA01/preflight/config.wta01_secondary_2014_2024.json",
+      "sha256": "d3519a4b818d5ed50f4c9679431208771547e7af8133a26aa91256458c84efd1"
+    },
+    "unit_tests": {
+      "bytes": 3705,
+      "path": "work/WTA01/tests/unit_tests.json",
+      "sha256": "e4a82a5648607b72d0b59f8c185291df8d9f8193b7adae8fa95b6c5ee2392bd1"
+    }
+  },
+  "manifest_id": "WTA01-implementation",
+  "purpose": "Bind the WTA01 chain: the CONFIRM2026 chain copied into references/WTA01_models/ with a tour parameter, where tour = ATP reproduces the ATP chain unchanged and tour = WTA builds the WTA panel, join, rule rows, SR02 replay, features and cohorts. Nothing was fitted for WTA01 and no WTA target-year comparison exists.",
+  "reserved_data_boundary": "No 2025 or 2026 file was opened by any WTA01 run or test. Every configuration ends at panel_end_year 2024, the WTA loaders refuse seasons 2025 and 2026, and the chain has no bridge stage on the WTA side.",
+  "results": {
+    "atp_regression": {
+      "corrected_panel_sha256_equals_SR02_attempt_001": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e",
+      "forecast_files_compared": 364,
+      "forecast_files_sha256_identical": 364,
+      "largest_absolute_probability_difference": 0.0,
+      "membership_differences": [],
+      "plan": "JOINT04's own year plan: raw years 2014-2024, target years 2017-2024",
+      "preflight_membership": {
+        "aligned_primary_warmup_rows": 2376,
+        "note": "JOINT04's own four literal membership counts, re-derived",
+        "raw_fit_attempts": 220,
+        "raw_primary_rows": 26149,
+        "selected_primary_rows": 18972
+      },
+      "prepare_panel_sha256_equals_MULTI01_attempt_003": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47",
+      "published_primary": {
+        "bootstrap_interval": [
+          -0.008547713001561536,
+          -0.005155113106289772
+        ],
+        "contrast_id": "full_minus_base",
+        "identical_within_1e-9": true,
+        "joint04_bootstrap_interval": [
+          -0.008547713001561536,
+          -0.005155113106289772
+        ],
+        "largest_absolute_difference": 0.0,
+        "seed": 20260911
+      }
+    },
+    "cohorts": {
+      "wta01_primary_2019_2024": {
+        "aligned_primary_warmup_rows": 2351,
+        "blocks": [
+          "base",
+          "traits",
+          "dynamic",
+          "full"
+        ],
+        "cohort": "aligned_primary",
+        "history_floor_year": 2011,
+        "learners": [
+          "ridge",
+          "hgb"
+        ],
+        "primary_by_year": {
+          "2016": 2427,
+          "2017": 2408,
+          "2018": 2337,
+          "2019": 2337,
+          "2020": 1019,
+          "2021": 2363,
+          "2022": 2324,
+          "2023": 2453,
+          "2024": 2404
+        },
+        "provisional_by_year": {
+          "2016": 70,
+          "2017": 77,
+          "2018": 101,
+          "2019": 94,
+          "2020": 23,
+          "2021": 49,
+          "2022": 17,
+          "2023": 7,
+          "2024": 54
+        },
+        "raw_fit_attempts": 180,
+        "raw_primary_rows": 20072,
+        "raw_years": [
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "selected_primary_rows": 12900,
+        "target_years": [
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ]
+      },
+      "wta01_secondary_2014_2024": {
+        "aligned_primary_warmup_rows": 2338,
+        "blocks": [
+          "base",
+          "traits"
+        ],
+        "cohort": "aligned_primary_no_dynamic",
+        "history_floor_year": 2007,
+        "learners": [
+          "ridge",
+          "hgb"
+        ],
+        "primary_by_year": {
+          "2011": 2351,
+          "2012": 2338,
+          "2013": 2316,
+          "2014": 2357,
+          "2015": 2443,
+          "2016": 2427,
+          "2017": 2408,
+          "2018": 2337,
+          "2019": 2337,
+          "2020": 1019,
+          "2021": 2363,
+          "2022": 2324,
+          "2023": 2453,
+          "2024": 2404
+        },
+        "provisional_by_year": {
+          "2011": 88,
+          "2012": 49,
+          "2013": 71,
+          "2014": 42,
+          "2015": 55,
+          "2016": 70,
+          "2017": 77,
+          "2018": 101,
+          "2019": 94,
+          "2020": 23,
+          "2021": 49,
+          "2022": 17,
+          "2023": 7,
+          "2024": 54
+        },
+        "raw_fit_attempts": 140,
+        "raw_primary_rows": 31877,
+        "raw_years": [
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "selected_primary_rows": 24872,
+        "target_years": [
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ]
+      }
+    },
+    "lead_rulings_2026_09_12": {
+      "edition_level_link_dependence": {
+        "applied": true,
+        "primary_rows_in_link_dependent_editions": 1754,
+        "provisional_rows_on_their_own_key": 1169,
+        "ruling": "stays primary"
+      },
+      "raw_year_2016_constant_dynamic_feature": {
+        "applied": true,
+        "emitted_by": [
+          "sr02_replay run_manifest.dynamic_dispersion_by_year and years_with_a_constant_dynamic_probability",
+          "runner preflight and the predictor config: dynamic_feature_dispersion_by_raw_year and _by_training_window",
+          "report.py primary.json: the same blocks plus raw_years_with_a_constant_dynamic_feature"
+        ],
+        "primary_plan_training_window_dispersion": {
+          "2016": {
+            "constant_feature_training_rows": 11805,
+            "constant_feature_training_share": 1.0,
+            "distinct_dynamic_probabilities": 1,
+            "informative": false,
+            "training_rows_with_a_dynamic_probability": 11805,
+            "training_window": [
+              "2011-01-01",
+              "2015-12-30"
+            ],
+            "wholly_constant_training_window": true
+          },
+          "2017": {
+            "constant_feature_training_rows": 9454,
+            "constant_feature_training_share": 0.795724,
+            "distinct_dynamic_probabilities": 2362,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 11881,
+            "training_window": [
+              "2012-01-01",
+              "2016-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2018": {
+            "constant_feature_training_rows": 7116,
+            "constant_feature_training_share": 0.595431,
+            "distinct_dynamic_probabilities": 4769,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 11951,
+            "training_window": [
+              "2013-01-01",
+              "2017-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2019": {
+            "constant_feature_training_rows": 4800,
+            "constant_feature_training_share": 0.400936,
+            "distinct_dynamic_probabilities": 7106,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 11972,
+            "training_window": [
+              "2014-01-01",
+              "2018-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2020": {
+            "constant_feature_training_rows": 2443,
+            "constant_feature_training_share": 0.204401,
+            "distinct_dynamic_probabilities": 9442,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 11952,
+            "training_window": [
+              "2015-01-01",
+              "2019-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2021": {
+            "constant_feature_training_rows": 0,
+            "constant_feature_training_share": 0.0,
+            "distinct_dynamic_probabilities": 10461,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 10528,
+            "training_window": [
+              "2016-01-01",
+              "2020-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2022": {
+            "constant_feature_training_rows": 0,
+            "constant_feature_training_share": 0.0,
+            "distinct_dynamic_probabilities": 10462,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 10464,
+            "training_window": [
+              "2017-01-01",
+              "2021-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2023": {
+            "constant_feature_training_rows": 0,
+            "constant_feature_training_share": 0.0,
+            "distinct_dynamic_probabilities": 10379,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 10380,
+            "training_window": [
+              "2018-01-01",
+              "2022-12-30"
+            ],
+            "wholly_constant_training_window": false
+          },
+          "2024": {
+            "constant_feature_training_rows": 0,
+            "constant_feature_training_share": 0.0,
+            "distinct_dynamic_probabilities": 10495,
+            "informative": true,
+            "training_rows_with_a_dynamic_probability": 10496,
+            "training_window": [
+              "2019-01-01",
+              "2023-12-30"
+            ],
+            "wholly_constant_training_window": false
+          }
+        },
+        "ruling": "accepted as a declared degradation; emit per-raw-year dispersion in the run",
+        "years_with_a_constant_dynamic_probability": [
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015"
+        ]
+      },
+      "wimbledon_2019_2021": {
+        "applied": true,
+        "editions_whose_rule_changed": [
+          "Wimbledon 2019",
+          "Wimbledon 2021"
+        ],
+        "evidence_relation_counts_after": {
+          "corroborates": 39,
+          "corroborates_position_cap_from_a_retained_announcement": 2,
+          "corroborates_position_length_assumed": 659,
+          "silent_era_continuity_assumption": 295
+        },
+        "retained_source": {
+          "path": "data/raw/SR02/rules/source_bytes/wta_wimbledon_2018.html",
+          "sha256": "6f61ac3f025f358975efa618e4852316cb1aefac4f9f8b176de4ba4238d25800"
+        },
+        "rows_whose_group_label_changed_with_the_same_rule": 1516,
+        "rows_whose_rule_changed": 254,
+        "ruling": "use the retained AELTC/WTA announcement (final-set tiebreak at 12-all, first to seven) instead of the score-inferred advantage rule: a published, dated announcement is knowable at the cutoff and the score inference is only a check",
+        "superseded_reading_kept_in": "references/WTA01_models/wta_rules.json grand_slams.540.score_inference_check",
+        "total_rule_rows_rewritten": 1770
+      }
+    },
+    "runtime_estimate": {
+      "wta01_primary_2019_2024": {
+        "estimated_chain_minutes_without_report": 6.0,
+        "estimated_chain_seconds_without_report": 359.8,
+        "estimated_pipeline_seconds": 192.7,
+        "estimated_report_seconds": 7.7,
+        "fit_work_row_columns": 257223944,
+        "fits": 180,
+        "measured_input_stage_seconds": 167.1
+      },
+      "wta01_secondary_2014_2024": {
+        "estimated_chain_minutes_without_report": 5.4,
+        "estimated_chain_seconds_without_report": 321.2,
+        "estimated_pipeline_seconds": 154.1,
+        "estimated_report_seconds": 6.0,
+        "fit_work_row_columns": 198724209,
+        "fits": 140,
+        "measured_input_stage_seconds": 167.1
+      }
+    },
+    "unit_tests": {
+      "failed": 0,
+      "passed": 31,
+      "runner": "work/WTA01/run_tests.py",
+      "status": "PASS",
+      "tests": 31
+    },
+    "wta_smoke": {
+      "matched_market_rows": 42779,
+      "measured_total_seconds": 192.2,
+      "panel_rows": 43401,
+      "plan": "target year 2019, one calibration year back, blocks base+full, hgb only",
+      "prepared_panel_rows": 42485,
+      "purpose": "plumbing only: prove every stage runs on the WTA inputs",
+      "report_stage_run": false,
+      "score_bearing_artifacts": [
+        "work/WTA01/smoke/run/sr03_calibration/metrics.csv (93 rows, log_loss and brier)",
+        "work/WTA01/smoke/run/sr03_calibration/comparisons.json (4 calibrated-minus-raw contrasts)",
+        "work/WTA01/smoke/run/sr03_calibration/reliability.csv (60 rows, mean_prediction against outcome_rate)",
+        "work/WTA01/smoke/run/pipeline/selection_complete.json (2018 per-candidate selection-sample mean log losses)"
+      ],
+      "scores": "No target-year comparison. The report command -- the only program that scores a target year -- was never run for any WTA configuration, there is no WTA primary.json, report.md, bootstrap.csv or contrast_summary.csv anywhere under work/WTA01/, and every selection record carries outer_labels_used false. Revision 2, defect D3: four artifacts the required stages necessarily write do carry score-like quantities and are named in score_bearing_artifacts below; they were not opened, which work/WTA01/collect_counts.py supports for itself only.",
+      "stages_completed": [
+        "archive_panel",
+        "join",
+        "prepare_panel",
+        "format_corrections",
+        "rule_mapping",
+        "sr02_replay",
+        "sr03_calibration",
+        "rankings",
+        "edition_index",
+        "features",
+        "sidecar",
+        "predictor_config",
+        "preflight",
+        "pipeline",
+        "barrier",
+        "reporting_config"
+      ]
+    }
+  },
+  "written": "2026-09-12",
+  "written_by": "WTA01 implementation (Sol)"
+}

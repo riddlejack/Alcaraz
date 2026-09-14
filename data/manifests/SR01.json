@@ -1,0 +1,17 @@
+{
+  "id": "SR01",
+  "promoted_at_utc": "2026-09-10T22:46:08.750572+00:00",
+  "evidence_root": "data/curated/SR01/attempt_002",
+  "original_work_root": "work/SR01_corrected",
+  "files": {
+    "README.md": "1441edf23478c691ab4637a0aa4aa9391fd01aa83bd2791ee74d132c005c5757",
+    "audit_sr01.py": "6834d9572e6c00b19945af0695e7478e5ac1f795f0d645fe6dec6a44c79c60ff",
+    "checks.txt": "e52d7862802acf6e77370ae9f3127aa2ca15c34a84b537bfd64d8e607bc0c65d",
+    "correction_receipt.json": "a9bda497fc4d7db804a5655d173598373155bf749d437ff3799f158a87c25c08",
+    "derived_correction.json": "92db8cbd006457e68ea6359e0c8605f79f4051e546660984a2268a0b52ecfc93",
+    "quality_report.json": "3214f9522fcc2b6845c811295f81163f6e638d91dc5a2f1da8eb35cf0b0ce044",
+    "serve_input_panel.csv": "1214aaa820e5d94441753fee9eed7e28751b7fe516826a6401a84810ff4203b5",
+    "verify_corrected.py": "1b50cde33e961b8b7d1e082702d923017d1073a7c970abc09176013c6fb5f98c"
+  },
+  "qualification": "Retained unchanged; see report for field semantics and claim limits."
+}

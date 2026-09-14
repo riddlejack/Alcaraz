@@ -1,0 +1,186 @@
+{
+  "created_at_utc": "2026-09-11T15:33:14.425167+00:00",
+  "crosswalk_round_trip": {
+    "activity_window": [
+      2023,
+      2024
+    ],
+    "reserved_files_listed_not_read": [
+      "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d/atp/atp_matches_2025.csv",
+      "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d/atp/atp_matches_2026.csv",
+      "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d/wta/wta_matches_2025.csv",
+      "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d/wta/wta_matches_2026.csv"
+    ],
+    "runs": [
+      {
+        "full_name_coverage": 1.0,
+        "players": 296,
+        "season": 2024,
+        "tennis_data_coverage": 0.9898648648648649,
+        "tour": "ATP",
+        "wrong_ids": 0
+      },
+      {
+        "full_name_coverage": 1.0,
+        "players": 306,
+        "season": 2024,
+        "tennis_data_coverage": 0.9869281045751634,
+        "tour": "WTA",
+        "wrong_ids": 0
+      }
+    ]
+  },
+  "declared_role": "fallback weak baseline; not JOINT04; establishes no market claim",
+  "file_count": 11,
+  "files": [
+    {
+      "bytes": 15872,
+      "path": "references/CONFIRM2026_elo/README.md",
+      "sha256": "ab9e77f09d25940bfa4a6a7a329367ef0568c28c75150d994afefc69bfc3308b"
+    },
+    {
+      "bytes": 9212,
+      "path": "references/CONFIRM2026_elo/bracket.py",
+      "sha256": "806bc9792f9b259cbd4a91728a8034241a16e88c1373008be102aa0e698e7ab9"
+    },
+    {
+      "bytes": 12883,
+      "path": "references/CONFIRM2026_elo/crosswalk.py",
+      "sha256": "c7235b7571af9b4c5853c293d6c87bb271534a28686646215fa9705d982936f4"
+    },
+    {
+      "bytes": 9206,
+      "path": "references/CONFIRM2026_elo/daily_ledger.py",
+      "sha256": "d782a40080b8175cd8ab019c33d9dc60e24818256d39d7f634236e9351b6a363"
+    },
+    {
+      "bytes": 21572,
+      "path": "references/CONFIRM2026_elo/elo_engine.py",
+      "sha256": "7400705db42a446f86968494c0c76fa416653927353522519b69119591646f8b"
+    },
+    {
+      "bytes": 18064,
+      "path": "references/CONFIRM2026_elo/examples/draw_full_128.json",
+      "sha256": "0b32613d72cc5c1efef02d9fd029e54cdab7b1537302f707af073008b525198f"
+    },
+    {
+      "bytes": 530,
+      "path": "references/CONFIRM2026_elo/examples/draw_semifinal_stage.json",
+      "sha256": "802614869489a90cf9056be53670eeef97b387b223f37eca82b5504f8760bad4"
+    },
+    {
+      "bytes": 10689,
+      "path": "references/CONFIRM2026_elo/mirror.py",
+      "sha256": "e3a527ea097fda24118cf1410215cf5103e2a8f15fb8463a6191fb3e9fe3a9b6"
+    },
+    {
+      "bytes": 9356,
+      "path": "references/CONFIRM2026_elo/regression.py",
+      "sha256": "8b6952bef49815f7a57fc327ccb2a04a616d2b75014b5cc58e3c8c28f5762b66"
+    },
+    {
+      "bytes": 6281,
+      "path": "references/CONFIRM2026_elo/regression_report.json",
+      "sha256": "0a68780a157613e7c15e1e23be3191749989a39ce4aff45652318ca3421bc728"
+    },
+    {
+      "bytes": 21821,
+      "path": "references/CONFIRM2026_elo/test_confirm2026_elo.py",
+      "sha256": "57fa5a9aba38a3bb7b17cebe64afc254a4c29dc328692e046e382f7dc09f6ffd"
+    }
+  ],
+  "manifest_id": "CONFIRM2026-elo-implementation",
+  "model_id": "CONFIRM2026-pooled-elo-v1",
+  "provenance_inputs": [
+    {
+      "note": "class EloHistory lines 420-482; driver stream_rows lines 857-906",
+      "path": "work/MULTI01_features/build_features.py",
+      "role": "model_source",
+      "sha256": "d9070cce0f9c77268ecd5c4bc4dc7ed3daedda6571d9a44031b318cc248b8c40"
+    },
+    {
+      "path": "work/MULTI01_features/config.json",
+      "role": "parameters",
+      "sha256": "266936cd21da6111b668f7864295320af01bc27d2cb9b35638ac81a72dc2c1b0"
+    },
+    {
+      "path": "experiments/ELO-DATE-002-C1.design.md",
+      "role": "pooling_definition",
+      "sha256": "ae3c1706c48cb310a718cd8974bcbcfb015f03827e8c0d78ff3496e5b9753719"
+    },
+    {
+      "path": "experiments/ELO-DATE-002-C1.json",
+      "role": "pooling_parameters",
+      "sha256": "6f461c44bfc697dd39e783ee812ee0efb14418a15c629ae611b9b7c09c5ff2c9"
+    },
+    {
+      "note": "TEAM/NEXTGEN/TOUR_FINALS sets lines 45-47; event_rule lines 115-127; classify_status lines 100-112",
+      "path": "work/MULTI01_archive_panel/build_archive_panel.py",
+      "role": "scope_and_exclusions",
+      "sha256": "e02863f209456d473c619c84f0ae04adb73fbe3b5698a6a400846e32d77b70af"
+    },
+    {
+      "path": "work/MULTI01_features/attempt_001/features.csv",
+      "role": "regression_reference_table",
+      "sha256": "2744ea720a86726f70d779eb102d310ea230621e6259bbf92d78bbb7b85f3e87"
+    },
+    {
+      "path": "work/MULTI01_features/attempt_001/labels.csv",
+      "role": "regression_reference_labels",
+      "sha256": "987f05cdbc0c0e9bdb0c787195762e26f070219ca0633f2c231819e70b561352"
+    },
+    {
+      "path": "work/MULTI01_prepare/attempt_003/panel.csv",
+      "role": "regression_control_panel",
+      "sha256": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47"
+    },
+    {
+      "path": "data/raw/ARCHIVE01/snapshot/tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d.tar.gz",
+      "role": "mirror_snapshot",
+      "sha256": "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4"
+    },
+    {
+      "path": "work/CONFIRM2026_feasibility.md",
+      "role": "feasibility_memo",
+      "sha256": "41e7557e0b511aeabd0de6fc4f61d9c3aeba5c6dc02ce10f37c873bf840a778c"
+    }
+  ],
+  "regression_summary": {
+    "A_panel_stream_2005_2024": {
+      "max_abs_diff_elo_overall_logit": 0.0,
+      "max_abs_diff_elo_surface_logit": 0.0,
+      "median_abs_diff_elo_overall_logit": 0.0,
+      "passes_1e-9": true,
+      "rows": 51222
+    },
+    "A_panel_stream_2017_2024": {
+      "max_abs_diff_elo_overall_logit": 0.0,
+      "max_abs_diff_elo_surface_logit": 0.0,
+      "median_abs_diff_elo_overall_logit": 0.0,
+      "passes_1e-9": true,
+      "rows": 19373
+    },
+    "B_mirror_anchor_date_2017_2024": {
+      "cause": "the Sackmann annual files carry only tourney_date; MULTI01's per-match match_date comes from the tennis-data market join",
+      "max_abs_diff_elo_overall_logit": 1.0190428941307186,
+      "max_abs_diff_elo_surface_logit": 1.2931024509953981,
+      "median_abs_diff_elo_overall_logit": 0.052684089270925494,
+      "passes_1e-9": false,
+      "rows": 19366
+    },
+    "C_panel_anchor_date_control_2017_2024": {
+      "max_abs_diff_elo_overall_logit": 0.4264272575907837,
+      "max_abs_diff_elo_surface_logit": 0.4527859264233479,
+      "median_abs_diff_elo_overall_logit": 0.02933950470722624,
+      "passes_1e-9": false,
+      "rows": 19373
+    }
+  },
+  "reserved_window_guard": "mirror.guard_member refuses 2025/2026 match files and RES2026; extract_results refuses years 2025 and 2026",
+  "status": "frozen_before_reserved_outcome_access",
+  "tests": {
+    "result": "OK",
+    "runner": "python3 references/CONFIRM2026_elo/test_confirm2026_elo.py",
+    "tests": 23
+  }
+}

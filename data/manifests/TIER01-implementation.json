@@ -1,0 +1,943 @@
+{
+  "code": [
+    {
+      "bytes": 33053,
+      "identical_to_origin": false,
+      "new_in_tier01": true,
+      "origin": null,
+      "path": "references/TIER01_models/README.md",
+      "sha256": "4be02352f7bf9245b2076bb1b1e53bee9b4a7814b2715e74fb850c6f399e8de1"
+    },
+    {
+      "bytes": 8503,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/apply_format_corrections.py",
+        "sha256": "bd737d93357733deabd4037fff1d45bd095243953076858af92e9991648ef0dd"
+      },
+      "path": "references/TIER01_models/apply_format_corrections.py",
+      "sha256": "bd737d93357733deabd4037fff1d45bd095243953076858af92e9991648ef0dd"
+    },
+    {
+      "bytes": 104469,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/bridge_res2026.py",
+        "sha256": "23a6c7b230573825cbffdd725eb5e8b1d4284d0e02bcbbde4752b68e57799d10"
+      },
+      "path": "references/TIER01_models/bridge_res2026.py",
+      "sha256": "23a6c7b230573825cbffdd725eb5e8b1d4284d0e02bcbbde4752b68e57799d10"
+    },
+    {
+      "bytes": 33950,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/build_archive_panel.py",
+        "sha256": "9ec4342cda2b3409e03296d45a3c5976f8fbb75e3bd1df1874a9ab1c2be6f984"
+      },
+      "path": "references/TIER01_models/build_archive_panel.py",
+      "sha256": "9ec4342cda2b3409e03296d45a3c5976f8fbb75e3bd1df1874a9ab1c2be6f984"
+    },
+    {
+      "bytes": 14011,
+      "changed_lines_versus_origin": 54,
+      "identical_to_origin": false,
+      "origin": {
+        "path": "references/CONFIRM2026_models/build_config.py",
+        "sha256": "43d5fd1f6539fda6d144455384826c40c6c96e254a17a54296a197c5372a2e6f"
+      },
+      "path": "references/TIER01_models/build_config.py",
+      "sha256": "1570e7fe690d8867a106a18f9b205b8a4439c6792b0cf919ad9a447f5549ee34"
+    },
+    {
+      "bytes": 7864,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/build_edition_index.py",
+        "sha256": "ba7c0ae4fa50d2b438d06444f95e3aef1a8971fef3fafea8bd241932c3c69122"
+      },
+      "path": "references/TIER01_models/build_edition_index.py",
+      "sha256": "ba7c0ae4fa50d2b438d06444f95e3aef1a8971fef3fafea8bd241932c3c69122"
+    },
+    {
+      "bytes": 61091,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/build_features.py",
+        "sha256": "15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf"
+      },
+      "path": "references/TIER01_models/build_features.py",
+      "sha256": "15ea99ff0294bbd02de6f2c52fa79adce24bb405a0a2d3e6484776526266c4bf"
+    },
+    {
+      "bytes": 33660,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/build_sidecar.py",
+        "sha256": "9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308"
+      },
+      "path": "references/TIER01_models/build_sidecar.py",
+      "sha256": "9a94292a1a9654d27c641a7cc64624aa193911cde7e278489adbbacdc0592308"
+    },
+    {
+      "bytes": 22670,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/carry_event_crosswalk.py",
+        "sha256": "282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef"
+      },
+      "path": "references/TIER01_models/carry_event_crosswalk.py",
+      "sha256": "282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef"
+    },
+    {
+      "bytes": 21291,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/carry_rule_rows.py",
+        "sha256": "4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce"
+      },
+      "path": "references/TIER01_models/carry_rule_rows.py",
+      "sha256": "4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce"
+    },
+    {
+      "bytes": 6521,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/chain_common.py",
+        "sha256": "dac370d880ec6932bb09123ac23321d2255b4bf5b13f03c42e41acbd34e235ab"
+      },
+      "path": "references/TIER01_models/chain_common.py",
+      "sha256": "dac370d880ec6932bb09123ac23321d2255b4bf5b13f03c42e41acbd34e235ab"
+    },
+    {
+      "bytes": 25655,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/crosswalk_v2.py",
+        "sha256": "013f8a97b982354992efdeefd41021d9bea3c4705adaac888c2b65f4e10bfea9"
+      },
+      "path": "references/TIER01_models/crosswalk_v2.py",
+      "sha256": "013f8a97b982354992efdeefd41021d9bea3c4705adaac888c2b65f4e10bfea9"
+    },
+    {
+      "bytes": 20301,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/fixture_dynamic.py",
+        "sha256": "0e6311ef7fd035c5b42e99ac58b700c2d542889971048dace33aabc8101636bc"
+      },
+      "path": "references/TIER01_models/fixture_dynamic.py",
+      "sha256": "0e6311ef7fd035c5b42e99ac58b700c2d542889971048dace33aabc8101636bc"
+    },
+    {
+      "bytes": 57919,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/join_candidates.py",
+        "sha256": "65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad"
+      },
+      "path": "references/TIER01_models/join_candidates.py",
+      "sha256": "65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad"
+    },
+    {
+      "bytes": 28926,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/market_event_names.json",
+        "sha256": "335dfe31fa283125dd5e0d80675f95350f4708d4b35cc8fcecb4e9640a3d29aa"
+      },
+      "path": "references/TIER01_models/market_event_names.json",
+      "sha256": "335dfe31fa283125dd5e0d80675f95350f4708d4b35cc8fcecb4e9640a3d29aa"
+    },
+    {
+      "bytes": 23564,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/prepare_panel.py",
+        "sha256": "342c590ba9cff0942e8a6fa7ba2740ea2dfc92b69cb5b6868db3ffd065821b2e"
+      },
+      "path": "references/TIER01_models/prepare_panel.py",
+      "sha256": "342c590ba9cff0942e8a6fa7ba2740ea2dfc92b69cb5b6868db3ffd065821b2e"
+    },
+    {
+      "bytes": 23948,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/prospective.py",
+        "sha256": "a5c05bcbba1645bc5ec372b59cf5e8d94ffe94a3c055a71a30fd967c5dd4e19c"
+      },
+      "path": "references/TIER01_models/prospective.py",
+      "sha256": "a5c05bcbba1645bc5ec372b59cf5e8d94ffe94a3c055a71a30fd967c5dd4e19c"
+    },
+    {
+      "bytes": 52868,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/qualify_rankings.py",
+        "sha256": "22af786ec9cf1b32bccfa96a2abebe8ed38b850fbc209888f8c867be3e1c6881"
+      },
+      "path": "references/TIER01_models/qualify_rankings.py",
+      "sha256": "22af786ec9cf1b32bccfa96a2abebe8ed38b850fbc209888f8c867be3e1c6881"
+    },
+    {
+      "bytes": 74453,
+      "changed_lines_versus_origin": 262,
+      "identical_to_origin": false,
+      "origin": {
+        "path": "references/CONFIRM2026_models/report.py",
+        "sha256": "3b6fa5ebf6350a625ce783bf9456aa120903eb10c93324796a0d1960c1dede67"
+      },
+      "path": "references/TIER01_models/report.py",
+      "sha256": "b576711b0e1545e147f3e54dc620f848cf93b36b108ca32bd234135646826d58"
+    },
+    {
+      "bytes": 8045,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/run_archive_panel.py",
+        "sha256": "b10e2eabeb3905e5f60af2a80c2bba690c53b8ae4a631bada2a8db118e70498f"
+      },
+      "path": "references/TIER01_models/run_archive_panel.py",
+      "sha256": "b10e2eabeb3905e5f60af2a80c2bba690c53b8ae4a631bada2a8db118e70498f"
+    },
+    {
+      "bytes": 67975,
+      "changed_lines_versus_origin": 186,
+      "identical_to_origin": false,
+      "origin": {
+        "path": "references/CONFIRM2026_models/run_chain.py",
+        "sha256": "615ac2ee0a78180939433cd3e2eae3654536aec27de2683579878e235f42cbcc"
+      },
+      "path": "references/TIER01_models/run_chain.py",
+      "sha256": "842c6e752b4949bef3aa73872c4f23235944275c07caf783ccbad54fa3b76d63"
+    },
+    {
+      "bytes": 88738,
+      "changed_lines_versus_origin": 239,
+      "identical_to_origin": false,
+      "origin": {
+        "path": "references/CONFIRM2026_models/runner.py",
+        "sha256": "f8fc467521611697324bfcbd67b60dafb7ee03e23413adb915e91a2eafe844de"
+      },
+      "path": "references/TIER01_models/runner.py",
+      "sha256": "2fa405f7c0220655cf74b6826a4d4bbce240717dbafce379939e6d9bfb655260"
+    },
+    {
+      "bytes": 47532,
+      "changed_lines_versus_origin": 265,
+      "identical_to_origin": false,
+      "origin": {
+        "path": "references/CONFIRM2026_models/sr02_replay.py",
+        "sha256": "9dff77d6ebe3b04f8390fd07aca9dd2645b2bd241dc851c11b56e452457d86ad"
+      },
+      "path": "references/TIER01_models/sr02_replay.py",
+      "sha256": "7d68cfcdabc11ae932b4143f366daab2392139ca8138b4b87e12414b4cdab1d2"
+    },
+    {
+      "bytes": 37686,
+      "identical_to_origin": true,
+      "origin": {
+        "path": "references/CONFIRM2026_models/sr03_calibrate.py",
+        "sha256": "70d86d1782a5437eeea20309649ae0f40b29e12dfb5e55e54ec4d223b0d906be"
+      },
+      "path": "references/TIER01_models/sr03_calibrate.py",
+      "sha256": "70d86d1782a5437eeea20309649ae0f40b29e12dfb5e55e54ec4d223b0d906be"
+    },
+    {
+      "bytes": 45342,
+      "identical_to_origin": false,
+      "new_in_tier01": true,
+      "origin": null,
+      "path": "references/TIER01_models/test_tier01.py",
+      "sha256": "90360d36ae2081f1f2e3cbc0c323f53f8f78edfbe059f2c72f61d1b5269f80e7"
+    },
+    {
+      "bytes": 32963,
+      "identical_to_origin": false,
+      "new_in_tier01": true,
+      "origin": null,
+      "path": "references/TIER01_models/tier_block.py",
+      "sha256": "381ae65bddfb08f83f379d4008144c34ec83c006ffbd6a2b5c6fa6f7643ae291"
+    },
+    {
+      "bytes": 40290,
+      "identical_to_origin": false,
+      "new_in_tier01": true,
+      "origin": null,
+      "path": "references/TIER01_models/tier_elo.py",
+      "sha256": "13fe3563073c9b9a56ebfa8ed99d68634e133aedd5c6c8e5c004df4884683d45"
+    },
+    {
+      "bytes": 39202,
+      "identical_to_origin": false,
+      "new_in_tier01": true,
+      "origin": null,
+      "path": "references/TIER01_models/tier_stream.py",
+      "sha256": "9ea809196fe0e378712053cdfd85a1209823f4a48d58ecb0645470c139d1e45b"
+    }
+  ],
+  "decision": "D55",
+  "declared_constants": {
+    "availability_lag_calendar_days": 2,
+    "bundles": [
+      "base_tier",
+      "full_tier"
+    ],
+    "elo_start_year": 2005,
+    "experience_start_year": 1991,
+    "initial_rating_offset_basis": "negative of the mean gap between a player's lower-tier-only pooled-Elo overall rating at the D-2 cutoff of his first tour-level match and the 1500 tour default, over the 726 panel players whose first tour-level match is at or before 2016-12-31 and who have eligible lower-tier history before it; measured on pre-2017 data only by tier_elo.measure_offset and re-verified at run time",
+    "k_multipliers": {
+      "challenger": 0.8,
+      "futures": 0.6,
+      "qualifying": 0.8,
+      "tour": 1.0
+    },
+    "learners": [
+      "hgb"
+    ],
+    "lower_tier_initial_rating_offset": -117.09386091282721,
+    "measured_mean_first_tour_level_rating_gap": 117.09386091282721,
+    "offset_measurement_end_year": 2016,
+    "offset_measurement_players": 726,
+    "prior_lower_tier_match_cap": 300,
+    "prior_lower_tier_title_cap": 20,
+    "reported_date_offset_days": 7,
+    "revision_2_bundles": [
+      "base",
+      "full",
+      "base_tier",
+      "full_tier",
+      "full_tier_noqual"
+    ],
+    "serve_counts_start_year": 2010,
+    "thin_side_prior_tour_match_threshold": 20
+  },
+  "design": "experiments/TIER01.design.md",
+  "documents": [
+    {
+      "bytes": 4540,
+      "path": "experiments/TIER01.design.md",
+      "sha256": "a71374c6626132841527504a1b65924efd4e40c3095113e28e0a6092592d58b3"
+    },
+    {
+      "bytes": 25473,
+      "path": "references/TIER01-audit.md",
+      "sha256": "54e021eaf733e802384030cd6eadff935eff2d4845ff23978c47041df15771c8"
+    },
+    {
+      "bytes": 33053,
+      "path": "references/TIER01_models/README.md",
+      "sha256": "4be02352f7bf9245b2076bb1b1e53bee9b4a7814b2715e74fb850c6f399e8de1"
+    },
+    {
+      "bytes": 6812,
+      "path": "data/manifests/TIER01-audit.json",
+      "sha256": "dff8675f56689cfa7ca395b3b68ff180a2fb8c7b16fc8e79ac888904181a9eb4"
+    }
+  ],
+  "id": "TIER01-implementation",
+  "notes": [
+    "references/CONFIRM2026_models/, references/CONFIRM2026_elo/ and references/FAT01_models/ were not modified; every origin hash above was read, never written.",
+    "work/** is git-ignored, so the rehearsal artifacts are pinned only here."
+  ],
+  "origins_bound_but_not_copied": [
+    {
+      "bytes": 21572,
+      "path": "references/CONFIRM2026_elo/elo_engine.py",
+      "sha256": "7400705db42a446f86968494c0c76fa416653927353522519b69119591646f8b"
+    },
+    {
+      "bytes": 9356,
+      "path": "references/CONFIRM2026_elo/regression.py",
+      "sha256": "8b6952bef49815f7a57fc327ccb2a04a616d2b75014b5cc58e3c8c28f5762b66"
+    },
+    {
+      "bytes": 83067,
+      "path": "references/FAT01_models/runner.py",
+      "sha256": "99668e7e13199e5320f324fb2e8fe0bbd496d49424bccd824d0a96e245093d4f"
+    },
+    {
+      "bytes": 43904,
+      "path": "references/SR02_models/dynamic.py",
+      "sha256": "3d8e3fd0850882c6d85363807edef3438ac630de298ecef1c7c080259bf13637"
+    },
+    {
+      "bytes": 47375,
+      "path": "references/SR02_models/path_runner.py",
+      "sha256": "50cb62aec302b399c4eaf519afde038aed579dd9b596b335bd6b79c8d5a1edb2"
+    },
+    {
+      "bytes": 53490,
+      "path": "references/MULTI01_models/numerical.py",
+      "sha256": "e3c1db5d7785b8b204f4024853cd2459b4a23829c0ce6a719119aa5f8fc1a367"
+    }
+  ],
+  "rehearsal_stage_outputs": [
+    {
+      "bytes": 12148,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_stream/summary.json",
+      "sha256": "d32a1a7ee57c85aa63ed0addb5945a18104d2834b6936218a9ae108b3441930f"
+    },
+    {
+      "bytes": 4821,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_stream/tier_counts_by_year.csv",
+      "sha256": "be52c07d27071b06b88c40a093a3012f02b4a70ca012a08f059dcd44bcf47d03"
+    },
+    {
+      "bytes": 7066,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_elo/summary.json",
+      "sha256": "c1381e1071c326d98e299cece6301f811c667281b8a8daeb9586a982563f287d"
+    },
+    {
+      "bytes": 725,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_elo/tier_elo_coverage_by_year.csv",
+      "sha256": "5fb9d5d276780163e6da0db6cf9f1ec74f43c34a174326b67fc1aec921f43989"
+    },
+    {
+      "bytes": 8054,
+      "path": "work/TIER01/rehearsal_2017_2024/run/sr02_tier_replay/run_manifest.json",
+      "sha256": "b0d07a2f1ff683d4c3fcd40d8a9c9e7b9fc7d68245266b4232878a0538dcacf0"
+    },
+    {
+      "bytes": 1367,
+      "path": "work/TIER01/rehearsal_2017_2024/run/sr02_tier_replay/tier_feed_rule_basis.json",
+      "sha256": "77974de7804bdeb73ec9fa2bd79e9b300c22907cf8f4ff32b1b616b8ac1f6286"
+    },
+    {
+      "bytes": 5257,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_block/summary.json",
+      "sha256": "dd4b1ad44de27c167f8b1c54e0f8446f9619294549ed6b37a1cd3bd51e2d59ee"
+    },
+    {
+      "bytes": 1445,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_block/coverage_by_year.csv",
+      "sha256": "59931c16f0650daad129d6ab1d1e68dbc56678d82502f79ec7bc56edaf5c48f0"
+    },
+    {
+      "bytes": 1921,
+      "path": "work/TIER01/rehearsal_2017_2024/run/tier_block/tier_dictionary.json",
+      "sha256": "cbaa19ba1d4843e7199f9d8d95346e50631fa21ebfc5e1df9206a84c4d0cdd9b"
+    }
+  ],
+  "reserved_data_boundary": "Every plan ends at panel_end_year 2024; tier_stream.py refuses a span that reaches 2025 or 2026 and reads only atp_matches_qual_chall_YYYY.csv and atp_matches_futures_YYYY.csv for 1991-2024.",
+  "results": {
+    "regression_elo_nolower": {
+      "check": "tier_inclusive_elo_vs_multi01_elo_columns",
+      "exact": true,
+      "max_abs_diff_elo_overall_logit": 0.0,
+      "max_abs_diff_elo_surface_logit": 0.0,
+      "rows_compared": 51222,
+      "tier_elo_features": {
+        "path": "work/TIER01/elo_probe_regression/tier_elo_features.csv",
+        "rows": 51222,
+        "sha256": "d72e0c0c4987417b3cb6924fcb334ed6a030e699f9eaec48c96fed0c849ea68b"
+      }
+    },
+    "regression_sr02_nofeed": {
+      "blank_membership_differences": 0,
+      "check": "sr02_dynamic_probability_vs_saved_joint04_sidecar",
+      "exact": true,
+      "max_abs_diff_all_years": 0.0,
+      "max_abs_diff_in_window": 0.0,
+      "rows_absent_from_the_sidecar": 0,
+      "rows_compared_all_years": 34724,
+      "rows_compared_in_window": 26975,
+      "saved_sidecar": {
+        "path": "work/JOINT04_features/trait_latent_sidecar.csv",
+        "rows": 51222,
+        "sha256": "5dde9d780a45cfa2394e46beff90687fc3e1c0c4d6a96c3ee85bd4b4d2eb30fe"
+      },
+      "selected_matches": {
+        "path": "work/TIER01/sr02_probe_nofeed/selected_matches.csv",
+        "rows": 34724,
+        "sha256": "f6458128bba51be469d7d26bbdfdbb30cfb7d13d191fa2e1f6036cb41043dfbc"
+      },
+      "sr02_present_flag_differences": 0,
+      "window": [
+        2014,
+        2024
+      ]
+    },
+    "rehearsal_comparison": {
+      "byte_identical": true,
+      "check": "tier01_rehearsal_forecast_tree_versus_frozen_joint04",
+      "differing": 0,
+      "differing_examples": [],
+      "forecast_files_by_family": {
+        "market": 16,
+        "raw": 220,
+        "selected": 64,
+        "shared_base": 64
+      },
+      "forecast_files_in_joint04": 364,
+      "forecast_files_in_rehearsal": 364,
+      "identical": 364,
+      "joint04_run": "experiments/runs/JOINT04/attempt_001",
+      "only_in_joint04": [],
+      "only_in_rehearsal": [],
+      "rehearsal_run": "work/TIER01/rehearsal_2017_2024/run/pipeline",
+      "selection_complete": {
+        "differing_top_level_keys": [
+          "config_path",
+          "config_sha256",
+          "membership",
+          "raw_complete_sha256"
+        ],
+        "identical": false,
+        "joint04_sha256": "ecdf63c73fff38a5732fd035c91c3fac3fad4661103c03b5e3b2663d55a669a9",
+        "market_records_identical": true,
+        "membership_differences": {
+          "only_in_joint04": [
+            "aligned_primary_2011_warmup_rows",
+            "raw_primary_rows_2014_2024",
+            "selected_primary_rows_2017_2024"
+          ],
+          "only_in_rehearsal": [
+            "aligned_primary_warmup_rows",
+            "raw_primary_rows",
+            "selected_primary_rows"
+          ],
+          "shared_keys_differing": []
+        },
+        "rehearsal_sha256": "03cc3448976be96eaef8e1b24f6fc00b6fd5bee130582e077b754ba19444ebee",
+        "selection_records": 64,
+        "selection_records_identical": true,
+        "shared_base_records_identical": true,
+        "status": "compared"
+      }
+    },
+    "revision2_regressions": {
+      "basis": "docs/reviews/astra_review_2026-09-12.md findings 3, 4 and 8",
+      "contract": "with every revision-2 correction disabled the chain must reproduce attempt 001 byte for byte for the tier features; the corrections are opt-in configuration",
+      "id": "TIER01-revision-2-regressions",
+      "per_training_window_offsets": {
+        "horizon_by_year": {
+          "2005": 2010,
+          "2006": 2010,
+          "2007": 2010,
+          "2008": 2010,
+          "2009": 2010,
+          "2010": 2010,
+          "2011": 2010,
+          "2012": 2010,
+          "2013": 2010,
+          "2014": 2010,
+          "2015": 2010,
+          "2016": 2010,
+          "2017": 2011,
+          "2018": 2012,
+          "2019": 2013,
+          "2020": 2014,
+          "2021": 2015,
+          "2022": 2016,
+          "2023": 2017,
+          "2024": 2018
+        },
+        "offset_by_horizon": {
+          "2010": -78.27569413301566,
+          "2011": -85.45973395512374,
+          "2012": -89.89891743546761,
+          "2013": -98.52433217348847,
+          "2014": -103.82503977999194,
+          "2015": -110.04383350029497,
+          "2016": -117.09617126996675,
+          "2017": -126.56327627097531,
+          "2018": -135.15154755359688
+        },
+        "players_by_horizon": {
+          "2010": 466,
+          "2011": 501,
+          "2012": 540,
+          "2013": 605,
+          "2014": 648,
+          "2015": 686,
+          "2016": 726,
+          "2017": 776,
+          "2018": 823
+        },
+        "revision_1_single_offset": -117.09386091282721
+      },
+      "same_event_qualifying_ablation": {
+        "feed_rows_sharing_a_main_draw_tourney_id": 21822,
+        "membership_unchanged": true,
+        "note": "probe on attempt 001's uncorrected stream; the run repeats it on the corrected stream",
+        "rows_excluded": 21822,
+        "selected_matches_rows_ablated": 34724,
+        "selected_matches_rows_unablated": 34724,
+        "service_points_available_ablated": 13641497,
+        "service_points_available_unablated": 16379112,
+        "targets_with_same_event_qualifying": 496
+      },
+      "satellite_circuit_counterexample": {
+        "anchor": "2006-02-27",
+        "circuit": "2006-M-SA-ESP-01A-2006",
+        "legs": 4,
+        "revision_1_date": "2006-03-06",
+        "revision_2_date": "2006-03-27",
+        "rows": 115,
+        "source": "docs/reviews/astra_review_2026-09-12.md finding 3"
+      },
+      "satellite_circuit_dating": {
+        "basis": "docs/reviews/astra_review_2026-09-12.md finding 3",
+        "circuits": 911,
+        "component_editions": 3642,
+        "enabled": true,
+        "feed_rows_redated": 0,
+        "rows_in_circuits": 110681,
+        "rows_redated": 110681,
+        "rule": "circuit anchor + 7 days x (number of legs) for every row of every component edition -- the end of the final leg -- identified by the tourney id shape <base>-<YYYY><leg letter>"
+      },
+      "sr02_tier_replay_unablated": {
+        "comparison": "sr02_replay, tier feed enabled, no ablation",
+        "files": 4,
+        "identical": 4,
+        "rows": [
+          {
+            "artifact": "selected_matches.csv",
+            "attempt_001_sha256": "6a3b55ee398c8fb87f51421230eb6364bd0c931ca78fcd873221dc39c5dac352",
+            "identical": true,
+            "revision_2_sha256": "6a3b55ee398c8fb87f51421230eb6364bd0c931ca78fcd873221dc39c5dac352"
+          },
+          {
+            "artifact": "selection_map.csv",
+            "attempt_001_sha256": "59b0c5b7df441475555ea6c6cadc57ee6918db3e27cef98ce1be3b5e216fc523",
+            "identical": true,
+            "revision_2_sha256": "59b0c5b7df441475555ea6c6cadc57ee6918db3e27cef98ce1be3b5e216fc523"
+          },
+          {
+            "artifact": "stale_state_rows.csv",
+            "attempt_001_sha256": "dc9cf661022a3c6135cf5d6d7bf6dd046e4ef3d6d5b1b2bbedd95827678ea5ff",
+            "identical": true,
+            "revision_2_sha256": "dc9cf661022a3c6135cf5d6d7bf6dd046e4ef3d6d5b1b2bbedd95827678ea5ff"
+          },
+          {
+            "artifact": "tier_feed_rule_basis.json",
+            "attempt_001_sha256": "77974de7804bdeb73ec9fa2bd79e9b300c22907cf8f4ff32b1b616b8ac1f6286",
+            "identical": true,
+            "revision_2_sha256": "77974de7804bdeb73ec9fa2bd79e9b300c22907cf8f4ff32b1b616b8ac1f6286"
+          }
+        ]
+      },
+      "tier_elo_flag_off": {
+        "comparison": "tier_elo, offset_mode=single on attempt 001's stream",
+        "files": 2,
+        "identical": 2,
+        "rows": [
+          {
+            "artifact": "tier_elo_features.csv",
+            "attempt_001_sha256": "731b178a96d5fdfc6f032f3a4f843a8ed953e30a6a51eec11ff0d4df612805ae",
+            "identical": true,
+            "revision_2_sha256": "731b178a96d5fdfc6f032f3a4f843a8ed953e30a6a51eec11ff0d4df612805ae"
+          },
+          {
+            "artifact": "tier_elo_coverage_by_year.csv",
+            "attempt_001_sha256": "5fb9d5d276780163e6da0db6cf9f1ec74f43c34a174326b67fc1aec921f43989",
+            "identical": true,
+            "revision_2_sha256": "5fb9d5d276780163e6da0db6cf9f1ec74f43c34a174326b67fc1aec921f43989"
+          }
+        ]
+      },
+      "tier_elo_without_lower_tier": {
+        "exact": true,
+        "max_abs_diff_elo_overall_logit": 0.0,
+        "max_abs_diff_elo_surface_logit": 0.0,
+        "note": "MULTI01's own Elo logits reproduced after the per-window refactor",
+        "rows_compared": 51222
+      },
+      "tier_stream_flag_off": {
+        "comparison": "tier_stream, satellite_circuit_dating=false",
+        "files": 4,
+        "identical": 4,
+        "rows": [
+          {
+            "artifact": "tier_results.csv.gz",
+            "attempt_001_sha256": "5837b83bde4d7347aba5f2e6a63b680bbcd69503e368b0ab2af9b86987a1840b",
+            "identical": true,
+            "revision_2_sha256": "5837b83bde4d7347aba5f2e6a63b680bbcd69503e368b0ab2af9b86987a1840b"
+          },
+          {
+            "artifact": "tier_source_rows.csv.gz",
+            "attempt_001_sha256": "fe6e36f65288342731774e6e9dcf87c7247beab15cec69305d22ba967794e0d3",
+            "identical": true,
+            "revision_2_sha256": "fe6e36f65288342731774e6e9dcf87c7247beab15cec69305d22ba967794e0d3"
+          },
+          {
+            "artifact": "tier_counts_by_year.csv",
+            "attempt_001_sha256": "be52c07d27071b06b88c40a093a3012f02b4a70ca012a08f059dcd44bcf47d03",
+            "identical": true,
+            "revision_2_sha256": "be52c07d27071b06b88c40a093a3012f02b4a70ca012a08f059dcd44bcf47d03"
+          },
+          {
+            "artifact": "tier_exclusions.csv",
+            "attempt_001_sha256": "d0edd0d7cc06466559417b1c96b0b31d3a485ddd3aa4a9f29ef431098425b1ef",
+            "identical": true,
+            "revision_2_sha256": "d0edd0d7cc06466559417b1c96b0b31d3a485ddd3aa4a9f29ef431098425b1ef"
+          }
+        ]
+      },
+      "written_at_utc": "2026-09-12T20:03:59.936270+00:00"
+    },
+    "runtime_estimate": {
+      "assumptions": [
+        "tier_column_allowance 1.15 on a tier bundle's HGB fit: 4 or 5 more columns out of 22 or 30",
+        "the report command is separate and measured at about 8 s in CONFIRM2026",
+        "single-threaded BLAS, this machine, a cold fit cache"
+      ],
+      "check": "tier01_runtime_estimate_from_the_rehearsal",
+      "estimates": {
+        "tier01_four_bundles": {
+          "bundles": [
+            "base",
+            "full",
+            "base_tier",
+            "full_tier"
+          ],
+          "estimated_fit_seconds": 152.1,
+          "estimated_pipeline_seconds": 190.7,
+          "estimated_total_minutes_without_report": 8.3,
+          "estimated_total_seconds_without_report": 498.1,
+          "fits": 88,
+          "hgb_candidates": 2,
+          "learners": [
+            "hgb"
+          ],
+          "mean_measured_hgb_fit_seconds": 1.6077,
+          "other_stages_measured_seconds": 307.4,
+          "raw_years": 11,
+          "tier_column_allowance": 1.075
+        },
+        "tier01_two_bundles": {
+          "bundles": [
+            "base_tier",
+            "full_tier"
+          ],
+          "estimated_fit_seconds": 81.3,
+          "estimated_pipeline_seconds": 119.9,
+          "estimated_total_minutes_without_report": 7.1,
+          "estimated_total_seconds_without_report": 427.4,
+          "fits": 44,
+          "hgb_candidates": 2,
+          "learners": [
+            "hgb"
+          ],
+          "mean_measured_hgb_fit_seconds": 1.6077,
+          "other_stages_measured_seconds": 307.4,
+          "raw_years": 11,
+          "tier_column_allowance": 1.15
+        }
+      },
+      "measured_fits": {
+        "attempts_measured": 220,
+        "by_learner": {
+          "hgb": {
+            "attempts": 88,
+            "max_seconds": 2.0686,
+            "mean_seconds": 1.6077,
+            "total_seconds": 141.476
+          },
+          "ridge": {
+            "attempts": 132,
+            "max_seconds": 0.4656,
+            "mean_seconds": 0.293,
+            "total_seconds": 38.681
+          }
+        },
+        "total_seconds": 180.156
+      },
+      "measured_stage_seconds": {
+        "archive_panel": 4.012,
+        "barrier": 0.0,
+        "bridge": 5.606,
+        "edition_index": 3.21,
+        "event_carry_forward": 0.477,
+        "features": 15.543,
+        "format_corrections": 1.042,
+        "join": 7.206,
+        "pipeline": 218.74,
+        "predictor_config": 6.226,
+        "preflight": 5.358,
+        "prepare_panel": 6.133,
+        "rankings": 21.004,
+        "reporting_config": 0.422,
+        "rule_mapping": 2.123,
+        "sidecar": 6.857,
+        "sr02_replay": 88.411,
+        "sr02_tier_replay": 103.28,
+        "sr03_calibration": 3.73,
+        "tier_block": 4.158,
+        "tier_elo": 10.357,
+        "tier_stream": 12.279
+      },
+      "measured_tier_stage_seconds": 130.1,
+      "measured_total_seconds": 526.2,
+      "pipeline_non_fit_overhead_seconds": 38.584,
+      "predictor_config_finished_utc": "2026-09-12T16:22:28.311245+00:00",
+      "rehearsal_run": "work/TIER01/rehearsal_2017_2024/run"
+    }
+  },
+  "revision": 2,
+  "revision_2_corrections": {
+    "basis": "docs/reviews/astra_review_2026-09-12.md findings 3, 4 and 8",
+    "offset_per_training_window": {
+      "config_fields": [
+        "tier_offset_mode",
+        "tier_initial_rating_offset_by_year"
+      ],
+      "finding": 4,
+      "offsets_by_row_year": {
+        "2005": -78.27569413301566,
+        "2006": -78.27569413301566,
+        "2007": -78.27569413301566,
+        "2008": -78.27569413301566,
+        "2009": -78.27569413301566,
+        "2010": -78.27569413301566,
+        "2011": -78.27569413301566,
+        "2012": -78.27569413301566,
+        "2013": -78.27569413301566,
+        "2014": -78.27569413301566,
+        "2015": -78.27569413301566,
+        "2016": -78.27569413301566,
+        "2017": -85.45973395512374,
+        "2018": -89.89891743546761,
+        "2019": -98.52433217348847,
+        "2020": -103.82503977999194,
+        "2021": -110.04383350029497,
+        "2022": -117.09617126996675,
+        "2023": -126.56327627097531,
+        "2024": -135.15154755359688
+      },
+      "rule": "the initial-rating offset for a row dated in year Y is measured on data strictly before max(history_floor_year, Y - training_window_years)-01-01 and never later; the panel is replayed once per distinct boundary"
+    },
+    "regression_contract": "with all three flags off the chain reproduces attempt 001 byte for byte for the tier features; see work/TIER01/revision2_regressions.json",
+    "same_event_qualifying": {
+      "ablation_bundle": "full_tier_noqual",
+      "config_field": "tier_same_event_qualifying_ablation",
+      "declared_channel": "ATP qualifying counts are admitted under the main draw's own tourney_id and therefore update dynamic.py's tournament latent term before later main-draw predictions",
+      "feed_rows_sharing_a_main_draw_tourney_id": 21822,
+      "finding": 8,
+      "panel_targets_with_same_event_qualifying": 496,
+      "selected_primary_targets_with_same_event_qualifying": 326
+    },
+    "satellite_circuit_dating": {
+      "circuits": 911,
+      "component_editions": 3642,
+      "config_field": "tier_satellite_circuit_dating",
+      "counterexample": {
+        "anchor": "2006-02-27",
+        "circuit": "2006-M-SA-ESP-01A-2006",
+        "legs": 4,
+        "revision_1_date": "2006-03-06",
+        "revision_2_date": "2006-03-27",
+        "rows": 115
+      },
+      "finding": 3,
+      "rows_redated": 110681,
+      "rule": "every leg of a sibling circuit (tourney id <base>-<YYYY><leg letter>) is dated at the circuit's last possible completion, anchor + 7 x legs"
+    }
+  },
+  "scope": "The TIER01 implementation: a copy of the CONFIRM2026 parameterized JOINT04 chain with four new stages, two new bundles and a lower-tier SR02 feed. It binds bytes and records the rehearsal and regression numbers; it establishes no scientific result. The real TIER01 comparison has not been run.",
+  "status": "revision_2_corrections_implemented_tested_and_dry_run",
+  "work": [
+    {
+      "bytes": 10720,
+      "path": "work/TIER01/make_configs.py",
+      "sha256": "9db5ab31009eb43b9cb1fe670685676b6531948b8a95920caccd51786c519d21"
+    },
+    {
+      "bytes": 11623,
+      "path": "work/TIER01/write_manifest.py",
+      "sha256": "81ab37e63db647728a67d176b9c25071cb4f710e8ec77fe48177263d1e102cc1"
+    },
+    {
+      "bytes": 4437,
+      "path": "work/TIER01/write_audit_manifest.py",
+      "sha256": "0b3b967c4cd97c7c2b8f4d25eb0ccdab9f9f6e431185b147a0c34e23217a159c"
+    },
+    {
+      "bytes": 6618,
+      "path": "work/TIER01/compare_regressions.py",
+      "sha256": "8cd7f0d2239435a61adc026795e7d67d715d388cbb2b31979a0cea283a872bf5"
+    },
+    {
+      "bytes": 6287,
+      "path": "work/TIER01/compare_rehearsal.py",
+      "sha256": "654c9eaf548d006ac18c1b4aaa370a70bbe935d0b016aa616dd1e11f4ae16476"
+    },
+    {
+      "bytes": 7503,
+      "path": "work/TIER01/rehearsal_2017_2024/chain_rehearsal.json",
+      "sha256": "ace19a0dfa34b0c8053b81f4b7fe043037a5a1d4ab50b7557d114d582c3f35d2"
+    },
+    {
+      "bytes": 7537,
+      "path": "work/TIER01/tier01_2017_2024/chain_tier01.json",
+      "sha256": "e61bc209181065dafeccb581cabb25c35157275089243cb52186ed8890105b59"
+    },
+    {
+      "bytes": 7705,
+      "path": "work/TIER01/tier01_2017_2024_four/chain_tier01_four_bundles.json",
+      "sha256": "dc2b7df7c4437547a470bd1bacec49120f504c4ed5fc2e6db27bf56f4d07e938"
+    },
+    {
+      "bytes": 8802,
+      "path": "work/TIER01/tier01_2017_2024_corrected/chain_tier01_corrected.json",
+      "sha256": "10853af208e9432b58c5348f8c0a196b004ad14eabd6c18b745ee91448bf5619"
+    },
+    {
+      "bytes": 6220,
+      "path": "work/TIER01/revision2_regressions.json",
+      "sha256": "bf1ae903ca34dc5804ccb8c0a80a00cf2ca32b5c298966c1bea2eac3210d4152"
+    },
+    {
+      "bytes": 3992,
+      "path": "work/TIER01/corrected_write_configs.json",
+      "sha256": "2cff2fa4d60bf44a16cc8f1b62bf689c778870089f6b162c710004b8a2da8ee8"
+    },
+    {
+      "bytes": 19925,
+      "path": "work/TIER01/corrected_dryrun.json",
+      "sha256": "3f569c1b16d04010e9beac9370b691269f76cf796899155cdba7847f88e01a52"
+    },
+    {
+      "bytes": 5825,
+      "path": "work/TIER01/corrections/offset_measurement.json",
+      "sha256": "ce66a64f55761161244efc21ec4e382c12fb03d7bead607dde2699b9f6cb3204"
+    },
+    {
+      "bytes": 384,
+      "path": "work/TIER01/regression_elo_nolower.json",
+      "sha256": "102953126192fea107b5549b6e1721077931739a91e311339a62ba60ac372076"
+    },
+    {
+      "bytes": 755,
+      "path": "work/TIER01/regression_sr02_nofeed.json",
+      "sha256": "1b95d24e4dd4d1be99d17a142c03119e978f1b8f1cd1573009108a96779c0e54"
+    },
+    {
+      "bytes": 1441,
+      "path": "work/TIER01/rehearsal_comparison.json",
+      "sha256": "968431637f3131c93b78d8ad7bf686536fe54e280e8c419aea291ed4654424c7"
+    },
+    {
+      "bytes": 18489,
+      "path": "work/TIER01/rehearsal_dryrun.json",
+      "sha256": "e01cfe520cc795258befa9d02e13ccd949ac8e946fd13055c3b70d616d51eef1"
+    },
+    {
+      "bytes": 18627,
+      "path": "work/TIER01/tier01_dryrun.json",
+      "sha256": "2ae8346b98619cf462a555989d7541d0094d8741f7a076659d09e19f5c5f0b8d"
+    },
+    {
+      "bytes": 2707,
+      "path": "work/TIER01/runtime_estimate.json",
+      "sha256": "5d98d7e1f8663cbcd858a12b180a66e2c1e18cbdcb8e7290a04b95bb128d00e6"
+    },
+    {
+      "bytes": 148,
+      "path": "work/TIER01/test_results.txt",
+      "sha256": "955a8e5b6470945a6f514e3d266b107046ecb69ef00c7010822cb74ba8e3f293"
+    }
+  ],
+  "written_at_utc": "2026-09-12T20:05:41.679957+00:00"
+}

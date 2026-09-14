@@ -1,0 +1,98 @@
+{
+  "id": "SR02-rule-sources",
+  "status": "primary_source_bytes_preserved_mapping_not_frozen",
+  "notes": "data/raw/SR02/rules/RULES.md",
+  "receipts": "data/raw/SR02/rules/receipts.json",
+  "files": [
+    {
+      "path": "data/raw/SR02/rules/RULES.md",
+      "bytes": 5931,
+      "sha256": "9fbe0e82995f4ee892acaa23ce4a51d64a04f3d0ba3d9e281728a76ea805435d"
+    },
+    {
+      "path": "data/raw/SR02/rules/acquire.py",
+      "bytes": 1887,
+      "sha256": "24d2c631f1f65f0bf218c76f38bb6ff0eee9dd0d37b552771d64c1915f7ea19c"
+    },
+    {
+      "path": "data/raw/SR02/rules/ao_scoring_2024.txt",
+      "bytes": 6753,
+      "sha256": "d0cd3acf508f6949a7411d3431adb6d26e9423bb786cfbf243035ad852d44b2e"
+    },
+    {
+      "path": "data/raw/SR02/rules/ao_slam_2022.txt",
+      "bytes": 2957,
+      "sha256": "ff59dd136925517ac227250969777bc700d32482db4ee326b4835fe513c8d62f"
+    },
+    {
+      "path": "data/raw/SR02/rules/atp_2024_ch1.txt",
+      "bytes": 66949,
+      "sha256": "9b9701765dc86c70a454deeab889db99ae3c7d5ac306356903d0962df64790d2"
+    },
+    {
+      "path": "data/raw/SR02/rules/atp_2024_ch4.txt",
+      "bytes": 77258,
+      "sha256": "001cc35ce23f18aae293a02a51093c71c7662f0aff233702320b3a36eb164fff"
+    },
+    {
+      "path": "data/raw/SR02/rules/manifest.json",
+      "bytes": 2049,
+      "sha256": "65f5d373640918d58bd30ddfe50bdf3f4287ddada7e3e2abba300647301d391b"
+    },
+    {
+      "path": "data/raw/SR02/rules/receipts.json",
+      "bytes": 4087,
+      "sha256": "50b52b901d8af93563f9a52f63e9eb3e26bf17dfe998f65e68b2b799400a354c"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/ao_scoring_2024.html",
+      "bytes": 70949,
+      "sha256": "857169e9b86f6065e33c03870a711dc8210001a833ed269bf6dbb96ae02f7e8a"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/ao_slam_2022.html",
+      "bytes": 60436,
+      "sha256": "fdb519f7a76bc667bcc5913c010e3960ff768bc710e6dd43bc1df5d3abcc5018"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/atp_2024_ch1.pdf",
+      "bytes": 239025,
+      "sha256": "dbd80261c34a8f81a2e3747e678c799bc2fcbb399121fc5512b880d844ff4f26"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/atp_2024_ch4.pdf",
+      "bytes": 200202,
+      "sha256": "9b0b49cb8a0024f13a44960026720712e84480460b55d53d1d59fabae58d99b8"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/ingram_2019.pdf",
+      "bytes": 6036760,
+      "sha256": "404fc79e90a288ad340836a7e22091eb73b4b4c75ac48dfc72373d6767e9ae8e"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/uso_finalset_2022.html",
+      "bytes": 21797,
+      "sha256": "27e3b8237199f3ab90562ed14227230cebb1096d90624457dbca20f0cfe4f61b"
+    },
+    {
+      "path": "data/raw/SR02/rules/source_bytes/wta_wimbledon_2018.html",
+      "bytes": 170311,
+      "sha256": "6f61ac3f025f358975efa618e4852316cb1aefac4f9f8b176de4ba4238d25800"
+    },
+    {
+      "path": "data/raw/SR02/rules/uso_finalset_2022.txt",
+      "bytes": 2264,
+      "sha256": "855fabc7a1586a4e6916301b3f7c019de78cc2ecf21078f5810ba6c3fefd40b0"
+    },
+    {
+      "path": "data/raw/SR02/rules/wta_wimbledon_2018.txt",
+      "bytes": 3573,
+      "sha256": "78e81aa74ff96dc7e49dd3474f9f6c976342c1a1bc6480a7040b081394125ce1"
+    }
+  ],
+  "public_requests": 7,
+  "successful_retrievals": 7,
+  "historical_vendor_credits": 0,
+  "caveat": "The rule mapping remains proposed. Earlier-year continuity inferences and four early-round best-of-five anomalies require explicit disposition before a match-probability study. Point-probability estimation can proceed independently.",
+  "preserved_at_utc": "2026-09-11T07:37:05.687205+00:00"
+}
