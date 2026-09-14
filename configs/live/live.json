@@ -1,6 +1,7 @@
 {
   "schema_version": "live-config-1",
   "design": "docs/live/DESIGN.md",
+  "repair_design": "docs/live/REPAIR.md",
   "workspace_dir": "data/live",
   "cutoff": {
     "lag_calendar_days": 2,
@@ -50,7 +51,7 @@
     "rule": "exact normalised full name against the player master, then the alias table; more than one candidate or none is quarantined; no synthetic identity"
   },
   "history": {
-    "schema": "CONFIRM2026 results (tennislab.ratings.elo.RESULT_COLUMNS)",
+    "schema": "bound-history-1: CONFIRM2026 result columns plus date_basis, completion_upper_bound, completion_basis, publication_upper_bound_utc, receipt_time_utc, status and overlap_unresolved; each tour binding declares admissible_completion_bases",
     "ATP": {"results_csv": "PENDING", "sha256": "PENDING"},
     "WTA": {"results_csv": "PENDING", "sha256": "PENDING"}
   },
@@ -66,6 +67,7 @@
     "unknown_identity": "excluded",
     "unknown_surface": "excluded",
     "unknown_format": "excluded",
+    "invalid_named_timezone": "excluded",
     "start_without_source_or_timezone": "excluded",
     "start_uncertainty_hours_max": 36
   },

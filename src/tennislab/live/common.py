@@ -17,6 +17,7 @@ from tennislab.chain.common import (
     ChainError,
     atomic_json,
     read_config,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -77,6 +78,21 @@ def safe_slug(value: str) -> str:
     return slug[:120] or "x"
 
 
+def safe_output_id(value: str, *, label: str) -> str:
+    """A user-controlled output identifier, never a path or special segment."""
+    raw = (value or "").strip()
+    if (
+        not raw
+        or raw in {".", ".."}
+        or len(raw) > 120
+        or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", raw) is None
+    ):
+        raise LiveError(
+            f"{label} must be a single safe path segment (letters, digits, period, underscore or hyphen)"
+        )
+    return raw
+
+
 class LiveConfig:
     """The manifest-bound live configuration, resolved under the workspace."""
 
@@ -113,17 +129,41 @@ class LiveConfig:
             )
         return record
 
+    def require_source_fields(
+        self, source_id: str, *, statuses: tuple[str, ...], fields: set[str]
+    ) -> dict[str, Any]:
+        """Require both source-wide status and every field consumed by an adapter."""
+        record = self.require_source_status(source_id, *statuses)
+        declared = record.get("qualified_fields")
+        if not isinstance(declared, list) or any(not isinstance(v, str) for v in declared):
+            raise LiveError(f"source {source_id!r} has no valid qualified_fields list")
+        missing = sorted(fields - set(declared))
+        if missing:
+            raise LiveError(f"source {source_id!r} is missing required qualified fields {missing}")
+        return record
+
     def lag_days(self) -> int:
         return int(self.section("cutoff")["lag_calendar_days"])
 
     def sub(self, *parts: str) -> Path:
-        return self.root.joinpath(*parts)
+        candidate = self.root.joinpath(*parts)
+        path = resolve_output_under_root(candidate, label="live workspace path")
+        if path != self.root and self.root not in path.parents:
+            raise LiveError(f"live workspace path lies outside configured root {self.root}: {path}")
+        return path
 
     def design_hash(self) -> str | None:
         design = self.document.get("design")
         if not design:
             return None
         path = resolve_under_root(design, label="design")
+        return sha256(path) if path.is_file() else None
+
+    def repair_design_hash(self) -> str | None:
+        design = self.document.get("repair_design")
+        if not design:
+            return None
+        path = resolve_under_root(design, label="repair design")
         return sha256(path) if path.is_file() else None
 
 

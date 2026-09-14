@@ -19,6 +19,7 @@ import hashlib
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from tennislab.chain.common import (
     canonical_hash,
@@ -27,7 +28,7 @@ from tennislab.chain.common import (
     resolve_under_root,
     sha256,
 )
-from tennislab.live.common import LiveConfig, LiveError, iso_utc, parse_utc, read_json
+from tennislab.live.common import LiveConfig, LiveError, iso_utc, parse_utc
 from tennislab.live.identity import IdentityTable
 from tennislab.ratings import elo
 from tennislab.ratings.elo import SURFACES, PlayerKey, Result, player_key
@@ -66,6 +67,15 @@ OUTCOME_LIKE = {
 }
 OUTCOME_PREFIXES = ("w_", "l_", "p_", "o_", "a_1st", "b_1st", "a_svpt", "b_svpt")
 PLAYED = {"completed", "retired"}
+BOUND_HISTORY_FIELDS = (
+    "date_basis",
+    "completion_upper_bound",
+    "completion_basis",
+    "publication_upper_bound_utc",
+    "receipt_time_utc",
+    "status",
+    "overlap_unresolved",
+)
 
 
 def _refuse_outcome_columns(header: list[str]) -> None:
@@ -136,8 +146,15 @@ def construct(
             start_utc = parse_utc(row["scheduled_start"], label="scheduled_start")
         except LiveError:
             reasons.append("start_unparseable")
-        if not row["scheduled_start_source"].strip() or not row["scheduled_start_timezone"].strip():
+        timezone_name = row["scheduled_start_timezone"].strip()
+        timezone = None
+        if not row["scheduled_start_source"].strip() or not timezone_name:
             reasons.append("start_without_source_or_timezone")
+        elif start_utc is not None:
+            try:
+                timezone = ZoneInfo(timezone_name)
+            except ZoneInfoNotFoundError, ValueError:
+                reasons.append("start_timezone_invalid")
         try:
             uncertainty = float(row["start_uncertainty_hours"] or "nan")
         except ValueError:
@@ -155,13 +172,12 @@ def construct(
             "scheduled_start_utc": iso_utc(start_utc) if start_utc else None,
             "scheduled_start_local_date": None,
             "scheduled_start_source": row["scheduled_start_source"].strip(),
-            "scheduled_start_timezone": row["scheduled_start_timezone"].strip(),
+            "scheduled_start_timezone": timezone_name,
             "start_uncertainty_hours": uncertainty if uncertainty == uncertainty else None,
             "identity": {"x": res_x.__dict__, "y": res_y.__dict__},
         }
-        if start_utc:
-            local = dt.datetime.fromisoformat(row["scheduled_start"].strip().replace("Z", "+00:00"))
-            record["scheduled_start_local_date"] = local.date().isoformat()
+        if start_utc and timezone is not None:
+            record["scheduled_start_local_date"] = start_utc.astimezone(timezone).date().isoformat()
         if reasons:
             record.update(
                 {"fixture_status": "excluded", "exclusion_reasons": reasons, "fixture_id": None}
@@ -211,14 +227,12 @@ def construct(
 # --- eligibility and freshness ----------------------------------------------------------------
 
 
-def receipt_times(config: LiveConfig, version: Mapping[str, Any]) -> dict[str, str]:
-    """``receipt_id`` (source_id/attempt_id) -> finished_utc of that attempt."""
+def receipt_times(version: Mapping[str, Any]) -> dict[str, str]:
+    """Receipt times from hash-verified version-manifest bindings, not mutable files."""
     out: dict[str, str] = {}
-    for source_id, attempt_id in version["manifest"]["attempts"].items():
-        receipt = read_json(
-            config.sub("sources", source_id, "attempts", attempt_id, "receipt.json")
-        )
-        out[f"{source_id}/{attempt_id}"] = receipt["finished_utc"]
+    for source_id, binding in version["manifest"]["acquisition_receipts"].items():
+        attempt_id = binding["attempt_id"]
+        out[f"{source_id}/{attempt_id}"] = binding["finished_utc"]
     return out
 
 
@@ -339,7 +353,7 @@ def ranking_freshness(
 # --- rungs -------------------------------------------------------------------------------------
 
 
-def history_binding(config: LiveConfig, tour: str) -> tuple[Path, str]:
+def history_binding(config: LiveConfig, tour: str) -> tuple[Path, str, dict[str, Any]]:
     section = config.section("history")
     entry = section.get(tour)
     if not isinstance(entry, dict) or entry.get("results_csv") in (None, "", "PENDING"):
@@ -350,7 +364,85 @@ def history_binding(config: LiveConfig, tour: str) -> tuple[Path, str]:
     expected = entry.get("sha256")
     if expected in (None, "", "PENDING"):
         raise LiveError(f"history binding for {tour} has no sha256")
-    return path, require_hash(path, str(expected), label=f"{tour} history")
+    bases = entry.get("admissible_completion_bases")
+    if not isinstance(bases, list) or not bases or any(not isinstance(v, str) for v in bases):
+        raise LiveError(f"history binding for {tour} has no admissible completion bases")
+    return path, require_hash(path, str(expected), label=f"{tour} history"), entry
+
+
+def eligible_history(
+    config: LiveConfig,
+    tour: str,
+    *,
+    cutoff: dt.date,
+    issue_time: dt.datetime,
+) -> tuple[list[Result], str, dict[str, int], Path]:
+    """Read hash-bound history and apply the same temporal eligibility gates as live rows."""
+    path, digest, binding = history_binding(config, tour)
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        header = list(reader.fieldnames or [])
+        required = [*elo.RESULT_COLUMNS, *BOUND_HISTORY_FIELDS]
+        missing = [field for field in required if field not in header]
+        if missing:
+            raise LiveError(f"{tour} bound history lacks columns {missing}")
+        rows = [dict(row) for row in reader]
+    admitted = set(binding["admissible_completion_bases"])
+    chosen: list[dict[str, str]] = []
+    withheld = {
+        "overlap_unresolved": 0,
+        "completion_basis_not_admissible": 0,
+        "after_cutoff": 0,
+        "not_played": 0,
+        "published_after_issue": 0,
+        "received_after_issue": 0,
+        "other_tour": 0,
+    }
+    for index, row in enumerate(rows):
+        row_tour = row["tour"].strip().upper()
+        if row_tour != tour:
+            withheld["other_tour"] += 1
+            continue
+        unresolved = row["overlap_unresolved"].strip().lower()
+        if unresolved not in {"true", "false"}:
+            raise LiveError(
+                f"{tour} bound history row {index} has invalid overlap_unresolved {unresolved!r}"
+            )
+        if unresolved == "true" or not row["completion_upper_bound"].strip():
+            withheld["overlap_unresolved"] += 1
+            continue
+        if not row["date_basis"].strip():
+            raise LiveError(f"{tour} bound history row {index} has no date_basis")
+        if row["completion_basis"].strip() not in admitted:
+            withheld["completion_basis_not_admissible"] += 1
+            continue
+        if row["status"].strip().lower() not in PLAYED:
+            withheld["not_played"] += 1
+            continue
+        try:
+            completion = dt.date.fromisoformat(row["completion_upper_bound"].strip())
+        except ValueError as error:
+            raise LiveError(
+                f"{tour} bound history row {index} has invalid completion_upper_bound"
+            ) from error
+        if completion > cutoff:
+            withheld["after_cutoff"] += 1
+            continue
+        if (
+            parse_utc(row["publication_upper_bound_utc"], label=f"{tour} history publication")
+            > issue_time
+        ):
+            withheld["published_after_issue"] += 1
+            continue
+        if parse_utc(row["receipt_time_utc"], label=f"{tour} history receipt") > issue_time:
+            withheld["received_after_issue"] += 1
+            continue
+        chosen.append({**row, "date": completion.isoformat()})
+    try:
+        results = elo.parse_results(chosen)
+    except ValueError as error:
+        raise LiveError(f"{tour} bound history is invalid: {error}") from error
+    return results, digest, withheld, path
 
 
 def live_result(row: Mapping[str, str], version_id: str, index: int) -> Result:
@@ -389,8 +481,9 @@ def elo_forecast(
     tour = fixture["tour"]
     cutoff = dt.date.fromisoformat(fixture["information_cutoff"])
     start = dt.date.fromisoformat(fixture["scheduled_start_local_date"])
-    history_path, history_sha = history_binding(config, tour)
-    history = [r for r in elo.read_results_csv(history_path) if r.tour == tour and r.date <= cutoff]
+    history, history_sha, history_withheld, history_path = eligible_history(
+        config, tour, cutoff=cutoff, issue_time=issue_time
+    )
     live_rows, withheld = eligible_results(
         version["results"], tour=tour, cutoff=cutoff, issue_time=issue_time, receipts=receipts
     )
@@ -444,6 +537,8 @@ def elo_forecast(
                 "path": str(history_path.relative_to(resolve_under_root(".", label="workspace"))),
                 "sha256": history_sha,
                 "rows_used": len(history),
+                "withheld": history_withheld,
+                "receipt_semantics": "receipt_time_utc proves local custody only; publication_upper_bound_utc is the separate retrospective availability evidence",
             },
             "live_version": version["manifest"]["version_id"],
             "live_version_content_sha256": version["manifest"]["content_sha256"],
@@ -491,6 +586,7 @@ def elo_forecast(
         "config": {
             "live_config_sha256": config.sha256,
             "design_sha256": config.design_hash(),
+            "repair_design_sha256": config.repair_design_hash(),
             "rung_config_sha256": _rung_config_hash(config, "elo"),
         },
     }
@@ -519,7 +615,11 @@ def unavailable(config: LiveConfig, rung: str, fixture: Mapping[str, Any]) -> di
             "live panel row in the format_corrections schema",
             "features..pipeline chain replay with blank fixture-year labels",
         ],
-        "config": {"live_config_sha256": config.sha256},
+        "config": {
+            "live_config_sha256": config.sha256,
+            "design_sha256": config.design_hash(),
+            "repair_design_sha256": config.repair_design_hash(),
+        },
     }
 
 

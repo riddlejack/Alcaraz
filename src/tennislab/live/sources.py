@@ -100,7 +100,18 @@ def acquire_wikipedia(
     config: LiveConfig, attempt: Attempt, transport: Transport, events: Iterable[Mapping[str, Any]]
 ) -> list[dict[str, Any]]:
     """Fetch each event's draw page through the core REST API; retain bytes; parse."""
-    source = config.require_source_status("wikipedia_results", "qualified")
+    source = config.require_source_fields(
+        "wikipedia_results",
+        statuses=("qualified",),
+        fields={
+            "winner",
+            "score",
+            "round",
+            "status",
+            "source_revision",
+            "publication_upper_bound_utc",
+        },
+    )
     endpoint = str(source["endpoint"])
     for forbidden in source.get("never_request", []):
         if endpoint.startswith(str(forbidden)):
@@ -170,7 +181,11 @@ def structural_probe(captures: Iterable[Mapping[str, Any]]) -> list[dict[str, An
 def ingest_serve_feed(config: LiveConfig, attempt: Attempt, feed_dir: Path) -> list[dict[str, Any]]:
     """Copy a parsed TAPLAYER01-layout directory into the attempt, hash every file, and
     return the rows with their per-field presence. ``date_basis`` stays ``event_anchor``."""
-    source = config.require_source_status("tennisabstract_serve", "qualified_serve_state")
+    source = config.require_source_fields(
+        "tennisabstract_serve",
+        statuses=("qualified_serve_state",),
+        fields=set(TA_SERVE_FIELDS),
+    )
     if not source.get("permission_id"):
         raise LiveError("serve feed has no permission_id; refusing")
     files = sorted(p for p in feed_dir.glob("*.csv") if p.is_file())
@@ -250,7 +265,9 @@ def _yyyymmdd(value: str) -> str:
 def ingest_rankings(
     config: LiveConfig, attempt: Attempt, path: Path, *, tour: str
 ) -> list[dict[str, str]]:
-    source = config.require_source_status("rankings_feed", "qualified_last_known")
+    source = config.require_source_fields(
+        "rankings_feed", statuses=("qualified_last_known",), fields={"rank", "points"}
+    )
     attempt.raw_dir.mkdir(parents=True, exist_ok=True)
     target = attempt.raw_dir / f"{tour}_{path.name}"
     target.write_bytes(path.read_bytes())
