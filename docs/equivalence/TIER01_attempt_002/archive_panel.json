@@ -1,0 +1,40 @@
+{
+  "different": {
+    "archive_panel_launch.json": {
+      "changed_leaves": 8,
+      "first": [
+        "code.build_archive_panel: \"9ec4342cda2b3409e03296d45a3c5976f8fbb75e3bd1df1874a9ab1c2be6f984\" -> \"<absent>\"",
+        "code.launcher: \"b10e2eabeb3905e5f60af2a80c2bba690c53b8ae4a631bada2a8db118e70498f\" -> \"<absent>\"",
+        "code.module: \"<absent>\" -> \"tennislab.panel.archive_panel\"",
+        "code.package_version: \"<absent>\" -> \"0.1.0\"",
+        "code.sha256: \"<absent>\" -> \"ff07d9ed327d8d66f7ae82b4fd331fe6e035bf379b053a83df4fdc15a68403c4\"",
+        "id: \"CONFIRM2026-archive-panel-launch\" -> \"tennislab-archive-panel-launch-ATP\"",
+        "rebound_constants: [\"TAR_PATH\", \"TAR_SHA256\"] -> \"<absent>\"",
+        "tour: \"<absent>\" -> \"ATP\""
+      ],
+      "kind": "json"
+    },
+    "quality_report.json": {
+      "changed_leaves": 3,
+      "first": [
+        "correction_policy: \"<absent>\" -> \"CH01 identity corrections and the SR01 count correction applied\"",
+        "excluded_reason_counts: \"<absent>\" -> {\"excluded_nextgen\": 107, \"excluded_other_level\": 5359, \"excluded_team\": 292}",
+        "tour: \"<absent>\" -> \"ATP\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "annual_stats.csv",
+    "anomalies.csv",
+    "correction_log.csv",
+    "input_manifest.json",
+    "source_panel.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "archive_panel"
+}
