@@ -35,8 +35,11 @@ is re-estimated to force equality.
 Drive each clean and mutated workspace through its real `rule_mapping` → `pipeline`
 stages. Compare complete keyed target rows, exact strings, in base features, sidecar,
 SR02 selected forecasts, SR03 forecasts, every applicable tier feature/SR02/sidecar
-output, and every raw/selected/market forecast file containing the targets. Require
+output, and every raw/selected/shared_base/market forecast file containing the targets. Require
 nonempty target coverage in every declared stage and identical forecast-file inventory.
+Market files cover exactly the targets with a nonmissing pre-match PS quote, identified
+from the clean feature input; sports forecasts cover all chosen targets. The WTA base
+world has two priced targets among the four chosen targets, and ATP tier has four.
 Target labels and outcome/stat rows are expected to differ. Hash/provenance receipts
 may differ and are not forecast values.
 
@@ -50,3 +53,35 @@ This native T1 replaces none of the rejected archive T1 detector. It does not es
 general leakage freedom, independence of holdout custody, WTA tier support, full-bundle
 T3 null behavior, or RB9 campaign acceptance. Results and measured runtime will be
 recorded after execution below.
+
+## Local results (2026-09-14)
+
+Design commit: `7e93a51`. Native comparisons ran after the B2 audit-log repair
+`89de382`; the final validation-only cutoff guard `907b79e` is merged. The integrating
+owner will rerun the full suite at the combined HEAD.
+
+| Native path | Chosen targets | Mutated panel / lower-tier rows | Artifacts compared | Complete target rows compared |
+|---|---:|---:|---:|---:|
+| ATP tier, all five bundles, three SR02 variants | 4 | 531 / 490 | 30 | 120 |
+| WTA base, both bundles, native WTA SR02 / sidecar | 4 (2 priced) | 531 / not implemented | 14 | 52 |
+
+Every comparison is exact. All chosen target labels reverse. Every cutoff-date or
+older panel row is unchanged. Every state stage produces changed later output when
+the intervention legitimately becomes history, ruling out a no-op mutation. The
+outcome-dependent sidecar control is rejected on both tours while its runtime
+`history` declaration remains satisfied.
+
+The four-chain verification took 232.48 seconds; the ATP clean/mutated pair took
+168.93 seconds. Its first WTA comparison correctly exposed two unpriced targets that
+were absent from market files. The final comparator now checks the exact pre-match
+priced subset, rather than requiring quotes the fixture never contained. Root review
+also added the `shared_base` forecast directory to the inventory. All eight final test
+functions, including both real stage controls and the extended comparator, were then
+executed successfully on the retained four runs. Normal collection is
+`uv run pytest tests/test_native_t1.py`; lint and formatting pass for both new modules.
+
+The native WTA fixture initially required three test-only schema corrections: no
+skipped `bridge` stage when no bridge is configured, required WTA rule-contract
+metadata, and the WTA ranking stream's fifth `tours` column. No production model,
+frozen horizon, candidate setting, or original sample file was changed to obtain these
+results. WTA tier support and full-bundle T3 remain separate open requirements.
