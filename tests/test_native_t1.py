@@ -194,3 +194,55 @@ def test_native_t1_rejects_controlled_future_outcome_use(
         planted.append(run["run_root"] / "sidecar" / "trait_latent_sidecar.csv")
     with pytest.raises(AssertionError, match="future outcome changed target rows"):
         assert_same_targets(planted[0], planted[1], pair["changed"]["targets"])
+
+
+@pytest.mark.parametrize("defect", ["extra_unpriced", "dropped", "duplicate", "omitted_from_both"])
+def test_native_t1_comparator_rejects_forecast_target_membership_drift(
+    tmp_path: Path, defect: str
+) -> None:
+    """Exercise the real inventory comparator without replaying a model."""
+    clean, changed = tmp_path / "clean", tmp_path / "changed"
+    header = "match_id,ps_missing,p_a_wins\n"
+    priced = "priced_a,0,0.6\npriced_b,0,0.4\n"
+    unpriced = "unpriced,1,0.5\n"
+    fixed = (
+        "features/features.csv",
+        "sidecar/trait_latent_sidecar.csv",
+        "sr02_replay/selected_matches.csv",
+        "sr03_calibration/predictions.csv",
+    )
+    forecasts = (
+        "pipeline/raw/2020/model/first.csv",
+        "pipeline/raw/2020/model/second.csv",
+        "pipeline/selected/2020/selected.csv",
+        "pipeline/shared_base/2020/shared.csv",
+        "pipeline/market/2020/raw_ps.csv",
+        "pipeline/market/2020/calibrated_ps.csv",
+    )
+    for filename in (*fixed, *forecasts):
+        path = clean / filename
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(header + priced + ("" if "/market/" in filename else unpriced))
+    # These are legitimate exclusions from the forecast comparison.
+    (clean / "pipeline/market/2020/selection_keys.csv").write_text("match_id\nhistorical\n")
+    earlier = clean / "pipeline/raw/2019/prior.csv"
+    earlier.parent.mkdir()
+    earlier.write_text(header + "historical,0,0.5\n")
+    shutil.copytree(clean, changed)
+    left = {"tour": "WTA", "run_root": clean}
+    right = {"run_root": changed, "targets": {"priced_a", "priced_b", "unpriced"}}
+    assert len(compare_runs(left, right)) == len(fixed) + len(forecasts)
+
+    market = changed / "pipeline/market/2020/raw_ps.csv"
+    if defect == "extra_unpriced":
+        market.write_text(header + priced + unpriced)
+    elif defect == "dropped":
+        market.write_text(header + "priced_a,0,0.6\n")
+    elif defect == "duplicate":
+        market.write_text(header + priced + "priced_a,0,0.6\n")
+    else:
+        # Its sibling retains full coverage: count > 0 cannot make this omission pass.
+        for root in (clean, changed):
+            (root / "pipeline/raw/2020/model/first.csv").write_text(header)
+    with pytest.raises(AssertionError, match="target coverage|duplicate target rows"):
+        compare_runs(left, right)
