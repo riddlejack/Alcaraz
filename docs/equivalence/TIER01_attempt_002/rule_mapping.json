@@ -1,0 +1,26 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 5,
+      "first": [
+        "inputs.code.module: \"<absent>\" -> \"tennislab.panel.rules\"",
+        "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
+        "inputs.code.path: \"references/TIER01_models/carry_rule_rows.py\" -> \"<absent>\"",
+        "inputs.code.sha256: \"4ef89573317e5d73908ce8ca079a739701621fd0f030d8a38ac2ea77dcfeecce\" -> \"f3f00596eda4e41852de1a8d233cfe03df797319baeeda2be500306fd4ef236b\"",
+        "manifest_sha256_of_inputs: \"83e5ec9f3ad3aa1212431ee000677daf7f75ea50e18a1208b4fb78384fb5a16f\" -> \"b635e36511536a3c87b163850b33b3e074d2a0bc1e9b086f83025c1a530ff2e5\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "rule_rows_carried_forward.csv",
+    "rule_rows_tour_default.csv",
+    "rules.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "rule_mapping"
+}

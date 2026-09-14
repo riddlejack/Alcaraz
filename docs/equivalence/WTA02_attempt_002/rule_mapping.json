@@ -1,0 +1,27 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 5,
+      "first": [
+        "inputs.code.module: \"<absent>\" -> \"tennislab.panel.wta_rules\"",
+        "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
+        "inputs.code.path: \"references/WTA02_models/wta_rule_rows.py\" -> \"<absent>\"",
+        "inputs.code.sha256: \"102c5568dbd0f3a1d85b8fc515674d80f672b6fc591884ae3b9a7b87f3314749\" -> \"5c044f8a67ba214567e648c804a6e5eec6e0c740678625e08c10d7648c354c13\"",
+        "manifest_sha256_of_inputs: \"f89a6c807fbc5add26f79c90db43a9f979a5a2e219661db2840548e470a1ccf9\" -> \"fec0646a069155f95abf025d7ff0c0dedea8ebb25e6671244438d332f46ff02b\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "rule_editions_without_observed_evidence.csv",
+    "rule_evidence_by_edition.csv",
+    "rule_rows_refused.csv",
+    "rules.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "rule_mapping"
+}

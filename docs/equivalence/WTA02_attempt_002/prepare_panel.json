@@ -1,0 +1,24 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 2,
+      "first": [
+        "code: \"<absent>\" -> {\"prepare\": {\"module\": \"tennislab.panel.prepare\", \"sha256\": \"312af04cc0cd8c4656fa0bb1db09c1abe20e8f6ec1112cd3770513f5bba",
+        "inputs.references/WTA02_models/prepare_panel.py: \"c30d9b4cdf4706065ca96032803b3fbdd6d49588c0eaaae00497de81db5632f8\" -> \"<absent>\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "corrections.csv",
+    "coverage.csv",
+    "exclusions.csv",
+    "panel.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "prepare_panel"
+}

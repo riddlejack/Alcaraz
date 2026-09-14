@@ -1,0 +1,13 @@
+{
+  "different": {},
+  "extra": [],
+  "identical": [
+    "manifest.json",
+    "panel.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "format_corrections"
+}

@@ -1,0 +1,55 @@
+{
+  "different": {
+    "audit.json": {
+      "changed_leaves": 4,
+      "first": [
+        "implementation.adapter.module: \"<absent>\" -> \"tennislab.panel.join\"",
+        "implementation.adapter.package_version: \"<absent>\" -> \"0.1.0\"",
+        "implementation.adapter.path: \"references/TIER01_models/join_candidates.py\" -> \"<absent>\"",
+        "implementation.adapter.sha256: \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\" -> \"1b62a0c6a210c437ca71d3dfd30f4464273614cb634c80943899169271f1e515\""
+      ],
+      "kind": "json"
+    },
+    "stderr.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -1 +1 @@",
+        "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+        "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+      ],
+      "kind": "text",
+      "lines_archive": 2,
+      "lines_ported": 2
+    },
+    "stdout.txt": {
+      "changed_lines": 5,
+      "first": [
+        "@@ -35,2 +35,3 @@",
+        "-      \"path\": \"references/TIER01_models/join_candidates.py\",",
+        "-      \"sha256\": \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\"",
+        "+      \"module\": \"tennislab.panel.join\",",
+        "+      \"package_version\": \"0.1.0\",",
+        "+      \"sha256\": \"1b62a0c6a210c437ca71d3dfd30f4464273614cb634c80943899169271f1e515\""
+      ],
+      "kind": "text",
+      "lines_archive": 1091,
+      "lines_ported": 1092
+    }
+  },
+  "extra": [],
+  "identical": [
+    "alias_candidates.csv",
+    "ambiguous_candidates.csv",
+    "ch01_validation.json",
+    "common_panel_candidates.csv",
+    "conflict_locators.csv",
+    "coverage_by_year.csv",
+    "date_correction_candidates.csv",
+    "market_row_candidates.csv",
+    "unmatched_archive_rows.csv",
+    "unmatched_market_rows.csv"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "join"
+}

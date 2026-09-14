@@ -1,0 +1,35 @@
+{
+  "different": {
+    "manifest.json": {
+      "changed_leaves": 3,
+      "first": [
+        "code: \"<absent>\" -> {\"prepare\": {\"module\": \"tennislab.panel.prepare\", \"sha256\": \"312af04cc0cd8c4656fa0bb1db09c1abe20e8f6ec1112cd3770513f5bba",
+        "inputs.references/TIER01_models/join_candidates.py: \"65689d0ad871178dfd3bef0bc1a758b6d2f1ddee3f6177495199af2398d077ad\" -> \"<absent>\"",
+        "inputs.references/TIER01_models/prepare_panel.py: \"342c590ba9cff0942e8a6fa7ba2740ea2dfc92b69cb5b6868db3ffd065821b2e\" -> \"<absent>\""
+      ],
+      "kind": "json"
+    },
+    "stderr.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -1 +1 @@",
+        "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+        "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+      ],
+      "kind": "text",
+      "lines_archive": 2,
+      "lines_ported": 2
+    }
+  },
+  "extra": [],
+  "identical": [
+    "corrections.csv",
+    "coverage.csv",
+    "exclusions.csv",
+    "panel.csv",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "prepare_panel"
+}

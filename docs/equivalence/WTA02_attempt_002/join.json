@@ -1,0 +1,35 @@
+{
+  "different": {
+    "join_manifest.json": {
+      "changed_leaves": 4,
+      "first": [
+        "inputs.code.module: \"<absent>\" -> \"tennislab.panel.wta_join\"",
+        "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
+        "inputs.code.path: \"references/WTA02_models/wta_market_join.py\" -> \"<absent>\"",
+        "inputs.code.sha256: \"a11a255fae19ebf7fde2b73c57a85d84f047615e4b30a04caf00e9f3c698a0f6\" -> \"544a94ee60fce87e59a54824b4591089acdd4ad2f6d56a4559b9c52251a1a00f\""
+      ],
+      "kind": "json"
+    },
+    "stderr.txt": {
+      "changed_lines": 2,
+      "first": [
+        "@@ -1 +1 @@",
+        "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+        "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+      ],
+      "kind": "text",
+      "lines_archive": 2,
+      "lines_ported": 2
+    }
+  },
+  "extra": [],
+  "identical": [
+    "market_rows.csv",
+    "mirror_rows_without_market.csv",
+    "stdout.txt",
+    "surname_link_check.csv"
+  ],
+  "missing": [],
+  "run": "WTA02/attempt_002",
+  "stage": "join"
+}

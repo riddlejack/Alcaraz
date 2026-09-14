@@ -1,0 +1,21 @@
+{
+  "different": {
+    "carry_forward_report.json": {
+      "changed_leaves": 2,
+      "first": [
+        "code: \"<absent>\" -> {\"module\": \"tennislab.panel.crosswalk_carry\", \"package_version\": \"0.1.0\", \"sha256\": \"ea2ea16c06b5c5eceb04cf7876516b72d5a",
+        "inputs.references/TIER01_models/carry_event_crosswalk.py: \"282a34af03cf3a964760f95715f572dee2903ea8ec985507a7d74a8cb573acef\" -> \"<absent>\""
+      ],
+      "kind": "json"
+    }
+  },
+  "extra": [],
+  "identical": [
+    "extended_event_crosswalk.csv",
+    "stderr.txt",
+    "stdout.txt"
+  ],
+  "missing": [],
+  "run": "TIER01/attempt_002",
+  "stage": "event_carry_forward"
+}
