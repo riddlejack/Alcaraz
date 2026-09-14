@@ -1,7 +1,8 @@
-"""Gate T2 (Lane C2, admitted by archive R15/R17): every source date precedes the cutoff.
+"""Native T2 repair after archive R28: every discovered source date precedes the cutoff.
 
 PASS CRITERION (kept from C2, evaluated on the synthetic run): discover every date-valued
-column from the feature header AND the column dictionary's names, groups and roles;
+column from the feature header AND the column dictionary's names, groups, roles and
+declared date dtypes (NumPy datetime kind M, timezone datetime64 and Arrow date types);
 classify ``match_date`` as the target date, ``eligible_through_date`` as the cutoff and
 ``date_basis`` / ``archive_date_basis`` as textual date-basis metadata; every other
 discovered date is a source or snapshot date and must be <= ``eligible_through_date``
@@ -13,12 +14,14 @@ NEGATIVE CONTROLS (same audit function, in-memory copies): a new future source d
 renamed one, an opaque column whose dictionary role is ``source_date``, an opaque column
 listed in a dictionary ``source_date_columns`` group, and one real row whose
 ``elo_latest_source_date`` is moved one day past its cutoff each fail the audit and
-name the column.
+name the column. The R28 counterexample, an opaque provenance column declared
+``datetime64[ns]``, and nested dictionary variants must also fail on a future date.
 
 NOT COVERED HERE: C2 T2b (satellite circuit dating, ``tier_stream``) and T2c (base and
 tier Elo logit replay at 1e-12, ``tier_elo``) need the tier stages, which the base
 synthetic sample does not run. Dates hidden in serialized free text are outside the
-header/dictionary enumeration, as in C2.
+header/dictionary enumeration, as in C2. Opaque columns without a date name, role or
+declared date dtype remain outside that enumeration.
 """
 
 from __future__ import annotations
@@ -30,6 +33,9 @@ import re
 from collections import defaultdict
 from collections.abc import Mapping, Sequence
 from typing import Any
+
+import numpy as np
+import pytest
 
 from tests.gate_support import must_reject, read_csv, read_json
 
@@ -48,25 +54,43 @@ def _tokens(text: str) -> set[str]:
     return set(re.split(r"[^a-z0-9]+", text.lower()))
 
 
+def _date_dtype(value: str) -> bool:
+    """Recognize declared calendar types without interpreting column values as schema."""
+    try:
+        if np.dtype(value).kind == "M":
+            return True
+    except TypeError, ValueError:
+        pass
+    # Timezone-aware pandas declarations are not NumPy dtypes; Arrow's date32/date64
+    # spellings likewise carry their semantics in the declared type, not a date token.
+    return bool(
+        re.fullmatch(r"datetime64\[(?:s|ms|us|ns),\s*[^\[\]]+\]", value)
+        or re.fullmatch(r"date(?:32\[day\]|64\[ms\])(?:\[pyarrow\])?", value)
+    )
+
+
 def discover_dates(header: Sequence[str], dictionary: Any) -> dict[str, dict[str, Any]]:
     """Every header column whose name or dictionary description names a date, classified."""
     names = set(header)
     roles: dict[str, set[str]] = defaultdict(set)
+    dtypes: dict[str, set[str]] = defaultdict(set)
+
+    def describe(name: str, descriptor: Mapping[str, Any]) -> None:
+        roles[name].update(
+            str(descriptor.get(k, "")) for k in ("role", "type", "dtype", "description")
+        )
+        dtypes[name].update(str(descriptor[k]) for k in ("type", "dtype") if k in descriptor)
 
     def walk(value: Any, context: str) -> None:
         if isinstance(value, dict):
             declared = value.get("name") or value.get("column")
             if declared in names:
-                roles[declared].update(
-                    str(value.get(k, "")) for k in ("role", "type", "dtype", "description")
-                )
+                describe(declared, value)
             for key, child in value.items():
                 if key in names:
                     roles[key].add(context)
                     if isinstance(child, dict):
-                        roles[key].update(
-                            str(child.get(k, "")) for k in ("role", "type", "dtype", "description")
-                        )
+                        describe(key, child)
                 walk(child, f"{context} {key}")
         elif isinstance(value, list):
             for child in value:
@@ -78,7 +102,10 @@ def discover_dates(header: Sequence[str], dictionary: Any) -> dict[str, dict[str
     classified: dict[str, dict[str, Any]] = {}
     for name in header:
         descriptor = " ".join(roles[name])
-        if not (DATE_TOKENS & (_tokens(name) | _tokens(descriptor))):
+        if not (
+            DATE_TOKENS & (_tokens(name) | _tokens(descriptor))
+            or any(_date_dtype(dtype) for dtype in dtypes[name])
+        ):
             continue
         if name == TARGET_DATE:
             category = "target_date"
@@ -202,6 +229,62 @@ def test_every_source_date_precedes_its_cutoff(sample_run: dict[str, Any]) -> No
 
 
 # ------------------------------------------------------------------ negative controls
+
+
+@pytest.mark.parametrize(
+    "dtype",
+    [
+        "datetime64[ns]",
+        "datetime64[D]",
+        "<M8[ms]",
+        "M8[us]",
+        "datetime64[ns, UTC]",
+        "timestamp[ns, tz=UTC]",
+        "date32[day]",
+        "date64[ms][pyarrow]",
+    ],
+)
+@pytest.mark.parametrize("layout", ["keyed", "nested_named", "nested_column"])
+def test_r28_opaque_declared_date_dtype_uses_the_same_audit(dtype: str, layout: str) -> None:
+    # Archive R28's original rejected control: 2005-01-13 is three days after this
+    # row's cutoff. No source/date word in either the column name or declared role.
+    name = "independent_opaque_release_clock"
+    descriptor = {"dtype": dtype, "role": "provenance"}
+    if layout == "keyed":
+        dictionary = {"columns": {name: descriptor}}
+    elif layout == "nested_named":
+        dictionary = {"schema": {"groups": [{"fields": [{"name": name, **descriptor}]}]}}
+    else:
+        dictionary = {"schema": {"groups": [{"fields": [{"column": name, **descriptor}]}]}}
+    dictionary = json.loads(json.dumps(dictionary))
+    row = {
+        "match_id": "2005-301/20",
+        TARGET_DATE: "2005-01-12",
+        CUTOFF: "2005-01-10",
+        name: "2005-01-10",
+    }
+    clean = audit_dates(list(row), [row], dictionary)
+    assert_date_audit(clean)
+    assert clean["columns"] == [name]
+    assert clean["per_column_lag_table"][name] == {
+        "populated_rows": 1,
+        "max_lag_days": 0,
+        "min_lag_days": 0,
+    }
+    future = audit_dates(list(row), [{**row, name: "2005-01-13"}], dictionary)
+    must_reject(lambda: assert_date_audit(future), "1 date violations")
+    assert future["violations_sample"][0]["column"] == name
+    assert future["violations_sample"][0]["days_after_cutoff"] == 3
+
+
+@pytest.mark.parametrize("dtype", ["timedelta64[ns]", "float64", "object", "str"])
+def test_opaque_non_calendar_dtype_does_not_infer_schema_from_contents(dtype: str) -> None:
+    name = "opaque_clock"
+    row = {TARGET_DATE: "2005-01-12", CUTOFF: "2005-01-10", name: "2005-01-13"}
+    dictionary = {"columns": {name: {"dtype": dtype, "role": "provenance"}}}
+    result = audit_dates(list(row), [row], dictionary)
+    assert_date_audit(result)
+    assert result["columns"] == []
 
 
 def test_a_future_source_date_fails_the_audit_under_every_disguise(
