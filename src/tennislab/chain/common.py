@@ -131,6 +131,16 @@ def code_receipt(module_name: str) -> dict[str, str]:
     return {"module": module_name, "sha256": sha256(source), "package_version": __version__}
 
 
+def declared_binding(entry: Mapping[str, Any], *, label: str) -> dict[str, str]:
+    """A config field that pins code: the archive's ``{path, sha256}`` (resolved under the
+    workspace and hash-verified) or the package's ``{module}`` (a code receipt)."""
+    if "module" in entry:
+        return code_receipt(str(entry["module"]))
+    path = resolve_under_root(entry["path"], label=label)
+    digest = require_hash(path, entry.get("sha256"), label=label)
+    return {"path": relative_to_root(path), "sha256": digest}
+
+
 def read_csv_rows(path: Path | str) -> tuple[tuple[str, ...], list[dict[str, str]]]:
     with Path(path).open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)

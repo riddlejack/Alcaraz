@@ -61,6 +61,7 @@ from tennislab.chain.common import (
     atomic_csv,
     atomic_json,
     code_receipt,
+    declared_binding,
     read_config,
     read_csv_rows,
     relative_to_root,
@@ -483,9 +484,7 @@ def run(output_dir: Path, config_path: Path) -> dict[str, Any]:
     if not isinstance(section, dict):
         raise ChainError("configuration has no wta_join object")
 
-    sources_entry = section["sources_module"]
-    sources_path = resolve_under_root(sources_entry["path"], label="sources_module")
-    sources_hash = require_hash(sources_path, sources_entry.get("sha256"), label="sources_module")
+    sources_binding = declared_binding(section["sources_module"], label="sources_module")
 
     event_map_dir = resolve_under_root(section["event_map_dir"], label="event_map_dir")
     frozen_crosswalk_path = event_map_dir / "wta_event_crosswalk.csv"
@@ -1000,7 +999,7 @@ def run(output_dir: Path, config_path: Path) -> dict[str, Any]:
                 "path": relative_to_root(market_manifest_path),
                 "sha256": market_manifest_hash,
             },
-            "sources_module": {"path": relative_to_root(sources_path), "sha256": sources_hash},
+            "sources_module": sources_binding,
             "code": code_receipt(__name__),
         },
         "market_rows": len(emitted),
@@ -1110,9 +1109,7 @@ def main(argv: list[str] | None = None) -> int:
         document = read_config(args.config)
         plan = year_plan(document)
         section = document["wta_join"]
-        sources_entry = section["sources_module"]
-        path = resolve_under_root(sources_entry["path"], label="sources_module")
-        require_hash(path, sources_entry.get("sha256"), label="sources_module")
+        declared_binding(section["sources_module"], label="sources_module")
         for name in ("event_map_manifest", "market_manifest"):
             entry = section[name]
             require_hash(

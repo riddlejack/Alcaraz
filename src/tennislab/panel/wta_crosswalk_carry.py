@@ -53,6 +53,7 @@ from tennislab.chain.common import (
     ChainError,
     atomic_json,
     code_receipt,
+    declared_binding,
     read_config,
     read_csv_rows,
     relative_to_root,
@@ -166,9 +167,7 @@ def build(output: Path, config_path: Path) -> dict[str, Any]:
     if not isinstance(section, dict):
         raise ChainError("configuration has no wta_carry_event_crosswalk object")
 
-    sources_entry = section["sources_module"]
-    sources_path = resolve_under_root(sources_entry["path"], label="sources_module")
-    sources_hash = require_hash(sources_path, sources_entry.get("sha256"), label="sources_module")
+    sources_binding = declared_binding(section["sources_module"], label="sources_module")
     norm = sources.norm_name
 
     base_entry = section["base_event_crosswalk"]
@@ -466,7 +465,7 @@ def build(output: Path, config_path: Path) -> dict[str, Any]:
                 "sha256": manifest_hash,
             },
             "market_manifest": {"path": relative_to_root(market_path), "sha256": market_hash},
-            "sources_module": {"path": relative_to_root(sources_path), "sha256": sources_hash},
+            "sources_module": sources_binding,
             "archive_panel": {"path": relative_to_root(panel_path), "sha256": sha256(panel_path)},
             "code": code_receipt(__name__),
         },

@@ -6,7 +6,7 @@
         "inputs.code.module: \"<absent>\" -> \"tennislab.panel.wta_join\"",
         "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
         "inputs.code.path: \"references/WTA02_models/wta_market_join.py\" -> \"<absent>\"",
-        "inputs.code.sha256: \"a11a255fae19ebf7fde2b73c57a85d84f047615e4b30a04caf00e9f3c698a0f6\" -> \"544a94ee60fce87e59a54824b4591089acdd4ad2f6d56a4559b9c52251a1a00f\""
+        "inputs.code.sha256: \"a11a255fae19ebf7fde2b73c57a85d84f047615e4b30a04caf00e9f3c698a0f6\" -> \"d970751e103705f8f1612fa1b4568a399fb4d9cd2cd80bc96e695fd4d16058d1\""
       ],
       "kind": "json"
     },

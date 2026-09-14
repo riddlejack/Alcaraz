@@ -6,7 +6,7 @@
         "inputs.code.module: \"<absent>\" -> \"tennislab.panel.wta_crosswalk_carry\"",
         "inputs.code.package_version: \"<absent>\" -> \"0.1.0\"",
         "inputs.code.path: \"references/WTA02_models/wta_carry_event_crosswalk.py\" -> \"<absent>\"",
-        "inputs.code.sha256: \"4f7429be0446f02d348a21c698fc580c101a36921bd777e43d006a6533631164\" -> \"fdc1fc4cd2d5db39d250a0cb68f1997c5dded2fe43a70f127bcee641aa2890da\""
+        "inputs.code.sha256: \"4f7429be0446f02d348a21c698fc580c101a36921bd777e43d006a6533631164\" -> \"1ba178d4b96b75e0699b211365ac3e9999fd9893bf46647914908a8b2e44bfc4\""
       ],
       "kind": "json"
     }
