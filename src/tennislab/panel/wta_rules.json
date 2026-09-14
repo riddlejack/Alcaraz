@@ -1,0 +1,181 @@
+{
+  "id": "WTA01-scoring-rules-v1",
+  "tour": "WTA",
+  "scope": "2007-2024 WTA tour-level singles panel, by source edition year; best_of 3 throughout",
+  "year_field": "source_season",
+  "evidence": {
+    "inventory": "references/WTA01_event_map/rule_inventory_by_edition.csv",
+    "report": "references/WTA01-event-map.md",
+    "what_the_scores_can_show": "whether a deciding set ran past 6-all (advantage or a 12-all cap) and whether it ended 7-6 (a tiebreak at 6-all)",
+    "what_the_scores_cannot_show": "the length of a deciding tiebreak: first-to-seven and first-to-ten are both written 7-6(n)",
+    "no_wta_rulebook_retained": "This repository holds no WTA rulebook or dated WTA announcement. Every era below is the event-map inventory's reading of the mirror's own deciding-set scores, plus a declared continuity assumption where a season is silent, plus the declared tiebreak-length assumption. It is not a rule source."
+  },
+  "regular_set": {
+    "mode": "tiebreak",
+    "tiebreak_at_games": 6,
+    "tiebreak_points": 7
+  },
+  "grand_slams": {
+    "580": {
+      "name": "Australian Open",
+      "eras": [
+        [
+          2007,
+          2018,
+          "advantage",
+          null,
+          null,
+          "inventory_deciding_sets_run_past_6_all_every_season_2007_2018"
+        ],
+        [
+          2019,
+          2024,
+          "tiebreak",
+          6,
+          10,
+          "inventory_no_deciding_set_past_7_games_2019_2024;tiebreak_length_10_assumed_from_harmonisation_year_2019"
+        ]
+      ]
+    },
+    "520": {
+      "name": "Roland Garros",
+      "eras": [
+        [
+          2007,
+          2021,
+          "advantage",
+          null,
+          null,
+          "inventory_deciding_sets_run_past_6_all_every_season_2007_2021"
+        ],
+        [
+          2022,
+          2024,
+          "tiebreak",
+          6,
+          10,
+          "inventory_no_deciding_set_past_7_games_2022_and_2024;2023_not_observable_era_continuity;tiebreak_length_10_assumed_from_harmonisation_year_2022"
+        ]
+      ]
+    },
+    "540": {
+      "name": "Wimbledon",
+      "eras": [
+        [
+          2007,
+          2018,
+          "advantage",
+          null,
+          null,
+          "historical_continuity_from_the_official_WTA_report_of_the_AELTC_2018_announcement"
+        ],
+        [
+          2019,
+          2021,
+          "tiebreak",
+          12,
+          7,
+          "official_WTA_report_of_AELTC_2018_announcement;retained_bytes_data/raw/SR02/rules/source_bytes/wta_wimbledon_2018.html"
+        ],
+        [
+          2022,
+          2024,
+          "tiebreak",
+          6,
+          10,
+          "official_joint_2022_change;inventory_no_deciding_set_past_7_games_2022_2024;tiebreak_length_10_from_the_2022_harmonisation"
+        ]
+      ],
+      "score_inference_check": {
+        "lead_ruling": "2026-09-12: a published, dated announcement is knowable at the cutoff and is the rule source; the inventory's reading of the scores is a check on it, not a substitute. Applied to Wimbledon 2019-2021.",
+        "what_the_scores_show": "2019 and 2021 women's deciding sets run to 13 and 11 games with no 13-12 set, so the scores cannot separate a 12-all tiebreak from an advantage set. They do not contradict the announcement; they are silent on it.",
+        "superseded_score_inferred_eras": [
+          [
+            2007,
+            2021,
+            "advantage",
+            null,
+            null,
+            "inventory_deciding_sets_run_past_6_all_every_season_through_2021;no_13_12_set_present_so_a_12_all_cap_is_not_separable_from_advantage"
+          ],
+          [
+            2022,
+            2024,
+            "tiebreak",
+            6,
+            10,
+            "inventory_no_deciding_set_past_7_games_2022_2024;tiebreak_length_10_assumed_from_harmonisation_year_2022"
+          ]
+        ]
+      }
+    },
+    "560": {
+      "name": "US Open",
+      "eras": [
+        [
+          2007,
+          2021,
+          "tiebreak",
+          6,
+          7,
+          "inventory_no_deciding_set_past_7_games_in_any_season;tiebreak_length_7_assumed_unchanged_before_the_2022_harmonisation"
+        ],
+        [
+          2022,
+          2024,
+          "tiebreak",
+          6,
+          10,
+          "inventory_no_deciding_set_past_7_games;tiebreak_length_10_assumed_from_harmonisation_year_2022"
+        ]
+      ]
+    }
+  },
+  "grand_slam_names": {
+    "australian open": "580",
+    "roland garros": "520",
+    "french open": "520",
+    "wimbledon": "540",
+    "us open": "560"
+  },
+  "ordinary_wta": {
+    "levels": [
+      "PM",
+      "P",
+      "I",
+      "W",
+      "F",
+      "T1",
+      "T2",
+      "T3",
+      "T4",
+      "T5",
+      "CC"
+    ],
+    "best_of": 3,
+    "deciding_set": {
+      "mode": "tiebreak",
+      "tiebreak_at_games": 6,
+      "tiebreak_points": 7
+    },
+    "basis": "inventory_no_non_slam_tour_edition_has_a_deciding_set_past_7_games_2007_2024;tiebreak_length_7_assumed_for_every_season"
+  },
+  "declared_assumptions": [
+    "Deciding-tiebreak length is an assumption, not an observation: 7 points at tour level in every season, 10 points at a Slam from its harmonisation year (AO 2019, RG/Wimbledon/US Open 2022). The mirror's scores cannot distinguish the two lengths.",
+    "An era covering a season whose scores are silent (no deciding set reached 6-6) is a continuity assumption for that season, not evidence. Roland Garros 2023 is the named case; 304 tour-level editions in 2007-2024 are silent.",
+    "Wimbledon 2019-2021 takes the retained AELTC/WTA announcement (tiebreak at 12-all, first to seven), not the score-inferred advantage set: the announcement is dated and published, so it is knowable at the cutoff, and the scores are silent rather than contradictory. Every other Wimbledon era, and every other competition's eras, remain score-inferred with the continuity and length assumptions below.",
+    "The round-robin season finals (WTA Finals, Elite Trophy) take the ordinary tour rule: round-robin changes which matches are played, not how a match is scored.",
+    "best_of is 3 for every tour-level row. The 41 best_of = 5 rows in the WTA files are Fed/BJK Cup rubbers, which the panel rule excludes."
+  ],
+  "unknown_policy": "fail_mapping_no_guessed_rule; point estimation may proceed independently",
+  "source_qualification": "No WTA rulebook or dated WTA announcement is retained in this repository. These eras are read from the mirror's own deciding-set scores by references/WTA01_event_map/rule_inventory.py, with the continuity and tiebreak-length assumptions named above.",
+  "information_set_limit": "READ THIS BEFORE ANY CONFIRMATORY USE. Wimbledon 2019-2021 is the one era taken from a retained dated announcement and is therefore knowable at the cutoff; everything below applies to the rest. The ATP rule rows come from dated official announcements, so an ATP rule row is knowable before the match. These WTA eras are inferred from scores in the same seasons they govern -- including the outer target years -- so a WTA rule row is NOT established as knowable at the declared cutoff. It is an era-level, format-level inference (no row's own score sets its own rule, and the era boundaries are calendar years), but it is still a retrospective reading of outcome-bearing data. WTA 2007-2024 is exposed development data, which is why this is acceptable here and would not be for a confirmatory design. Closing it needs a retained WTA rulebook or dated announcement, as references/WTA01-event-map.md sets out.",
+  "retained_sources": {
+    "wimbledon_2019_tiebreak_at_12_all": {
+      "path": "data/raw/SR02/rules/source_bytes/wta_wimbledon_2018.html",
+      "sha256": "6f61ac3f025f358975efa618e4852316cb1aefac4f9f8b176de4ba4238d25800",
+      "what_it_is": "the WTA's own report of the AELTC's October 2018 announcement of a final-set tiebreak at 12-all from 2019; competition-wide, not men's-only. Retained under SR02 with a per-URL receipt in data/raw/SR02/rules/receipts.json.",
+      "used_for": "grand_slams.540 era 2019-2021, and the continuity basis of 2007-2018"
+    }
+  }
+}
