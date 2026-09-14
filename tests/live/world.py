@@ -440,6 +440,9 @@ def build_workspace(tmp_path: Path) -> Path:
     shutil.copyfile(
         REPO / "docs" / "live" / "REPAIR2.md", workspace / "docs" / "live" / "REPAIR2.md"
     )
+    shutil.copyfile(
+        REPO / "docs" / "live" / "REPAIR3.md", workspace / "docs" / "live" / "REPAIR3.md"
+    )
     (workspace / "configs").mkdir()
     shutil.copyfile(REPO / "configs" / "elo.json", workspace / "configs" / "elo.json")
     write_csv(
