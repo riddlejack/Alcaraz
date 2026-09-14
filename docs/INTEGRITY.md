@@ -40,28 +40,34 @@ so (`rows_parsed`).
 ## 2. Reader inventory (product chain, both tours)
 
 Derived from the audit hook on the synthetic chain and re-checked against the code.
-"History" means the stage is a declared past-only reader; "none" means the runner fails
-the stage if it opens any outcome-bearing file; "target" is the reporter.
+Four declarations: "none" (the runner fails the stage if it parses any outcome-bearing
+file; hash-only opens are allowed), "history" (a state replay or panel builder that
+parses whole outcome files as past history), "fold" (a fit or selection stage: every
+parse of an outcome-bearing file must go through `chain.labels` -- `LabelHistory`,
+`PanelOutcomeHistory` or the metadata projection `projected_rows`, which drops the
+outcome columns -- and every outcome receipt must name its fold and a ceiling before
+it), and "target" (a post-barrier stage).
 
 | Stage | Declared | What is actually opened | Horizon and how it is enforced |
 |---|---|---|---|
 | bridge, archive_panel, join, event_carry_forward, prepare_panel, format_corrections | history | source result files, workbooks, the panel | whole seasons; these build the panel, nothing is fitted or scored |
 | rule_mapping | history | the panel (parsed; `a_won` unused) | none needed; format rules only |
 | sr02_replay, sr02_tier_replay, sr02_tier_noqual_replay | history | the panel (parsed; `dynamic.SOURCE_ROW_FIELDS` projects `a_won` out) | the SR02 state cursor; serve counts are history by construction |
-| sr03_calibration | history | the panel through `PanelOutcomeHistory`, one read per outer year | ceiling = outer year − 1 by `source_season`, cutoff = 30 December by `match_date`; receipt per fold |
+| sr03_calibration | fold | the panel's metadata through `projected_rows` (outcome columns dropped), then the panel's `a_won` through `PanelOutcomeHistory`, one read per outer year | ceiling = outer year − 1 by `source_season`, cutoff = 30 December by `match_date`; receipt per fold |
 | rankings | history | the Sackmann tarball (`winner_id`/`loser_id` qualify the ranking stream) | archive seasons only |
 | edition_index | none | ranking stream | – |
 | features | history | the panel (`a_won` updates the result-Elo state under D−2 and is copied into `labels.csv`) | D−2 cursor; `elo_latest_source_date` per row |
-| sidecar | none | the panel is parsed and projected to `PANEL_MEASUREMENT_FIELDS` before use; `labels.csv` is never opened | – |
+| sidecar | history | the panel is parsed (the audit hook records it) and projected to `PANEL_MEASUREMENT_FIELDS` before use; `labels.csv` is never opened | none needed; no outcome value is used or emitted |
 | tier_stream | history | the Sackmann tarball's lower-tier members | archive seasons only |
 | tier_elo | history | `labels.csv` through `EloStateHistory`, `tier_results.csv.gz` | D−2 cursor inside the replay; ceiling = panel end year (state history, no fit) |
 | tier_block | none | sidecar, tier_elo features, SR02 selected matches | – |
 | predictor_config | none | hashes `labels.csv` (bytes, never parsed) | recorded as a hash-only open |
 | preflight | none | – | – |
-| pipeline | history | `labels.csv` through `LabelHistory` per fold: `training_fit`, `past_selection_calibration`, `past_market_calibration` | ceiling = outer year − 1; the runner refuses a receipt whose ceiling reaches its fold's outer year |
+| pipeline | fold | `labels.csv` through `LabelHistory` per fold: `training_fit`, `past_selection_calibration`, `past_market_calibration` | ceiling = outer year − 1; the runner refuses a receipt whose ceiling reaches its fold's outer year, a receipt without a fold, or a parse outside the accessors |
 | barrier | none | pre-barrier stage directories (content scan, §3) | – |
 | reporting_config | none | selection ledger | – |
 | report | target | `labels.csv`, all outer years | after the barrier only |
+| sr03_component | target | the panel's `a_won` for the persisted SR03 predictions (`component_scoring`) | after the barrier only |
 
 The runner derives `outcome_access.observed` from the audit hook, not from the table
 above; a stage that opens an outcome-bearing file it is not declared for fails, and a
@@ -76,10 +82,11 @@ the run tree if it finds any. `verify` repeats the scan. The historical baseline
 
 | Was (before the barrier) | Now (after the barrier) | Values |
 |---|---|---|
-| `sr03_calibration/metrics.csv`, `reliability.csv`, `comparisons.json`, `cohort_counts.json` | `sr03_component/` (stage after `report`): the same four files computed by `dynamics.calibrate evaluate` from the persisted `predictions.csv` and the panel | byte-identical to the archive's |
+| `sr03_calibration/metrics.csv`, `reliability.csv`, `comparisons.json`, `cohort_counts.json` | `sr03_component/` (stage after `report`): the same four files computed by `dynamics.calibrate evaluate` from the persisted `predictions.csv` and the panel | identical rows for every year the archive scored; the component stage scores every outer year with a resolved outcome, so where a frozen config carried `score_years_max` (WTA02) the post-barrier files are a superset |
 | `pipeline/selection/<y>/<learner>/<block>.json: candidate_trials[*].annual[*].mean_log_loss`, `equal_year_mean_log_loss`, `selection.ranked[*].score`, `minimum_equal_year_mean_log_loss`, `runner_up_gap` | `report/selection_trials.json`: recomputed by the reporter from the persisted raw predictions, the persisted selection keys and the labels, and checked against the pipeline's commitment hash | identical numbers; the selected candidate, slope and every forecast are unchanged |
 | `pipeline/market/<y>/calibration.json: slope_fit.annual[*].mean_log_loss`, `equal_year_mean_log_loss` | `report/selection_trials.json` (market section), same recomputation | identical |
 | `pipeline/selection_complete.json` (copies of the above) | same | identical |
+| `report/selection_receipts.json` (copied the scored records) | copies the public records and points at `selection_trials.json` | changed bytes; `selection_diagnostics.csv` and the eight named outputs are unchanged |
 
 Before the barrier the pipeline writes, per fold, the decision (selected candidate,
 slope, ranked candidate order), the membership hashes, the selection keys

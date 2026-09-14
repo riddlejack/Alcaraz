@@ -241,7 +241,11 @@ def test_label_history_reads_only_declared_history(tmp_path: Path) -> None:
     history = LabelHistory(path, sha256(path), purpose="training_fit", year_ceiling=2013)
     table = history.selected([("2013", "m1")], metadata)
     assert table.values == {("2013", "m1"): 1}
-    assert history.reads == [{"purpose": "training_fit", "rows": 1, "year_ceiling": 2013}]
+    (receipt,) = history.reads
+    assert receipt["purpose"] == "training_fit" and receipt["year_ceiling"] == 2013
+    # The receipt separates what was physically parsed from what was returned (RB14).
+    assert receipt["rows_parsed"] == 2 and receipt["rows_returned"] == 1
+    assert receipt["max_season_returned"] == 2013
     with pytest.raises(ChainError, match="ceiling"):
         history.selected([("2013", "m1"), ("2014", "m2")], metadata)
     with pytest.raises(ChainError):
