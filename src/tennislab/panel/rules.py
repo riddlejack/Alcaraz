@@ -60,6 +60,7 @@ from tennislab.chain.common import (
     read_csv_rows,
     relative_to_root,
     require_hash,
+    resolve_output_under_root,
     resolve_under_root,
     year_plan,
 )
@@ -323,7 +324,7 @@ def run(config_path: Path) -> dict[str, Any]:
     base_panel_path = resolve_under_root(section["base_panel"]["path"], label="base_panel")
     rule_config_path = resolve_under_root(section["rule_config"]["path"], label="rule_config")
     extended_path = resolve_under_root(section["extended_panel"]["path"], label="extended_panel")
-    output_dir = resolve_under_root(section["output_dir"], label="output_dir")
+    output_dir = resolve_output_under_root(section["output_dir"], label="output_dir")
     hashes = {
         "base_rules": require_hash(
             base_rules_path, section["base_rules"].get("sha256"), label="base_rules"

@@ -24,7 +24,13 @@ from pathlib import Path
 import numpy as np
 from scipy import stats
 
-from tennislab.chain.common import code_receipt, relative_to_root, resolve_under_root, sha256
+from tennislab.chain.common import (
+    code_receipt,
+    relative_to_root,
+    resolve_output_under_root,
+    resolve_under_root,
+    sha256,
+)
 from tennislab.dynamics import market, protocol
 from tennislab.dynamics.dynamic import DynamicsError
 
@@ -290,7 +296,7 @@ def split_bindings(records):
 def run(config_path, point_dir, output):
     config_path = resolve_under_root(config_path, label="config")
     point_dir = resolve_under_root(point_dir, label="point_directory")
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     config = json.loads(config_path.read_text())
     if config.get("proposal_status") != "frozen_for_real_execution":
         raise DynamicsError("Real execution requires frozen configuration")

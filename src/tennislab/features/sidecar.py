@@ -41,6 +41,7 @@ from tennislab.chain.common import (
     atomic_json,
     code_receipt,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
     sha256_bytes,
@@ -753,7 +754,7 @@ def run(config_path: Path) -> dict[str, object]:
     declared = config.get("output", {}).get("sidecar")
     if not declared:
         raise ChainError("configuration declares no output.sidecar path")
-    output_dir = resolve_under_root(declared, label="output.sidecar").parent
+    output_dir = resolve_output_under_root(declared, label="output.sidecar").parent
     output_dir.mkdir(parents=True, exist_ok=True)
     write_csv(output_dir / "trait_latent_sidecar.csv", SIDECAR_FIELDS, outputs)
     write_csv_gzip(

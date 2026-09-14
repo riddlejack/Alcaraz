@@ -30,6 +30,7 @@ from tennislab.chain.common import (
     atomic_json,
     canonical_hash,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -976,7 +977,7 @@ def _validate_completed_manifest(
 
 def run(config_path: Path, output: Path) -> dict[str, Any]:
     config_path = resolve_under_root(config_path, label="config")
-    output = resolve_under_root(output, label="output")
+    output = resolve_output_under_root(output, label="output")
     config = json.loads(config_path.read_text())
     _require_frozen(config, config_path)
     _validate_config_contract(config)

@@ -33,6 +33,7 @@ from tennislab.chain.common import (
     ChainError,
     atomic_json,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -202,7 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     summary = build(
         resolve_under_root(args.source, label="source"),
-        resolve_under_root(args.output_dir, label="output_dir"),
+        resolve_output_under_root(args.output_dir, label="output_dir"),
         args.expected_source_sha256,
         args.lookup_module_sha256,
         args.unordered_source,

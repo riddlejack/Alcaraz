@@ -54,6 +54,7 @@ from tennislab.chain.common import (
     code_receipt,
     read_config,
     relative_to_root,
+    resolve_output_under_root,
     resolve_under_root,
     sha256,
 )
@@ -1416,7 +1417,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     config = load_config(config_path)
     # The archive required OUTPUT_ROOT = ROOT / "work" to be a parent; the port requires
     # the output to lie under the workspace, which resolve_under_root enforces.
-    output = resolve_under_root(config["output_dir"], label="output_dir")
+    output = resolve_output_under_root(config["output_dir"], label="output_dir")
     if output.exists() and any(output.iterdir()):
         if not overwrite:
             raise ChainError(f"nonempty output exists: {output}")
