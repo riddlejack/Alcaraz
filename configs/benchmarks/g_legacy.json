@@ -1,0 +1,151 @@
+{
+  "benchmark_id": "G-L",
+  "proposal_status": "implementation_rehearsal_only",
+  "execution_scope": "real_structural_projection_and_synthetic_rehearsal_only",
+  "design": {
+    "path": "docs/benchmarks/G_LEGACY_DESIGN.md",
+    "sha256": "d5f0fb1d25dbe37604fd03ed038e9ea5fe116d29808167f5b4521d77bc6b833e"
+  },
+  "constants": {
+    "probability_clip": 1e-6,
+    "scoring_clip": 1e-15,
+    "elo_initial": 1500.0,
+    "elo_scale": 400.0,
+    "k32": 32.0,
+    "decaying_k_numerator": 250.0,
+    "decaying_k_offset": 5.0,
+    "decaying_k_exponent": 0.4,
+    "kovalchik_major_multiplier": 1.1,
+    "fivethirtyeight_overall_weight": 0.71,
+    "fivethirtyeight_surface_weight": 0.29,
+    "calibration_years": 3,
+    "parameter_history_years": 5
+  },
+  "procedures": [
+    "incumbent",
+    "k32_pooled",
+    "rank_logistic",
+    "kovalchik_overall_major",
+    "fivethirtyeight_surface",
+    "welo"
+  ],
+  "inference": {
+    "replicates": 5000,
+    "maximum_draws": 50000,
+    "seed": 20260914,
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [4, 13],
+    "simultaneous_level": 0.95,
+    "degenerate_se_tolerance": 1e-15,
+    "multiplicity_scope": "per_tour_calibrated_incumbent_contrasts"
+  },
+  "tours": {
+    "ATP": {
+      "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+      "major_level_codes": ["G"],
+      "inputs": {
+        "features": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/run/features/features.csv",
+          "sha256": "7f4205318c204049e32efdc9c690be00b91bec72361f6f049cfa6c2985a37a2a",
+          "rows": 51222
+        },
+        "history_panel": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/run/prepare_panel/panel.csv",
+          "sha256": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47",
+          "rows": 51222
+        },
+        "labels": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/run/features/labels.csv",
+          "sha256": "987f05cdbc0c0e9bdb0c787195762e26f070219ca0633f2c231819e70b561352"
+        },
+        "prices": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/run/prepare_panel/panel.csv",
+          "sha256": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47"
+        },
+        "predictor_config": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/predictor_config/config.2017_2024.json",
+          "sha256": "0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15"
+        },
+        "reporting_config": {
+          "path": "inputs/archive/experiments/runs/TIER01/attempt_002/reporting_config/reporting.2017_2024.json",
+          "sha256": "d5e2912e6649953e8f11029e69c1aadf2e78c37055df3a4e3f5b0d79d549cca3"
+        },
+        "incumbent_pattern": "inputs/archive/experiments/runs/TIER01/attempt_002/run/pipeline/selected/{year}/hgb/full_tier.csv"
+      },
+      "incumbent_files": {
+        "2017": {"sha256": "4b37f3b4ed34a2e223570b2f522d807386b54eeea6f3a6f25b09952df92307cf", "rows": 2573},
+        "2018": {"sha256": "0bf4cab31fde5355052a4dc3fa1aa9ed49f68b39760fd296e5a59d30a6f4164d", "rows": 2606},
+        "2019": {"sha256": "09f27dbed33153c73848bc0c9348f79bc2d40a2ce12f9332bb1cf0951b748f01", "rows": 2554},
+        "2020": {"sha256": "410098303efd5e9252637aba348897c7831df05ddce83f8ec3e2446cd7e49214", "rows": 1250},
+        "2021": {"sha256": "8600cce0b31a2b8cd3661290517cabe188d22575f50e8ae734622bccbec52", "rows": 2441},
+        "2022": {"sha256": "358977344b3c23303ea10e88a125962ff9bf8448c3a06ed4109537d07d7d93e4", "rows": 2565},
+        "2023": {"sha256": "f1cff812183537507855a0ddf43a0830d76bfac8c31aa0c5180017eb1e95a84b", "rows": 2682},
+        "2024": {"sha256": "03c8341d01ca38509c49835790fd4408f08d1edc57aaafafd45735295f1ce9a7", "rows": 2681}
+      },
+      "expected_primary_rows": 18972,
+      "expected_priced_rows": 18882,
+      "annual_primary": {
+        "2017": {"rows": 2323, "membership_sha256": "8720da3f9e6282179eeeccc42f3b1f4e3517a4054ffbbeb88761cb7bcbf085da"},
+        "2018": {"rows": 2606, "membership_sha256": "2309e1d730866aa307faa60c127120ad23064c9a3615d0caf596453160b31c0e"},
+        "2019": {"rows": 2502, "membership_sha256": "5aa63d166358497498d06d932834f5b5e63e81550867fbdf0a08b13fbebd995c"},
+        "2020": {"rows": 1250, "membership_sha256": "0bf13c48a1b7329f0521b5981231408b0c9df31cab177058ba5748378972232d"},
+        "2021": {"rows": 2390, "membership_sha256": "3105f683f1b3e7bd5818ccd873a43aca5a56ff877b80dd1934859b33cda16c41"},
+        "2022": {"rows": 2538, "membership_sha256": "725a7f7b8d008a57d6b83c37d61e883502c5c552956a7a8aa58ba14174205973"},
+        "2023": {"rows": 2682, "membership_sha256": "c74dce415e0eb903a16672e3615f0ecfb3416cdf4a6d3e6bb6c9c85029f837a4"},
+        "2024": {"rows": 2681, "membership_sha256": "cd5fde43a8f218f3e545f678aeaf929d32c8c4c48f941afc675c661c05af1b4a"}
+      }
+    },
+    "WTA": {
+      "target_years": [2019, 2020, 2021, 2022, 2023, 2024],
+      "major_level_codes": ["G"],
+      "inputs": {
+        "features": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/features/features.csv",
+          "sha256": "08be99583ee8b06ab07222e017231b79d03d74506e4a4c724a97488c0eb8d6d1",
+          "rows": 42485
+        },
+        "history_panel": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/prepare_panel/panel.csv",
+          "sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+          "rows": 42485
+        },
+        "labels": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/features/labels.csv",
+          "sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396"
+        },
+        "prices": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/prepare_panel/panel.csv",
+          "sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3"
+        },
+        "predictor_config": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/predictor_config/config.json",
+          "sha256": "41acb089a79c96d3c890102bc6c38d0eb838dfdd9bf7411800e66283f2ab6fdf"
+        },
+        "reporting_config": {
+          "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/reporting_config/reporting.json",
+          "sha256": "dea3a64eb2c19eaf036cfca575de1617345d2538091888b7cd5acba05ea6f0b1"
+        },
+        "incumbent_pattern": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/{year}/hgb/full.csv"
+      },
+      "incumbent_files": {
+        "2019": {"sha256": "6dd9e6a340ec44f95df6c4218ee9ebc77b350a8049a06614dc42a212d634f734", "rows": 2431},
+        "2020": {"sha256": "b5de9df5085dab650fa367b4948c23bbe84e3c7dfa44d1bfdc7c1158bfa599ed", "rows": 1042},
+        "2021": {"sha256": "61b47325b1bc13c79305307c206a262853dfce8e164efbef79f8f1b12f6fc524", "rows": 2412},
+        "2022": {"sha256": "7f0b86cc2e6f454d422f94de242a2489243b57bf8cd20b8c8cd0585c3c00101d", "rows": 2341},
+        "2023": {"sha256": "dbc06938ad4465f4a9b363e8418690cd9f21841a579affbf6c7a5e741e803b69", "rows": 2460},
+        "2024": {"sha256": "03bb514047f743b60c9d096c5397100313791ee1a5a204c48ea72c9a543849f0", "rows": 2458}
+      },
+      "expected_primary_rows": 12900,
+      "expected_priced_rows": 12785,
+      "annual_primary": {
+        "2019": {"rows": 2337, "membership_sha256": "ad48952f44f34618f07f477af6ba50a2b19d5327660bd382b583895ed4423e0d"},
+        "2020": {"rows": 1019, "membership_sha256": "39fb912517f9f9ae7a147fe8a03351c7cb89f26464e4baac8a74bcaf2378ed9b"},
+        "2021": {"rows": 2363, "membership_sha256": "5cb69b26f0279129be46ceff50c0e3cb55e5a00c9e31c5112a0123e8ad37c1b5"},
+        "2022": {"rows": 2324, "membership_sha256": "7c2a6e0b489c7ed9d86f1ea4f4ba5c2982357f068f96928751f2b467aa65e95b"},
+        "2023": {"rows": 2453, "membership_sha256": "a46671a6fa3a207e873529f95246103cb2bd6360046eb849629cfba3e6df0a02"},
+        "2024": {"rows": 2404, "membership_sha256": "d8ea95686b31626998afd96a69eb723b159925851417cd22bb22192b4477eb01"}
+      }
+    }
+  },
+  "output_root": "runs/G-L"
+}
