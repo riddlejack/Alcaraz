@@ -55,7 +55,10 @@ def parse_utc(text: str, *, label: str) -> dt.datetime:
     raw = (text or "").strip()
     if not raw:
         raise LiveError(f"{label}: empty timestamp")
-    value = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    try:
+        value = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise LiveError(f"{label}: not an ISO timestamp: {raw!r}") from error
     if value.tzinfo is None:
         raise LiveError(f"{label}: timestamp {raw!r} has no timezone offset")
     return value.astimezone(dt.UTC)
@@ -164,6 +167,13 @@ class LiveConfig:
         if not design:
             return None
         path = resolve_under_root(design, label="repair design")
+        return sha256(path) if path.is_file() else None
+
+    def repair2_design_hash(self) -> str | None:
+        design = self.document.get("repair2_design")
+        if not design:
+            return None
+        path = resolve_under_root(design, label="second repair design")
         return sha256(path) if path.is_file() else None
 
 

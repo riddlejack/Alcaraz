@@ -235,27 +235,31 @@ class OfflineProofAdapter:
     name = "offline"
 
     def __init__(self, config: LiveConfig) -> None:
+        self.config = config
         self.directory = config.sub("proofs")
 
     def request(self, digest: str) -> Path:
         require_nonempty_digest(digest, label="proof digest")
         self.directory.mkdir(parents=True, exist_ok=True)
-        path = self.directory / f"{digest}.request.json"
+        path = self.config.sub("proofs", f"{digest}.request.json")
         if path.exists():
             raise LiveError(f"proof already requested for {digest[:12]}")
-        path.write_text(
-            json.dumps(
-                {
-                    "digest": digest,
-                    "requested_utc": iso_utc(utc_now()),
-                    "adapter": self.name,
-                    "payload": "hash-only",
-                },
-                sort_keys=True,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
+        try:
+            with path.open("x", encoding="utf-8") as handle:
+                handle.write(
+                    json.dumps(
+                        {
+                            "digest": digest,
+                            "requested_utc": iso_utc(utc_now()),
+                            "adapter": self.name,
+                            "payload": "hash-only",
+                        },
+                        sort_keys=True,
+                    )
+                    + "\n"
+                )
+        except FileExistsError as error:
+            raise LiveError(f"proof already requested for {digest[:12]}") from error
         return path
 
     def verify(self, digest: str, attestation_path: Path) -> dict[str, Any]:

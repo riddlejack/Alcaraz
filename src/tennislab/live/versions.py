@@ -13,7 +13,13 @@ from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Any
 
-from tennislab.chain.common import atomic_csv, atomic_json, canonical_hash, sha256
+from tennislab.chain.common import (
+    atomic_csv,
+    atomic_json,
+    canonical_hash,
+    require_nonempty_digest,
+    sha256,
+)
 from tennislab.live import wikitext
 from tennislab.live.common import (
     LiveConfig,
@@ -365,10 +371,10 @@ def latest_version(config: LiveConfig) -> Path | None:
     record = read_json(pointer)
     version_id = safe_output_id(str(record["version_id"]), label="latest version id")
     directory = config.sub("versions", version_id)
-    verify_version(directory)
     expected_manifest = record.get("manifest_sha256")
-    if not expected_manifest or sha256(directory / "manifest.json") != expected_manifest:
-        raise LiveError(f"latest version {directory.name}: manifest hash mismatch")
+    if not expected_manifest:
+        raise LiveError(f"latest version {directory.name}: pointer has no manifest hash")
+    verify_version(directory, expected_manifest_sha256=expected_manifest)
     return directory
 
 
@@ -385,8 +391,19 @@ def _confined_version_path(root: Path, relative: str, *, label: str) -> Path:
     return path
 
 
-def verify_version(directory: Path) -> dict[str, Any]:
-    manifest = read_json(directory / "manifest.json")
+def verify_version(
+    directory: Path, *, expected_manifest_sha256: str | None = None
+) -> dict[str, Any]:
+    manifest_path = directory / "manifest.json"
+    if expected_manifest_sha256 is not None:
+        require_nonempty_digest(
+            expected_manifest_sha256, label=f"version {directory.name} manifest binding"
+        )
+        if not manifest_path.is_file() or sha256(manifest_path) != expected_manifest_sha256:
+            raise LiveError(
+                f"version {directory.name}: manifest hash mismatch from trusted binding"
+            )
+    manifest = read_json(manifest_path)
     if manifest.get("schema_version") != "live-version-2":
         raise LiveError(
             f"version {directory.name}: unsupported schema {manifest.get('schema_version')!r}"
@@ -549,8 +566,8 @@ def ranking_frontier(rankings: Iterable[Mapping[str, Any]]) -> dict[str, str | N
     return out
 
 
-def load_version(directory: Path) -> dict[str, Any]:
-    manifest = verify_version(directory)
+def load_version(directory: Path, *, expected_manifest_sha256: str | None = None) -> dict[str, Any]:
+    manifest = verify_version(directory, expected_manifest_sha256=expected_manifest_sha256)
     return {
         "manifest": manifest,
         "results": _read_csv(directory / "results.csv"),
