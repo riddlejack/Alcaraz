@@ -885,7 +885,15 @@ def write_configs(
         emitted[name] = {"path": relative_to_root(path), "sha256": atomic_json(path, merged)}
     plan_path = target / "year_plan.json"
     plan_document_out: dict[str, Any] = {"year_plan": plan_document}
-    for key in ("bundles", "blocks", "learners"):
+    for key in (
+        "bundles",
+        "blocks",
+        "learners",
+        "cohort",
+        "primary_contrast",
+        "bootstrap_seed",
+        "bootstrap_unit",
+    ):
         if section.get(key) is not None:
             plan_document_out[key] = list(section[key])
     emitted["year_plan"] = {
