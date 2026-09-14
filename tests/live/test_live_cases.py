@@ -11,6 +11,7 @@ import csv
 import datetime as dt
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -1043,3 +1044,146 @@ def test_escaping_ledger_symlink_is_refused_through_public_verify(ws) -> None:
     err = runner.fails("ledger", "verify", "--config", CONFIG)
     assert "symbolic link" in err
     assert not any(outside.iterdir())
+
+
+# --- second repair attempt: reconstruction F1-F3 -----------------------------------------------
+
+
+def _coherently_rebind_receipt_finish(
+    workspace: Path, version_id: str, *, finished_utc: str
+) -> None:
+    """Plant the review's mutable receipt + version-manifest counterexample."""
+    manifest_path = version_dir(workspace, version_id) / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    binding = manifest["acquisition_receipts"]["wikipedia_results"]
+    receipt_path = workspace / "data" / "live" / binding["path"]
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+    receipt["finished_utc"] = finished_utc
+    receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    binding["finished_utc"] = finished_utc
+    binding["sha256"] = hashlib.sha256(receipt_path.read_bytes()).hexdigest()
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
+
+def test_qualified_version_manifest_digest_is_verified_before_forecast(ws) -> None:
+    workspace, runner = ws
+    updated = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")])
+    runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "b1")
+    ledger_path = workspace / "data" / "live" / "ledger" / "ledger.jsonl"
+    batch_path = workspace / "data" / "live" / "fixtures" / "b1" / "fixtures.jsonl"
+    trusted_ledger = ledger_path.read_bytes()
+    trusted_batch = batch_path.read_bytes()
+
+    _coherently_rebind_receipt_finish(
+        workspace, updated["version_id"], finished_utc="2026-08-10T13:00:00Z"
+    )
+    code, out, err = runner.run("forecast", "--config", CONFIG, "--batch-id", "b1")
+    assert code != 0, f"coherently rehashed version unexpectedly issued\n{out}\n{err}"
+    assert "manifest" in (out + err) and "hash" in (out + err)
+    assert ledger_path.read_bytes() == trusted_ledger
+    assert batch_path.read_bytes() == trusted_batch
+
+
+def test_explicit_settlement_version_uses_prior_manifest_digest(ws) -> None:
+    workspace, runner = ws
+    updated = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    pointer = workspace / "data" / "live" / "versions" / "latest.json"
+    trusted_pointer = pointer.read_bytes()
+    _coherently_rebind_receipt_finish(
+        workspace, updated["version_id"], finished_utc="2026-08-10T13:00:00Z"
+    )
+    code, out, err = runner.run(
+        "settle", "results", "--config", CONFIG, "--version", updated["version_id"]
+    )
+    assert code != 0, f"explicit mutable version unexpectedly loaded\n{out}\n{err}"
+    assert "manifest" in (out + err) and "hash" in (out + err)
+    assert pointer.read_bytes() == trusted_pointer
+
+
+def test_explicit_current_settlement_version_remains_valid(ws) -> None:
+    workspace, runner = ws
+    updated = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    out = runner.ok("settle", "results", "--config", CONFIG, "--version", updated["version_id"])
+    assert out == {"corrected": 0, "final": 0, "no_row": 0, "pending": 0, "provisional": 0}
+
+
+def test_dangling_forecast_output_leaf_cannot_escape_workspace(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")])
+    runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "b1")
+    outside = workspace.parent / "forecast-outside"
+    outside.mkdir()
+    target = outside / "escape.jsonl"
+    leaf = workspace / "data" / "live" / "fixtures" / "b1" / "forecasts.jsonl"
+    leaf.symlink_to(target)
+
+    code, out, err = runner.run("forecast", "--config", CONFIG, "--batch-id", "b1")
+    assert code != 0, f"dangling forecast leaf unexpectedly succeeded\n{out}\n{err}"
+    assert not target.exists()
+
+
+def test_dangling_proof_request_leaf_cannot_escape_workspace(tmp_path: Path, capsys) -> None:
+    control_root = tmp_path / "control"
+    control_root.mkdir()
+    control = world.build_workspace(control_root)
+    control_runner = Runner(control, capsys)
+    update(
+        control_runner,
+        world.replay_dir_for(control, world.complete_rounds(), revision=100),
+    )
+    _, clean = issue_one(control, control_runner)
+    digest = elo_entry(clean)["record_sha256"]
+
+    subject_root = tmp_path / "subject"
+    subject_root.mkdir()
+    workspace = world.build_workspace(subject_root)
+    runner = Runner(workspace, capsys)
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(workspace, [world.fixture_row("f1", "300001", "300004")])
+    runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "b1")
+    outside = workspace.parent / "proof-outside"
+    outside.mkdir()
+    target = outside / "proof.json"
+    leaf = workspace / "data" / "live" / "proofs" / f"{digest}.request.json"
+    leaf.parent.mkdir(parents=True)
+    leaf.symlink_to(target)
+
+    code, out, err = runner.run("forecast", "--config", CONFIG, "--batch-id", "b1")
+    assert code != 0, f"dangling proof leaf unexpectedly succeeded\n{out}\n{err}"
+    assert not target.exists()
+
+
+def test_atomic_pointer_ignores_preplanted_predictable_temporary_symlink(ws) -> None:
+    workspace, runner = ws
+    outside = workspace.parent / "pointer-outside"
+    outside.mkdir()
+    target = outside / "pointer.json"
+    pointer_dir = workspace / "data" / "live" / "sources" / "wikipedia_results"
+    pointer_dir.mkdir(parents=True)
+    planted = pointer_dir / f"latest.json.tmp.{os.getpid()}"
+    planted.symlink_to(target)
+
+    out = update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    pointer = pointer_dir / "latest.json"
+    assert out["status"] == "ok"
+    assert pointer.is_file() and not pointer.is_symlink()
+    assert not target.exists()
+
+
+def test_malformed_timestamp_is_a_typed_fixture_exclusion(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    world.write_fixtures(
+        workspace,
+        [world.fixture_row("malformed", "300001", "300004", start="not-a-timestamp", tz="UTC")],
+    )
+    out = runner.ok("fixture", "--config", CONFIG, "--input", "pending.csv", "--batch-id", "bad")
+    assert out["fixtures"][0]["status"] == "excluded"
+    assert out["fixtures"][0]["reasons"] == ["start_unparseable"]
+    assert not any(
+        json.loads(line)["kind"] == "fixture_qualified" for line in ledger_lines(workspace)
+    )
