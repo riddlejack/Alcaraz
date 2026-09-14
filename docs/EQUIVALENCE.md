@@ -67,4 +67,4 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 
 | Artifact | Status | Cause of difference |
 |---|---|---|
-| forecasts (F2 replay) | pending | |
+| stage-1 forecasts (7,528 rows) and f2 forecasts (8,428 rows), replayed from the archive's `results_stream.csv` through `tennislab.ratings.elo` | identical | none; state hashes through 2026-09-10 match for both tours (`docs/equivalence/notes/elo_baseline.md`) |
