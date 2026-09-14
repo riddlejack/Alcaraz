@@ -157,3 +157,27 @@ validation behavior changed after the immutable run source; formatting and the c
 bridge docstring have no behavioral difference. This avoids mislabelling the execution
 commit as the final documentation/integration commit. Exposure is recorded as
 `REBUILD-B2-ASTRA-001`; these remain retrospective development results.
+
+
+## WTA01 historical campaign input
+
+The additional WTA01 2019–2024 binding was independently reconstructed at `87448ab`,
+then its audit helper was independently repaired and checked at `41b8204`. All 288
+forecast files, ten final reports and 180 training-key files matched exactly. The
+independently derived populations are 12,900 primary and 12,785 priced matches. Fitted
+state uses a specifically adjudicated serialization/signed-zero allowance.
+
+The [binding receipt](equivalence/WTA01-binding_attempt_002/README.md) retains attempts,
+commands, complete inventory and audit controls. The original audit missed changes in
+fitted-parameter and frozen-source metadata; the successor rejects those changes and
+checks actual fitted state, complete artifact inventory and the 18-stage ledger using
+the retained run. No second historical run was needed for that audit repair.
+
+This is a mechanically verified historical input for the proposed E/G work, not its
+acceptance or empirical freeze. Its market-source-conditioned population, mostly
+score-assisted WTA rule provenance, constant dynamic training feature in 2016 and
+unknown quote clocks remain explicit limits. It does not replace the WTA02 results
+presented on the front page. Independent review records in the separate archive are
+`LANE_WTA01_BINDING_RECONSTRUCTION.md` (SHA-256
+`7b234748cf60c87a3999a5bfdbff2b5ea9c2a8201ec6262d25ca398c47f48ba8`) and
+`LANE_WTA01_AUDIT_REPAIR.md`, which links the focused independent successor review.

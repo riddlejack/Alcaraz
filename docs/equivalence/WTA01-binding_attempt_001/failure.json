@@ -1,0 +1,27 @@
+{
+  "attempt_id": "WTA01-BINDING-001",
+  "command": "TENNISLAB_ARCHIVE=<ARCHIVE_ROOT> uv run python tools/wta01_binding.py freeze",
+  "corrected_attempt_required": "WTA01-BINDING-002",
+  "failure": {
+    "failed_check": "scientific_contract_equals_archive",
+    "message": "WTA01 config contract failed: ['scientific_contract_equals_archive']",
+    "only_config_difference": {
+      "archive_value": ".venv/bin/python",
+      "field": "chain.python",
+      "product_value": null
+    }
+  },
+  "observations_before_failure": {
+    "model_stages_run": 0,
+    "outcome_labels_read": 0,
+    "scores_emitted": 0
+  },
+  "product": {
+    "base_commit": "6d0f3adba3c7ca7a44fd8461f667d9f85e61fb08",
+    "config_sha256": "e63d763e06a495d47650c283d8472e5359b839d9644d6381ac0909a2fd28f35f",
+    "equivalence_tool_sha256": "f1e227f12143eebfec4a1887c6202af7bfe88e23c452ee9054b0e04319692299",
+    "freeze_tool_sha256": "7c87962082e2123c578efaca7f9f960de1d588976c938ae408828a62ca3efa45"
+  },
+  "source_archive_commit": "bc403865593fb2c4547ab09abac1024d60feb554",
+  "status": "structural_freeze_failed_before_execution"
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-14 — historical WTA campaign input
+
+- Integrated the independently reconstructed WTA01 2019–2024 binding and its repaired
+  audit helper. Retained every historical attempt and the explicit scientific limits;
+  campaign fitting and external benchmark acceptance remain pending.
+
 ## 2026-09-14 — manual workflow integration and fixture provenance
 
 - Integrated independently accepted synthetic manual workflow repair `5089b24`: immutable

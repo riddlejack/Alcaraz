@@ -1,0 +1,29 @@
+{
+  "attempt_id": "WTA01-BINDING-002",
+  "checks": {
+    "clean_completed_run_passes_repaired_audit": true,
+    "doubled_fit_manifest_learning_rate_is_rejected_by_fit_gate": true,
+    "false_original_design_commit_is_rejected": true,
+    "loaded_model_comparator_controls_pass": true
+  },
+  "false_source_control": {
+    "detected": true,
+    "message": "WTA01 config contract failed: ['frozen_source_exact']",
+    "mutation": "chain.frozen_source.design_git_commit replaced with forty zeros"
+  },
+  "fit_receipt_control": {
+    "acceptance": {
+      "chain_integrity_check": false,
+      "fit_check": false,
+      "status": "failed"
+    },
+    "after": 0.1,
+    "before": 0.05,
+    "detected": true,
+    "manifest": "work/WTA01/run_001_primary/run/pipeline/fit_cache/05ecc8c37fd3a3b8b58196a7ae474d65b9e8765c03c48cc17f26658d2debc838/fit_manifest.json",
+    "mutation": "estimator_get_params.learning_rate doubled in an isolated overlay",
+    "note": "This checks the historical audit and fit gate; it is not a claim that the chain verifier ignores tampering."
+  },
+  "scope": "Read-only controls against the retained completed reconstruction; no fit, forecast or canonical artifact is modified.",
+  "status": "audit_repair_controls_passed"
+}
