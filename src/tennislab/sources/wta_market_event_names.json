@@ -1,0 +1,1390 @@
+{
+  "basis": "latest accepted crosswalk edition per mirror event code, seasons 2016-2024 (the legacy pre-2016 tourney_id scheme carries no event code)",
+  "events": {
+    "0300": {
+      "market_event_number": "55",
+      "market_location": "Luxembourg",
+      "market_tournament": "BGL BNP Paribas Luxembourg Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0300",
+      "tourney_name": "Luxembourg"
+    },
+    "0405": {
+      "market_event_number": "44",
+      "market_location": "Hiroshima",
+      "market_tournament": "Japan Women's Tennis Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0405",
+      "tourney_name": "Hiroshima"
+    },
+    "0406": {
+      "market_event_number": "21",
+      "market_location": "Strasbourg",
+      "market_tournament": "Internationaux de Strasbourg",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-0406",
+      "tourney_name": "Strasbourg"
+    },
+    "0466": {
+      "market_event_number": "14",
+      "market_location": "Palermo",
+      "market_tournament": "Internazionali Femminili di Palermo",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-0466",
+      "tourney_name": "Palermo"
+    },
+    "0528": {
+      "market_event_number": "53",
+      "market_location": "Linz",
+      "market_tournament": "Generali Ladies Linz",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0528",
+      "tourney_name": "Linz"
+    },
+    "0602": {
+      "market_event_number": "43",
+      "market_location": "New Haven",
+      "market_tournament": "Connecticut Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2018,
+      "status": "accepted",
+      "tourney_id": "2018-0602",
+      "tourney_name": "New Haven"
+    },
+    "0656": {
+      "market_event_number": "46",
+      "market_location": "Quebec",
+      "market_tournament": "Coupe Banque Nationale",
+      "round_alignment": "absolute_round_label",
+      "season": 2018,
+      "status": "accepted",
+      "tourney_id": "2018-0656",
+      "tourney_name": "Quebec City"
+    },
+    "0703": {
+      "market_event_number": "38",
+      "market_location": "San Jose",
+      "market_tournament": "Mubadala Silicon Valley Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0703",
+      "tourney_name": "San Jose"
+    },
+    "0710": {
+      "market_event_number": "33",
+      "market_location": "Eastbourne",
+      "market_tournament": "AEGON International",
+      "round_alignment": "absolute_round_label",
+      "season": 2016,
+      "status": "accepted",
+      "tourney_id": "2016-0710",
+      "tourney_name": "Eastbourne"
+    },
+    "0718": {
+      "market_event_number": "9",
+      "market_location": "Dubai",
+      "market_tournament": "Dubai Duty Free Tennis Championships",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-0718",
+      "tourney_name": "Dubai"
+    },
+    "0800": {
+      "market_event_number": "2",
+      "market_location": "Brisbane",
+      "market_tournament": "Brisbane International",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-0800",
+      "tourney_name": "Brisbane"
+    },
+    "0804": {
+      "market_event_number": "15",
+      "market_location": "Charleston",
+      "market_tournament": "Family Circle Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0804",
+      "tourney_name": "Charleston"
+    },
+    "0806": {
+      "market_event_number": "40",
+      "market_location": "Toronto",
+      "market_tournament": "Rogers Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0806",
+      "tourney_name": "Toronto"
+    },
+    "0808": {
+      "market_event_number": "58",
+      "market_location": "Shenzhen",
+      "market_tournament": "WTA Finals",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0808",
+      "tourney_name": "Shenzhen Finals"
+    },
+    "0825": {
+      "market_event_number": "50",
+      "market_location": "Tashkent",
+      "market_tournament": "Tashkent Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0825",
+      "tourney_name": "Tashkent"
+    },
+    "0894": {
+      "market_event_number": "17",
+      "market_location": "Bogota",
+      "market_tournament": "Copa Claro Colsanitas",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-0894",
+      "tourney_name": "Bogota"
+    },
+    "1003": {
+      "market_event_number": "10",
+      "market_location": "Doha",
+      "market_tournament": "Qatar Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1003",
+      "tourney_name": "Doha"
+    },
+    "1005": {
+      "market_event_number": "22",
+      "market_location": "Rabat",
+      "market_tournament": "Morocco Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1005",
+      "tourney_name": "Rabat"
+    },
+    "1017": {
+      "market_event_number": "38",
+      "market_location": "Cincinnati",
+      "market_tournament": "Western & Southern Financial Group Women's Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1017",
+      "tourney_name": "Cincinnati"
+    },
+    "1020": {
+      "market_event_number": "46",
+      "market_location": "Beijing",
+      "market_tournament": "China Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1020",
+      "tourney_name": "Beijing"
+    },
+    "1023": {
+      "market_event_number": "50",
+      "market_location": "Guangzhou",
+      "market_tournament": "Guangzhou Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1023",
+      "tourney_name": "Guangzhou"
+    },
+    "1024": {
+      "market_event_number": "45",
+      "market_location": "Seoul",
+      "market_tournament": "Korea Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1024",
+      "tourney_name": "Seoul"
+    },
+    "1027": {
+      "market_event_number": "19",
+      "market_location": "Istanbul",
+      "market_tournament": "Istanbul Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1027",
+      "tourney_name": "Istanbul"
+    },
+    "1038": {
+      "market_event_number": "20",
+      "market_location": "Madrid",
+      "market_tournament": "Mutua Madrid Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1038",
+      "tourney_name": "Madrid"
+    },
+    "1039": {
+      "market_event_number": "40",
+      "market_location": "Monterrey",
+      "market_tournament": "Monterrey Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1039",
+      "tourney_name": "Monterrey"
+    },
+    "1041": {
+      "market_event_number": "13",
+      "market_location": "Kuala Lumpur",
+      "market_tournament": "Malaysia Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2017,
+      "status": "accepted",
+      "tourney_id": "2017-1041",
+      "tourney_name": "Kuala Lumpur"
+    },
+    "1045": {
+      "market_event_number": "36",
+      "market_location": "Washington",
+      "market_tournament": "Citi Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1045",
+      "tourney_name": "Washington"
+    },
+    "1048": {
+      "market_event_number": "37",
+      "market_location": "Bastad",
+      "market_tournament": "Ericsson Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2017,
+      "status": "accepted",
+      "tourney_id": "2017-1048",
+      "tourney_name": "Bastad"
+    },
+    "1049": {
+      "market_event_number": "1",
+      "market_location": "Auckland",
+      "market_tournament": "ASB Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1049",
+      "tourney_name": "Auckland"
+    },
+    "1050": {
+      "market_event_number": "4",
+      "market_location": "Hobart",
+      "market_tournament": "Hobart International",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1050",
+      "tourney_name": "Hobart"
+    },
+    "1051": {
+      "market_event_number": "19",
+      "market_location": "Stuttgart",
+      "market_tournament": "Porsche Tennis Grand Prix",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1051",
+      "tourney_name": "Stuttgart"
+    },
+    "1052": {
+      "market_event_number": "28",
+      "market_location": "Birmingham",
+      "market_tournament": "Rothesay Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1052",
+      "tourney_name": "Birmingham"
+    },
+    "1056": {
+      "market_event_number": "51",
+      "market_location": "Tokyo",
+      "market_tournament": "Toray Pan Pacific Open Tennis Tournament",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1056",
+      "tourney_name": "Tokyo"
+    },
+    "1063": {
+      "market_event_number": "3",
+      "market_location": "Shenzhen",
+      "market_tournament": "Shenzhen Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-1063",
+      "tourney_name": "Shenzhen"
+    },
+    "1064": {
+      "market_event_number": "41",
+      "market_location": "Florianopolis",
+      "market_tournament": "Brasil Tennis Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2016,
+      "status": "accepted",
+      "tourney_id": "2016-1064",
+      "tourney_name": "Florianopolis"
+    },
+    "1067": {
+      "market_event_number": "18",
+      "market_location": "Katowice",
+      "market_tournament": "Katowice Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2016,
+      "status": "accepted",
+      "tourney_id": "2016-1067",
+      "tourney_name": "Katowice"
+    },
+    "1068": {
+      "market_event_number": "25",
+      "market_location": "N\u00fcrnberg",
+      "market_tournament": "N\u00fcrnberger Versicherungscup",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1068",
+      "tourney_name": "Nurnberg"
+    },
+    "1074": {
+      "market_event_number": "52",
+      "market_location": "Hong Kong",
+      "market_tournament": "Hong Kong Tennis Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1074",
+      "tourney_name": "Hong Kong"
+    },
+    "1075": {
+      "market_event_number": "47",
+      "market_location": "Wuhan",
+      "market_tournament": "Wuhan Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1075",
+      "tourney_name": "Wuhan"
+    },
+    "1076": {
+      "market_event_number": "54",
+      "market_location": "Tianjin",
+      "market_tournament": "Tianjin Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1076",
+      "tourney_name": "Tianjin"
+    },
+    "1077": {
+      "market_event_number": "53",
+      "market_location": "Jiujiang",
+      "market_tournament": "Jiangxi Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1077",
+      "tourney_name": "Jiujiang"
+    },
+    "1079": {
+      "market_event_number": "34",
+      "market_location": "Bucharest",
+      "market_tournament": "Bucharest Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1079",
+      "tourney_name": "Bucharest"
+    },
+    "1080": {
+      "market_event_number": "26",
+      "market_location": "Nottingham",
+      "market_tournament": "Nottingham Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1080",
+      "tourney_name": "Nottingham"
+    },
+    "1081": {
+      "market_event_number": "56",
+      "market_location": "Zhuhai",
+      "market_tournament": "WTA Elite Trophy",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-1081",
+      "tourney_name": "Zhuhai"
+    },
+    "1082": {
+      "market_event_number": "35",
+      "market_location": "Prague",
+      "market_tournament": "Prague Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1082",
+      "tourney_name": "Prague"
+    },
+    "1086": {
+      "market_event_number": "7",
+      "market_location": "St. Petersburg",
+      "market_tournament": "Ladies Trophy",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-1086",
+      "tourney_name": "St. Petersburg"
+    },
+    "1087": {
+      "market_event_number": "8",
+      "market_location": "Kaohsiung",
+      "market_tournament": "Taiwan Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2016,
+      "status": "accepted",
+      "tourney_id": "2016-1087",
+      "tourney_name": "Kaohsiung"
+    },
+    "1091": {
+      "market_event_number": "31",
+      "market_location": "Mallorca",
+      "market_tournament": "Mallorca Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1091",
+      "tourney_name": "Mallorca"
+    },
+    "1094": {
+      "market_event_number": "35",
+      "market_location": "Lausanne",
+      "market_tournament": "Ladies Open Lausanne",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-1094",
+      "tourney_name": "Lausanne"
+    },
+    "1096": {
+      "market_event_number": "6",
+      "market_location": "Hua Hin",
+      "market_tournament": "Thailand Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1096",
+      "tourney_name": "Hua Hin"
+    },
+    "1097": {
+      "market_event_number": "10",
+      "market_location": "Budapest",
+      "market_tournament": "Hungarian Ladies Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1097",
+      "tourney_name": "Budapest"
+    },
+    "1098": {
+      "market_event_number": "18",
+      "market_location": "Biel",
+      "market_tournament": "Ladies Open Biel Bienne",
+      "round_alignment": "absolute_round_label",
+      "season": 2017,
+      "status": "accepted",
+      "tourney_id": "2017-1098",
+      "tourney_name": "Biel"
+    },
+    "1101": {
+      "market_event_number": "18",
+      "market_location": "Lugano",
+      "market_tournament": "Samsung Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-1101",
+      "tourney_name": "Lugano"
+    },
+    "1105": {
+      "market_event_number": "37",
+      "market_location": "Moscow",
+      "market_tournament": "Moscow River Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2018,
+      "status": "accepted",
+      "tourney_id": "2018-1105",
+      "tourney_name": "Moscow"
+    },
+    "1121": {
+      "market_event_number": "44",
+      "market_location": "Hua Hin",
+      "market_tournament": "Thailand Open 2",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-1121",
+      "tourney_name": "Hua Hin 2"
+    },
+    "2002": {
+      "market_event_number": "10",
+      "market_location": "Guadalajara",
+      "market_tournament": "Abierto Zapopan",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2002",
+      "tourney_name": "Guadalajara"
+    },
+    "2006": {
+      "market_event_number": "36",
+      "market_location": "Jurmala",
+      "market_tournament": "Baltic Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-2006",
+      "tourney_name": "Jurmala"
+    },
+    "2008": {
+      "market_event_number": "52",
+      "market_location": "Zhengzhou",
+      "market_tournament": "Zhengzhou Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-2008",
+      "tourney_name": "Zhengzhou"
+    },
+    "2010": {
+      "market_event_number": "42",
+      "market_location": "New York",
+      "market_tournament": "Bronx Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-2010",
+      "tourney_name": "New York"
+    },
+    "2011": {
+      "market_event_number": "7",
+      "market_location": "Lyon",
+      "market_tournament": "Lyon Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-2011",
+      "tourney_name": "Lyon"
+    },
+    "2012": {
+      "market_event_number": "27",
+      "market_location": "Berlin",
+      "market_tournament": "German Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2012",
+      "tourney_name": "Berlin"
+    },
+    "2014": {
+      "market_event_number": "3",
+      "market_location": "Adelaide",
+      "market_tournament": "Adelaide International",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2014",
+      "tourney_name": "Adelaide"
+    },
+    "2017": {
+      "market_event_number": "29",
+      "market_location": "Bad Homburg",
+      "market_tournament": "Bad Homburg Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2017",
+      "tourney_name": "Bad Homburg"
+    },
+    "2020": {
+      "market_event_number": "17",
+      "market_location": "Istanbul",
+      "market_tournament": "Istanbul Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2020",
+      "tourney_name": "Istanbul"
+    },
+    "2022": {
+      "market_event_number": "15",
+      "market_location": "Lexington",
+      "market_tournament": "Top Seed Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-2022",
+      "tourney_name": "Lexington"
+    },
+    "2025": {
+      "market_event_number": "51",
+      "market_location": "Ostrava",
+      "market_tournament": "Ostrava Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2025",
+      "tourney_name": "Ostrava"
+    },
+    "2026": {
+      "market_event_number": "4",
+      "market_location": "Melbourne",
+      "market_tournament": "Yarra Valley Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2026",
+      "tourney_name": "Yarra Valley Classic"
+    },
+    "2027": {
+      "market_event_number": "6",
+      "market_location": "Melbourne",
+      "market_tournament": "Phillip Island Trophy",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2027",
+      "tourney_name": "Phillip Island Trophy"
+    },
+    "2028": {
+      "market_event_number": "1",
+      "market_location": "Abu Dhabi",
+      "market_tournament": "Abu Dhabi WTA Women's Tennis Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2028",
+      "tourney_name": "Abu Dhabi"
+    },
+    "2029": {
+      "market_event_number": "3",
+      "market_location": "Melbourne",
+      "market_tournament": "Gippsland Trophy",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2029",
+      "tourney_name": "Gippsland Trophy"
+    },
+    "2030": {
+      "market_event_number": "4",
+      "market_location": "Adelaide",
+      "market_tournament": "Adelaide International 1",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted_split",
+      "tourney_id": "2022-2030",
+      "tourney_name": "Adelaide 2"
+    },
+    "2032": {
+      "market_event_number": "2",
+      "market_location": "Melbourne",
+      "market_tournament": "Grampians Trophy",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2032",
+      "tourney_name": "Grampians Trophy"
+    },
+    "2033": {
+      "market_event_number": "17",
+      "market_location": "Charleston",
+      "market_tournament": "MUSC Health Women's Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2033",
+      "tourney_name": "Charleston 2"
+    },
+    "2035": {
+      "market_event_number": "22",
+      "market_location": "Belgrade",
+      "market_tournament": "Serbia Ladies Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2035",
+      "tourney_name": "Belgrade"
+    },
+    "2036": {
+      "market_event_number": "32",
+      "market_location": "Budapest",
+      "market_tournament": "Budapest Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2036",
+      "tourney_name": "Budapest"
+    },
+    "2037": {
+      "market_event_number": "36",
+      "market_location": "Warsaw",
+      "market_tournament": "Poland Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-2037",
+      "tourney_name": "Warsaw"
+    },
+    "2040": {
+      "market_event_number": "39",
+      "market_location": "Cleveland",
+      "market_tournament": "Tennis in the Land",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2040",
+      "tourney_name": "Cleveland"
+    },
+    "2041": {
+      "market_event_number": "48",
+      "market_location": "Parma",
+      "market_tournament": "Parma Ladies Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2041",
+      "tourney_name": "Parma"
+    },
+    "2042": {
+      "market_event_number": "34",
+      "market_location": "Hamburg",
+      "market_tournament": "European Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2023,
+      "status": "accepted",
+      "tourney_id": "2023-2042",
+      "tourney_name": "Hamburg"
+    },
+    "2044": {
+      "market_event_number": "45",
+      "market_location": "Portoroz",
+      "market_tournament": "Slovenia Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2044",
+      "tourney_name": "Portoroz"
+    },
+    "2046": {
+      "market_event_number": "54",
+      "market_location": "Courmayeur",
+      "market_tournament": "Courmayeur Ladies Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2046",
+      "tourney_name": "Courmayeur"
+    },
+    "2047": {
+      "market_event_number": "42",
+      "market_location": "Chicago",
+      "market_tournament": "Chicago Women's Opeen",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2047",
+      "tourney_name": "Chicago 1"
+    },
+    "2048": {
+      "market_event_number": "48",
+      "market_location": "Chicago",
+      "market_tournament": "Chicago Fall Tennis Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2048",
+      "tourney_name": "Chicago 2"
+    },
+    "2049": {
+      "market_event_number": "52",
+      "market_location": "Tenerife",
+      "market_tournament": "Tenerife Ladies Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2049",
+      "tourney_name": "Tenerife"
+    },
+    "2050": {
+      "market_event_number": "9",
+      "market_location": "Cluj-Napoca",
+      "market_tournament": "Transylvania Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2050",
+      "tourney_name": "Cluj-Napoca"
+    },
+    "2053": {
+      "market_event_number": "49",
+      "market_location": "Nur-Sultan",
+      "market_tournament": "Astana Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-2053",
+      "tourney_name": "Nur-Sultan"
+    },
+    "2058": {
+      "market_event_number": "2",
+      "market_location": "Melbourne",
+      "market_tournament": "Melbourne Summer Set 1",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2058",
+      "tourney_name": "Melbourne 1"
+    },
+    "2059": {
+      "market_event_number": "3",
+      "market_location": "Melbourne",
+      "market_tournament": "Melbourne Summer Set 2",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2059",
+      "tourney_name": "Melbourne 2"
+    },
+    "2060": {
+      "market_event_number": "5",
+      "market_location": "Sydney",
+      "market_tournament": "Sydney Tennis Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2060",
+      "tourney_name": "Sydney"
+    },
+    "2063": {
+      "market_event_number": "34",
+      "market_location": "Iasi",
+      "market_tournament": "Iasi Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2063",
+      "tourney_name": "Iasi"
+    },
+    "2066": {
+      "market_event_number": "18",
+      "market_location": "Rouen",
+      "market_tournament": "Open de Rouen",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2066",
+      "tourney_name": "Rouen"
+    },
+    "2070": {
+      "market_event_number": "42",
+      "market_location": "Granby",
+      "market_tournament": "Championnats de Granby",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2070",
+      "tourney_name": "Granby"
+    },
+    "2072": {
+      "market_event_number": "43",
+      "market_location": "Monastir",
+      "market_tournament": "Jasmin Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2072",
+      "tourney_name": "Monastir"
+    },
+    "2073": {
+      "market_event_number": "49",
+      "market_location": "Tallinn",
+      "market_tournament": "Tallinn Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2073",
+      "tourney_name": "Tallinn"
+    },
+    "2074": {
+      "market_event_number": "13",
+      "market_location": "San Diego",
+      "market_tournament": "San Diego Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2074",
+      "tourney_name": "San Diego"
+    },
+    "2075": {
+      "market_event_number": "42",
+      "market_location": "Guadalajara",
+      "market_tournament": "Guadalajara Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2075",
+      "tourney_name": "Guadalajara"
+    },
+    "2078": {
+      "market_event_number": "44",
+      "market_location": "Chennai",
+      "market_tournament": "Chennai Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-2078",
+      "tourney_name": "Chennai"
+    },
+    "2082": {
+      "market_event_number": "12",
+      "market_location": "Austin",
+      "market_tournament": "ATX Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2082",
+      "tourney_name": "Austin"
+    },
+    "2085": {
+      "market_event_number": "54",
+      "market_location": "Merida",
+      "market_tournament": "Merida Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2085",
+      "tourney_name": "Merida"
+    },
+    "2088": {
+      "market_event_number": "8",
+      "market_location": "Abu Dhabi",
+      "market_tournament": "Abu Dhabi WTA Women's Tennis Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2088",
+      "tourney_name": "Abu Dhabi"
+    },
+    "2092": {
+      "market_event_number": "48",
+      "market_location": "Ningbo",
+      "market_tournament": "Ningbo Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-2092",
+      "tourney_name": "Ningbo"
+    },
+    "300": {
+      "market_event_number": "45",
+      "market_location": "Luxembourg",
+      "market_tournament": "Luxembourg Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-300",
+      "tourney_name": "Luxembourg"
+    },
+    "405": {
+      "market_event_number": "49",
+      "market_location": "Osaka",
+      "market_tournament": "Japan Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-405",
+      "tourney_name": "Osaka"
+    },
+    "406": {
+      "market_event_number": "23",
+      "market_location": "Strasbourg",
+      "market_tournament": "Internationaux de Strasbourg",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-406",
+      "tourney_name": "Strasbourg"
+    },
+    "466": {
+      "market_event_number": "33",
+      "market_location": "Palermo",
+      "market_tournament": "Internazionali Femminili di Palermo",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-466",
+      "tourney_name": "Palermo"
+    },
+    "520": {
+      "market_event_number": "24",
+      "market_location": "Paris",
+      "market_tournament": "French Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-520",
+      "tourney_name": "Roland Garros"
+    },
+    "528": {
+      "market_event_number": "7",
+      "market_location": "Linz",
+      "market_tournament": "Ladies Linz Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-528",
+      "tourney_name": "Linz"
+    },
+    "540": {
+      "market_event_number": "31",
+      "market_location": "London",
+      "market_tournament": "Wimbledon",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-540",
+      "tourney_name": "Wimbledon"
+    },
+    "560": {
+      "market_event_number": "41",
+      "market_location": "New York",
+      "market_tournament": "US Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-560",
+      "tourney_name": "Us Open"
+    },
+    "580": {
+      "market_event_number": "5",
+      "market_location": "Melbourne",
+      "market_tournament": "Australian Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-580",
+      "tourney_name": "Australian Open"
+    },
+    "609": {
+      "market_event_number": "14",
+      "market_location": "Indian Wells",
+      "market_tournament": "BNP Paribas Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-609",
+      "tourney_name": "Indian Wells"
+    },
+    "703": {
+      "market_event_number": "37",
+      "market_location": "San Jose",
+      "market_tournament": "Mubadala Silicon Valley Classic",
+      "round_alignment": "absolute_round_label",
+      "season": 2022,
+      "status": "accepted",
+      "tourney_id": "2022-703",
+      "tourney_name": "San Jose"
+    },
+    "709": {
+      "market_event_number": "21",
+      "market_location": "Rome",
+      "market_tournament": "Internazionali BNL d'Italia",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-709",
+      "tourney_name": "Rome"
+    },
+    "710": {
+      "market_event_number": "30",
+      "market_location": "Eastbourne",
+      "market_tournament": "Rothesay International",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-710",
+      "tourney_name": "Eastbourne"
+    },
+    "718": {
+      "market_event_number": "11",
+      "market_location": "Dubai",
+      "market_tournament": "Dubai Duty Free Tennis Championships",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-718",
+      "tourney_name": "Dubai"
+    },
+    "730": {
+      "market_event_number": "51",
+      "market_location": "Moscow",
+      "market_tournament": "Kremlin Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2021,
+      "status": "accepted",
+      "tourney_id": "2021-730",
+      "tourney_name": "Moscow"
+    },
+    "800": {
+      "market_event_number": "2",
+      "market_location": "Brisbane",
+      "market_tournament": "Brisbane International",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-800",
+      "tourney_name": "Brisbane"
+    },
+    "804": {
+      "market_event_number": "17",
+      "market_location": "Charleston",
+      "market_tournament": "Charleston Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-804",
+      "tourney_name": "Charleston"
+    },
+    "806": {
+      "market_event_number": "37",
+      "market_location": "Toronto",
+      "market_tournament": "Canadian Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-806",
+      "tourney_name": "Toronto"
+    },
+    "808": {
+      "market_event_number": "55",
+      "market_location": "Riyadh",
+      "market_tournament": "WTA Finals",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-808",
+      "tourney_name": "Riyadh Finals"
+    },
+    "822": {
+      "market_event_number": "25",
+      "market_location": "'s-Hertogenbosch",
+      "market_tournament": "Rosmalen Grass Court Championships",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-822",
+      "tourney_name": "s Hertogenbosch"
+    },
+    "894": {
+      "market_event_number": "16",
+      "market_location": "Bogota",
+      "market_tournament": "Copa Colsanitas",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-894",
+      "tourney_name": "Bogota"
+    },
+    "902": {
+      "market_event_number": "15",
+      "market_location": "Miami",
+      "market_tournament": "Miami Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2024,
+      "status": "accepted",
+      "tourney_id": "2024-902",
+      "tourney_name": "Miami"
+    },
+    "M001": {
+      "market_event_number": "5",
+      "market_location": "Sydney",
+      "market_tournament": "Sydney International",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M001",
+      "tourney_name": "Sydney"
+    },
+    "M004": {
+      "market_event_number": "10",
+      "market_location": "Acapulco",
+      "market_tournament": "Abierto Mexicano",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-M004",
+      "tourney_name": "Acapulco"
+    },
+    "M006": {
+      "market_event_number": "13",
+      "market_location": "Indian Wells",
+      "market_tournament": "BNP Paribas Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M006",
+      "tourney_name": "Indian Wells"
+    },
+    "M007": {
+      "market_event_number": "14",
+      "market_location": "Miami",
+      "market_tournament": "Sony Ericsson Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M007",
+      "tourney_name": "Miami"
+    },
+    "M009": {
+      "market_event_number": "20",
+      "market_location": "Rome",
+      "market_tournament": "Internazionali BNL d'Italia",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-M009",
+      "tourney_name": "Rome"
+    },
+    "M010": {
+      "market_event_number": "28",
+      "market_location": "'s-Hertogenbosch",
+      "market_tournament": "Rosmalen Grass Court Championships",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M010",
+      "tourney_name": "S-Hertogenbosch"
+    },
+    "M014": {
+      "market_event_number": "56",
+      "market_location": "Moscow",
+      "market_tournament": "Kremlin Cup",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M014",
+      "tourney_name": "Moscow"
+    },
+    "M015": {
+      "market_event_number": "52",
+      "market_location": "Beijing",
+      "market_tournament": "China Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M015",
+      "tourney_name": "Beijing"
+    },
+    "M016": {
+      "market_event_number": "32",
+      "market_location": "Eastbourne",
+      "market_tournament": "Eastbourne International",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M016",
+      "tourney_name": "Eastbourne"
+    },
+    "M020": {
+      "market_event_number": "2",
+      "market_location": "Brisbane",
+      "market_tournament": "Brisbane International",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M020",
+      "tourney_name": "Brisbane"
+    },
+    "M021": {
+      "market_event_number": "23",
+      "market_location": "Madrid",
+      "market_tournament": "Mutua Madrid Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M021",
+      "tourney_name": "Madrid"
+    },
+    "M024": {
+      "market_event_number": "17",
+      "market_location": "New York",
+      "market_tournament": "Western & Southern Financial Group Women's Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-M024",
+      "tourney_name": "Cincinnati"
+    },
+    "M035": {
+      "market_event_number": "39",
+      "market_location": "Washington",
+      "market_tournament": "Citi Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2019,
+      "status": "accepted",
+      "tourney_id": "2019-M035",
+      "tourney_name": "Washington"
+    },
+    "M052": {
+      "market_event_number": "10",
+      "market_location": "Rio de Janeiro",
+      "market_tournament": "Rio Open",
+      "round_alignment": "absolute_round_label",
+      "season": 2016,
+      "status": "accepted",
+      "tourney_id": "2016-M052",
+      "tourney_name": "Rio de Janeiro"
+    },
+    "M056": {
+      "market_event_number": "4",
+      "market_location": "Adelaide",
+      "market_tournament": "Adelaide International",
+      "round_alignment": "absolute_round_label",
+      "season": 2020,
+      "status": "accepted",
+      "tourney_id": "2020-M056",
+      "tourney_name": "Adelaide"
+    }
+  },
+  "id": "WTA02-market-event-names",
+  "source": {
+    "path": "references/WTA01_event_map/wta_event_crosswalk.csv",
+    "sha256": "8e8c776de46c1c58e1283b3e9816ac9cd5d9cbf2d4d4eeff49ab98533aba98e2"
+  }
+}
