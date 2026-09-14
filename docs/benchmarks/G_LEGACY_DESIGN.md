@@ -105,6 +105,11 @@ Filter it to the exact frozen primary target keys; missing, duplicate, nonfinite
 keys after filtering are fatal. No refit occurs. The procedure retains the frozen TIER01
 or WTA01 selection history and is not relabeled as a reconstruction.
 
+Native dispatch is part of that binding: TIER01's predictor settings intentionally omit
+the `tour` key, which activates its ATP tier-capable contract, while WTA01 explicitly sets
+`tour=WTA` and uses the non-tier `full` block. The adapter verifies this asymmetry and must
+not add an explicit ATP tour setting to the legacy configuration.
+
 ### 4.2 K32 Elo (`k32_pooled`)
 
 Initial rating 1500, scale 400, constant `K=32`. Maintain overall and surface ratings.
@@ -208,7 +213,8 @@ These are admission failures retained in the report, not silently omitted rows.
 
 ## 5. Common calibration and fallback
 
-Each service exposes a raw probability. Separately for each tour, service, and outer year
+Each reconstructed comparator exposes a raw probability. Separately for each tour,
+comparator, and outer year
 `y`, fit one nonnegative slope with no intercept on the pooled matches from the three
 complete calendar years `y-3..y-1`:
 
@@ -221,6 +227,13 @@ the existing `tennislab.dynamics.market.fit` implementation. An all-zero raw-log
 uses its fixed unit-slope rule. A valid boundary optimum at `alpha=0` is retained and emits
 0.5 for every target. Empty/incomplete calibration years, nonfinite inputs, or optimizer
 failure are fatal for that service/year and retained as a failed attempt.
+
+The frozen incumbent is not post-hoc recalibrated: its selected HGB probabilities are the
+comparison anchor and pass through unchanged. The `raw_incumbent` and
+`calibrated_incumbent` columns are therefore byte-equivalent aliases. This avoids a new
+nuisance fit that was not part of the frozen incumbent procedure while giving every
+reconstruction the same three-prior-year calibration opportunity used in the legacy
+selection machinery.
 
 There is no last-minute substitution. The only per-match missingness fallbacks are the
 declared rank 0.5 rule, fresh-player 1500 ratings, FiveThirtyEight unknown-surface overall
@@ -279,7 +292,8 @@ grid length. Primary mean block length `L=8`; sensitivity `L in {4, 13}`.
   absolute centered studentized statistic across the fixed five-contrast family. Apply
   that one critical value to every family member. A contrast with standard error at or
   below `1e-15` gets the point interval, is marked degenerate, and is excluded from the
-  max-t maximum. If every contrast is degenerate, the critical value is zero.
+  max-t maximum. The empirical quantile uses NumPy's deterministic `linear` method. If
+  every contrast is degenerate, the critical value is zero.
 - Missing service rows are fatal; fallback rules ensure matched populations rather than
   changing denominators.
 
