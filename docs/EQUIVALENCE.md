@@ -27,11 +27,11 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 | 11 | edition_index | explained | 1/4 identical | wall-clock stamp removed (RB6); summary.json gains two WTA02 keys and the dependent index hash |
 | 12 | features | explained | 7/10 identical | manifest.json code receipt, declared binding, workspace-relative output_dir; summary.json gains one WTA02 key |
 | 13 | sidecar | explained | 8/9 identical | manifest.json executed_builder code receipt |
-| 14 | tier_stream | pending | | |
-| 15 | tier_elo | pending | | |
+| 14 | tier_stream | explained | 7/8 identical | summary.json code receipts |
+| 15 | tier_elo | explained | 5/6 identical | summary.json code receipts, the recorded elo_engine binding and the label-accessor receipt |
 | 16 | sr02_tier_replay | explained | 8/9 identical | run_manifest.json code receipts and declared binding |
 | 17 | sr02_tier_noqual_replay | explained | 8/9 identical | run_manifest.json code receipts and declared binding |
-| 18 | tier_block | pending | | |
+| 18 | tier_block | explained | 7/8 identical | summary.json code receipts |
 | 19 | predictor_config | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
 | 20 | preflight | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
 | 21 | pipeline | explained | 407/740 identical | every prediction CSV, selection/shared/market record and training-key file identical; differing: fit timing fields, the pickled estimator cache (module path), config_path and code receipts cascading into ledgers |
