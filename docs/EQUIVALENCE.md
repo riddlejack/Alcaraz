@@ -34,10 +34,10 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 | 18 | tier_block | pending | | |
 | 19 | predictor_config | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
 | 20 | preflight | explained | 1/2 identical | provenance leaves; see docs/equivalence/notes |
-| 21 | pipeline | pending | | |
+| 21 | pipeline | explained | 407/740 identical | every prediction CSV, selection/shared/market record and training-key file identical; differing: fit timing fields, the pickled estimator cache (module path), config_path and code receipts cascading into ledgers |
 | 22 | barrier | n/a | no outputs | the barrier hashes the run tree; verified by `chain.runner verify` |
-| 23 | reporting_config | pending | | |
-| 24 | report | pending | | |
+| 23 | reporting_config | explained | 1/2 identical | side config: code receipt, frozen_at_utc |
+| 24 | report | explained | 13/16 identical | start.json and result.json timestamps and reporter hash, artifact_manifest follows; primary.json, pooled_metrics.csv, bootstrap.csv, reliability.csv, report.md and stdout identical |
 
 ## WTA — `WTA02/attempt_002`
 
@@ -56,12 +56,12 @@ wall-clock timestamps, and the run root path when it is written into a manifest.
 | 11 | edition_index | explained | 1/4 identical | wall-clock stamp removed (RB6); summary.json gains two WTA02 keys and the dependent index hash |
 | 12 | features | explained | 8/10 identical | manifest.json code receipt, declared binding, workspace-relative output_dir; summary.json gains one WTA02 key |
 | 13 | sidecar | explained | 8/9 identical | manifest.json executed_builder code receipt |
-| 14 | predictor_config | pending | | |
-| 15 | preflight | pending | | |
-| 16 | pipeline | pending | | |
+| 14 | predictor_config | explained | 1/2 identical | side config: code receipt, created_at_utc; every binding and count identical |
+| 15 | preflight | explained | 1/2 identical | stdout: relative config_path, declared binding and code receipt replace two hash leaves; membership identical |
+| 16 | pipeline | explained | 273/576 identical | every prediction CSV, selection/shared/market record and training-key file identical; differing: fit timing fields, the pickled estimator cache (module path), config_path and code receipts cascading into ledgers |
 | 17 | barrier | n/a | no outputs | the barrier hashes the run tree; verified by `chain.runner verify` |
-| 18 | reporting_config | pending | | |
-| 19 | report | pending | | |
+| 18 | reporting_config | explained | 1/2 identical | side config: code receipt, frozen_at_utc |
+| 19 | report | explained | 13/16 identical | start.json and result.json timestamps and reporter hash, artifact_manifest follows; primary.json, pooled_metrics.csv, bootstrap.csv, reliability.csv, report.md and stdout identical |
 
 ## Elo baseline — `CONFIRM2026/elo_001`
 
