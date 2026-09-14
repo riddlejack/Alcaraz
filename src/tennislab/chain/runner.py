@@ -13,8 +13,17 @@ are chained: each entry in ``chain_ledger.jsonl`` carries the sha256 of the prev
 entry, so the ledger cannot be rewritten in the middle without detection.
 
 ``run`` stops at ``reporting_config``. ``report`` is a separate command: the only path
-that runs ``tennislab.evaluation.report``, the only module that scores a target year's
-labels. ``run --include-report`` is the unattended end-to-end path and says so.
+that runs the post-barrier stages, ``tennislab.evaluation.report`` (the only module that
+scores a target year's labels) and ``sr03_component`` (the SR03 component metrics from
+the calibration stage's persisted predictions). ``run --include-report`` is the
+unattended end-to-end path and says so.
+
+Decision RB14: every stage runs with an access log (``TENNISLAB_ACCESS_LOG``); the
+driver derives the stage's observed outcome access from it, records it in the stage
+manifest beside the declaration and fails the stage on an undeclared parse or a receipt
+beyond its fold. The ``barrier`` stage scans every earlier stage directory for
+metric-shaped content and refuses to freeze a run tree that carries any; ``verify``
+repeats both checks.
 
 Usage::
 
