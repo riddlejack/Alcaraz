@@ -163,8 +163,9 @@ def archive_root() -> Path:
     return root
 
 
-def workspace_root(spec: RunSpec) -> Path:
-    return REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_")
+def workspace_root(spec: RunSpec, stage: str) -> Path:
+    """One scratch workspace per run *and* stage, so stages can be checked in parallel."""
+    return REPO / "data" / "runs" / "equivalence" / spec.name.replace("/", "_") / stage
 
 
 def sha256(path: Path) -> str:
@@ -206,7 +207,7 @@ def fresh_dir(path: Path) -> None:
 
 def prepare(spec: RunSpec, stage: str, archive: Path) -> Path:
     """Build the scratch workspace: links into the archive, a real dir for ``stage``."""
-    ws = workspace_root(spec)
+    ws = workspace_root(spec, stage)
     ws.mkdir(parents=True, exist_ok=True)
     for top in ("data", "references", "experiments"):
         link(archive / top, ws / top)
@@ -334,7 +335,7 @@ def describe_difference(expected: Path, observed: Path) -> dict[str, Any]:
 
 
 def compare(spec: RunSpec, stage: str, archive: Path) -> dict[str, Any]:
-    ws = workspace_root(spec)
+    ws = workspace_root(spec, stage)
     frozen_stage = archive / spec.frozen_dir / "run" / stage
     manifest = json.loads((frozen_stage / STAGE_MANIFEST).read_text())
     expected = {name: rec["sha256"] for name, rec in manifest["outputs"].items()}
