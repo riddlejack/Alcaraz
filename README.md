@@ -63,11 +63,11 @@ forecast/report/training-key matches. The engineering contract and its open scop
   chronology defects. The Tennis Abstract crawl and TennisMyLife files are not integrated
   into either accepted run; [`docs/DATA.md`](docs/DATA.md) separates acquisition,
   qualification, and use.
-- **Hosted CI:** green on product commit `6d0f3ad`. GitHub Actions run
-  [`34899994940`](https://github.com/riddlejack/tennis-lab/actions/runs/34899994940)
+- **Hosted CI:** green on exact public-main commit
+  `4c83d283290dcdb8977ca455aebf9506e4d3cc6e`. GitHub Actions run
+  [`34903105291`](https://github.com/riddlejack/tennis-lab/actions/runs/34903105291)
   installed Python 3.14.6, passed lint, reported 434 tests passed with one optional skip,
-  and passed both committed-sample reproductions. The final integrated release commit
-  still needs its own hosted run.
+  and passed both committed-sample reproductions.
 
 ## Run the engineering harness
 
@@ -80,10 +80,10 @@ make reproduce-small
 make reproduce-tier
 ```
 
-The two committed samples are synthetic. They test the chain, integrity controls, and
-pinned arithmetic; they say nothing about predictive performance on real tennis. Full
-historical reconstruction additionally needs the separate research archive as described
-in [`docs/ARCHIVE.md`](docs/ARCHIVE.md).
+The two sample reproductions invoked above are synthetic. They test the chain, integrity
+controls, and pinned arithmetic; they say nothing about predictive performance on real
+tennis. Full historical reconstruction additionally needs the separate research archive
+as described in [`docs/ARCHIVE.md`](docs/ARCHIVE.md).
 
 ## Read next
 
@@ -102,6 +102,7 @@ redistributed. Source-specific terms and the tracked-artifact inventory are in
 [`DATA_LICENSES.md`](DATA_LICENSES.md).
 
 > Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission
-> under `PERM-TA-001`. Any published derived table must carry this attribution and its
-> applicable licence. The permitted collection is still in progress and is not part of
-> the accepted retrospective model runs described above.
+> under `PERM-TA-001`, as supplemented by `PERM-TA-002`. Any published derived table must
+> carry this attribution and its applicable licence. The collection was paused on
+> 2026-09-14 for offline parser diagnosis and is not part of the accepted retrospective
+> model runs described above.

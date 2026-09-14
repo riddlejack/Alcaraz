@@ -31,7 +31,7 @@ performance on the broader universe of public result rows.
 | tennis-data.co.uk annual workbooks | Versioned local workbooks and hashes | Results/date fields used under recorded semantics; prices are closing-like with unknown quote time; no redistribution right | Yes, as a local join and market reference; ATP 2017–2024 and WTA 2025–2026 scored on matched priced cohorts |
 | Wikipedia draw/calendar pages | Receipted parsed bridge files, including 2024 ATP and 2026 WTA paths bound by the configs | Results-only; dates are event anchors or completion bounds, not match clocks | Yes, in the historical bridge paths; those weaknesses limit chronology claims |
 | Match Charting Project | Retained charting evidence | Charter-asserted dates and partial serve counts; selective coverage | Corroboration/audit only, not a model trunk source |
-| Tennis Abstract player data | Owner-permitted crawl in progress over a 5,683-player inventory | Permission recorded as `PERM-TA-001`; integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; crawl output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the crawl |
+| Tennis Abstract player data | Owner-permitted acquisition over a 5,683-player inventory; paused at the 2026-09-14T22:42Z snapshot on a retained WTA parse failure | `PERM-TA-002` supplements `PERM-TA-001`; integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
 | TennisMyLife yearly and ongoing files | Owner-downloaded 172-file zip plus retained read-only comparisons | Results/count roles qualified with conditions; source versioning, anomaly quarantine, and cross-source count rules required. Date admissibility is open because retained comparisons include early as well as late offsets | No. Neither accepted run nor a release snapshot uses TML |
 | ATP/WTA official feeds and ITF | Limited read-only probes | Automated access not authorised under the reviewed terms/bot boundary | No |
 
@@ -81,15 +81,23 @@ qualified among those investigated” is narrower than “the data does not exis
 
 ## Tennis Abstract collection boundary
 
-The site owner authorised a slow retrieval of the player data with attribution. The
-recorded contract is one connection, at most one request every ten seconds, an honest
-user agent, a kill switch, and a stop on any rate-limit response. The current collector's
-slightly wider 10.25–10.75 second spacing is the owner-authorised implementation of that
-ceiling.
+The site owner first authorised purpose-bounded retrieval with attribution under
+`PERM-TA-001`. `PERM-TA-002` supplements that record by allowing adaptive request
+frequency provided traffic does not slow or crash the site. It does not change the
+purpose, non-commercial attribution, or no-betting boundaries. The collector voluntarily
+retains one connection and an identifying user agent.
 
-The crawl remains an acquisition process. A running status, parsed-row count, or absence
-of recent HTTP errors is not evidence that the player set is complete, source-qualified,
-or integrated. No scheduling or new traffic is part of this product release lane.
+Bounded tests reached HTTP 429 at 1.0–1.25 seconds and again during the longer 2.0–2.5
+second follow-up. The selected tested-clean tier is therefore 3.0–3.5 seconds, with the
+slower-tier and stop/escalation rules recorded in the monitor runbook. This is an
+operating choice, not a new fixed permission ceiling.
+
+At the dated 2026-09-14T22:42Z snapshot, collection had been paused since 22:20Z on a
+retained 39-field WTA parse failure: 1,326 players were complete, 20 were
+evidence-bearing unavailable, 1,346 of 5,683 were terminal, and 337,419 rows had been
+parsed. Only offline diagnosis is authorised; no resume or new traffic is part of this
+update. These are acquisition counts, not evidence that the player set is complete,
+source-qualified, or integrated. No accepted model run ingests this collection.
 
 ## Release snapshot status
 
@@ -108,8 +116,10 @@ explicit configurations at the top of this page.
 
 ## Redistribution rule
 
-The public product carries code, manifests and hashes, mapping/alias tables, aggregates,
-forecasts, scores, and synthetic fixtures. It does not carry raw provider files or a
-row-level reproduction of a source. Odds-provider rows and payloads governed by local or
-provider-specific terms remain outside Git. `DATA_LICENSES.md` lists the exact source and
-tracked-artifact treatment.
+The intended public product boundary carries code, manifests and hashes, mapping/alias
+tables, aggregates, forecasts, scores, and synthetic acceptance fixtures. A publication
+audit identified one current exception: `tests/fixtures/solver_precision_2005-06-25.json`
+contains real archived numeric inputs and is not synthetic. Its synthetic replacement
+and history/provenance review are active; the exception remains explicit until cleanup
+is verified. Odds-provider rows and payloads governed by local or provider-specific
+terms remain outside Git. `DATA_LICENSES.md` lists the exact tracked-artifact treatment.
