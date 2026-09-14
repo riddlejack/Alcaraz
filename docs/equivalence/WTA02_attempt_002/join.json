@@ -14,8 +14,8 @@
       "changed_lines": 2,
       "first": [
         "@@ -1 +1 @@",
-        "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
-        "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+        "-<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+        "+<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
       ],
       "kind": "text",
       "lines_archive": 2,

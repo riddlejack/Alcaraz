@@ -185,7 +185,7 @@
             "-  \"manifest_sha256\": \"fe14bf610cc1b9fa2a0b9001e22c36eca6798e62f22d6486f0058da4591b48c9\",",
             "+  \"manifest_sha256\": \"700f4a7808b0751c872553973512b7f8fecd4dc6f0cca070617225935925c3de\",",
             "@@ -94 +94 @@",
-            "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/run/features\",",
+            "-  \"output_dir\": \"<ARCHIVE_ROOT>/work/WTA02/run_002/run/features\",",
             "+  \"output_dir\": \"work/WTA02/run_002/run/features\","
           ],
           "kind": "text",
@@ -348,8 +348,8 @@
           "changed_lines": 2,
           "first": [
             "@@ -1 +1 @@",
-            "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
-            "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+            "-<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+            "+<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
           ],
           "kind": "text",
           "lines_archive": 2,
@@ -1270,7 +1270,7 @@
           "changed_leaves": 304,
           "first": [
             "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
+            "config_path: \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
             "config_sha256: \"507961d0f24fad239ac6e52a866538d7f255c8055796a06e3adfce0b1b4b3e07\" -> \"cc25ed2c9a8015058edc92e715ff09490d3a5cec623a728c82c3116797970b88\"",
             "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
             "raw_attempts.0.fit_identity_sha256: \"a5706f37e5bd0d7795bfbb84214b9e30a770c3462fdab664429ce2add5063046\" -> \"f97cbdbaaeaabf4447578716b2d6a3edb6dec5e12323a68a8c7550f420a66727\"",
@@ -1323,7 +1323,7 @@
           "changed_leaves": 5,
           "first": [
             "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
+            "config_path: \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
             "config_sha256: \"507961d0f24fad239ac6e52a866538d7f255c8055796a06e3adfce0b1b4b3e07\" -> \"cc25ed2c9a8015058edc92e715ff09490d3a5cec623a728c82c3116797970b88\"",
             "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
             "raw_complete_sha256: \"3722d6eee9acf1f22a3dbbeaa2dcb73c3dc4325f6966cf220bd921c768aa1621\" -> \"0920b312704f26866ede2d3e0bb947200d81e8a222d9af6def61d4d9f02b4eeb\""
@@ -1341,7 +1341,7 @@
           "changed_lines": 25,
           "first": [
             "@@ -3,2 +3,21 @@",
-            "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\",",
+            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\",",
             "-  \"config_sha256\": \"507961d0f24fad239ac6e52a866538d7f255c8055796a06e3adfce0b1b4b3e07\",",
             "+  \"code\": {",
             "+    \"numerical\": {",
@@ -2177,7 +2177,7 @@
           "changed_lines": 25,
           "first": [
             "@@ -2,2 +2,21 @@",
-            "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\",",
+            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\",",
             "-  \"config_sha256\": \"507961d0f24fad239ac6e52a866538d7f255c8055796a06e3adfce0b1b4b3e07\",",
             "+  \"code\": {",
             "+    \"numerical\": {",

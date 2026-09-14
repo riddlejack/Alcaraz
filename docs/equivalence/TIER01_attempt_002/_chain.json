@@ -194,7 +194,7 @@
             "+    \"Dates are qualified annual reported dates without clocks. The known suspended 2022-7694/291 case demonstrates that reported date is not universally actual start date; D-2 remains the declared retrospective rule.\",",
             "+    \"diverged_serve_return_history_summaries counts targets where a side had serve count history without return history (a match served zero points by one player). The missing_* flag means no count history in that domain and each rate falls back to its prior; nothing is imputed.\"",
             "@@ -90 +92 @@",
-            "-  \"output_dir\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/run/features\",",
+            "-  \"output_dir\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/run/features\",",
             "+  \"output_dir\": \"work/TIER01/run_002/run/features\","
           ],
           "kind": "text",
@@ -249,8 +249,8 @@
           "changed_lines": 2,
           "first": [
             "@@ -1 +1 @@",
-            "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
-            "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+            "-<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+            "+<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
           ],
           "kind": "text",
           "lines_archive": 2,
@@ -1285,7 +1285,7 @@
           "changed_leaves": 334,
           "first": [
             "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
+            "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
             "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\"",
             "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
             "raw_attempts.0.fit_identity_sha256: \"75ba6bc916e68bec9f3bf8182f0cb0516a6f80544a904f4ab9b51df524ed8a03\" -> \"49ba3d357045cfb26b9389a999da15c1c82dd3ca4a140b3795112bb5582c13b3\"",
@@ -1338,7 +1338,7 @@
           "changed_leaves": 5,
           "first": [
             "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-            "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
+            "config_path: \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\" -> \"work/TIER01/run_002/predictor_config/config.2017_2024.json\"",
             "config_sha256: \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\" -> \"f0e8ccd53e0bead57f7dea353bd5432cee94ceaabef9bd36a6ea55d788f7a78f\"",
             "declared_binding: \"<absent>\" -> {\"numerical_path\": \"tennislab.models.numerical\", \"numerical_sha256\": \"6ba0617bd5ae3360d5a600028d7bcd614664216283083d723e",
             "raw_complete_sha256: \"f44ceacff5e2e79b13693b9f4b38adb8735d9df5244848d1c6ddd10c1e8c0bf5\" -> \"8fb5162ef0cc497c44d6b415b02934b2d54d1e9d5a2e8362520eb2fa67109ba6\""
@@ -1356,7 +1356,7 @@
           "changed_lines": 25,
           "first": [
             "@@ -3,2 +3,21 @@",
-            "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
             "-  \"config_sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\",",
             "+  \"code\": {",
             "+    \"numerical\": {",
@@ -2376,7 +2376,7 @@
           "changed_lines": 25,
           "first": [
             "@@ -2,2 +2,21 @@",
-            "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
+            "-  \"config_path\": \"<ARCHIVE_ROOT>/work/TIER01/run_002/predictor_config/config.2017_2024.json\",",
             "-  \"config_sha256\": \"0c40d51a7972b486a75491f18c666b477c478b2f101bf7d5dbafd10dce4f9d15\",",
             "+  \"code\": {",
             "+    \"numerical\": {",
@@ -2431,8 +2431,8 @@
           "changed_lines": 2,
           "first": [
             "@@ -1 +1 @@",
-            "-/Users/jackriddle/Documents/Tennis Research Lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
-            "+/Users/jackriddle/Documents/tennis-lab/.venv/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
+            "-<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed",
+            "+<SITE_PACKAGES>/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed"
           ],
           "kind": "text",
           "lines_archive": 2,

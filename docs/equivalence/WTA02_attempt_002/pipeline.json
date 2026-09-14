@@ -1904,7 +1904,7 @@
       "changed_leaves": 203,
       "first": [
         "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-        "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
+        "config_path: \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
         "declared_binding: \"<absent>\" -> {\"numerical_path\": \"references/MULTI01_models/numerical.py\", \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a238",
         "raw_attempts.0.fit_manifest_sha256: \"9264b9e314dab80491a1d7b2077ae3ac4b86fa61231829b9f31dc1673e7b8561\" -> \"de391bedf1610a2230706adc4c42183fdad2d150ba6387c84ead50cd2a5a0656\"",
         "raw_attempts.0.fit_wall_clock_seconds: \"<absent>\" -> 0.27339",
@@ -1950,7 +1950,7 @@
       "changed_leaves": 4,
       "first": [
         "code: \"<absent>\" -> {\"numerical\": {\"module\": \"tennislab.models.numerical\", \"package_version\": \"0.1.0\", \"sha256\": \"6ba0617bd5ae3360d5a600028d",
-        "config_path: \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
+        "config_path: \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\" -> \"work/WTA02/run_002/predictor_config/config.json\"",
         "declared_binding: \"<absent>\" -> {\"numerical_path\": \"references/MULTI01_models/numerical.py\", \"numerical_sha256\": \"e3c1db5d7785b8b204f4024853cd2459b4a238",
         "raw_complete_sha256: \"3722d6eee9acf1f22a3dbbeaa2dcb73c3dc4325f6966cf220bd921c768aa1621\" -> \"c523f84a4851591c117c3d08205143f9a120e1d323e1a5ae72888ef4f68e3588\""
       ],
@@ -1960,7 +1960,7 @@
       "changed_lines": 22,
       "first": [
         "@@ -3 +3,13 @@",
-        "-  \"config_path\": \"/Users/jackriddle/Documents/Tennis Research Lab/work/WTA02/run_002/predictor_config/config.json\",",
+        "-  \"config_path\": \"<ARCHIVE_ROOT>/work/WTA02/run_002/predictor_config/config.json\",",
         "+  \"code\": {",
         "+    \"numerical\": {",
         "+      \"module\": \"tennislab.models.numerical\",",
