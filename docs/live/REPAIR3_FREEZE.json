@@ -1,0 +1,8 @@
+{
+  "base_rejected_repair_commit": "4295df472ddf9132587c513be00bf9409be9c632",
+  "frozen_utc": "2026-09-14T22:40:08Z",
+  "repair_contract": "docs/live/REPAIR3.md",
+  "repair_contract_sha256": "b77475e2c12109555882ae632fd0832cfcdb3ecbf249407c4e00879aff37244a",
+  "scope": "Lane D settlement resolver precedence only; synthetic public controls; no F2/F3 change, D2, source traffic, real data, model change, fit, forecast, scheduler, push or merge",
+  "schema_version": "live-repair-freeze-3"
+}
