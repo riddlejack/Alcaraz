@@ -38,6 +38,7 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+from tennislab.chain import access, barrier_scan, outcome_files
 from tennislab.chain.common import (
     ChainError,
     atomic_json,
@@ -101,8 +102,24 @@ SR03_CODE_BINDINGS = (
 )
 
 
+OUTCOME_ACCESS_DECLARATIONS = ("none", "history", "fold", "target")
+ACCESSOR_OPENERS = frozenset(
+    {"tennislab.chain.labels:selected", "tennislab.chain.labels:projected_rows"}
+)
+
+
 class Stage:
-    """One stage: its module, its argv template and whether it has a ``--dry-run``."""
+    """One stage: its module, its argv template and whether it has a ``--dry-run``.
+
+    ``outcome_access`` is the stage's *declaration* (RB14): ``none`` (it may not parse
+    any outcome-bearing file; hash-only reads are allowed), ``history`` (a state replay
+    or panel builder that parses whole outcome files as past history), ``fold`` (a fit
+    or selection stage: every parse of an outcome-bearing file must go through an
+    accessor in ``chain.labels`` and every receipt must name the fold it serves and a
+    ceiling before it) or ``target`` (a post-barrier stage). What the stage actually
+    opened is derived from the access log and recorded beside the declaration in its
+    manifest; a mismatch fails the stage.
+    """
 
     def __init__(
         self,
@@ -111,10 +128,12 @@ class Stage:
         argv: Sequence[str],
         *,
         dry_run: bool = True,
-        outcome_access: bool = False,
+        outcome_access: str = "none",
         note: str = "",
         inputs: Sequence[str] = (),
     ):
+        if outcome_access not in OUTCOME_ACCESS_DECLARATIONS:
+            raise ChainError(f"stage {name}: unknown outcome_access {outcome_access!r}")
         self.name = name
         self.module = module
         self.argv = tuple(argv)
@@ -169,7 +188,7 @@ def _bridge_stage(tour: str) -> Stage:
         "bridge",
         module_for("bridge", tour),
         ["--config", "{configs.bridge}", "--allow-reserved-years"],
-        outcome_access=True,
+        outcome_access="history",
         note=f"First outcome-access event: opens the {tour} reserved-season result files.",
     )
 
@@ -181,19 +200,28 @@ def _shared_tail(tour: str) -> list[Stage]:
         edition_argv.append("--unordered-source")
     return [
         Stage(
-            "sr02_replay", module_for("sr02_replay", tour), ["--config", "{configs.sr02_replay}"]
+            "sr02_replay",
+            module_for("sr02_replay", tour),
+            ["--config", "{configs.sr02_replay}"],
+            outcome_access="history",
+            note="Parses the panel; SOURCE_ROW_FIELDS projects a_won out before any use.",
         ),
         Stage(
             "sr03_calibration",
             module_for("sr03_calibration", tour),
             ["run", "{configs.sr03}", "{stage_dir}"],
             dry_run=False,
+            outcome_access="fold",
+            note="Forecast-only: one PanelOutcomeHistory read per outer year (ceiling = outer "
+            "year - 1); no score is written here (RB14).",
         ),
         Stage(
             "rankings",
             module_for("rankings", tour),
             ["build", "--output-dir", "{stage_dir}", "--config", "{configs.rankings}"],
             dry_run=False,
+            outcome_access="history",
+            note="Reads the pinned Sackmann archive's result files to qualify the ranking stream.",
         ),
         Stage(
             "edition_index",
@@ -210,15 +238,17 @@ def _shared_tail(tour: str) -> list[Stage]:
             module_for("features", tour),
             ["--config", "{configs.features}"],
             dry_run=False,
-            outcome_access=True,
-            note="Reads target-season rows as feature inputs.",
+            outcome_access="history",
+            note="Reads the panel: past results update the Elo state under D-2; a_won is copied into labels.csv.",
         ),
         Stage(
             "sidecar",
             module_for("sidecar", tour),
             ["--config", "{configs.sidecar}"],
             dry_run=False,
-            note="Traits plus the replayed SR02 block; binds the features stage's outputs by hash.",
+            outcome_access="history",
+            note="Traits plus the replayed SR02 block; parses the panel and projects it to "
+            "PANEL_MEASUREMENT_FIELDS before use; never opens labels.csv.",
         ),
     ]
 
@@ -267,7 +297,10 @@ def _model_tail(tour: str) -> list[Stage]:
                 "--execute-frozen-real",
             ],
             dry_run=False,
+            outcome_access="fold",
             inputs=("predictor_config",),
+            note="labels.csv through LabelHistory per fold (training_fit, "
+            "past_selection_calibration, past_market_calibration); ceiling = outer year - 1.",
         ),
         Stage(
             "barrier",
@@ -316,13 +349,14 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
             "archive_panel",
             module_for("archive_panel", tour),
             ["--config", "{configs.archive_panel}", "--output-dir", "{stage_dir}"],
-            outcome_access=True,
+            outcome_access="history",
         ),
         Stage(
             "join",
             module_for("join", tour),
             ["build", "{stage_dir}", "--config", "{configs.join}"],
             dry_run=False,
+            outcome_access="history",
         ),
         # The declared event-crosswalk carry-forward follows the join (it reads the
         # join's candidates) and precedes prepare_panel (which consults the crosswalk).
@@ -330,19 +364,26 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
             "event_carry_forward",
             module_for("event_carry_forward", tour),
             ["{stage_dir}", "--config", "{configs.event_carry_forward}"],
+            outcome_access="history",
         ),
         Stage(
             "prepare_panel",
             module_for("prepare_panel", tour),
             ["{stage_dir}", "--config", "{configs.prepare_panel}"],
+            outcome_access="history",
         ),
         Stage(
             "format_corrections",
             module_for("format_corrections", tour),
             ["{stage_dir}", "--config", "{configs.format_corrections}"],
+            outcome_access="history",
         ),
         Stage(
-            "rule_mapping", module_for("rule_mapping", tour), ["--config", "{configs.rule_mapping}"]
+            "rule_mapping",
+            module_for("rule_mapping", tour),
+            ["--config", "{configs.rule_mapping}"],
+            outcome_access="history",
+            note="Parses the panel for format-rule evidence; a_won is unused.",
         ),
         *_shared_tail(tour),
     ]
@@ -353,6 +394,7 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
                 "tier_stream",
                 module_for("tier_stream", tour),
                 ["--config", "{configs.tier_stream}", "--output-dir", "{stage_dir}"],
+                outcome_access="history",
                 note="Qualifying/Challenger/Futures history from the pinned mirror; "
                 "reads no reserved year and no run artifact.",
             ),
@@ -360,7 +402,7 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
                 "tier_elo",
                 module_for("tier_elo", tour),
                 ["--config", "{configs.tier_elo}", "--output-dir", "{stage_dir}"],
-                outcome_access=True,
+                outcome_access="history",
                 note="The tier-inclusive pooled Elo and the experience counts. Reads "
                 "outcomes as history under the D-2 cursor; no label is written.",
             ),
@@ -368,6 +410,7 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
                 "sr02_tier_replay",
                 module_for("sr02_tier_replay", tour),
                 ["--config", "{configs.sr02_tier_replay}"],
+                outcome_access="history",
                 note="The same saved SR02 paths replayed with the lower-tier feed enabled.",
             ),
             *(
@@ -376,6 +419,7 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
                         "sr02_tier_noqual_replay",
                         module_for("sr02_tier_noqual_replay", tour),
                         ["--config", "{configs.sr02_tier_noqual_replay}"],
+                        outcome_access="history",
                         note="The tier feed without same-event qualifying rows: the declared "
                         "ablation of the tournament-latent updating channel.",
                     )
@@ -405,7 +449,7 @@ def _wta_stages(section: Mapping[str, Any]) -> list[Stage]:
             "archive_panel",
             module_for("archive_panel", tour),
             ["--config", "{configs.archive_panel}", "--output-dir", "{stage_dir}"],
-            outcome_access=True,
+            outcome_access="history",
             note="Reads the WTA results the composed archive (or the mirror) carries.",
         ),
         # The WTA join pairs through the crosswalk, so the carry-forward precedes it.
@@ -413,21 +457,33 @@ def _wta_stages(section: Mapping[str, Any]) -> list[Stage]:
             "event_carry_forward",
             module_for("event_carry_forward", tour),
             ["{stage_dir}", "--config", "{configs.event_carry_forward}"],
+            outcome_access="history",
             note="Declared rule 2: the frozen WTA crosswalk carried past 2024; a no-op below.",
         ),
-        Stage("join", module_for("join", tour), ["{stage_dir}", "--config", "{configs.join}"]),
+        Stage(
+            "join",
+            module_for("join", tour),
+            ["{stage_dir}", "--config", "{configs.join}"],
+            outcome_access="history",
+        ),
         Stage(
             "prepare_panel",
             module_for("prepare_panel", tour),
             ["{stage_dir}", "--config", "{configs.prepare_panel}"],
+            outcome_access="history",
         ),
         Stage(
             "format_corrections",
             module_for("format_corrections", tour),
             ["{stage_dir}", "--config", "{configs.format_corrections}"],
+            outcome_access="history",
         ),
         Stage(
-            "rule_mapping", module_for("rule_mapping", tour), ["--config", "{configs.rule_mapping}"]
+            "rule_mapping",
+            module_for("rule_mapping", tour),
+            ["--config", "{configs.rule_mapping}"],
+            outcome_access="history",
+            note="Parses the panel for format-rule evidence; a_won is unused.",
         ),
         *_shared_tail(tour),
         *_model_tail(tour),
@@ -457,10 +513,34 @@ def report_stage(section: Mapping[str, Any]) -> Stage:
         module_for("report", tour_of(section)),
         ["--config", "{reporting_config}", "--output", "{stage_dir}", "--run"],
         dry_run=False,
-        outcome_access=True,
+        outcome_access="target",
         inputs=("reporting_config",),
         note="The only program that opens a target year's labels.",
     )
+
+
+def post_barrier_stages(section: Mapping[str, Any]) -> list[Stage]:
+    """The report and, when the chain has an SR03 calibration, its component evaluation.
+
+    Both run after the barrier and are the only stages declared ``target``. The
+    component stage scores the calibration stage's persisted predictions with the
+    arithmetic the archive ran before the barrier (RB14).
+    """
+    table = [report_stage(section)]
+    if "sr03" in section.get("configs", {}) and "sr03_calibration" not in section.get(
+        "skip_stages", []
+    ):
+        table.append(
+            Stage(
+                "sr03_component",
+                module_for("sr03_calibration", tour_of(section)),
+                ["evaluate", "{configs.sr03}", "{run_root}/sr03_calibration", "{stage_dir}"],
+                dry_run=False,
+                outcome_access="target",
+                note="SR03 component metrics from the persisted predictions, after the barrier.",
+            )
+        )
+    return table
 
 
 def _flatten(document: Mapping[str, Any], prefix: str = "") -> dict[str, str]:
@@ -805,8 +885,119 @@ def fill_pending(
     return overrides, record
 
 
+ACCESS_LOG = "access_log.jsonl"
+
+
+def observed_outcome_access(
+    stage: Stage, stage_dir: Path, workspace_root: Path, panel_end_year: int | None
+) -> dict[str, Any]:
+    """Derive the stage's outcome access from its access log and check the declaration.
+
+    ``observed`` lists every read-open of an outcome-bearing file (by content) with the
+    innermost package function that opened it; ``receipts`` are the accessor receipts;
+    ``violations`` names an undeclared parse or a receipt beyond its fold's horizon.
+    """
+    opens, receipts = access.read_log(stage_dir / ACCESS_LOG)
+    observed: list[dict[str, Any]] = []
+    classified: dict[str, dict[str, Any]] = {}
+    for entry in opens:
+        path = workspace_root / entry["path"]
+        if entry["path"] not in classified:
+            classified[entry["path"]] = (
+                outcome_files.classify(path)
+                if path.is_file()
+                else {
+                    "content": "absent",
+                    "outcome_columns": [],
+                }
+            )
+        kind = classified[entry["path"]]
+        if kind["content"] not in ("outcome_columns", "container"):
+            continue
+        observed.append(
+            {
+                "path": entry["path"],
+                "content": kind["content"],
+                "outcome_columns": kind["outcome_columns"],
+                "opener": entry["opener"],
+                "access": outcome_files.access_kind(entry["opener"]),
+                "opens": entry["count"],
+            }
+        )
+    violations: list[str] = []
+    if stage.outcome_access == "none":
+        for item in observed:
+            if item["access"] == "parsed":
+                violations.append(
+                    f"stage {stage.name} declares no outcome access but parsed "
+                    f"{item['path']} ({item['content']}: {item['outcome_columns']}) "
+                    f"in {item['opener'] or 'an unknown frame'}"
+                )
+    if stage.outcome_access == "fold":
+        for item in observed:
+            if item["access"] == "parsed" and item["opener"] not in ACCESSOR_OPENERS:
+                violations.append(
+                    f"stage {stage.name} is a fold reader but parsed {item['path']} "
+                    f"({item['content']}: {item['outcome_columns']}) outside the accessors, "
+                    f"in {item['opener'] or 'an unknown frame'}"
+                )
+        if not receipts and any(item["access"] == "parsed" for item in observed):
+            violations.append(f"stage {stage.name} parsed outcomes but left no accessor receipt")
+        for receipt in receipts:
+            if receipt.get("accessor") == "projected_rows":
+                continue  # a metadata parse with the outcome columns dropped
+            if receipt.get("fold_outer_year") is None:
+                violations.append(
+                    f"stage {stage.name}: {receipt.get('purpose')} read with ceiling "
+                    f"{receipt.get('year_ceiling')} names no fold"
+                )
+    for receipt in receipts:
+        ceiling = receipt.get("year_ceiling")
+        fold = receipt.get("fold_outer_year")
+        latest = receipt.get("max_season_returned")
+        if ceiling is not None and latest is not None and int(latest) > int(ceiling):
+            violations.append(
+                f"stage {stage.name}: {receipt.get('purpose')} returned season {latest} "
+                f"beyond its ceiling {ceiling}"
+            )
+        if fold is not None and (ceiling is None or int(ceiling) >= int(fold)):
+            violations.append(
+                f"stage {stage.name}: {receipt.get('purpose')} for fold {fold} used ceiling "
+                f"{ceiling}, which does not precede the fold"
+            )
+        if (
+            stage.outcome_access == "history"
+            and fold is None
+            and ceiling is not None
+            and panel_end_year is not None
+            and int(ceiling) > int(panel_end_year)
+        ):
+            violations.append(
+                f"stage {stage.name}: {receipt.get('purpose')} ceiling {ceiling} exceeds the "
+                f"panel end year {panel_end_year}"
+            )
+        if stage.outcome_access == "none":
+            violations.append(
+                f"stage {stage.name} declares no outcome access but read outcomes for "
+                f"{receipt.get('purpose')}"
+            )
+    return {
+        "declared": stage.outcome_access,
+        "observed": observed,
+        "receipts": receipts,
+        "violations": violations,
+        "basis": "audit hook on file opens in the stage process; content-classified "
+        "(RB14); hash-only opens are allowed under every declaration",
+    }
+
+
 def run_stage(
-    stage: Stage, section: Mapping[str, Any], run_root: Path, *, earlier: Sequence[str]
+    stage: Stage,
+    section: Mapping[str, Any],
+    run_root: Path,
+    *,
+    earlier: Sequence[str],
+    panel_end_year: int | None = None,
 ) -> dict[str, Any]:
     verify_earlier(run_root, earlier)
     overrides, filled = fill_pending(stage, section, run_root)
@@ -819,7 +1010,12 @@ def run_stage(
     stage_dir.mkdir(parents=True, exist_ok=True)
     command = command_for(stage, section, run_root, overrides)
     workspace_root = resolve_under_root(".", label="workspace")
-    environment = {**os.environ, **ENVIRONMENT, "TENNISLAB_WORKSPACE": str(workspace_root)}
+    environment = {
+        **os.environ,
+        **ENVIRONMENT,
+        "TENNISLAB_WORKSPACE": str(workspace_root),
+        access.LOG_ENVIRONMENT_VARIABLE: str(stage_dir / ACCESS_LOG),
+    }
     started = dt.datetime.now(dt.UTC)
     if command:
         completed = subprocess.run(
@@ -836,6 +1032,21 @@ def run_stage(
     else:
         status = 0
     finished = dt.datetime.now(dt.UTC)
+    outcome_access = observed_outcome_access(stage, stage_dir, workspace_root, panel_end_year)
+    problems = list(outcome_access["violations"])
+    content_scan: dict[str, Any] | None = None
+    if stage.name == "barrier":
+        scan = barrier_scan.scan_tree(run_root, list(earlier))
+        content_scan = {
+            "scanned_files": len(scan["scanned"]),
+            "uninspected_files": scan["uninspected"],
+            "findings": scan["findings"],
+        }
+        problems += [
+            f"metric-shaped content before the barrier: {item['artifact']} "
+            f"{item['metric_locations'][:3]}"
+            for item in scan["findings"]
+        ]
     outputs = hash_tree(stage_dir)
     manifest: dict[str, Any] = {
         "stage": stage.name,
@@ -843,7 +1054,7 @@ def run_stage(
         "command": command,
         "environment": ENVIRONMENT,
         "exit_status": status,
-        "outcome_access": stage.outcome_access,
+        "outcome_access": outcome_access,
         "note": stage.note,
         "started_utc": started.isoformat(),
         "finished_utc": finished.isoformat(),
@@ -852,30 +1063,63 @@ def run_stage(
         "output_count": len(outputs),
         "outputs_sha256": canonical_hash(outputs),
         "configs_filled_from_earlier_stage_outputs": filled,
+        "integrity_violations": problems,
     }
     if stage.module is not None:
         manifest["code"] = code_receipt(stage.module)
     if stage.name == "barrier":
+        manifest["content_scan"] = content_scan
         run_tree = {name: hash_tree(run_root / name) for name in earlier}
         manifest["run_tree"] = run_tree
-        # SCAR_TISSUE B5: a run-tree digest of nothing is refused, never recorded.
-        manifest["run_tree_sha256"] = canonical_hash_nonempty(run_tree, label="run_tree_sha256")
-        manifest["instruction"] = (
-            "Timestamp run_tree_sha256 externally now. Nothing after this point may rerun an earlier stage."
-        )
+        if problems:
+            manifest["status"] = "refused"
+        else:
+            # SCAR_TISSUE B5: a run-tree digest of nothing is refused, never recorded.
+            manifest["run_tree_sha256"] = canonical_hash_nonempty(run_tree, label="run_tree_sha256")
+            manifest["instruction"] = (
+                "Timestamp run_tree_sha256 externally now. Nothing after this point may rerun an earlier stage."
+            )
     atomic_json(stage_dir / STAGE_MANIFEST, manifest)
-    append_ledger(
-        run_root,
-        {
-            "stage": stage.name,
-            "exit_status": status,
-            "outputs_sha256": manifest["outputs_sha256"],
-            "finished_utc": manifest["finished_utc"],
-        },
-    )
+    entry = {
+        "stage": stage.name,
+        "exit_status": status,
+        "outputs_sha256": manifest["outputs_sha256"],
+        "finished_utc": manifest["finished_utc"],
+    }
+    if problems:
+        entry["integrity"] = "fail"
+    append_ledger(run_root, entry)
     if status != 0:
         raise ChainError(f"stage {stage.name} exited {status}; see {stage_dir / 'stderr.txt'}")
+    if problems:
+        raise ChainError(f"stage {stage.name} failed the integrity check: {problems[0]}")
     return manifest
+
+
+def verify_integrity(run_root: Path, names: Sequence[str]) -> dict[str, Any]:
+    """Re-check every completed stage's recorded access and rescan the pre-barrier tree."""
+    problems: list[str] = []
+    checked: list[str] = []
+    for name in names:
+        manifest_path = run_root / name / STAGE_MANIFEST
+        if not manifest_path.is_file():
+            continue
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        checked.append(name)
+        recorded = manifest.get("integrity_violations")
+        if recorded is None:
+            problems.append(f"stage {name} ran before the access record existed (RB14)")
+        else:
+            problems += recorded
+        if name == "barrier" and "run_tree_sha256" not in manifest:
+            problems.append("barrier was refused; the run tree was never frozen")
+    if "barrier" in checked:
+        scan = barrier_scan.scan_tree(run_root, list(names[: names.index("barrier")]))
+        problems += [
+            f"metric-shaped content before the barrier: {item['artifact']}"
+            for item in scan["findings"]
+        ]
+    return {"stages_checked": checked, "problems": problems}
 
 
 # ------------------------------------------------------------------ emitted configs
@@ -1566,7 +1810,7 @@ def dry_run(section: Mapping[str, Any], run_root: Path, plan: Any) -> dict[str, 
                     )
         checks.append(entry)
 
-    table = [*stages(section), report_stage(section)]
+    table = [*stages(section), *post_barrier_stages(section)]
     produced_by = {stage.name: index for index, stage in enumerate(table)}
     inputs_dir = resolve_under_root(section["inputs_dir"], label="inputs_dir")
     produced_paths: dict[Path, int] = {}
@@ -1674,7 +1918,7 @@ def main(argv: list[str] | None = None) -> int:
     run_root = resolve_under_root(section["run_root"], label="run_root")
     table = stages(section)
     names = [stage.name for stage in table]
-    final = report_stage(section)
+    after_barrier = post_barrier_stages(section)
 
     if args.command == "print":
         lines = [
@@ -1687,8 +1931,10 @@ def main(argv: list[str] | None = None) -> int:
         for stage in table:
             command = command_for(stage, section, run_root)
             lines.append(f"# {stage.name}" + (f" -- {stage.note}" if stage.note else ""))
-            if stage.outcome_access:
-                lines.append("#   OUTCOME ACCESS: log the exposure event before running.")
+            if stage.outcome_access != "none":
+                lines.append(
+                    f"#   OUTCOME ACCESS ({stage.outcome_access}): log the exposure event before running."
+                )
             lines.append(
                 " ".join(command)
                 if command
@@ -1696,8 +1942,9 @@ def main(argv: list[str] | None = None) -> int:
             )
             lines.append("")
         lines.append("# Stop. Timestamp the barrier's run_tree_sha256 externally.")
-        lines.append("# Then, and only then, the separate scoring command:")
-        lines.append(" ".join(command_for(final, section, run_root)))
+        lines.append("# Then, and only then, the separate scoring commands:")
+        for stage in after_barrier:
+            lines.append(" ".join(command_for(stage, section, run_root)))
         print("\n".join(lines))
         return 0
 
@@ -1711,30 +1958,47 @@ def main(argv: list[str] | None = None) -> int:
         return 0 if report["status"] == "PASS" else 1
 
     if args.command == "verify":
-        verified = verify_earlier(
-            run_root, [name for name in names if (run_root / name / STAGE_MANIFEST).is_file()]
-        )
+        all_names = [*names, *(stage.name for stage in after_barrier)]
+        present = [name for name in all_names if (run_root / name / STAGE_MANIFEST).is_file()]
+        verified = verify_earlier(run_root, present)
         entries = verify_ledger(run_root)
-        print(
-            json.dumps(
-                {"stages_verified": verified, "ledger_entries": len(entries)}, sort_keys=True
-            )
-        )
-        return 0
-
-    if args.command == "report":
-        verify_earlier(run_root, names)
-        manifest = run_stage(final, section, run_root, earlier=names)
+        integrity = verify_integrity(run_root, present)
         print(
             json.dumps(
                 {
-                    "stage": "report",
-                    "exit_status": manifest["exit_status"],
-                    "outputs": manifest["output_count"],
+                    "stages_verified": verified,
+                    "ledger_entries": len(entries),
+                    "integrity": integrity,
                 },
                 sort_keys=True,
             )
         )
+        if integrity["problems"]:
+            raise ChainError(f"integrity verification failed: {integrity['problems'][0]}")
+        return 0
+
+    if args.command == "report":
+        verify_earlier(run_root, names)
+        completed_names = list(names)
+        for stage in after_barrier:
+            manifest = run_stage(
+                stage,
+                section,
+                run_root,
+                earlier=completed_names,
+                panel_end_year=plan.panel_end_year,
+            )
+            completed_names.append(stage.name)
+            print(
+                json.dumps(
+                    {
+                        "stage": stage.name,
+                        "exit_status": manifest["exit_status"],
+                        "outputs": manifest["output_count"],
+                    },
+                    sort_keys=True,
+                )
+            )
         return 0
 
     start = names.index(args.start) if args.start else 0
@@ -1745,7 +2009,9 @@ def main(argv: list[str] | None = None) -> int:
     barrier_digest = None
     for position in range(start, stop + 1):
         stage = table[position]
-        manifest = run_stage(stage, section, run_root, earlier=names[:position])
+        manifest = run_stage(
+            stage, section, run_root, earlier=names[:position], panel_end_year=plan.panel_end_year
+        )
         if stage.name == "barrier":
             barrier_digest = manifest["run_tree_sha256"]
         results.append(
@@ -1770,15 +2036,24 @@ def main(argv: list[str] | None = None) -> int:
             ),
             flush=True,
         )
-        manifest = run_stage(final, section, run_root, earlier=names)
-        results.append(
-            {
-                "stage": "report",
-                "seconds": manifest["wall_clock_seconds"],
-                "outputs": manifest["output_count"],
-            }
-        )
-        print(json.dumps(results[-1], sort_keys=True), flush=True)
+        completed_names = list(names)
+        for stage in after_barrier:
+            manifest = run_stage(
+                stage,
+                section,
+                run_root,
+                earlier=completed_names,
+                panel_end_year=plan.panel_end_year,
+            )
+            completed_names.append(stage.name)
+            results.append(
+                {
+                    "stage": stage.name,
+                    "seconds": manifest["wall_clock_seconds"],
+                    "outputs": manifest["output_count"],
+                }
+            )
+            print(json.dumps(results[-1], sort_keys=True), flush=True)
     print(
         json.dumps(
             {

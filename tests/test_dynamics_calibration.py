@@ -69,20 +69,22 @@ class ProtocolTests(unittest.TestCase):
 
     def test_three_year_cutoff_excludes_preceding_december_31(self):
         rows, outcomes = synthetic_rows()
-        selected = calibration.training_rows(rows, outcomes, 2014)
+        selected = calibration.training_rows(rows, 2014)
         self.assertEqual({row["date"].year for row in selected}, {2011, 2012, 2013})
         self.assertEqual(selected[-1]["match_date"], "2013-12-30")
         self.assertNotIn("2013-S/5", {row["match_id"] for row in selected})
 
     def test_future_labels_cannot_change_earlier_fit_or_prediction(self):
         rows, outcomes = synthetic_rows()
-        first_predictions, first_fits, _ = calibration.fit_and_predict(rows, outcomes, [2014, 2015])
+        first_predictions, first_fits, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014, 2015]
+        )
         mutated = dict(outcomes)
         for row in rows:
             if row["date"].year >= 2014:
                 mutated[row["match_id"]] = 1 - mutated[row["match_id"]]
         second_predictions, second_fits, _ = calibration.fit_and_predict(
-            rows, mutated, [2014, 2015]
+            rows, calibration.fold_outcomes_from_mapping(mutated), [2014, 2015]
         )
         first_2014 = [row for row in first_predictions if row["calibration_year"] == 2014]
         second_2014 = [row for row in second_predictions if row["calibration_year"] == 2014]
@@ -101,7 +103,9 @@ class ProtocolTests(unittest.TestCase):
 
     def test_orientation_swap_complements_forecasts_and_preserves_slopes(self):
         rows, outcomes = synthetic_rows()
-        predictions, fits, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        predictions, fits, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
+        )
         swapped = copy.deepcopy(rows)
         swapped_outcomes = {}
         for row in swapped:
@@ -111,7 +115,7 @@ class ProtocolTests(unittest.TestCase):
             row["pinnacle_raw_normalized"] = 1 - row["pinnacle_raw_normalized"]
             swapped_outcomes[row["match_id"]] = 1 - outcomes[row["match_id"]]
         swapped_predictions, swapped_fits, _ = calibration.fit_and_predict(
-            swapped, swapped_outcomes, [2014]
+            swapped, calibration.fold_outcomes_from_mapping(swapped_outcomes), [2014]
         )
         for left, right in zip(fits, swapped_fits, strict=True):
             self.assertAlmostEqual(
@@ -127,9 +131,11 @@ class ProtocolTests(unittest.TestCase):
 
     def test_fit_contract_is_one_nonnegative_unpenalized_slope(self):
         rows, outcomes = synthetic_rows()
-        _, fits, membership = calibration.fit_and_predict(rows, outcomes, [2014])
+        _, fits, membership = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
+        )
         self.assertEqual(len(fits), 3)
-        self.assertEqual(len(membership), len(calibration.training_rows(rows, outcomes, 2014)))
+        self.assertEqual(len(membership), len(calibration.training_rows(rows, 2014)))
         for record in fits:
             fit = record["fit"]
             self.assertIsNone(fit["penalty"])
@@ -142,7 +148,9 @@ class ProtocolTests(unittest.TestCase):
         for row in rows:
             for family, _ in calibration.FAMILIES:
                 row[f"raw_{family}"] = 0.5
-        predictions, fits, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        predictions, fits, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
+        )
         self.assertTrue(all(record["fit"]["market_slope"] == 1.0 for record in fits))
         self.assertTrue(
             all(
@@ -180,7 +188,9 @@ class ProtocolTests(unittest.TestCase):
 class EvaluationTests(unittest.TestCase):
     def test_all_models_use_paired_cohorts_and_fixed_bins(self):
         rows, outcomes = synthetic_rows()
-        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        predictions, _, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
+        )
         metrics, bins, comparisons, counts = calibration.evaluate(
             rows, outcomes, predictions, edges=EDGES, bootstrap_seed=71101, bootstrap_repetitions=20
         )
@@ -204,7 +214,9 @@ class EvaluationTests(unittest.TestCase):
 
     def test_target_outcome_mutation_changes_scores_not_predictions(self):
         rows, outcomes = synthetic_rows()
-        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014])
+        predictions, _, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
+        )
         frozen_predictions = copy.deepcopy(predictions)
         first, _, _, _ = calibration.evaluate(
             rows, outcomes, predictions, edges=EDGES, bootstrap_seed=1, bootstrap_repetitions=10
@@ -218,26 +230,47 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(predictions, frozen_predictions)
         self.assertNotEqual(first, second)
 
-    def test_scoring_ceiling_suppresses_later_calibration_years(self):
+    def test_the_calibration_stage_scores_nothing_and_defers_every_outer_year(self):
+        # RB14: the stage writes fits and predictions only; the receipt names the outer
+        # years the post-barrier component stage will score and keeps the historical
+        # switch value for a frozen config that still carries one.
+        boundary = calibrate.scoring_boundary(
+            {"calibration": {"score_years_max": 2014}}, [2015, 2014]
+        )
+        self.assertEqual(boundary["outer_years_scored"], [])
+        self.assertEqual(boundary["outer_years_deferred_to_sr03_component_stage"], [2014, 2015])
+        self.assertEqual(boundary["historical_score_years_max"], 2014)
+        self.assertIsNone(
+            calibrate.scoring_boundary({"calibration": {}}, [2014])["historical_score_years_max"]
+        )
+
+    def test_unresolved_outcomes_are_predicted_but_not_scored(self):
         rows, outcomes = synthetic_rows()
-        predictions, _, _ = calibration.fit_and_predict(rows, outcomes, [2014, 2015])
-        scored, boundary = calibrate.scoring_selection(
-            {"calibration": {"score_years_max": 2014}}, predictions
+        predictions, _, _ = calibration.fit_and_predict(
+            rows, calibration.fold_outcomes_from_mapping(outcomes), [2014]
         )
-        self.assertEqual({row["calibration_year"] for row in scored}, {2014})
-        self.assertEqual(boundary["outer_years_suppressed_until_report_stage"], [2015])
+        partial = {k: v for k, v in outcomes.items() if not k.startswith("2014-S/0")}
+        metrics, _, _, counts = calibration.evaluate(
+            rows, partial, predictions, edges=EDGES, bootstrap_seed=1, bootstrap_repetitions=10
+        )
+        self.assertEqual(counts["unresolved_outcome_rows"], 1)
+        self.assertEqual(counts["resolved_outcome_rows"], len(predictions) - 1)
+        with self.assertRaisesRegex(CalibrationError, "no prediction has a resolved outcome"):
+            calibration.evaluate(
+                rows, {}, predictions, edges=EDGES, bootstrap_seed=1, bootstrap_repetitions=10
+            )
+
+    def test_fold_accessor_refuses_a_row_beyond_its_horizon(self):
+        rows, outcomes = synthetic_rows()
+        lookup = calibration.fold_outcomes_from_mapping(outcomes)
+        training = calibration.training_rows(rows, 2014)
         self.assertEqual(
-            boundary["predictions_persisted_for_suppressed_years"],
-            sum(1 for row in predictions if row["calibration_year"] == 2015),
+            set(lookup(training, 2014, calibration.training_cutoff(2014))),
+            {row["match_id"] for row in training},
         )
-        unscored, none = calibrate.scoring_selection({"calibration": {}}, predictions)
-        self.assertEqual(unscored, predictions)
-        self.assertIsNone(none)
-        everything, declared_null = calibrate.scoring_selection(
-            {"calibration": {"score_years_max": None}}, predictions
-        )
-        self.assertEqual(everything, predictions)
-        self.assertEqual(declared_null["outer_years_suppressed_until_report_stage"], [])
+        late = [row for row in rows if row["date"].year == 2014][:1]
+        with self.assertRaisesRegex(CalibrationError, "beyond the fold horizon"):
+            lookup(training + late, 2014, calibration.training_cutoff(2014))
 
 
 class FailureTests(unittest.TestCase):
@@ -251,7 +284,11 @@ class FailureTests(unittest.TestCase):
         events = []
         with self.assertRaisesRegex(CalibrationError, "2014/dynamic"):
             calibration.fit_and_predict(
-                rows, outcomes, [2014], adapter=BrokenAdapter, event_sink=events.append
+                rows,
+                calibration.fold_outcomes_from_mapping(outcomes),
+                [2014],
+                adapter=BrokenAdapter,
+                event_sink=events.append,
             )
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]["status"], "failed")
@@ -390,7 +427,11 @@ class FailureTests(unittest.TestCase):
         events = []
         with self.assertRaisesRegex(CalibrationError, "nonconforming"):
             calibration.fit_and_predict(
-                rows, outcomes, [2014], adapter=BadAdapter, event_sink=events.append
+                rows,
+                calibration.fold_outcomes_from_mapping(outcomes),
+                [2014],
+                adapter=BadAdapter,
+                event_sink=events.append,
             )
         self.assertEqual(events[0]["status"], "failed")
 

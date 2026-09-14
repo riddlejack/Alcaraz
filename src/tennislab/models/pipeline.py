@@ -1230,6 +1230,101 @@ def select_calibrated_candidate(
     }
 
 
+# ------------------------------------------------------------------ RB14: scores stay in memory
+#
+# The selection stage takes its decisions on past-year log losses. Those losses are
+# scores of outer years (a later fold's selection window contains an earlier fold's
+# target year), so the stage no longer writes them: it writes the decision, the
+# membership, and a commitment hash of the criterion table; the reporter recomputes the
+# table after the barrier, checks the hash and publishes the numbers.
+
+SELECTION_KEYS_FILE = "selection_keys.csv"
+
+
+def criterion_document(
+    trials: Mapping[str, Mapping[str, Any]], selected: Mapping[str, Any]
+) -> dict[str, Any]:
+    """The scores a selection was taken on, in the form the reporter recomputes and hashes."""
+    return {
+        "candidate_trials": {
+            candidate: {
+                "status": trial.get("status"),
+                "slope": trial.get("slope"),
+                "equal_year_mean_log_loss": trial.get("equal_year_mean_log_loss"),
+                "annual": {
+                    year: value.get("mean_log_loss")
+                    for year, value in (trial.get("annual") or {}).items()
+                },
+            }
+            for candidate, trial in trials.items()
+        },
+        "selection": {
+            "selected_candidate_id": selected.get("selected_candidate_id"),
+            "minimum_equal_year_mean_log_loss": selected.get("minimum_equal_year_mean_log_loss"),
+            "runner_up_gap": selected.get("runner_up_gap"),
+            "ranked": [
+                {"candidate_id": item["candidate_id"], "score": item["score"]}
+                for item in selected.get("ranked", [])
+            ],
+        },
+    }
+
+
+def fit_criterion_document(fit: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status": fit.get("status"),
+        "slope": fit.get("slope"),
+        "equal_year_mean_log_loss": fit.get("equal_year_mean_log_loss"),
+        "annual": {
+            year: value.get("mean_log_loss") for year, value in (fit.get("annual") or {}).items()
+        },
+    }
+
+
+def public_fit(fit: Mapping[str, Any]) -> dict[str, Any]:
+    """A slope fit without its scores: the learned constant and its receipts only."""
+    public = {key: value for key, value in fit.items() if key != "equal_year_mean_log_loss"}
+    if isinstance(fit.get("annual"), Mapping):
+        public["annual"] = {
+            year: {key: value for key, value in record.items() if key != "mean_log_loss"}
+            for year, record in fit["annual"].items()
+        }
+    public["scores_deferred_to_report"] = True
+    return public
+
+
+def public_selection(selected: Mapping[str, Any]) -> dict[str, Any]:
+    """A selection decision without its scores: the ranked candidate order remains."""
+    public = {
+        key: value
+        for key, value in selected.items()
+        if key not in ("minimum_equal_year_mean_log_loss", "runner_up_gap")
+    }
+    public["ranked"] = [
+        {key: value for key, value in item.items() if key != "score"}
+        for item in selected.get("ranked", [])
+    ]
+    public["scores_deferred_to_report"] = True
+    return public
+
+
+def write_selection_keys(path: Path, keys: Sequence[tuple[str, str]]) -> str:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(("season", "match_id"))
+        writer.writerows(keys)
+    return sha256(path)
+
+
+def read_selection_keys(path: Path) -> tuple[tuple[str, str], ...]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.reader(handle)
+        if next(reader, None) != ["season", "match_id"]:
+            raise PipelineError(f"selection key header drift: {path}")
+        return tuple((row[0], row[1]) for row in reader)
+
+
 def apply_slope(probabilities: Sequence[float], slope: float) -> np.ndarray:
     if not math.isfinite(slope) or slope < 0.0:
         raise PipelineError("calibration slope must be finite and nonnegative")
@@ -1502,9 +1597,16 @@ def label_subset(
     *,
     purpose: str,
     year_ceiling: int,
+    fold_outer_year: int | None = None,
 ) -> Any:
     """Read outcomes for only a previously fixed key set, as declared history."""
-    history = LabelHistory(path, expected_sha256, purpose=purpose, year_ceiling=year_ceiling)
+    history = LabelHistory(
+        path,
+        expected_sha256,
+        purpose=purpose,
+        year_ceiling=year_ceiling,
+        fold_outer_year=fold_outer_year,
+    )
     return history.selected(keys, metadata)  # outcome-history read
 
 
@@ -1614,6 +1716,7 @@ def run_raw_stage(
             bundle.metadata,
             purpose="training_fit",
             year_ceiling=training_window(year)[1].year,
+            fold_outer_year=year,
         )
         prediction_features = bundle.features.subset(prediction_keys)
         for learner in LEARNERS:
@@ -1839,6 +1942,7 @@ def run_selection_stage(
             bundle.metadata,
             purpose="past_selection_calibration",
             year_ceiling=outer_year - 1,
+            fold_outer_year=outer_year,
         )
         labels_by_year = {
             year: [past_labels.values[key] for key in keys_by_year[year]]
@@ -1848,6 +1952,10 @@ def run_selection_stage(
         outer_primary_keys = target_keys(bundle.metadata, outer_year)
         outer_provisional_keys = provisional_target_keys(bundle.metadata, outer_year)
         selected_by_learner_block: dict[tuple[str, str], dict[str, Any]] = {}
+        write_selection_keys(
+            output_dir / "selection" / str(outer_year) / SELECTION_KEYS_FILE,
+            combined_selection_keys,
+        )
 
         for learner in LEARNERS:
             for block in BLOCKS:
@@ -1904,9 +2012,15 @@ def run_selection_stage(
                     "selection_years": list(validation_years(outer_year)),
                     "selection_rows": len(combined_selection_keys),
                     "selection_membership_sha256": NUM.key_hash(combined_selection_keys),
+                    "selection_keys_path": str(
+                        Path("selection", str(outer_year), SELECTION_KEYS_FILE)
+                    ),
                     "selection_cutoff_inclusive": dt.date(outer_year - 1, 12, 30).isoformat(),
-                    "candidate_trials": trials,
-                    "selection": selected,
+                    "candidate_trials": {
+                        candidate: public_fit(trial) for candidate, trial in trials.items()
+                    },
+                    "selection": public_selection(selected),
+                    "criterion_sha256": common.canonical_hash(criterion_document(trials, selected)),
                     "outer_target_rows": len(outer_prediction_keys),
                     "outer_primary_rows": len(outer_primary_keys),
                     "outer_primary_membership_sha256": NUM.key_hash(outer_primary_keys),
@@ -2023,6 +2137,7 @@ def run_selection_stage(
             bundle.metadata,
             purpose="past_market_calibration",
             year_ceiling=outer_year - 1,
+            fold_outer_year=outer_year,
         )
         market_fit = fit_nonnegative_slope(
             {
@@ -2039,16 +2154,21 @@ def run_selection_stage(
             validation_years(outer_year),
         )
         current_market_keys = market_keys(bundle.metadata, outer_year)
+        write_selection_keys(
+            output_dir / "market" / str(outer_year) / SELECTION_KEYS_FILE, market_selection_union
+        )
         market_record: dict[str, Any] = {
             "outer_year": outer_year,
             "status": market_fit["status"],
             "selection_years": list(validation_years(outer_year)),
             "selection_rows": len(market_selection_union),
             "selection_membership_sha256": NUM.key_hash(market_selection_union),
+            "selection_keys_path": str(Path("market", str(outer_year), SELECTION_KEYS_FILE)),
             "selection_cutoff_inclusive": dt.date(outer_year - 1, 12, 30).isoformat(),
             "target_rows": len(current_market_keys),
             "target_membership_sha256": NUM.key_hash(current_market_keys),
-            "slope_fit": market_fit,
+            "slope_fit": public_fit(market_fit),
+            "criterion_sha256": common.canonical_hash(fit_criterion_document(market_fit)),
             "outer_labels_used": False,
             "quote_timing": "unknown",
         }

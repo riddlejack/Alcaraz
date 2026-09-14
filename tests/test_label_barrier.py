@@ -58,9 +58,28 @@ class RecordingLabelHistory(LabelHistory):
 
     log: list[dict[str, Any]] = []
 
-    def __init__(self, path: Path, expected_sha256: str, *, purpose: str, year_ceiling=None):
-        super().__init__(path, expected_sha256, purpose=purpose, year_ceiling=year_ceiling)
-        self.entry = {"purpose": purpose, "year_ceiling": year_ceiling, "max_season": None}
+    def __init__(
+        self,
+        path: Path,
+        expected_sha256: str,
+        *,
+        purpose: str,
+        year_ceiling=None,
+        fold_outer_year=None,
+    ):
+        super().__init__(
+            path,
+            expected_sha256,
+            purpose=purpose,
+            year_ceiling=year_ceiling,
+            fold_outer_year=fold_outer_year,
+        )
+        self.entry = {
+            "purpose": purpose,
+            "year_ceiling": year_ceiling,
+            "fold_outer_year": fold_outer_year,
+            "max_season": None,
+        }
         RecordingLabelHistory.log.append(self.entry)
 
     def selected(self, keys, metadata):
@@ -234,17 +253,37 @@ def test_the_final_year_has_no_label_and_updates_no_state(chain: dict[str, Any])
     assert all(row["elo_latest_source_date"][:4] < str(FINAL_YEAR) for row in features)
 
 
-def test_sr03_calibration_scores_no_target_year(chain: dict[str, Any]) -> None:
+def test_sr03_calibration_scores_no_year_and_reads_each_fold_through_the_accessor(
+    chain: dict[str, Any],
+) -> None:
     stage = chain["workspace"] / RUN_ROOT / "sr03_calibration"
     boundary = json.loads((stage / "scoring_boundary.json").read_text(encoding="utf-8"))
-    assert FINAL_YEAR in boundary["outer_years_suppressed_until_report_stage"]
-    assert max(boundary["outer_years_scored"]) < min(
-        boundary["outer_years_suppressed_until_report_stage"]
-    )
-    scored_years = {row["year"] for row in read_rows(stage / "metrics.csv")}
-    assert str(FINAL_YEAR) not in scored_years
+    assert boundary["outer_years_scored"] == []
+    assert FINAL_YEAR in boundary["outer_years_deferred_to_sr03_component_stage"]
+    for name in ("metrics.csv", "reliability.csv", "comparisons.json", "cohort_counts.json"):
+        assert not (stage / name).exists(), name
     predicted_years = {row["calibration_year"] for row in read_rows(stage / "predictions.csv")}
     assert str(FINAL_YEAR) in predicted_years
+    manifest = json.loads((stage / "stage_manifest.json").read_text(encoding="utf-8"))
+    access = manifest["outcome_access"]
+    assert access["declared"] == "fold" and access["violations"] == []
+    receipts = access["receipts"]
+    assert {r["purpose"] for r in receipts} == {"calibration_metadata", "calibration_slope_fit"}
+    projection = [r for r in receipts if r["purpose"] == "calibration_metadata"]
+    assert len(projection) == 1 and "a_won" in projection[0]["outcome_columns_dropped"]
+    receipts = [r for r in receipts if r["purpose"] == "calibration_slope_fit"]
+    assert receipts
+    for receipt in receipts:
+        assert receipt["year_ceiling"] == receipt["fold_outer_year"] - 1
+        assert receipt["max_season_returned"] <= receipt["year_ceiling"]
+        assert receipt["rows_returned"] < receipt["rows_parsed"]
+    assert max(r["fold_outer_year"] for r in receipts) == FINAL_YEAR
+    barrier = json.loads(
+        (chain["workspace"] / RUN_ROOT / "barrier" / "stage_manifest.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert barrier["content_scan"]["findings"] == [] and "run_tree_sha256" in barrier
 
 
 def test_sidecar_predictor_config_and_preflight_do_not_open_the_label_file(
@@ -265,6 +304,9 @@ def test_the_pipeline_reads_outcomes_only_as_declared_history(chain: dict[str, A
     for entry in reads:
         assert entry["year_ceiling"] is not None and entry["year_ceiling"] < FINAL_YEAR
         assert entry["max_season"] is not None and entry["max_season"] <= entry["year_ceiling"]
+        # Every read names the fold it serves and its ceiling precedes that fold (RB14).
+        assert entry["fold_outer_year"] is not None
+        assert entry["year_ceiling"] < entry["fold_outer_year"]
     training_ceilings = sorted(
         entry["year_ceiling"] for entry in reads if entry["purpose"] == "training_fit"
     )

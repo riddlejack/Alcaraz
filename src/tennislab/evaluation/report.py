@@ -1809,8 +1809,138 @@ def reliability_rows(inputs: Inputs) -> list[dict[str, Any]]:
     return output
 
 
-def selection_diagnostics(inputs: Inputs) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def recompute_selection_criteria(inputs: Inputs) -> dict[str, Any]:
+    """Recompute every selection criterion after the barrier and check the commitments.
+
+    Decision RB14: the pipeline wrote each fold's decision, membership and a hash of
+    the criterion table (past-year log losses per candidate, the ranked scores, the
+    runner-up gap) but not the scores themselves. This recomputes the table from the
+    persisted raw forecasts, the persisted selection keys and the labels with the
+    pipeline's own arithmetic, requires the hash and the decision to match, and returns
+    the full table for publication. A pipeline whose decision is not the argmin of its
+    recomputed criterion fails here.
+    """
+    from tennislab.models import numerical as NUM
+    from tennislab.models import pipeline
+
+    pipeline_dir = inputs.selection_path.parent
+    raw = {
+        (item.year, item.learner, item.block, item.candidate_id): item
+        for item in inputs.forecasts
+        if item.kind == "raw"
+    }
+    selection_out: list[dict[str, Any]] = []
+    gaps: dict[tuple[str, int, str, str], Any] = {}
+    for record in inputs.selection_records:
+        year = int(record["outer_year"])
+        learner, block = record["learner"], record["block"]
+        years = tuple(int(item) for item in record["selection_years"])
+        keys_path = pipeline_dir / str(record.get("selection_keys_path", ""))
+        if not keys_path.is_file():
+            raise ReportError(f"selection keys missing: {year}/{learner}/{block}")
+        keys = pipeline.read_selection_keys(keys_path)
+        if NUM.key_hash(keys) != record.get("selection_membership_sha256"):
+            raise ReportError(f"selection keys differ from their membership hash: {year}")
+        keys_by_year = {y: tuple(key for key in keys if int(key[0]) == y) for y in years}
+        if any(not keys_by_year[y] for y in years):
+            raise ReportError(f"selection keys cover no row of a selection year: {year}")
+        labels_by_year = {
+            y: [int(inputs.labels[key]["a_won"]) for key in keys_by_year[y]] for y in years
+        }
+        public_trials = record.get("candidate_trials")
+        if not isinstance(public_trials, dict):
+            raise ReportError(f"selection record without candidate trials: {year}")
+        trials: dict[str, dict[str, Any]] = {}
+        for candidate, public in public_trials.items():
+            if public.get("status") != "complete":
+                trials[candidate] = {
+                    "status": public.get("status"),
+                    "slope": None,
+                    "equal_year_mean_log_loss": None,
+                    "error": public.get("error"),
+                }
+                continue
+            probabilities = {
+                y: [raw[(y, learner, block, candidate)].predictions[key] for key in keys_by_year[y]]
+                for y in years
+            }
+            trials[candidate] = pipeline.fit_nonnegative_slope(probabilities, labels_by_year, years)
+        selected = pipeline.select_calibrated_candidate(trials, list(public_trials))
+        criterion = pipeline.criterion_document(trials, selected)
+        if common.canonical_hash(criterion) != record.get("criterion_sha256"):
+            raise ReportError(
+                f"recomputed selection criterion differs from the pipeline's commitment: "
+                f"{year}/{learner}/{block}"
+            )
+        if selected.get("selected_candidate_id") != record.get(
+            "selected_candidate_id"
+        ) or selected.get("selected_slope") != record.get("selected_slope"):
+            raise ReportError(
+                f"pipeline decision is not the argmin of its criterion: {year}/{learner}/{block}"
+            )
+        gaps[("selected", year, learner, block)] = selected.get("runner_up_gap")
+        selection_out.append(
+            {
+                "outer_year": year,
+                "learner": learner,
+                "block": block,
+                "selection_years": list(years),
+                "selection_keys_sha256": sha256(keys_path),
+                "criterion_sha256": record["criterion_sha256"],
+                "candidate_trials": trials,
+                "selection": selected,
+            }
+        )
+    market_out: list[dict[str, Any]] = []
+    for record in inputs.market_records:
+        year = int(record["outer_year"])
+        years = tuple(int(item) for item in record["selection_years"])
+        keys_path = pipeline_dir / str(record.get("selection_keys_path", ""))
+        if not keys_path.is_file():
+            raise ReportError(f"market selection keys missing: {year}")
+        keys = pipeline.read_selection_keys(keys_path)
+        if NUM.key_hash(keys) != record.get("selection_membership_sha256"):
+            raise ReportError(f"market selection keys differ from their membership hash: {year}")
+        keys_by_year = {y: tuple(key for key in keys if int(key[0]) == y) for y in years}
+        fit = pipeline.fit_nonnegative_slope(
+            {
+                y: [float(inputs.features[key]["ps_probability_a"]) for key in keys_by_year[y]]
+                for y in years
+            },
+            {y: [int(inputs.labels[key]["a_won"]) for key in keys_by_year[y]] for y in years},
+            years,
+        )
+        if common.canonical_hash(pipeline.fit_criterion_document(fit)) != record.get(
+            "criterion_sha256"
+        ):
+            raise ReportError(
+                f"recomputed market slope fit differs from the pipeline's commitment: {year}"
+            )
+        if fit.get("slope") != record.get("slope"):
+            raise ReportError(f"market slope differs from its recomputed fit: {year}")
+        market_out.append(
+            {
+                "outer_year": year,
+                "selection_years": list(years),
+                "selection_keys_sha256": sha256(keys_path),
+                "criterion_sha256": record["criterion_sha256"],
+                "slope_fit": fit,
+            }
+        )
+    return {
+        "status": "recomputed_after_barrier",
+        "basis": "RB14: pipeline commitments verified; scores published here, never before the barrier",
+        "selection_records": selection_out,
+        "market_records": market_out,
+        "runner_up_gaps": gaps,
+    }
+
+
+def selection_diagnostics(
+    inputs: Inputs, gaps: Mapping[tuple[str, int, str, str], Any] | None = None
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     rows = []
+    gaps = gaps or {}
     for kind, records in (
         ("selected", inputs.selection_records),
         ("shared_base", inputs.shared_records),
@@ -1835,6 +1965,8 @@ def selection_diagnostics(inputs: Inputs) -> tuple[list[dict[str, Any]], dict[st
                 record.get("slope", selection.get("selected_slope", slope_fit.get("slope", ""))),
             )
             gap = record.get("runner_up_gap", selection.get("runner_up_gap", ""))
+            if (kind, year, learner, block) in gaps:
+                gap = gaps[(kind, year, learner, block)]
             if slope == "" or not math.isfinite(float(slope)) or float(slope) < 0.0:
                 raise ReportError(f"missing/invalid saved slope in {kind}/{year}/{learner}/{block}")
             rows.append(
@@ -1989,7 +2121,9 @@ def run(config_path: Path, output: Path) -> dict[str, Any]:
     coverage = coverage_rows(inputs)
     annual, summaries, primary, bootstrap_rows = contrast_outputs(inputs)
     reliability = reliability_rows(inputs)
-    diagnostic_rows, diagnostic_link = selection_diagnostics(inputs)
+    criteria = recompute_selection_criteria(inputs)
+    diagnostic_rows, diagnostic_link = selection_diagnostics(inputs, criteria["runner_up_gaps"])
+    diagnostic_link["criteria_recomputed_after_barrier"] = "selection_trials.json"
     hashes = {
         "annual_metrics.csv": write_csv(output / "annual_metrics.csv", metrics, tuple(metrics[0])),
         "pooled_metrics.csv": write_csv(output / "pooled_metrics.csv", pooled, tuple(pooled[0])),
@@ -2011,6 +2145,10 @@ def run(config_path: Path, output: Path) -> dict[str, Any]:
         ),
     }
     atomic_json(output / "selection_receipts.json", diagnostic_link)
+    atomic_json(
+        output / "selection_trials.json",
+        {key: value for key, value in criteria.items() if key != "runner_up_gaps"},
+    )
     atomic_json(output / "primary.json", primary)
     (output / "report.md").write_text(
         markdown_report(primary, primary["fixed_prediction_bootstrap"]), encoding="utf-8"
@@ -2018,6 +2156,7 @@ def run(config_path: Path, output: Path) -> dict[str, Any]:
     hashes.update(
         {
             "selection_receipts.json": sha256(output / "selection_receipts.json"),
+            "selection_trials.json": sha256(output / "selection_trials.json"),
             "primary.json": sha256(output / "primary.json"),
             "report.md": sha256(output / "report.md"),
         }

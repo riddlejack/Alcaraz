@@ -15,12 +15,14 @@ name); ``bindings.files`` is split into data bindings, verified by hash under th
 workspace, and code bindings (``*.py``), which are recorded as declared provenance;
 failures are :class:`CalibrationError`.
 
-Outcome reads. ``load_dataset`` reads ``a_won`` from the panel for every played selected
-match (``labels=True``). ``training_rows``/``fit_and_predict`` use those outcomes only on
-calendar years strictly before the outer year (history). ``evaluate`` scores the outer
-years themselves -- including target years when the caller passes them -- and is the
-read the integration pass must move behind the report barrier. Every read is marked
-``# outcome-history read``.
+Outcome reads (decision RB14). ``load_dataset`` records for each selected row only
+whether its outcome is resolved (``outcome_known``); it does not collect outcome values.
+``fit_and_predict`` asks its ``outcomes_for_fold`` callable for the training rows of one
+outer year at a time, so every slope fit reads outcomes through a fold-specific accessor
+(``chain.labels.PanelOutcomeHistory``, ceiling = outer year − 1, cutoff = 30 December)
+that writes a receipt. ``evaluate`` scores the outer years themselves and runs only after
+the report barrier (``calibrate evaluate``, stage ``sr03_component``). Every read is
+marked ``# outcome-history read``.
 """
 
 from __future__ import annotations
@@ -385,8 +387,49 @@ def validate_bindings(
 @dataclass(frozen=True)
 class Dataset:
     rows: list[dict[str, Any]]
-    outcomes: dict[str, int]
     refused_without_rule: list[str]
+    # The panel the rows came from, so a fold accessor can be opened on it.
+    panel_path: Path | None = None
+    panel_sha256: str | None = None
+
+
+OutcomesForFold = Callable[[Sequence[dict[str, Any]], int, dt.date], Mapping[str, int]]
+
+
+def fold_outcomes_from_mapping(outcomes: Mapping[str, int]) -> OutcomesForFold:
+    """An in-memory ``outcomes_for_fold`` for tests: the same ceiling and cutoff checks,
+    read from a mapping instead of the panel file."""
+
+    def lookup(training: Sequence[dict[str, Any]], outer_year: int, cutoff: dt.date):
+        values: dict[str, int] = {}
+        for row in training:
+            if int(row["source_season"]) >= outer_year or row["date"] > cutoff:
+                raise CalibrationError(f"training row beyond the fold horizon: {row['match_id']}")
+            values[row["match_id"]] = int(outcomes[row["match_id"]])
+        return values
+
+    return lookup
+
+
+def panel_outcomes_for_fold(dataset: Dataset, *, purpose: str = "calibration_slope_fit"):
+    """The production ``outcomes_for_fold``: one ``PanelOutcomeHistory`` read per fold."""
+    from tennislab.chain.labels import PanelOutcomeHistory
+
+    if dataset.panel_path is None or dataset.panel_sha256 is None:
+        raise CalibrationError("dataset carries no panel binding for the fold accessor")
+
+    def lookup(training: Sequence[dict[str, Any]], outer_year: int, cutoff: dt.date):
+        history = PanelOutcomeHistory(
+            dataset.panel_path,
+            dataset.panel_sha256,
+            purpose=purpose,
+            year_ceiling=outer_year - 1,
+            cutoff_date=cutoff,
+            fold_outer_year=outer_year,
+        )
+        return history.selected([row["match_id"] for row in training])  # outcome-history read
+
+    return lookup
 
 
 def load_dataset(
@@ -403,8 +446,14 @@ def load_dataset(
     invent a rule for an unmappable new event and SR02-C1 declares
     ``missing_rule = emit_point_probabilities_and_refuse_match_probability``).
     """
+    from tennislab.chain.labels import projected_rows
+
     source = config["source"]
-    panel_rows = read_csv(resolve_under_root(source["panel_path"], label="panel"))
+    panel_path = resolve_under_root(source["panel_path"], label="panel")
+    panel_sha256 = sha256(panel_path)
+    # The panel is parsed for its metadata only: the outcome columns are dropped by the
+    # projection and ``outcome_known`` says whether a row's outcome is recorded at all.
+    panel_rows = projected_rows(panel_path, panel_sha256, purpose="calibration_metadata")
     panel = {row["match_id"]: row for row in panel_rows}
     if len(panel) != len(panel_rows):
         raise CalibrationError("panel contains duplicate match IDs")
@@ -417,7 +466,6 @@ def load_dataset(
         raise CalibrationError("selected matches contain duplicate IDs")
 
     result: list[dict[str, Any]] = []
-    outcomes: dict[str, int] = {}
     refused_without_rule: list[str] = []
     for prediction in selected_rows:
         match_id = prediction["match_id"]
@@ -480,32 +528,33 @@ def load_dataset(
                 raise CalibrationError(f"invalid marked Pinnacle pair: {match_id}")
             item["pinnacle_raw_normalized"] = (1 / decimal_a) / (1 / decimal_a + 1 / decimal_b)
             sr02_market.probabilities([item["pinnacle_raw_normalized"]])
+        # Whether the outcome is resolved is metadata: a blank a_won is an outcome not
+        # yet known (a prospective target); the row is still predicted and trains and
+        # scores nothing. The value itself is read only through the fold accessor.
+        item["outcome_known"] = bool(labels and played and source_row["outcome_known"] == "1")
         result.append(item)
-        if labels:
-            if not played or source_row["a_won"] == "":
-                # A blank a_won is an outcome not yet known (a prospective target): the
-                # row is still predicted, and it trains and scores nothing.
-                continue
-            # outcome-history read: the panel's a_won for every played selected match,
-            # every calendar year in the window, target years included.
-            outcomes[match_id] = int(parse_boolean(source_row["a_won"]))
     return Dataset(
         sorted(result, key=lambda row: (row["match_date"], row["match_id"])),
-        outcomes,
         refused_without_rule,
+        panel_path=panel_path,
+        panel_sha256=panel_sha256,
     )
+
+
+def training_cutoff(outer_year: int) -> dt.date:
+    """The last training date of a fold: two days before the outer year starts."""
+    return dt.date(outer_year, 1, 1) - dt.timedelta(days=2)
 
 
 def training_rows(
     rows: Sequence[dict[str, Any]],
-    outcomes: Mapping[str, int],
     outer_year: int,
     *,
     window: CalibrationWindow = SR03_WINDOW,
 ) -> list[dict[str, Any]]:
     back = window.training_calendar_years
     low = dt.date(outer_year - back, 1, 1)
-    high = dt.date(outer_year, 1, 1) - dt.timedelta(days=2)
+    high = training_cutoff(outer_year)
     selected = [
         row
         for row in rows
@@ -513,7 +562,7 @@ def training_rows(
         and row["identity_tier"] == "primary"
         and row["played"]
         and int(row["source_season"]) == row["date"].year
-        and row["match_id"] in outcomes  # outcome-history read: resolved rows before the cutoff
+        and row.get("outcome_known", True)  # resolved rows before the cutoff
     ]
     represented = {row["date"].year for row in selected}
     if represented != set(range(outer_year - back, outer_year)):
@@ -541,7 +590,7 @@ def target_rows(rows: Sequence[dict[str, Any]], outer_year: int) -> list[dict[st
 
 def fit_and_predict(
     rows: Sequence[dict[str, Any]],
-    outcomes: Mapping[str, int],
+    outcomes_for_fold: OutcomesForFold,
     outer_years: Sequence[int],
     *,
     window: CalibrationWindow = SR03_WINDOW,
@@ -552,8 +601,12 @@ def fit_and_predict(
     fits: list[dict[str, object]] = []
     membership_rows: list[dict[str, object]] = []
     for outer_year in outer_years:
-        training = training_rows(rows, outcomes, outer_year, window=window)
+        training = training_rows(rows, outer_year, window=window)
         targets = target_rows(rows, outer_year)
+        # outcome-history read: the fold's training outcomes, through the accessor.
+        outcomes = outcomes_for_fold(training, outer_year, training_cutoff(outer_year))
+        if set(outcomes) != {row["match_id"] for row in training}:
+            raise CalibrationError(f"fold {outer_year}: accessor returned a different membership")
         membership_sha = key_hash(training)
         by_year: dict[str, dict[str, object]] = {}
         for year in range(outer_year - window.training_calendar_years, outer_year):
@@ -694,15 +747,21 @@ def evaluate(
     ):
         raise CalibrationError("source or prediction identity is duplicated")
     joined: list[dict[str, Any]] = []
+    unresolved = 0
     for prediction in predictions:
         match_id = str(prediction["match_id"])
-        if match_id not in source or match_id not in outcomes:
-            raise CalibrationError(
-                f"prediction lacks a scoring source or resolved outcome: {match_id}"
-            )
+        if match_id not in source:
+            raise CalibrationError(f"prediction lacks a scoring source: {match_id}")
+        if match_id not in outcomes:
+            # An outcome not yet known (a prospective target year) is predicted, not
+            # scored; the count is reported.
+            unresolved += 1
+            continue
         # outcome-history read: the scored outcome of every calibrated outer-year row.
         row = {**source[match_id], **prediction, "a_won": outcomes[match_id]}
         joined.append(row)
+    if not joined:
+        raise CalibrationError("no prediction has a resolved outcome to score")
 
     metrics: list[dict[str, object]] = []
     comparisons: dict[str, object] = {}
@@ -774,9 +833,9 @@ def evaluate(
 
     bins = [item for model in MODEL_FIELDS for item in reliability(primary, model, edges)]
     counts = {
-        "prediction_rows": len(joined),
+        "prediction_rows": len(joined) + unresolved,
         "resolved_outcome_rows": len(joined),
-        "unresolved_outcome_rows": 0,
+        "unresolved_outcome_rows": unresolved,
         "cohorts": {name: sum(cohort(row, name) for row in joined) for name in cohort_names},
         "primary_valid_pinnacle_rows": len(priced),
         "primary_missing_pinnacle_rows": len(primary) - len(priced),
