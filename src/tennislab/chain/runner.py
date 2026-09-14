@@ -978,6 +978,16 @@ def observed_outcome_access(
         latest = receipt.get("max_season_returned")
         cutoff = receipt.get("cutoff_date")
         latest_date = receipt.get("max_match_date_returned")
+        if cutoff is not None and fold is not None:
+            last_allowed = (dt.date(int(fold), 1, 1) - dt.timedelta(days=2)).isoformat()
+            try:
+                valid_cutoff = dt.date.fromisoformat(cutoff).isoformat() <= last_allowed
+            except TypeError, ValueError:
+                valid_cutoff = False
+            if not valid_cutoff:
+                violations.append(
+                    f"stage {stage.name}: cutoff {cutoff} exceeds fold cutoff {last_allowed}"
+                )
         if cutoff is not None and latest_date is not None and latest_date > cutoff:
             violations.append(
                 f"stage {stage.name}: returned date {latest_date} beyond cutoff {cutoff}"
