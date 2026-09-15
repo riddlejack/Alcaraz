@@ -77,4 +77,5 @@ rights to the underlying databases and includes no raw match tables or provider 
 
 This review covers the specified release contents. It does not certify arbitrary future
 checkpoints, formal privacy guarantees, a complete player-name application or new scientific
-performance. The approved E/G experiments remain separate pending work.
+performance. The [ranking/Elo comparison](benchmarks/G_L_RESULTS.md) is complete;
+the approved four-model improvement campaign remains separate pending work.
