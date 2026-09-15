@@ -166,6 +166,18 @@ def _snapshot(config: LiveConfig, history: dict[str, dict[str, Any]]) -> dict[st
             "incremental_results_rows": incremental_results_rows,
             "blockers": blockers,
             "serve_frontier_observed": loaded["manifest"].get("serve_frontier_observed", {}),
+            "serve_frontier_observed_basis": "completion_upper_bound; not the modeled event date",
+            "serve_model_event_frontier": {
+                tour: max(
+                    (
+                        row["model_event_date"]
+                        for row in loaded["serve"]
+                        if row.get("tour") == tour and row.get("model_event_date")
+                    ),
+                    default=None,
+                )
+                for tour in ("ATP", "WTA")
+            },
             "ranking_frontier_observed": loaded["manifest"].get("ranking_frontier_observed", {}),
         }
     except (LiveError, OSError, ValueError) as error:
