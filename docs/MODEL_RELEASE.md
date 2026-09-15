@@ -27,23 +27,26 @@ Build from the repository root:
 ```sh
 uv run python tools/build_model_release.py \
   --archive "/path/to/Tennis Research Lab" \
-  --output "/path/to/tennislab-accepted-models-2026-09-14" \
-  --tar "/path/to/tennislab-accepted-models-2026-09-14.tar.gz"
+  --output "/path/to/tennislab-accepted-models-2026-09-14-r2" \
+  --tar "/path/to/tennislab-accepted-models-2026-09-14-r2.tar.gz"
 ```
 
 Verify an unpacked bundle without accessing the archive:
 
 ```sh
 uv run python tools/build_model_release.py \
-  --verify "/path/to/tennislab-accepted-models-2026-09-14"
+  --verify "/path/to/tennislab-accepted-models-2026-09-14-r2"
 ```
 
 `src/tennislab/models/release.py` verifies the complete manifest and the selected model digest
-before `joblib` unpickling. It loads one checkpoint plus its calibration slope, accepts a
-constructed feature row, and reuses the existing fitted-model `predict` method. It also restores
-the complete named-player Elo state into the existing `PooledElo` class.
+before `joblib` unpickling. This detects a mismatch against the manifest but does not authenticate
+an attacker-supplied manifest: verify the official tarball checksum through a trusted channel
+before loading it. The loader accepts a constructed HGB feature row and reuses the existing
+fitted-model `predict` method. It also restores the Elo state into the existing `PooledElo` class.
 
-The non-Elo artifacts are not a complete player-name forecasting application. The bundle's
-`REQUIRED_STATE.json` names the missing live feature state and the existing producer for each
-piece. Packaging that state is a separate dependency; weights alone must not be described as a
-current model or as ready for name-to-probability inference.
+The bundled Elo state has numeric source player IDs but no name-key entries. Use source IDs for
+Elo inference; unresolved name-only calls fail instead of silently cold-starting. HGB artifacts
+are not a complete player-name forecasting application. `REQUIRED_STATE.json` names the missing
+identity/feature state and the existing producer for each piece. Packaging that state is a
+separate dependency; weights alone must not be described as a current model or as ready for
+name-to-probability inference.
