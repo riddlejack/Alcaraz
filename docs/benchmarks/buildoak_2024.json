@@ -1,0 +1,142 @@
+{
+  "scope": "single_exposed_ATP_2024_historical_cutoff_adaptation",
+  "primary": {
+    "incumbent": {
+      "n": 2681,
+      "log_loss": 0.5964862003276956,
+      "brier": 0.2062225526599624,
+      "accuracy": 0.6616933979858262,
+      "score_clip_count": 0
+    },
+    "external": {
+      "n": 2681,
+      "log_loss": 0.6000438940842217,
+      "brier": 0.2077005650668946,
+      "accuracy": 0.660574412532637,
+      "score_clip_count": 0
+    },
+    "incumbent_minus_external_log_loss": -0.003557693756526014,
+    "uncertainty": {
+      "grid_first_monday": "2024-01-01",
+      "grid_last_monday": "2024-11-11",
+      "grid_weeks_including_empty": 46,
+      "seed": 20260915,
+      "rng": "PCG64",
+      "primary_block_weeks": 8,
+      "results": {
+        "8": {
+          "mean_block_weeks": 8,
+          "replicates": 5000,
+          "percentile_95": [
+            -0.011206738653793478,
+            0.0030126301136550277
+          ],
+          "draw_sha256": "a06d04c92dd222e1dddaacb2ae8ebae5a26a331c9685ffb8980a7740f25f46d1"
+        },
+        "4": {
+          "mean_block_weeks": 4,
+          "replicates": 5000,
+          "percentile_95": [
+            -0.011510226011802892,
+            0.0033895811776810847
+          ],
+          "draw_sha256": "f80b8ce09b184cf72ec858dbfc15a5186d137ed4fd784eba96d21dee37fffa97"
+        },
+        "13": {
+          "mean_block_weeks": 13,
+          "replicates": 5000,
+          "percentile_95": [
+            -0.010360473657191477,
+            0.0025279956504311663
+          ],
+          "draw_sha256": "19bf6daf2e1b6efd1360f089931ab0ce0f04313ffccf275aba634f8a42742ca6"
+        }
+      }
+    }
+  },
+  "native_coverage": {
+    "rows": 2681,
+    "total": 2681,
+    "fraction": 1.0
+  },
+  "secondary": {
+    "native_only": {
+      "n": 2681,
+      "incumbent": {
+        "n": 2681,
+        "log_loss": 0.5964862003276956,
+        "brier": 0.2062225526599624,
+        "accuracy": 0.6616933979858262,
+        "score_clip_count": 0
+      },
+      "external": {
+        "n": 2681,
+        "log_loss": 0.6000438940842217,
+        "brier": 0.2077005650668946,
+        "accuracy": 0.660574412532637,
+        "score_clip_count": 0
+      },
+      "incumbent_minus_external_log_loss": -0.003557693756526014
+    },
+    "completed_only": {
+      "n": 2604,
+      "incumbent": {
+        "n": 2604,
+        "log_loss": 0.5924424918781835,
+        "brier": 0.20461645249252705,
+        "accuracy": 0.6643625192012289,
+        "score_clip_count": 0
+      },
+      "external": {
+        "n": 2604,
+        "log_loss": 0.597154219688093,
+        "brier": 0.2064647401065109,
+        "accuracy": 0.663594470046083,
+        "score_clip_count": 0
+      },
+      "incumbent_minus_external_log_loss": -0.004711727809909386
+    }
+  },
+  "limitations": [
+    "reported and assumed date proxies, not verified pre-play availability",
+    "external native structure retained but chronology adapted; older training histories use assumed event batches",
+    "one examined season and author/development exposure; conditional fixed-forecast uncertainty omits research and source-choice uncertainty",
+    "not original author reproduction, equal-input algorithm isolation, prospective evidence or universal SOTA"
+  ],
+  "forecast_commitment_sha256": "771af0a81cee6b5b4def1494d897aabe010bc8091e2ec1a665bf37b45dc7d6f1",
+  "verification": {
+    "status": "PASS",
+    "scope": "independent keyed orientation, headline metrics and three paired bootstrap intervals",
+    "checked_utc": "2026-09-15T19:52:36.434594+00:00",
+    "report_sha256": "8cd3d5bdcd9a276f9227edca778c84fc13291108662e8f888059c5d7e35ec991",
+    "incumbent": {
+      "n": 2681,
+      "log_loss": 0.5964862003276956,
+      "brier": 0.20622255265996245,
+      "accuracy": 0.6616933979858262
+    },
+    "external": {
+      "n": 2681,
+      "log_loss": 0.6000438940842215,
+      "brier": 0.2077005650668946,
+      "accuracy": 0.660574412532637
+    },
+    "native_rows": 2681,
+    "intervals": {
+      "8": [
+        -0.011206738653793477,
+        0.003012630113655029
+      ],
+      "4": [
+        -0.011510226011802894,
+        0.003389581177681087
+      ],
+      "13": [
+        -0.010360473657191475,
+        0.0025279956504311676
+      ]
+    }
+  },
+  "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+  "interpretation": "Numerical advantage for Tennis Lab; uncertainty includes zero. No decisive or universal superiority claim."
+}
