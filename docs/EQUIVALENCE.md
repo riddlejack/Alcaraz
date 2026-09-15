@@ -181,3 +181,13 @@ presented on the front page. Independent review records in the separate archive 
 `LANE_WTA01_BINDING_RECONSTRUCTION.md` (SHA-256
 `7b234748cf60c87a3999a5bfdbff2b5ea9c2a8201ec6262d25ca398c47f48ba8`) and
 `LANE_WTA01_AUDIT_REPAIR.md`, which links the focused independent successor review.
+
+## Generated workbook timestamp repair (2026-09-14, RB27)
+
+The historical B2 observations above remain unchanged. A later release check exposed the
+same clock-dependent modified property in two immediate synthetic builds. The current writer
+now serializes the core properties again after openpyxl saves, resetting modified to the same
+1980 epoch used for created and ZIP timestamps. A regression moves the save clock by more
+than five years and requires identical workbook bytes and unchanged typed cells. A direct
+old/new comparison changes only dcterms:modified in docProps/core.xml; every non-core member
+is byte-identical. No frozen archive workbook, model or historical forecast was regenerated.
