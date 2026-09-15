@@ -117,6 +117,21 @@ baselines do not. Stronger point-based and other machine-learning models remain 
 the benchmark, so it does not establish state-of-the-art performance.
 [See the models, scores and limitations](docs/benchmarks/G_L_RESULTS.md).
 
+## What happened when we tried more models?
+
+A separately frozen four-arm campaign tested an Elo blend, two random-forest settings,
+and an eight-member stack against the unchanged incumbent on 18,972 ATP matches and
+12,900 WTA matches. The independent review recomputed the combined forecast values from
+saved raw-member probabilities, selection criteria, scores, and uncertainty calculation.
+ATP's stacked model was only slightly better than the incumbent and its interval crossed
+zero; WTA's was slightly worse.
+Neither tour met the registered nomination screen, so the incumbent remains the default
+and no model was promoted.
+
+This was an outcome-exposed historical development test, not a live or prospective
+forecast record.
+[See the exact results, failed-attempt chronology, and limitations](docs/CAMPAIGN_E_RESULTS.md).
+
 ## What is reproducible today
 
 The public repository includes the full model-building and evaluation code,
@@ -145,6 +160,9 @@ the chronology, failures, repairs, and remaining limits.
 ## Current evidence status
 
 - **Historical results:** reproduced independently within the documented scope.
+- **Additional-model campaign:** independently accepted as negative/inconclusive; no
+  nomination or promotion. [`docs/CAMPAIGN_E_RESULTS.md`](docs/CAMPAIGN_E_RESULTS.md)
+  records the exact scope and retained limits.
 - **Live forecasting record:** none yet. No real forecast batch has been published
   before play and later scored under a plan fixed in advance.
 - **Data horizons:** ATP uses a 2005–2024 panel with 2017–2024 targets. WTA uses a
