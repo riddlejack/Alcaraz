@@ -3,8 +3,10 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import gzip
+import hashlib
 import json
 from pathlib import Path
+import shutil
 
 import pytest
 
@@ -106,6 +108,34 @@ def test_g3_final_unavailable_outcome_is_never_parsed(
     assert "SYNTHETIC-ATP-2020-1" not in receipt["tours"]["ATP"]["parsed_outcome_match_ids"]
 
 
+def test_g3_access_receipt_covers_actual_rank_and_calibration_union(
+    synthetic_workspace: tuple[Path, Path],
+) -> None:
+    _, config = synthetic_workspace
+    attempt = forecast(config, "access_union")
+    receipt = json.loads((attempt / "forecast/access_receipt.json").read_text())
+    for tour in ("ATP", "WTA"):
+        purpose = receipt["tours"][tour]["purpose_memberships"][
+            "rank_and_calibration_past"
+        ]
+        expected = [(str(year), f"SYNTHETIC-{tour}-{year}-1") for year in range(2011, 2020)]
+        assert purpose["rows"] == 9
+        assert purpose["membership_sha256"] == workflow.key_hash(expected)
+        assert purpose["folds"]
+        assert {fold["fit_type"] for fold in purpose["folds"]} == {
+            "rank_parameter_fit",
+            "common_equal_year_calibration",
+        }
+
+
+def _refresh_stage_artifact_digest(attempt: Path, artifact: str) -> None:
+    manifest_path = attempt / "forecast/stage_manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    artifact_path = attempt / "forecast" / artifact
+    manifest["artifacts"][artifact] = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
 def test_g4_prediction_mutation_before_barrier_rejects(
     synthetic_workspace: tuple[Path, Path],
 ) -> None:
@@ -115,6 +145,53 @@ def test_g4_prediction_mutation_before_barrier_rejects(
     path.write_text(path.read_text() + "\n", encoding="utf-8")
     with pytest.raises(BenchmarkError, match="manifest|artifact|changed"):
         barrier(config, "prediction_mutation")
+
+
+def test_g4_coherent_calibration_or_incumbent_rewrite_rejects(
+    synthetic_workspace: tuple[Path, Path],
+) -> None:
+    root, config = synthetic_workspace
+    calibrated = forecast(config, "calibration_rewrite")
+    _rewrite_csv(
+        calibrated / "forecast/predictions.csv",
+        lambda rows: rows[0].__setitem__("calibrated_k32_pooled", "0.432123"),
+    )
+    _refresh_stage_artifact_digest(calibrated, "predictions.csv")
+    with pytest.raises(BenchmarkError, match="producer|calibrat|completion"):
+        barrier(config, "calibration_rewrite")
+
+    config = fixture_workspace(root)
+    incumbent = forecast(config, "incumbent_rewrite")
+
+    def rewrite_incumbent(rows: list[dict[str, str]]) -> None:
+        rows[0]["raw_incumbent"] = "0.7"
+        rows[0]["calibrated_incumbent"] = "0.7"
+
+    _rewrite_csv(incumbent / "forecast/predictions.csv", rewrite_incumbent)
+    _refresh_stage_artifact_digest(incumbent, "predictions.csv")
+    with pytest.raises(BenchmarkError, match="producer|incumbent|completion"):
+        barrier(config, "incumbent_rewrite")
+
+
+def test_g4_attempt_transplant_and_missing_producer_completion_reject(
+    synthetic_workspace: tuple[Path, Path],
+) -> None:
+    root, config = synthetic_workspace
+    original = forecast(config, "original")
+    completion = original / "forecast_completion.json"
+    assert completion.is_file()
+    assert json.loads(completion.read_text())["attempt"] == "original"
+
+    transplanted = root / "runs/G-L/transplanted"
+    transplanted.mkdir(parents=True)
+    shutil.copytree(original / "forecast", transplanted / "forecast")
+    with pytest.raises(BenchmarkError, match="attempt|producer completion"):
+        barrier(config, "transplanted")
+
+
+def test_g4_effective_code_includes_rank_fitter() -> None:
+    modules = {entry["module"] for entry in workflow._execution_binding()["code"]}
+    assert "tennislab.dynamics.market" in modules
 
 
 def test_g4_empty_or_failed_forecast_never_commits(
@@ -177,6 +254,24 @@ def test_g5_sensitive_gzip_and_stage_manifest_plants_reject(
         barrier(config, "manifest_plant")
 
 
+def test_g5_nested_sensitive_fit_receipt_rejects(
+    synthetic_workspace: tuple[Path, Path],
+) -> None:
+    _, config = synthetic_workspace
+    attempt = forecast(config, "nested_sensitive")
+    fits_path = attempt / "forecast/fit_receipts.json"
+    fits = json.loads(fits_path.read_text())
+    first_year = next(iter(fits[0]["annual_membership"]))
+    fits[0]["annual_membership"][first_year]["planted"] = {
+        "a_won": 1,
+        "PS_decimal_a": 1.91,
+    }
+    fits_path.write_text(json.dumps(fits, indent=2) + "\n", encoding="utf-8")
+    _refresh_stage_artifact_digest(attempt, "fit_receipts.json")
+    with pytest.raises(BenchmarkError, match="sensitive|schema"):
+        barrier(config, "nested_sensitive")
+
+
 def test_g6_fixed_constant_drift_rejects(synthetic_workspace: tuple[Path, Path]) -> None:
     root, config = synthetic_workspace
     document = json.loads(config.read_text())
@@ -232,6 +327,24 @@ def test_g6_missing_anchor_and_arbitrary_synthetic_relabel_reject(
     config.write_text(json.dumps(document) + "\n", encoding="utf-8")
     with pytest.raises(BenchmarkError, match="arbitrary synthetic relabeling"):
         forecast(config, "arbitrary_relabel")
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("required_root", "external_dataset"),
+        ("required_match_id_prefix", "ARBITRARY-"),
+        ("maximum_rows_per_input", 1_000_000),
+    ],
+)
+def test_g6_fixed_synthetic_policy_cannot_be_redefined(
+    synthetic_workspace: tuple[Path, Path], field: str, value: object
+) -> None:
+    _, config = synthetic_workspace
+    document = json.loads(config.read_text())
+    document["synthetic_policy"][field] = value
+    with pytest.raises(BenchmarkError, match="synthetic policy contract drift"):
+        workflow._validate_document(document)
 
 
 def test_g6_fit_and_fallback_receipts_have_declared_grain(
@@ -317,3 +430,25 @@ def test_g7_report_is_complete_and_brier_is_not_inference(
     assert atp["inference"]["primary"]["8"]["seed"] == 20260914 + 1000 + 8
     assert atp["inference"]["priced"]["8"]["seed"] == 20260914 + 1000 + 8
     assert atp["inference"]["primary"]["8"]["generator_reset_for_stream"] is True
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("primary_mean_block_weeks", 9),
+        ("sensitivity_mean_block_weeks", [4]),
+        ("rng", "different.generator"),
+        ("stream_unit", "shared_stream"),
+        ("multiplicity_scope", "different_family"),
+        ("fixed_prediction_sensitivities", []),
+        ("deferred", []),
+    ],
+)
+def test_g7_fixed_inference_contract_cannot_drift(
+    synthetic_workspace: tuple[Path, Path], field: str, value: object
+) -> None:
+    _, config = synthetic_workspace
+    document = json.loads(config.read_text())
+    document["inference"][field] = value
+    with pytest.raises(BenchmarkError, match="inference contract drift"):
+        workflow._validate_document(document)
