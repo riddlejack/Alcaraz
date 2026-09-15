@@ -122,9 +122,28 @@ CODE_MODULES = (
     "tennislab.benchmark.statistics",
     "tennislab.chain.common",
     "tennislab.chain.barrier_scan",
+    "tennislab.dynamics.market",
     "tennislab.models.pipeline",
     "tennislab.models.numerical",
 )
+EXPECTED_SYNTHETIC_POLICY = {
+    "required_root": "fixtures/synthetic",
+    "required_match_id_prefix": "SYNTHETIC-",
+    "maximum_rows_per_input": 1000,
+    "manifest_name": "fixture_manifest.json",
+    "symlinks_allowed": False,
+    "allowed_tours": ["ATP", "WTA"],
+}
+EXPECTED_INFERENCE_DESCRIPTORS = {
+    "stream_unit": "tour_cohort_mean_block_weeks",
+    "rng": "numpy.PCG64",
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [4, 13],
+    "multiplicity_scope": "per_tour_five_calibrated_log_loss_incumbent_contrasts",
+    "brier_inference": False,
+    "fixed_prediction_sensitivities": ["leave_one_year_out", "leave_2020_out"],
+    "deferred": ["unordered_player_dyad", "player_cluster", "fitting_uncertainty"],
+}
 FALLBACK_REASONS = {
     "k32_pooled": ("fresh_player_initialization", "unknown_surface_overall_only"),
     "rank_logistic": ("missing_or_invalid_rank",),
@@ -365,13 +384,37 @@ def _validate_document(document: Mapping[str, Any]) -> None:
     inference = document.get("inference")
     if not isinstance(inference, Mapping):
         raise BenchmarkError("inference contract absent")
+    _exact_keys(
+        inference,
+        {
+            "replicates",
+            "maximum_draws",
+            "seed_base",
+            "tour_offsets",
+            "stream_unit",
+            "rng",
+            "primary_mean_block_weeks",
+            "sensitivity_mean_block_weeks",
+            "simultaneous_level",
+            "degenerate_se_tolerance",
+            "multiplicity_scope",
+            "brier_inference",
+            "fixed_prediction_sensitivities",
+            "deferred",
+        },
+        "inference contract",
+    )
     replicates = inference.get("replicates")
     maximum = inference.get("maximum_draws")
     level = inference.get("simultaneous_level")
     tolerance = inference.get("degenerate_se_tolerance")
+    if any(
+        inference.get(name) != expected for name, expected in EXPECTED_INFERENCE_DESCRIPTORS.items()
+    ):
+        raise BenchmarkError("fixed inference contract drift")
     lengths = [
-        inference.get("primary_mean_block_weeks"),
-        *inference.get("sensitivity_mean_block_weeks", []),
+        inference["primary_mean_block_weeks"],
+        *inference["sensitivity_mean_block_weeks"],
     ]
     if not isinstance(replicates, int) or isinstance(replicates, bool) or replicates < 2:
         raise BenchmarkError("inference replicates must be >= 2")
@@ -385,13 +428,14 @@ def _validate_document(document: Mapping[str, Any]) -> None:
         raise BenchmarkError("simultaneous level must lie in (0,1)")
     if not isinstance(tolerance, (int, float)) or not math.isfinite(tolerance) or tolerance < 0:
         raise BenchmarkError("degenerate tolerance must be finite and nonnegative")
-    if inference.get("brier_inference") is not False:
-        raise BenchmarkError("Brier inference must remain disabled")
     if inference.get("seed_base") != 20260914 or inference.get("tour_offsets") != {
         "ATP": 1000,
         "WTA": 2000,
     }:
         raise BenchmarkError("bootstrap seed contract drift")
+    policy = document.get("synthetic_policy")
+    if policy != EXPECTED_SYNTHETIC_POLICY:
+        raise BenchmarkError("fixed synthetic policy contract drift")
     if set(document.get("tours", {})) - {"ATP", "WTA"} or not document.get("tours"):
         raise BenchmarkError("only nonempty ATP/WTA tour maps are accepted")
     for tour, spec in document["tours"].items():
@@ -426,13 +470,18 @@ def _validate_synthetic(document: Mapping[str, Any]) -> dict[str, Any]:
     policy = document.get("synthetic_policy")
     if document.get("proposal_status") != "synthetic_rehearsal" or not isinstance(policy, Mapping):
         raise BenchmarkError("synthetic policy absent")
-    required_root = resolve_under_root(policy["required_root"], label="synthetic fixture root")
+    if policy != EXPECTED_SYNTHETIC_POLICY:
+        raise BenchmarkError("fixed synthetic policy contract drift")
+    required_root = resolve_under_root(
+        EXPECTED_SYNTHETIC_POLICY["required_root"], label="synthetic fixture root"
+    )
     manifest_entry = document.get("fixture_manifest")
     if not isinstance(manifest_entry, Mapping):
         raise BenchmarkError("synthetic fixture manifest binding absent")
     manifest_path = _bound_path(manifest_entry, "synthetic fixture manifest", hash_required=True)
     if (
-        manifest_path.is_symlink()
+        manifest_path.name != EXPECTED_SYNTHETIC_POLICY["manifest_name"]
+        or manifest_path.is_symlink()
         or required_root.is_symlink()
         or required_root not in manifest_path.parents
     ):
@@ -460,11 +509,11 @@ def _validate_synthetic(document: Mapping[str, Any]) -> dict[str, Any]:
             raise BenchmarkError(f"synthetic manifest lacks exact binding: {relative}")
         if sha256(path) != entry["sha256"] or data_row_count(path) != entry["rows"]:
             raise BenchmarkError(f"synthetic input bytes/rows drifted: {relative}")
-        if int(entry["rows"]) > int(policy["maximum_rows_per_input"]):
+        if int(entry["rows"]) > EXPECTED_SYNTHETIC_POLICY["maximum_rows_per_input"]:
             raise BenchmarkError(f"synthetic input exceeds row limit: {relative}")
         if format_name(path) in {".csv", ".csv.gz"} and "match_id" in csv_header(path):
             _, rows = selected_csv_rows(path, ("match_id",))
-            prefix = str(policy["required_match_id_prefix"])
+            prefix = EXPECTED_SYNTHETIC_POLICY["required_match_id_prefix"]
             if any(not row["match_id"].startswith(prefix) for row in rows):
                 raise BenchmarkError(f"non-synthetic match ID in {relative}")
     if set(manifest["files"]) != observed_paths:
@@ -638,6 +687,45 @@ def _history_rows(
 def _target_membership(rows: Sequence[TargetMatch]) -> tuple[int, str]:
     keys = sorted((str(row.match_date.year), row.match_id) for row in rows)
     return len(keys), key_hash(keys)
+
+
+def _fit_access_membership(
+    all_targets: Sequence[TargetMatch],
+    calibration_targets: Sequence[TargetMatch],
+    rank_receipts: Sequence[Mapping[str, Any]],
+    calibration_receipts: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Describe exactly the rows admitted by each fit and their deduplicated union."""
+    folds: list[dict[str, Any]] = []
+    union: dict[tuple[str, str], TargetMatch] = {}
+    for receipt in (*rank_receipts, *calibration_receipts):
+        source = all_targets if receipt["fit_type"] == "rank_parameter_fit" else calibration_targets
+        years = set(receipt["selection_years"])
+        selected = [row for row in source if row.match_date.year in years]
+        rows, membership = _target_membership(selected)
+        if (
+            rows != receipt["selection_rows"]
+            or membership != receipt["selection_membership_sha256"]
+        ):
+            raise BenchmarkError("fit receipt contradicts actual admitted rows")
+        folds.append(
+            {
+                "fit_type": receipt["fit_type"],
+                "procedure": receipt["procedure"],
+                "outer_year": receipt["outer_year"],
+                "selection_years": list(receipt["selection_years"]),
+                "rows": rows,
+                "membership_sha256": membership,
+            }
+        )
+        for row in selected:
+            union[(str(row.match_date.year), row.match_id)] = row
+    union_keys = sorted(union)
+    return {
+        "rows": len(union_keys),
+        "membership_sha256": key_hash(union_keys),
+        "folds": folds,
+    }
 
 
 def structural_projection(document: Mapping[str, Any]) -> dict[str, Any]:
@@ -971,7 +1059,12 @@ def _source_manifest(document: Mapping[str, Any], *, synthetic: bool) -> dict[st
     }
 
 
-def _scan_json(value: Any, prefix: str = "$", *, sensitive: bool = True) -> list[str]:
+def _scan_json(
+    value: Any,
+    prefix: str = "$",
+    *,
+    sensitive_allowed: frozenset[str] = frozenset(),
+) -> list[str]:
     findings: list[str] = []
     if isinstance(value, Mapping):
         for key, child in value.items():
@@ -982,12 +1075,18 @@ def _scan_json(value: Any, prefix: str = "$", *, sensitive: bool = True) -> list
                 and not isinstance(child, bool)
             ):
                 findings.append(here)
-            if sensitive and SENSITIVE.search(str(key)):
+            if SENSITIVE.search(str(key)) and here not in sensitive_allowed:
                 findings.append(here)
-            findings.extend(_scan_json(child, here, sensitive=sensitive))
+            findings.extend(_scan_json(child, here, sensitive_allowed=sensitive_allowed))
     elif isinstance(value, list):
         for index, child in enumerate(value):
-            findings.extend(_scan_json(child, f"{prefix}[{index}]", sensitive=sensitive))
+            findings.extend(
+                _scan_json(
+                    child,
+                    f"{prefix}[{index}]",
+                    sensitive_allowed=sensitive_allowed,
+                )
+            )
     return findings
 
 
@@ -1006,19 +1105,166 @@ def _content_scan(forecast_root: Path) -> dict[str, Any]:
                 if METRIC.search(name) or SENSITIVE.search(name)
             ]
         else:
-            sensitive = relative not in {
-                "access_receipt.json",
-                "fit_receipts.json",
-                "source_manifest.json",
-            }
+            sensitive_allowed = (
+                frozenset(
+                    f"$.tours.{tour}.{field}"
+                    for tour in ("ATP", "WTA")
+                    for field in (
+                        "max_parsed_outcome_date",
+                        "parsed_outcome_count",
+                        "parsed_outcome_membership_sha256",
+                        "parsed_outcome_match_ids",
+                        "panel_path_contains_price_columns",
+                        "price_columns_numerically_accessed",
+                    )
+                )
+                if relative == "access_receipt.json"
+                else frozenset()
+            )
             for prefix, value in json_values(path):
-                hits.extend(f"{prefix}:{item}" for item in _scan_json(value, sensitive=sensitive))
+                hits.extend(
+                    f"{prefix}:{item}"
+                    for item in _scan_json(value, sensitive_allowed=sensitive_allowed)
+                )
         if hits:
             findings.append({"artifact": relative, "locations": hits})
     return {"supported_formats": list(SUPPORTED_SUFFIXES), "scanned": scanned, "findings": findings}
 
 
-def _validate_forecast_payloads(forecast_root: Path, manifest: Mapping[str, Any]) -> None:
+def _valid_sha256(value: Any) -> bool:
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
+
+
+def _validate_fit_receipt(receipt: Mapping[str, Any]) -> None:
+    rank_keys = {
+        "tour",
+        "fit_type",
+        "procedure",
+        "outer_year",
+        "selection_years",
+        "annual_membership",
+        "selection_rows",
+        "selection_membership_sha256",
+        "slope",
+        "boundary",
+        "status",
+    }
+    calibration_keys = rank_keys | {"logit_clip_count", "derivative_at_zero", "root_bracket"}
+    fit_type = receipt.get("fit_type")
+    if fit_type not in {"rank_parameter_fit", "common_equal_year_calibration"}:
+        raise BenchmarkError("unknown fit receipt type")
+    _exact_keys(
+        receipt,
+        calibration_keys if fit_type == "common_equal_year_calibration" else rank_keys,
+        "fit receipt",
+    )
+    if receipt["tour"] not in {"ATP", "WTA"}:
+        raise BenchmarkError("fit receipt tour invalid")
+    if (fit_type == "rank_parameter_fit" and receipt["procedure"] != "rank_logistic") or (
+        fit_type == "common_equal_year_calibration" and receipt["procedure"] not in COMPARATORS
+    ):
+        raise BenchmarkError("fit receipt procedure invalid")
+    years = receipt["selection_years"]
+    if (
+        not isinstance(receipt["outer_year"], int)
+        or isinstance(receipt["outer_year"], bool)
+        or not isinstance(years, list)
+        or not years
+        or any(not isinstance(year, int) or isinstance(year, bool) for year in years)
+        or years != sorted(set(years))
+    ):
+        raise BenchmarkError("fit receipt selection years invalid")
+    annual = receipt["annual_membership"]
+    if not isinstance(annual, Mapping) or set(annual) != {str(year) for year in years}:
+        raise BenchmarkError("fit receipt annual membership schema mismatch")
+    annual_rows = 0
+    for membership in annual.values():
+        if not isinstance(membership, Mapping):
+            raise BenchmarkError("fit receipt annual membership malformed")
+        _exact_keys(membership, {"rows", "membership_sha256"}, "fit annual membership")
+        rows = membership["rows"]
+        if (
+            not isinstance(rows, int)
+            or isinstance(rows, bool)
+            or rows <= 0
+            or not _valid_sha256(membership["membership_sha256"])
+        ):
+            raise BenchmarkError("fit receipt annual membership malformed")
+        annual_rows += rows
+    slope = receipt["slope"]
+    if (
+        receipt["status"] != "complete"
+        or not isinstance(receipt["selection_rows"], int)
+        or isinstance(receipt["selection_rows"], bool)
+        or receipt["selection_rows"] != annual_rows
+        or not _valid_sha256(receipt["selection_membership_sha256"])
+        or not isinstance(slope, (int, float))
+        or isinstance(slope, bool)
+        or not math.isfinite(slope)
+        or slope < 0
+        or not isinstance(receipt["boundary"], bool)
+    ):
+        raise BenchmarkError("fit receipt is incomplete or malformed")
+    if fit_type == "common_equal_year_calibration":
+        bracket = receipt["root_bracket"]
+        derivative = receipt["derivative_at_zero"]
+        clip_count = receipt["logit_clip_count"]
+        if (
+            not isinstance(clip_count, int)
+            or isinstance(clip_count, bool)
+            or clip_count < 0
+            or not isinstance(derivative, (int, float))
+            or isinstance(derivative, bool)
+            or not math.isfinite(derivative)
+            or not isinstance(bracket, list)
+            or len(bracket) != 2
+            or any(
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not math.isfinite(value)
+                for value in bracket
+            )
+        ):
+            raise BenchmarkError("calibration fit receipt is malformed")
+
+
+def _incumbent_source_tokens(document: Mapping[str, Any]) -> dict[tuple[str, str, str], str]:
+    result: dict[tuple[str, str, str], str] = {}
+    for tour, spec in document["tours"].items():
+        for year in spec["target_years"]:
+            path = resolve_under_root(
+                spec["inputs"]["incumbent_pattern"].format(year=year),
+                label=f"{tour}/{year} incumbent",
+            )
+            _, rows = selected_csv_rows(path, ("season", "match_id", "p_a_wins"))
+            for row in rows:
+                if row["season"] != str(year):
+                    continue
+                key = (tour, str(year), row["match_id"])
+                if key in result:
+                    raise BenchmarkError(f"duplicate incumbent source key: {key}")
+                result[key] = row["p_a_wins"]
+    return result
+
+
+def _validate_simple_membership(value: Any, label: str) -> None:
+    if not isinstance(value, Mapping):
+        raise BenchmarkError(f"{label} malformed")
+    _exact_keys(value, {"rows", "membership_sha256"}, label)
+    if (
+        not isinstance(value["rows"], int)
+        or isinstance(value["rows"], bool)
+        or value["rows"] < 0
+        or not _valid_sha256(value["membership_sha256"])
+    ):
+        raise BenchmarkError(f"{label} malformed")
+
+
+def _validate_forecast_payloads(
+    forecast_root: Path,
+    manifest: Mapping[str, Any],
+    document: Mapping[str, Any],
+) -> None:
     header, predictions = selected_csv_rows(forecast_root / "predictions.csv", PREDICTION_FIELDS)
     if tuple(header) != PREDICTION_FIELDS or len(predictions) != manifest["rows"]:
         raise BenchmarkError("prediction schema or row count mismatch")
@@ -1043,36 +1289,52 @@ def _validate_forecast_payloads(forecast_root: Path, manifest: Mapping[str, Any]
     fits = json.loads((forecast_root / "fit_receipts.json").read_text(encoding="utf-8"))
     if not isinstance(fits, list) or not fits:
         raise BenchmarkError("fit receipts are absent")
-    rank_keys = {
-        "tour",
-        "fit_type",
-        "procedure",
-        "outer_year",
-        "selection_years",
-        "annual_membership",
-        "selection_rows",
-        "selection_membership_sha256",
-        "slope",
-        "boundary",
-        "status",
-    }
-    calibration_keys = rank_keys | {"logit_clip_count", "derivative_at_zero", "root_bracket"}
+    calibration_fits: dict[tuple[str, int, str], Mapping[str, Any]] = {}
+    expected_access_folds: defaultdict[str, set[tuple[Any, ...]]] = defaultdict(set)
     for receipt in fits:
         if not isinstance(receipt, Mapping):
             raise BenchmarkError("fit receipt is not an object")
-        if receipt.get("fit_type") not in {
-            "rank_parameter_fit",
-            "common_equal_year_calibration",
-        }:
-            raise BenchmarkError("unknown fit receipt type")
-        expected = (
-            calibration_keys
-            if receipt.get("fit_type") == "common_equal_year_calibration"
-            else rank_keys
+        _validate_fit_receipt(receipt)
+        fold_key = (
+            receipt["fit_type"],
+            receipt["procedure"],
+            receipt["outer_year"],
+            tuple(receipt["selection_years"]),
+            receipt["selection_rows"],
+            receipt["selection_membership_sha256"],
         )
-        _exact_keys(receipt, expected, "fit receipt")
-        if receipt["status"] != "complete" or not isinstance(receipt["selection_rows"], int):
-            raise BenchmarkError("fit receipt is incomplete")
+        if fold_key in expected_access_folds[receipt["tour"]]:
+            raise BenchmarkError("duplicate fit receipt")
+        expected_access_folds[receipt["tour"]].add(fold_key)
+        if receipt["fit_type"] == "common_equal_year_calibration":
+            key = (receipt["tour"], receipt["outer_year"], receipt["procedure"])
+            if key in calibration_fits:
+                raise BenchmarkError("duplicate calibration fit receipt")
+            calibration_fits[key] = receipt
+
+    expected_calibration_fits = {
+        (tour, int(year), procedure)
+        for tour, spec in document["tours"].items()
+        for year in spec["target_years"]
+        for procedure in COMPARATORS
+    }
+    if set(calibration_fits) != expected_calibration_fits:
+        raise BenchmarkError("calibration fit receipt coverage mismatch")
+    incumbent_tokens = _incumbent_source_tokens(document)
+    for row in predictions:
+        source_key = (row["tour"], row["year"], row["match_id"])
+        token = incumbent_tokens.get(source_key)
+        if token is None or row["raw_incumbent"] != token or row["calibrated_incumbent"] != token:
+            raise BenchmarkError("saved incumbent contradicts declared producer input")
+        for procedure in COMPARATORS:
+            fit = calibration_fits[(row["tour"], int(row["year"]), procedure)]
+            expected = float(
+                legacy_pipeline.apply_slope([float(row[f"raw_{procedure}"])], float(fit["slope"]))[
+                    0
+                ]
+            )
+            if float(row[f"calibrated_{procedure}"]) != expected:
+                raise BenchmarkError("saved calibrated prediction contradicts fit receipt")
 
     fallback_header, fallback_rows = selected_csv_rows(
         forecast_root / "fallback_counts.csv", FALLBACK_FIELDS
@@ -1096,6 +1358,14 @@ def _validate_forecast_payloads(forecast_root: Path, manifest: Mapping[str, Any]
     )
     if access["schema_version"] != 1 or access["forecast_value_access"] != "sports_columns_only":
         raise BenchmarkError("access receipt semantics mismatch")
+    if access["excluded_column_categories"] != [
+        "report_labels",
+        "outcomes_after_cutoff",
+        "prices",
+        "odds",
+        "scores_as_metrics",
+    ] or set(access["tours"]) != set(document["tours"]):
+        raise BenchmarkError("access receipt semantics mismatch")
     tour_keys = {
         "selected_columns",
         "source_columns",
@@ -1115,17 +1385,129 @@ def _validate_forecast_payloads(forecast_root: Path, manifest: Mapping[str, Any]
         if tour not in {"ATP", "WTA"} or not isinstance(receipt, Mapping):
             raise BenchmarkError("access receipt tour invalid")
         _exact_keys(receipt, tour_keys, "tour access receipt")
-        if receipt["price_columns_numerically_accessed"] is not False:
+        parsed_ids = receipt["parsed_outcome_match_ids"]
+        if (
+            receipt["selected_columns"]
+            != [
+                "match_id",
+                "match_date",
+                "played",
+                "walkover",
+                "player_a",
+                "player_b",
+                "surface",
+                "tourney_level",
+                "a_won",
+                "score",
+                "retired",
+            ]
+            or not isinstance(receipt["source_columns"], list)
+            or any(not isinstance(value, str) for value in receipt["source_columns"])
+            or not isinstance(parsed_ids, list)
+            or parsed_ids != sorted(set(parsed_ids))
+            or receipt["parsed_outcome_count"] != len(parsed_ids)
+            or receipt["parsed_outcome_membership_sha256"]
+            != key_hash(sorted((tour, match_id) for match_id in parsed_ids))
+            or not isinstance(receipt["max_parsed_outcome_date"], str)
+            or not isinstance(receipt["opened_paths"], list)
+            or receipt["opened_paths"] != sorted(set(receipt["opened_paths"]))
+            or any(not isinstance(value, str) for value in receipt["opened_paths"])
+            or receipt["metadata_selected_columns"]
+            != [
+                "match_id",
+                "match_date",
+                "player_a",
+                "player_b",
+                "a_rank",
+                "b_rank",
+                "surface",
+                "tourney_level",
+                "tourney_anchor_date",
+            ]
+            or receipt["feature_selected_columns"]
+            != [
+                "match_id",
+                "calendar_year",
+                "source_season",
+                "match_date",
+                "eligible_through_date",
+                "player_a",
+                "player_b",
+                "surface",
+                "tourney_level",
+                "primary_target",
+                "identity_tier",
+            ]
+            or receipt["incumbent_selected_columns"] != ["season", "match_id", "p_a_wins"]
+            or not isinstance(receipt["panel_path_contains_price_columns"], bool)
+            or receipt["price_columns_numerically_accessed"] is not False
+        ):
             raise BenchmarkError("forecast accessed price values")
+        try:
+            _date(receipt["max_parsed_outcome_date"], "max parsed outcome date")
+        except (TypeError, ValueError) as exc:
+            raise BenchmarkError("access receipt date malformed") from exc
         purposes = receipt["purpose_memberships"]
         if set(purposes) != {"rating_targets", "forecast_targets", "rank_and_calibration_past"}:
             raise BenchmarkError("access purpose membership schema mismatch")
-        for membership in purposes.values():
-            if not isinstance(membership, Mapping) or set(membership) != {
-                "rows",
-                "membership_sha256",
-            }:
-                raise BenchmarkError("access purpose membership malformed")
+        _validate_simple_membership(purposes["rating_targets"], "rating target membership")
+        _validate_simple_membership(purposes["forecast_targets"], "forecast target membership")
+        past = purposes["rank_and_calibration_past"]
+        if not isinstance(past, Mapping):
+            raise BenchmarkError("fit access membership malformed")
+        _exact_keys(past, {"rows", "membership_sha256", "folds"}, "fit access membership")
+        if (
+            not isinstance(past["rows"], int)
+            or isinstance(past["rows"], bool)
+            or past["rows"] <= 0
+            or not _valid_sha256(past["membership_sha256"])
+            or not isinstance(past["folds"], list)
+        ):
+            raise BenchmarkError("fit access membership malformed")
+        observed_folds: set[tuple[Any, ...]] = set()
+        for fold in past["folds"]:
+            if not isinstance(fold, Mapping):
+                raise BenchmarkError("fit access fold malformed")
+            _exact_keys(
+                fold,
+                {
+                    "fit_type",
+                    "procedure",
+                    "outer_year",
+                    "selection_years",
+                    "rows",
+                    "membership_sha256",
+                },
+                "fit access fold",
+            )
+            if (
+                not isinstance(fold["outer_year"], int)
+                or isinstance(fold["outer_year"], bool)
+                or not isinstance(fold["selection_years"], list)
+                or fold["selection_years"] != sorted(set(fold["selection_years"]))
+                or any(
+                    not isinstance(year, int) or isinstance(year, bool)
+                    for year in fold["selection_years"]
+                )
+                or not isinstance(fold["rows"], int)
+                or isinstance(fold["rows"], bool)
+                or fold["rows"] <= 0
+                or not _valid_sha256(fold["membership_sha256"])
+            ):
+                raise BenchmarkError("fit access fold malformed")
+            fold_key = (
+                fold["fit_type"],
+                fold["procedure"],
+                fold["outer_year"],
+                tuple(fold["selection_years"]),
+                fold["rows"],
+                fold["membership_sha256"],
+            )
+            if fold_key in observed_folds:
+                raise BenchmarkError("duplicate fit access fold")
+            observed_folds.add(fold_key)
+        if observed_folds != expected_access_folds[tour]:
+            raise BenchmarkError("fit access folds contradict fit receipts")
 
 
 def _validate_stage_manifest(
@@ -1133,6 +1515,7 @@ def _validate_stage_manifest(
     config: Path,
     document: Mapping[str, Any],
     bindings: Mapping[str, Any],
+    attempt: str,
 ) -> dict[str, Any]:
     manifest_path = forecast_root / "stage_manifest.json"
     if not manifest_path.is_file():
@@ -1159,8 +1542,8 @@ def _validate_stage_manifest(
     _exact_keys(manifest, expected_keys, "forecast stage manifest")
     if manifest["schema_version"] != 2 or manifest["completion"] != "complete":
         raise BenchmarkError("forecast stage is not complete")
-    if manifest["benchmark_id"] != "G-L" or not isinstance(manifest["attempt"], str):
-        raise BenchmarkError("forecast stage identity mismatch")
+    if manifest["benchmark_id"] != "G-L" or manifest["attempt"] != attempt:
+        raise BenchmarkError("forecast stage attempt identity mismatch")
     if manifest["proposal_status"] != document["proposal_status"]:
         raise BenchmarkError("forecast proposal status mismatch")
     if manifest["invocation_config_sha256"] != sha256(config):
@@ -1192,7 +1575,7 @@ def _validate_stage_manifest(
         or len(manifest["membership_sha256"]) != 64
     ):
         raise BenchmarkError("forecast membership digest invalid")
-    _validate_forecast_payloads(forecast_root, manifest)
+    _validate_forecast_payloads(forecast_root, manifest, document)
     source = json.loads(source_path.read_text(encoding="utf-8"))
     expected_source = _source_manifest(
         document, synthetic=document["proposal_status"] == "synthetic_rehearsal"
@@ -1200,6 +1583,64 @@ def _validate_stage_manifest(
     if source != expected_source:
         raise BenchmarkError("source bytes changed or source manifest malformed")
     return dict(manifest)
+
+
+def _forecast_completion_payload(
+    forecast_root: Path,
+    config: Path,
+    document: Mapping[str, Any],
+    bindings: Mapping[str, Any],
+    attempt: str,
+) -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "completion": "complete",
+        "benchmark_id": "G-L",
+        "attempt": attempt,
+        "invocation_config_sha256": sha256(config),
+        "effective_config_sha256": canonical_hash(document),
+        "authority_bindings": bindings,
+        "execution_binding": _execution_binding(),
+        "forecast_manifest_sha256": sha256(forecast_root / "stage_manifest.json"),
+        "forecast_artifacts": _manifest_files(forecast_root),
+    }
+
+
+def _validate_forecast_completion(
+    attempt_root: Path,
+    config: Path,
+    document: Mapping[str, Any],
+    bindings: Mapping[str, Any],
+    attempt: str,
+) -> dict[str, Any]:
+    path = attempt_root / "forecast_completion.json"
+    if not path.is_file():
+        raise BenchmarkError("original producer completion receipt is absent")
+    receipt = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(receipt, Mapping):
+        raise BenchmarkError("producer completion receipt is malformed")
+    _exact_keys(
+        receipt,
+        {
+            "schema_version",
+            "completion",
+            "benchmark_id",
+            "attempt",
+            "invocation_config_sha256",
+            "effective_config_sha256",
+            "authority_bindings",
+            "execution_binding",
+            "forecast_manifest_sha256",
+            "forecast_artifacts",
+        },
+        "producer completion receipt",
+    )
+    expected = _forecast_completion_payload(
+        attempt_root / "forecast", config, document, bindings, attempt
+    )
+    if receipt != expected:
+        raise BenchmarkError("original producer completion or attempt identity mismatch")
+    return dict(receipt)
 
 
 def forecast(config_path: str | Path, attempt: str) -> Path:
@@ -1359,18 +1800,12 @@ def forecast(config_path: str | Path, attempt: str) -> Path:
                             "rows": len(target_rows),
                             "membership_sha256": _target_membership(target_rows)[1],
                         },
-                        "rank_and_calibration_past": {
-                            "rows": sum(
-                                1 for item in targets if item.match_date.year < max(target_years)
-                            ),
-                            "membership_sha256": _target_membership(
-                                [
-                                    item
-                                    for item in targets
-                                    if item.match_date.year < max(target_years)
-                                ]
-                            )[1],
-                        },
+                        "rank_and_calibration_past": _fit_access_membership(
+                            all_targets,
+                            targets,
+                            rank_receipts,
+                            calibration_receipts,
+                        ),
                     },
                 }
             )
@@ -1405,6 +1840,10 @@ def forecast(config_path: str | Path, attempt: str) -> Path:
             "membership_sha256": membership,
         }
         atomic_json(forecast_root / "stage_manifest.json", stage_manifest)
+        atomic_json(
+            attempt_root / "forecast_completion.json",
+            _forecast_completion_payload(forecast_root, config, document, bindings, attempt),
+        )
     except Exception as exc:
         atomic_json(
             attempt_root / "failure.json",
@@ -1441,7 +1880,10 @@ def barrier(config_path: str | Path, attempt: str) -> Path:
             path.is_dir() for path in forecast_root.iterdir()
         ):
             raise BenchmarkError("forecast barrier rejected artifact allowlist mismatch")
-        manifest = _validate_stage_manifest(forecast_root, config, document, bindings)
+        manifest = _validate_stage_manifest(forecast_root, config, document, bindings, attempt)
+        producer_completion = _validate_forecast_completion(
+            attempt_root, config, document, bindings, attempt
+        )
         barrier_root = attempt_root / "barrier"
         barrier_root.mkdir()
         atomic_json(
@@ -1454,11 +1896,13 @@ def barrier(config_path: str | Path, attempt: str) -> Path:
                 "invocation_config_sha256": sha256(config),
                 "effective_config_sha256": canonical_hash(document),
                 "forecast_manifest_sha256": sha256(forecast_root / "stage_manifest.json"),
+                "forecast_completion_sha256": sha256(attempt_root / "forecast_completion.json"),
                 "forecast_artifacts": _manifest_files(forecast_root),
                 "authority_bindings": bindings,
                 "execution_binding": _execution_binding(),
                 "source_manifest_sha256": manifest["source_manifest_sha256"],
                 "content_scan": scan,
+                "producer_completion": producer_completion,
             },
         )
     except Exception as exc:
@@ -1475,6 +1919,7 @@ def _verify_barrier(
     config: Path,
     document: Mapping[str, Any],
     bindings: Mapping[str, Any],
+    attempt: str,
 ) -> dict[str, Any]:
     commitment_path = attempt_root / "barrier" / "commitment.json"
     if not commitment_path.is_file():
@@ -1488,14 +1933,21 @@ def _verify_barrier(
         "invocation_config_sha256",
         "effective_config_sha256",
         "forecast_manifest_sha256",
+        "forecast_completion_sha256",
         "forecast_artifacts",
         "authority_bindings",
         "execution_binding",
         "source_manifest_sha256",
         "content_scan",
+        "producer_completion",
     }
     _exact_keys(commitment, expected, "barrier commitment")
-    if commitment["schema_version"] != 2 or commitment["completion"] != "committed":
+    if (
+        commitment["schema_version"] != 2
+        or commitment["completion"] != "committed"
+        or commitment["benchmark_id"] != "G-L"
+        or commitment["attempt"] != attempt
+    ):
         raise BenchmarkError("barrier is not a completed commitment")
     if commitment["invocation_config_sha256"] != sha256(config) or commitment[
         "effective_config_sha256"
@@ -1508,9 +1960,18 @@ def _verify_barrier(
     forecast_root = attempt_root / "forecast"
     if commitment["forecast_artifacts"] != _manifest_files(forecast_root):
         raise BenchmarkError("forecast bytes changed after barrier")
-    manifest = _validate_stage_manifest(forecast_root, config, document, bindings)
+    manifest = _validate_stage_manifest(forecast_root, config, document, bindings, attempt)
     if commitment["forecast_manifest_sha256"] != sha256(forecast_root / "stage_manifest.json"):
         raise BenchmarkError("forecast manifest changed after barrier")
+    producer_completion = _validate_forecast_completion(
+        attempt_root, config, document, bindings, attempt
+    )
+    if (
+        commitment["forecast_completion_sha256"]
+        != sha256(attempt_root / "forecast_completion.json")
+        or commitment["producer_completion"] != producer_completion
+    ):
+        raise BenchmarkError("producer completion changed after barrier")
     scan = _content_scan(forecast_root)
     if scan != commitment["content_scan"] or scan["findings"]:
         raise BenchmarkError("forecast content no longer passes barrier")
@@ -1788,7 +2249,7 @@ def report(config_path: str | Path, attempt: str) -> Path:
     if (attempt_root / "report_failure.json").exists() or (attempt_root / "report").exists():
         raise BenchmarkError("report attempt already closed and is immutable")
     try:
-        commitment = _verify_barrier(attempt_root, config, document, bindings)
+        commitment = _verify_barrier(attempt_root, config, document, bindings, attempt)
     except Exception as exc:
         atomic_json(
             attempt_root / "report_failure.json",
