@@ -125,10 +125,11 @@ preserves attempts to add market residuals, weather, and fatigue:
 
 These are negative or inconclusive results for specific designs. They are not proof that
 weather, fatigue, or public statistics can never help. Likewise, losing to Pinnacle does
-not decide whether tennis-lab is stronger than other public statistics-only models. Lane
-G completed its source inventory and comparison design, but adapter implementation,
-frozen execution, and an accepted external score on the same cutoff and cohort remain
-pending.
+not decide whether tennis-lab is stronger than other public statistics-only models. The completed
+[ranking/Elo benchmark](benchmarks/G_L_RESULTS.md) now supplies a narrower, independently
+reconstructed comparison: the incumbent beats all five admitted implementations on both
+tours. It retains differing histories, historical timing limits, and excluded stronger
+model families; it does not establish universal leadership.
 
 ## How the live workflow earned scoped acceptance
 
@@ -153,19 +154,18 @@ rejected attempts and contracts remain visible in [the live workflow](live/READM
 Only synthetic Elo issuance is demonstrated. D2 must separately assemble qualified real
 history and all six tour-appropriate rungs into a versioned snapshot.
 
-## What remains before a broader release claim
+## Limits of the current release
 
-- Complete the real-history snapshot and six-rung D2 integration using the accepted live contracts.
-- Complete and qualify the permitted Tennis Abstract collection; do not treat progress
-  counts as qualified-player counts.
-- Resolve the TennisMyLife date-disagreement cases before using its dates as availability
-  bounds, then integrate any accepted source version through D2.
-- Close or explicitly exclude WTA tier and the full-bundle T3 scope.
-- Run an accepted external public-model benchmark before making a comparative claim.
-- Re-run hosted CI on the final integrated release commit. The repaired bootstrap is green
-  at product commit `4c83d28`, including lint, 434 passing tests with one skip, and both
-  synthetic reproductions.
-- Issue and score a real forecast batch before describing any result as prospective.
+The current release is a historical research artifact with trained model checkpoints.
+A complete live prediction application would additionally need the real-history snapshot
+and all six configurations connected through the accepted manual-workflow contracts.
+The ongoing Tennis Abstract collection is not yet a qualified input to these models;
+TennisMyLife date disagreements and WTA tier/full-bundle coverage remain explicitly open.
+Those limits do not turn the current release into a live forecasting service.
+
+External comparative claims stay within the completed five-baseline benchmark. Each
+integrated code release still needs its own hosted CI result. No batch of real forecasts
+has yet been verified as issued before play and then scored under a predeclared plan.
 
 ## What transfers beyond tennis
 

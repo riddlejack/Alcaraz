@@ -104,16 +104,31 @@ who would have predicted better using only information available at the same mom
 The full generated log-loss report is in [`docs/RESULTS.md`](docs/RESULTS.md), with
 machine-readable values in [`docs/ladder.json`](docs/ladder.json).
 
+## How it compares with other statistical models
+
+In a separately checked historical benchmark, Tennis Lab scored better than **all five
+tested ranking/Elo baselines** on 18,972 men’s matches (2017–2024) and 12,900 women’s
+matches (2019–2024). The comparison includes reconstructions of published Elo methods;
+it does not claim to beat their original live forecasts. The planned uncertainty checks
+and removal of individual seasons preserve the advantage.
+
+This compares complete systems: our men’s model also uses lower-tier history that these
+baselines do not. Stronger point-based and other machine-learning models remain outside
+the benchmark, so it does not establish state-of-the-art performance.
+[See the models, scores and limitations](docs/benchmarks/G_L_RESULTS.md).
+
 ## What is reproducible today
 
 The public repository includes the full model-building and evaluation code,
 configurations, aggregate results, and synthetic acceptance samples. It is not yet a
-ready-to-use prediction app. A reviewed release candidate contains 40 accepted
-year-specific boosted-tree checkpoints, their learned calibration slopes, and the Elo
-state. Public download is pending the integrated release check; see
-[`docs/MODEL_RELEASE.md`](docs/MODEL_RELEASE.md) for coverage and usage. Even with those weights, forecasting a
-match from two player names still requires prepared history, ratings, rankings,
-serve/return dynamics, and ATP lower-tier feature state that are not bundled today.
+ready-to-use prediction app. **[Download the full accepted trained models](https://github.com/riddlejack/tennis-lab/releases/tag/models-2026-09-14):**
+40 year-specific boosted-tree checkpoints, their learned calibration slopes, and both
+tours’ Elo state. The download preserves the accepted model parameters; private training
+rows are excluded. See [`docs/MODEL_RELEASE.md`](docs/MODEL_RELEASE.md) for usage.
+
+The boosted-tree models take prepared statistics. Forecasting from two player names still
+requires history, ratings, rankings, serve/return dynamics, and ATP lower-tier feature
+state that are not bundled as a complete live snapshot today.
 
 Exact historical reconstruction therefore still requires the separate research archive.
 The manual workflow currently demonstrates Elo forecasts using made-up test data.
@@ -137,8 +152,8 @@ the chronology, failures, repairs, and remaining limits.
   chronology limitations. [`docs/DATA.md`](docs/DATA.md) separates acquisition,
   qualification, and actual model use.
 - **Hosted CI:** GitHub Actions run
-  [`34912269136`](https://github.com/riddlejack/tennis-lab/actions/runs/34912269136)
-  passed on exact commit `0c86652720455bc40c6c2de3681c69eeb3349d87`. A later commit
+  [`34915514677`](https://github.com/riddlejack/tennis-lab/actions/runs/34915514677)
+  passed on exact commit `6bd88a62ee3d3c782b4b9c62bb56e67dc0340bdf`. A later commit
   should not be inferred green until its own run completes.
 
 ## Run the engineering harness

@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "benchmark_id": "G-L",
+  "base_config": {
+    "path": "configs/benchmarks/g_legacy.json",
+    "sha256": "8acb934230137256b9cb58493239381be7c8ba09cd7bd5d1b33053d0209f0829"
+  },
+  "repair_contract": {
+    "path": "docs/benchmarks/G_REPAIR_CONTRACT.md",
+    "sha256": "696d6e831a0a8a5a2d7e766cb1752a2e72f8377c3d3e53c20d583ebd7927bc2a"
+  },
+  "independent_review": {
+    "path": "inputs/archive/docs/reviews/rebuild_2026-09-13/LANE_G_EXECUTABLE_REVIEW.md",
+    "sha256": "9a4d26aeadbb3e469cab20157e16e15d334279c6ecf03431f9d4b62bc23640bc",
+    "reviewed_commit": "bf73d1eec95e9586602ea7e2ed33c34228720f3c"
+  },
+  "proposal_status": "repair_implementation_only",
+  "execution_scope": "real_structural_projection_and_confined_synthetic_rehearsal_only",
+  "output_root": "runs/G-L-repair",
+  "anchor_basis": "tourney_anchor_date_event_anchor_proxy",
+  "fixed_contract": {
+    "procedures": [
+      "incumbent",
+      "k32_pooled",
+      "rank_logistic",
+      "kovalchik_overall_major",
+      "fivethirtyeight_surface",
+      "welo"
+    ],
+    "constants": {
+      "elo_initial": 1500.0,
+      "elo_scale": 400.0,
+      "k32": 32.0,
+      "decaying_k_numerator": 250.0,
+      "decaying_k_offset": 5.0,
+      "decaying_k_exponent": 0.4,
+      "kovalchik_major_multiplier": 1.1,
+      "fivethirtyeight_overall_weight": 0.71,
+      "fivethirtyeight_surface_weight": 0.29,
+      "calibration_years": 3,
+      "parameter_history_years": 5,
+      "logit_clip": 1e-6,
+      "scoring_clip": 1e-15
+    }
+  },
+  "calibration": {
+    "implementation": "tennislab.models.pipeline.fit_nonnegative_slope",
+    "application": "tennislab.models.pipeline.apply_slope",
+    "year_weighting": "equal_total_weight_per_calendar_year",
+    "intercept": false,
+    "slope_lower_bound": 0.0
+  },
+  "market_references": {
+    "book": "PS",
+    "valid_column": "PS_valid",
+    "decimal_a_column": "PS_decimal_a",
+    "decimal_b_column": "PS_decimal_b",
+    "normalized_id": "normalized_pinnacle_raw",
+    "past_calibrated_id": "normalized_pinnacle_calibrated_past",
+    "quote_timing": "unknown_later_information_reference"
+  },
+  "inference": {
+    "replicates": 5000,
+    "maximum_draws": 50000,
+    "seed_base": 20260914,
+    "tour_offsets": {"ATP": 1000, "WTA": 2000},
+    "stream_unit": "tour_cohort_mean_block_weeks",
+    "rng": "numpy.PCG64",
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [4, 13],
+    "simultaneous_level": 0.95,
+    "degenerate_se_tolerance": 1e-15,
+    "multiplicity_scope": "per_tour_five_calibrated_log_loss_incumbent_contrasts",
+    "brier_inference": false,
+    "fixed_prediction_sensitivities": ["leave_one_year_out", "leave_2020_out"],
+    "deferred": ["unordered_player_dyad", "player_cluster", "fitting_uncertainty"]
+  },
+  "synthetic_policy": {
+    "required_root": "fixtures/synthetic",
+    "required_match_id_prefix": "SYNTHETIC-",
+    "maximum_rows_per_input": 1000,
+    "manifest_name": "fixture_manifest.json",
+    "symlinks_allowed": false,
+    "allowed_tours": ["ATP", "WTA"]
+  },
+  "reviewed_runtime": {
+    "status": "PENDING_INDEPENDENT_REVIEW",
+    "commit": null,
+    "module_sha256": {},
+    "dependencies": {}
+  },
+  "wta01_independent_binding": {
+    "status": "historical_reconstruction_pass_only",
+    "product_commit": "87448ab2dce4e65a479adaff01c9650d53eb7820",
+    "primary_chain": {
+      "path": "inputs/archive/experiments/runs/WTA01/attempt_001/primary/chain_wta01_primary_2019_2024.json",
+      "sha256": "e56713e7e3326db0803144e6eca7f3e444b5332953f07011490692c05f472f7a"
+    },
+    "run_manifest": {
+      "path": "inputs/archive/data/manifests/WTA01-run-001.json",
+      "sha256": "917f0894b26e94b1218ddf15782df733ce6cd2466a333cf594d684774614e3fd"
+    },
+    "original_design_blob": {
+      "archive_commit": "1f18978828293c745b93879ea7fae41c821b2900",
+      "path": "experiments/WTA01.design.md",
+      "sha256": "0428751403cbd8b1d52ef65f83a1a630d0b61d94f446a3ea5e286354071950f0"
+    },
+    "current_amended_design": {
+      "path": "inputs/archive/experiments/WTA01.design.md",
+      "sha256": "29f56b068ee9037e012a4328e7e8a6513e283f4237abf2301e79287ec8dcb21b"
+    },
+    "claim_limit": "not_prospective_and_not_lane_g_acceptance"
+  }
+}

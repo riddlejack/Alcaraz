@@ -51,9 +51,12 @@ identity/feature state and the existing producer for each piece. Packaging that 
 separate dependency; weights alone must not be described as a current model or as ready for
 name-to-probability inference.
 
-## Reviewed release candidate
+## Published model release
 
-The 2026-09-14-r2 bundle is approved for publication after the integrated code checks pass.
+The [2026-09-14-r2 bundle](https://github.com/riddlejack/tennis-lab/releases/tag/models-2026-09-14)
+is publicly available. [Integrated CI34915514677](https://github.com/riddlejack/tennis-lab/actions/runs/34915514677)
+passed for release code `6bd88a62ee3d3c782b4b9c62bb56e67dc0340bdf`. An unauthenticated
+download reproduced the exact release bytes and checksum.
 Its SHA-256 is `bbe0337006e298897f6dda0ed87f0717d8a451e465235d95078916def74bcfc4`
 (3,573,067 bytes). This is the full accepted checkpoint collection described above; no
 model was retrained, reduced, or replaced for distribution. It contains 40 fitted models,
