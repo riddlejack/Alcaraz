@@ -863,6 +863,39 @@ def test_history_binding_must_be_bound_and_hash_verified(ws) -> None:
     assert "hash mismatch" in err
 
 
+def test_readiness_reports_verified_work_and_exact_pending_bindings(ws) -> None:
+    workspace, runner = ws
+    initial = runner.ok("readiness", "--config", CONFIG)
+    assert initial["status"] == "pending"
+    assert initial["history"]["ATP"]["status"] == "ready"
+    assert initial["history"]["ATP"]["eligible_candidate_rows"] == 10
+    assert initial["history"]["WTA"]["status"] == "pending"
+    assert initial["snapshot"]["status"] == "pending"
+    assert initial["ledger"]["status"] == "ready" and initial["ledger"]["records"] == 0
+
+    replay = world.replay_dir_for(workspace, world.complete_rounds(), revision=100)
+    serve = world.serve_feed(workspace)
+    rankings = world.rankings_file(workspace)
+    update(
+        runner,
+        replay,
+        "--serve-feed",
+        serve.relative_to(workspace).as_posix(),
+        "--rankings",
+        f"ATP={rankings.relative_to(workspace).as_posix()}",
+    )
+    after = runner.ok("readiness", "--config", CONFIG)
+    assert after["snapshot"]["status"] == "partial"
+    assert after["snapshot"]["tours"] == {
+        "results": ["ATP"],
+        "serve_state": ["ATP"],
+        "rankings": ["ATP"],
+    }
+    assert after["rungs"]["elo"]["status"] == "ready"
+    assert after["rungs"]["elo"]["ready_tours"] == ["ATP"]
+    assert after["rungs"]["atp_p0"]["status"] == "pending"
+
+
 # --- repair controls: reconstructed public failures -------------------------------------------
 
 
@@ -890,6 +923,16 @@ def _plant_history_row(workspace: Path, **changes: str) -> None:
     config = json.loads(config_path.read_text(encoding="utf-8"))
     config["history"]["ATP"]["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
     config_path.write_text(json.dumps(config), encoding="utf-8")
+
+
+def test_readiness_quarantines_unadmitted_history_basis(ws) -> None:
+    workspace, runner = ws
+    _plant_history_row(workspace, completion_basis="event_anchor")
+    report = runner.ok("readiness", "--config", CONFIG)
+    history = report["history"]["ATP"]
+    assert history["status"] == "ready"
+    assert history["eligible_candidate_rows"] == 10
+    assert history["withheld"] == {"completion_basis_not_admissible": 1}
 
 
 @pytest.mark.parametrize(
