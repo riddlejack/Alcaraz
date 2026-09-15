@@ -29,6 +29,10 @@ ALLOWED = {
     # Host-prefix literals are the forbidden strings its privacy scan detects, not paths
     # to a developer's files. Neither exception applies to the runtime model loader.
     "tools/build_model_release.py": {"source-relative repository root", "absolute host path"},
+    "tools/build_campaign_model_release.py": {
+        "source-relative repository root",
+        "absolute host path",
+    },
     # Porting notes quote, in prose, the archive's by-path load they replaced.
     "docs/equivalence/notes/tier_block.md": {"import by path"},
     "docs/equivalence/notes/tier_elo.md": {"import by path"},
