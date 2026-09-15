@@ -29,6 +29,7 @@ METRIC = re.compile(
     r"|observed_rate|outcome_rate|win_rate)(?:$|_)",
     re.I,
 )
+OBJECTIVE = re.compile(r"(?:^|_)objective(?:$|_)", re.I)
 INSPECTED_SUFFIXES = (".csv", ".csv.gz", ".json", ".jsonl")
 # Files whose only role is to describe the scan itself or the stage command.
 SKIPPED_NAMES = frozenset({"stage_manifest.json", "access_log.jsonl"})
@@ -38,12 +39,17 @@ def _is_number(value: Any) -> bool:
     return isinstance(value, int | float) and not isinstance(value, bool)
 
 
-def metric_paths(value: Any, prefix: str = "$") -> Iterator[str]:
+def metric_paths(
+    value: Any, prefix: str = "$", *, include_objective: bool = False
+) -> Iterator[str]:
     """Every JSON path at which a metric-shaped numeric leaf sits."""
     if isinstance(value, dict):
         for key, child in value.items():
             here = f"{prefix}.{key}"
-            if METRIC.search(str(key)) and _is_number(child):
+            pattern_hit = METRIC.search(str(key)) or (
+                include_objective and OBJECTIVE.search(str(key))
+            )
+            if pattern_hit and _is_number(child):
                 yield here
             if key in ("metric", "metric_name") and isinstance(child, str) and METRIC.search(child):
                 if any(_is_number(value.get(k)) for k in ("value", "score", "estimate")):
@@ -60,10 +66,12 @@ def metric_paths(value: Any, prefix: str = "$") -> Iterator[str]:
                 and any(k in value for k in ("year", "outer_year", "model", "metric"))
             ):
                 yield here
-            yield from metric_paths(child, here)
+            yield from metric_paths(child, here, include_objective=include_objective)
     elif isinstance(value, list):
         for index, child in enumerate(value):
-            yield from metric_paths(child, f"{prefix}[{index}]")
+            yield from metric_paths(
+                child, f"{prefix}[{index}]", include_objective=include_objective
+            )
 
 
 def _csv_header(payload: bytes) -> list[str]:
@@ -71,31 +79,43 @@ def _csv_header(payload: bytes) -> list[str]:
     return next(csv.reader(io.StringIO(text, newline="")), [])
 
 
-def scan_file(path: Path) -> list[str]:
+def scan_file(path: Path, *, include_objective: bool = False) -> list[str]:
     """Metric locations inside one file; an empty list means none were found."""
     name = path.name.lower()
     if name.endswith(".csv.gz"):
         with gzip.open(path, "rb") as handle:
             header = _csv_header(handle.readline())
-        return _csv_hits(header)
+        return _csv_hits(header, include_objective=include_objective)
     if name.endswith(".csv"):
         with path.open("rb") as handle:
             header = _csv_header(handle.readline())
-        return _csv_hits(header)
+        return _csv_hits(header, include_objective=include_objective)
     if name.endswith(".json"):
-        return list(metric_paths(json.loads(path.read_text(encoding="utf-8"))))
+        return list(
+            metric_paths(
+                json.loads(path.read_text(encoding="utf-8")),
+                include_objective=include_objective,
+            )
+        )
     if name.endswith(".jsonl"):
         hits: list[str] = []
         with path.open(encoding="utf-8") as handle:
             for number, line in enumerate(handle, 1):
                 if line.strip():
-                    hits.extend(f"line:{number}:{h}" for h in metric_paths(json.loads(line)))
+                    hits.extend(
+                        f"line:{number}:{h}"
+                        for h in metric_paths(json.loads(line), include_objective=include_objective)
+                    )
         return hits
     return []
 
 
-def _csv_hits(header: list[str]) -> list[str]:
-    hits = [f"header:{column}" for column in header if METRIC.search(column)]
+def _csv_hits(header: list[str], *, include_objective: bool = False) -> list[str]:
+    hits = [
+        f"header:{column}"
+        for column in header
+        if METRIC.search(column) or (include_objective and OBJECTIVE.search(column))
+    ]
     if {"metric", "value"} <= set(header):
         hits.append("header:metric/value long form")
     return hits
@@ -105,7 +125,9 @@ def inspectable(path: Path) -> bool:
     return path.name.lower().endswith(INSPECTED_SUFFIXES)
 
 
-def scan_tree(run_root: Path, stages: list[str]) -> dict[str, Any]:
+def scan_tree(
+    run_root: Path, stages: list[str], *, include_objective: bool = False
+) -> dict[str, Any]:
     """Scan the named stage directories under ``run_root``.
 
     Returns ``findings`` (one entry per file with metric locations), ``scanned`` (every
@@ -129,7 +151,7 @@ def scan_tree(run_root: Path, stages: list[str]) -> dict[str, Any]:
                 uninspected.append(relative)
                 continue
             scanned.append(relative)
-            hits = scan_file(path)
+            hits = scan_file(path, include_objective=include_objective)
             if hits:
                 findings.append({"artifact": relative, "stage": stage, "metric_locations": hits})
     return {"findings": findings, "scanned": scanned, "uninspected": uninspected}

@@ -1,14 +1,23 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
+import joblib
 import pytest
 
+from tennislab.models import numerical
+from tennislab.models.pipeline import RIDGE_PARAMS
 from tennislab.models.release import (
     ReleaseBundleError,
+    combine_campaign_candidates,
+    load_campaign_member,
     load_elo_state,
+    open_campaign_bundle,
+    predict_campaign_feature_row,
     predict_elo,
+    sha256_file,
     verify_bundle,
 )
 from tennislab.ratings.elo import PooledElo
@@ -131,3 +140,131 @@ def test_predict_elo_uses_known_source_ids_and_rejects_unresolved_names() -> Non
             player_b_name="Rafael Nadal",
             surface="Hard",
         )
+
+
+def _write_synthetic_campaign_bundle(root: Path) -> None:
+    table = numerical.FeatureTable.from_rows(
+        [
+            {"season": "2011", "match_id": str(index), "x": str(value)}
+            for index, value in enumerate((-3.0, -1.0, 1.0, 3.0))
+        ],
+        ("season", "match_id", "x"),
+    )
+    labels = numerical.LabelTable.from_values(
+        {key: index % 2 for index, key in enumerate(table.keys)}
+    )
+    fitted = numerical.fit_procedure(
+        {
+            "config_id": "ridge__full__ridge_c001",
+            "family": "joint_logistic",
+            "numeric_columns": ["x"],
+            "estimator_params": RIDGE_PARAMS,
+        },
+        table,
+        labels,
+    ).fitted
+    assert fitted is not None
+    model_path = root / "models/atp/2014/ridge_c001/model.joblib"
+    model_path.parent.mkdir(parents=True)
+    joblib.dump(fitted, model_path, compress=0)
+    fit_path = model_path.with_name("source_fit_manifest.json")
+    fit_path.write_text(
+        json.dumps(
+            {
+                "status": "complete",
+                "config_id": "ridge__full__ridge_c001",
+                "model_sha256": sha256_file(model_path),
+                "estimator_feature_names": ["x"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    files = [
+        {
+            "path": path.relative_to(root).as_posix(),
+            "bytes": path.stat().st_size,
+            "sha256": sha256_file(path),
+            "role": "synthetic",
+        }
+        for path in (model_path, fit_path)
+    ]
+    _write_manifest(
+        root,
+        files,
+        campaign_models=[
+            {
+                "tour": "ATP",
+                "raw_year": 2014,
+                "member_id": "ridge_c001",
+                "config_id": "ridge__full__ridge_c001",
+                "model_path": model_path.relative_to(root).as_posix(),
+                "model_sha256": sha256_file(model_path),
+                "fit_manifest_path": fit_path.relative_to(root).as_posix(),
+                "fit_manifest_sha256": sha256_file(fit_path),
+                "estimator_feature_names": ["x"],
+                "estimator_type": ("sklearn.linear_model._logistic.LogisticRegression"),
+            }
+        ],
+        campaign_decisions=[],
+    )
+
+
+def test_campaign_loader_uses_tour_raw_year_member_key_and_asymmetric_row(tmp_path: Path) -> None:
+    _write_synthetic_campaign_bundle(tmp_path)
+    bundle = open_campaign_bundle(tmp_path)
+    member = bundle.load_member(tour="ATP", raw_year=2014, member_id="ridge_c001")
+    first = predict_campaign_feature_row(member, {"x": 1.75})["raw_probability_a"]
+    second = predict_campaign_feature_row(member, {"x": -1.75})["raw_probability_a"]
+    assert first != second
+    assert math.isclose(first + second, 1.0, abs_tol=1e-14)
+
+
+def test_campaign_loader_rejects_corruption_before_joblib(tmp_path: Path, monkeypatch) -> None:
+    _write_synthetic_campaign_bundle(tmp_path)
+    model_path = tmp_path / "models/atp/2014/ridge_c001/model.joblib"
+    model_path.write_bytes(model_path.read_bytes() + b"changed")
+    called = False
+
+    def forbidden_load(path: Path) -> object:
+        nonlocal called
+        called = True
+        raise AssertionError(f"deserialized changed file: {path}")
+
+    monkeypatch.setattr("tennislab.models.release.joblib.load", forbidden_load)
+    with pytest.raises(ReleaseBundleError, match="changed"):
+        load_campaign_member(tmp_path, tour="ATP", raw_year=2014, member_id="ridge_c001")
+    assert called is False
+
+
+def test_campaign_combination_applies_saved_s2_and_s3_parameters() -> None:
+    order = [
+        "result_elo",
+        "hgb_leaf07_depth3",
+        "hgb_leaf15_depth4",
+        "ridge_c001",
+        "ridge_c01",
+        "ridge_c1",
+        "rf_leaf50",
+        "rf_leaf100",
+    ]
+    decision = {
+        "outer_year": 2024,
+        "target_outcomes_read_or_scored": False,
+        "S2": {
+            "candidate_trials": {
+                "rf_leaf50": {"slope": 0.5},
+                "rf_leaf100": {"slope": 2.0},
+            },
+            "selection": {
+                "selected_candidate_id": "rf_leaf100",
+                "selected_slope": 2.0,
+            },
+        },
+        "S3": {"member_order": order, "coefficients": [1.0] + [0.0] * 7},
+    }
+    raw = {member_id: 0.5 for member_id in order}
+    raw["result_elo"] = 0.7
+    raw["rf_leaf100"] = 0.8
+    result = combine_campaign_candidates(decision, raw)
+    assert result["S3_probability_a"] == pytest.approx(0.7)
+    assert result["S2_probability_a"] > 0.8
