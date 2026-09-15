@@ -438,6 +438,7 @@ def load_dataset(
     window: CalibrationWindow = SR03_WINDOW,
     labels: bool = True,
     exclude_without_rule: bool = False,
+    prices: bool = True,
 ) -> Dataset:
     """Join the selected point rows onto the panel and read the played outcomes.
 
@@ -519,9 +520,8 @@ def load_dataset(
             value = float(prediction[field])
             sr02_market.probabilities([value])
             item[f"raw_{family}"] = value
-        ps_valid = parse_boolean(source_row["PS_valid"])
         item["pinnacle_raw_normalized"] = None
-        if ps_valid:
+        if prices and parse_boolean(source_row["PS_valid"]):
             decimal_a = float(source_row["PS_decimal_a"])
             decimal_b = float(source_row["PS_decimal_b"])
             if not np.isfinite([decimal_a, decimal_b]).all() or decimal_a <= 1 or decimal_b <= 1:

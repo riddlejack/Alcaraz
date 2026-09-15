@@ -201,6 +201,10 @@ HGB_CANDIDATES = (
     ("hgb_leaf07_depth3", 7, 3),
     ("hgb_leaf15_depth4", 15, 4),
 )
+RF_CANDIDATES = (
+    ("rf_leaf50", 50),
+    ("rf_leaf100", 100),
+)
 
 RIDGE_PARAMS = {
     "C": 1.0,
@@ -225,6 +229,27 @@ HGB_PARAMS = {
     "max_leaf_nodes": 7,
     "min_samples_leaf": 80,
     "random_state": 71101,
+}
+RF_PARAMS = {
+    "bootstrap": True,
+    "ccp_alpha": 0.0,
+    "class_weight": None,
+    "criterion": "log_loss",
+    "max_depth": None,
+    "max_features": 1.0,
+    "max_leaf_nodes": None,
+    "max_samples": None,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 50,
+    "min_samples_split": 2,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": None,
+    "n_estimators": 500,
+    "n_jobs": 1,
+    "oob_score": False,
+    "random_state": 71101,
+    "verbose": 0,
+    "warm_start": False,
 }
 
 FORBIDDEN_MODEL_COLUMNS = frozenset(
@@ -576,10 +601,21 @@ class FeatureContract:
         )
         return tuple(dict.fromkeys(ordered))
 
-    def model_columns(self, learner: str, block: str) -> tuple[tuple[str, ...], tuple[str, ...]]:
-        if learner not in LEARNERS or block not in BLOCKS:
-            raise PipelineError(f"unknown learner/block: {learner}/{block}")
+    def _explicit_model_columns(
+        self, learner: str, block: str
+    ) -> tuple[tuple[str, ...], tuple[str, ...]]:
+        """Resolve one named family/bundle without changing the historical run menu.
+
+        Campaign code needs the reviewed RF tree contract and ATP ``full_tier`` beside
+        non-tier ridge ``full``.  Installing that mixed menu in ``LEARNERS``/``BLOCKS``
+        would change historical settings documents and fit counts, so the explicit path
+        is deliberately separate from :meth:`model_columns`.
+        """
+        if learner not in (*DEFAULT_LEARNERS, "random_forest"):
+            raise PipelineError(f"unknown learner: {learner}")
         stem, variant = split_block(block)
+        if stem not in BASE_BLOCKS:
+            raise PipelineError(f"unknown block: {block}")
         has_tier = bool(variant)
         has_traits = stem in {"traits", "full"}
         has_dynamic = stem in {"dynamic", "full"}
@@ -612,6 +648,17 @@ class FeatureContract:
                     TIER_NOQUAL_DYNAMIC_SIGNED if variant == "tier_noqual" else TIER_DYNAMIC_SIGNED
                 )
         return tuple(signed), tuple(context)
+
+    def model_columns(self, learner: str, block: str) -> tuple[tuple[str, ...], tuple[str, ...]]:
+        if learner not in LEARNERS or block not in BLOCKS:
+            raise PipelineError(f"unknown learner/block: {learner}/{block}")
+        return self._explicit_model_columns(learner, block)
+
+    def campaign_model_columns(
+        self, learner: str, block: str
+    ) -> tuple[tuple[str, ...], tuple[str, ...]]:
+        """The fixed Lane E family/bundle allowlist, independent of global run state."""
+        return self._explicit_model_columns(learner, block)
 
 
 @dataclass(frozen=True)
@@ -1067,6 +1114,33 @@ def numerical_config(
             "estimator_params": params,
         }
     raise PipelineError(f"unknown learner: {learner}")
+
+
+def random_forest_numerical_config(
+    contract: FeatureContract, block: str, candidate_id: str
+) -> dict[str, Any]:
+    """Resolve the reviewed Lane E RF contract without extending historical menus.
+
+    The caller must choose the tour-specific incumbent bundle (ATP ``full_tier`` or
+    WTA ``full``).  Columns come only from the existing signed/context allowlist; the
+    adapter never scans the numeric feature table for additional columns.
+    """
+    candidates = dict(RF_CANDIDATES)
+    if candidate_id not in candidates:
+        raise PipelineError(f"unknown random-forest candidate: {candidate_id}")
+    signed, context = contract.campaign_model_columns("random_forest", block)
+    forbidden = sorted(FORBIDDEN_MODEL_COLUMNS.intersection((*signed, *context)))
+    if forbidden:
+        raise PipelineError(f"forbidden random-forest model columns: {forbidden}")
+    params = dict(RF_PARAMS)
+    params["min_samples_leaf"] = candidates[candidate_id]
+    return {
+        "config_id": f"random_forest__{block}__{candidate_id}",
+        "family": "random_forest",
+        "signed_numeric_columns": list(signed),
+        "context_columns": list(context),
+        "estimator_params": params,
+    }
 
 
 def candidate_ids(learner: str) -> tuple[str, ...]:
