@@ -535,6 +535,9 @@ def fit_procedure(
     config: dict[str, Any],
     training_features: FeatureTable,
     training_labels: LabelTable,
+    *,
+    fit_input_observer: Callable[[Any, np.ndarray, np.ndarray | None, tuple[str, ...]], None]
+    | None = None,
 ) -> FitAttempt:
     """Fit from canonical training rows. No evaluation data enter this call.
 
@@ -589,6 +592,8 @@ def fit_procedure(
             else:
                 estimator = RandomForestClassifier(**config["estimator_params"])
 
+        if fit_input_observer is not None:
+            fit_input_observer(fit_matrix, labels, sample_weight, feature_names)
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
             if sample_weight is None:

@@ -11,10 +11,12 @@ import hashlib
 import json
 import os
 import tempfile
+import types
 import unittest
 from pathlib import Path
 from unittest import mock
 
+from tennislab.chain.common import canonical_hash
 from tennislab.config import reset_workspace_cache
 from tennislab.dynamics import calibrate, calibration
 from tennislab.dynamics.calibration import CalibrationError, CalibrationWindow
@@ -62,6 +64,223 @@ def synthetic_rows():
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_campaign_run_redacts_both_prebarrier_fit_write_sinks(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config_path = root / "config.json"
+            config_path.write_text("{}\n", encoding="utf-8")
+            config = {
+                "experiment_id": "E-SYNTHETIC",
+                "calibration": {
+                    "outer_years": [2017],
+                    "fit_disclosure_policy": calibrate.CAMPAIGN_FIT_DISCLOSURE_POLICY,
+                },
+                "source": {
+                    "point_manifest_sha256": "1" * 64,
+                    "selected_matches_sha256": "2" * 64,
+                    "panel_sha256": "3" * 64,
+                    "design_sha256": "4" * 64,
+                },
+            }
+            fit_records = [
+                {
+                    "outer_year": 2017,
+                    "family": family,
+                    "training_max_date": "2016-12-30",
+                    "status": "complete",
+                    "fit": {
+                        "market_slope": 1.0,
+                        "residual_coefficient": 0.0,
+                        "penalty": None,
+                        "n": 12,
+                        "objective": 0.6 + index / 100,
+                    },
+                }
+                for index, (family, _) in enumerate(calibration.FAMILIES)
+            ]
+
+            def fake_fit_and_predict(*args, event_sink=None, **kwargs):
+                for record in fit_records:
+                    event_sink(record)
+                return [], fit_records, []
+
+            def fake_write_csv(path, rows, fields):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(",".join(fields) + "\n", encoding="utf-8")
+
+            with mock.patch.dict(os.environ, {"TENNISLAB_WORKSPACE": str(root)}):
+                reset_workspace_cache()
+                try:
+                    with (
+                        mock.patch.object(
+                            calibrate,
+                            "_load",
+                            return_value=(
+                                config,
+                                calibration.SR03_WINDOW,
+                                {"selected_matches_rows": 0, "declared_binding": {}},
+                            ),
+                        ),
+                        mock.patch.object(
+                            calibration,
+                            "load_dataset",
+                            return_value=types.SimpleNamespace(rows=[], refused_without_rule=[]),
+                        ) as load_dataset,
+                        mock.patch.object(
+                            calibration, "panel_outcomes_for_fold", return_value=object()
+                        ),
+                        mock.patch.object(
+                            calibration, "fit_and_predict", side_effect=fake_fit_and_predict
+                        ),
+                        mock.patch.object(calibrate, "write_csv", side_effect=fake_write_csv),
+                        mock.patch.object(
+                            calibrate,
+                            "_source_hashes",
+                            return_value={
+                                "point_manifest_sha256": "1" * 64,
+                                "selected_matches_sha256": "2" * 64,
+                                "panel_sha256": "3" * 64,
+                                "rule_mapping_sha256": "5" * 64,
+                            },
+                        ),
+                        mock.patch.object(
+                            calibrate,
+                            "code_receipt",
+                            return_value={"module": "synthetic", "sha256": "6" * 64},
+                        ),
+                    ):
+                        calibrate.run(config_path, root / "out")
+                        load_dataset.assert_called_once_with(
+                            config,
+                            window=calibration.SR03_WINDOW,
+                            labels=True,
+                            exclude_without_rule=True,
+                            prices=False,
+                        )
+                finally:
+                    reset_workspace_cache()
+            fits = json.loads((root / "out/fits.json").read_text(encoding="utf-8"))
+            events = [
+                json.loads(line)
+                for line in (root / "out/fit_events.jsonl").read_text(encoding="utf-8").splitlines()
+            ]
+            for sink_records in (fits, events):
+                self.assertEqual(len(sink_records), len(calibration.FAMILIES))
+                self.assertTrue(all("objective" not in record["fit"] for record in sink_records))
+                self.assertTrue(
+                    all("full_fit_record_commitment_sha256" in record for record in sink_records)
+                )
+
+    def test_campaign_fit_disclosure_commits_without_prebarrier_objective(self):
+        original = {
+            "outer_year": 2017,
+            "family": "dynamic",
+            "training_max_date": "2016-12-30",
+            "status": "complete",
+            "fit": {
+                "market_slope": 0.9,
+                "residual_coefficient": 0.0,
+                "penalty": None,
+                "n": 12,
+                "objective": 0.6123,
+                "projected_gradient": 1e-9,
+                "iterations": 4,
+                "status": "complete",
+            },
+        }
+        serialized = calibrate.prebarrier_fit_record(
+            original, policy=calibrate.CAMPAIGN_FIT_DISCLOSURE_POLICY
+        )
+        self.assertNotIn("objective", serialized["fit"])
+        self.assertEqual(serialized["fit"]["market_slope"], 0.9)
+        self.assertEqual(serialized["training_max_date"], "2016-12-30")
+        self.assertEqual(serialized["full_fit_record_commitment_sha256"], canonical_hash(original))
+        self.assertIn("objective", original["fit"])
+        disclosed = calibrate.disclose_postbarrier_fit_objectives([serialized], [original])
+        self.assertEqual(disclosed[0]["objective"], 0.6123)
+        self.assertTrue(disclosed[0]["commitment_verified"])
+
+    def test_campaign_evaluate_refuses_without_completed_barrier(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config_path = root / "config.json"
+            config_path.write_text("{}\n", encoding="utf-8")
+            config = {
+                "calibration": {"fit_disclosure_policy": calibrate.CAMPAIGN_FIT_DISCLOSURE_POLICY}
+            }
+            with mock.patch.dict(os.environ, {"TENNISLAB_WORKSPACE": str(root)}):
+                reset_workspace_cache()
+                try:
+                    with mock.patch.object(
+                        calibrate,
+                        "_load",
+                        return_value=(config, calibration.SR03_WINDOW, {}),
+                    ):
+                        with self.assertRaisesRegex(ValueError, "requires --barrier-completion"):
+                            calibrate.evaluate(config_path, root / "calibration", root / "output")
+                finally:
+                    reset_workspace_cache()
+
+    def test_campaign_evaluate_reconciles_both_disclosure_sinks(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            record = {
+                "outer_year": 2017,
+                "family": "dynamic",
+                "fit": {"market_slope": 1.0},
+                "fit_objective_disclosure": "deferred_to_post_barrier",
+                "full_fit_record_commitment_sha256": "1" * 64,
+            }
+            (root / "fits.json").write_text(json.dumps([record]) + "\n", encoding="utf-8")
+            (root / "fit_events.jsonl").write_text(json.dumps(record) + "\n", encoding="utf-8")
+            manifest = {
+                "fits": 1,
+                "artifacts": {
+                    "fits.json": hashlib.sha256((root / "fits.json").read_bytes()).hexdigest(),
+                    "fit_events.jsonl": hashlib.sha256(
+                        (root / "fit_events.jsonl").read_bytes()
+                    ).hexdigest(),
+                },
+            }
+            self.assertEqual(calibrate._campaign_disclosure_sinks(root, manifest), [record])
+            changed = {**record, "full_fit_record_commitment_sha256": "2" * 64}
+            (root / "fit_events.jsonl").write_text(json.dumps(changed) + "\n", encoding="utf-8")
+            manifest["artifacts"]["fit_events.jsonl"] = hashlib.sha256(
+                (root / "fit_events.jsonl").read_bytes()
+            ).hexdigest()
+            with self.assertRaisesRegex(ValueError, "sink commitments differ"):
+                calibrate._campaign_disclosure_sinks(root, manifest)
+
+    def test_campaign_fit_disclosure_rejects_recomputed_drift(self):
+        original = {
+            "outer_year": 2017,
+            "family": "dynamic",
+            "status": "complete",
+            "fit": {"objective": 0.6},
+        }
+        serialized = calibrate.prebarrier_fit_record(
+            original, policy=calibrate.CAMPAIGN_FIT_DISCLOSURE_POLICY
+        )
+        mutated = copy.deepcopy(original)
+        mutated["fit"]["objective"] = 0.61
+        with self.assertRaisesRegex(ValueError, "differs from its prebarrier commitment"):
+            calibrate.disclose_postbarrier_fit_objectives([serialized], [mutated])
+
+    def test_legacy_fit_disclosure_is_exact_and_invalid_policy_fails(self):
+        record = {"status": "complete", "fit": {"objective": 0.5}}
+        self.assertEqual(
+            calibrate.prebarrier_fit_record(record, policy=calibrate.LEGACY_FIT_DISCLOSURE_POLICY),
+            record,
+        )
+        self.assertEqual(
+            calibrate.fit_disclosure_policy({"calibration": {}}),
+            calibrate.LEGACY_FIT_DISCLOSURE_POLICY,
+        )
+        with self.assertRaisesRegex(ValueError, "unsupported calibration"):
+            calibrate.fit_disclosure_policy(
+                {"calibration": {"fit_disclosure_policy": "write_then_delete"}}
+            )
+
     def test_candidate_config_cannot_run(self):
         config = json.loads((FIXTURES / "sr03_config.candidate.json").read_text())
         with self.assertRaisesRegex(ValueError, "frozen configuration"):

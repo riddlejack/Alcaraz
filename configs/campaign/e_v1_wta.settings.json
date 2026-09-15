@@ -1,0 +1,214 @@
+{
+  "expected_population": {
+    "priced_rows": 12785,
+    "target_rows": 12900
+  },
+  "settings": {
+    "configurations": {
+      "S0": "unchanged_incumbent_selected_calibrated_hgb",
+      "S1": "fixed_probability_blend_S0_and_result_pooled_Elo_equal_weights",
+      "S2": "two_setting_random_forest_inherited_past_only_slope_and_selection",
+      "S3": "eight_fixed_raw_member_positive_L2_nonnegative_logit_stack"
+    },
+    "forbidden_predictor_classes": [
+      "current_market_prices",
+      "lagged_market_inputs",
+      "market_missingness_or_coverage",
+      "player_id_ordinal_encodings",
+      "undeclared_numeric_columns"
+    ],
+    "random_forest": {
+      "candidate_ids": [
+        "rf_leaf50",
+        "rf_leaf100"
+      ],
+      "estimator_params": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "log_loss",
+        "max_depth": null,
+        "max_features": 1.0,
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 50,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 500,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 71101,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "selection": "inherited_nonnegative_slope_then_candidate_rank_on_same_three_past_years",
+      "tree_feature_contract": "named_signed_and_symmetric_context_allowlist_only"
+    },
+    "raw_member_contracts": [
+      {
+        "bundle": "result_elo",
+        "kind": "deterministic_state",
+        "member_id": "result_elo"
+      },
+      {
+        "bundle": "full",
+        "learner": "hgb",
+        "member_id": "hgb_leaf07_depth3"
+      },
+      {
+        "bundle": "full",
+        "learner": "hgb",
+        "member_id": "hgb_leaf15_depth4"
+      },
+      {
+        "bundle": "full",
+        "learner": "ridge",
+        "member_id": "ridge_c001"
+      },
+      {
+        "bundle": "full",
+        "learner": "ridge",
+        "member_id": "ridge_c01"
+      },
+      {
+        "bundle": "full",
+        "learner": "ridge",
+        "member_id": "ridge_c1"
+      },
+      {
+        "bundle": "full",
+        "learner": "random_forest",
+        "member_id": "rf_leaf50"
+      },
+      {
+        "bundle": "full",
+        "learner": "random_forest",
+        "member_id": "rf_leaf100"
+      }
+    ],
+    "raw_member_order": [
+      "result_elo",
+      "hgb_leaf07_depth3",
+      "hgb_leaf15_depth4",
+      "ridge_c001",
+      "ridge_c01",
+      "ridge_c1",
+      "rf_leaf50",
+      "rf_leaf100"
+    ],
+    "report": {
+      "bootstrap": {
+        "generator": "numpy_PCG64",
+        "interval": "95_percentile_linear_quantiles",
+        "replicates": 2000,
+        "seed": 20260914,
+        "unit": "tournament_edition_within_year",
+        "years": "ascending"
+      },
+      "calibration_edges": [
+        0.0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1.0
+      ],
+      "nomination": {
+        "automatic_promotion": false,
+        "candidate": "S3_only",
+        "interval_upper_below_zero": true,
+        "maximum_equal_year_delta": -0.002,
+        "minimum_negative_years": 5,
+        "required_years": 6
+      },
+      "primary_contrast": "S3_minus_S0",
+      "primary_estimand": "equal_year_mean_of_paired_match_log_loss_deltas",
+      "score_probability_clip": 1e-15,
+      "score_only_sensitivities": [
+        "leave_one_year_out",
+        "leave_2020_out"
+      ],
+      "annual_equal_year_degrees_of_freedom": "number_of_target_years_minus_one",
+      "secondary_contrasts": [
+        "S1_minus_S0",
+        "S2_minus_S0",
+        "S3_minus_S2"
+      ]
+    },
+    "runtime": {
+      "numpy": "2.5.3",
+      "python": "3.14.6",
+      "python_implementation": "CPython",
+      "scikit_learn": "1.9.1",
+      "scipy": "1.18.1"
+    },
+    "schema_version": 1,
+    "sr03_fit_disclosure": {
+      "config_field": "calibration.fit_disclosure_policy",
+      "policy": "campaign_commit_objective_defer_value",
+      "postbarrier_disclosure_artifact": "fit_objectives.json",
+      "postbarrier_both_sink_commitments_reconciled": true,
+      "prebarrier_objective_values": false,
+      "prebarrier_prediction_price_values": false,
+      "prebarrier_raw_quotes_parsed": false,
+      "prebarrier_sinks": [
+        "fit_events.jsonl",
+        "fits.json"
+      ],
+      "standalone_campaign_evaluate_requires_barrier": true
+    },
+    "stack": {
+      "bounds": [
+        0.0,
+        null
+      ],
+      "ftol": 1e-12,
+      "gtol": 1e-08,
+      "initial_coefficient": 0.125,
+      "intercept": false,
+      "l2_penalty": 0.001,
+      "maxiter": 5000,
+      "optimizer": "scipy_L-BFGS-B",
+      "probability_clip": 1e-06,
+      "projected_gradient_inf_norm_max": 1e-06,
+      "second_calibration_slope": false,
+      "sum_to_one": false
+    },
+    "tour": "WTA",
+    "year_plan": {
+      "cutoff": "D-2_reported_date_inclusive",
+      "history_floor_year": 2011,
+      "raw_years": [
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "selection_years_back": 3,
+      "target_years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "training_end_month_day": "12-30",
+      "training_start_rule": "max(2011-01-01, raw_year_minus_5-01-01)",
+      "training_window_years": 5
+    }
+  },
+  "status": "settings_complete_inputs_not_yet_bound"
+}

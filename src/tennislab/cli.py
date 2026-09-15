@@ -61,6 +61,13 @@ def build_parser() -> argparse.ArgumentParser:
     benchmark.add_argument("benchmark_command", choices=BENCHMARK_COMMANDS)
     benchmark.add_argument("--config", required=True, help="the benchmark configuration (JSON)")
     benchmark.add_argument("--attempt", help="immutable attempt id (not used by project)")
+    campaign = subparsers.add_parser(
+        "campaign", help="run the separately frozen Lane E forecast/barrier/report interface"
+    )
+    campaign.add_argument("campaign_command", choices=("forecast", "barrier", "report", "verify"))
+    campaign.add_argument("--config", required=True)
+    campaign.add_argument("--output", required=True)
+    campaign.add_argument("--execute-frozen-real", action="store_true")
     return parser
 
 
@@ -112,6 +119,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         destination = function(args.config, args.attempt)
         print(destination)
         return 0
+    if args.command == "campaign":
+        from tennislab.campaign import runner as campaign_runner
+
+        forwarded = [
+            args.campaign_command,
+            "--config",
+            args.config,
+            "--output",
+            args.output,
+        ]
+        if args.execute_frozen_real:
+            forwarded.append("--execute-frozen-real")
+        return campaign_runner.main(forwarded)
     return 2
 
 
