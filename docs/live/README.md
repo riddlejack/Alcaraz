@@ -3,8 +3,9 @@
 Repair `5089b24fe29e351d6f5f1c18fc970038b9c2c3cb` is independently accepted within
 its synthetic rehearsal scope. It demonstrates manual update, fixture qualification,
 Elo issuance, ledger verification and settlement. No real forecast has been issued;
-other rungs return explicit unavailable records. The qualified real-history, six-rung
-D2 snapshot is still pending.
+trained-rung feature routes are implemented but still return explicit unavailable records
+until their model bundle and hash-bound state inputs are supplied. The qualified
+real-history, six-rung D2 snapshot is still pending.
 
 ## Commands
 
@@ -15,7 +16,8 @@ The replay option uses retained responses; it is not a command to launch a crawl
 uv run tennislab readiness --config configs/live/live.json
 uv run tennislab update --config configs/live/live.json --events events.json --replay <dir>
 uv run tennislab fixture --config configs/live/live.json --input pending.csv --batch-id b1
-uv run tennislab forecast --config configs/live/live.json --batch-id b1
+uv run tennislab forecast --config configs/live/live.json --batch-id b1 \
+  --model-bundle /path/to/tennislab-accepted-models-2026-09-14-r2
 uv run tennislab ledger verify --config configs/live/live.json
 uv run tennislab settle results --config configs/live/live.json
 uv run tennislab settle score --config configs/live/live.json

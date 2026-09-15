@@ -231,6 +231,8 @@ FIXTURE_QUALIFICATION_FIELDS = (
     "surface",
     "best_of",
     "best_of_source",
+    "match_rule",
+    "match_rule_source",
     "scheduled_start_utc",
     "scheduled_start_local_date",
     "scheduled_start_source",
@@ -437,7 +439,12 @@ def cmd_forecast(args: argparse.Namespace) -> int:
         version = loaded_versions[version_key]
         receipts = fx.receipt_times(version)
         for forecast in fx.forecast_all(
-            config, fixture, version, issue_time=issue_time, receipts=receipts
+            config,
+            fixture,
+            version,
+            issue_time=issue_time,
+            receipts=receipts,
+            model_bundle=args.model_bundle,
         ):
             payload = {
                 **forecast,
@@ -687,6 +694,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     forecast.add_argument("--config", required=True)
     forecast.add_argument("--batch-id", required=True)
+    forecast.add_argument(
+        "--model-bundle",
+        help="unpacked accepted incumbent release; required to issue trained rungs",
+    )
     forecast.set_defaults(func=cmd_forecast)
 
     ledger = sub.add_parser("ledger", help="verify or extend the prospective ledger")

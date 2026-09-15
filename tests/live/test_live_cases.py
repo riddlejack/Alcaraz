@@ -961,7 +961,8 @@ def test_readiness_verifies_bound_release_inventory_and_outcome_free_interfaces(
     assert probes["atp_p0"]["probed_year"] == 2024
     assert probes["wta_full"]["probed_year"] == 2026
     assert report["rungs"]["atp_p0"]["artifact_status"] == "verified"
-    assert report["rungs"]["atp_p0"]["feature_route_status"] == "pending"
+    assert report["rungs"]["atp_p0"]["feature_route_status"] == "implemented"
+    assert report["rungs"]["atp_p0"]["feature_input_status"]["status"] == "pending"
 
 
 # --- repair controls: reconstructed public failures -------------------------------------------

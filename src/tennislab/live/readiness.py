@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from tennislab.chain.common import relative_to_root, require_hash
-from tennislab.live import versions
+from tennislab.live import feature_replay, versions
 from tennislab.live.common import LiveConfig, LiveError, parse_utc
 from tennislab.live.fixtures import BOUND_HISTORY_FIELDS, PLAYED, history_binding
 from tennislab.live.ledger import Ledger
@@ -76,8 +76,22 @@ def _history(config: LiveConfig, tour: str) -> dict[str, Any]:
             if row["status"].strip().lower() not in PLAYED:
                 withheld["not_played"] += 1
                 continue
+            identity_date = row.get("model_event_date", "").strip() or row.get("date", "").strip()
+            if not identity_date:
+                raise LiveError(f"{tour} bound history row {index} has no modeled event date")
+            try:
+                modeled_event = dt.date.fromisoformat(identity_date)
+            except ValueError as error:
+                raise LiveError(
+                    f"{tour} bound history row {index} has invalid modeled event date"
+                ) from error
+            if modeled_event > dt.date.fromisoformat(completion):
+                raise LiveError(
+                    f"{tour} bound history row {index} has modeled event date after "
+                    "completion upper bound"
+                )
             identity = (
-                completion,
+                identity_date,
                 row["tournament"].strip(),
                 row["round"].strip(),
                 min(
@@ -93,7 +107,7 @@ def _history(config: LiveConfig, tour: str) -> dict[str, Any]:
                 withheld["duplicate_identity"] += 1
                 continue
             seen.add(identity)
-            candidates.append({**row, "date": completion})
+            candidates.append({**row, "date": identity_date})
         elo.parse_results(candidates)
         return {
             "status": "ready",
@@ -111,7 +125,7 @@ def _history(config: LiveConfig, tour: str) -> dict[str, Any]:
         return {"status": status, "reason": text}
 
 
-def _snapshot(config: LiveConfig) -> dict[str, Any]:
+def _snapshot(config: LiveConfig, history: dict[str, dict[str, Any]]) -> dict[str, Any]:
     try:
         directory = versions.latest_version(config)
         if directory is None:
@@ -125,7 +139,19 @@ def _snapshot(config: LiveConfig) -> dict[str, Any]:
                 ("rankings", loaded["rankings"]),
             )
         }
-        missing = {name: sorted({"ATP", "WTA"} - set(present)) for name, present in tours.items()}
+        incremental_results_rows = len(loaded["results"])
+        if incremental_results_rows == 0:
+            result_coverage = sorted(
+                tour for tour, record in history.items() if record.get("status") == "ready"
+            )
+            results_mode = "bound_history_no_live_delta"
+        else:
+            result_coverage = tours["results"]
+            results_mode = "incremental_version_results"
+        coverage_tours = {**tours, "results": result_coverage}
+        missing = {
+            name: sorted({"ATP", "WTA"} - set(present)) for name, present in coverage_tours.items()
+        }
         blockers = [
             f"{name} lacks {', '.join(absent)}" for name, absent in missing.items() if absent
         ]
@@ -135,6 +161,9 @@ def _snapshot(config: LiveConfig) -> dict[str, Any]:
             "content_sha256": loaded["manifest"]["content_sha256"],
             "counts": loaded["manifest"]["counts"],
             "tours": tours,
+            "coverage_tours": coverage_tours,
+            "results_mode": results_mode,
+            "incremental_results_rows": incremental_results_rows,
             "blockers": blockers,
             "serve_frontier_observed": loaded["manifest"].get("serve_frontier_observed", {}),
             "ranking_frontier_observed": loaded["manifest"].get("ranking_frontier_observed", {}),
@@ -269,14 +298,14 @@ def assess(config_path: str | Path, *, model_bundle: str | Path | None = None) -
     """Return a stable readiness report; absence is reported, never promoted to success."""
     config = LiveConfig(config_path)
     history = {tour: _history(config, tour) for tour in ("ATP", "WTA")}
-    snapshot = _snapshot(config)
+    snapshot = _snapshot(config, history)
     model_release = _model_release(config, model_bundle)
     rungs: dict[str, dict[str, Any]] = {}
     for rung, record in config.section("rungs").items():
         tour = "ATP" if rung.startswith("atp_") else "WTA" if rung.startswith("wta_") else None
-        configured = record.get("status") == "available"
+        configured = record.get("status") in {"available", "route_implemented"}
         if rung == "elo":
-            snapshot_tours = snapshot.get("tours", {})
+            snapshot_tours = snapshot.get("coverage_tours", snapshot.get("tours", {}))
             ready_tours = [
                 tour
                 for tour, item in history.items()
@@ -296,10 +325,23 @@ def assess(config_path: str | Path, *, model_bundle: str | Path | None = None) -
                 "interface_probes", {}
             )
             feature_route = record.get("feature_route", {})
-            feature_ready = (
-                isinstance(feature_route, dict) and feature_route.get("status") == "ready"
+            feature_ready = isinstance(feature_route, dict) and feature_route.get("status") in {
+                "ready",
+                "implemented",
+            }
+            route_inputs = feature_replay.binding_status(config, rung)
+            snapshot_tours = snapshot.get("coverage_tours", snapshot.get("tours", {}))
+            snapshot_ready = bool(snapshot_tours) and all(
+                tour in snapshot_tours.get(table, ())
+                for table in ("results", "serve_state", "rankings")
             )
-            ready = configured and artifact_verified and feature_ready
+            ready = (
+                configured
+                and artifact_verified
+                and feature_ready
+                and route_inputs["status"] == "ready"
+                and snapshot_ready
+            )
             rungs[rung] = {
                 "status": "ready" if ready else "pending",
                 "tour": tour,
@@ -308,9 +350,17 @@ def assess(config_path: str | Path, *, model_bundle: str | Path | None = None) -
                 "feature_route_status": feature_route.get("status", "pending")
                 if isinstance(feature_route, dict)
                 else "invalid",
+                "feature_input_status": route_inputs,
+                "snapshot_tour_status": "ready" if snapshot_ready else "pending",
+                "checkpoint_target_year": feature_route.get("checkpoint_target_year")
+                if isinstance(feature_route, dict)
+                else None,
+                "fixture_year": feature_route.get("fixture_year")
+                if isinstance(feature_route, dict)
+                else None,
                 "reason": None
                 if ready
-                else record.get("reason", "artifact or snapshot-to-feature route is not ready"),
+                else record.get("reason", "artifact, snapshot or exact feature input is not ready"),
             }
     try:
         ledger = Ledger(config).verify()
