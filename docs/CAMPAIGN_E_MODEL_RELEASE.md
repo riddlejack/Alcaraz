@@ -1,8 +1,12 @@
 # Lane E research-model companion release
 
-Status: deterministic local release candidate. Publication as a separate companion asset
-requires the branch CI and final release/download verification. It does not replace the
-accepted incumbent release.
+Status: [published experimental companion](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15),
+verified by anonymous download on September 15, 2026. It does not replace the accepted
+incumbent release. CI passed 621 tests with three expected skips at source commit
+`4da58923024273e18219147047719d17759da5e7`; PR #1 merged the identical code tree.
+
+Archive: 208,973,211 bytes. SHA-256:
+`550ecb61ee9f5038ea0186b46e4e46582a8a1453a40a980b756d67d2a2f436d3`.
 
 ## Exact contents
 

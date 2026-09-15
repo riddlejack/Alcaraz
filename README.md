@@ -141,6 +141,11 @@ ready-to-use prediction app. **[Download the full accepted trained models](https
 tours’ Elo state. The download preserves the accepted model parameters; private training
 rows are excluded. See [`docs/MODEL_RELEASE.md`](docs/MODEL_RELEASE.md) for usage.
 
+The [experimental campaign models](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15)
+are also available: all 140 fitted estimators and their saved combination decisions.
+They preserve the evaluated weights; the campaign did not establish a replacement for
+the accepted default.
+
 The boosted-tree models take prepared statistics. Forecasting from two player names still
 requires history, ratings, rankings, serve/return dynamics, and ATP lower-tier feature
 state that are not bundled as a complete live snapshot today.

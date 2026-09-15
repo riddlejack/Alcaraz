@@ -79,12 +79,11 @@ This review covers the specified release contents. It does not certify arbitrary
 checkpoints, formal privacy guarantees, a complete player-name application or new scientific
 performance. The [ranking/Elo comparison](benchmarks/G_L_RESULTS.md) is complete. The
 separate four-arm improvement campaign is also complete and independently accepted as
-negative/inconclusive; it did not nominate or promote a replacement. A companion package
-for its evaluated research weights is proposed separately and has not been released.
+negative/inconclusive; it did not nominate or promote a replacement.
 See [`CAMPAIGN_E_RESULTS.md`](CAMPAIGN_E_RESULTS.md) for the accepted result boundary.
 
-The evaluated Lane E weights now have a separate deterministic companion candidate and
-keyed prepared-feature loader. It preserves all 140 numerical members and 14 fold
-decisions without changing this accepted release or its default. See
-[`CAMPAIGN_E_MODEL_RELEASE.md`](CAMPAIGN_E_MODEL_RELEASE.md). Publication remains pending
-until the integration branch passes CI and the public asset is downloaded and reverified.
+The [experimental campaign companion](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15)
+is also public and verified by anonymous download. It preserves all 140 numerical
+estimators, 140 fit manifests, and 14 fold decisions, with a keyed prepared-feature loader.
+See [`CAMPAIGN_E_MODEL_RELEASE.md`](CAMPAIGN_E_MODEL_RELEASE.md) for its checksum and
+inference requirements. The accepted incumbent remains the default.
