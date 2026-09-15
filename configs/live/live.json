@@ -57,13 +57,22 @@
     "ATP": {"results_csv": "PENDING", "sha256": "PENDING"},
     "WTA": {"results_csv": "PENDING", "sha256": "PENDING"}
   },
+  "model_release": {
+    "status": "accepted_incumbent",
+    "release_id": "tennislab-accepted-models-2026-09-14-r2",
+    "archive_sha256": "bbe0337006e298897f6dda0ed87f0717d8a451e465235d95078916def74bcfc4",
+    "manifest_sha256": "33a78c00582813585031f854dccad89f377225e96333932d1e55d81d94a4ec54",
+    "manifest_schema_version": 1,
+    "runner": "tennislab.models.release.predict_feature_row",
+    "feature_interface": "one already-constructed, outcome-free feature row in the selected checkpoint's exact estimator_feature_names order; this binding does not construct features from player names or snapshot rows"
+  },
   "rungs": {
     "elo": {"status": "available", "module": "tennislab.ratings.elo", "config": "configs/elo.json", "learned_constants": "fixed (K 32, scale 400, initial 1500, pooling 0.5/0.5); no fit, horizon none"},
-    "atp_p0": {"status": "unavailable", "reason": "no single-fixture feature route in the trunk; exact route is live-panel append plus chain replay features..pipeline with blank fixture-year labels; fitted artifacts not bound in this lane"},
-    "atp_p1": {"status": "unavailable", "reason": "as atp_p0"},
-    "atp_full_tier": {"status": "unavailable", "reason": "as atp_p0; native tier acceptance (RB9) also pending"},
-    "wta_base": {"status": "unavailable", "reason": "as atp_p0"},
-    "wta_full": {"status": "unavailable", "reason": "as atp_p0"}
+    "atp_p0": {"status": "artifact_bound", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_p0", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "pending", "route": "live-panel append then exact chain features replay with the fixture-year label blank"}, "reason": "accepted artifacts are bound through 2024; snapshot-to-feature replay and a scientifically approved post-2024 ATP deployment policy remain pending"},
+    "atp_p1": {"status": "artifact_bound", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_p1", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "pending", "route": "live-panel append then exact chain features and sidecar replay with the fixture-year label blank"}, "reason": "accepted artifacts are bound through 2024; snapshot-to-feature replay and a scientifically approved post-2024 ATP deployment policy remain pending"},
+    "atp_full_tier": {"status": "artifact_bound", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_full_tier", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "pending", "route": "live-panel append then exact chain features, sidecar and tier-block replay with the fixture-year label blank"}, "reason": "accepted native tier artifacts are bound through 2024; snapshot-to-feature replay and a scientifically approved post-2024 ATP deployment policy remain pending"},
+    "wta_base": {"status": "artifact_bound", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "WTA", "rung": "wta_base", "target_years": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}, "feature_route": {"status": "pending", "route": "live-panel append then exact chain features replay with the fixture-year label blank"}, "reason": "accepted artifacts are bound through 2026; snapshot-to-feature replay remains pending"},
+    "wta_full": {"status": "artifact_bound", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "WTA", "rung": "wta_full", "target_years": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}, "feature_route": {"status": "pending", "route": "live-panel append then exact chain features and sidecar replay with the fixture-year label blank"}, "reason": "accepted artifacts are bound through 2026; snapshot-to-feature replay remains pending"}
   },
   "exclusion": {
     "unknown_identity": "excluded",
