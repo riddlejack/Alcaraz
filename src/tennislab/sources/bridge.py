@@ -1680,11 +1680,10 @@ def write_market_workbook(
 ) -> str:
     """One `Data` sheet, header first, every cell from `_cell`.
 
-    ZIP entry times and the created property are fixed. The B2 reconstruction found
-    that openpyxl resets the modified property during save, so strict workbook byte
-    determinism is not established. That residual docProps timestamp and its downstream
-    source-hash columns are an explicit provenance difference (docs/EQUIVALENCE.md).
-    Cell contents, styles and workbook parts are unchanged by timestamp normalization.
+    ZIP entry times and both core timestamps are fixed. Openpyxl resets the modified
+    property during save, so the core-properties part is serialized again afterward.
+    This changes generated-file metadata only; cells and all other parts are preserved.
+    Previously frozen archive workbooks are not rewritten.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
     workbook = openpyxl.Workbook(write_only=True)
@@ -1696,6 +1695,8 @@ def write_market_workbook(
         sheet.append([_cell(row, name) for name in columns])
     buffer = io.BytesIO()
     workbook.save(buffer)
+    workbook.properties.modified = WORKBOOK_EPOCH
+    core_properties = openpyxl.xml.functions.tostring(workbook.properties.to_tree())
     with (
         zipfile.ZipFile(buffer) as source,
         zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as target,
@@ -1703,7 +1704,12 @@ def write_market_workbook(
         for info in source.infolist():
             entry = zipfile.ZipInfo(info.filename, date_time=WORKBOOK_EPOCH.timetuple()[:6])
             entry.compress_type = zipfile.ZIP_DEFLATED
-            target.writestr(entry, source.read(info.filename))
+            payload = (
+                core_properties
+                if info.filename == "docProps/core.xml"
+                else source.read(info.filename)
+            )
+            target.writestr(entry, payload)
     return sha256(path)
 
 

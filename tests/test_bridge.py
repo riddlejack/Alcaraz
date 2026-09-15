@@ -20,6 +20,7 @@ import io
 import json
 import tarfile
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import openpyxl
@@ -981,6 +982,40 @@ def bridge_config(workspace: Path, archive: Path, **bridge_overrides: Any) -> Pa
     path = workspace / "bridge.json"
     path.write_text(json.dumps(document, indent=2), encoding="utf-8")
     return path
+
+
+def test_market_workbook_is_identical_across_save_times(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import openpyxl.writer.excel
+
+    class Clock:
+        current = dt.datetime(2020, 1, 2, 3, 4, 5)
+
+        @classmethod
+        def now(cls, tz: dt.tzinfo | None = None) -> dt.datetime:
+            return cls.current.replace(tzinfo=tz)
+
+    monkeypatch.setattr(
+        openpyxl.writer.excel,
+        "datetime",
+        SimpleNamespace(datetime=Clock, timezone=dt.timezone),
+    )
+    columns = ("Date", "Winner", "PSW")
+    rows = [{"market_date": dt.date(2024, 8, 12), "Winner": "Synthetic A", "PSW": 1.75}]
+    first, second = tmp_path / "first.xlsx", tmp_path / "second.xlsx"
+    bridge.write_market_workbook(first, columns, rows)
+    Clock.current = dt.datetime(2025, 6, 7, 8, 9, 10)
+    bridge.write_market_workbook(second, columns, rows)
+    assert first.read_bytes() == second.read_bytes()
+    workbook = openpyxl.load_workbook(second, read_only=True)
+    assert list(workbook["Data"].values) == [
+        columns,
+        (dt.datetime(2024, 8, 12), "Synthetic A", 1.75),
+    ]
+    assert workbook.properties.created == bridge.WORKBOOK_EPOCH
+    assert workbook.properties.modified == bridge.WORKBOOK_EPOCH
+    workbook.close()
 
 
 def test_build_end_to_end_on_the_fixture(
