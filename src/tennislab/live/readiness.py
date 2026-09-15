@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import csv
 import datetime as dt
+import hashlib
+import json
+import math
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -17,6 +20,7 @@ from tennislab.live import versions
 from tennislab.live.common import LiveConfig, LiveError, parse_utc
 from tennislab.live.fixtures import BOUND_HISTORY_FIELDS, PLAYED, history_binding
 from tennislab.live.ledger import Ledger
+from tennislab.models import release
 from tennislab.ratings import elo
 
 
@@ -139,11 +143,134 @@ def _snapshot(config: LiveConfig) -> dict[str, Any]:
         return {"status": "invalid", "reason": str(error)}
 
 
-def assess(config_path: str | Path) -> dict[str, Any]:
+def _probe_values(columns: list[str]) -> dict[str, float]:
+    """A deterministic asymmetric row containing no identity, label or outcome fields."""
+    values: dict[str, float] = {}
+    for index, column in enumerate(columns):
+        if any(token in column for token in ("missing", "unseen", "stale")):
+            value = 0.0
+        elif column.startswith("context_"):
+            value = 1.0 if column == "context_clay" else 0.0
+        else:
+            value = (1.0 if index % 2 == 0 else -1.0) * (index + 1) / 100.0
+        values[column] = value
+    return values
+
+
+def _model_release(config: LiveConfig, bundle_path: str | Path | None) -> dict[str, Any]:
+    expected = config.section("model_release")
+    bindings = {name: record for name, record in config.section("rungs").items() if name != "elo"}
+    declared = {
+        "release_id": expected.get("release_id"),
+        "archive_sha256": expected.get("archive_sha256"),
+        "manifest_sha256": expected.get("manifest_sha256"),
+        "runner": expected.get("runner"),
+    }
+    if bundle_path is None:
+        return {
+            "status": "pending",
+            "binding": declared,
+            "reason": "accepted bundle not supplied; pass --model-bundle to verify its bytes and interfaces",
+        }
+    try:
+        root = Path(bundle_path).expanduser().resolve()
+        manifest_path = root / "MANIFEST.json"
+        observed_manifest_sha = release.sha256_file(manifest_path)
+        if observed_manifest_sha != expected.get("manifest_sha256"):
+            raise LiveError(
+                "model release manifest SHA-256 mismatch: "
+                f"expected {expected.get('manifest_sha256')}, observed {observed_manifest_sha}"
+            )
+        manifest = release.verify_bundle(root)
+        if manifest.get("schema_version") != expected.get("manifest_schema_version"):
+            raise LiveError("model release manifest schema differs from the live binding")
+        if manifest.get("release_id") != expected.get("release_id"):
+            raise LiveError("model release identity differs from the live binding")
+        if expected.get("runner") != "tennislab.models.release.predict_feature_row":
+            raise LiveError("model release runner is not the accepted prepared-row interface")
+
+        probes: dict[str, dict[str, Any]] = {}
+        for rung, record in sorted(bindings.items()):
+            artifact = record.get("artifact_manifest")
+            if not isinstance(artifact, dict):
+                raise LiveError(f"rung {rung} has no artifact_manifest object")
+            if artifact.get("release_id") != manifest.get("release_id"):
+                raise LiveError(f"rung {rung} release identity differs")
+            if artifact.get("rung") != rung:
+                raise LiveError(f"rung {rung} artifact key differs")
+            tour = str(artifact.get("tour", "")).upper()
+            expected_years = artifact.get("target_years")
+            if not isinstance(expected_years, list) or not expected_years:
+                raise LiveError(f"rung {rung} has no target-year inventory")
+            matches = [
+                item
+                for item in manifest["models"]
+                if item.get("tour") == tour and item.get("rung") == rung
+            ]
+            observed_years = sorted(item.get("target_year") for item in matches)
+            if observed_years != expected_years or len(matches) != len(expected_years):
+                raise LiveError(
+                    f"rung {rung} year inventory differs: expected {expected_years}, "
+                    f"observed {observed_years}"
+                )
+            if record.get("runner") != expected.get("runner"):
+                raise LiveError(f"rung {rung} runner differs from the release binding")
+
+            probe_year = int(expected_years[-1])
+            checkpoint = release.load_checkpoint(root, tour=tour, rung=rung, year=probe_year)
+            columns = list(checkpoint.metadata["estimator_feature_names"])
+            forbidden = {
+                "winner",
+                "loser",
+                "score",
+                "a_won",
+                "result",
+                "winner_side",
+                "outcome",
+            }
+            if forbidden & set(columns):
+                raise LiveError(f"rung {rung} estimator schema contains outcome fields")
+            values = _probe_values(columns)
+            prediction = release.predict_feature_row(
+                checkpoint,
+                values,
+                season=str(probe_year),
+                match_id=f"d2-readiness-{rung}-{probe_year}",
+            )
+            if not all(
+                math.isfinite(value) and 0.0 <= value <= 1.0 for value in prediction.values()
+            ):
+                raise LiveError(f"rung {rung} probe emitted an invalid probability")
+            probe_sha = hashlib.sha256(
+                json.dumps(values, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            ).hexdigest()
+            probes[rung] = {
+                "tour": tour,
+                "target_years": expected_years,
+                "probed_year": probe_year,
+                "feature_count": len(columns),
+                "outcome_fields_read": [],
+                "feature_row_sha256": probe_sha,
+                **prediction,
+            }
+        return {
+            "status": "verified",
+            "binding": declared,
+            "bundle_path": str(root),
+            "payload_files_verified": len(manifest["files"]),
+            "models_verified": len(manifest["models"]),
+            "interface_probes": probes,
+        }
+    except (LiveError, release.ReleaseBundleError, OSError, ValueError, TypeError) as error:
+        return {"status": "invalid", "binding": declared, "reason": str(error)}
+
+
+def assess(config_path: str | Path, *, model_bundle: str | Path | None = None) -> dict[str, Any]:
     """Return a stable readiness report; absence is reported, never promoted to success."""
     config = LiveConfig(config_path)
     history = {tour: _history(config, tour) for tour in ("ATP", "WTA")}
     snapshot = _snapshot(config)
+    model_release = _model_release(config, model_bundle)
     rungs: dict[str, dict[str, Any]] = {}
     for rung, record in config.section("rungs").items():
         tour = "ATP" if rung.startswith("atp_") else "WTA" if rung.startswith("wta_") else None
@@ -164,15 +291,26 @@ def assess(config_path: str | Path) -> dict[str, Any]:
                 "reason": None if ready else "needs a bound history and verified snapshot",
             }
         else:
-            ready = (
-                configured and bool(record.get("runner")) and bool(record.get("artifact_manifest"))
+            artifact = record.get("artifact_manifest", {})
+            artifact_verified = model_release["status"] == "verified" and rung in model_release.get(
+                "interface_probes", {}
             )
+            feature_route = record.get("feature_route", {})
+            feature_ready = (
+                isinstance(feature_route, dict) and feature_route.get("status") == "ready"
+            )
+            ready = configured and artifact_verified and feature_ready
             rungs[rung] = {
                 "status": "ready" if ready else "pending",
                 "tour": tour,
+                "artifact_status": "verified" if artifact_verified else "pending",
+                "target_years": artifact.get("target_years", []),
+                "feature_route_status": feature_route.get("status", "pending")
+                if isinstance(feature_route, dict)
+                else "invalid",
                 "reason": None
                 if ready
-                else record.get("reason", "runner or artifact manifest is not bound"),
+                else record.get("reason", "artifact or snapshot-to-feature route is not ready"),
             }
     try:
         ledger = Ledger(config).verify()
@@ -187,6 +325,8 @@ def assess(config_path: str | Path) -> dict[str, Any]:
         blockers.append(
             f"snapshot: {snapshot.get('reason', '; '.join(snapshot.get('blockers', [])))}"
         )
+    if model_release["status"] != "verified":
+        blockers.append(f"model release: {model_release.get('reason', model_release['status'])}")
     for rung, item in rungs.items():
         if item["status"] != "ready":
             blockers.append(f"rung {rung}: {item['reason']}")
@@ -198,6 +338,7 @@ def assess(config_path: str | Path) -> dict[str, Any]:
         "config_sha256": config.sha256,
         "history": history,
         "snapshot": snapshot,
+        "model_release": model_release,
         "rungs": rungs,
         "ledger": ledger_status,
         "settlement": {

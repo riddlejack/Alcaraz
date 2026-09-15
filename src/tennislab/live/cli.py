@@ -639,7 +639,13 @@ def cmd_settle(args: argparse.Namespace) -> int:
 
 
 def cmd_readiness(args: argparse.Namespace) -> int:
-    print(json.dumps(readiness.assess(args.config), indent=2, sort_keys=True))
+    print(
+        json.dumps(
+            readiness.assess(args.config, model_bundle=args.model_bundle),
+            indent=2,
+            sort_keys=True,
+        )
+    )
     return 0
 
 
@@ -710,6 +716,10 @@ def build_parser() -> argparse.ArgumentParser:
         "readiness", help="read-only D2 history, snapshot, rung and ledger readiness report"
     )
     ready.add_argument("--config", required=True)
+    ready.add_argument(
+        "--model-bundle",
+        help="unpacked accepted incumbent release to verify; read-only and never persisted",
+    )
     ready.set_defaults(func=cmd_readiness)
     return parser
 

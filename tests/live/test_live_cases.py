@@ -871,6 +871,10 @@ def test_readiness_reports_verified_work_and_exact_pending_bindings(ws) -> None:
     assert initial["history"]["ATP"]["eligible_candidate_rows"] == 10
     assert initial["history"]["WTA"]["status"] == "pending"
     assert initial["snapshot"]["status"] == "pending"
+    assert initial["model_release"]["status"] == "pending"
+    assert initial["model_release"]["binding"]["release_id"] == (
+        "tennislab-accepted-models-2026-09-14-r2"
+    )
     assert initial["ledger"]["status"] == "ready" and initial["ledger"]["records"] == 0
 
     replay = world.replay_dir_for(workspace, world.complete_rounds(), revision=100)
@@ -894,6 +898,70 @@ def test_readiness_reports_verified_work_and_exact_pending_bindings(ws) -> None:
     assert after["rungs"]["elo"]["status"] == "ready"
     assert after["rungs"]["elo"]["ready_tours"] == ["ATP"]
     assert after["rungs"]["atp_p0"]["status"] == "pending"
+    assert after["rungs"]["atp_p0"]["target_years"][-1] == 2024
+    assert after["rungs"]["wta_base"]["target_years"][-1] == 2026
+
+
+def test_readiness_verifies_bound_release_inventory_and_outcome_free_interfaces(
+    ws, monkeypatch
+) -> None:
+    workspace, runner = ws
+    config = json.loads((workspace / CONFIG).read_text(encoding="utf-8"))
+    models = []
+    for rung, record in config["rungs"].items():
+        if rung == "elo":
+            continue
+        binding = record["artifact_manifest"]
+        models.extend(
+            {
+                "tour": binding["tour"],
+                "rung": rung,
+                "target_year": year,
+            }
+            for year in binding["target_years"]
+        )
+    manifest = {
+        "schema_version": 1,
+        "release_id": config["model_release"]["release_id"],
+        "files": [],
+        "models": models,
+    }
+    bundle = workspace / "accepted-models"
+    bundle.mkdir()
+    (bundle / "MANIFEST.json").write_text("synthetic test manifest\n", encoding="utf-8")
+
+    class Checkpoint:
+        metadata = {"estimator_feature_names": ["elo_overall_logit", "context_clay"]}
+
+    monkeypatch.setattr(
+        "tennislab.live.readiness.release.sha256_file",
+        lambda path: config["model_release"]["manifest_sha256"],
+    )
+    monkeypatch.setattr("tennislab.live.readiness.release.verify_bundle", lambda path: manifest)
+    monkeypatch.setattr(
+        "tennislab.live.readiness.release.load_checkpoint", lambda *args, **kwargs: Checkpoint()
+    )
+    monkeypatch.setattr(
+        "tennislab.live.readiness.release.predict_feature_row",
+        lambda *args, **kwargs: {
+            "raw_probability_a": 0.49,
+            "calibrated_probability_a": 0.51,
+        },
+    )
+
+    report = runner.ok(
+        "readiness", "--config", CONFIG, "--model-bundle", bundle.relative_to(workspace).as_posix()
+    )
+    assert report["model_release"]["status"] == "verified"
+    assert report["model_release"]["payload_files_verified"] == 0
+    assert report["model_release"]["models_verified"] == 40
+    probes = report["model_release"]["interface_probes"]
+    assert sorted(probes) == ["atp_full_tier", "atp_p0", "atp_p1", "wta_base", "wta_full"]
+    assert all(probe["outcome_fields_read"] == [] for probe in probes.values())
+    assert probes["atp_p0"]["probed_year"] == 2024
+    assert probes["wta_full"]["probed_year"] == 2026
+    assert report["rungs"]["atp_p0"]["artifact_status"] == "verified"
+    assert report["rungs"]["atp_p0"]["feature_route_status"] == "pending"
 
 
 # --- repair controls: reconstructed public failures -------------------------------------------

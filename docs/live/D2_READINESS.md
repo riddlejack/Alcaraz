@@ -10,6 +10,15 @@ model, issue a forecast, or write to the prospective ledger.
 uv run tennislab readiness --config configs/live/live.json
 ```
 
+To verify the separately distributed accepted incumbent package and exercise each bound
+prepared-row interface without outcomes:
+
+```sh
+uv run tennislab readiness \
+  --config configs/live/live.json \
+  --model-bundle /path/to/tennislab-accepted-models-2026-09-14-r2
+```
+
 The report verifies what is present and names what is absent:
 
 - each ATP/WTA history path and SHA-256 binding;
@@ -19,14 +28,21 @@ The report verifies what is present and names what is absent:
   or duplicate match identity;
 - the latest version pointer, manifest, normalized tables and acquisition-receipt hashes;
 - tour coverage in results, serve state and rankings, with observed frontiers;
-- each declared rung's live runner and fitted-artifact binding;
+- the accepted release identity, manifest hash, complete payload inventory, exact per-rung
+  target-year inventory and each declared rung's prepared-row runner;
+- one deterministic asymmetric, outcome-free interface probe at the latest accepted year
+  for each trained rung, with its feature-row hash and probabilities;
 - the ledger chain, including a valid empty genesis state; and
 - the existing settlement barrier and estimand.
 
 With the committed configuration, the honest result remains `pending`: ATP and WTA
 history are `PENDING`, no real snapshot version exists, and the five trained rungs have
-no live runner/artifact binding. The ledger and settlement implementation are present;
-that does not make them prospective evidence.
+no snapshot-to-feature route. Their accepted artifact release and prepared-row interface
+are now pinned. Supplying the exact bundle verifies its complete payload inventory and all
+40 model records, then probes the five latest-year interfaces, but it does not promote the
+rungs to live-ready. The ATP release ends at target year 2024; choosing a checkpoint for a
+2026 ATP fixture is a separate scientific deployment decision. The ledger and settlement
+implementation are present; none of this makes a rehearsal prospective evidence.
 
 ## Data qualification rule
 
@@ -54,10 +70,13 @@ chronology rule.
 3. Run one explicit `update` with the qualified two-tour results, Tennis Abstract serve
    feed and last-known rankings. Verify the new version and rerun `readiness`; results,
    serve state and rankings must each cover ATP and WTA at their stated frontiers.
-4. Bind the release package's exact accepted incumbent artifacts and an exact
-   `features`→`pipeline` replay for `atp_p0`, `atp_p1`, `atp_full_tier`, `wta_base` and
-   `wta_full`. Fixture-year labels remain blank. This is application of existing fits, not
-   refitting, tuning or selecting a model. The accepted incumbent remains the default.
+4. Complete the exact snapshot-to-chain feature replay for the five now artifact-bound
+   trained rungs. Append the fixture to the live panel and run the existing feature stages
+   with its fixture-year label blank; pass only the emitted estimator fields to the pinned
+   `tennislab.models.release.predict_feature_row` interface. This applies existing fits;
+   it does not refit, tune or select. For ATP after 2024, first approve and record either a
+   frozen-2024 deployment horizon or a separately accepted later checkpoint. The accepted
+   incumbent remains the default.
 5. Exercise Elo plus those five trained rungs on outcome-free synthetic ATP/WTA fixtures
    from the real snapshot. Require deterministic feature, Elo, workload, ranking, dynamic
    serve/return and tier-state hashes; an `unavailable` placeholder is not a pass.
