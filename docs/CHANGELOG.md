@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-15 — exact live feature replay
+
+- Added outcome-free snapshot-to-feature replay for ATP P0, P1 and full-tier plus WTA
+  base and full, using the accepted feature, sidecar, dynamic and tier state functions.
+- Bound ATP 2026 use to the accepted 2024 checkpoint while preserving its original fit,
+  calibration and selection metadata; WTA remains on its accepted 2026 checkpoint.
+- Separated modeled event chronology from completion, publication and receipt eligibility
+  bounds in both trained replay and the fixed Elo baseline.
+- Added accepted rule-map reuse, hash-bound SR02 saved-selection checks, state and feature
+  receipts, fixture outcome/stat refusal, and honest pending input readiness.
+- Recorded the retained ranking and lower-tier freshness limits and simplified public
+  Jeff Sackmann / Tennis Abstract attribution.
+
 ## 2026-09-14 — portable numerical regression
 
 - Replaced the single synthetic seed after Linux correctly revealed that it did not

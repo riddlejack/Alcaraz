@@ -22,69 +22,86 @@ uv run tennislab readiness \
 The report verifies what is present and names what is absent:
 
 - each ATP/WTA history path and SHA-256 binding;
-- the complete bound-history schema, typed publication/receipt timestamps and admitted
+- the corrected-panel replay schema, typed publication/receipt timestamps and admitted
   completion bases;
 - counts withheld for unresolved overlap, unadmitted completion basis, non-played status
   or duplicate match identity;
-- the latest version pointer, manifest, normalized tables and acquisition-receipt hashes;
-- tour coverage in results, serve state and rankings, with observed frontiers;
-- the accepted release identity, manifest hash, complete payload inventory, exact per-rung
-  target-year inventory and each declared rung's prepared-row runner;
-- one deterministic asymmetric, outcome-free interface probe at the latest accepted year
-  for each trained rung, with its feature-row hash and probabilities;
-- the ledger chain, including a valid empty genesis state; and
-- the existing settlement barrier and estimand.
+- the latest version pointer, normalized tables, acquisition receipts and tour coverage;
+- the accepted release identity, complete payload inventory and exact per-rung years;
+- one asymmetric, outcome-free prepared-row interface probe for every trained rung;
+- each trained route's history, BIO, ranking, SR02 selection and lower-tier bindings;
+- the ledger chain, settlement barrier and estimand.
 
-With the committed configuration, the honest result remains `pending`: ATP and WTA
-history are `PENDING`, no real snapshot version exists, and the five trained rungs have
-no snapshot-to-feature route. Their accepted artifact release and prepared-row interface
-are now pinned. Supplying the exact bundle verifies its complete payload inventory and all
-40 model records, then probes the five latest-year interfaces, but it does not promote the
-rungs to live-ready. The ATP release ends at target year 2024; choosing a checkpoint for a
-2026 ATP fixture is a separate scientific deployment decision. The ledger and settlement
-implementation are present; none of this makes a rehearsal prospective evidence.
+The five trained snapshot-to-feature routes are implemented. The committed configuration
+still reports `pending` because the public repository deliberately leaves the real
+history, ranking, BIO, SR02 and tier paths unbound, no accepted live snapshot version is
+present, and the model bundle is distributed separately. `route_implemented` records
+working code; it does not promote a rung to live-ready.
 
-## Data qualification rule
+The ATP routes apply the accepted 2024 checkpoint to a 2026 fixture under frozen decision
+D100. They retain the checkpoint's original fit and selection cutoffs, calibration slope,
+model hash and fit-manifest hash. They do not relabel the fit as 2026. WTA uses the
+accepted 2026 checkpoint. In both tours, replay applies fixed state updates and a saved
+SR02 candidate; it performs no HGB fit, calibration fit, candidate scoring or selection.
 
-History becomes eligible only from a hash-bound table in the existing
-`bound-history-1` contract. A row with unresolved overlap or no completion bound is
-withheld. A row whose `completion_basis` is not explicitly admitted by that tour's
-binding is also withheld. The readiness profile reports these rows rather than converting
-an event anchor, an aggregate count or a local receipt time into a match clock.
+## Exact replay contract
 
-For the staged TennisMyLife material, existing result/count qualification does not settle
-historical availability. Negative date offsets in retained comparisons prevent a general
-"supplied date is a completion upper bound" rule. D2 must bind a separately corroborated
-completion bound or quarantine the row. Tennis Abstract event anchors likewise do not
-become match dates. The completed crawl will establish acquisition coverage, not this
-chronology rule.
+History carries two clocks under D101. `model_event_date` is the accepted annual reported
+date proxy used by the native chain for ordering, decay, workload and rest. It is not
+claimed as an exact historical match date. `completion_upper_bound`,
+`publication_upper_bound_utc` and `receipt_time_utc` independently decide whether the row
+was available by the forecast cutoff and issue time. A shared archive receipt can never
+replace `model_event_date` or define duplicate identity.
 
-## Exact work after the remaining inputs arrive
+Before replay, the route hash-loads both the D101 review receipt and the reviewed input
+manifest, then matches the consumed history and applicable ranking, BIO and tier hashes
+to that manifest. A changed input plus a changed live config cannot continue citing the
+older review.
 
-1. Finish the TAPLAYER01 acquisition and run its terminal offline audit. Export only the
-   parsed, attributed feed and its manifest; keep raw pages, receipts and private permission
-   evidence outside public Git.
-2. Build the two bound-history tables from already qualified source fields. Record the
-   source version, row grain, SHA-256, admitted completion bases and every withheld reason.
-   Quarantine unresolved TML/TA chronology instead of applying an inferred date shift.
-3. Run one explicit `update` with the qualified two-tour results, Tennis Abstract serve
-   feed and last-known rankings. Verify the new version and rerun `readiness`; results,
-   serve state and rankings must each cover ATP and WTA at their stated frontiers.
-4. Complete the exact snapshot-to-chain feature replay for the five now artifact-bound
-   trained rungs. Append the fixture to the live panel and run the existing feature stages
-   with its fixture-year label blank; pass only the emitted estimator fields to the pinned
-   `tennislab.models.release.predict_feature_row` interface. This applies existing fits;
-   it does not refit, tune or select. For ATP after 2024, first approve and record either a
-   frozen-2024 deployment horizon or a separately accepted later checkpoint. The accepted
-   incumbent remains the default.
-5. Exercise Elo plus those five trained rungs on outcome-free synthetic ATP/WTA fixtures
-   from the real snapshot. Require deterministic feature, Elo, workload, ranking, dynamic
-   serve/return and tier-state hashes; an `unavailable` placeholder is not a pass.
-6. Verify fixture manifests and the ledger chain, then rehearse start verification,
-   two-capture finality and settlement. No 2025/2026 outcome may be joined as a new
-   confirmation result, and no retrospective rehearsal may be described as issued evidence.
-7. Independently reconstruct receipt-to-panel bytes, all six forecasts and the ledger/
-   settlement barriers before naming the dated snapshot accepted.
+Serve-state freshness follows the same separation. New normalized serve rows retain
+`model_event_date` for state age and report the completion bound's age separately as
+availability age. A legacy row without that field is labeled
+`legacy_completion_upper_bound`; its acquisition age is not silently presented as tennis
+history freshness.
 
-The crawl is therefore one dependency, not the only blocker. Per-match chronology and the
-five trained-rung runtime bindings remain independent acceptance work.
+The target row is neutrally oriented by numeric player ID and contains no result, status,
+score, market price or serve-count block. The route rejects an outcome/stat-bearing
+fixture. Base features reuse the accepted Elo, serve/return decay, workload and exact-ID
+ranking code. Full features reuse the BIO trait sidecar, fixed SR02 state assimilation and
+saved selection. Full-tier adds the accepted tier Elo, experience and tier count stream.
+Its initial offset is read from the hash-bound accepted ATP chain configuration and must
+equal the frozen per-training-window 2024 value.
+An accepted event-edition rule-map match takes precedence; an explicit sourced fixture
+rule is allowed only when the map cannot resolve the event. `best_of` alone is never used
+to invent a deciding-set rule.
+
+The retained D101 input candidates were exercised in a private, generated-fixture
+rehearsal. That check used 54,035 ATP rows and withheld 10 rows with unresolved completion;
+it used 45,321 WTA rows and withheld 332 inferred-date/overlap rows. Both ranking streams
+ended on 2026-06-08, 99 days old on the 2026-09-15 readiness date. The full-tier result
+state ended on 2024-12-23 and its count state on 2024-12-02. These are explicit freshness
+limits, not supplements. The rehearsal used no real future schedule, did not write the
+prospective ledger and is not prospective evidence.
+
+## Remaining acceptance work
+
+1. Bind the independently reviewed D101 history, ranking, player, rule, saved-selection
+   and lower-tier bytes in a private live configuration. Preserve the source receipts and
+   all withheld counts.
+2. Build and verify a two-tour versioned live snapshot. Results, serve state and rankings
+   must each report their actual coverage and frontier; missing or stale feeds remain
+   visible. An empty incremental-results table is explicitly reported as
+   `bound_history_no_live_delta`; the reviewed histories supply result coverage without
+   being duplicated into `results.csv`.
+3. Generate outcome-free ATP and WTA fixture controls from that snapshot and run Elo plus
+   all five trained configurations. Require stable feature-order, feature-row, Elo,
+   serve/return, workload, ranking, dynamic and tier hashes.
+4. Verify fixture manifests and the isolated rehearsal ledger, then rehearse start
+   verification, two-capture finality and settlement. Do not join a 2025/2026 outcome as a
+   new confirmation result or describe the rehearsal as issued evidence.
+5. Independently reconstruct receipt-to-panel bytes, all six forecasts and the ledger/
+   settlement barriers before accepting the dated snapshot.
+
+The unfinished Tennis Abstract acquisition is an independent coverage dependency. It is
+not required to prove these routes, and completing it would not cure missing chronology,
+ranking freshness or lower-tier freshness.

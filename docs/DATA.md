@@ -31,7 +31,7 @@ performance on the broader universe of public result rows.
 | tennis-data.co.uk annual workbooks | Versioned local workbooks and hashes | Results/date fields used under recorded semantics; prices are closing-like with unknown quote time; no redistribution right | Yes, as a local join and market reference; ATP 2017–2024 and WTA 2025–2026 scored on matched priced cohorts |
 | Wikipedia draw/calendar pages | Receipted parsed bridge files, including 2024 ATP and 2026 WTA paths bound by the configs | Results-only; dates are event anchors or completion bounds, not match clocks | Yes, in the historical bridge paths; those weaknesses limit chronology claims |
 | Match Charting Project | Retained charting evidence | Charter-asserted dates and partial serve counts; selective coverage | Corroboration/audit only, not a model trunk source |
-| Tennis Abstract player data | Owner-permitted acquisition over a 5,683-player inventory; resumed after the retained WTA parse failure and offline repair described below | `PERM-TA-002` supplements `PERM-TA-001`; integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
+| Tennis Abstract player data | Data by Jeff Sackmann / Tennis Abstract over a 5,683-player inventory; resumed after the retained WTA parse failure and offline repair described below | Integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
 | TennisMyLife yearly and ongoing files | Owner-downloaded 172-file zip plus retained read-only comparisons | Results/count roles qualified with conditions; source versioning, anomaly quarantine, and cross-source count rules required. Date admissibility is open because retained comparisons include early as well as late offsets | No. Neither accepted run nor a release snapshot uses TML |
 | ATP/WTA official feeds and ITF | Limited read-only probes | Automated access not authorised under the reviewed terms/bot boundary | No |
 
@@ -81,11 +81,9 @@ qualified among those investigated” is narrower than “the data does not exis
 
 ## Tennis Abstract collection boundary
 
-The site owner first authorised purpose-bounded retrieval with attribution under
-`PERM-TA-001`. `PERM-TA-002` supplements that record by allowing adaptive request
-frequency provided traffic does not slow or crash the site. It does not change the
-purpose, non-commercial attribution, or no-betting boundaries. The collector voluntarily
-retains one connection and an identifying user agent.
+Public source credit is Jeff Sackmann / Tennis Abstract. Detailed acquisition authority
+and receipts remain in the private research archive. The collector retains one connection
+and an identifying user agent.
 
 Bounded tests reached HTTP 429 at 1.0–1.25 seconds and again during the longer 2.0–2.5
 second follow-up. The selected tested-clean tier is therefore 3.0–3.5 seconds, with the

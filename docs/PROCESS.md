@@ -26,8 +26,8 @@ visible. The work was then split by role:
   experiment program, planned the rebuild, and implemented the first product trunk.
 - **GPT-6 (Astra)** performed adversarial and acceptance reviews, including the review
   that found the chronology and barrier failures.
-- **Claude Opus 4.8** handled bounded acquisition probes and the owner-permitted Tennis
-  Abstract collection under explicit traffic and write limits.
+- **Claude Opus 4.8** handled bounded Jeff Sackmann / Tennis Abstract acquisition probes
+  under explicit traffic and write limits.
 - **OpenAI Codex** reconstructed accepted outputs, reviewed integrity repairs, integrated
   the B2 product work, and recorded the limits that remained.
 

@@ -445,11 +445,22 @@ def build_workspace(tmp_path: Path) -> Path:
     )
     (workspace / "configs").mkdir()
     shutil.copyfile(REPO / "configs" / "elo.json", workspace / "configs" / "elo.json")
+    players_path = workspace / "data" / "live" / "identity" / "players.csv"
     write_csv(
-        workspace / "data" / "live" / "identity" / "players.csv",
-        ["player_id", "name_first", "name_last", "hand", "dob", "ioc", "height", "wikidata_id"],
+        players_path,
         [
-            {"player_id": p, "name_first": f, "name_last": last, "ioc": "SYN"}
+            "tour",
+            "player_id",
+            "name_first",
+            "name_last",
+            "hand",
+            "dob",
+            "ioc",
+            "height",
+            "wikidata_id",
+        ],
+        [
+            {"tour": "ATP", "player_id": p, "name_first": f, "name_last": last, "ioc": "SYN"}
             for p, f, last in PLAYERS
         ],
     )
@@ -485,6 +496,7 @@ def build_workspace(tmp_path: Path) -> Path:
         history_rows(),
     )
     config = json.loads((REPO / "configs" / "live" / "live.json").read_text(encoding="utf-8"))
+    config["identity"]["players_sha256"] = sha256(players_path)
     config["history"]["ATP"] = {
         "results_csv": "data/live/history/atp_results.csv",
         "sha256": sha256(history),
@@ -527,8 +539,27 @@ def fixture_row(
     source: str = "synthetic order of play",
     tz: str = "UTC",
     uncertainty: str = "2",
+    match_rule: str | None = None,
+    match_rule_source: str = "synthetic declared event rule",
     **extra: Any,
 ) -> dict[str, Any]:
+    if match_rule is None:
+        match_rule = json.dumps(
+            {
+                "sets_to_win": 2 if best_of == "3" else 3,
+                "regular_set": {
+                    "mode": "tiebreak",
+                    "tiebreak_at_games": 6,
+                    "tiebreak_points": 7,
+                },
+                "deciding_set": {
+                    "mode": "tiebreak",
+                    "tiebreak_at_games": 6,
+                    "tiebreak_points": 7,
+                },
+            },
+            sort_keys=True,
+        )
     return {
         "fixture_ref": ref,
         "tour": "ATP",
@@ -541,6 +572,8 @@ def fixture_row(
         "surface": surface,
         "best_of": best_of,
         "best_of_source": "declared rule" if best_of else "",
+        "match_rule": match_rule,
+        "match_rule_source": match_rule_source,
         "scheduled_start": start,
         "scheduled_start_source": source,
         "scheduled_start_timezone": tz,

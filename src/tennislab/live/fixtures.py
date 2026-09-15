@@ -5,10 +5,9 @@ sourced scheduled start. The constructor refuses any input carrying an outcome-l
 applies the frozen exclusion rule for unknown identity, surface, format or start, and
 records for every fixture which source versions, rows and constants a forecast may use.
 
-The ``elo`` rung is the first end-to-end slice: the bound history table plus the eligible
-live rows replayed through ``tennislab.ratings.elo`` (fixed constants, no fit). Every other
-declared rung emits an explicit ``unavailable`` record naming the missing binding; no
-weaker substitute runs under a rung's name.
+The ``elo`` rung replays the bound history table plus eligible live rows. Trained rungs
+use :mod:`tennislab.live.feature_replay` only when their exact model bundle and state
+bindings are supplied; no weaker substitute runs under a rung's name.
 """
 
 from __future__ import annotations
@@ -16,6 +15,7 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import hashlib
+import json
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -141,6 +141,25 @@ def construct(
         best_of = row["best_of"].strip()
         if best_of not in {"3", "5"} or not row["best_of_source"].strip():
             reasons.append("unknown_format")
+        match_rule: dict[str, Any] | None = None
+        match_rule_text = row.get("match_rule", "").strip()
+        match_rule_source = row.get("match_rule_source", "").strip()
+        if match_rule_text or match_rule_source:
+            if not match_rule_text or not match_rule_source:
+                reasons.append("incomplete_match_rule_binding")
+            else:
+                try:
+                    parsed_rule = json.loads(match_rule_text)
+                    if not isinstance(parsed_rule, dict):
+                        raise ValueError("match_rule must be a JSON object")
+                    from tennislab.dynamics.dynamic import MatchRule
+
+                    rule = MatchRule.from_mapping(parsed_rule)
+                    if best_of in {"3", "5"} and 2 * rule.sets_to_win - 1 != int(best_of):
+                        raise ValueError("match_rule sets_to_win disagrees with best_of")
+                    match_rule = parsed_rule
+                except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+                    reasons.append(f"invalid_match_rule:{error}")
         start_utc = None
         try:
             start_utc = parse_utc(row["scheduled_start"], label="scheduled_start")
@@ -169,6 +188,8 @@ def construct(
             "surface": surface,
             "best_of": int(best_of) if best_of in {"3", "5"} else None,
             "best_of_source": row["best_of_source"].strip(),
+            "match_rule": match_rule,
+            "match_rule_source": match_rule_source,
             "scheduled_start_utc": iso_utc(start_utc) if start_utc else None,
             "scheduled_start_local_date": None,
             "scheduled_start_source": row["scheduled_start_source"].strip(),
@@ -299,20 +320,37 @@ def serve_freshness(
             "basis": None,
             "fields_present": [],
             "fields_missing": [],
+            "state_as_of": None,
+            "state_date_basis": None,
             "staleness_days": None,
+            "staleness_basis": None,
+            "availability_age_days": None,
             "withheld_overlap_unresolved": withheld,
             "source_id": None,
             "receipt_id": None,
         }
     bound, row = max(usable, key=lambda item: (item[0], item[1]["match_id"]))
     present = row["fields_present"].split()
+    modeled_text = row.get("model_event_date", "").strip()
+    if modeled_text:
+        modeled_event = dt.date.fromisoformat(modeled_text)
+        if modeled_event > bound:
+            raise LiveError("serve model_event_date exceeds its completion upper bound")
+        staleness_basis = "model_event_date"
+    else:
+        modeled_event = bound
+        staleness_basis = "legacy_completion_upper_bound"
     return {
         "status": "usable" if row["serve_block_valid"].lower() == "true" else "present_invalid",
         "last_usable_bound": bound.isoformat(),
         "basis": f"{row['date_basis']} anchor {row['event_anchor']} with {row['completion_basis']} {row['completion_upper_bound']}",
         "fields_present": present,
         "fields_missing": row["fields_missing"].split(),
-        "staleness_days": (start - bound).days,
+        "state_as_of": modeled_event.isoformat(),
+        "state_date_basis": row["date_basis"],
+        "staleness_days": (start - modeled_event).days,
+        "staleness_basis": staleness_basis,
+        "availability_age_days": (start - bound).days,
         "withheld_overlap_unresolved": withheld,
         "source_id": row["source_id"],
         "receipt_id": row["receipt_id"],
@@ -379,6 +417,15 @@ def eligible_history(
 ) -> tuple[list[Result], str, dict[str, int], Path]:
     """Read hash-bound history and apply the same temporal eligibility gates as live rows."""
     path, digest, binding = history_binding(config, tour)
+    binding_available = binding.get("available_upper_bound_utc")
+    if binding_available not in (None, ""):
+        if binding_available == "PENDING":
+            raise LiveError(f"history binding for {tour} has PENDING availability")
+        if (
+            parse_utc(str(binding_available), label=f"{tour} history binding availability")
+            > issue_time
+        ):
+            raise LiveError(f"{tour} history binding was not available by issue time")
     with path.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
         header = list(reader.fieldnames or [])
@@ -393,6 +440,7 @@ def eligible_history(
         "overlap_unresolved": 0,
         "completion_basis_not_admissible": 0,
         "after_cutoff": 0,
+        "model_event_after_cutoff": 0,
         "not_played": 0,
         "published_after_issue": 0,
         "received_after_issue": 0,
@@ -425,8 +473,25 @@ def eligible_history(
             raise LiveError(
                 f"{tour} bound history row {index} has invalid completion_upper_bound"
             ) from error
+        modeled_event_text = row.get("model_event_date", "").strip() or row.get("date", "").strip()
+        if not modeled_event_text:
+            raise LiveError(f"{tour} bound history row {index} has no modeled event date")
+        try:
+            modeled_event = dt.date.fromisoformat(modeled_event_text)
+        except ValueError as error:
+            raise LiveError(
+                f"{tour} bound history row {index} has invalid modeled event date"
+            ) from error
+        if modeled_event > completion:
+            raise LiveError(
+                f"{tour} bound history row {index} has modeled event date after "
+                "completion upper bound"
+            )
         if completion > cutoff:
             withheld["after_cutoff"] += 1
+            continue
+        if modeled_event > cutoff:
+            withheld["model_event_after_cutoff"] += 1
             continue
         if (
             parse_utc(row["publication_upper_bound_utc"], label=f"{tour} history publication")
@@ -437,7 +502,9 @@ def eligible_history(
         if parse_utc(row["receipt_time_utc"], label=f"{tour} history receipt") > issue_time:
             withheld["received_after_issue"] += 1
             continue
-        chosen.append({**row, "date": completion.isoformat()})
+        # Receipt/publication/completion bounds decide eligibility.  The accepted
+        # event-date proxy independently orders model state and rest intervals.
+        chosen.append({**row, "date": modeled_event.isoformat()})
     try:
         results = elo.parse_results(chosen)
     except ValueError as error:
@@ -601,20 +668,24 @@ def _rung_config_hash(config: LiveConfig, rung: str) -> str | None:
     return sha256(resolved) if resolved.is_file() else None
 
 
-def unavailable(config: LiveConfig, rung: str, fixture: Mapping[str, Any]) -> dict[str, Any]:
+def unavailable(
+    config: LiveConfig,
+    rung: str,
+    fixture: Mapping[str, Any],
+    *,
+    reason: str | None = None,
+    missing_bindings: list[str] | None = None,
+) -> dict[str, Any]:
     entry = config.section("rungs").get(rung)
     if entry is None:
         raise LiveError(f"rung {rung!r} is not declared")
     return {
         "rung": rung,
         "status": "unavailable",
-        "reason": entry.get("reason", "no binding"),
+        "reason": reason or entry.get("reason", "no binding"),
         "information_cutoff": fixture["information_cutoff"],
-        "missing_bindings": [
-            "fitted estimator per bundle/year",
-            "live panel row in the format_corrections schema",
-            "features..pipeline chain replay with blank fixture-year labels",
-        ],
+        "missing_bindings": missing_bindings
+        or ["accepted model bundle", "qualified model-panel history", "exact feature state"],
         "config": {
             "live_config_sha256": config.sha256,
             "design_sha256": config.design_hash(),
@@ -640,6 +711,7 @@ def forecast_all(
     *,
     issue_time: dt.datetime,
     receipts: Mapping[str, str],
+    model_bundle: str | Path | None = None,
 ) -> list[dict[str, Any]]:
     out = []
     for rung in rungs_for(config, fixture["tour"]):
@@ -648,6 +720,30 @@ def forecast_all(
             out.append(
                 elo_forecast(config, fixture, version, issue_time=issue_time, receipts=receipts)
             )
+        elif entry.get("feature_route", {}).get("status") == "implemented" and model_bundle:
+            from tennislab.live import feature_replay
+
+            try:
+                out.append(
+                    feature_replay.predict(
+                        config,
+                        rung,
+                        fixture,
+                        version,
+                        issue_time=issue_time,
+                        model_bundle=model_bundle,
+                    )
+                )
+            except feature_replay.ReplayUnavailable as error:
+                out.append(
+                    unavailable(
+                        config,
+                        rung,
+                        fixture,
+                        reason=str(error),
+                        missing_bindings=[str(error)],
+                    )
+                )
         else:
             out.append(unavailable(config, rung, fixture))
     return out
