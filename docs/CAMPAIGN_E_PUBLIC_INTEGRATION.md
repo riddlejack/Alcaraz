@@ -1,8 +1,9 @@
 # Lane E public integration candidate
 
-Status: local review candidate; independent result acceptance is complete. Public
-integration and package review remain pending. The accepted aggregates do not nominate
-a model, change the public default, or authorize a release.
+Status: reviewed local integration and deterministic companion-package candidate;
+independent result acceptance is complete. Public CI, merge, release upload, and anonymous
+download verification remain pending. The accepted aggregates do not nominate a model or
+change the public default.
 
 ## Integration boundary
 
@@ -53,13 +54,15 @@ underperform S0 on both tours, so the incumbent remains the default and no model
 promoted. The exact grains, secondary results, market comparison, preserved D93 failure,
 D94 retry, and limitations are in [`CAMPAIGN_E_RESULTS.md`](CAMPAIGN_E_RESULTS.md).
 
-## Candidate research-artifact inventory
+## Research-artifact inventory
 
-This is an inventory for a possible companion release after integration and package
-review. It is not a built or published release. The incumbent
-`models-2026-09-14` release remains unchanged and separate.
+This fixed inventory is implemented by `tools/build_campaign_model_release.py` as a
+deterministic companion candidate outside Git. It is not yet a published release. The
+incumbent `models-2026-09-14` release remains unchanged and separate. Build, loader,
+audit, inference, required-state, and license details are in
+[`CAMPAIGN_E_MODEL_RELEASE.md`](CAMPAIGN_E_MODEL_RELEASE.md).
 
-The candidate payload would copy only byte-identical fitted estimators, their existing
+The candidate payload copies only byte-identical fitted estimators, their existing
 fit manifests, and the pre-barrier decision records that contain learned S2 slopes,
 candidate selection, and S3 coefficients. It retains every raw numerical member, not
 only the selected or nonzero members.
@@ -135,12 +138,12 @@ not redistributed.
 1. **Complete:** independent result review accepted the exact frozen execution as a
    negative/inconclusive campaign, with the limitations and D93/D94 chronology retained.
 2. Independently review this integration commit and its final `make check` receipt.
-3. Build the companion bundle outside Git from an explicit allowlist matching the six
-   inventory digests above. Audit every pickle for unexpected retained rows, labels,
-   source paths, or matrices, and test each estimator on asymmetric artificial rows.
-4. Add a deterministic bundle manifest, trusted checksum, license/attribution notice,
-   and `REQUIRED_STATE` boundary. Verify the unpacked inventory and every model identity,
-   feature order, S2 slope, and S3 member order before release.
+3. **Complete locally:** build the companion bundle outside Git from an explicit allowlist
+   matching the six inventory digests above; audit all 140 objects and run asymmetric
+   artificial inference through the keyed loader.
+4. **Complete locally:** add a deterministic bundle manifest, checksum, license/attribution
+   notice, and `REQUIRED_STATE` boundary; verify the unpacked inventory, model identities,
+   feature order, S2 slopes, and S3 member order and coefficients.
 5. Label the artifact `research`, `retrospective outcome-exposed`, `experimental`,
    `no nomination`, `not a default`, and `not prospective evidence`. Do not replace the
    incumbent release or configure automatic promotion.

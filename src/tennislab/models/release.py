@@ -39,6 +39,86 @@ class LoadedCheckpoint:
     metadata: dict[str, Any]
 
 
+@dataclass(frozen=True)
+class LoadedCampaignMember:
+    """One raw Lane E numerical member from the research companion bundle."""
+
+    model: numerical.FittedProcedure
+    metadata: dict[str, Any]
+
+
+@dataclass(frozen=True)
+class CampaignBundle:
+    """A completely verified Lane E companion bundle.
+
+    Opening verifies the complete file inventory. Loading a selected pickle rechecks that
+    model and its source fit manifest immediately before deserialization.
+    """
+
+    root: Path
+    manifest: dict[str, Any]
+
+    @classmethod
+    def open(cls, root: str | Path) -> CampaignBundle:
+        root_path = Path(root).resolve()
+        document = verify_bundle(root_path)
+        if not isinstance(document.get("campaign_models"), list):
+            raise ReleaseBundleError("bundle manifest campaign_models must be a list")
+        if not isinstance(document.get("campaign_decisions"), list):
+            raise ReleaseBundleError("bundle manifest campaign_decisions must be a list")
+        return cls(root=root_path, manifest=document)
+
+    def load_member(self, *, tour: str, raw_year: int, member_id: str) -> LoadedCampaignMember:
+        metadata = _campaign_model_entry(self.manifest, tour, raw_year, member_id)
+        model_path = _safe_relative(
+            self.root, metadata.get("model_path"), field="campaign model_path"
+        )
+        fit_manifest_path = _safe_relative(
+            self.root,
+            metadata.get("fit_manifest_path"),
+            field="campaign fit_manifest_path",
+        )
+        if sha256_file(model_path) != metadata.get("model_sha256"):
+            raise ReleaseBundleError("selected campaign model hash differs from its record")
+        if sha256_file(fit_manifest_path) != metadata.get("fit_manifest_sha256"):
+            raise ReleaseBundleError("selected campaign fit manifest hash differs from its record")
+        try:
+            fit_manifest = json.loads(fit_manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise ReleaseBundleError(f"cannot read campaign fit manifest: {error}") from error
+        if fit_manifest.get("model_sha256") != metadata.get("model_sha256"):
+            raise ReleaseBundleError("campaign source fit manifest model binding differs")
+        if fit_manifest.get("config_id") != metadata.get("config_id"):
+            raise ReleaseBundleError("campaign source fit manifest config identity differs")
+        if fit_manifest.get("estimator_feature_names") != metadata.get("estimator_feature_names"):
+            raise ReleaseBundleError("campaign source fit manifest feature schema differs")
+
+        sys.modules.setdefault("joint04_multi01_numerical", numerical)
+        model = joblib.load(model_path)
+        if not isinstance(model, numerical.FittedProcedure):
+            raise ReleaseBundleError(f"unexpected campaign model type: {type(model)!r}")
+        if model.config.get("config_id") != metadata.get("config_id"):
+            raise ReleaseBundleError("campaign model config identity differs from the manifest")
+        if list(model.estimator_feature_names) != metadata.get("estimator_feature_names"):
+            raise ReleaseBundleError("campaign model feature schema differs from the manifest")
+        observed_type = f"{type(model.estimator).__module__}.{type(model.estimator).__qualname__}"
+        if observed_type != metadata.get("estimator_type"):
+            raise ReleaseBundleError("campaign estimator type differs from the manifest")
+        return LoadedCampaignMember(model=model, metadata=metadata)
+
+    def load_decision(self, *, tour: str, target_year: int) -> dict[str, Any]:
+        metadata = _campaign_decision_entry(self.manifest, tour, target_year)
+        path = _safe_relative(self.root, metadata.get("path"), field="campaign decision path")
+        if sha256_file(path) != metadata.get("sha256"):
+            raise ReleaseBundleError("selected campaign decision hash differs from its record")
+        try:
+            decision = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as error:
+            raise ReleaseBundleError(f"cannot read campaign decision: {error}") from error
+        _validate_campaign_decision(decision, metadata)
+        return decision
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -128,6 +208,97 @@ def _model_entry(document: Mapping[str, Any], tour: str, rung: str, year: int) -
     return dict(matches[0])
 
 
+def _campaign_model_entry(
+    document: Mapping[str, Any], tour: str, raw_year: int, member_id: str
+) -> dict[str, Any]:
+    matches = [
+        entry
+        for entry in document.get("campaign_models", [])
+        if entry.get("tour") == tour.upper()
+        and entry.get("raw_year") == raw_year
+        and entry.get("member_id") == member_id
+    ]
+    if len(matches) != 1:
+        raise ReleaseBundleError(
+            f"expected one campaign member for {tour.upper()}/{raw_year}/{member_id}, "
+            f"found {len(matches)}"
+        )
+    return dict(matches[0])
+
+
+def _campaign_decision_entry(
+    document: Mapping[str, Any], tour: str, target_year: int
+) -> dict[str, Any]:
+    matches = [
+        entry
+        for entry in document.get("campaign_decisions", [])
+        if entry.get("tour") == tour.upper() and entry.get("target_year") == target_year
+    ]
+    if len(matches) != 1:
+        raise ReleaseBundleError(
+            f"expected one campaign decision for {tour.upper()}/{target_year}, found {len(matches)}"
+        )
+    return dict(matches[0])
+
+
+def _finite_nonnegative(value: object, *, field: str) -> float:
+    try:
+        number = float(value)
+    except (TypeError, ValueError) as error:
+        raise ReleaseBundleError(f"{field} must be numeric") from error
+    if not math.isfinite(number) or number < 0.0:
+        raise ReleaseBundleError(f"{field} must be finite and nonnegative")
+    return number
+
+
+def _validate_campaign_decision(decision: object, metadata: Mapping[str, Any]) -> dict[str, Any]:
+    if not isinstance(decision, dict):
+        raise ReleaseBundleError("campaign decision must be an object")
+    if decision.get("outer_year") != metadata.get("target_year"):
+        raise ReleaseBundleError("campaign decision target year differs from the manifest")
+    try:
+        s2 = decision["S2"]
+        trials = s2["candidate_trials"]
+        selection = s2["selection"]
+        s3 = decision["S3"]
+    except (KeyError, TypeError) as error:
+        raise ReleaseBundleError("campaign decision lacks S2/S3 parameters") from error
+    expected_candidates = ("rf_leaf50", "rf_leaf100")
+    if not isinstance(trials, dict) or set(trials) != set(expected_candidates):
+        raise ReleaseBundleError("campaign decision S2 candidate inventory differs")
+    candidate_slopes = {
+        member_id: _finite_nonnegative(trials[member_id].get("slope"), field="S2 slope")
+        for member_id in expected_candidates
+    }
+    selected_member = selection.get("selected_candidate_id")
+    if selected_member not in candidate_slopes:
+        raise ReleaseBundleError("campaign decision selected S2 member differs")
+    selected_slope = _finite_nonnegative(selection.get("selected_slope"), field="selected S2 slope")
+    if selected_slope != candidate_slopes[selected_member]:
+        raise ReleaseBundleError("campaign decision selected S2 slope differs")
+    member_order = s3.get("member_order")
+    coefficients = s3.get("coefficients")
+    expected_order = metadata.get("s3_member_order")
+    if member_order != expected_order:
+        raise ReleaseBundleError("campaign decision S3 member order differs from the manifest")
+    if not isinstance(coefficients, list) or len(coefficients) != len(expected_order or []):
+        raise ReleaseBundleError("campaign decision S3 coefficients differ")
+    checked_coefficients = [
+        _finite_nonnegative(value, field="S3 coefficient") for value in coefficients
+    ]
+    if candidate_slopes != metadata.get("s2_candidate_slopes"):
+        raise ReleaseBundleError("campaign decision S2 slopes differ from the manifest")
+    if selected_member != metadata.get("s2_selected_member"):
+        raise ReleaseBundleError("campaign decision selected S2 member differs from the manifest")
+    if selected_slope != metadata.get("s2_selected_slope"):
+        raise ReleaseBundleError("campaign decision selected S2 slope differs from the manifest")
+    if checked_coefficients != metadata.get("s3_coefficients"):
+        raise ReleaseBundleError("campaign decision S3 coefficients differ from the manifest")
+    if decision.get("target_outcomes_read_or_scored") is not False:
+        raise ReleaseBundleError("campaign decision does not preserve the forecast barrier")
+    return decision
+
+
 def load_checkpoint(root: str | Path, *, tour: str, rung: str, year: int) -> LoadedCheckpoint:
     """Load one selected checkpoint after verifying the complete bundle."""
 
@@ -155,20 +326,34 @@ def load_checkpoint(root: str | Path, *, tour: str, rung: str, year: int) -> Loa
     return LoadedCheckpoint(model=model, slope=slope, metadata=metadata)
 
 
-def predict_feature_row(
-    checkpoint: LoadedCheckpoint,
+def open_campaign_bundle(root: str | Path) -> CampaignBundle:
+    """Verify and open the retrospective Lane E research companion bundle."""
+
+    return CampaignBundle.open(root)
+
+
+def load_campaign_member(
+    root: str | Path, *, tour: str, raw_year: int, member_id: str
+) -> LoadedCampaignMember:
+    """Load one raw campaign member by tour, raw year, and member ID."""
+
+    return open_campaign_bundle(root).load_member(tour=tour, raw_year=raw_year, member_id=member_id)
+
+
+def load_campaign_decision(root: str | Path, *, tour: str, target_year: int) -> dict[str, Any]:
+    """Load one target-fold S2/S3 decision from a completely verified bundle."""
+
+    return open_campaign_bundle(root).load_decision(tour=tour, target_year=target_year)
+
+
+def _predict_raw_feature_row(
+    model: numerical.FittedProcedure,
     values: Mapping[str, int | float | str],
     *,
-    season: str = "synthetic",
-    match_id: str = "synthetic-001",
-) -> dict[str, float]:
-    """Predict from one already-constructed model feature row.
-
-    ``values`` is deliberately a feature-schema interface, not a player-name feature
-    builder.  The bundle README records the historical state still needed for that route.
-    """
-
-    required = tuple(checkpoint.model.estimator_feature_names)
+    season: str,
+    match_id: str,
+) -> float:
+    required = tuple(model.estimator_feature_names)
     missing = [column for column in required if column not in values]
     if missing:
         raise ReleaseBundleError(f"feature row is missing columns: {missing}")
@@ -182,9 +367,90 @@ def predict_feature_row(
             raise ReleaseBundleError(f"non-finite feature {column}")
         row[column] = repr(number)
     table = numerical.FeatureTable.from_rows([row], ("season", "match_id", *required))
-    raw = float(checkpoint.model.predict(table).probabilities[0])
+    return float(model.predict(table).probabilities[0])
+
+
+def predict_feature_row(
+    checkpoint: LoadedCheckpoint,
+    values: Mapping[str, int | float | str],
+    *,
+    season: str = "synthetic",
+    match_id: str = "synthetic-001",
+) -> dict[str, float]:
+    """Predict from one already-constructed model feature row.
+
+    ``values`` is deliberately a feature-schema interface, not a player-name feature
+    builder.  The bundle README records the historical state still needed for that route.
+    """
+
+    raw = _predict_raw_feature_row(checkpoint.model, values, season=season, match_id=match_id)
     calibrated = float(apply_slope([raw], checkpoint.slope)[0])
     return {"raw_probability_a": raw, "calibrated_probability_a": calibrated}
+
+
+def predict_campaign_feature_row(
+    member: LoadedCampaignMember,
+    values: Mapping[str, int | float | str],
+    *,
+    season: str = "synthetic",
+    match_id: str = "synthetic-001",
+) -> dict[str, float]:
+    """Predict one raw numerical member from an already-constructed feature row."""
+
+    probability = _predict_raw_feature_row(member.model, values, season=season, match_id=match_id)
+    return {"raw_probability_a": probability}
+
+
+def combine_campaign_candidates(
+    decision: Mapping[str, Any], raw_member_probabilities: Mapping[str, int | float]
+) -> dict[str, float]:
+    """Apply a saved fold's S2 slope and S3 coefficients to eight raw probabilities.
+
+    This emits only the evaluated S2 and S3 research candidates. The incumbent S0 remains
+    in the separate accepted release, and no candidate becomes the default through this API.
+    """
+
+    from tennislab.campaign.members import MEMBER_IDS
+    from tennislab.campaign.stack import apply_logit_stack
+
+    synthetic_metadata = {
+        "target_year": decision.get("outer_year"),
+        "s2_candidate_slopes": {
+            member_id: decision.get("S2", {})
+            .get("candidate_trials", {})
+            .get(member_id, {})
+            .get("slope")
+            for member_id in ("rf_leaf50", "rf_leaf100")
+        },
+        "s2_selected_member": decision.get("S2", {})
+        .get("selection", {})
+        .get("selected_candidate_id"),
+        "s2_selected_slope": decision.get("S2", {}).get("selection", {}).get("selected_slope"),
+        "s3_member_order": list(MEMBER_IDS),
+        "s3_coefficients": decision.get("S3", {}).get("coefficients"),
+    }
+    checked = _validate_campaign_decision(dict(decision), synthetic_metadata)
+    if set(raw_member_probabilities) != set(MEMBER_IDS):
+        raise ReleaseBundleError("campaign combination needs exactly the eight raw members")
+    probabilities: dict[str, float] = {}
+    for member_id in MEMBER_IDS:
+        try:
+            value = float(raw_member_probabilities[member_id])
+        except (TypeError, ValueError) as error:
+            raise ReleaseBundleError(f"invalid raw probability for {member_id}") from error
+        if not math.isfinite(value) or not 0.0 <= value <= 1.0:
+            raise ReleaseBundleError(f"invalid raw probability for {member_id}")
+        probabilities[member_id] = value
+    selected = checked["S2"]["selection"]
+    s2 = float(
+        apply_slope(
+            [probabilities[str(selected["selected_candidate_id"])]],
+            float(selected["selected_slope"]),
+        )[0]
+    )
+    ordered = [[probabilities[member_id] for member_id in checked["S3"]["member_order"]]]
+    s3 = float(apply_logit_stack(ordered, checked["S3"]["coefficients"])[0])
+    return {"S2_probability_a": s2, "S3_probability_a": s3}
 
 
 def _player_key_from_label(label: object) -> elo.PlayerKey:
