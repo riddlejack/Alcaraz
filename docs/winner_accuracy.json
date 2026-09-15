@@ -1,0 +1,446 @@
+{
+  "definition": {
+    "accuracy": "(correct + 0.5 * ties) / n",
+    "cohort": "primary targets present in every rung's forecast file and in the market file for that year (identical priced population)",
+    "pick": "player A when p_a_wins > 0.5; player B when p_a_wins < 0.5",
+    "tie": "p_a_wins == 0.5; reported separately and worth half credit"
+  },
+  "source": {
+    "accepted_runs": {
+      "ATP": "experiments/runs/TIER01/attempt_002/run",
+      "WTA": "experiments/runs/WTA02/attempt_002/run"
+    },
+    "ladder_config": "configs/ladder.json",
+    "ladder_counts": "docs/ladder.json",
+    "note": "saved forecasts and labels only; no fit, selection, calibration, or issuance"
+  },
+  "tours": {
+    "ATP": {
+      "model_order": [
+        "elo",
+        "atp_p0",
+        "atp_p1",
+        "atp_full_tier",
+        "pinnacle_normalised"
+      ],
+      "overall": {
+        "atp_full_tier": {
+          "accuracy": 0.6651308124139392,
+          "correct": 12559,
+          "n": 18882,
+          "ties": 0
+        },
+        "atp_p0": {
+          "accuracy": 0.6539826289587968,
+          "correct": 12347,
+          "n": 18882,
+          "ties": 3
+        },
+        "atp_p1": {
+          "accuracy": 0.6622179853829043,
+          "correct": 12504,
+          "n": 18882,
+          "ties": 0
+        },
+        "elo": {
+          "accuracy": 0.6455354305687957,
+          "correct": 12185,
+          "n": 18882,
+          "ties": 8
+        },
+        "pinnacle_normalised": {
+          "accuracy": 0.6804099142040038,
+          "correct": 12803,
+          "n": 18882,
+          "ties": 89
+        }
+      },
+      "per_year": [
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.667676330592817,
+              "correct": 1543,
+              "n": 2311,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6698398961488533,
+              "correct": 1548,
+              "n": 2311,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.674167027260926,
+              "correct": 1558,
+              "n": 2311,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6650800519255733,
+              "correct": 1537,
+              "n": 2311,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6804413673734314,
+              "correct": 1562,
+              "n": 2311,
+              "ties": 21
+            }
+          },
+          "n": 2311,
+          "year": 2017
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6602241979126401,
+              "correct": 1708,
+              "n": 2587,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6474681097796676,
+              "correct": 1675,
+              "n": 2587,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.6521066872825667,
+              "correct": 1687,
+              "n": 2587,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6439891766524932,
+              "correct": 1666,
+              "n": 2587,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6810977966756862,
+              "correct": 1758,
+              "n": 2587,
+              "ties": 8
+            }
+          },
+          "n": 2587,
+          "year": 2018
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.660377358490566,
+              "correct": 1645,
+              "n": 2491,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6475311120032116,
+              "correct": 1613,
+              "n": 2491,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.6619831393014853,
+              "correct": 1649,
+              "n": 2491,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.639502207948615,
+              "correct": 1592,
+              "n": 2491,
+              "ties": 2
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6726214371738257,
+              "correct": 1669,
+              "n": 2491,
+              "ties": 13
+            }
+          },
+          "n": 2491,
+          "year": 2019
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6728444802578566,
+              "correct": 835,
+              "n": 1241,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6591458501208702,
+              "correct": 818,
+              "n": 1241,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.6736502820306205,
+              "correct": 836,
+              "n": 1241,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6414182111200645,
+              "correct": 796,
+              "n": 1241,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6946011281224819,
+              "correct": 860,
+              "n": 1241,
+              "ties": 4
+            }
+          },
+          "n": 1241,
+          "year": 2020
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6698825503355704,
+              "correct": 1597,
+              "n": 2384,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6430369127516778,
+              "correct": 1532,
+              "n": 2384,
+              "ties": 2
+            },
+            "atp_p1": {
+              "accuracy": 0.6526845637583892,
+              "correct": 1556,
+              "n": 2384,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6310822147651006,
+              "correct": 1503,
+              "n": 2384,
+              "ties": 3
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6822567114093959,
+              "correct": 1621,
+              "n": 2384,
+              "ties": 11
+            }
+          },
+          "n": 2384,
+          "year": 2021
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6708910891089109,
+              "correct": 1694,
+              "n": 2525,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6574257425742575,
+              "correct": 1660,
+              "n": 2525,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.668910891089109,
+              "correct": 1689,
+              "n": 2525,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6481188118811881,
+              "correct": 1636,
+              "n": 2525,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6784158415841585,
+              "correct": 1710,
+              "n": 2525,
+              "ties": 6
+            }
+          },
+          "n": 2525,
+          "year": 2022
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6627994011976048,
+              "correct": 1771,
+              "n": 2672,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.655875748502994,
+              "correct": 1752,
+              "n": 2672,
+              "ties": 1
+            },
+            "atp_p1": {
+              "accuracy": 0.6657934131736527,
+              "correct": 1779,
+              "n": 2672,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6476422155688623,
+              "correct": 1730,
+              "n": 2672,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6760853293413174,
+              "correct": 1803,
+              "n": 2672,
+              "ties": 7
+            }
+          },
+          "n": 2672,
+          "year": 2023
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6611755896667915,
+              "correct": 1766,
+              "n": 2671,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6548109322351179,
+              "correct": 1749,
+              "n": 2671,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.6551853238487458,
+              "correct": 1750,
+              "n": 2671,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6460127293148633,
+              "correct": 1725,
+              "n": 2671,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6849494571321603,
+              "correct": 1820,
+              "n": 2671,
+              "ties": 19
+            }
+          },
+          "n": 2671,
+          "year": 2024
+        }
+      ]
+    },
+    "WTA": {
+      "model_order": [
+        "elo",
+        "wta_base",
+        "wta_full",
+        "pinnacle_normalised"
+      ],
+      "overall": {
+        "elo": {
+          "accuracy": 0.6461177474402731,
+          "correct": 1514,
+          "n": 2344,
+          "ties": 1
+        },
+        "pinnacle_normalised": {
+          "accuracy": 0.6813139931740614,
+          "correct": 1594,
+          "n": 2344,
+          "ties": 6
+        },
+        "wta_base": {
+          "accuracy": 0.6463310580204779,
+          "correct": 1515,
+          "n": 2344,
+          "ties": 0
+        },
+        "wta_full": {
+          "accuracy": 0.6612627986348123,
+          "correct": 1550,
+          "n": 2344,
+          "ties": 0
+        }
+      },
+      "per_year": [
+        {
+          "models": {
+            "elo": {
+              "accuracy": 0.6431119037004013,
+              "correct": 1442,
+              "n": 2243,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.678778421756576,
+              "correct": 1520,
+              "n": 2243,
+              "ties": 5
+            },
+            "wta_base": {
+              "accuracy": 0.6442264823896567,
+              "correct": 1445,
+              "n": 2243,
+              "ties": 0
+            },
+            "wta_full": {
+              "accuracy": 0.6584930896121266,
+              "correct": 1477,
+              "n": 2243,
+              "ties": 0
+            }
+          },
+          "n": 2243,
+          "year": 2025
+        },
+        {
+          "models": {
+            "elo": {
+              "accuracy": 0.7128712871287128,
+              "correct": 72,
+              "n": 101,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.7376237623762376,
+              "correct": 74,
+              "n": 101,
+              "ties": 1
+            },
+            "wta_base": {
+              "accuracy": 0.693069306930693,
+              "correct": 70,
+              "n": 101,
+              "ties": 0
+            },
+            "wta_full": {
+              "accuracy": 0.7227722772277227,
+              "correct": 73,
+              "n": 101,
+              "ties": 0
+            }
+          },
+          "n": 101,
+          "year": 2026
+        }
+      ]
+    }
+  }
+}
