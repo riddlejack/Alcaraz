@@ -314,7 +314,15 @@ def _asymmetric_rows(
     context = list(model.config.get("context_columns", []))
     if set((*signed, *context)) != set(model.estimator_feature_names):
         raise BuildError("model feature order is not explained by its signed/context contract")
-    original = {name: ((index % 7) - 3) * 0.37 for index, name in enumerate(signed)}
+    # Ridge performs its saved RMS normalization inside ``predict``. Scale the artificial
+    # raw inputs by those same fit-local factors so the probe is asymmetric without
+    # saturating on features whose natural magnitude is very small.
+    original = {
+        name: ((index % 7) - 3)
+        * 0.37
+        * (float(model.rms_scale[index]) if model.rms_scale is not None else 1.0)
+        for index, name in enumerate(signed)
+    }
     defaults = {
         "context_clay": 1.0,
         "context_grass": 0.0,
