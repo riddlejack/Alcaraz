@@ -12,7 +12,9 @@ import argparse
 import csv
 import gzip
 import hashlib
+import importlib.metadata
 import json
+import platform
 import shutil
 import subprocess
 import sys
@@ -27,6 +29,7 @@ import numpy as np
 
 from tennislab.models import numerical, pipeline
 from tennislab.models.release import (
+    ReleaseBundleError,
     load_checkpoint,
     load_elo_state,
     predict_elo,
@@ -35,7 +38,14 @@ from tennislab.models.release import (
     verify_bundle,
 )
 
-RELEASE_ID = "tennislab-accepted-models-2026-09-14"
+RELEASE_ID = "tennislab-accepted-models-2026-09-14-r2"
+RUNTIME_VERSIONS = {
+    "joblib": "1.6.0",
+    "numpy": "2.5.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "xgboost": "3.4.1",
+}
 PRODUCT_CONFIGS = {
     "elo": "configs/elo.json",
     "atp_p0": "configs/atp_p0.json",
@@ -77,6 +87,21 @@ RUN_SPECS = (
     },
 )
 ACCEPTANCE_EVIDENCE = (
+    (
+        "archive",
+        "data/raw/ARCHIVE01/LICENSE",
+        "retained Jeff Sackmann dataset license notice",
+    ),
+    (
+        "archive",
+        "references/CONFIRM2026.md",
+        "recent Elo-state source-lineage record",
+    ),
+    (
+        "archive",
+        "references/WTA02.md",
+        "recent WTA fitted-state source-lineage record",
+    ),
     (
         "archive",
         "references/TIER01-review-002.md",
@@ -141,6 +166,24 @@ def _binding(root: Path, relative: str) -> dict[str, object]:
     if not path.is_file():
         raise BuildError(f"missing source artifact: {relative}")
     return {"path": relative, "bytes": path.stat().st_size, "sha256": sha256_file(path)}
+
+
+def _runtime_document(product: Path) -> dict[str, object]:
+    observed = {
+        distribution: importlib.metadata.version(distribution) for distribution in RUNTIME_VERSIONS
+    }
+    if observed != RUNTIME_VERSIONS:
+        raise BuildError(f"release runtime differs from the frozen package versions: {observed!r}")
+    return {
+        "python_requirement": ">=3.14,<3.15",
+        "verified_python": platform.python_version(),
+        "packages": observed,
+        "source_bindings": {
+            "pyproject": _binding(product, "pyproject.toml"),
+            "uv_lock": _binding(product, "uv.lock"),
+        },
+        "instruction": "Install the product uv.lock from the manifest's product_source_commit; these are the exact versions used for build and parity verification.",
+    }
 
 
 def _copy(source: Path, target: Path) -> None:
@@ -482,8 +525,8 @@ def _write_support_files(product: Path, archive: Path, output: Path) -> None:
 
 def _missing_state_document() -> dict[str, object]:
     return {
-        "status": "non-Elo name-to-probability route incomplete",
-        "reason": "The accepted HGB checkpoints consume constructed feature rows; their complete current player-feature state was not serialized as a standalone accepted snapshot.",
+        "status": "name-to-probability route incomplete",
+        "reason": "The accepted HGB checkpoints consume constructed feature rows, while the Elo snapshot contains numeric source IDs and no name-key entries. No accepted standalone identity/current-feature snapshot was available.",
         "minimum_missing_state": [
             {
                 "state": "player identity and source crosswalk",
@@ -525,14 +568,14 @@ def _missing_state_document() -> dict[str, object]:
             },
         ],
         "available_interface": "Use tennislab.models.release.predict_feature_row with an already-constructed row matching the checkpoint schema.",
-        "elo_exception": "The bundled Elo JSON is a complete named-player state and can be loaded with tennislab.models.release.load_elo_state.",
+        "elo_numeric_id_interface": "The bundled Elo JSON is complete for numeric source-ID inference. Name-only calls fail unless the loaded state truly contains that name key.",
     }
 
 
 def _bundle_readme() -> str:
     return """# Tennis Lab accepted model artifacts — 2026-09-14
 
-This local release candidate contains the byte-identical selected HGB estimators and their
+This corrected local successor contains the byte-identical selected HGB estimators and their
 separately learned calibration slopes for ATP base/P0, ATP full/P1, ATP full-tier, WTA base,
 and WTA full. It also contains the complete primary pooled-Elo ATP/WTA state.
 
@@ -546,24 +589,32 @@ Install the exact locked tennis-lab runtime, then verify and load:
 ```python
 from tennislab.models.release import load_checkpoint, predict_feature_row, verify_bundle
 
-root = "path/to/tennislab-accepted-models-2026-09-14"
+root = "path/to/tennislab-accepted-models-2026-09-14-r2"
 verify_bundle(root)
 checkpoint = load_checkpoint(root, tour="ATP", rung="atp_full_tier", year=2024)
 result = predict_feature_row(checkpoint, already_constructed_feature_values)
 ```
 
-`joblib` is pickle-based. Never bypass `verify_bundle` or load model files detached from this
-manifest. The loader verifies the whole bundle and selected model digest before unpickling.
+`joblib` is pickle-based and can execute code while loading. Never load an untrusted bundle.
+Verify this official release's tarball checksum through a trusted channel before unpacking,
+then keep `MANIFEST.json` attached and call `verify_bundle`. Manifest hashes detect corruption
+or substitution relative to that manifest; an arbitrary attacker-supplied manifest does not
+authenticate itself. The loader verifies the whole bundle and selected model digest before
+unpickling.
 
 The HGB artifacts are complete for inference from an already-constructed feature row. They
 are not a complete name-to-probability application: see `REQUIRED_STATE.json` for the exact
-unserialized feature state and the existing producers that must be reused. Elo is the only
-rung with a complete named-player state in this bundle. `examples/synthetic_feature_row.json`
-and `examples/run.py` exercise the loader without claiming a real player forecast.
+unserialized feature state and the existing producers that must be reused. The Elo snapshot
+contains 1,247 ATP and 1,126 WTA numeric source-ID keys and zero name keys. Elo inference must
+therefore use `player_a_id` and `player_b_id`; unresolved name-only requests raise an error
+instead of silently cold-starting. `examples/synthetic_feature_row.json` and `examples/run.py`
+exercise both loaders without claiming a named-player forecast.
 
 No raw source rows, historical feature rows, outcome labels, odds rows, training membership
-files, or source file paths are included. `PARITY.json` records byte-identical inference against
-the already-accepted historical prediction files without reading labels or computing scores.
+files, or private absolute source paths are included. Relative provenance locators are included
+in `MANIFEST.json`. `PARITY.json` records byte-identical inference against the already-accepted
+historical prediction files without reading labels or computing scores. Exact tested runtime
+versions and lockfile bindings are in `RUNTIME.json`.
 
 See `LICENSE-NOTICE.md` before redistribution. This directory and its deterministic tarball
 are local release candidates only; no tag, GitHub release, or upload is implied.
@@ -576,16 +627,31 @@ def _license_notice() -> str:
 The tennis-lab source code and loader are MIT-licensed under the product repository's
 `LICENSE`. That code license does not automatically determine the license of fitted artifacts.
 
-The bundled fitted HGB estimators and pooled-Elo state are source-derived learned components.
-For this release candidate they are treated conservatively under CC BY-NC-SA 4.0, with
-attribution to Jeff Sackmann's tennis datasets and the Match Charting Project where applicable,
-pending artifact-specific redistribution review. This package is therefore non-commercial and
-share-alike. It provides no rights to underlying source databases or provider payloads.
+The bundled fitted HGB estimators and pooled-Elo state are source-derived learned numeric/tree
+states and aggregate counters. For this release candidate those learned artifacts are treated
+conservatively under CC BY-NC-SA 4.0 pending artifact-specific redistribution review. That
+treatment does not assert ownership of, grant rights to, or relicense any underlying source
+database. Review each source's own terms before redistribution.
+
+Source credits and roles:
+
+- Jeff Sackmann's ATP/WTA datasets: https://github.com/JeffSackmann — primary historical
+  results/player source; the retained ARCHIVE01 license records CC BY-NC-SA 4.0.
+- tennis-data.co.uk: https://www.tennis-data.co.uk/ — result additions and market/reference
+  fields in the retained panel, including recent-season additions.
+- Wikipedia: https://www.wikipedia.org/ — labelled secondary draw/result additions for recent
+  events where the primary mirror was incomplete.
+- Match Charting Project: https://github.com/JeffSackmann/tennis_MatchChartingProject —
+  corroboration/research evidence, not an input to the bundled product models.
+- CC BY-NC-SA 4.0 deed: https://creativecommons.org/licenses/by-nc-sa/4.0/.
+
+Newly collected Tennis Abstract player data is not integrated into these model artifacts.
 
 No raw source file, source row, historical feature row, label row, odds row, or training-key
-list is included. The models' learned coefficients/scales/tree thresholds and Elo ratings are
-retained model state. The exact source hashes and acceptance evidence locators are in
-`MANIFEST.json`; absence of raw rows is also checked in `OBJECT_AUDIT.json`.
+list is included. Relative provenance locators are retained in `MANIFEST.json`; no private
+absolute source path is included. The models' learned coefficients/scales/tree thresholds and
+Elo ratings are retained model state. Exact source hashes and acceptance-evidence locators are
+in `MANIFEST.json`; absence of raw rows is also checked in `OBJECT_AUDIT.json`.
 
 If artifact-specific review finds that a fitted component is not redistributable under these
 terms, remove that component before any public upload. This local package is not legal advice.
@@ -620,11 +686,11 @@ for tour, rung, year in (
 
 engine = load_elo_state(ROOT, tour="ATP")
 print(
-    "elo-cold-start",
+    "elo-known-source-ids",
     predict_elo(
         engine,
-        player_a_name="Synthetic Player A",
-        player_b_name="Synthetic Player B",
+        player_a_id="100644",
+        player_b_id="101736",
         surface="Hard",
     ),
 )
@@ -643,7 +709,8 @@ def _file_inventory(output: Path) -> list[dict[str, object]]:
     exact_roles = {
         "README.md": "bundle use and limitation guide",
         "LICENSE-NOTICE.md": "code/artifact license boundary and attribution",
-        "REQUIRED_STATE.json": "missing non-Elo name-inference state and reused producers",
+        "REQUIRED_STATE.json": "missing name/feature state and reused producers",
+        "RUNTIME.json": "exact verified runtime versions and lockfile bindings",
         "PARITY.json": "accepted historical prediction parity receipt",
         "OBJECT_AUDIT.json": "serialized-content privacy and retained-state audit",
     }
@@ -727,6 +794,8 @@ def build(product: Path, archive: Path, output: Path, tar_path: Path | None) -> 
     )
     _write_json(output / "OBJECT_AUDIT.json", audit)
     _write_json(output / "REQUIRED_STATE.json", _missing_state_document())
+    runtime = _runtime_document(product)
+    _write_json(output / "RUNTIME.json", runtime)
     _write_text(output / "README.md", _bundle_readme())
     _write_text(output / "LICENSE-NOTICE.md", _license_notice())
     _write_text(output / "examples/run.py", _example_script())
@@ -781,6 +850,12 @@ def build(product: Path, archive: Path, output: Path, tar_path: Path | None) -> 
                     "players_overall": entry["players_overall"],
                     "player_surface_entries": entry["player_surface_entries"],
                     "state_sha256": entry["state_sha256"],
+                    "numeric_source_id_keys": sum(
+                        not row[0].startswith("name:") for row in entry["serialized"]["overall"]
+                    ),
+                    "name_keys": sum(
+                        row[0].startswith("name:") for row in entry["serialized"]["overall"]
+                    ),
                 }
                 for tour, entry in elo_wrapper["tours"].items()
             },
@@ -790,11 +865,36 @@ def build(product: Path, archive: Path, output: Path, tar_path: Path | None) -> 
         "inference_boundary": {
             "constructed_feature_row": "complete for every bundled HGB checkpoint",
             "name_to_probability_non_elo": "incomplete; see REQUIRED_STATE.json",
-            "name_to_probability_elo": "complete for the bundled state",
+            "numeric_source_id_to_probability_elo": "complete for IDs represented in the bundled state",
+            "name_to_probability_elo": "incomplete because the state contains no name keys; unresolved names fail",
         },
+        "runtime": runtime,
+        "source_credits": [
+            {
+                "source": "Jeff Sackmann ATP/WTA datasets",
+                "url": "https://github.com/JeffSackmann",
+                "role": "primary historical results/player source",
+            },
+            {
+                "source": "tennis-data.co.uk",
+                "url": "https://www.tennis-data.co.uk/",
+                "role": "result additions and market/reference fields",
+            },
+            {
+                "source": "Wikipedia",
+                "url": "https://www.wikipedia.org/",
+                "role": "labelled secondary recent draw/result additions",
+            },
+            {
+                "source": "Match Charting Project",
+                "url": "https://github.com/JeffSackmann/tennis_MatchChartingProject",
+                "role": "corroboration/research evidence; not an input to the bundled product models",
+            },
+        ],
         "license_boundary": {
             "code": "MIT",
-            "learned_artifacts": "CC BY-NC-SA 4.0 conservative treatment pending artifact-specific review",
+            "learned_artifacts": "CC BY-NC-SA 4.0 conservative package treatment pending artifact-specific review",
+            "source_databases": "retain their own terms; this package does not relicense them",
         },
         "excluded": [
             "unselected or rejected candidate fits",
@@ -828,20 +928,33 @@ def build(product: Path, archive: Path, output: Path, tar_path: Path | None) -> 
             }
         )
     elo_engine = load_elo_state(output, tour="ATP")
-    synthetic.append(
-        {
-            "model_id": "elo-atp-cold-start",
-            **predict_elo(
-                elo_engine,
-                player_a_name="Synthetic Player A",
-                player_b_name="Synthetic Player B",
-                surface="Hard",
-            ),
-        }
+    known_id_prediction = predict_elo(
+        elo_engine,
+        player_a_id="100644",
+        player_b_id="101736",
+        surface="Hard",
     )
+    if known_id_prediction["cold_start_overall"] or known_id_prediction["cold_start_surface"]:
+        raise BuildError("known Elo source-ID example unexpectedly cold-started")
+    synthetic.append({"model_id": "elo-atp-known-source-ids", **known_id_prediction})
+    try:
+        predict_elo(
+            elo_engine,
+            player_a_name="Novak Djokovic",
+            player_b_name="Rafael Nadal",
+            surface="Hard",
+        )
+    except ReleaseBundleError as error:
+        name_only_rejection = str(error)
+    else:
+        raise BuildError("unresolved Elo name-only example did not fail")
     _write_json(
         output / "examples/expected.json",
-        {"status": "synthetic only; not a real forecast", "predictions": synthetic},
+        {
+            "status": "synthetic HGB rows plus known numeric Elo source IDs; not a named-player forecast",
+            "predictions": synthetic,
+            "name_only_rejection": name_only_rejection,
+        },
     )
     manifest["files"] = _file_inventory(output)
     _write_json(output / "MANIFEST.json", manifest)

@@ -1,9 +1,10 @@
 """Load a hash-bound tennis-lab model release bundle.
 
-The release artifacts are trusted local build products, but joblib is a pickle-based
-format.  This module therefore verifies the bundle inventory and the selected model
-digest before unpickling.  It reuses :mod:`tennislab.models.numerical` for inference;
-it does not implement a second model engine.
+Hash validation detects corruption or substitution relative to the supplied manifest;
+it does not authenticate an attacker-supplied manifest.  Because joblib is pickle-based,
+verify the official archive checksum through a trusted channel before unpacking or loading
+it.  This module reuses :mod:`tennislab.models.numerical` for inference; it does not
+implement a second model engine.
 """
 
 from __future__ import annotations
@@ -99,10 +100,11 @@ def verify_bundle(root: str | Path) -> dict[str, Any]:
             raise ReleaseBundleError(f"bundle file hash changed: {relative}")
         declared[str(relative)] = entry
 
+    root_manifest = root_path / "MANIFEST.json"
     actual = {
         path.relative_to(root_path).as_posix()
         for path in root_path.rglob("*")
-        if path.is_file() and path.name != "MANIFEST.json"
+        if path.is_file() and path != root_manifest
     }
     if actual != set(declared):
         missing = sorted(set(declared) - actual)
@@ -197,7 +199,7 @@ def _player_key_from_label(label: object) -> elo.PlayerKey:
 
 
 def load_elo_state(root: str | Path, *, tour: str) -> elo.PooledElo:
-    """Load one tour's complete named-player pooled-Elo state and verify its state hash."""
+    """Load one tour's source-ID-keyed pooled-Elo state and verify its state hash."""
 
     root_path = Path(root).resolve()
     document = verify_bundle(root_path)
@@ -248,8 +250,14 @@ def predict_elo(
     player_b_name: str = "",
     surface: str,
 ) -> dict[str, object]:
-    """Price a named or integer-ID pairing from a loaded Elo state."""
+    """Price a source-ID pairing, or a name only when that name key exists in state."""
 
     player_a = elo.player_key(player_a_id, player_a_name)
     player_b = elo.player_key(player_b_id, player_b_name)
+    for label, player in (("player A", player_a), ("player B", player_b)):
+        if player[0] == 1 and player not in engine.overall:
+            raise ReleaseBundleError(
+                f"unresolved {label} name identity; this Elo snapshot is keyed by numeric "
+                "source player ID, so supply player_a_id/player_b_id or an accepted crosswalk"
+            )
     return engine.prospective(player_a, player_b, surface)
