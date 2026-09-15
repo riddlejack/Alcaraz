@@ -1,6 +1,8 @@
 # D2 real-snapshot readiness
 
-This is a preparation boundary, not a snapshot acceptance. `tennislab readiness` is a
+A private, dated snapshot passed the scoped integration rehearsal on 2026-09-15.
+This does not establish current-data completeness or prospective performance.
+`tennislab readiness` is a
 read-only check: it does not acquire a source, advance `latest.json`, fit or select a
 model, issue a forecast, or write to the prospective ledger.
 
@@ -83,7 +85,7 @@ state ended on 2024-12-23 and its count state on 2024-12-02. These are explicit 
 limits, not supplements. The rehearsal used no real future schedule, did not write the
 prospective ledger and is not prospective evidence.
 
-## Remaining acceptance work
+## Completed integration checks — 2026-09-15
 
 1. Bind the independently reviewed D101 history, ranking, player, rule, saved-selection
    and lower-tier bytes in a private live configuration. Preserve the source receipts and
@@ -99,8 +101,26 @@ prospective ledger and is not prospective evidence.
 4. Verify fixture manifests and the isolated rehearsal ledger, then rehearse start
    verification, two-capture finality and settlement. Do not join a 2025/2026 outcome as a
    new confirmation result or describe the rehearsal as issued evidence.
-5. Independently reconstruct receipt-to-panel bytes, all six forecasts and the ledger/
+5. Independently reconstruct receipt-to-panel bytes, all seven forecasts and the ledger/
    settlement barriers before accepting the dated snapshot.
+
+These five checks passed on the retained private version. The snapshot manifest hash is
+`82372e75c0eb3d2d108fb1c4495e0b0f8c8ea223c4dbcff3af8dc987ad808b15`.
+The independent native-core reconstruction receipt is
+`d5ecb4fd60f2197f389925f511e1b74c478bb6bc5634ffeebab3eba0831aa69e`: it
+matched all five trained feature vectors, feature orders, state hashes, raw/calibrated
+probabilities and model cutoffs without importing the live replay implementation.
+The two Elo predictions were separately reconstructed. Missing start evidence, missing
+proof, missing finality and a single result capture each refused scoring; two agreeing
+generated captures permitted seven scores in a disposable copy. No real outcome was added.
+
+Local validation passed 631 tests with three expected skips, lint/format and both
+synthetic reproductions. Hosted release CI is a separate publication check. The reviewed
+snapshot uses 54,035 ATP and 45,321 WTA rows, with 10 and 332 withheld respectively.
+Result frontiers are September 4 (ATP) and August 1 (WTA); usable serve-count histories
+end May 23 and rankings June 8. Two conflicting ranking records are quarantined.
+Fresh data must receive its own qualification and version; this acceptance does not
+automatically admit the unfinished crawl or close the broader prospective research gates.
 
 The unfinished Tennis Abstract acquisition is an independent coverage dependency. It is
 not required to prove these routes, and completing it would not cure missing chronology,

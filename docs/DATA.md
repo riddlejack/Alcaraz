@@ -102,27 +102,22 @@ receipts remain retained. No accepted model run ingests this collection.
 
 ## Release snapshot status
 
-There is no accepted “data through 2026-09-14” product snapshot today. The first manual
-update/forecast/score slice and two subsequent repairs were rejected under independent
-reconstruction. The targeted repair at `5089b24` is now independently accepted on
-synthetic controls, with Elo issuance only (see [live workflow](live/README.md)). This
-does not itself perform D2, which must:
+The private D2 snapshot passed a scoped integration rehearsal on September 15, 2026:
+qualified two-tour histories, exact fitted-model feature construction, seven generated
+fixture forecasts, independent numerical reconstruction, and copied settlement controls.
+It does not contain uniformly current data or establish prospective performance.
 
-1. bind exact receipted source versions and fixture identity;
-2. apply per-field qualification and date admissibility;
-3. produce both tours in the existing corrected schema;
-4. connect the existing fitted artifacts without refitting; and
-5. pass independent reconstruction before a real batch is issued.
+The snapshot admits 54,035 ATP and 45,321 WTA history rows; 10 ATP and 332 WTA rows remain
+withheld. Results reach September 4 and August 1 respectively, usable serve counts May 23,
+rankings June 8, and ATP lower-tier results/counts December 2024. The date of acquisition
+is not substituted for these tennis-data frontiers. Accepted ATP 2024 checkpoints remain
+explicitly dated 2024 when used for a 2026 fixture; WTA uses its accepted 2026 checkpoints.
 
-Until then, 2026-09-14 is a code/review date. The accepted model horizons are the two
-explicit configurations at the top of this page.
-
-`tennislab readiness --config configs/live/live.json` now provides a deterministic,
-read-only D2 preflight. It verifies any bound history and versioned snapshot that actually
-exist, profiles chronology quarantines, checks two-tour results/serve/ranking coverage,
-and reports each rung and ledger state. The committed configuration correctly reports
-both real histories, the real snapshot and five trained-rung runtime bindings as pending.
-See [D2 real-snapshot readiness](live/D2_READINESS.md) for the finite post-input sequence.
+The public configuration deliberately leaves private inputs unbound. The read-only
+`tennislab readiness` command reports what a supplied workspace actually contains.
+[Validation evidence and remaining freshness limits](live/D2_READINESS.md) are recorded
+separately from acquisition progress. Completing the Tennis Abstract crawl still requires
+offline qualification before any new snapshot or model update.
 
 ## Redistribution rule
 

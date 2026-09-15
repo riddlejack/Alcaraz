@@ -2,6 +2,11 @@
 
 ## 2026-09-15 — exact live feature replay
 
+- Completed the private two-tour snapshot rehearsal and independent native-feature
+  reconstruction for all five trained routes; retained explicit stale-data frontiers.
+- Published the independently scored ATP2024 XGBoost comparison: a small numerical
+  advantage with inconclusive superiority, without changing the accepted model.
+
 - Added outcome-free snapshot-to-feature replay for ATP P0, P1 and full-tier plus WTA
   base and full, using the accepted feature, sidecar, dynamic and tier state functions.
 - Bound ATP 2026 use to the accepted 2024 checkpoint while preserving its original fit,

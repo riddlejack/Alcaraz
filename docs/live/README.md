@@ -1,11 +1,12 @@
 # Manual update, fixtures and settlement
 
-Repair `5089b24fe29e351d6f5f1c18fc970038b9c2c3cb` is independently accepted within
-its synthetic rehearsal scope. It demonstrates manual update, fixture qualification,
-Elo issuance, ledger verification and settlement. No real forecast has been issued;
-trained-rung feature routes are implemented but still return explicit unavailable records
-until their model bundle and hash-bound state inputs are supplied. The qualified
-real-history, six-rung D2 snapshot is still pending.
+The manual workflow now connects the accepted model bundle to a qualified private
+history snapshot. All six configurations were exercised on two generated fixtures:
+ATP/WTA Elo and five trained routes, seven forecasts in total. Independent reconstruction
+matched the numerical features and probabilities; settlement controls also passed.
+[The dated validation and freshness limits](D2_READINESS.md) define this acceptance.
+No real forecast was issued by this rehearsal. The public example configuration still
+reports unavailable inputs until the separate model bundle and private histories are bound.
 
 ## Commands
 
@@ -45,7 +46,8 @@ holdout custody.
 
 Duplicate issuance and ledger tampering refuse. Late or failed proofs remain unconfirmed;
 provisional, final and corrected settlements remain distinct. Reports require the barrier.
-Only Elo issues forecasts in this scope.
+The original synthetic repair exercised Elo only; the D2 rehearsal extends numerical
+coverage to the five trained routes without refitting them.
 
 ## Review history
 
