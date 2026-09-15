@@ -26,12 +26,14 @@ Every published derived table must name its source and applicable terms.
 | The Odds API and Software Heritage payloads | Provider-specific terms | Payloads stay local and are never tracked. |
 | ATP/WTA official feeds and ITF | No automated-use authority established under the reviewed terms/bot boundary | Not collected or redistributed by this product. |
 
-## Required Tennis Abstract attribution
+## Public attribution
 
-> Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission
-> under `PERM-TA-001`, as supplemented by `PERM-TA-002`. Any published derived table must
-> carry this attribution and its applicable licence. The collection is not part of the
-> accepted retrospective model runs described above.
+> Data by [Jeff Sackmann / Tennis Abstract](https://github.com/JeffSackmann), licensed
+> under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+The internal permission identifiers and collection limits remain in the technical source
+table above. The separate Tennis Abstract player-data collection is not part of the
+accepted retrospective model runs described here.
 
 When the first qualified Tennis Abstract-derived release is created, append the exact
 collection start/end dates and source-version hashes to this block and to the product
