@@ -5,8 +5,8 @@ import datetime as dt
 import gzip
 import hashlib
 import json
-from pathlib import Path
 import shutil
+from pathlib import Path
 
 import pytest
 
@@ -115,9 +115,7 @@ def test_g3_access_receipt_covers_actual_rank_and_calibration_union(
     attempt = forecast(config, "access_union")
     receipt = json.loads((attempt / "forecast/access_receipt.json").read_text())
     for tour in ("ATP", "WTA"):
-        purpose = receipt["tours"][tour]["purpose_memberships"][
-            "rank_and_calibration_past"
-        ]
+        purpose = receipt["tours"][tour]["purpose_memberships"]["rank_and_calibration_past"]
         expected = [(str(year), f"SYNTHETIC-{tour}-{year}-1") for year in range(2011, 2020)]
         assert purpose["rows"] == 9
         assert purpose["membership_sha256"] == workflow.key_hash(expected)
@@ -187,6 +185,11 @@ def test_g4_attempt_transplant_and_missing_producer_completion_reject(
     shutil.copytree(original / "forecast", transplanted / "forecast")
     with pytest.raises(BenchmarkError, match="attempt|producer completion"):
         barrier(config, "transplanted")
+
+    missing = forecast(config, "missing_completion")
+    (missing / "forecast_completion.json").unlink()
+    with pytest.raises(BenchmarkError, match="producer completion"):
+        barrier(config, "missing_completion")
 
 
 def test_g4_effective_code_includes_rank_fitter() -> None:
