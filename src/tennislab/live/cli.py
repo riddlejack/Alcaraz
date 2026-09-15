@@ -17,8 +17,8 @@ from typing import Any
 
 from tennislab.chain.common import ChainError, atomic_json, resolve_under_root, sha256
 from tennislab.live import fixtures as fx
+from tennislab.live import readiness, sources, versions
 from tennislab.live import settle as st
-from tennislab.live import sources, versions
 from tennislab.live.common import (
     LiveConfig,
     LiveError,
@@ -638,6 +638,11 @@ def cmd_settle(args: argparse.Namespace) -> int:
     raise LiveError(f"unknown settle command {args.settle_command}")
 
 
+def cmd_readiness(args: argparse.Namespace) -> int:
+    print(json.dumps(readiness.assess(args.config), indent=2, sort_keys=True))
+    return 0
+
+
 # --- parser ------------------------------------------------------------------------------------
 
 
@@ -700,6 +705,12 @@ def build_parser() -> argparse.ArgumentParser:
     settle.add_argument("--version", default="latest")
     settle.add_argument("--settlement-id", default=None)
     settle.set_defaults(func=cmd_settle)
+
+    ready = sub.add_parser(
+        "readiness", help="read-only D2 history, snapshot, rung and ledger readiness report"
+    )
+    ready.add_argument("--config", required=True)
+    ready.set_defaults(func=cmd_readiness)
     return parser
 
 

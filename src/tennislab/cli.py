@@ -14,7 +14,7 @@ from collections.abc import Sequence
 from tennislab import __version__
 
 CHAIN_COMMANDS = ("print", "write-configs", "dry-run", "run", "report", "verify")
-LIVE_COMMANDS = ("update", "fixture", "forecast", "ledger", "settle")
+LIVE_COMMANDS = ("update", "fixture", "forecast", "ledger", "settle", "readiness")
 BENCHMARK_COMMANDS = ("project", "forecast", "barrier", "report")
 
 

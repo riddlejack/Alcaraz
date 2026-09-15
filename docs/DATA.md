@@ -119,6 +119,13 @@ does not itself perform D2, which must:
 Until then, 2026-09-14 is a code/review date. The accepted model horizons are the two
 explicit configurations at the top of this page.
 
+`tennislab readiness --config configs/live/live.json` now provides a deterministic,
+read-only D2 preflight. It verifies any bound history and versioned snapshot that actually
+exist, profiles chronology quarantines, checks two-tour results/serve/ranking coverage,
+and reports each rung and ledger state. The committed configuration correctly reports
+both real histories, the real snapshot and five trained-rung runtime bindings as pending.
+See [D2 real-snapshot readiness](live/D2_READINESS.md) for the finite post-input sequence.
+
 ## Redistribution rule
 
 The intended public product boundary carries code, manifests and hashes, mapping/alias

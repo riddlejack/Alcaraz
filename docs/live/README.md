@@ -12,6 +12,7 @@ These commands require a prepared workspace and the input schemas in [DESIGN.md]
 The replay option uses retained responses; it is not a command to launch a crawl.
 
 ```sh
+uv run tennislab readiness --config configs/live/live.json
 uv run tennislab update --config configs/live/live.json --events events.json --replay <dir>
 uv run tennislab fixture --config configs/live/live.json --input pending.csv --batch-id b1
 uv run tennislab forecast --config configs/live/live.json --batch-id b1
@@ -20,6 +21,9 @@ uv run tennislab settle results --config configs/live/live.json
 uv run tennislab settle score --config configs/live/live.json
 uv run tennislab settle report --config configs/live/live.json
 ```
+
+The [D2 readiness check](D2_READINESS.md) is read-only and reports history, snapshot,
+rung, ledger and settlement state without turning missing inputs into success.
 
 ## Demonstrated contracts
 
