@@ -1,0 +1,412 @@
+{
+  "benchmarks": {
+    "campaign_e": {
+      "accuracy_status": "derived_read_only_not_original_primary_metric",
+      "log_loss_status": "derived_absolute_arm_scores_consistent_with_accepted_contrasts",
+      "status": "accepted_negative_or_inconclusive_historical_campaign_no_promotion",
+      "tours": {
+        "ATP": {
+          "accuracy_aggregation": "match_weighted_over_all_paired_rows",
+          "arms": {
+            "S0": {
+              "accuracy": 0.6650853889943074,
+              "correct": 12618,
+              "natural_log_loss_equal_year": 0.5983574034976462,
+              "natural_log_loss_match_weighted": 0.5986371544575821,
+              "probability_basis": "unchanged_selected_and_calibrated_incumbent_hgb",
+              "ties": 0
+            },
+            "S1": {
+              "accuracy": 0.6608686485346827,
+              "correct": 12538,
+              "natural_log_loss_equal_year": 0.605129372183363,
+              "natural_log_loss_match_weighted": 0.6054406292264756,
+              "probability_basis": "fixed_equal_probability_blend_of_S0_and_result_elo_no_post_blend_calibration",
+              "ties": 0
+            },
+            "S2": {
+              "accuracy": 0.6662449926207042,
+              "correct": 12640,
+              "natural_log_loss_equal_year": 0.5996133256492673,
+              "natural_log_loss_match_weighted": 0.5997392217515233,
+              "probability_basis": "past_three_year_selected_random_forest_with_nonnegative_slope_calibration",
+              "ties": 0
+            },
+            "S3": {
+              "accuracy": 0.6658233185747418,
+              "correct": 12632,
+              "natural_log_loss_equal_year": 0.5979386674636638,
+              "natural_log_loss_match_weighted": 0.5981900500548516,
+              "probability_basis": "past_three_year_nonnegative_logit_stack_of_eight_raw_members_no_second_calibration",
+              "ties": 0
+            }
+          },
+          "log_loss_aggregations": [
+            "equal_year_mean_of_annual_natural_log_loss",
+            "match_weighted_natural_log_loss"
+          ],
+          "n": 18972,
+          "years_inclusive": [
+            2017,
+            2024
+          ]
+        },
+        "WTA": {
+          "accuracy_aggregation": "match_weighted_over_all_paired_rows",
+          "arms": {
+            "S0": {
+              "accuracy": 0.6579069767441861,
+              "correct": 8487,
+              "natural_log_loss_equal_year": 0.6110630148803847,
+              "natural_log_loss_match_weighted": 0.6104287511922197,
+              "probability_basis": "unchanged_selected_and_calibrated_incumbent_hgb",
+              "ties": 0
+            },
+            "S1": {
+              "accuracy": 0.6572093023255814,
+              "correct": 8478,
+              "natural_log_loss_equal_year": 0.6147745406038096,
+              "natural_log_loss_match_weighted": 0.6143203086453435,
+              "probability_basis": "fixed_equal_probability_blend_of_S0_and_result_elo_no_post_blend_calibration",
+              "ties": 0
+            },
+            "S2": {
+              "accuracy": 0.6562790697674419,
+              "correct": 8466,
+              "natural_log_loss_equal_year": 0.6130010477360873,
+              "natural_log_loss_match_weighted": 0.6124076551977142,
+              "probability_basis": "past_three_year_selected_random_forest_with_nonnegative_slope_calibration",
+              "ties": 0
+            },
+            "S3": {
+              "accuracy": 0.6603100775193799,
+              "correct": 8518,
+              "natural_log_loss_equal_year": 0.6117372754735185,
+              "natural_log_loss_match_weighted": 0.6106627121074298,
+              "probability_basis": "past_three_year_nonnegative_logit_stack_of_eight_raw_members_no_second_calibration",
+              "ties": 0
+            }
+          },
+          "log_loss_aggregations": [
+            "equal_year_mean_of_annual_natural_log_loss",
+            "match_weighted_natural_log_loss"
+          ],
+          "n": 12900,
+          "years_inclusive": [
+            2019,
+            2024
+          ]
+        }
+      }
+    },
+    "g_l": {
+      "accuracy_status": "derived_read_only_not_original_primary_metric",
+      "log_loss_status": "accepted_aggregate",
+      "status": "accepted_historical_comparison_with_five_tested_rank_or_elo_baselines",
+      "tours": {
+        "ATP": {
+          "accuracy_aggregation": "match_weighted_over_all_matched_rows",
+          "arms": {
+            "fivethirtyeight_adaptation": {
+              "accuracy": 0.6476913345983555,
+              "correct": 12284,
+              "natural_log_loss_equal_year_calibrated": 0.6229540795200075,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 8
+            },
+            "kovalchik_reconstruction": {
+              "accuracy": 0.643000210837023,
+              "correct": 12195,
+              "natural_log_loss_equal_year_calibrated": 0.6268214492282305,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 8
+            },
+            "pooled_elo_k32": {
+              "accuracy": 0.6456883828800337,
+              "correct": 12246,
+              "natural_log_loss_equal_year_calibrated": 0.6222244974956928,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 8
+            },
+            "ranking_logistic": {
+              "accuracy": 0.6325637781994519,
+              "correct": 11975,
+              "natural_log_loss_equal_year_calibrated": 0.633432083369252,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 52
+            },
+            "tennis_lab_incumbent": {
+              "accuracy": 0.6650853889943074,
+              "correct": 12618,
+              "natural_log_loss_equal_year_calibrated": 0.5983574034976463,
+              "probability_basis": "accepted_selected_calibrated_forecast",
+              "ties": 0
+            },
+            "weighted_elo_reconstruction": {
+              "accuracy": 0.6431583386042589,
+              "correct": 12198,
+              "natural_log_loss_equal_year_calibrated": 0.6260796705116054,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 8
+            }
+          },
+          "log_loss_aggregation": "accepted_equal_year_mean_of_annual_natural_log_loss",
+          "n": 18972,
+          "years_inclusive": [
+            2017,
+            2024
+          ]
+        },
+        "WTA": {
+          "accuracy_aggregation": "match_weighted_over_all_matched_rows",
+          "arms": {
+            "fivethirtyeight_adaptation": {
+              "accuracy": 0.6505038759689923,
+              "correct": 8391,
+              "natural_log_loss_equal_year_calibrated": 0.6212327139440557,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 1
+            },
+            "kovalchik_reconstruction": {
+              "accuracy": 0.6479457364341086,
+              "correct": 8358,
+              "natural_log_loss_equal_year_calibrated": 0.62288675904947,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 1
+            },
+            "pooled_elo_k32": {
+              "accuracy": 0.6443798449612403,
+              "correct": 8312,
+              "natural_log_loss_equal_year_calibrated": 0.6254811025335166,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 1
+            },
+            "ranking_logistic": {
+              "accuracy": 0.635968992248062,
+              "correct": 8171,
+              "natural_log_loss_equal_year_calibrated": 0.6381356590531949,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 66
+            },
+            "tennis_lab_incumbent": {
+              "accuracy": 0.6579069767441861,
+              "correct": 8487,
+              "natural_log_loss_equal_year_calibrated": 0.6110630148803847,
+              "probability_basis": "accepted_selected_calibrated_forecast",
+              "ties": 0
+            },
+            "weighted_elo_reconstruction": {
+              "accuracy": 0.6460852713178294,
+              "correct": 8334,
+              "natural_log_loss_equal_year_calibrated": 0.6232614270716786,
+              "probability_basis": "preceding_three_year_equal_year_nonnegative_zero_intercept_slope_calibration",
+              "ties": 1
+            }
+          },
+          "log_loss_aggregation": "accepted_equal_year_mean_of_annual_natural_log_loss",
+          "n": 12900,
+          "years_inclusive": [
+            2019,
+            2024
+          ]
+        }
+      }
+    }
+  },
+  "definitions": {
+    "accuracy": {
+      "aggregation": "match_weighted",
+      "formula": "(correct + 0.5 * ties) / n",
+      "rule": "predict A when p_A > 0.5, predict B when p_A < 0.5, and give an exact p_A = 0.5 tie one-half credit",
+      "status": "read_only_descriptive_derivation_from_committed_predictions_and_bound_labels"
+    },
+    "log_loss": {
+      "campaign_e_basis": "read_only_derivation_from_committed_final_arm_probabilities_and_bound_labels",
+      "g_l_basis": "accepted_equal_year_calibrated_aggregate",
+      "logarithm": "natural",
+      "score_clip": 1e-15
+    },
+    "service_points": "integer serve points summed from match-level aggregate count blocks; not point-by-point observations"
+  },
+  "exclusions": {
+    "gnn_score": "reported_separately_in_EXTERNAL_2024_2025_RESULTS.json",
+    "private_absolute_paths": true,
+    "raw_rows": true,
+    "sportsbook_comparisons": true
+  },
+  "history_scale": {
+    "atp_full_tier": {
+      "aggregate_service_points_consumed_total_including_tour_and_lower_tier": 24223243
+    },
+    "atp_lower_tier": {
+      "aggregate_service_points_available_in_feed": 16379112,
+      "distinct_lower_tier_only_stream": true,
+      "elo_eligible_result_rows": 480012,
+      "elo_eligible_rows_by_tier": {
+        "challenger": 100482,
+        "futures": 329315,
+        "qualifying": 50215
+      },
+      "elo_eligible_unique_match_ids": 480012,
+      "elo_eligible_years_inclusive": [
+        2005,
+        2024
+      ],
+      "identity_basis": "every eligible match_id is unique and tier:-namespaced; every row is challenger, futures, or qualifying",
+      "retained_result_rows": 697193,
+      "retained_years_inclusive": [
+        1991,
+        2024
+      ],
+      "serve_count_feed_rows": 119141,
+      "serve_count_feed_usable_rows": 116072,
+      "serve_count_feed_years_inclusive": [
+        2010,
+        2024
+      ]
+    },
+    "atp_tour": {
+      "aggregate_service_points_consumed_tour_only": 7938178,
+      "unique_match_rows": 51222,
+      "years_inclusive": [
+        2005,
+        2024
+      ]
+    },
+    "non_additivity": [
+      "ATP full-tier service points already include ATP tour and lower-tier count history; do not add the tour-only total again.",
+      "WTA01 2007-2024 and WTA02 2007-2026 are overlapping versions; do not sum their rows or service points.",
+      "Raw coverage-matrix family inventories overlap and are not training-row totals."
+    ],
+    "wta_g_l_and_campaign_e": {
+      "aggregate_service_points_consumed": 2853331,
+      "count_history_from_year": 2016,
+      "primary_history_and_target_rows": 41316,
+      "provisional_target_only_rows": 1169,
+      "years_inclusive": [
+        2007,
+        2024
+      ]
+    },
+    "wta_later_overlapping_extension": {
+      "aggregate_service_points_consumed": 3352905,
+      "count_history_from_year": 2016,
+      "primary_history_and_target_rows": 45653,
+      "provisional_target_only_rows": 1174,
+      "years_inclusive": [
+        2007,
+        2026
+      ]
+    }
+  },
+  "public_product_head": "6749cc40dc5a9e68961ebeeb25b2dbfa8fff47f7",
+  "schema_version": 1,
+  "source_artifacts": [
+    {
+      "kind": "public",
+      "locator": "docs/benchmarks/G_L_RESULTS.json",
+      "sha256": "734b1234b07823744c2323d95d8ea81a4fae18b59b564ec44a0f0a9094986d2f"
+    },
+    {
+      "kind": "archive",
+      "locator": "docs/reviews/rebuild_2026-09-13/LANE_G_ATTEMPT_002_RECONSTRUCTION.md",
+      "sha256": "7a84d26c3db5ae84ec46ddea04e34a1623851605880d68580f16ff2abeb1660b"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-lab-g-benchmark/work/G-L-freeze/attempt_002/workspace/outputs/G-L-real/attempt_002/forecast/predictions.csv",
+      "sha256": "635babedd37034e0f260ea73d0806282d6696c7ff33c42e32a6f6cc76194ddf7"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-lab-g-benchmark/work/G-L-freeze/attempt_002/workspace/inputs/archive/experiments/runs/TIER01/attempt_002/run/features/labels.csv",
+      "sha256": "987f05cdbc0c0e9bdb0c787195762e26f070219ca0633f2c231819e70b561352"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-lab-g-benchmark/work/G-L-freeze/attempt_002/workspace/inputs/archive/experiments/runs/WTA01/attempt_001/primary/run/features/labels.csv",
+      "sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396"
+    },
+    {
+      "kind": "public",
+      "locator": "docs/CAMPAIGN_E_RESULTS.md",
+      "sha256": "937a0771befb16d5ac5cbb29cc6d056be303f4844b06c4f502e02a29664311df"
+    },
+    {
+      "kind": "archive",
+      "locator": "docs/reviews/rebuild_2026-09-13/LANE_E_D93_D94_RESULT_REVIEW.md",
+      "sha256": "4e872a983d79721d3262924b0367c655c2d290c44608ddcf10fae84f7b9d8119"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/consumer_ec01/atp/attempt_001/run/report/summary.json",
+      "sha256": "af5ac58c2ed81b4557500bc571bf47b8aaca8931fd44c0fc4b013b3c5aadc694"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/consumer_ec01/wta/attempt_001/run/report/summary.json",
+      "sha256": "43b8d97c6364ddd6fa1ebef37affea75fc076e12b86948b96b3adcf49ad89817"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/consumer_ec01/atp/attempt_001/run/forecast/forecast_manifest.json",
+      "sha256": "ce382879e337488a817e50382625e6d43d3b50128d6361546a497792462fadb4"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/consumer_ec01/wta/attempt_001/run/forecast/forecast_manifest.json",
+      "sha256": "206f6315aeafc393b89a7b765f55714266bcf7eb5e205d7605a9998696918fb3"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/real/atp/attempt_007/inputs/labels.csv",
+      "sha256": "987f05cdbc0c0e9bdb0c787195762e26f070219ca0633f2c231819e70b561352"
+    },
+    {
+      "kind": "frozen_workspace",
+      "locator": "tennis-e-ec01-consumer/work/campaign_e_v1/real/wta/attempt_004/inputs/labels.csv",
+      "sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/TIER01/run_002/run/tier_stream/summary.json",
+      "sha256": "3660154e2cf86ad2cfc765317242a717f88ce3ebb672643413969a1c519dc49d"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/TIER01/run_002/run/tier_stream/tier_results.csv.gz",
+      "sha256": "bf0707d2358cdd78c3b956d0d0a32062f9637d91235e84fe535b22617bc0034e"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/TIER01/run_002/run/sr02_replay/run_manifest.json",
+      "sha256": "a9e69f520f439c44297ec4265e0e5501d3ed50f689b8af2b8063922342bec743"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/TIER01/run_002/run/sr02_tier_replay/run_manifest.json",
+      "sha256": "aee542bee73d1d8cbc7907ef16aa061f2567786d9e6cac65a89dbe98b43c87a6"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/WTA01/run_001_primary/run/features/summary.json",
+      "sha256": "acbcb11f15e9fddca082db8d8eceb3fea00c297cf5cd3ee89019067668306136"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/WTA01/run_001_primary/run/sr02_replay/run_manifest.json",
+      "sha256": "78f4a88bc5a3da4125e3f69b488b3b8b381f1e799a22884797406cc582acb87c"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/WTA02/run_002/run/features/summary.json",
+      "sha256": "9b3be8438ef88ef7d6f15fd13290b091fcdb4e3a734089c4a08b526239436955"
+    },
+    {
+      "kind": "archive",
+      "locator": "work/WTA02/run_002/run/sr02_replay/run_manifest.json",
+      "sha256": "a0841e3d975df448ed228f893d38c3c09217ad7a5ff3e00e7398ecd395edc43c"
+    }
+  ],
+  "status": "aggregate_only_landing_page_facts"
+}
