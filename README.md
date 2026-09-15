@@ -1,212 +1,87 @@
-# tennis-lab
+# Alcaraz
 
-**How far can public tennis statistics take a pre-match forecast?** tennis-lab builds a
-series of models: start with a simple player rating, add recent results and
-serve/return history, then test whether information from lower-level tournaments helps.
-Each model is evaluated on later matches than the ones used to train it, subject to the
-historical data limitations explained below.
+**Gradient-boosted tennis forecasts, built from 20 years of match history.** Alcaraz predicts men's (ATP) and women's (WTA) match outcomes with calibrated histogram gradient boosting. It combines opponent-adjusted Elo ratings, rankings, surface and workload with dynamic serve/return strength—and brings qualifying, Challenger and Futures results into the men's model.
 
-In historical tests on matches with both model forecasts and bookmaker odds, the
-strongest accepted men's model picked **66.51%** of winners correctly and the women's
-model picked **66.13%**. Adding more tennis history also improved the quality of the
-probabilities, although the probabilities implied by Pinnacle's betting odds scored
-better. The measures and comparison are explained below.
+The men's pipeline uses **51,222 main-tour matches from 2005–2024**, **480,012 eligible lower-tier results**, and **24.2 million service points** reconstructed from match-level serve statistics. The separate women's history covers **2007–2026**, including a partial 2026 season.
 
-These historical matches have been examined during development. They are not an
-untouched final test or a record of forecasts issued before real matches began.
+Models are trained and selected on earlier seasons, then tested on later matches. Alcaraz recorded lower log loss than all five tested ranking/Elo baselines on **18,972 ATP and 12,900 WTA matches**. The code, full trained weights and comparison results are available below. These are retrospective backtests; broader comparisons are still underway.
 
-## How often did the model pick the winner?
+## Model comparisons
 
-A forecast picks player A when its probability is above 50% and player B when it is below
-50%. An exact 50% forecast is reported as a tie. The final ATP and WTA sports models had
-no ties on these sets of matches, so accuracy here is simply correct picks divided by
-matches tested.
+**Accuracy** is the percentage of correct winner picks. **Log loss** also grades confidence and penalizes confident mistakes; **lower is better**. Every comparison below uses the same matches for both systems. Different tables cover different test populations.
 
-### ATP — men's tour, full-tier model
+### ATP 2024 · 2,681 matches
 
-| Year tested | Matches | Correct picks | Accuracy |
-|---|---:|---:|---:|
-| 2017 | 2,311 | 1,543 | 66.77% |
-| 2018 | 2,587 | 1,708 | 66.02% |
-| 2019 | 2,491 | 1,645 | 66.04% |
-| 2020 | 1,241 | 835 | 67.28% |
-| 2021 | 2,384 | 1,597 | 66.99% |
-| 2022 | 2,525 | 1,694 | 67.09% |
-| 2023 | 2,672 | 1,771 | 66.28% |
-| 2024 | 2,671 | 1,766 | 66.12% |
-| **Overall** | **18,882** | **12,559** | **66.51%** |
+| System | Accuracy ↑ | Log loss ↓ |
+|---|---:|---:|
+| **Alcaraz · gradient boosting + full-tier history** | **66.17%** | **0.59649** |
+| [buildoak XGBoost system · historical adaptation](docs/benchmarks/BUILDOAK_2024_RESULTS.md) | 66.06% | 0.60004 |
+| [Ultimate Tennis Statistics · formula adaptation](docs/benchmarks/EXTERNAL_2024_2025_RESULTS.md) | 64.60% | 0.62087 |
 
-### WTA — women's tour, full model
+The XGBoost lead is small and statistically inconclusive. These adaptations retain their own forecasting methods and documented source histories; they do not reproduce the authors' original headline experiments.
 
-| Year tested | Matches | Correct picks | Accuracy |
-|---|---:|---:|---:|
-| 2025 | 2,243 | 1,477 | 65.85% |
-| 2026 partial sample | 101 | 73 | 72.28% |
-| **Overall** | **2,344** | **1,550** | **66.13%** |
+### ATP clay events, 2025 · 99 matches
 
-The 2026 row covers only 101 matches with available odds, from an incomplete sample
-already examined during development. It does not represent a full season or a fresh
-test. Accuracy uses saved forecasts and match results for the same matches as the
-probability-score table below; no model was trained or chosen again to produce it.
-[`docs/winner_accuracy.csv`](docs/winner_accuracy.csv) and
-[`docs/winner_accuracy.json`](docs/winner_accuracy.json) report every ladder rung and the
-market reference with `n`, correct picks, exact ties, and accuracy. For models with ties,
-the generated reports preserve the full set of matches and give each tie half credit,
-equivalent to choosing randomly when the model has no favourite.
+| System | Accuracy ↑ | Log loss ↓ |
+|---|---:|---:|
+| **Alcaraz · reconstructed historical forecasts** | **62.63%** | **0.63330** |
+| [Faxulous TennisGNN · retained dated forecasts](docs/benchmarks/EXTERNAL_2024_2025_RESULTS.md) | 52.53% | 0.72061 |
 
-Regenerate those aggregate-only files from a local copy of the research archive:
+A dated subset of Monte Carlo, Madrid, Rome and Roland-Garros—not the GNN author's full reported test set. The small sample and source-timing limits constrain the conclusion.
 
-```sh
-TENNISLAB_ARCHIVE=/path/to/tennis-research-lab-archive \
-  uv run python tools/render_winner_accuracy.py
-```
+### Multi-season ranking and Elo benchmarks
 
-## What the model names mean
+ATP: **2017–2024, 18,972 matches**. WTA: **2019–2024, 12,900 matches**. Accuracy counts matches; log loss gives each season equal weight. Baseline probabilities are calibrated using earlier seasons.
 
-- **ATP** is the men's tour; **WTA** is the women's tour.
-- **Elo** is a player-strength rating that changes after results. This version averages
-  overall and surface-specific win probabilities.
-- **base** combines past ratings, rankings, workload, match context, and available
-  serve/return counts using histogram gradient-boosted decision trees.
-- **full** adds player traits and serve/return states that update match by match.
-- **full tier** is ATP-only. It adds results from qualifying and lower-level professional
-  tournaments (Challenger and Futures) to the full model.
+| System | ATP accuracy ↑ | ATP log loss ↓ | WTA accuracy ↑ | WTA log loss ↓ |
+|---|---:|---:|---:|---:|
+| **Alcaraz · accepted model** | **66.51%** | **0.59836** | **65.79%** | **0.61106** |
+| Pooled Elo | 64.57% | 0.62222 | 64.44% | 0.62548 |
+| Ranking logistic model | 63.26% | 0.63343 | 63.60% | 0.63814 |
+| Kovalchik Elo reconstruction | 64.30% | 0.62682 | 64.79% | 0.62289 |
+| FiveThirtyEight surface-Elo adaptation | 64.77% | 0.62295 | 65.05% | 0.62123 |
+| Weighted Elo reconstruction | 64.32% | 0.62608 | 64.61% | 0.62326 |
 
-Models for each year are trained and selected using earlier seasons. Because those
-years share players and training histories, their results are not wholly independent
-tests.
+[Methods, uncertainty and exact results →](docs/benchmarks/G_L_RESULTS.md)
 
-## Why log loss is still the main score
+<details>
+<summary>Additional models and feature-layer experiments</summary>
 
-Accuracy only asks which side of 50% a forecast chose: 51% and 99% are the same winner
-pick. Log loss also grades confidence, rewarding well-calibrated probabilities and
-penalising confident mistakes. A model that says 50/50 for every match scores
-`ln(2) ≈ 0.693`; lower is better.
+Same multi-season populations and weighting as above. These are completed Alcaraz experiments, separate from external systems.
 
-**Pinnacle is a sports bookmaker.** Its odds provide a useful real-world comparison:
-how do our tennis-statistics forecasts compare with probabilities implied by a betting
-market? We convert each player's odds to a probability, then rescale the pair to add up
-to 100%, removing the bookmaker's quoted margin. Our sports models do not use these
-odds as predictors.
+| Model | ATP accuracy ↑ | ATP log loss ↓ | WTA accuracy ↑ | WTA log loss ↓ |
+|---|---:|---:|---:|---:|
+| Accepted gradient-boosted model | 66.51% | 0.59836 | 65.79% | 0.61106 |
+| Fixed model + Elo blend | 66.09% | 0.60513 | 65.72% | 0.61477 |
+| Selected random forest | 66.62% | 0.59961 | 65.63% | 0.61300 |
+| Eight-member learned ensemble | 66.58% | 0.59794 | 66.03% | 0.61174 |
 
-| Tour and target years | Matches | Elo | base | full | full tier | Pinnacle |
-|---|---:|---:|---:|---:|---:|---:|
-| ATP, 2017–2024 | 18,882 | 0.6237 | 0.6121 | 0.6053 | 0.5984 | 0.5873 |
-| WTA, 2025–2026 | 2,344 | 0.6265 | 0.6230 | 0.6153 | — | 0.5953 |
+No alternative met the predeclared replacement criteria. The ensemble's small ATP log-loss improvement was inconclusive; higher winner accuracy alone did not determine the default. [Full experiment →](docs/CAMPAIGN_E_RESULTS.md)
 
-Each match counts equally, and every column uses the same matches. The stored odds
-do not have verified timestamps: they may reflect information that arrived after the
-model's inputs were cut off. This makes the comparison informative, but it does not show
-who would have predicted better using only information available at the same moment.
+#### Feature ladder
 
-![ATP full-tier model and normalised Pinnacle log loss by year](docs/assets/atp_full_tier_vs_market.svg)
+These older matched cohorts contain 18,882 ATP matches (2017–2024) and 2,344 WTA matches (2025–2026). Both metrics weight matches equally. The WTA 2026 contribution is only 101 matches.
 
-The full generated log-loss report is in [`docs/RESULTS.md`](docs/RESULTS.md), with
-machine-readable values in [`docs/ladder.json`](docs/ladder.json).
+| Tour | Model inputs | Accuracy ↑ | Log loss ↓ |
+|---|---|---:|---:|
+| ATP | Elo only | 64.55% | 0.62369 |
+| ATP | Base statistics + gradient boosting | 65.40% | 0.61210 |
+| ATP | + player traits and dynamic serve/return strength | 66.22% | 0.60534 |
+| ATP | + lower-tier history | 66.51% | 0.59843 |
+| WTA | Elo only | 64.61% | 0.62648 |
+| WTA | Base statistics + gradient boosting | 64.63% | 0.62301 |
+| WTA | + player traits and dynamic serve/return strength | 66.13% | 0.61531 |
 
-## How it compares with other statistical models
+[Annual accuracy](docs/winner_accuracy.csv) · [Full ladder](docs/RESULTS.md)
 
-In a separately checked historical benchmark, Tennis Lab scored better than **all five
-tested ranking/Elo baselines** on 18,972 men’s matches (2017–2024) and 12,900 women’s
-matches (2019–2024). The comparison includes reconstructions of published Elo methods;
-it does not claim to beat their original live forecasts. The planned uncertainty checks
-and removal of individual seasons preserve the advantage.
+</details>
 
-This compares complete systems: our men’s model also uses lower-tier history that these
-baselines do not. Stronger point-based and other machine-learning models remain outside
-the benchmark, so it does not establish state-of-the-art performance.
-[See the models, scores and limitations](docs/benchmarks/G_L_RESULTS.md).
+## Use the models
 
-Against a historical adaptation of buildoak’s complete XGBoost tennis system on the
-same 2,681 ATP 2024 matches, Tennis Lab recorded log loss **0.5965 versus 0.6000** and
-winner accuracy **66.17% versus 66.06%**. The uncertainty interval includes no difference;
-this is a small numerical edge, not established superiority.
-[Comparison details](docs/benchmarks/BUILDOAK_2024_RESULTS.md).
+[**Download accepted models**](https://github.com/riddlejack/alcaraz/releases/tag/models-2026-09-14) · [Experimental model bundle](https://github.com/riddlejack/alcaraz/releases/tag/campaign-e-research-models-2026-09-15) · [Inference guide](docs/MODEL_RELEASE.md)
 
-## What happened when we tried more models?
+The accepted download includes all 40 trained checkpoints and calibration parameters. The experimental bundle preserves all 140 fitted estimators and combination decisions. Private source rows are excluded; model weights are not reduced. Player-level forecasting requires the [qualified history workflow](docs/live/README.md).
 
-A separately frozen four-arm campaign tested an Elo blend, two random-forest settings,
-and an eight-member stack against the unchanged incumbent on 18,972 ATP matches and
-12,900 WTA matches. The independent review recomputed the combined forecast values from
-saved raw-member probabilities, selection criteria, scores, and uncertainty calculation.
-ATP's stacked model was only slightly better than the incumbent and its interval crossed
-zero; WTA's was slightly worse.
-Neither tour met the registered nomination screen, so the incumbent remains the default
-and no model was promoted.
+[Methodology](docs/METHODS.md) · [System design and development](docs/PROCESS.md) · [Data scale and table provenance](docs/benchmarks/LANDING_PAGE_FACTS.json)
 
-This was an outcome-exposed historical development test, not a live or prospective
-forecast record.
-[See the exact results, failed-attempt chronology, and limitations](docs/CAMPAIGN_E_RESULTS.md).
-
-## What is reproducible today
-
-The public repository includes the full model-building and evaluation code,
-configurations, aggregate results, and synthetic acceptance samples. It is not yet a
-ready-to-use prediction app. **[Download the full accepted trained models](https://github.com/riddlejack/tennis-lab/releases/tag/models-2026-09-14):**
-40 year-specific boosted-tree checkpoints, their learned calibration slopes, and both
-tours’ Elo state. The download preserves the accepted model parameters; private training
-rows are excluded. See [`docs/MODEL_RELEASE.md`](docs/MODEL_RELEASE.md) for usage.
-
-The [experimental campaign models](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15)
-are also available: all 140 fitted estimators and their saved combination decisions.
-They preserve the evaluated weights; the campaign did not establish a replacement for
-the accepted default.
-
-The boosted-tree models take prepared statistics. Forecasting from two player names still
-requires history, ratings, rankings, serve/return dynamics, and ATP lower-tier feature
-state that are not bundled as a complete live snapshot today.
-
-Exact historical reconstruction therefore still requires the separate research archive.
-The manual workflow now connects all six configurations to a qualified private history
-snapshot. Seven forecasts on two generated fixtures passed independent numerical
-reconstruction and settlement controls. This verifies the integration, not real issued
-forecasts or complete current data: rankings end in June 2026, usable serve counts in
-May 2026, and ATP lower-tier inputs in 2024. See
-[`docs/ARCHIVE.md`](docs/ARCHIVE.md) and [`docs/live/README.md`](docs/live/README.md).
-
-The reconstruction records which past results each model used, saves forecasts before
-scoring them, checks that evidence files have not changed, and deliberately introduces
-errors to test whether the safeguards catch them. These checks cover specific risks;
-they do not prove that every historical input was available at the claimed time. [`docs/METHODS.md`](docs/METHODS.md),
-[`docs/PROCESS.md`](docs/PROCESS.md), and [`docs/INTEGRITY.md`](docs/INTEGRITY.md) explain
-the chronology, failures, repairs, and remaining limits.
-
-## Current evidence status
-
-- **Historical results:** reproduced independently within the documented scope.
-- **Additional-model campaign:** independently accepted as negative/inconclusive; no
-  nomination or promotion. [`docs/CAMPAIGN_E_RESULTS.md`](docs/CAMPAIGN_E_RESULTS.md)
-  records the exact scope and retained limits.
-- **Live forecasting record:** none yet. No real forecast batch has been published
-  before play and later scored under a plan fixed in advance.
-- **Data horizons:** ATP uses a 2005–2024 panel with 2017–2024 targets. WTA uses a
-  2007–2026 panel with 2025–2026 targets; that short, exposed window includes known
-  chronology limitations. [`docs/DATA.md`](docs/DATA.md) separates acquisition,
-  qualification, and actual model use.
-- **Hosted CI:** GitHub Actions run
-  [`34917281792`](https://github.com/riddlejack/tennis-lab/actions/runs/34917281792)
-  passed on code commit `acd8abb74a8039a768556143a5fd3e543c5ddabd`, including the
-  benchmark integration and both synthetic reproduction checks. The subsequent model
-  release status correction and this CI receipt update change documentation only.
-  Later code changes require their own passing check.
-
-## Run the engineering harness
-
-Python 3.14.6 is required by the locked environment.
-
-```sh
-make setup
-make test
-make reproduce-small
-make reproduce-tier
-```
-
-The two reproduction samples invoked above are synthetic engineering checks; they do not
-measure predictive performance on real tennis.
-
-## Data and licence
-
-Code is MIT-licensed. Historical match, ranking, and player data is credited to
-[Jeff Sackmann / Tennis Abstract](https://github.com/JeffSackmann) under
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Other source and
-redistribution boundaries are listed in [`DATA_LICENSES.md`](DATA_LICENSES.md).
+Inspired by Green Code’s tennis-prediction videos. Code: **MIT**. Match, ranking and player data: **Jeff Sackmann / Tennis Abstract**, with source terms and additional attribution in [DATA_LICENSES.md](DATA_LICENSES.md).
