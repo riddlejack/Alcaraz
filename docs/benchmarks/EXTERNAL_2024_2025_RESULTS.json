@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "repository": "riddlejack/alcaraz",
+  "as_of_date": "2026-09-15",
+  "methods_status": "unchanged; results support artifact only",
+  "metric_conventions": {
+    "log_loss": "mean natural log loss; lower is better",
+    "brier": "mean squared probability error; lower is better",
+    "accuracy": "threshold above 0.5, with half credit at exactly 0.5; higher is better",
+    "paired_log_loss_difference": "Alcaraz minus external; negative favors Alcaraz"
+  },
+  "verification": {
+    "status": "PASS",
+    "method": "independent scalar recomputation from frozen aggregate comparison rows",
+    "fit_or_model_selection_run": false,
+    "row_level_data_included": false,
+    "checks": {
+      "reported_metrics_reproduced": true,
+      "cohort_memberships_exact": true,
+      "match_ids_unique": true,
+      "labels_binary": true,
+      "probabilities_finite_and_strictly_between_zero_and_one": true,
+      "report_commitment_bindings_match": true
+    }
+  },
+  "comparisons": [
+    {
+      "id": "uts_fixed_formula_adaptation_atp_2024",
+      "status": "retrospective_outcome_exposed",
+      "cohort": {
+        "season": 2024,
+        "matches": 2681,
+        "unique_matches": 2681,
+        "events": 65,
+        "observed_calendar_weeks": 36,
+        "completed_matches": 2604,
+        "frozen_membership_exact": true
+      },
+      "systems": {
+        "alcaraz": {
+          "log_loss": 0.5964862003276956,
+          "brier": 0.20622255265996245,
+          "accuracy": 0.6616933979858262
+        },
+        "uts_fixed_formula_adaptation": {
+          "log_loss": 0.6208735589383172,
+          "brier": 0.21644348870739988,
+          "accuracy": 0.6460276016411787
+        }
+      },
+      "paired_log_loss": {
+        "alcaraz_minus_external": -0.02438735861062158,
+        "primary_95_interval": [-0.03111153967286377, -0.017550405181038373],
+        "method": "stationary calendar-week block bootstrap",
+        "replicates": 5000,
+        "rng": "PCG64",
+        "seed": 20260915,
+        "primary_mean_block_weeks": 8,
+        "sensitivity_95_intervals": {
+          "4_weeks": [-0.0315803942083747, -0.017231856769862375],
+          "13_weeks": [-0.03067933477846698, -0.01800533462315554]
+        }
+      },
+      "completed_only": {
+        "matches": 2604,
+        "alcaraz": {
+          "log_loss": 0.5924424918781835,
+          "brier": 0.20461645249252705,
+          "accuracy": 0.6643625192012289
+        },
+        "uts_fixed_formula_adaptation": {
+          "log_loss": 0.6177964431616488,
+          "brier": 0.21527158874290211,
+          "accuracy": 0.6474654377880185
+        }
+      },
+      "method_summary": {
+        "external": "Published UTS/Tennis Crystal Ball fixed-formula adaptation with four pre-2024 surface configurations",
+        "history": "Public ATP history from 1968 onward with native event-end availability",
+        "cutoff": "Accepted match-level D-2 cutoff",
+        "identity_repairs": "One global source-ID alias applied across matches and rankings, plus one exact match-scoped correction",
+        "backhand_repairs": "Pre-2024 traits only when exact names map uniquely to stable IDs; native omission otherwise",
+        "original_external_headline_reproduction": false
+      },
+      "artifact_hashes": {
+        "root_forecast_commitment_sha256": "1311e5180262ebba70d80fb5a99cf18f771dec074f7fccd8ea0e5bd40ffdee5a",
+        "root_matched_report_sha256": "0e0797679db6501872d53391a916aff687942277882eaa48c15fb12c9398b468",
+        "root_review_sha256": "a8ac7488790b811484c396089d12f5b15b7698e4e682837afc9458b3f5317376",
+        "aggregate_comparison_rows_sha256": "3d987957712690b2a1fe00b89d93fc02f7676b1a6b7acf47be50e3a98aeadce0",
+        "committed_probabilities_sha256": "a9c10a9d681fdfee2a3584e3859beb68e048e41aacfaefca12775624f3944775"
+      },
+      "limits": [
+        "Public-data formula adaptation, not historical UTS website output or private-database equivalence",
+        "Retrospective and outcome-exposed",
+        "No claim of prospective validity, betting value, or universal state of the art"
+      ]
+    },
+    {
+      "id": "published_gnn_probabilities_four_atp_2025_events",
+      "status": "retrospective_outcome_exposed",
+      "cohort": {
+        "season": 2025,
+        "matches": 99,
+        "unique_matches": 99,
+        "events": {
+          "2025-0410": 25,
+          "2025-0416": 43,
+          "2025-1536": 8,
+          "2025-520": 23
+        },
+        "strict_comparator_cohort_exact": true
+      },
+      "systems": {
+        "alcaraz": {
+          "log_loss": 0.6332957451080492,
+          "brier": 0.22106562031521154,
+          "accuracy": 0.6262626262626263
+        },
+        "published_gnn_probabilities": {
+          "log_loss": 0.7206123117516158,
+          "brier": 0.2600655922222222,
+          "accuracy": 0.5252525252525253
+        }
+      },
+      "paired_log_loss": {
+        "alcaraz_minus_external": -0.08731656664356657,
+        "primary_95_interval": [-0.28121330356526986, -0.012127733990605738],
+        "method": "exact ordered event-block resampling over four events",
+        "resamples": 256
+      },
+      "event_log_loss": {
+        "2025-0410": {
+          "matches": 25,
+          "alcaraz": 0.6470667199284713,
+          "gnn": 0.7288473102806033,
+          "alcaraz_minus_gnn": -0.081780590352132
+        },
+        "2025-0416": {
+          "matches": 43,
+          "alcaraz": 0.5964173639156563,
+          "gnn": 0.6529978949242587,
+          "alcaraz_minus_gnn": -0.056580531008602386
+        },
+        "2025-1536": {
+          "matches": 8,
+          "alcaraz": 0.5695984326532703,
+          "gnn": 1.1352336052800078,
+          "alcaraz_minus_gnn": -0.5656351726267375
+        },
+        "2025-520": {
+          "matches": 23,
+          "alcaraz": 0.7094294199080745,
+          "gnn": 0.6938546861918127,
+          "alcaraz_minus_gnn": 0.015574733716261836
+        }
+      },
+      "method_summary": {
+        "external": "99 retained published GNN probabilities with strict match-date pairing across four 2025 clay events",
+        "external_internal_feature_and_training_cutoff": "opaque",
+        "alcaraz": "Retrospective cutoff-aligned reconstruction from the unchanged checkpoint originally fit through 2023-12-30",
+        "original_external_headline_reproduction": false
+      },
+      "artifact_hashes": {
+        "root_forecast_commitment_sha256": "2d46872fecbd4df198545027fccc1ccf4713dfb5ffb966184cc1853406c2606b",
+        "root_matched_report_sha256": "e58dc2ccc0e05aa9c7790565af46ac39f492e1543b7fef462e50dd0562a75552",
+        "root_review_sha256": "29abc66640879e07684152446016e12af43661e265cf9ed66847ba4fd7bb8efc",
+        "root_score_plan_sha256": "c0c19458596b50f506f55d032d611773fc753cefcc8583bdab31ea21d2c44406",
+        "aggregate_comparison_rows_sha256": "337f4023fe4f8b0b292f068fd962d9ebf4521bbd4934d17b5631d44906c17835",
+        "committed_probabilities_sha256": "b21f6ee15acc0fb15f3069c6fff6e80c3cc1aa8224ae5642717ef04421889803"
+      },
+      "limits": [
+        "Only 99 matches and four event clusters",
+        "External model internal cutoff is unknown",
+        "Alcaraz probabilities were reconstructed retrospectively and were not issued in 2025",
+        "Roland-Garros event log loss favors the GNN",
+        "No claim of prospective validity or universal state of the art"
+      ]
+    }
+  ],
+  "claim_boundary": "The aggregate comparisons favor Alcaraz on these matched cohorts, but do not establish original-headline reproduction, prospective validity, or universal state of the art."
+}
