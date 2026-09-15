@@ -108,9 +108,10 @@ machine-readable values in [`docs/ladder.json`](docs/ladder.json).
 
 The public repository includes the full model-building and evaluation code,
 configurations, aggregate results, and synthetic acceptance samples. It is not yet a
-ready-to-use prediction app. A local release package is being assembled for 40 accepted
+ready-to-use prediction app. A reviewed release candidate contains 40 accepted
 year-specific boosted-tree checkpoints, their learned calibration slopes, and the Elo
-state, but that package has not been uploaded. Even with those weights, forecasting a
+state. Public download is pending the integrated release check; see
+[`docs/MODEL_RELEASE.md`](docs/MODEL_RELEASE.md) for coverage and usage. Even with those weights, forecasting a
 match from two player names still requires prepared history, ratings, rankings,
 serve/return dynamics, and ATP lower-tier feature state that are not bundled today.
 
@@ -136,8 +137,8 @@ the chronology, failures, repairs, and remaining limits.
   chronology limitations. [`docs/DATA.md`](docs/DATA.md) separates acquisition,
   qualification, and actual model use.
 - **Hosted CI:** GitHub Actions run
-  [`34909582080`](https://github.com/riddlejack/tennis-lab/actions/runs/34909582080)
-  passed on exact commit `db7ff2cfa26fe68f420cb1cdbb5531ac2d8c3557`. A later commit
+  [`34912269136`](https://github.com/riddlejack/tennis-lab/actions/runs/34912269136)
+  passed on exact commit `0c86652720455bc40c6c2de3681c69eeb3349d87`. A later commit
   should not be inferred green until its own run completes.
 
 ## Run the engineering harness
