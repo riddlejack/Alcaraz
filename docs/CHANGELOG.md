@@ -28,6 +28,13 @@
 
 ## 2026-09-14 — release narrative candidate
 
+- Added a plain-English winner-picking readout for the final ATP and WTA sports rungs,
+  including the 101-match partial 2026 WTA cohort and an explicit tie rule.
+- Added aggregate-only, reproducible accuracy CSV/JSON files derived from the accepted
+  saved forecasts and labels on the same priced cohorts as the model ladder; no model was
+  fitted, selected, calibrated, or issued.
+- Simplified the visible Jeff Sackmann / Tennis Abstract attribution while retaining
+  permission provenance and redistribution limits in the technical source table.
 - Reframed the front page around the supported retrospective result and the value of the
   audit trail; removed comprehensive leak-audit, prospective-record, public-model
   benchmark, and completed-snapshot claims.
