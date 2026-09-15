@@ -152,9 +152,11 @@ the chronology, failures, repairs, and remaining limits.
   chronology limitations. [`docs/DATA.md`](docs/DATA.md) separates acquisition,
   qualification, and actual model use.
 - **Hosted CI:** GitHub Actions run
-  [`34915514677`](https://github.com/riddlejack/tennis-lab/actions/runs/34915514677)
-  passed on exact commit `6bd88a62ee3d3c782b4b9c62bb56e67dc0340bdf`. A later commit
-  should not be inferred green until its own run completes.
+  [`34917281792`](https://github.com/riddlejack/tennis-lab/actions/runs/34917281792)
+  passed on code commit `acd8abb74a8039a768556143a5fd3e543c5ddabd`, including the
+  benchmark integration and both synthetic reproduction checks. The subsequent model
+  release status correction and this CI receipt update change documentation only.
+  Later code changes require their own passing check.
 
 ## Run the engineering harness
 
