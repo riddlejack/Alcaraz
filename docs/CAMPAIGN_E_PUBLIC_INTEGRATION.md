@@ -1,9 +1,11 @@
-# Lane E public integration candidate
+# Lane E public integration
 
-Status: reviewed local integration and deterministic companion-package candidate;
-independent result acceptance is complete. Public CI, merge, release upload, and anonymous
-download verification remain pending. The accepted aggregates do not nominate a model or
-change the public default.
+Status: complete. Reviewed source `4da58923024273e18219147047719d17759da5e7`
+passed GitHub CI (621 passed, three expected skips, lint and both reproductions),
+merged through [PR #1](https://github.com/riddlejack/tennis-lab/pull/1), and its
+[experimental companion](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15)
+passed anonymous-download checksum verification. The accepted aggregates do not
+nominate a model or change the public default.
 
 ## Integration boundary
 
@@ -57,7 +59,7 @@ D94 retry, and limitations are in [`CAMPAIGN_E_RESULTS.md`](CAMPAIGN_E_RESULTS.m
 ## Research-artifact inventory
 
 This fixed inventory is implemented by `tools/build_campaign_model_release.py` as a
-deterministic companion candidate outside Git. It is not yet a published release. The
+deterministic companion outside Git, now published as a separate experimental release. The
 incumbent `models-2026-09-14` release remains unchanged and separate. Build, loader,
 audit, inference, required-state, and license details are in
 [`CAMPAIGN_E_MODEL_RELEASE.md`](CAMPAIGN_E_MODEL_RELEASE.md).
@@ -133,20 +135,12 @@ and private custody documents stay out of both Git and the proposed artifact bun
 Their hashes may be referenced by the retained fit manifests; the underlying rows are
 not redistributed.
 
-## Publication checklist
+## Publication verification
 
-1. **Complete:** independent result review accepted the exact frozen execution as a
-   negative/inconclusive campaign, with the limitations and D93/D94 chronology retained.
-2. Independently review this integration commit and its final `make check` receipt.
-3. **Complete locally:** build the companion bundle outside Git from an explicit allowlist
-   matching the six inventory digests above; audit all 140 objects and run asymmetric
-   artificial inference through the keyed loader.
-4. **Complete locally:** add a deterministic bundle manifest, checksum, license/attribution
-   notice, and `REQUIRED_STATE` boundary; verify the unpacked inventory, model identities,
-   feature order, S2 slopes, and S3 member order and coefficients.
-5. Label the artifact `research`, `retrospective outcome-exposed`, `experimental`,
-   `no nomination`, `not a default`, and `not prospective evidence`. Do not replace the
-   incumbent release or configure automatic promotion.
-6. Only after those gates, push a reviewed branch, run public CI, build the deterministic
-   archive, publish it as a separate companion release, download it unauthenticated, and
-   re-verify its exact bytes before adding public links or accepted result language.
+All publication steps completed on September 15, 2026: independent scientific result
+acceptance; root integration review; deterministic packaging and all-object checks;
+exact-commit GitHub CI; merge; separate experimental release; and anonymous download.
+The public tarball is 208,973,211 bytes with SHA-256
+`550ecb61ee9f5038ea0186b46e4e46582a8a1453a40a980b756d67d2a2f436d3`.
+Root independently verified all 302 archive files and the merge's tree equality to the
+CI-tested source commit. The incumbent release and default remain unchanged.
