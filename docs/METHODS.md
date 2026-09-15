@@ -137,6 +137,15 @@ The primary proper score is log loss; Brier score is also retained. Reports show
 match-weighted and equal-year means, never as interchangeable summaries. Contrasts are
 paired on identical matches.
 
+Winner-picking accuracy is a descriptive companion metric. A probability above 0.5 picks
+player A, one below 0.5 picks player B, and exactly 0.5 is a tie. Generated accuracy is
+`(correct + 0.5 × ties) / n`, so every model retains the full identical priced cohort and
+ties remain visible rather than being assigned arbitrarily. Accuracy was not a fitting or
+selection target and has no new uncertainty claim. `tools/render_winner_accuracy.py`
+reads the accepted saved forecasts and labels, refuses a year whose matched count differs
+from `docs/ladder.json`, and writes aggregate-only `docs/winner_accuracy.csv` and
+`docs/winner_accuracy.json`.
+
 The displayed 95% intervals use 2,000 match-level bootstrap replicates stratified by year
 with seed 20260912. They are conditional on the saved forecasts and do not propagate
 fitting, selection, or calibration uncertainty. Per-year results share players, data,
