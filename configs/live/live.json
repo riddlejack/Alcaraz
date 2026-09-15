@@ -29,7 +29,7 @@
       "date_basis": "event_anchor",
       "qualified_fields": ["p_ace", "p_df", "p_svpt", "p_1stIn", "p_1stWon", "p_2ndWon", "p_SvGms", "p_bpSaved", "p_bpFaced", "o_ace", "o_df", "o_svpt", "o_1stIn", "o_1stWon", "o_2ndWon", "o_SvGms", "o_bpSaved", "o_bpFaced"],
       "not_supplied": ["match_date"],
-      "attribution": "Data by Jeff Sackmann / Tennis Abstract, collected with the site owner's permission under PERM-TA-001; derived tables CC BY-NC-SA 4.0"
+      "attribution": "Data by Jeff Sackmann / Tennis Abstract; derived tables CC BY-NC-SA 4.0"
     },
     "rankings_feed": {
       "kind": "sackmann_rankings_csv",
@@ -49,21 +49,57 @@
   "serve_frontier_declared": {"ATP": "2026-05-17", "WTA": "2026-05-18", "note": "retained population frontiers (Lane A); compared with the ingested feed, never assumed"},
   "identity": {
     "players_csv": "data/live/identity/players.csv",
+    "players_sha256": "PENDING",
     "aliases_csv": "data/live/identity/aliases.csv",
     "rule": "exact normalised full name against the player master, then the alias table; more than one candidate or none is quarantined; no synthetic identity"
   },
   "history": {
-    "schema": "bound-history-1: CONFIRM2026 result columns plus date_basis, completion_upper_bound, completion_basis, publication_upper_bound_utc, receipt_time_utc, status and overlap_unresolved; each tour binding declares admissible_completion_bases",
+    "schema": "bound-history-panel-1: accepted corrected-panel columns plus result aliases, model_event_date, date_basis, completion_upper_bound, completion_basis, publication_upper_bound_utc, receipt_time_utc, status and overlap_unresolved; each tour binding declares admissible_completion_bases. Availability gates use the bounds; model state ordering uses model_event_date.",
     "ATP": {"results_csv": "PENDING", "sha256": "PENDING"},
     "WTA": {"results_csv": "PENDING", "sha256": "PENDING"}
   },
+  "model_release": {
+    "status": "accepted_incumbent",
+    "release_id": "tennislab-accepted-models-2026-09-14-r2",
+    "archive_sha256": "bbe0337006e298897f6dda0ed87f0717d8a451e465235d95078916def74bcfc4",
+    "manifest_sha256": "33a78c00582813585031f854dccad89f377225e96333932d1e55d81d94a4ec54",
+    "manifest_schema_version": 1,
+    "runner": "tennislab.models.release.predict_feature_row",
+    "feature_interface": "one already-constructed, outcome-free feature row in the selected checkpoint's exact estimator_feature_names order; this binding does not construct features from player names or snapshot rows"
+  },
+  "feature_replay": {
+    "status": "implemented_exact_chain_application_no_fit_no_selection",
+    "input_review_receipt": {"path": "PENDING", "sha256": "PENDING", "checked_utc": "PENDING", "input_manifest_path": "PENDING", "input_manifest_sha256": "c84f75527e4b06693cd804d7484865a8a15894e092c2565cc3ef2ac68c5c0c80"},
+    "dynamic_contract": {
+      "primary_config": {"path": "PENDING", "sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182"},
+      "saved_selections": {"path": "PENDING", "sha256": "7740d54723b33ec2c65d09a61e0d43381631e7814498a130e501d2d5b3b8d87c"}
+    },
+    "selected_dynamic_candidate": "q020_g040_tight",
+    "selected_control_candidate": "h365_o250_s250",
+    "ATP": {
+      "ranking_source": {"path": "PENDING", "sha256": "PENDING", "available_upper_bound_utc": "PENDING"},
+      "ranking_index": {"path": "PENDING", "sha256": "PENDING"},
+      "rule_mapping": {"path": "PENDING", "sha256": "PENDING"},
+      "selection_map": {"path": "PENDING", "sha256": "a85e713815d55921ac4b0ca2808644c2dd2b3f59601d0ebca8b1072124d54525"},
+      "tier_initial_rating_offset_2024": -135.15154755359688,
+      "tier_offset_contract": {"path": "configs/chains/atp_tier01_2017_2024.json", "sha256": "d2e031a5eb3da138c0734b298d2ee5bf6cc5c102422a89b1441debcccb8bb40d", "checkpoint_target_year": 2024},
+      "tier_results": {"path": "PENDING", "sha256": "PENDING", "admissible_completion_bases": ["observed_completed_in_accepted_panel_at_stage_finish"]},
+      "tier_source_rows": {"path": "PENDING", "sha256": "PENDING", "admissible_completion_bases": ["observed_completed_in_accepted_panel_at_stage_finish"]}
+    },
+    "WTA": {
+      "ranking_source": {"path": "PENDING", "sha256": "PENDING", "available_upper_bound_utc": "PENDING"},
+      "ranking_index": {"path": "PENDING", "sha256": "PENDING"},
+      "rule_mapping": {"path": "PENDING", "sha256": "PENDING"},
+      "selection_map": {"path": "PENDING", "sha256": "a85e713815d55921ac4b0ca2808644c2dd2b3f59601d0ebca8b1072124d54525"}
+    }
+  },
   "rungs": {
     "elo": {"status": "available", "module": "tennislab.ratings.elo", "config": "configs/elo.json", "learned_constants": "fixed (K 32, scale 400, initial 1500, pooling 0.5/0.5); no fit, horizon none"},
-    "atp_p0": {"status": "unavailable", "reason": "no single-fixture feature route in the trunk; exact route is live-panel append plus chain replay features..pipeline with blank fixture-year labels; fitted artifacts not bound in this lane"},
-    "atp_p1": {"status": "unavailable", "reason": "as atp_p0"},
-    "atp_full_tier": {"status": "unavailable", "reason": "as atp_p0; native tier acceptance (RB9) also pending"},
-    "wta_base": {"status": "unavailable", "reason": "as atp_p0"},
-    "wta_full": {"status": "unavailable", "reason": "as atp_p0"}
+    "atp_p0": {"status": "route_implemented", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_p0", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "implemented", "runner": "tennislab.live.feature_replay.predict", "checkpoint_target_year": 2024, "fixture_year": 2026, "route": "availability-qualified corrected-panel history plus outcome-free fixture through exact base feature state"}, "reason": "exact route is implemented; dated readiness still requires hash-bound history, rankings, snapshot and accepted model bundle"},
+    "atp_p1": {"status": "route_implemented", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_p1", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "implemented", "runner": "tennislab.live.feature_replay.predict", "checkpoint_target_year": 2024, "fixture_year": 2026, "route": "exact base, BIO sidecar and saved SR02 dynamic replay with an outcome-free fixture"}, "reason": "exact route is implemented; dated readiness still requires hash-bound history, BIO players, rankings, snapshot and accepted model bundle"},
+    "atp_full_tier": {"status": "route_implemented", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "ATP", "rung": "atp_full_tier", "target_years": [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]}, "feature_route": {"status": "implemented", "runner": "tennislab.live.feature_replay.predict", "checkpoint_target_year": 2024, "fixture_year": 2026, "route": "exact base, sidecar, tier-inclusive Elo/experience and saved tier SR02 dynamic replay with an outcome-free fixture"}, "reason": "exact route is implemented; dated readiness still requires bound lower-tier state, whose committed candidate currently ends in 2024, plus the other snapshot bindings"},
+    "wta_base": {"status": "route_implemented", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "WTA", "rung": "wta_base", "target_years": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}, "feature_route": {"status": "implemented", "runner": "tennislab.live.feature_replay.predict", "checkpoint_target_year": 2026, "fixture_year": 2026, "route": "availability-qualified corrected-panel history plus outcome-free fixture through exact base feature state"}, "reason": "exact route is implemented; dated readiness still requires hash-bound history, rankings, snapshot and accepted model bundle"},
+    "wta_full": {"status": "route_implemented", "runner": "tennislab.models.release.predict_feature_row", "artifact_manifest": {"release_id": "tennislab-accepted-models-2026-09-14-r2", "tour": "WTA", "rung": "wta_full", "target_years": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}, "feature_route": {"status": "implemented", "runner": "tennislab.live.feature_replay.predict", "checkpoint_target_year": 2026, "fixture_year": 2026, "route": "exact base, BIO sidecar and saved SR02 dynamic replay with an outcome-free fixture"}, "reason": "exact route is implemented; dated readiness still requires hash-bound history, BIO players, rankings, snapshot and accepted model bundle"}
   },
   "exclusion": {
     "unknown_identity": "excluded",

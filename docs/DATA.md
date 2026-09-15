@@ -31,7 +31,7 @@ performance on the broader universe of public result rows.
 | tennis-data.co.uk annual workbooks | Versioned local workbooks and hashes | Results/date fields used under recorded semantics; prices are closing-like with unknown quote time; no redistribution right | Yes, as a local join and market reference; ATP 2017–2024 and WTA 2025–2026 scored on matched priced cohorts |
 | Wikipedia draw/calendar pages | Receipted parsed bridge files, including 2024 ATP and 2026 WTA paths bound by the configs | Results-only; dates are event anchors or completion bounds, not match clocks | Yes, in the historical bridge paths; those weaknesses limit chronology claims |
 | Match Charting Project | Retained charting evidence | Charter-asserted dates and partial serve counts; selective coverage | Corroboration/audit only, not a model trunk source |
-| Tennis Abstract player data | Owner-permitted acquisition over a 5,683-player inventory; resumed after the retained WTA parse failure and offline repair described below | `PERM-TA-002` supplements `PERM-TA-001`; integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
+| Tennis Abstract player data | Data by Jeff Sackmann / Tennis Abstract over a 5,683-player inventory; resumed after the retained WTA parse failure and offline repair described below | Integer two-sided serve counts observed; payload dates are event anchors; WTA depth is version-dependent; output still requires final qualification | No. Progress counts are not qualified-player counts and no accepted run uses the collection |
 | TennisMyLife yearly and ongoing files | Owner-downloaded 172-file zip plus retained read-only comparisons | Results/count roles qualified with conditions; source versioning, anomaly quarantine, and cross-source count rules required. Date admissibility is open because retained comparisons include early as well as late offsets | No. Neither accepted run nor a release snapshot uses TML |
 | ATP/WTA official feeds and ITF | Limited read-only probes | Automated access not authorised under the reviewed terms/bot boundary | No |
 
@@ -81,11 +81,9 @@ qualified among those investigated” is narrower than “the data does not exis
 
 ## Tennis Abstract collection boundary
 
-The site owner first authorised purpose-bounded retrieval with attribution under
-`PERM-TA-001`. `PERM-TA-002` supplements that record by allowing adaptive request
-frequency provided traffic does not slow or crash the site. It does not change the
-purpose, non-commercial attribution, or no-betting boundaries. The collector voluntarily
-retains one connection and an identifying user agent.
+Public source credit is Jeff Sackmann / Tennis Abstract. Detailed acquisition authority
+and receipts remain in the private research archive. The collector retains one connection
+and an identifying user agent.
 
 Bounded tests reached HTTP 429 at 1.0–1.25 seconds and again during the longer 2.0–2.5
 second follow-up. The selected tested-clean tier is therefore 3.0–3.5 seconds, with the
@@ -104,20 +102,22 @@ receipts remain retained. No accepted model run ingests this collection.
 
 ## Release snapshot status
 
-There is no accepted “data through 2026-09-14” product snapshot today. The first manual
-update/forecast/score slice and two subsequent repairs were rejected under independent
-reconstruction. The targeted repair at `5089b24` is now independently accepted on
-synthetic controls, with Elo issuance only (see [live workflow](live/README.md)). This
-does not itself perform D2, which must:
+The private D2 snapshot passed a scoped integration rehearsal on September 15, 2026:
+qualified two-tour histories, exact fitted-model feature construction, seven generated
+fixture forecasts, independent numerical reconstruction, and copied settlement controls.
+It does not contain uniformly current data or establish prospective performance.
 
-1. bind exact receipted source versions and fixture identity;
-2. apply per-field qualification and date admissibility;
-3. produce both tours in the existing corrected schema;
-4. connect the existing fitted artifacts without refitting; and
-5. pass independent reconstruction before a real batch is issued.
+The snapshot admits 54,035 ATP and 45,321 WTA history rows; 10 ATP and 332 WTA rows remain
+withheld. Results reach September 4 and August 1 respectively, usable serve counts May 23,
+rankings June 8, and ATP lower-tier results/counts December 2024. The date of acquisition
+is not substituted for these tennis-data frontiers. Accepted ATP 2024 checkpoints remain
+explicitly dated 2024 when used for a 2026 fixture; WTA uses its accepted 2026 checkpoints.
 
-Until then, 2026-09-14 is a code/review date. The accepted model horizons are the two
-explicit configurations at the top of this page.
+The public configuration deliberately leaves private inputs unbound. The read-only
+`tennislab readiness` command reports what a supplied workspace actually contains.
+[Validation evidence and remaining freshness limits](live/D2_READINESS.md) are recorded
+separately from acquisition progress. Completing the Tennis Abstract crawl still requires
+offline qualification before any new snapshot or model update.
 
 ## Redistribution rule
 

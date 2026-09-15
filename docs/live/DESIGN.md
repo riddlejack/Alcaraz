@@ -103,12 +103,11 @@ The retained serve frontiers ATP 2026-05-17 and WTA 2026-05-18 are declared in t
 and compared with the feed, never assumed.
 
 Rungs: `elo` runs end to end through `tennislab.ratings.elo` (fixed constants, no fit).
-`atp_p0`, `atp_p1`, `atp_full_tier`, `wta_base`, `wta_full` emit an explicit
-`forecast_unavailable` record naming the missing binding: the trunk has no single-fixture
-feature route; the only exact route is appending the fixture to a live panel and replaying
-the chain from `features` to `pipeline` with the fixture year's labels blank, which needs a
-bound live panel and fitted artifacts that this lane does not fit (no refit, no new
-candidate selection).
+`atp_p0`, `atp_p1`, `atp_full_tier`, `wta_base`, and `wta_full` use the exact live feature
+replay only when the accepted model bundle and every required state input are hash-bound.
+The route constructs an outcome-free target and reuses the accepted feature, sidecar,
+fixed-dynamic and tier functions; it does not fit, calibrate or select. A missing binding
+still emits `forecast_unavailable`, and no weaker feature set runs under a rung's name.
 
 ## 6. Ledger records and transitions
 

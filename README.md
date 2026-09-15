@@ -67,7 +67,7 @@ TENNISLAB_ARCHIVE=/path/to/tennis-research-lab-archive \
 - **Elo** is a player-strength rating that changes after results. This version averages
   overall and surface-specific win probabilities.
 - **base** combines past ratings, rankings, workload, match context, and available
-  serve/return counts using a model that combines many small decision rules.
+  serve/return counts using histogram gradient-boosted decision trees.
 - **full** adds player traits and serve/return states that update match by match.
 - **full tier** is ATP-only. It adds results from qualifying and lower-level professional
   tournaments (Challenger and Futures) to the full model.
@@ -117,6 +117,12 @@ baselines do not. Stronger point-based and other machine-learning models remain 
 the benchmark, so it does not establish state-of-the-art performance.
 [See the models, scores and limitations](docs/benchmarks/G_L_RESULTS.md).
 
+Against a historical adaptation of buildoak’s complete XGBoost tennis system on the
+same 2,681 ATP 2024 matches, Tennis Lab recorded log loss **0.5965 versus 0.6000** and
+winner accuracy **66.17% versus 66.06%**. The uncertainty interval includes no difference;
+this is a small numerical edge, not established superiority.
+[Comparison details](docs/benchmarks/BUILDOAK_2024_RESULTS.md).
+
 ## What happened when we tried more models?
 
 A separately frozen four-arm campaign tested an Elo blend, two random-forest settings,
@@ -151,8 +157,11 @@ requires history, ratings, rankings, serve/return dynamics, and ATP lower-tier f
 state that are not bundled as a complete live snapshot today.
 
 Exact historical reconstruction therefore still requires the separate research archive.
-The manual workflow currently demonstrates Elo forecasts using made-up test data.
-Connecting all six model configurations to verified real-history inputs is still pending. See
+The manual workflow now connects all six configurations to a qualified private history
+snapshot. Seven forecasts on two generated fixtures passed independent numerical
+reconstruction and settlement controls. This verifies the integration, not real issued
+forecasts or complete current data: rankings end in June 2026, usable serve counts in
+May 2026, and ATP lower-tier inputs in 2024. See
 [`docs/ARCHIVE.md`](docs/ARCHIVE.md) and [`docs/live/README.md`](docs/live/README.md).
 
 The reconstruction records which past results each model used, saves forecasts before
