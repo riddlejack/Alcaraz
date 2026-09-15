@@ -17,8 +17,8 @@ from typing import Any
 
 from tennislab.chain.common import ChainError, atomic_json, resolve_under_root, sha256
 from tennislab.live import fixtures as fx
+from tennislab.live import readiness, sources, versions
 from tennislab.live import settle as st
-from tennislab.live import sources, versions
 from tennislab.live.common import (
     LiveConfig,
     LiveError,
@@ -231,6 +231,8 @@ FIXTURE_QUALIFICATION_FIELDS = (
     "surface",
     "best_of",
     "best_of_source",
+    "match_rule",
+    "match_rule_source",
     "scheduled_start_utc",
     "scheduled_start_local_date",
     "scheduled_start_source",
@@ -437,7 +439,12 @@ def cmd_forecast(args: argparse.Namespace) -> int:
         version = loaded_versions[version_key]
         receipts = fx.receipt_times(version)
         for forecast in fx.forecast_all(
-            config, fixture, version, issue_time=issue_time, receipts=receipts
+            config,
+            fixture,
+            version,
+            issue_time=issue_time,
+            receipts=receipts,
+            model_bundle=args.model_bundle,
         ):
             payload = {
                 **forecast,
@@ -638,6 +645,17 @@ def cmd_settle(args: argparse.Namespace) -> int:
     raise LiveError(f"unknown settle command {args.settle_command}")
 
 
+def cmd_readiness(args: argparse.Namespace) -> int:
+    print(
+        json.dumps(
+            readiness.assess(args.config, model_bundle=args.model_bundle),
+            indent=2,
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
 # --- parser ------------------------------------------------------------------------------------
 
 
@@ -676,6 +694,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     forecast.add_argument("--config", required=True)
     forecast.add_argument("--batch-id", required=True)
+    forecast.add_argument(
+        "--model-bundle",
+        help="unpacked accepted incumbent release; required to issue trained rungs",
+    )
     forecast.set_defaults(func=cmd_forecast)
 
     ledger = sub.add_parser("ledger", help="verify or extend the prospective ledger")
@@ -700,6 +722,16 @@ def build_parser() -> argparse.ArgumentParser:
     settle.add_argument("--version", default="latest")
     settle.add_argument("--settlement-id", default=None)
     settle.set_defaults(func=cmd_settle)
+
+    ready = sub.add_parser(
+        "readiness", help="read-only D2 history, snapshot, rung and ledger readiness report"
+    )
+    ready.add_argument("--config", required=True)
+    ready.add_argument(
+        "--model-bundle",
+        help="unpacked accepted incumbent release to verify; read-only and never persisted",
+    )
+    ready.set_defaults(func=cmd_readiness)
     return parser
 
 

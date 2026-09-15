@@ -1,10 +1,12 @@
 # Manual update, fixtures and settlement
 
-Repair `5089b24fe29e351d6f5f1c18fc970038b9c2c3cb` is independently accepted within
-its synthetic rehearsal scope. It demonstrates manual update, fixture qualification,
-Elo issuance, ledger verification and settlement. No real forecast has been issued;
-other rungs return explicit unavailable records. The qualified real-history, six-rung
-D2 snapshot is still pending.
+The manual workflow now connects the accepted model bundle to a qualified private
+history snapshot. All six configurations were exercised on two generated fixtures:
+ATP/WTA Elo and five trained routes, seven forecasts in total. Independent reconstruction
+matched the numerical features and probabilities; settlement controls also passed.
+[The dated validation and freshness limits](D2_READINESS.md) define this acceptance.
+No real forecast was issued by this rehearsal. The public example configuration still
+reports unavailable inputs until the separate model bundle and private histories are bound.
 
 ## Commands
 
@@ -12,14 +14,19 @@ These commands require a prepared workspace and the input schemas in [DESIGN.md]
 The replay option uses retained responses; it is not a command to launch a crawl.
 
 ```sh
+uv run tennislab readiness --config configs/live/live.json
 uv run tennislab update --config configs/live/live.json --events events.json --replay <dir>
 uv run tennislab fixture --config configs/live/live.json --input pending.csv --batch-id b1
-uv run tennislab forecast --config configs/live/live.json --batch-id b1
+uv run tennislab forecast --config configs/live/live.json --batch-id b1 \
+  --model-bundle /path/to/tennislab-accepted-models-2026-09-14-r2
 uv run tennislab ledger verify --config configs/live/live.json
 uv run tennislab settle results --config configs/live/live.json
 uv run tennislab settle score --config configs/live/live.json
 uv run tennislab settle report --config configs/live/live.json
 ```
+
+The [D2 readiness check](D2_READINESS.md) is read-only and reports history, snapshot,
+rung, ledger and settlement state without turning missing inputs into success.
 
 ## Demonstrated contracts
 
@@ -39,7 +46,8 @@ holdout custody.
 
 Duplicate issuance and ledger tampering refuse. Late or failed proofs remain unconfirmed;
 provisional, final and corrected settlements remain distinct. Reports require the barrier.
-Only Elo issues forecasts in this scope.
+The original synthetic repair exercised Elo only; the D2 rehearsal extends numerical
+coverage to the five trained routes without refitting them.
 
 ## Review history
 
