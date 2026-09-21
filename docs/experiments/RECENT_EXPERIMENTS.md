@@ -4,6 +4,30 @@ This page preserves completed, aggregate-only historical findings that inform
 the landing page. All are exposed retrospective development comparisons; none
 changes the released default or establishes prospective performance.
 
+## Learner capacity and training window
+
+On **7,610 ATP 2021–2023 targets**, a four-arm experiment held the existing
+48-input feature states fixed while changing the HGB head's capacity and its
+supervised training window. The incumbent selected between 200-tree heads with
+7 or 15 leaves; larger heads used 600 trees with 31 or 63 leaves. The window
+comparison was the original five years versus expansion from 2013. Selection
+and calibration used earlier annual forecasts in every arm.
+
+The prespecified larger-head-plus-expansion arm **worsened log loss by
+0.003328270**, with a paired four-week-block 95% interval
+**[+0.001463021, +0.005245977]**, and made **35 fewer correct picks**. Its
+accuracy change was −0.4599 percentage points, with interval
+[−1.0160, +0.0401] percentage points; the accuracy interval includes zero.
+Log loss worsened in all three years, and completed-only scoring did not
+reverse the result.
+
+Larger capacity alone also worsened probability scores. Expansion alone was
+inconclusive: log-loss delta −0.000120651, interval crossing zero, and 23 fewer
+correct picks. Expansion reduced some of the larger head's penalty without
+making that arm better than the incumbent. No arm advanced. This is a negative
+result for the specified HGB/window choices, conditional on saved feature
+states—not a ceiling for other learners or future information.
+
 ## Serve components
 
 On **7,610 ATP 2021–2023 targets**, a first-in / first-win / second-win
