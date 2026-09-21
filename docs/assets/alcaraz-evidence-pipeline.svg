@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Alcaraz evidence pipeline</title>
+  <desc id="desc">A six-stage pipeline connects source records, qualification, cutoff-bound state and features, frozen forecasts, paired evaluation, and independent reconstruction. A side rail preserves experiments and failures as an archive.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#64748b"/></marker>
+    <style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}.title{font-size:26px;font-weight:700;fill:#0f172a}.sub{font-size:14px;fill:#475569}.label{font-size:17px;font-weight:700;fill:#0f172a}.body{font-size:13px;fill:#334155}.tiny{font-size:12px;fill:#475569}</style>
+  </defs>
+  <rect width="1200" height="560" rx="22" fill="#f8fafc"/>
+  <text class="title" x="48" y="52">From tennis records to a claim that can be checked</text>
+  <text class="sub" x="48" y="78">Every stage answers a different question. A historical score alone never crosses the whole pipeline.</text>
+  <g stroke="#64748b" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+    <path d="M198 228H222"/><path d="M380 228H404"/><path d="M562 228H586"/><path d="M744 228H768"/><path d="M926 228H950"/>
+  </g>
+  <g>
+    <rect x="44" y="156" width="154" height="144" rx="16" fill="#e0f2fe" stroke="#38bdf8" stroke-width="2"/>
+    <text class="label" x="60" y="190">1 · Records</text><text class="body" x="60" y="220">Matches, rankings,</text><text class="body" x="60" y="240">serve aggregates</text><text class="tiny" x="60" y="272">Keep bytes + terms</text>
+    <rect x="226" y="156" width="154" height="144" rx="16" fill="#ecfdf5" stroke="#34d399" stroke-width="2"/>
+    <text class="label" x="242" y="190">2 · Qualify</text><text class="body" x="242" y="220">Population, coverage,</text><text class="body" x="242" y="240">and exclusions</text><text class="tiny" x="242" y="272">Verify usable rows</text>
+    <rect x="408" y="156" width="154" height="144" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text class="label" x="424" y="190">3 · Time-bound</text><text class="body" x="424" y="220">Release state and</text><text class="body" x="424" y="240">features at cutoff</text><text class="tiny" x="424" y="272">No target label in state</text>
+    <rect x="590" y="156" width="154" height="144" rx="16" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text class="label" x="606" y="190">4 · Forecast</text><text class="body" x="606" y="220">Fit earlier seasons;</text><text class="body" x="606" y="240">commit probabilities</text><text class="tiny" x="606" y="272">Commit before reporting</text>
+    <rect x="772" y="156" width="154" height="144" rx="16" fill="#fff1f2" stroke="#fb7185" stroke-width="2"/>
+    <text class="label" x="788" y="190">5 · Compare</text><text class="body" x="788" y="220">Matched cohorts,</text><text class="body" x="788" y="240">scores, winner picks</text><text class="tiny" x="788" y="272">Effect + interval</text>
+    <rect x="954" y="156" width="154" height="144" rx="16" fill="#f1f5f9" stroke="#64748b" stroke-width="2"/>
+    <text class="label" x="970" y="190">6 · Rebuild</text><text class="body" x="970" y="220">Independent claim</text><text class="body" x="970" y="240">reconstruction</text><text class="tiny" x="970" y="272">Builder is not reviewer</text>
+  </g>
+  <path d="M106 382H1094" stroke="#cbd5e1" stroke-width="2"/>
+  <g>
+    <rect x="134" y="408" width="932" height="94" rx="14" fill="#0f172a"/>
+    <text x="162" y="441" font-family="ui-sans-serif,system-ui,sans-serif" font-size="18" font-weight="700" fill="#f8fafc">Research archive: retain the design, failed checks, frozen attempts, and limits</text>
+    <text x="162" y="470" font-family="ui-sans-serif,system-ui,sans-serif" font-size="14" fill="#cbd5e1">A null result, an exposed historical result, and a validated live capability are different outcomes.</text>
+  </g>
+</svg>
