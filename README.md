@@ -82,6 +82,7 @@ before it can replace the accepted model.
 
 | Tested idea | Exact retrospective result | What it changed |
 |---|---|---|
+| [Larger HGB head + expanded training window](docs/experiments/RECENT_EXPERIMENTS.md#learner-capacity-and-training-window) | 7,610 ATP targets; log loss worsened by 0.003328, 95% interval wholly adverse; 35 fewer correct picks | Retain the smaller incumbent |
 | [Eight-member stack and alternatives](docs/CAMPAIGN_E_RESULTS.md) | ATP stack delta −0.000419 log loss, 95% interval crosses zero; WTA point estimate worse | No default replacement |
 | [Serve-component representation](docs/experiments/RECENT_EXPERIMENTS.md#serve-components) | 7,610 ATP 2021–2023 targets; primary delta −0.000076780, interval crosses zero | No component promotion |
 | [WTA downstream selection](docs/experiments/RECENT_EXPERIMENTS.md#wta-selection) | 7,140 targets; delta −0.000082, interval crosses zero; one net correct pick | Defer the tested policy |
