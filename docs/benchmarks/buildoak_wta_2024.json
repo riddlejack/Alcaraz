@@ -1,0 +1,17 @@
+{
+  "scope": "single_exposed_WTA_2024_historical_cutoff_adaptation",
+  "cohort": {"matches": 2404, "event_editions": 55, "native_external_predictions": 2404, "fallback_predictions": 0},
+  "systems": {
+    "alcaraz_wta01_full": {"log_loss": 0.604021854, "brier": 0.209406085, "accuracy": 0.65515807, "correct_picks": 1575},
+    "buildoak_wta_adaptation": {"log_loss": 0.605038688, "brier": 0.209741434, "accuracy": 0.66098170, "correct_picks": 1589}
+  },
+  "alcaraz_minus_external": {
+    "log_loss": {"estimate": -0.001016834, "interval_95": [-0.005714775, 0.003742409]},
+    "brier": {"estimate": -0.000335349, "interval_95": [-0.002417722, 0.001748108]},
+    "accuracy_percentage_points": {"estimate": -0.582363, "interval_95": [-1.932586, 0.685692]}
+  },
+  "uncertainty": {"method": "paired stationary calendar-week bootstrap", "mean_block_weeks": 8, "replicates": 5000, "seed": 20260917, "conditional_on_saved_forecasts": true},
+  "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+  "interpretation": "Inconclusive exposed retrospective comparison. The loss-score point estimates favor Alcaraz, but the external adaptation made 14 more correct picks and every primary interval crosses zero.",
+  "limitations": ["different system histories and preprocessing", "reported-date and delayed-release timing proxies", "outcome-exposed recipe and cohort", "conditional intervals omit refit, source-choice, recipe-selection, and accumulated research uncertainty", "not prospective, market, universal-superiority, or state-of-the-art evidence"]
+}

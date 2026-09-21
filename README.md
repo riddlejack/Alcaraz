@@ -1,87 +1,115 @@
 # Alcaraz
 
-**Gradient-boosted tennis forecasts, built from 20 years of match history.** Alcaraz predicts men's (ATP) and women's (WTA) match outcomes with calibrated histogram gradient boosting. It combines opponent-adjusted Elo ratings, rankings, surface and workload with dynamic serve/return strength—and brings qualifying, Challenger and Futures results into the men's model.
+**Evidence-first research on calibrated tennis probabilities.** Alcaraz predicts
+men's (ATP) and women's (WTA) matches with histogram gradient boosting, then
+tries to disprove its own apparent improvements. It combines opponent-adjusted
+Elo, rankings, surface, workload, player traits, and dynamic serve/return
+strength. The men's route can also use qualifying, Challenger, and Futures
+history.
 
-The men's pipeline uses **51,222 main-tour matches from 2005–2024**, **480,012 eligible lower-tier results**, and **24.2 million service points** reconstructed from match-level serve statistics. The separate women's history covers **2007–2026**, including a partial 2026 season.
+The project is deliberately more than a score table. Its useful output is a
+reproducible record of what was compared, what survived a paired check, what
+failed to generalize, and why no historical result becomes a live or betting
+claim. The released models are retrospective research artifacts—not a proven
+edge or a demonstrated pre-play forecasting service.
 
-Models are trained and selected on earlier seasons, then tested on later matches. Alcaraz recorded lower log loss than all five tested ranking/Elo baselines on **18,972 ATP and 12,900 WTA matches**. The code, full trained weights and comparison results are available below. These are retrospective backtests; broader comparisons are still underway.
+![Alcaraz evidence pipeline: qualified source history becomes time-bounded state and features, then frozen forecasts, paired scoring, and independent review.](docs/assets/alcaraz-evidence-pipeline.svg)
 
-## Model comparisons
+## What the repository has established
 
-**Accuracy** is the percentage of correct winner picks. **Log loss** also grades confidence and penalizes confident mistakes; **lower is better**. Every comparison below uses the same matches for both systems. Different tables cover different test populations.
+- On its specified historical cohorts, the accepted model has lower log loss
+  than all five implemented ranking/Elo baselines: **18,972 ATP matches
+  (2017–2024)** and **12,900 WTA matches (2019–2024)**. Those are complete
+  systems with different information histories; this is not a universal
+  "best model" claim.
+- The more demanding public-XGBoost comparisons are **inconclusive on both
+  tours**. On ATP 2024, Alcaraz's log-loss point estimate was lower; on WTA
+  2024 it had a slightly lower loss point estimate while the comparator made
+  **14 more correct picks**. Every primary paired interval crossed zero.
+- Recent additions—serve-component representations, richer state geometry,
+  model stacks, and WTA downstream selection—produced negative, inconclusive,
+  or narrowly conditional results. The incumbent remains the default.
+- No batch of real forecasts has been verified as issued before play and later
+  scored under a predeclared plan.
 
-### ATP 2024 · 2,681 matches
+## The research system
 
-| System | Accuracy ↑ | Log loss ↓ |
-|---|---:|---:|
-| **Alcaraz · gradient boosting + full-tier history** | **66.17%** | **0.59649** |
-| [buildoak XGBoost system · historical adaptation](docs/benchmarks/BUILDOAK_2024_RESULTS.md) | 66.06% | 0.60004 |
-| [Ultimate Tennis Statistics · formula adaptation](docs/benchmarks/EXTERNAL_2024_2025_RESULTS.md) | 64.60% | 0.62087 |
+The men's pipeline uses **51,222 main-tour matches from 2005–2024**,
+**480,012 eligible lower-tier results**, and **24.2 million service points
+aggregated from match-level serve statistics**. The separate women's history
+covers **2007–2026**, including a partial 2026 season. These are source-record
+and aggregate-point counts, not 24.2 million independent point sequences.
 
-The XGBoost lead is small and statistically inconclusive. These adaptations retain their own forecasting methods and documented source histories; they do not reproduce the authors' original headline experiments.
+The diagram is the contract: raw inputs do not go straight to a leaderboard.
+They are qualified, ordered at a declared information cutoff, transformed into
+state and features, and written as forecasts before outcomes are permitted into
+the report. Reviewers can reconstruct the headline arithmetic without trusting
+the production scorer.
 
-### ATP clay events, 2025 · 99 matches
+## Results, read at their proper grain
 
-| System | Accuracy ↑ | Log loss ↓ |
-|---|---:|---:|
-| **Alcaraz · reconstructed historical forecasts** | **62.63%** | **0.63330** |
-| [Faxulous TennisGNN · retained dated forecasts](docs/benchmarks/EXTERNAL_2024_2025_RESULTS.md) | 52.53% | 0.72061 |
+**Log loss** rewards calibrated probabilities and penalizes confident mistakes;
+lower is better. **Accuracy** is the share of correct winner picks. Each row
+below compares systems on an identical, named cohort. The rows are not one
+combined performance line: they use different populations, histories, and
+estimands.
 
-A dated subset of Monte Carlo, Madrid, Rome and Roland-Garros—not the GNN author's full reported test set. The small sample and source-timing limits constrain the conclusion.
+| Comparison | Cohort | Probability-score result | Winner-pick result | Reading |
+|---|---:|---|---|---|
+| [Five ranking/Elo baselines](docs/benchmarks/G_L_RESULTS.md) | ATP 18,972; WTA 12,900 | Alcaraz lower log loss than all five on each tour | Reported separately by tour | A bounded, independently reconstructed historical benchmark |
+| [buildoak XGBoost adaptation — ATP](docs/benchmarks/BUILDOAK_2024_RESULTS.md) | 2,681 ATP, 2024 | 0.596486 vs 0.600044 | 66.17% vs 66.06% | Alcaraz point lead; log-loss interval crosses zero |
+| [buildoak XGBoost adaptation — WTA](docs/benchmarks/BUILDOAK_WTA_2024_RESULTS.md) | 2,404 WTA / 55 editions, 2024 | 0.604022 vs 0.605039 | 1,575 vs 1,589 correct | Inconclusive; external system has 14 more correct picks |
 
-### Multi-season ranking and Elo benchmarks
+The external adaptations retain their own forecasting methods and different
+source histories. They are neither reproductions of the source author's
+headline results nor identical-input algorithm contests. Both are exposed
+historical development work with conditional fixed-forecast uncertainty.
 
-ATP: **2017–2024, 18,972 matches**. WTA: **2019–2024, 12,900 matches**. Accuracy counts matches; log loss gives each season equal weight. Baseline probabilities are calibrated using earlier seasons.
+![Two evidence-backed public-XGBoost comparisons shown as separate ATP and WTA cards. Each card uses its own cohort, log-loss difference, accuracy result, and interval conclusion.](docs/assets/public-xgboost-comparisons.svg)
 
-| System | ATP accuracy ↑ | ATP log loss ↓ | WTA accuracy ↑ | WTA log loss ↓ |
-|---|---:|---:|---:|---:|
-| **Alcaraz · accepted model** | **66.51%** | **0.59836** | **65.79%** | **0.61106** |
-| Pooled Elo | 64.57% | 0.62222 | 64.44% | 0.62548 |
-| Ranking logistic model | 63.26% | 0.63343 | 63.60% | 0.63814 |
-| Kovalchik Elo reconstruction | 64.30% | 0.62682 | 64.79% | 0.62289 |
-| FiveThirtyEight surface-Elo adaptation | 64.77% | 0.62295 | 65.05% | 0.62123 |
-| Weighted Elo reconstruction | 64.32% | 0.62608 | 64.61% | 0.62326 |
+## What changed the project
 
-[Methods, uncertainty and exact results →](docs/benchmarks/G_L_RESULTS.md)
+The early work produced plausible backtests. Adversarial review showed that
+plausible did not mean trustworthy: draw-page rounds had been converted into
+invented match dates and labelled “reported,” a learned constant could see the
+future, and a calibration stage scored before its barrier. The repair was
+structural rather than rhetorical: typed time bases, fold-specific eligibility,
+forecast/report barriers, frozen bindings, planted leak controls, and
+independent reconstruction.
 
-<details>
-<summary>Additional models and feature-layer experiments</summary>
+That discipline also changed how negative results are handled. A failed model
+is not quietly replaced by a newer chart; it stays in the record with its
+population and uncertainty.
 
-Same multi-season populations and weighting as above. These are completed Alcaraz experiments, separate from external systems.
+| Tested idea | Exact retrospective result | What it changed |
+|---|---|---|
+| [Eight-member stack and alternatives](docs/CAMPAIGN_E_RESULTS.md) | ATP stack delta −0.000419 log loss, 95% interval crosses zero; WTA point estimate worse | No default replacement |
+| [Serve-component representation](docs/experiments/RECENT_EXPERIMENTS.md#serve-components) | 7,610 ATP 2021–2023 targets; primary delta −0.000076780, interval crosses zero | No component promotion |
+| [WTA downstream selection](docs/experiments/RECENT_EXPERIMENTS.md#wta-selection) | 7,140 targets; delta −0.000082, interval crosses zero; one net correct pick | Defer the tested policy |
+| [Richer state geometry](docs/experiments/RECENT_EXPERIMENTS.md#richer-state-geometry) | 7,610 targets; log loss worsened by 0.000146803, interval includes zero | No state-feature promotion |
 
-| Model | ATP accuracy ↑ | ATP log loss ↓ | WTA accuracy ↑ | WTA log loss ↓ |
-|---|---:|---:|---:|---:|
-| Accepted gradient-boosted model | 66.51% | 0.59836 | 65.79% | 0.61106 |
-| Fixed model + Elo blend | 66.09% | 0.60513 | 65.72% | 0.61477 |
-| Selected random forest | 66.62% | 0.59961 | 65.63% | 0.61300 |
-| Eight-member learned ensemble | 66.58% | 0.59794 | 66.03% | 0.61174 |
+The result is intentionally less dramatic than a continuous upward curve. It is
+a more useful research history: improvements must survive matched probability
+scores, winner-pick accounting, and an uncertainty check before they can alter
+the default.
 
-No alternative met the predeclared replacement criteria. The ensemble's small ATP log-loss improvement was inconclusive; higher winner accuracy alone did not determine the default. [Full experiment →](docs/CAMPAIGN_E_RESULTS.md)
+## Reproduce, inspect, or reuse carefully
 
-#### Feature ladder
+[**Download accepted models**](https://github.com/riddlejack/alcaraz/releases/tag/models-2026-09-14)
+· [Experimental model bundle](https://github.com/riddlejack/alcaraz/releases/tag/campaign-e-research-models-2026-09-15)
+· [Inference guide](docs/MODEL_RELEASE.md)
+· [Methods](docs/METHODS.md)
+· [System design and development](docs/PROCESS.md)
+· [Data scale and table provenance](docs/benchmarks/LANDING_PAGE_FACTS.json)
 
-These older matched cohorts contain 18,882 ATP matches (2017–2024) and 2,344 WTA matches (2025–2026). Both metrics weight matches equally. The WTA 2026 contribution is only 101 matches.
+The accepted download includes 40 trained checkpoints and calibration parameters;
+the experimental bundle preserves 140 fitted estimators and combination
+decisions. Private source rows are excluded. Player-level forecasting requires
+the [qualified history workflow](docs/live/README.md), and the repository does
+not represent that unfinished workflow as an available live service.
 
-| Tour | Model inputs | Accuracy ↑ | Log loss ↓ |
-|---|---|---:|---:|
-| ATP | Elo only | 64.55% | 0.62369 |
-| ATP | Base statistics + gradient boosting | 65.40% | 0.61210 |
-| ATP | + player traits and dynamic serve/return strength | 66.22% | 0.60534 |
-| ATP | + lower-tier history | 66.51% | 0.59843 |
-| WTA | Elo only | 64.61% | 0.62648 |
-| WTA | Base statistics + gradient boosting | 64.63% | 0.62301 |
-| WTA | + player traits and dynamic serve/return strength | 66.13% | 0.61531 |
-
-[Annual accuracy](docs/winner_accuracy.csv) · [Full ladder](docs/RESULTS.md)
-
-</details>
-
-## Use the models
-
-[**Download accepted models**](https://github.com/riddlejack/alcaraz/releases/tag/models-2026-09-14) · [Experimental model bundle](https://github.com/riddlejack/alcaraz/releases/tag/campaign-e-research-models-2026-09-15) · [Inference guide](docs/MODEL_RELEASE.md)
-
-The accepted download includes all 40 trained checkpoints and calibration parameters. The experimental bundle preserves all 140 fitted estimators and combination decisions. Private source rows are excluded; model weights are not reduced. Player-level forecasting requires the [qualified history workflow](docs/live/README.md).
-
-[Methodology](docs/METHODS.md) · [System design and development](docs/PROCESS.md) · [Data scale and table provenance](docs/benchmarks/LANDING_PAGE_FACTS.json)
-
-Inspired by Green Code’s tennis-prediction videos. Code: **MIT**. Match, ranking and player data: **Jeff Sackmann / Tennis Abstract**, with source terms and additional attribution in [DATA_LICENSES.md](DATA_LICENSES.md).
+Code: **MIT**. Match, ranking, and player data: **Jeff Sackmann / Tennis
+Abstract**, with source terms and additional attribution in
+[DATA_LICENSES.md](DATA_LICENSES.md). The public XGBoost comparison is an
+adaptation of [buildoak/tennis-xgboost-autoresearch](https://github.com/buildoak/tennis-xgboost-autoresearch/tree/237d1e7ae020de062a994dd7f987881fa2c9a795);
+its code and research story remain separately attributed.
