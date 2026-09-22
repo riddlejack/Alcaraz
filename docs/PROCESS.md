@@ -1,5 +1,87 @@
 # Process: build it, try to break it, keep the evidence
 
+## Current operating policy — September 16, 2026
+
+This section governs how future work is organized. The history below explains
+earlier controls; it is not a requirement to repeat every review. Existing
+frozen attempts, explicit user stopping points, and experiment-specific
+approvals remain binding. This policy does not reopen or approve Bundle A
+scoring or reuse of rejected outputs.
+
+Research progress includes valid negative and inconclusive findings. A completed
+experiment may reject a model; a completed forecasting capability must
+demonstrate its intended successful path on admissible inputs. Preserve
+evidence needed for reproducibility and claim validity, but do not create
+another review, receipt, or handoff unless it addresses a specific unresolved
+question or changed dependency. Keep partial capability explicitly partial.
+
+Use one implementing owner for a bounded outcome. An authorized development
+experiment normally includes preparation, execution, evaluation, and one result
+review in the same task; its prediction commitment remains an internal enforced
+stage. Stop earlier when the user or registered contract explicitly requires it.
+Delegate a specific deliverable when useful, then wait for completion or an
+actionable exception; avoid repeated status interrogation or parallel duplicate
+inspection.
+
+Distinguish three cases:
+
+- **Routine code, path, environment, or documentation repair:** inspect the
+  affected behavior, apply the fix, and run focused checks. Reuse unaffected
+  accepted evidence. Do not add a scientific design review merely because a
+  launcher or document changed.
+- **Exposed development experiment:** specify the question, data, cohort,
+  cutoffs, menu, selection, and comparison once, then execute to its authorized
+  endpoint. Report all attempted alternatives and the exposure honestly.
+  Repeated review cannot turn exposed work into prospective evidence.
+- **New scientific claim, changed chronology, cohort, features, or model
+  selection, or prospective or confirmatory work:** review the affected
+  scientific design before execution and independently check the material
+  claim. Extend review only for a concrete unresolved objection. Do not reopen
+  unrelated accepted components.
+
+Routine runs of an already accepted procedure reuse its review unless a
+relevant dependency changes or the procedure's contract requires another
+review. Prospective issuance alone does not require a new scientific review.
+
+If qualification materially reduces coverage, reassess what the remaining
+sample can answer before investing in execution and interpretation. A narrow
+development diagnostic deserves bounded effort and a narrow claim.
+
+Before freezing a new executable attempt, rehearse its actual entrypoint in a
+fresh process with representative synthetic or permitted exposed data. Exercise
+the working directory, environment set before imports, configuration loading,
+declared membership receipts and bindings, output location, failure logging,
+commitment, and read-only verification. A metadata scan alone is not an
+execution rehearsal. This check does not authorize a restricted fit or crossing
+an existing score barrier.
+
+Keep the scientific specification separate from execution receipts. A technical
+repair receives a concise delta: what changed, which outputs or dependencies are
+affected, and which checks establish the repair. Preserve failed attempts and
+changed-code provenance; use a new execution record where required. Reuse
+numerical artifacts only when their inputs, semantics, and validity are
+demonstrably unchanged and the attempt's contract permits reuse. A changed
+scientific design needs a new registered version. Unknown impact requires
+investigation, not blanket reuse or recomputation.
+
+Verification must not rewrite the evidence it verifies; write diagnostics to a
+different path. Required approval must come from the designated reviewer or
+owner and identify its scope. Passing tests, checklist text, and builder-written
+status are not approval. When the same launch path fails repeatedly, repair and
+rehearse that path before creating another freeze or review cycle.
+
+Past-only fitting, calibration, and selection objectives are legitimate training
+computations. They are distinct from target evaluation; existing artifact-format
+and report-barrier restrictions still apply. Keep each fold's target labels out
+of that fold's fit and selection access, preserve chronological source
+availability and frozen inputs, and report exposure, matched comparisons,
+failures, and negative results honestly.
+
+For current acceptance, follow the relevant decision in `docs/DECISIONS.md` and
+its linked route or experiment evidence. A dated global warning is not a verdict
+on every later scoped result. One accepted synthetic route does not establish
+another route, source truth, or prospective validity.
+
 The first version of this project produced plausible model results. Reviewers then found
 that plausible was not the same as trustworthy: dates had been invented, one learned
 constant could see the future, a calibration stage scored before its barrier, and an
@@ -37,9 +119,11 @@ stop conditions. Builders did not accept their own consequential claims. A diffe
 model received the report and repository, re-derived the important numbers, and tried to
 produce counterexamples.
 
-## The contract that emerged
+## Historical rebuild practice: the contract that emerged
 
-The final workflow is stricter than the one the project started with.
+The September 2026 rebuild used the historical workflow below. Future work
+follows the current operating policy above while preserving the rules of frozen
+attempts.
 
 1. **Pre-register the question.** Name the population, cutoff, information set, fitting
    and selection process, baselines, primary contrast, uncertainty method, and stopping
