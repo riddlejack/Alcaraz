@@ -14,7 +14,7 @@ Every plotted number is read from a committed artifact; nothing is typed in by h
 matplotlib is deliberately not part of the locked ``uv`` environment. Run this script
 with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
 
-    python3 tools/render_results_figure.py
+    python3 tools/render_results_figure.py   # from the repository root
 
 It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``.
 """
@@ -26,7 +26,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(".")  # run from the repository root, like the other docs tools
 
 # Design tokens (light mode).
 SURFACE = "#fcfcfb"
