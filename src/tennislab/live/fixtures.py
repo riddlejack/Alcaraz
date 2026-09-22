@@ -414,7 +414,7 @@ def eligible_history(
     *,
     cutoff: dt.date,
     issue_time: dt.datetime,
-) -> tuple[list[Result], str, dict[str, int], Path]:
+) -> tuple[list[Result], str, dict[str, int], Path, set[str]]:
     """Read hash-bound history and apply the same temporal eligibility gates as live rows."""
     path, digest, binding = history_binding(config, tour)
     binding_available = binding.get("available_upper_bound_utc")
@@ -509,7 +509,13 @@ def eligible_history(
         results = elo.parse_results(chosen)
     except ValueError as error:
         raise LiveError(f"{tour} bound history is invalid: {error}") from error
-    return results, digest, withheld, path
+    # A retained history may bind a normalized live row by carrying its stable row_id
+    # in source_key. Return those admitted keys so a current snapshot can prove overlap
+    # without counting the same result twice in the Elo state.
+    admitted_source_keys = {
+        row["source_key"].strip() for row in chosen if row.get("source_key", "").strip()
+    }
+    return results, digest, withheld, path, admitted_source_keys
 
 
 def live_result(row: Mapping[str, str], version_id: str, index: int) -> Result:
@@ -548,12 +554,16 @@ def elo_forecast(
     tour = fixture["tour"]
     cutoff = dt.date.fromisoformat(fixture["information_cutoff"])
     start = dt.date.fromisoformat(fixture["scheduled_start_local_date"])
-    history, history_sha, history_withheld, history_path = eligible_history(
+    history, history_sha, history_withheld, history_path, history_source_keys = eligible_history(
         config, tour, cutoff=cutoff, issue_time=issue_time
     )
-    live_rows, withheld = eligible_results(
+    eligible_live_rows, withheld = eligible_results(
         version["results"], tour=tour, cutoff=cutoff, issue_time=issue_time, receipts=receipts
     )
+    duplicated_live_rows = [
+        row for row in eligible_live_rows if row["row_id"] in history_source_keys
+    ]
+    live_rows = [row for row in eligible_live_rows if row["row_id"] not in history_source_keys]
     if (
         live_rows
         and live_rows[0]["surface"]
@@ -611,6 +621,10 @@ def elo_forecast(
             "live_version_content_sha256": version["manifest"]["content_sha256"],
             "live_rows_used": len(live_rows),
             "live_rows_sha256": canonical_hash([r["row_id"] for r in live_rows]),
+            "live_rows_already_bound_in_history": len(duplicated_live_rows),
+            "live_rows_already_bound_sha256": canonical_hash(
+                [r["row_id"] for r in duplicated_live_rows]
+            ),
             "live_rows_max_bound": max(
                 (r["completion_upper_bound"] for r in live_rows), default=None
             ),
