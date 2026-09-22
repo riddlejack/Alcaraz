@@ -94,6 +94,7 @@ before it can replace the accepted model.
 
 | Tested idea | Exact retrospective result | What it changed |
 |---|---|---|
+| [Uncertainty through the final predictor](docs/experiments/RECENT_EXPERIMENTS.md#uncertainty-through-the-final-predictor) | 7,610 ATP targets; log loss +0.000157 and eight more correct picks; intervals cross zero; exposed 2024 extension also inconclusive | Retain the incumbent |
 | [Larger HGB head + expanded training window](docs/experiments/RECENT_EXPERIMENTS.md#learner-capacity-and-training-window) | 7,610 ATP targets; log loss worsened by 0.003328, 95% interval wholly adverse; 35 fewer correct picks | Retain the smaller incumbent |
 | [Eight-member stack and alternatives](docs/CAMPAIGN_E_RESULTS.md) | ATP stack delta −0.000419 log loss, 95% interval crosses zero; WTA point estimate worse | No default replacement |
 | [Serve-component representation](docs/experiments/RECENT_EXPERIMENTS.md#serve-components) | 7,610 ATP 2021–2023 targets; primary delta −0.000076780, interval crosses zero | No component promotion |
