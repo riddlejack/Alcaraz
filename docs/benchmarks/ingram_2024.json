@@ -1,0 +1,82 @@
+{
+  "scope": "single_exposed_ATP_2024_unchanged_model_full_system_comparison",
+  "primary": {
+    "incumbent": {
+      "n": 2681,
+      "log_loss": 0.5964862003276956,
+      "brier": 0.2062225526599624,
+      "accuracy": 0.6616933979858262,
+      "score_clip_count": 0
+    },
+    "ingram": {
+      "n": 2681,
+      "log_loss": 0.6417053274110388,
+      "brier": 0.22220954000577414,
+      "accuracy": 0.6348377471092875,
+      "score_clip_count": 0
+    },
+    "incumbent_minus_ingram_log_loss": -0.04521912708334319,
+    "uncertainty": {
+      "seed": 2026091701,
+      "replicates": 5000,
+      "primary_block_weeks": 8,
+      "results": {
+        "4": {
+          "mean": -0.04524343506767943,
+          "percentile_95": [-0.057641756390329806, -0.03391257177545597]
+        },
+        "8": {
+          "mean": -0.04530648373536892,
+          "percentile_95": [-0.05648589739958485, -0.03502657009479935]
+        },
+        "13": {
+          "mean": -0.045494707418715336,
+          "percentile_95": [-0.05602017451028367, -0.03595576722848797]
+        }
+      }
+    },
+    "leave_one_period_out_incumbent_minus_ingram_log_loss": {
+      "1": -0.04020453409030034,
+      "2": -0.050942153175126736,
+      "3": -0.04723260182166644,
+      "4": -0.04067890656047379,
+      "5": -0.045330740551252524,
+      "6": -0.04628207661888284
+    }
+  },
+  "numerical_recovery": {
+    "freeze_sha256": "33c3c1c4b065667d6e191f8d2e9676b581201f30f9cf81584e06c46d544ed2b9",
+    "controller_receipt_sha256": "193185224413fbc92c1d3368eee0947d66e3e8cf470e44572e9a6be9c1417af1",
+    "forecast_commitment_sha256": "6998649b92b120ded1c8374ac0b6f9c95f29bc6efcb5bc21471bdd20b37feed4",
+    "score_sha256": "b68deda9e32d77846d4baf4ab3555d015022fc22e2549ee7b3bfe0e8d4ca4305",
+    "forecast_sha256": "68c025eb0b733b5077de74ce6cdf8701a80ffd3987d22ea117168eca7f70071f",
+    "draws_per_chain": 4000,
+    "chains": 4,
+    "periods": 6,
+    "retained_transitions_per_period": 16000,
+    "maximum_rhat": 1.0058513325993035,
+    "minimum_bulk_ess": 1177.9760220922494,
+    "minimum_tail_ess": 2580.956026359981,
+    "divergences": 0,
+    "maximum_prediction_mcse": 0.002884951582128644,
+    "maximum_swap_complement_error": 1.3322676295501878e-15,
+    "elapsed_seconds": 46061.932826292,
+    "peak_aggregate_rss_mib": 13596.625,
+    "peak_scratch_gib": 21.911885829642415,
+    "automatic_retry": false
+  },
+  "incumbent_field_caveat": "The two accepted source fields are byte-identical on this cohort and are treated as one saved accepted forecast carrier, not distinct raw and calibrated models.",
+  "verification": {
+    "status": "PASS",
+    "scope": "independent hash chain, six trace diagnostics, exact coverage, point metrics, leave-one-period-out comparisons, and all stationary-week bootstrap draws",
+    "report_sha256": "433b9ee9fe563a9ed002d61145ec6e303044e522c9fade39c05f19430d34b755"
+  },
+  "limitations": [
+    "exposed retrospective research and outcome history; not prospective evidence",
+    "full-system comparison with different histories and assumptions; not equal-input algorithm isolation",
+    "historical source and date assumptions are not an original-author forecast reproduction",
+    "fixed-forecast uncertainty omits source-choice and research-path uncertainty",
+    "one ATP season; no WTA or universal state-of-the-art claim"
+  ],
+  "interpretation": "The saved accepted forecast had lower retrospective ATP 2024 loss than this unchanged-model Ingram adaptation, with all registered fixed-forecast intervals excluding zero; causal, prospective and universal claims remain unsupported."
+}
