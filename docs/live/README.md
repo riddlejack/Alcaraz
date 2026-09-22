@@ -5,6 +5,7 @@ history snapshot. All six configurations were exercised on two generated fixture
 ATP/WTA Elo and five trained routes, seven forecasts in total. Independent reconstruction
 matched the numerical features and probabilities; settlement controls also passed.
 [The dated validation and freshness limits](D2_READINESS.md) define this acceptance.
+The [September 16 retained-input replay](RETAINED_INPUT_REPLAY.md) separately validates serving-count fills and a partial current ATP tier increment.
 No real forecast was issued by this rehearsal. The public example configuration still
 reports unavailable inputs until the separate model bundle and private histories are bound.
 
