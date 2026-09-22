@@ -17,7 +17,7 @@
         "wikipedia": [
           "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Cincinnati_Open_rehearsal.csv",
           "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Croatia_Open_Umag_rehearsal.csv",
-          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Generali_Open_Kitzb\u00fchel_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Generali_Open_Kitzbühel_rehearsal.csv",
           "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Los_Cabos_Open_rehearsal.csv",
           "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Mubadala_Citi_DC_Open_rehearsal.csv",
           "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_National_Bank_Open_rehearsal.csv",
@@ -49,11 +49,11 @@
       "tier_block": "work/PHASE1_ATP_20260922/arm1_run/configs/tier_block.json",
       "tier_elo": "work/PHASE1_ATP_20260922/arm1_run/configs/tier_elo.json",
       "tier_stream": "work/PHASE1_ATP_20260922/arm1_run/configs/tier_stream.json",
-      "year_plan": "work/PHASE1_ATP_20260922/arm1_implementation/year_plan.arms01.json"
+      "year_plan": "references/ARMS01/year_plan.arms01.json"
     },
     "configs_dir": "work/PHASE1_ATP_20260922/arm1_run/configs",
-    "decision": "PENDING-ARMS01-registration",
-    "design": "work/PHASE1_ATP_20260922/registration/ARMS01.registration.md",
+    "decision": "D130",
+    "design": "experiments/ARMS01.design.md",
     "dictionary": "work/PHASE1_ATP_20260922/arm1_run/run/features/column_dictionary.json",
     "entry_level_block": true,
     "experiment_id": "ARMS01",
