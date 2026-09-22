@@ -9,6 +9,12 @@ The [September 16 retained-input replay](RETAINED_INPUT_REPLAY.md) separately va
 No real forecast was issued by this rehearsal. The public example configuration still
 reports unavailable inputs until the separate model bundle and private histories are bound.
 
+**September 21, 2026 pilot.** The research archive's decisions D121 and D124 record the
+first real batch issued through this workflow: Elo and ATP full-tier forecasts for two
+Hangzhou qualifying matches, entered in the hash-chained ledger before the official
+scheduled start. Actual start times and external timestamp proofs remain unverified, so
+no forecast has a confirmed score and the pilot is not prospective performance evidence.
+
 ## Commands
 
 These commands require a prepared workspace and the input schemas in [DESIGN.md](DESIGN.md).

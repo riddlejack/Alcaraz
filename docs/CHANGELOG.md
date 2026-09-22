@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-09-22 — README rebuilt around the result
+
+- Rebuilt the README around the research question and its answer, with one results figure
+  generated from the committed ladder, accuracy and benchmark JSON artifacts by
+  `tools/render_results_figure.py` (`make results-figure`, system `python3` with
+  matplotlib). Removed the three superseded README figures.
+- An independent review of the project and the README draft is recorded in the research
+  archive (`docs/reviews/fable_2026-09-22/`).
+- `docs/live/README.md` now cites the archive's record of the September 21 pilot
+  (issued, unscored).
+- No model, data, result table or dependency changed.
+
 ## 2026-09-15 — exact live feature replay
 
 - Completed the private two-tour snapshot rehearsal and independent native-feature

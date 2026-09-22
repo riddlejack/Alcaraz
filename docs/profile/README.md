@@ -1,8 +1,8 @@
 # Jack Riddle
 
-## Featured project: [tennis-lab](https://github.com/riddlejack/tennis-lab)
+## Featured project: [Alcaraz](https://github.com/riddlejack/Alcaraz)
 
-**How far can public tennis statistics take a pre-match forecast?** tennis-lab builds a
+**How far can public tennis statistics take a pre-match forecast?** Alcaraz builds a
 chronological model ladder to find out: Elo first, then a boosted model over results and
 match context, dynamic serve/return states, and richer lower-tour histories.
 
@@ -17,6 +17,6 @@ constant, scoring before a report barrier, and tests that stayed green when defe
 planted. Those failures remain visible and now drive concrete contracts and regression
 tests in one reproducible Python trunk.
 
-The project is retrospective research. Its external-benchmark design exists, but an
-accepted matched comparison, the real-history snapshot, and a scored prospective record
-remain open.
+The project is retrospective research. On the same matches it scores ahead of every
+public model it could run, with the closest margin (buildoak XGBoost) inside its
+interval. No scored prospective record exists yet.

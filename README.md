@@ -1,146 +1,123 @@
 # Alcaraz
 
-**A calibrated model for tennis matchup probabilities.** Alcaraz estimates a
-player's chance to win before a match using histogram gradient boosting. Its
-inputs combine overall and surface Elo, ranking and recent workload, player
-traits, and dynamic opponent-adjusted serve/return strength. The ATP route also
-uses qualifying, Challenger, and Futures history—the matches that often explain
-where a player's current level came from before it appears on the main tour.
+**How close can public statistics get to the betting market at predicting tennis?**
 
-The project tests a concrete question: do richer, time-appropriate histories
-produce better calibrated probabilities than a simpler rating baseline? It keeps
-the positive results, the nulls, and the failed implementation paths together.
-The released models are retrospective research artifacts—not a proven edge or a
-demonstrated pre-play forecasting service.
+Close, but not all the way. On 18,882 ATP matches from 2017 to 2024, Alcaraz scores a
+log loss of **0.5984** against **0.5873** for Pinnacle's closing price. It scores ahead
+of every public model we could run on the same matches, with the closest margin still
+inside its interval. It does not beat the market, and after 113 experiment-ledger entries
+we think most of the remaining gap is information the market has and the public record
+does not.
 
-![How Alcaraz turns tennis histories into a calibrated matchup probability: match and ranking history feed Elo, form and workload features plus dynamic opponent-adjusted serve-return strength; ATP adds lower-tier state; a histogram-gradient-boosting model and past-only calibration produce the probability.](docs/assets/alcaraz-evidence-pipeline.svg)
+![Left: the ATP feature ladder on one shared cohort of 18,882 matches. Right: paired log-loss differences against three public systems on 2,681 ATP matches from 2024.](docs/assets/alcaraz-results.svg)
 
-## How a forecast is made
+## The result in one table
 
-The men's pipeline uses **51,222 main-tour matches from 2005–2024**,
-**480,012 eligible lower-tier results**, and **24.2 million service points
-aggregated from match-level serve statistics**. The separate women's history
-covers **2007–2026**, including a partial 2026 season. These are source-record
-and aggregate-point counts, not 24.2 million independent point sequences.
+| System | Matches | Log loss | Correct picks | Compared how |
+|---|---:|---:|---:|---|
+| Pinnacle closing price | 18,882 ATP, 2017–24 | **0.5873** | 68.0% | market reference, quote time unknown |
+| **Alcaraz full-tier** | 18,882 ATP, 2017–24 | **0.5984** | 66.5% | walk-forward, calibrated on earlier seasons |
+| Elo only | 18,882 ATP, 2017–24 | 0.6237 | 64.6% | same matches, no fitting |
+| buildoak XGBoost | 2,681 ATP, 2024 | 0.6000 vs 0.5965 | 66.1% vs 66.2% | paired; interval crosses zero |
+| Ultimate Tennis Statistics formula | 2,681 ATP, 2024 | 0.6209 vs 0.5965 | 64.6% vs 66.2% | paired; Alcaraz ahead |
+| Ingram Bayesian point model | 2,681 ATP, 2024 | 0.6417 vs 0.5965 | 63.5% vs 66.2% | paired; Alcaraz ahead |
+| Five Elo and ranking baselines | 18,972 ATP; 12,900 WTA | Alcaraz lowest on both tours | reported per tour | all five intervals exclude zero |
 
-- **Ratings establish the matchup.** Overall and surface Elo summarize the
-  strength of each player and the court context.
-- **Match history makes that rating more specific.** Rankings, recent form,
-  workload, and player traits describe the setting around the matchup.
-- **Serve and return states add a different signal.** They update from prior
-  match statistics and adjust for the strength of opponents, separating a
-  strong performance from an easy schedule as far as the saved history allows.
-- **ATP lower-tier history fills in early and off-main-tour development.** It
-  is not simply more rows: it changes a player's available history and is
-  therefore evaluated as part of a full feature bundle.
+Women's tennis runs through the same trunk with its own history and gets the same shape
+of result: Alcaraz 0.6153, Pinnacle 0.5953 on 2,344 priced WTA matches from 2025–26.
+Full tables, intervals and per-year values: [RESULTS.md](docs/RESULTS.md) and
+[docs/benchmarks](docs/benchmarks).
 
-The final model is selected and calibrated on earlier seasons, then writes a
-probability for the later matchup. Historical comparisons use those saved
-pre-match probabilities; timing and independent checks keep a strong score from
-being mistaken for evidence of live readiness.
+## What is in the model
 
-## What improved on one shared ATP population
+Alcaraz is a histogram gradient-boosting classifier over 48 inputs, refitted each season
+on a five-year window and calibrated on the three seasons before the target. The inputs
+come in four blocks, and the ladder above adds them one at a time:
 
-The clearest development result is a four-rung ATP feature ladder: **18,882
-matched 2017–2024 targets** at every rung. Log loss measures probability
-quality (lower is better); accuracy is the share of correct winner picks. This
-is not a timeline or a claim that any single feature caused the gain—it is a
-same-match comparison of progressively richer, bundled models.
+- **Ratings.** Overall and surface Elo from tour results.
+- **Match history.** Rankings, recent workload and rest, match format, player traits.
+- **Serve and return states.** A dynamic model of each player's serve and return
+  strength, updated match by match and adjusted for who they played. This is the block
+  that separates a strong run from an easy draw.
+- **Lower-tier history (ATP).** Qualifying, Challenger and Futures results and serve
+  statistics. It is the largest single gain on the ladder because it fills in the years
+  before a player reaches the main tour.
 
-![Four-rung ATP feature ladder on the same 18,882 2017 to 2024 targets: Elo only has log loss 0.62369 and accuracy 64.55 percent; base statistics plus HGB 0.61210 and 65.40 percent; adding traits and dynamic serve-return 0.60534 and 66.22 percent; ATP lower-tier history 0.59843 and 66.51 percent.](docs/assets/atp-feature-ladder.svg)
+No price, odds or market field enters the model. Every feature must be knowable two days
+before the match date; the pipeline records which outcomes each fold read and refuses
+anything later.
 
-The matched results support testing opponent-adjusted serve/return state and
-lower-tier history as useful additions to this model family. They do not prove a
-single mechanism, a universal advantage over every predictor, or future
-performance. [Annual values and the full ladder →](docs/RESULTS.md)
+## Why the numbers are trustworthy
 
-## Independent comparisons and difficult results
+The first version of this project produced plausible backtests. Independent review then
+found four ways they were wrong, and the fixes are the reason the current numbers hold:
 
-Every row below is a separate historical comparison on the listed matches.
-Different rows use different data histories and should not be collapsed into one
-headline score.
-
-| Comparison | Matches | Probability result | Winner-pick result | What it supports |
-|---|---:|---|---|---|
-| [Five ranking/Elo baselines](docs/benchmarks/G_L_RESULTS.md) | ATP 18,972; WTA 12,900 | Alcaraz lower log loss than all five on each tour | Reported separately by tour | A bounded, independently reconstructed historical benchmark |
-| [buildoak XGBoost adaptation — ATP](docs/benchmarks/BUILDOAK_2024_RESULTS.md) | 2,681 ATP, 2024 | 0.596486 vs 0.600044 | 66.17% vs 66.06% | Alcaraz point lead; log-loss interval crosses zero |
-| [buildoak XGBoost adaptation — WTA](docs/benchmarks/BUILDOAK_WTA_2024_RESULTS.md) | 2,404 WTA / 55 editions, 2024 | 0.604022 vs 0.605039 | 1,575 vs 1,589 correct | Inconclusive; external system has 14 more correct picks |
-| [Ingram Bayesian point-model adaptation](docs/benchmarks/INGRAM_2024_RESULTS.md) | 2,681 ATP, 2024 | 0.596486 vs 0.641705 | 66.17% vs 63.48%; 72 more correct | Alcaraz log-loss advantage; primary 95% interval [−0.056486, −0.035027] |
-
-The external adaptations retain their own forecasting methods and different
-source histories. They are neither reproductions of the source author's
-headline results nor equal-input algorithm contests. All are exposed
-historical comparisons with uncertainty calculated from fixed forecasts.
-The Ingram result supports a clear log-loss advantage over that specified
-adaptation; its accuracy advantage is a point estimate. The buildoak comparisons
-remain inconclusive, so these results do not establish state-of-the-art status.
-
-A separate [shared-data WTA control](docs/benchmarks/BUILDOAK_FAIRNESS_AUDIT.md)
-matched qualified observations and final training membership. Alcaraz made **39
-more correct picks** and reduced log loss by **0.022913** (95% interval
-[−0.032487, −0.013962]). Buildoak improved substantially when its own broader
-input policy was restored. This supports a scoped modeling-pipeline advantage
-on the shared data; the full-system comparisons above retain each model's
-legitimate data advantages and remain the primary results.
-
-![Two evidence-backed public-XGBoost comparisons shown as separate ATP and WTA cards. Each card uses its own cohort, log-loss difference, accuracy result, and interval conclusion.](docs/assets/public-xgboost-comparisons.svg)
-
-The early work produced plausible backtests. Review found why that was not
-enough: draw-page rounds had become invented match dates, a learned constant
-could see future outcomes, and one calibration stage scored before its barrier.
-The rebuild fixed those paths, but the more important change was practical: a
-new idea now has to beat its matched comparison and survive an uncertainty check
-before it can replace the accepted model.
-
-| Tested idea | Exact retrospective result | What it changed |
+| What review found | What it would have done | What changed |
 |---|---|---|
-| [Uncertainty through the final predictor](docs/experiments/RECENT_EXPERIMENTS.md#uncertainty-through-the-final-predictor) | 7,610 ATP targets; log loss +0.000157 and eight more correct picks; intervals cross zero; exposed 2024 extension also inconclusive | Retain the incumbent |
-| [Larger HGB head + expanded training window](docs/experiments/RECENT_EXPERIMENTS.md#learner-capacity-and-training-window) | 7,610 ATP targets; log loss worsened by 0.003328, 95% interval wholly adverse; 35 fewer correct picks | Retain the smaller incumbent |
-| [Eight-member stack and alternatives](docs/CAMPAIGN_E_RESULTS.md) | ATP stack delta −0.000419 log loss, 95% interval crosses zero; WTA point estimate worse | No default replacement |
-| [Serve-component representation](docs/experiments/RECENT_EXPERIMENTS.md#serve-components) | 7,610 ATP 2021–2023 targets; primary delta −0.000076780, interval crosses zero | No component promotion |
-| [WTA downstream selection](docs/experiments/RECENT_EXPERIMENTS.md#wta-selection) | 7,140 targets; delta −0.000082, interval crosses zero; one net correct pick | Defer the tested policy |
-| [Richer state geometry](docs/experiments/RECENT_EXPERIMENTS.md#richer-state-geometry) | 7,610 targets; log loss worsened by 0.000146803, interval includes zero | No state-feature promotion |
+| Draw-page round order was being turned into match dates | A 2026 Canada final leaked into two later Cincinnati rows | Every date now carries a typed basis: anchor, bound or clock |
+| A learned constant was fitted through 2016 and used inside 2014–16 folds | Selection data influenced a "past-only" parameter | Every learned constant carries a horizon receipt |
+| A calibration stage wrote scores before the report barrier | Downstream barriers could not stop an upstream scorer | Forecasts are emitted before the barrier, scores after |
+| A 24-test leakage suite stayed green when leaks were planted | "All green" meant nothing | A detector enters CI only after it fails its planted control |
 
-Those results are not a claim that feature development has stopped. They say
-the tested additions did not earn a default change under their stated
-populations and methods.
+Beyond that: every published number is generated from a hashed artifact, a different
+model reconstructed the arithmetic before anything was accepted, and the 145-entry
+leaderboard and 113-entry experiment ledger are published so the search history is
+visible. Nothing on disk is holdout; the 2025–26 window has been opened and is
+development data.
 
-## Run the project
+## What did not work
 
-For a clean, synthetic reproduction of the core path:
+These are honest nulls on matched cohorts, not abandoned ideas.
+
+| Tried | Result | Verdict |
+|---|---|---|
+| Larger boosting head, longer training window | +0.0033 log loss, interval wholly adverse | keep the small model |
+| Eight-member stack over the incumbent and alternatives | −0.0004, interval crosses zero | no promotion |
+| Uncertainty-aware serve/return states through the final model | +0.0002 | no promotion |
+| Serve sub-components, richer state geometry, WTA selection policy | all within ±0.0002 | no promotion |
+| Market-as-teacher distillation | −0.0007 vs outcome-only | below the 0.003 gate |
+| Model + Pinnacle residual | worse than calibrated Pinnacle alone | market already contains the model |
+| Weather, fatigue, point-by-point states | worse or null | retired |
+
+## How the work was done
+
+One person, no data-science background, set the question, the scope and the licence
+boundaries, and decided when to stop. Four LLM roles did the rest under narrow briefs
+with explicit write boundaries: one built, one reviewed adversarially, one reconstructed
+accepted results from scratch, one handled bounded data acquisition. No builder accepted
+its own claims. The archive keeps every failed attempt, and
+[PROCESS.md](docs/PROCESS.md) records what each failure changed.
+
+The product is 51k lines of Python in one trunk, 660 tests, a locked environment
+and CI that reproduces a synthetic end-to-end run on every push.
+
+## Run it
 
 ```sh
 make setup
 make reproduce-small
 ```
 
-The synthetic scenario validates the runnable path; it is not a performance
-reproduction. The accepted checkpoints and their inference requirements are in
-the release guide below.
+Reproduces the full pipeline on a synthetic sample in about a minute. Real history is
+governed by source terms and stays out of Git; the accepted model checkpoints are a
+[GitHub release](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
+with an [inference guide](docs/MODEL_RELEASE.md).
 
-[**Download accepted models**](https://github.com/riddlejack/alcaraz/releases/tag/models-2026-09-14)
-· [Experimental model bundle](https://github.com/riddlejack/alcaraz/releases/tag/campaign-e-research-models-2026-09-15)
-· [Inference guide](docs/MODEL_RELEASE.md)
-· [Methods](docs/METHODS.md)
-· [System design and development](docs/PROCESS.md)
-· [Data scale and table provenance](docs/benchmarks/LANDING_PAGE_FACTS.json)
+## Status and limits
 
-The accepted download includes 40 trained checkpoints and calibration parameters;
-the experimental bundle preserves 140 fitted estimators and combination
-decisions. Private source rows are excluded. Player-level forecasting requires
-the [qualified history workflow](docs/live/README.md), and the repository does
-not represent that unfinished workflow as an available live service. No batch
-of real forecasts has yet been verified as issued before play and later scored
-under a predeclared plan.
+- Retrospective research. Two real forecasts have been issued before their scheduled
+  start under a [hash-chained ledger](docs/live/README.md); no scored prospective
+  record exists yet.
+- The buildoak comparison is one season. The proposed next experiment runs it over
+  all eight years, adds entry status (the model currently underrates qualifiers) and
+  tests a fixed blend of the two systems. That decides whether "ahead of every public
+  model" holds with an interval that excludes zero.
+- Pinnacle's quote time is unknown, so the market comparison is descriptive.
 
-A [September 2026 private-input refresh](docs/live/CURRENT_INPUT_REFRESH_2026_09.md)
-added current ranks, serving statistics and targeted lower-tier history, and
-exercised the unchanged models on generated matchups. It demonstrates usable
-input updates; complete current coverage and improved accuracy are separate
-questions.
+Methods: [METHODS.md](docs/METHODS.md) · Data and licences:
+[DATA.md](docs/DATA.md), [DATA_LICENSES.md](DATA_LICENSES.md) · Decisions:
+[DECISIONS.md](docs/DECISIONS.md)
 
-Code: **MIT**. Match, ranking, and player data: **Jeff Sackmann / Tennis
-Abstract**, with source terms and additional attribution in
-[DATA_LICENSES.md](DATA_LICENSES.md). The public XGBoost comparison is an
-adaptation of [buildoak/tennis-xgboost-autoresearch](https://github.com/buildoak/tennis-xgboost-autoresearch/tree/237d1e7ae020de062a994dd7f987881fa2c9a795);
-its code and research story remain separately attributed.
+Code is MIT. Match, ranking and player data are from Jeff Sackmann / Tennis Abstract
+under CC BY-NC-SA 4.0. The XGBoost comparison adapts
+[buildoak/tennis-xgboost-autoresearch](https://github.com/buildoak/tennis-xgboost-autoresearch).
