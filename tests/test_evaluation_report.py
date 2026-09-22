@@ -88,6 +88,34 @@ def test_report_forms_both_ablation_contrasts() -> None:
     ]
 
 
+def test_report_forms_the_arms01_entry_contrast_and_names_its_direction() -> None:
+    # ARMS01 Arm 1 minus Arm 0: the entry bundle against the tier bundle it extends.
+    report.configure_years(PLAN, T1)
+    report.configure_bundles(["base", "full_tier", "full_tier_entry"], ["hgb"])
+    names = [name for name, _ in report.CONTRASTS]
+    assert names == ["full_tier_entry_minus_full_tier"]
+    assert report.primary_contrast_id() == "full_tier_entry_minus_full_tier"
+    assert report.secondary_contrast_ids() == ()
+    coefficients = dict(report.CONTRASTS)["full_tier_entry_minus_full_tier"]
+    assert coefficients == {"full_tier_entry": 1.0, "full_tier": -1.0}
+    # With the JOINT04 stem fitted too, the entry bundle also contrasts against it, and
+    # the configured primary wins over the implied one.
+    report.configure_bundles(
+        ["base", "full", "base_tier", "full_tier", "full_tier_noqual", "full_tier_entry"], ["hgb"]
+    )
+    names = [name for name, _ in report.CONTRASTS]
+    assert "full_tier_entry_minus_full" in names and "full_tier_minus_full" in names
+    report.configure_primary("full_tier_minus_full", None, None)
+    assert report.primary_contrast_id() == "full_tier_minus_full"
+    # A bundle name with a suffix the reporter does not know is still refused.
+    with pytest.raises(ChainError):
+        report.configure_bundles(["base", "full_tier_extra"], ["hgb"])
+    # The tour contract cannot record an entry bundle.
+    report.configure_identity("WTA02", "WTA")
+    with pytest.raises(ChainError):
+        report.configure_bundles(["base", "full", "full_tier_entry"], ["hgb"])
+
+
 def test_report_makes_the_tier_contrast_primary_and_reverts_with_the_defaults() -> None:
     report.configure_bundles(["base", "full", "base_tier", "full_tier"], ["hgb"])
     names = [name for name, _ in report.CONTRASTS]

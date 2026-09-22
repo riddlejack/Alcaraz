@@ -32,6 +32,18 @@ and must be logged as such before it runs.
 The stream uses only primary-identity history dated at most D-2. Primary and provisional
 targets are evaluated from the same states; provisional rows never update those states.
 Labels and target status remain in a separate CSV, ``labels.csv``.
+
+**The entry/level block (ARMS01 Arm 1, optional).** With ``entry_level_block: true`` in the
+stage config the feature file gains, appended after every existing column so nothing
+already written moves: the raw draw-time codes ``a_entry`` / ``b_entry`` copied from the
+panel (audit only; the pipeline refuses them as model inputs), four signed entry-status
+differences ``entry_{q,ll,wc,pr}_diff`` (A minus B, each in {-1, 0, +1}), one symmetric
+flag ``entry_any_qualifier`` (1 when either side is ``Q`` or ``LL``) and four swap-invariant
+level indicators ``level_context_{g,m,a,f}`` for ``tourney_level`` in {G, M, A, F}; every
+other level (D, O, ...) and every other entry code (SE, ALT, blank, ...) is all-zero.
+Entry status and level are attributes of the published draw, not results, ratings or
+round-order arithmetic; the round is never emitted as a model column. When the flag is
+absent the stage's output is byte-identical to the accepted TIER01/WTA02 runs.
 """
 
 from __future__ import annotations
@@ -70,6 +82,7 @@ __all__ = [
     "build_feature_row",
     "column_dictionary",
     "context_values",
+    "entry_level_values",
     "feature_header",
     "label_row",
     "linear_interactions",
@@ -208,6 +221,21 @@ AUDIT_COLUMNS = (
     "workload_latest_source_date",
     "lagged_market_latest_source_date",
 )
+
+# The entry/level block (ARMS01 Arm 1).  The raw codes are Sackmann's `winner_entry` /
+# `loser_entry`, oriented onto A/B by the archive panel; the derived columns are the only
+# ones the pipeline may fit.  Order matters: the block is appended after AUDIT_COLUMNS and
+# the derived names must equal `tennislab.models.pipeline.ENTRY_LEVEL_COLUMNS`.
+ENTRY_RAW_AUDIT_COLUMNS = ("a_entry", "b_entry")
+ENTRY_CODES = ("Q", "LL", "WC", "PR")
+ENTRY_SIGNED = tuple(f"entry_{code.lower()}_diff" for code in ENTRY_CODES)
+ENTRY_CONTEXT = ("entry_any_qualifier",)
+LEVEL_CODES = ("G", "M", "A", "F")
+LEVEL_CONTEXT = tuple(f"level_context_{code.lower()}" for code in LEVEL_CODES)
+ENTRY_LEVEL_SIGNED = ENTRY_SIGNED
+ENTRY_LEVEL_CONTEXT = ENTRY_CONTEXT + LEVEL_CONTEXT
+ENTRY_LEVEL_COLUMNS = ENTRY_LEVEL_SIGNED + ENTRY_LEVEL_CONTEXT
+ENTRY_LEVEL_BLOCK_KEY = "entry_level_block"
 
 #: The barrier-protected label file: identity and chronology keys plus the outcome.
 LABEL_HEADER = (
@@ -350,6 +378,10 @@ class Record:
     counts_a: Counts | None
     counts_b: Counts | None
     ps_probability_a: float | None
+    # The panel's draw-time entry codes (Sackmann `winner_entry`/`loser_entry` oriented
+    # onto A/B).  Carried verbatim; consumed only by the optional entry/level block.
+    entry_a: str = ""
+    entry_b: str = ""
 
     def order_key(self) -> tuple[dt.date, str]:
         return self.match_date, self.match_id
@@ -444,6 +476,8 @@ def parse_record(
         counts_a=counts_a,
         counts_b=counts_b,
         ps_probability_a=ps_probability_a,
+        entry_a=row.get("a_entry", ""),
+        entry_b=row.get("b_entry", ""),
     ), None
 
 
@@ -465,6 +499,8 @@ def load_records(
     expected_rows: int,
     source_year_min: int,
     source_year_max: int,
+    *,
+    entry_level: bool = False,
 ) -> tuple[list[Record], list[dict[str, str]], list[str]]:
     observed = sha256(path)
     if observed != expected_sha256:
@@ -474,7 +510,11 @@ def load_records(
     with path.open(newline="", encoding="utf-8") as stream:
         reader = csv.DictReader(stream)
         header = list(reader.fieldnames or ())
-        missing = sorted(REQUIRED_PANEL_FIELDS - set(header))
+        required = set(REQUIRED_PANEL_FIELDS)
+        if entry_level:
+            # The block fails closed on a panel that carries no entry codes at all.
+            required |= set(ENTRY_RAW_AUDIT_COLUMNS)
+        missing = sorted(required - set(header))
         if missing:
             raise ChainError(f"panel header missing fields: {missing}")
         for source_row, row in enumerate(reader, 2):
@@ -763,6 +803,33 @@ def context_values(record: Record) -> dict[str, int]:
     }
 
 
+def normalize_entry_code(code: str) -> str:
+    """The panel's entry code as a bare upper-case token (`Alt`/`ALT` and blanks alike)."""
+    return code.strip().upper()
+
+
+def entry_level_values(record: Record) -> dict[str, int]:
+    """The entry/level block for one target, from its draw-time codes and its level.
+
+    Signed columns are A minus B of a per-side indicator, so they negate exactly under a
+    player swap; the two context columns are functions of the unordered pair and the
+    event, so they do not.  Only Q, LL, WC and PR are flagged; SE, ALT, W, blank and any
+    other code carry no flag.  Only G, M, A and F levels are indicated; any other level is
+    all-zero.  The round is deliberately not consulted.
+    """
+    codes = (normalize_entry_code(record.entry_a), normalize_entry_code(record.entry_b))
+    values: dict[str, int] = {}
+    for code, column in zip(ENTRY_CODES, ENTRY_SIGNED, strict=True):
+        values[column] = int(codes[0] == code) - int(codes[1] == code)
+    values["entry_any_qualifier"] = int(any(code in {"Q", "LL"} for code in codes))
+    level = record.tourney_level.strip().upper()
+    for code, column in zip(LEVEL_CODES, LEVEL_CONTEXT, strict=True):
+        values[column] = int(level == code)
+    if tuple(values) != ENTRY_LEVEL_COLUMNS:
+        raise ChainError("entry/level block order drift")
+    return values
+
+
 def locators_json(result: Any) -> str:
     return json.dumps(
         [
@@ -788,6 +855,8 @@ def build_feature_row(
     rank_b: Any,
     windows: tuple[int, ...],
     rest_cap: int,
+    *,
+    entry_level: bool = False,
 ) -> dict[str, Any]:
     if (
         rank_a.snapshot_date != rank_b.snapshot_date
@@ -971,6 +1040,11 @@ def build_feature_row(
     ):
         if row[field] and dt.date.fromisoformat(row[field]) > cutoff:
             raise ChainError(f"{field} exceeds D-2 cutoff for {record.match_id}")
+    if entry_level:
+        # Appended last: the raw codes verbatim (audit only) and the derived block.
+        row["a_entry"] = record.entry_a
+        row["b_entry"] = record.entry_b
+        row.update(entry_level_values(record))
     return row
 
 
@@ -986,8 +1060,8 @@ def rank_global_interactions() -> tuple[str, ...]:
     )
 
 
-def feature_header() -> tuple[str, ...]:
-    return (
+def feature_header(entry_level: bool = False) -> tuple[str, ...]:
+    header = (
         IDENTIFIER_COLUMNS
         + BINARY_CONTEXTS
         + SIGNED_BASES
@@ -996,6 +1070,10 @@ def feature_header() -> tuple[str, ...]:
         + MARKET_COLUMNS
         + AUDIT_COLUMNS
     )
+    if entry_level:
+        # Appended after every existing column, so the frozen header is a prefix.
+        header += ENTRY_RAW_AUDIT_COLUMNS + ENTRY_LEVEL_COLUMNS
+    return header
 
 
 def label_row(record: Record) -> dict[str, Any]:
@@ -1040,6 +1118,8 @@ def stream_rows(
     ranking: Mapping[tuple[dt.date, int], Any],
     parameters: Mapping[str, Any],
     diverged: Counter[str] | None = None,
+    *,
+    entry_level: bool = False,
 ) -> Iterator[tuple[Record, dict[str, Any]]]:
     records = sorted(records, key=Record.order_key)
     if len({record.match_id for record in records}) != len(records):
@@ -1101,22 +1181,55 @@ def stream_rows(
                     ranking[(record.match_date, record.player_b)],
                     windows,
                     rest_cap,
+                    entry_level=entry_level,
                 ),
             )
         target_cursor = target_end
 
 
-def column_dictionary() -> dict[str, Any]:
+def column_dictionary(entry_level: bool = False) -> dict[str, Any]:
     interactions = linear_interactions()
     rank_interactions = rank_global_interactions()
     linear = SIGNED_BASES + interactions + rank_interactions
+    document = _column_dictionary_document(linear, interactions, rank_interactions, entry_level)
+    if entry_level:
+        # New keys only: every list the frozen contract reads is unchanged, and a
+        # dictionary written without the block is byte-identical to the accepted runs.
+        document["entry_level_columns"] = list(ENTRY_LEVEL_COLUMNS)
+        document["entry_level_signed_columns"] = list(ENTRY_LEVEL_SIGNED)
+        document["entry_level_context_columns"] = list(ENTRY_LEVEL_CONTEXT)
+        document["entry_raw_audit_columns"] = list(ENTRY_RAW_AUDIT_COLUMNS)
+        document["entry_level_semantics"] = {
+            "entry_codes": "Sackmann winner_entry/loser_entry oriented onto A/B by the archive panel; Q qualifier, LL lucky loser, WC wild card, PR protected ranking; SE, ALT, W, blank and any other code carry no flag",
+            "signed": "A-side indicator minus B-side indicator per code, in {-1, 0, 1}; negates under a player swap",
+            "entry_any_qualifier": "1 when either side entered as Q or LL; symmetric under a player swap",
+            "level": "one-hot tourney_level in {G, M, A, F}; D, O and every other level are all-zero; symmetric under a player swap",
+            "chronology": "entry status and level are attributes of the published draw, not results; the LL substitution can occur after the D-2 cutoff and is the declared exception; the round is never emitted as a model column",
+        }
+        document["audit_only_columns"] = list(AUDIT_COLUMNS + ENTRY_RAW_AUDIT_COLUMNS)
+        document["forbidden_from_sports_predictors"] = [
+            *document["forbidden_from_sports_predictors"],
+            "a_entry",
+            "b_entry",
+            "tourney_level",
+            "round",
+        ]
+    return document
+
+
+def _column_dictionary_document(
+    linear: tuple[str, ...],
+    interactions: tuple[str, ...],
+    rank_interactions: tuple[str, ...],
+    entry_level: bool,
+) -> dict[str, Any]:
     return {
         "dictionary_id": "MULTI01-prequential-feature-interface-v1",
         "orientation": "player_a and player_b are exact integer IDs with player_a < player_b; every signed feature is A-minus-B; a_won is separate",
         "history_contract": "primary identity rows only; source match_date <= target D-2; source-date Elo batches frozen; provisional targets never update state",
         "chronology_limit": "match_date is the qualified annual reported date, not a clock. The known suspended 2022-7694/291 case completed one day after actual start; D-2 from its reported date remains conservative for that case, but there is no universal pre-start proof.",
         "count_contract": "180-day half-life; 50 denominator-unit eligible population prior; missing count blocks skip count/point-volume updates but retain result Elo and match workload updates",
-        "ordered_feature_file_columns": list(feature_header()),
+        "ordered_feature_file_columns": list(feature_header(entry_level)),
         "identifier_and_split_columns": list(IDENTIFIER_COLUMNS),
         "binary_context_columns": list(BINARY_CONTEXTS),
         "signed_base_model_features": list(SIGNED_BASES),
@@ -1215,9 +1328,11 @@ def write_features(
     ranking: Mapping[tuple[dt.date, int], Any],
     parameters: Mapping[str, Any],
     diverged: Counter[str],
+    *,
+    entry_level: bool = False,
 ) -> tuple[list[Record], dict[str, Counter[Any]]]:
     """Write ``features.csv`` and return the targets in written order with their tallies."""
-    feature_fields = feature_header()
+    feature_fields = feature_header(entry_level)
     counts_summary: dict[str, Counter[Any]] = {
         "identity_tier": Counter(), "calendar_year": Counter(), "source_season": Counter(),
         "status": Counter(), "surface": Counter(), "ps_missing": Counter(),
@@ -1227,7 +1342,9 @@ def write_features(
     with path.open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=feature_fields, lineterminator="\n")
         writer.writeheader()
-        for record, feature in stream_rows(records, ranking, parameters, diverged):
+        for record, feature in stream_rows(
+            records, ranking, parameters, diverged, entry_level=entry_level
+        ):
             write_csv_row(writer, feature, feature_fields)
             counts_summary["identity_tier"][record.identity_tier] += 1
             counts_summary["calendar_year"][record.calendar_year] += 1
@@ -1251,11 +1368,15 @@ def validate_written_outputs(
     lag_days = int(parameters["lag_calendar_days"])
     stale_days = int(parameters["ranking_stale_days"])
     feature_columns = list(dictionary["ordered_feature_file_columns"])
+    entry_level = "entry_level_columns" in dictionary
+    if entry_level and list(dictionary["entry_level_columns"]) != list(ENTRY_LEVEL_COLUMNS):
+        raise ChainError("dictionary entry_level_columns differ from the declared block")
     model_columns = list(
         dict.fromkeys(
             dictionary["linear_sports_model_features"]
             + dictionary["hgb_sports_model_features"]
             + dictionary["lagged_market_elo_features"]
+            + (list(ENTRY_LEVEL_COLUMNS) if entry_level else [])
         )
     )
     forbidden = {
@@ -1301,6 +1422,15 @@ def validate_written_outputs(
             for field, value in expected_context.items():
                 if int(feature[field]) != value:
                     raise ChainError(f"wrong {field} for {record.match_id}")
+            if entry_level:
+                # The raw codes are copied verbatim and the block is recomputed from them.
+                if feature["a_entry"] != record.entry_a or feature["b_entry"] != record.entry_b:
+                    raise ChainError(f"entry code copy mismatch for {record.match_id}")
+                for field, value in entry_level_values(record).items():
+                    if int(feature[field]) != value:
+                        raise ChainError(f"wrong {field} for {record.match_id}")
+                if sum(int(feature[field]) for field in LEVEL_CONTEXT) > 1:
+                    raise ChainError(f"more than one level indicator for {record.match_id}")
             for field in model_columns:
                 if not math.isfinite(float(feature[field])):
                     raise ChainError(f"non-finite model field {field} for {record.match_id}")
@@ -1369,6 +1499,53 @@ def validate_written_outputs(
     }
 
 
+def entry_level_receipts(records: list[Record]) -> dict[str, Any]:
+    """Coverage of the raw entry codes and levels per season, plus the events whose rows
+    carry no entry code at all.
+
+    A blank code means "direct acceptance" where the source recorded codes and "unknown"
+    where it did not; an event with no code on any row is reported so the registration
+    can decide how to treat it, rather than the blank silently reading as direct entry.
+    """
+    by_season: dict[str, dict[str, Counter[str]]] = {}
+    events: dict[tuple[str, str], dict[str, Any]] = {}
+    for record in records:
+        season = str(record.source_season)
+        tallies = by_season.setdefault(
+            season,
+            {"a_entry": Counter(), "b_entry": Counter(), "tourney_level": Counter()},
+        )
+        tallies["a_entry"][normalize_entry_code(record.entry_a) or "blank"] += 1
+        tallies["b_entry"][normalize_entry_code(record.entry_b) or "blank"] += 1
+        tallies["tourney_level"][record.tourney_level or "blank"] += 1
+        event = events.setdefault(
+            (season, record.tourney_id),
+            {
+                "source_season": season,
+                "tourney_id": record.tourney_id,
+                "tourney_name": record.tourney_name,
+                "tourney_level": record.tourney_level,
+                "rows": 0,
+                "rows_with_any_entry_code": 0,
+            },
+        )
+        event["rows"] += 1
+        event["rows_with_any_entry_code"] += int(
+            bool(normalize_entry_code(record.entry_a) or normalize_entry_code(record.entry_b))
+        )
+    return {
+        "flagged_entry_codes": list(ENTRY_CODES),
+        "indicated_levels": list(LEVEL_CODES),
+        "counts_by_season": {
+            season: {name: dict(sorted(counter.items())) for name, counter in tallies.items()}
+            for season, tallies in sorted(by_season.items())
+        },
+        "events_without_any_entry_code": [
+            events[key] for key in sorted(events) if events[key]["rows_with_any_entry_code"] == 0
+        ],
+    }
+
+
 HASH_VERIFIED_BINDINGS = ("design", "panel_manifest", "ranking_source", "ranking_index")
 FIXED_PARAMETERS = {
     "lag_calendar_days": 2,
@@ -1410,7 +1587,16 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ChainError("fixed MULTI01 feature parameters changed")
     if int(parameters["ranking_stale_days"]) != 14:
         raise ChainError("the 14-day ranking staleness rule is fixed")
+    # The entry/level block is a top-level switch, outside the frozen MULTI01 parameter
+    # block, so an accepted config without it is read exactly as before.
+    flag = config.get(ENTRY_LEVEL_BLOCK_KEY, False)
+    if not isinstance(flag, bool):
+        raise ChainError(f"{ENTRY_LEVEL_BLOCK_KEY} must be true or false")
     return config
+
+
+def entry_level_enabled(config: Mapping[str, Any]) -> bool:
+    return bool(config.get(ENTRY_LEVEL_BLOCK_KEY, False))
 
 
 def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
@@ -1424,15 +1610,17 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         shutil.rmtree(output)
     output.mkdir(parents=True, exist_ok=True)
     panel = config["panel"]
+    entry_level = entry_level_enabled(config)
     records, rejections, input_header = load_records(
         resolve_under_root(panel["path"], label="panel"),
         panel["sha256"],
         panel["rows"],
         int(config["parameters"]["source_year_min"]),
         int(config["parameters"]["source_year_max"]),
+        entry_level=entry_level,
     )
     ranking = prepare_rankings(records, config)
-    dictionary = column_dictionary()
+    dictionary = column_dictionary(entry_level)
     atomic_json(output / "column_dictionary.json", dictionary)
     atomic_json(output / "resolved_config.json", config)
     write_csv_simple(output / "rejections.csv", rejections, ("source_row", "match_id", "reason"))
@@ -1441,7 +1629,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     labels_path = output / "labels.csv"
     diverged: Counter[str] = Counter()
     ordered, counts_summary = write_features(
-        features_path, records, ranking, config["parameters"], diverged
+        features_path, records, ranking, config["parameters"], diverged, entry_level=entry_level
     )
     write_labels(labels_path, ordered)
     if len(ordered) != len(records):
@@ -1457,9 +1645,10 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         features_path, labels_path, records, dictionary, config["parameters"]
     )
     atomic_json(output / "validation.json", validation)
-    feature_fields = feature_header()
+    feature_fields = feature_header(entry_level)
     summary = {
         "status": config["status"],
+        **({"entry_level_block": entry_level_receipts(records)} if entry_level else {}),
         "input_rows": panel["rows"],
         "eligible_target_rows": len(records),
         "rejected_rows": len(rejections),

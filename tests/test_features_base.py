@@ -333,3 +333,125 @@ def test_one_sided_count_history_is_counted_not_asserted_away() -> None:
     assert summary["return_overall_denominator"] > 0.0
     assert summary["missing_overall"] == 0
     assert history.diverged["overall"] == 1
+
+
+# ------------------------------------------------------------ ARMS01: the entry/level block
+
+
+def test_entry_level_values_flag_only_q_ll_wc_pr_and_indicate_only_g_m_a_f() -> None:
+    day = dt.date(2020, 1, 1)
+    base = record("t", day, 1, 2)
+    cases = {
+        # (entry_a, entry_b, level) -> (q, ll, wc, pr, any_qualifier, g, m, a, f)
+        ("Q", "", "A"): (1, 0, 0, 0, 1, 0, 0, 1, 0),
+        ("", "Q", "G"): (-1, 0, 0, 0, 1, 1, 0, 0, 0),
+        ("LL", "WC", "M"): (0, 1, -1, 0, 1, 0, 1, 0, 0),
+        ("PR", "PR", "F"): (0, 0, 0, 0, 0, 0, 0, 0, 1),
+        ("SE", "ALT", "D"): (0, 0, 0, 0, 0, 0, 0, 0, 0),
+        ("Alt", "W", "O"): (0, 0, 0, 0, 0, 0, 0, 0, 0),
+        (" q ", "ll", "a"): (1, -1, 0, 0, 1, 0, 0, 1, 0),  # whitespace and case normalised
+        ("", "", "C"): (0, 0, 0, 0, 0, 0, 0, 0, 0),
+    }
+    for (entry_a, entry_b, level), expected in cases.items():
+        item = bf.replace(base, entry_a=entry_a, entry_b=entry_b, tourney_level=level)
+        values = bf.entry_level_values(item)
+        assert tuple(values) == bf.ENTRY_LEVEL_COLUMNS
+        assert tuple(values.values()) == expected, (entry_a, entry_b, level)
+        assert sum(values[column] for column in bf.LEVEL_CONTEXT) <= 1
+    # The round is not an input: changing it changes nothing.
+    assert bf.entry_level_values(bf.replace(base, round="F")) == bf.entry_level_values(base)
+
+
+def test_the_entry_level_block_is_appended_last_and_only_its_signed_columns_negate() -> None:
+    plain = bf.feature_header()
+    extended = bf.feature_header(entry_level=True)
+    assert extended[: len(plain)] == plain
+    assert extended[len(plain) :] == bf.ENTRY_RAW_AUDIT_COLUMNS + bf.ENTRY_LEVEL_COLUMNS
+    assert bf.ENTRY_LEVEL_COLUMNS == bf.ENTRY_LEVEL_SIGNED + bf.ENTRY_LEVEL_CONTEXT
+    d0 = dt.date(2020, 1, 1)
+    source = record("s", d0, 1, 3, a_won=True)
+    target = bf.replace(
+        record("t", d0 + dt.timedelta(days=2), 1, 2, surface="Clay"),
+        entry_a="Q",
+        entry_b="WC",
+        tourney_level="M",
+    )
+    ranking = rank_map([source, target])
+    rows = dict(bf.stream_rows([source, target], ranking, PARAMETERS, entry_level=True))
+    original = rows[target]
+    assert (original["a_entry"], original["b_entry"]) == ("Q", "WC")
+    assert [original[column] for column in bf.ENTRY_LEVEL_COLUMNS] == [1, 0, -1, 0, 1, 0, 1, 0, 0]
+    without = dict(bf.stream_rows([source, target], ranking, PARAMETERS))[target]
+    assert set(without) == set(plain)
+    assert {k: v for k, v in original.items() if k in plain} == without
+    # The opposite orientation: signed entry differences negate, the context stays.
+    sports = bf.EloHistory(1500.0, 32.0, 400.0)
+    market = bf.EloHistory(1500.0, 32.0, 400.0)
+    history = bf.CountHistory(180.0, 50.0, 0.6, 0.4)
+    workload = bf.WorkloadHistory()
+    history.advance(target.match_date)
+    sports.apply_batch([source])
+    market.apply_batch([source], pseudo_outcome=True)
+    history.add_match(source, target.match_date)
+    workload.add_match(source)
+    swapped = bf.replace(
+        target,
+        player_a=target.player_b,
+        player_b=target.player_a,
+        a_won=not target.a_won,
+        counts_a=target.counts_b,
+        counts_b=target.counts_a,
+        ps_probability_a=1.0 - target.ps_probability_a,
+        entry_a=target.entry_b,
+        entry_b=target.entry_a,
+    )
+    opposite = bf.build_feature_row(
+        swapped,
+        swapped.match_date - dt.timedelta(days=2),
+        sports,
+        history,
+        workload,
+        market,
+        ranking[(target.match_date, target.player_b)],
+        ranking[(target.match_date, target.player_a)],
+        (7, 28),
+        90,
+        entry_level=True,
+    )
+    for column in bf.ENTRY_LEVEL_SIGNED:
+        assert opposite[column] == -original[column], column
+    for column in bf.ENTRY_LEVEL_CONTEXT:
+        assert opposite[column] == original[column], column
+    assert (opposite["a_entry"], opposite["b_entry"]) == ("WC", "Q")
+
+
+def test_the_dictionary_declares_the_block_only_when_enabled() -> None:
+    plain = bf.column_dictionary()
+    assert "entry_level_columns" not in plain
+    assert plain["ordered_feature_file_columns"] == list(bf.feature_header())
+    extended = bf.column_dictionary(entry_level=True)
+    assert extended["entry_level_columns"] == list(bf.ENTRY_LEVEL_COLUMNS)
+    assert extended["entry_level_signed_columns"] == list(bf.ENTRY_LEVEL_SIGNED)
+    assert extended["entry_level_context_columns"] == list(bf.ENTRY_LEVEL_CONTEXT)
+    assert extended["ordered_feature_file_columns"] == list(bf.feature_header(entry_level=True))
+    # The raw codes are audit columns and, with the raw level and the round, forbidden.
+    assert extended["entry_raw_audit_columns"] == ["a_entry", "b_entry"]
+    for raw in ("a_entry", "b_entry", "tourney_level", "round"):
+        assert raw in extended["forbidden_from_sports_predictors"], raw
+    assert extended["audit_only_columns"][-2:] == ["a_entry", "b_entry"]
+    # Every list the frozen contract reads is unchanged by the block.
+    for key in (
+        "linear_sports_model_features",
+        "signed_base_model_features",
+        "binary_context_columns",
+        "hgb_sports_model_features",
+        "identifier_and_split_columns",
+        "label_file_columns",
+    ):
+        assert extended[key] == plain[key], key
+
+
+def test_the_stage_config_switch_is_a_boolean_outside_the_frozen_parameters() -> None:
+    assert bf.entry_level_enabled({}) is False
+    assert bf.entry_level_enabled({"entry_level_block": True}) is True
+    assert bf.ENTRY_LEVEL_BLOCK_KEY not in bf.FIXED_PARAMETERS
