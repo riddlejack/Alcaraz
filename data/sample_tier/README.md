@@ -71,3 +71,21 @@ scikit-learn 1.9.1) and is compared to 1e-9:
 The run takes about 90 seconds. A synthetic world says nothing about real tennis: that
 the tier bundle happens to beat the full bundle here is a reproduction check, not a
 result.
+
+## The entry/level rehearsal (`--scenario tier_entry`)
+
+`configs/chains/sample_atp_tier_entry.json` binds this same sample with the features
+stage's `entry_level_block: true` and the bundles `base`, `full_tier` and
+`full_tier_entry` (ARMS01 Arm 1: `full_tier` plus signed Q/LL/WC/PR entry differences,
+the symmetric any-qualifier flag and G/M/A/F level indicators). The generator draws
+`Q` and `WC` entries and `G`/`M`/`A` levels, so `LL`, `PR` and `F` are all-zero here.
+`expected_entry.json` was pinned by `uv run tennislab reproduce-small --scenario
+tier_entry --pin` on the same environment: primary contrast
+`full_tier_entry_minus_full_tier`, n = 1,582, equal-year log-loss delta
+`2.6090446254779006e-05`; pooled base `0.5463693339215431`, full_tier
+`0.5463798882973111`, full_tier_entry `0.546330119662121`, calibrated Pinnacle
+`0.5393907024219846`. The `base`, `full_tier` and Pinnacle values equal the tier
+scenario's pins exactly and the 32 `base`/`full_tier` forecast files are byte-identical
+between the two runs: appending the block changes nothing for a bundle that does not
+read it. The sign of the entry contrast on this synthetic world is noise, not a result.
+`tests/test_entry_scenario.py` drives this configuration through the chain driver.

@@ -84,6 +84,11 @@ TIER_SUFFIX = "_tier"
 # against its JOINT04 stem, and against the unablated tier bundle, which is the channel
 # estimate itself.
 TIER_NOQUAL_SUFFIX = "_tier_noqual"
+# ARMS01 Arm 1: the `*_tier_entry` bundle (the tier bundle plus the entry/level block).
+# It yields `<stem>_tier_entry_minus_<stem>_tier`, the Arm 1 minus Arm 0 contrast, and
+# `<stem>_tier_entry_minus_<stem>` when the JOINT04 stem was fitted too.
+TIER_ENTRY_SUFFIX = "_tier_entry"
+VARIANT_SUFFIXES = (TIER_ENTRY_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_SUFFIX)
 LEARNERS = DEFAULT_LEARNERS
 BLOCKS = DEFAULT_BLOCKS
 CANDIDATES = {
@@ -179,7 +184,7 @@ def contrasts_for(blocks: Sequence[str]) -> tuple[tuple[str, dict[str, float]], 
         if set(coefficients).issubset(present)
     ]
     for stem in BASE_BLOCKS:
-        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX):
+        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_ENTRY_SUFFIX):
             tier = f"{stem}{suffix}"
             if tier in present and stem in present:
                 derived.append((f"{tier}_minus_{stem}", {tier: 1.0, stem: -1.0}))
@@ -187,12 +192,18 @@ def contrasts_for(blocks: Sequence[str]) -> tuple[tuple[str, dict[str, float]], 
         ablated = f"{stem}{TIER_NOQUAL_SUFFIX}"
         if tier in present and ablated in present:
             derived.append((f"{tier}_minus_{ablated}", {tier: 1.0, ablated: -1.0}))
+        entry = f"{stem}{TIER_ENTRY_SUFFIX}"
+        if tier in present and entry in present:
+            # ARMS01 contrast 1: Arm 1 (entry/level block) minus Arm 0 (the tier bundle).
+            derived.append((f"{entry}_minus_{tier}", {entry: 1.0, tier: -1.0}))
     return tuple(derived)
 
 
 def default_primary_contrast(names: Sequence[str]) -> str:
     """The primary contrast a bundle list implies when the config names none."""
     available = set(names)
+    if f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}" in available:
+        return f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}"
     if f"full{TIER_SUFFIX}_minus_full" in available:
         return f"full{TIER_SUFFIX}_minus_full"
     if "full_minus_base" in available:
@@ -376,12 +387,11 @@ def configure_bundles(
     if not chosen_learners or len(set(chosen_learners)) != len(chosen_learners):
         raise ReportError("report learners must be a nonempty list of distinct names")
     for block in chosen_blocks:
-        if block.endswith(TIER_NOQUAL_SUFFIX):
-            stem = block[: -len(TIER_NOQUAL_SUFFIX)]
-        elif block.endswith(TIER_SUFFIX):
-            stem = block[: -len(TIER_SUFFIX)]
-        else:
-            stem = block
+        stem = block
+        for suffix in VARIANT_SUFFIXES:
+            if block.endswith(suffix):
+                stem = block[: -len(suffix)]
+                break
         if stem not in BASE_BLOCKS:
             raise ReportError(f"unknown report block: {block}")
         if stem != block and tour_contract():
@@ -1539,10 +1549,13 @@ def contrast_outputs(
         primary["contrast_id"] = primary_id
     primary.update(
         {
-            # The primary contrast is `<bundle> - <bundle without the tier block>` or
+            # The primary contrast is `<bundle> - <bundle without the tier block>`,
+            # `<bundle with the entry/level block> - <bundle without it>` or
             # `full - base`, so a negative value favours the richer bundle either way.
             "effect_direction": (
-                "negative_favors_tier_history"
+                "negative_favors_entry_level_block"
+                if f"{TIER_ENTRY_SUFFIX}_minus_" in primary_id
+                else "negative_favors_tier_history"
                 if primary_id.endswith(f"{TIER_SUFFIX}_minus_full")
                 else "negative_favors_full"
             ),

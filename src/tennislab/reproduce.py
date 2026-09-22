@@ -8,6 +8,10 @@ from ``rule_mapping`` to ``report`` through :mod:`tennislab.chain.runner`
 headline numbers with the values pinned in the sample's ``expected.json``. Any mismatch
 beyond the pinned tolerance exits non-zero and names the value. The tier scenario runs
 the five TIER01 stages beside the JOINT04 chain and judges ``full_tier_minus_full``.
+The ``tier_entry`` scenario (``--scenario tier_entry``, pinned in the tier sample's
+``expected_entry.json``) is the ARMS01 Arm 1 rehearsal: the same sample with the
+features stage's entry/level block enabled, fitting ``full_tier`` and ``full_tier_entry``
+and judging ``full_tier_entry_minus_full_tier``.
 
 ``--pin`` rewrites ``expected.json`` from the run instead of comparing; it is the only
 way the pinned values change, and the sample README says which environment they were
@@ -47,10 +51,12 @@ class Scenario:
     workspace: Path
     report_dir: Path
     pooled_models: tuple[str, ...]
+    # A scenario that reuses another scenario's sample pins its own headline file.
+    expected_name: str = "expected.json"
 
     @property
     def expected(self) -> Path:
-        return self.sample_dir / "expected.json"
+        return self.sample_dir / self.expected_name
 
 
 SCENARIOS = {
@@ -76,6 +82,25 @@ SCENARIOS = {
             "selected/hgb/full_tier_noqual",
             "market/calibrated_ps",
         ),
+    ),
+    # ARMS01 Arm 1 rehearsal: the tier sample with the features stage's entry/level
+    # block enabled and the `full_tier_entry` bundle fitted beside `full_tier` (and
+    # `base`, which the pipeline's shared-base records require structurally).  The
+    # `full_tier` pooled log loss must equal the tier scenario's pinned value: the
+    # appended block changes nothing about the bundles that do not read it.
+    "tier_entry": Scenario(
+        "tier_entry",
+        Path("data", "sample_tier"),
+        Path("configs", "chains", "sample_atp_tier_entry.json"),
+        Path("data", "runs", "reproduce_small_tier_entry"),
+        Path("work", "sample_atp_tier_entry", "run", "report"),
+        (
+            "selected/hgb/base",
+            "selected/hgb/full_tier",
+            "selected/hgb/full_tier_entry",
+            "market/calibrated_ps",
+        ),
+        expected_name="expected_entry.json",
     ),
 }
 

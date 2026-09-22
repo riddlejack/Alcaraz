@@ -35,9 +35,10 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reproduce.add_argument(
         "--scenario",
-        choices=("base", "tier"),
+        choices=("base", "tier", "tier_entry"),
         default="base",
-        help="the committed sample to reproduce: base (data/sample) or tier (data/sample_tier)",
+        help="the committed sample to reproduce: base (data/sample), tier (data/sample_tier) "
+        "or tier_entry (the tier sample with the ARMS01 entry/level block)",
     )
     reproduce.add_argument(
         "--pin",

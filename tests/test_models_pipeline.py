@@ -477,3 +477,265 @@ def test_a_binding_naming_the_package_module_must_match_it() -> None:
         runner.declared_code_binding({**package, "runner_sha256": "0" * 64})
     with pytest.raises(ChainError):
         runner.declared_code_binding({**archive, "numerical_sha256": "PENDING"})
+
+
+# ------------------------------------------------------------------ ARMS01: the entry/level block
+
+ENTRY_BUNDLES = ["base", "full", "base_tier", "full_tier", "full_tier_noqual", "full_tier_entry"]
+ENTRY_BLOCK = {
+    "entry_q_diff": "1",
+    "entry_ll_diff": "0",
+    "entry_wc_diff": "-1",
+    "entry_pr_diff": "0",
+    "entry_any_qualifier": "1",
+    "level_context_g": "0",
+    "level_context_m": "1",
+    "level_context_a": "0",
+    "level_context_f": "0",
+}
+
+
+def entry_contract() -> runner.FeatureContract:
+    c = contract()
+    return runner.FeatureContract(
+        c.base_linear,
+        c.base_signed,
+        c.binary_context,
+        c.hgb_base_context,
+        c.trait_interactions,
+        runner.ENTRY_LEVEL_COLUMNS,
+    )
+
+
+def with_tier(sidecar: dict[str, str]) -> dict[str, str]:
+    tiered = dict(sidecar)
+    tiered.update(
+        {
+            "tier_elo_overall_logit": "0.3",
+            "tier_elo_surface_logit": "0.1",
+            "tier_prior_matches_diff": "4",
+            "tier_prior_titles_diff": "1",
+            "tier_dynamic_match_probability_a": "0.7",
+            "tier_noqual_dynamic_match_probability_a": "0.65",
+        }
+    )
+    return tiered
+
+
+def swapped_tier(sidecar: dict[str, str]) -> dict[str, str]:
+    other = dict(sidecar)
+    for column in runner.TIER_SIGNED:
+        other[column] = repr(-float(sidecar[column]))
+    for column in (
+        "tier_dynamic_match_probability_a",
+        "tier_noqual_dynamic_match_probability_a",
+    ):
+        other[column] = repr(1.0 - float(sidecar[column]))
+    return other
+
+
+def test_the_entry_block_columns_agree_with_the_features_stage() -> None:
+    from tennislab.features import base as features
+
+    assert runner.ENTRY_LEVEL_SIGNED == features.ENTRY_LEVEL_SIGNED
+    assert runner.ENTRY_LEVEL_CONTEXT == features.ENTRY_LEVEL_CONTEXT
+    assert runner.ENTRY_LEVEL_COLUMNS == features.ENTRY_LEVEL_COLUMNS
+    assert runner.ENTRY_RAW_COLUMNS == features.ENTRY_RAW_AUDIT_COLUMNS
+    assert runner.split_block("full_tier_entry") == ("full", "tier_entry")
+    assert runner.split_block("base_tier_entry") == ("base", "tier_entry")
+
+
+def test_the_entry_block_negates_signed_and_keeps_context_under_swap() -> None:
+    runner.configure_bundles(ENTRY_BUNDLES, ["hgb"])
+    base, sidecar = base_and_sidecar()
+    base.update(ENTRY_BLOCK)
+    sidecar = with_tier(sidecar)
+    first = runner.transformed_additions(base, sidecar, entry_contract())
+    other_base, other_sidecar = swapped(base, sidecar)
+    for column in runner.ENTRY_LEVEL_SIGNED:
+        other_base[column] = str(-int(base[column]))
+    second = runner.transformed_additions(other_base, swapped_tier(other_sidecar), entry_contract())
+    for field in (*runner.ENTRY_LEVEL_SIGNED, *runner.TIER_SIGNED, *runner.TIER_DYNAMIC_SIGNED):
+        assert float(first[field]) == -float(second[field]), field
+    for field in runner.ENTRY_LEVEL_CONTEXT:
+        assert float(first[field]) == float(second[field]), field
+    assert float(first["entry_q_diff"]) == 1.0 and float(first["entry_wc_diff"]) == -1.0
+    assert float(first["entry_any_qualifier"]) == 1.0 and float(first["level_context_m"]) == 1.0
+    # A blank, a raw code or an out-of-range cell fails closed rather than becoming a zero.
+    for column, bad in (("entry_q_diff", ""), ("entry_q_diff", "Q"), ("entry_q_diff", "2")):
+        broken = dict(base)
+        broken[column] = bad
+        with pytest.raises(ChainError, match="must be -1/0/1"):
+            runner.transformed_additions(broken, sidecar, entry_contract())
+    broken = dict(base)
+    broken["level_context_g"] = "-1"
+    with pytest.raises(ChainError):
+        runner.transformed_additions(broken, sidecar, entry_contract())
+
+
+def test_the_entry_bundle_appends_the_block_after_full_tier_and_removes_nothing() -> None:
+    c = entry_contract()
+    runner.configure_bundles(ENTRY_BUNDLES, ["hgb"])
+    tier_signed, tier_context = c.model_columns("hgb", "full_tier")
+    entry_signed, entry_context = c.model_columns("hgb", "full_tier_entry")
+    assert entry_signed == (*tier_signed, *runner.ENTRY_LEVEL_SIGNED)
+    assert entry_context == (*tier_context, *runner.ENTRY_LEVEL_CONTEXT)
+    assert "tier_dynamic_match_logit" in entry_signed and "dynamic_match_logit" in entry_signed
+    base_signed, base_context = c.campaign_model_columns("hgb", "base_tier_entry")
+    assert base_signed[-4:] == runner.ENTRY_LEVEL_SIGNED and base_context[-5:] == entry_context[-5:]
+    assert "tier_dynamic_match_logit" not in base_signed
+    assert c.all_columns[-9:] == runner.ENTRY_LEVEL_COLUMNS
+    assert len(c.all_columns) == len(set(c.all_columns))
+    # The block reaches no bundle that did not ask for it.
+    for block in ("base", "full", "base_tier", "full_tier", "full_tier_noqual"):
+        signed, context = c.model_columns("hgb", block)
+        assert not set(runner.ENTRY_LEVEL_COLUMNS) & {*signed, *context}, block
+
+
+def test_with_the_variant_off_every_column_order_is_todays() -> None:
+    runner.configure_bundles(
+        ["base", "full", "base_tier", "full_tier", "full_tier_noqual"], ["hgb"]
+    )
+    assert runner.entry_enabled() is False
+    plain = contract()
+    declared = entry_contract()
+    for c in (plain, declared):
+        assert not set(runner.ENTRY_LEVEL_COLUMNS) & set(c.all_columns)
+        assert c.all_columns == plain.all_columns
+        for block in ("base", "full", "base_tier", "full_tier", "full_tier_noqual"):
+            assert c.model_columns("hgb", block) == plain.model_columns("hgb", block)
+    assert "entry_level_columns" not in runner.settings_document()
+    runner.configure_bundles(["base", "traits", "dynamic", "full"], ["ridge", "hgb"])
+    assert "entry_level_columns" not in runner.settings_document()
+
+
+def test_the_settings_document_records_the_block_only_with_an_entry_bundle() -> None:
+    runner.configure_bundles(["full_tier", "full_tier_entry"], ["hgb"])
+    settings = runner.settings_document()
+    assert settings["entry_level_columns"] == list(runner.ENTRY_LEVEL_COLUMNS)
+    assert settings["tier_columns"] == list(runner.TIER_COLUMNS)
+    assert settings["blocks"] == ["full_tier", "full_tier_entry"]
+    with pytest.raises(ChainError):
+        runner.configure_bundles(["full_tier_entry"], ["ridge", "hgb"])
+    # The tour contract cannot record an entry bundle, exactly as it cannot a tier one.
+    runner.configure_bundles(["base", "full"], ["hgb"])
+    runner.configure_identity("WTA02", "WTA")
+    with pytest.raises(ChainError):
+        runner.configure_bundles(["base", "full", "full_tier_entry"], ["hgb"])
+
+
+def test_an_entry_bundle_without_the_features_block_is_refused() -> None:
+    runner.configure_bundles(["full_tier", "full_tier_entry"], ["hgb"])
+    with pytest.raises(ChainError, match="entry_level_block"):
+        contract().model_columns("hgb", "full_tier_entry")
+    with pytest.raises(ChainError, match="entry_level_block"):
+        runner.ordered_model_columns(contract())
+
+
+def entry_dictionary(**overrides: object) -> dict[str, object]:
+    c = contract()
+    document: dict[str, object] = {
+        "linear_sports_model_features": list(c.base_linear),
+        "signed_base_model_features": list(c.base_signed),
+        "binary_context_columns": list(c.binary_context),
+        "identifier_and_split_columns": ["match_id", "tourney_level", "round"],
+        "label_file_columns": ["a_won", "status"],
+        "contemporaneous_pinnacle_fields": ["ps_probability_a", "ps_logit_a", "ps_missing"],
+        "lagged_market_elo_features": [
+            "lagged_market_elo_overall_logit",
+            "lagged_market_elo_surface_logit",
+        ],
+        "entry_level_columns": list(runner.ENTRY_LEVEL_COLUMNS),
+        "entry_level_signed_columns": list(runner.ENTRY_LEVEL_SIGNED),
+        "entry_level_context_columns": list(runner.ENTRY_LEVEL_CONTEXT),
+    }
+    document.update(overrides)
+    return document
+
+
+def test_raw_draw_time_columns_stay_forbidden_and_a_dictionary_listing_them_is_refused() -> None:
+    for raw in ("tourney_level", "round", "a_entry", "b_entry", "a_seed", "b_seed", "draw_size"):
+        assert raw in runner.FORBIDDEN_MODEL_COLUMNS, raw
+    assert not set(runner.ENTRY_LEVEL_COLUMNS) & runner.FORBIDDEN_MODEL_COLUMNS
+    c = runner.FeatureContract.from_dictionary(entry_dictionary())
+    assert c.entry_level == runner.ENTRY_LEVEL_COLUMNS
+    assert runner.FeatureContract.from_dictionary(contract_dictionary()).entry_level == ()
+    # The raw code, the raw level or the round listed as a model column is refused.
+    for raw in ("a_entry", "tourney_level", "round"):
+        columns = [*runner.ENTRY_LEVEL_COLUMNS[:-1], raw]
+        with pytest.raises(ChainError):
+            runner.FeatureContract.from_dictionary(entry_dictionary(entry_level_columns=columns))
+    # The block must be the runner's, to the column and to the signed/context split.
+    with pytest.raises(ChainError, match="differ from the runner"):
+        runner.FeatureContract.from_dictionary(
+            entry_dictionary(entry_level_columns=list(reversed(runner.ENTRY_LEVEL_COLUMNS)))
+        )
+    with pytest.raises(ChainError, match="split"):
+        runner.FeatureContract.from_dictionary(
+            entry_dictionary(entry_level_signed_columns=list(runner.ENTRY_LEVEL_COLUMNS))
+        )
+    # And the assembled column set is checked against the forbidden set as a whole.
+    runner.configure_bundles(["full_tier", "full_tier_entry"], ["hgb"])
+    assert not runner.FORBIDDEN_MODEL_COLUMNS & set(entry_contract().all_columns)
+
+
+def contract_dictionary() -> dict[str, object]:
+    document = entry_dictionary()
+    for key in ("entry_level_columns", "entry_level_signed_columns", "entry_level_context_columns"):
+        del document[key]
+    return document
+
+
+def test_an_hgb_fit_on_the_entry_bundle_is_exactly_swap_symmetric() -> None:
+    """The numerical adapter negates the signed list and keeps the context list on both
+    the training augmentation and the prediction symmetrisation; with the entry/level
+    block in those lists a player swap complements the emitted probability exactly."""
+    from tennislab.models import numerical as num
+
+    runner.configure_bundles(["full_tier", "full_tier_entry"], ["hgb"])
+    c = entry_contract()
+    signed, context = c.model_columns("hgb", "full_tier_entry")
+    config = runner.numerical_config(c, "hgb", "full_tier_entry", "hgb_leaf07_depth3")
+    assert config["signed_numeric_columns"][-4:] == list(runner.ENTRY_LEVEL_SIGNED)
+    assert config["context_columns"][-5:] == list(runner.ENTRY_LEVEL_CONTEXT)
+    rng = np.random.default_rng(20260922)
+    header = ("season", "match_id", *signed, *context)
+
+    def rows(count: int, season: str) -> list[dict[str, str]]:
+        table = []
+        for index in range(count):
+            row = {"season": season, "match_id": f"{season}-{index}"}
+            for column in signed:
+                if column in runner.ENTRY_LEVEL_SIGNED:
+                    row[column] = repr(float(rng.integers(-1, 2)))
+                else:
+                    row[column] = repr(float(rng.normal()))
+            for column in context:
+                row[column] = repr(float(rng.integers(0, 2)))
+            table.append(row)
+        return table
+
+    train_rows = rows(600, "2015")
+    train = num.FeatureTable.from_rows(train_rows, header)
+    strength = np.asarray(
+        [float(row["entry_q_diff"]) + float(row[signed[0]]) for row in train.rows]
+    )
+    labels = num.LabelTable.from_values(
+        {
+            key: int(rng.random() < 1 / (1 + np.exp(-value)))
+            for key, value in zip(train.keys, strength, strict=True)
+        }
+    )
+    attempt = num.fit_procedure(config, train, labels)
+    assert attempt.status == "complete" and attempt.fitted is not None, attempt.error
+    test_rows = rows(200, "2016")
+    swapped_rows = []
+    for row in test_rows:
+        other = dict(row)
+        for column in signed:
+            other[column] = repr(-float(row[column]))
+        swapped_rows.append(other)
+    original = attempt.fitted.predict(num.FeatureTable.from_rows(test_rows, header))
+    mirrored = attempt.fitted.predict(num.FeatureTable.from_rows(swapped_rows, header))
+    assert np.max(np.abs(original.probabilities + mirrored.probabilities - 1.0)) <= 1e-12
+    assert np.std(original.probabilities) > 0.0

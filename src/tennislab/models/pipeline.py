@@ -14,6 +14,17 @@ configuration that declares a tour is read under the WTA02 contract, one that do
 under TIER01's; ``tour_contract()`` is that switch. Tier bundles are TIER01's and are
 refused under the tour contract, whose settings could not record them.
 
+Draw-time context (ARMS01 Arm 1): the ``*_tier_entry`` bundle is the ``*_tier`` bundle
+plus the entry/level block the features stage emits under ``entry_level_block``:
+``ENTRY_LEVEL_SIGNED`` (signed A-B entry-status differences for Q, LL, WC, PR) in the HGB
+signed list and ``ENTRY_LEVEL_CONTEXT`` (the symmetric any-qualifier flag and the G/M/A/F
+level indicators) in the HGB context list, appended after every existing column. The
+rule is explicit: tournament level enters only as swap-invariant context, entry status
+only as draw-time status, and the round never. The raw ``tourney_level``, ``round``,
+``a_entry``/``b_entry``, seeds and draw size stay in ``FORBIDDEN_MODEL_COLUMNS``; a
+dictionary that lists any of them as a model column is refused. Without an entry bundle
+the settings document, the column order and every existing bundle are unchanged.
+
 Code bindings: the archive loaded ``numerical.py`` by path at a pinned hash and checked
 its own file hash against the config. Here the adapter is ``tennislab.models.numerical``
 imported by name; a config's ``code`` block is recorded as the declared binding and
@@ -100,6 +111,9 @@ TIER_SUFFIX = "_tier"
 # draw's own tourney id; the Elo and experience columns are the same objects.  Checked
 # before TIER_SUFFIX, because it ends with it.
 TIER_NOQUAL_SUFFIX = "_tier_noqual"
+# ARMS01 Arm 1: `full_tier_entry` is `full_tier` plus the entry/level block.  Checked
+# first in `split_block`; the three variant suffixes are pairwise non-nested.
+TIER_ENTRY_SUFFIX = "_tier_entry"
 DEFAULT_BLOCKS = BASE_BLOCKS
 DEFAULT_LEARNERS = ("ridge", "hgb")
 BLOCKS = DEFAULT_BLOCKS
@@ -191,6 +205,25 @@ TIER_NOQUAL_PROVENANCE_ONLY_COLUMNS = (
     "tier_noqual_dynamic_state_stale_days_b",
     "tier_noqual_dynamic_state_stale_days",
 )
+
+# ARMS01 Arm 1: the entry/level block.  Computed by the features stage from the panel's
+# draw-time entry codes and the event's level, and appended to the feature file after
+# every existing column.  These tuples must equal `tennislab.features.base`'s
+# `ENTRY_LEVEL_SIGNED` / `ENTRY_LEVEL_CONTEXT`; the tests assert it.  The signed columns
+# are A-B differences of per-side indicators (Q, LL, WC, PR) and negate under a player
+# swap; the context columns (either side a qualifier or lucky loser; level G/M/A/F) are
+# functions of the unordered pair and the event and do not.  The raw codes and the raw
+# level are audit columns and are refused below.
+ENTRY_LEVEL_SIGNED = ("entry_q_diff", "entry_ll_diff", "entry_wc_diff", "entry_pr_diff")
+ENTRY_LEVEL_CONTEXT = (
+    "entry_any_qualifier",
+    "level_context_g",
+    "level_context_m",
+    "level_context_a",
+    "level_context_f",
+)
+ENTRY_LEVEL_COLUMNS = ENTRY_LEVEL_SIGNED + ENTRY_LEVEL_CONTEXT
+ENTRY_RAW_COLUMNS = ("a_entry", "b_entry")
 
 RIDGE_CANDIDATES = (
     ("ridge_c001", 0.01),
@@ -297,6 +330,13 @@ FORBIDDEN_MODEL_COLUMNS = frozenset(
         # through the design's declared event-crosswalk carry-forward.  It reports how a
         # row was admitted, not anything about the tennis.
         "carried_forward",
+        # Raw draw-time fields.  Entry status enters only through the derived
+        # ENTRY_LEVEL_SIGNED / ENTRY_LEVEL_CONTEXT columns; the raw codes, seeds and the
+        # draw size never do (tourney_level and round are refused above).
+        *ENTRY_RAW_COLUMNS,
+        "a_seed",
+        "b_seed",
+        "draw_size",
         # TIER01 provenance: rating initialisation, tier-inclusive state staleness,
         # uncapped history counts and the prespecified thin-side subgroup indicator.
         *TIER_PROVENANCE_ONLY_COLUMNS,
@@ -352,8 +392,10 @@ def tour_contract() -> bool:
 
 def split_block(block: str) -> tuple[str, str]:
     """`("full", "tier")` for `full_tier`, `("full", "tier_noqual")` for the ablation,
-    `("full", "")` for `full`.  The ablation suffix ends with the tier suffix, so it is
-    tested first."""
+    `("full", "")` for `full`, `("full", "tier_entry")` for the entry/level variant.  The
+    variant suffixes are tested longest first."""
+    if block.endswith(TIER_ENTRY_SUFFIX):
+        return block[: -len(TIER_ENTRY_SUFFIX)], "tier_entry"
     if block.endswith(TIER_NOQUAL_SUFFIX):
         return block[: -len(TIER_NOQUAL_SUFFIX)], "tier_noqual"
     if block.endswith(TIER_SUFFIX):
@@ -367,6 +409,12 @@ def tier_enabled() -> bool:
 
 def noqual_enabled() -> bool:
     return any(split_block(block)[1] == "tier_noqual" for block in BLOCKS)
+
+
+def entry_enabled() -> bool:
+    """True when a `*_tier_entry` bundle is configured: the entry/level block is then part
+    of the assembled column set and of the settings document, and nowhere otherwise."""
+    return any(split_block(block)[1] == "tier_entry" for block in BLOCKS)
 
 
 def _check_contract_supports_blocks(blocks: Sequence[str], tour: str | None) -> None:
@@ -483,6 +531,10 @@ def settings_document() -> dict[str, Any]:
             if tier_enabled()
             else []
         )
+        if entry_enabled():
+            # Present only when an entry bundle is configured, so every settings
+            # document frozen before ARMS01 still equals the runner contract.
+            document["entry_level_columns"] = list(ENTRY_LEVEL_COLUMNS)
     return document
 
 
@@ -547,6 +599,9 @@ class FeatureContract:
     binary_context: tuple[str, ...]
     hgb_base_context: tuple[str, ...]
     trait_interactions: tuple[str, ...]
+    # The entry/level block the features stage declared, or () for a dictionary written
+    # without it.  Read only when an entry bundle is configured.
+    entry_level: tuple[str, ...] = ()
 
     @classmethod
     def from_dictionary(cls, dictionary: Mapping[str, Any]) -> FeatureContract:
@@ -582,7 +637,26 @@ class FeatureContract:
         interactions = tuple(
             f"{trait}_x_{context}" for trait in TRAIT_SIGNED for context in binary_context
         )
-        return cls(base_linear, base_signed, binary_context, hgb_context, interactions)
+        entry_level = tuple(dictionary.get("entry_level_columns", ()))
+        if entry_level:
+            # The features stage and this runner must agree on the block to the column;
+            # a raw code or level listed as a model column is refused with the rest.
+            if entry_level != ENTRY_LEVEL_COLUMNS:
+                raise PipelineError(
+                    "dictionary entry_level_columns differ from the runner's ENTRY_LEVEL_COLUMNS"
+                )
+            declared_signed = tuple(dictionary.get("entry_level_signed_columns", ()))
+            declared_context = tuple(dictionary.get("entry_level_context_columns", ()))
+            if (declared_signed, declared_context) != (ENTRY_LEVEL_SIGNED, ENTRY_LEVEL_CONTEXT):
+                raise PipelineError("dictionary entry/level signed/context split differs")
+            leaked_raw = sorted(
+                FORBIDDEN_MODEL_COLUMNS.intersection(
+                    (*entry_level, *declared_signed, *declared_context)
+                )
+            )
+            if leaked_raw:
+                raise PipelineError(f"forbidden entry/level model columns: {leaked_raw}")
+        return cls(base_linear, base_signed, binary_context, hgb_context, interactions, entry_level)
 
     @property
     def all_columns(self) -> tuple[str, ...]:
@@ -598,6 +672,9 @@ class FeatureContract:
             # bundle is unchanged when no tier bundle is configured.
             *(TIER_COLUMNS if tier_enabled() else ()),
             *(TIER_NOQUAL_COLUMNS if noqual_enabled() else ()),
+            # ARMS01: after the tier columns, so every earlier bundle's order is unchanged
+            # when no entry bundle is configured.
+            *(ENTRY_LEVEL_COLUMNS if entry_enabled() else ()),
         )
         return tuple(dict.fromkeys(ordered))
 
@@ -647,6 +724,17 @@ class FeatureContract:
                 signed.extend(
                     TIER_NOQUAL_DYNAMIC_SIGNED if variant == "tier_noqual" else TIER_DYNAMIC_SIGNED
                 )
+        if variant == "tier_entry":
+            # ARMS01: the `*_tier` bundle plus the entry/level block, appended after it:
+            # signed entry differences with the signed columns, the symmetric
+            # any-qualifier flag and level indicators with the context columns.
+            if self.entry_level != ENTRY_LEVEL_COLUMNS:
+                raise PipelineError(
+                    f"bundle {block} needs the features stage's entry/level block "
+                    "(entry_level_block: true); the dictionary declares none"
+                )
+            signed.extend(ENTRY_LEVEL_SIGNED)
+            context.extend(ENTRY_LEVEL_CONTEXT)
         return tuple(signed), tuple(context)
 
     def model_columns(self, learner: str, block: str) -> tuple[tuple[str, ...], tuple[str, ...]]:
@@ -825,6 +913,17 @@ def transformed_additions(
                 if not 0.0 <= noqual_probability <= 1.0:
                     raise PipelineError(f"ablated tier dynamic probability outside [0,1] at {key}")
                 output["tier_noqual_dynamic_match_logit"] = _clipped_logit(noqual_probability)
+    if entry_enabled():
+        # The block arrives on the base feature file, already derived.  Nothing is
+        # computed here; each cell is checked against its declared range and re-emitted,
+        # so a blank, a raw code or an out-of-range value fails closed.
+        for column in ENTRY_LEVEL_SIGNED:
+            text = base.get(column, "")
+            if text not in {"-1", "0", "1"}:
+                raise PipelineError(f"{column} must be -1/0/1 at {key}: {text!r}")
+            output[column] = repr(float(int(text)))
+        for column in ENTRY_LEVEL_CONTEXT:
+            output[column] = repr(float(parse_binary(base.get(column, ""), column, key)))
     return output
 
 
