@@ -65,11 +65,15 @@ headline score.
 | [Five ranking/Elo baselines](docs/benchmarks/G_L_RESULTS.md) | ATP 18,972; WTA 12,900 | Alcaraz lower log loss than all five on each tour | Reported separately by tour | A bounded, independently reconstructed historical benchmark |
 | [buildoak XGBoost adaptation — ATP](docs/benchmarks/BUILDOAK_2024_RESULTS.md) | 2,681 ATP, 2024 | 0.596486 vs 0.600044 | 66.17% vs 66.06% | Alcaraz point lead; log-loss interval crosses zero |
 | [buildoak XGBoost adaptation — WTA](docs/benchmarks/BUILDOAK_WTA_2024_RESULTS.md) | 2,404 WTA / 55 editions, 2024 | 0.604022 vs 0.605039 | 1,575 vs 1,589 correct | Inconclusive; external system has 14 more correct picks |
+| [Ingram Bayesian point-model adaptation](docs/benchmarks/INGRAM_2024_RESULTS.md) | 2,681 ATP, 2024 | 0.596486 vs 0.641705 | 66.17% vs 63.48%; 72 more correct | Alcaraz log-loss advantage; primary 95% interval [−0.056486, −0.035027] |
 
 The external adaptations retain their own forecasting methods and different
 source histories. They are neither reproductions of the source author's
-headline results nor equal-input algorithm contests. Both are exposed
-historical development work with uncertainty calculated from fixed forecasts.
+headline results nor equal-input algorithm contests. All are exposed
+historical comparisons with uncertainty calculated from fixed forecasts.
+The Ingram result supports a clear log-loss advantage over that specified
+adaptation; its accuracy advantage is a point estimate. The buildoak comparisons
+remain inconclusive, so these results do not establish state-of-the-art status.
 
 ![Two evidence-backed public-XGBoost comparisons shown as separate ATP and WTA cards. Each card uses its own cohort, log-loss difference, accuracy result, and interval conclusion.](docs/assets/public-xgboost-comparisons.svg)
 
