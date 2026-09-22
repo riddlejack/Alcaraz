@@ -129,12 +129,16 @@ def normalize_captures(
                 }
             )
             continue
-        matches, notes = wikitext.parse_draw(capture["source"])
+        draw_scope = str(event.get("draw_scope") or "main")
+        matches, notes, draw_structure = wikitext.parse_draw_with_structure(
+            capture["source"], draw_scope=draw_scope
+        )
         revision = str(capture["revision_id"])
         published = str(capture["revision_timestamp_utc"])
         window_known = bool(event.get("window_start") and event.get("window_end"))
         seen: dict[str, dict[str, Any]] = {}
-        pending = played = 0
+        pending = sum(1 for match in matches if match.status == "pending")
+        quarantined_pairings = terminal_quarantined = 0
         for match in matches:
             base = {
                 "kind": "",
@@ -148,11 +152,15 @@ def normalize_captures(
                 "source_revision": revision,
             }
             if match.round.startswith("unresolved:"):
+                quarantined_pairings += 1
                 quarantine.append(
                     {**base, "kind": "unresolved", "detail": f"round label {match.round}"}
                 )
                 continue
             if match.winner == "conflict":
+                quarantined_pairings += 1
+                if match.round == draw_structure.terminal_round:
+                    terminal_quarantined += 1
                 quarantine.append(
                     {
                         **base,
@@ -164,10 +172,16 @@ def normalize_captures(
             res_a = identity.resolve(match.a_title, tour=event["tour"])
             res_b = identity.resolve(match.b_title, tour=event["tour"])
             if res_a.status != "resolved" or res_b.status != "resolved":
+                quarantined_pairings += 1
+                if match.round == draw_structure.terminal_round:
+                    terminal_quarantined += 1
                 detail = f"a:{res_a.status}{list(res_a.candidates)} b:{res_b.status}{list(res_b.candidates)}"
                 quarantine.append({**base, "kind": "unresolved", "detail": detail})
                 continue
             if res_a.player_id == res_b.player_id:
+                quarantined_pairings += 1
+                if match.round == draw_structure.terminal_round:
+                    terminal_quarantined += 1
                 quarantine.append(
                     {**base, "kind": "conflicting", "detail": "same player on both sides"}
                 )
@@ -215,6 +229,9 @@ def normalize_captures(
                 "serve_source": "none",
             }
             if row_id in seen:
+                quarantined_pairings += 1
+                if match.round == draw_structure.terminal_round:
+                    terminal_quarantined += 1
                 earlier = seen[row_id]
                 same = all(earlier[k] == row[k] for k in ("winner_side", "score", "status"))
                 quarantine.append(
@@ -232,29 +249,46 @@ def normalize_captures(
                 continue
             seen[row_id] = row
             results.append(row)
-            if match.status == "pending":
-                pending += 1
-            else:
-                played += 1
-        final_decided = any(
-            r["round"] == "F" and r["winner_side"]
-            for r in results
-            if r["event_id"] == event["event_id"]
+        event_rows = [row for row in results if row["event_id"] == event["event_id"]]
+        played = sum(1 for row in event_rows if row["status"] != "pending")
+        terminal_round = draw_structure.terminal_round
+        terminal_matches = [match for match in matches if match.round == terminal_round]
+        terminal_empty_or_bye = sum(1 for note in notes if note["round"] == terminal_round)
+        final_decided = (
+            draw_structure.expected_terminal_pairings > 0
+            and len(terminal_matches) == draw_structure.expected_terminal_pairings
+            and terminal_empty_or_bye == 0
+            and terminal_quarantined == 0
+            and all(
+                match.winner in {"a", "b"} and match.status != "pending"
+                for match in terminal_matches
+            )
         )
         byes = sum(1 for note in notes if note["note"] == "bye_or_empty_slot")
         draw_size = int(event.get("draw_size") or 0)
         completeness.append(
             {
                 "event_id": event["event_id"],
-                "status": "complete" if final_decided and pending == 0 else "incomplete",
-                "parsed_matches": played + pending,
+                "draw_scope": draw_scope,
+                "status": "complete"
+                if final_decided and pending == 0 and quarantined_pairings == 0
+                else "incomplete",
+                "parsed_matches": len(matches),
                 "played": played,
                 "pending": pending,
                 "bye_or_empty_slots": byes,
+                "quarantined_pairings": quarantined_pairings,
                 "final_decided": final_decided,
+                "terminal_round": terminal_round,
+                "terminal_pairings_expected": draw_structure.expected_terminal_pairings,
+                "terminal_pairings_parsed": len(terminal_matches),
+                "terminal_pairings_quarantined": terminal_quarantined,
+                "terminal_bye_or_empty_slots": terminal_empty_or_bye,
                 "declared_draw_size": draw_size,
-                "generic_expectation_draw_size_minus_one": draw_size - 1 if draw_size else None,
-                "note": "completeness is structural (final decided, no pending slot); the generic count is reported, never used as the criterion",
+                "generic_expectation_draw_size_minus_one": (
+                    draw_size - 1 if draw_size and draw_scope == "main" else None
+                ),
+                "note": "completeness requires every declared terminal pairing to be present, decided and normalized, with no pending or quarantined pairing; draw-size arithmetic is never the qualifying criterion",
                 "source_revision": revision,
             }
         )

@@ -12,10 +12,15 @@ import datetime as dt
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 
 import pytest
 
+from tennislab.live import wikitext
+from tennislab.live.common import LiveError
+from tennislab.live.sources import wikipedia_url
+from tennislab.live.transport import write_replay_response
 from tennislab.live.versions import verify_version
 from tests.live import world
 from tests.live.world import CONFIG, Runner
@@ -243,6 +248,403 @@ def test_identity_duplicate_and_conflict_rows_are_quarantined_with_receipts(ws) 
         or "300010" in (r["player_a_id"], r["player_b_id"])
         for r in rows
     )
+
+
+def test_mixed_page_binds_main_and_qualifying_only_to_explicit_scopes(ws) -> None:
+    """Regression: the old route ignored qualifying intent and bound main rows to its id."""
+    workspace, runner = ws
+    main_event = {**world.EVENT_1, "event_id": "2026-MIX", "draw_scope": "main"}
+    qualifying_event = {
+        **world.EVENT_1,
+        "event_id": "2026-MIX-Q",
+        "name": "Sample Open Qualifying",
+        "draw_size": 4,
+        "draw_scope": "qualifying",
+    }
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [main_event, qualifying_event]}, indent=2), encoding="utf-8"
+    )
+    replay = workspace / "mixed-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, world.EVENT_1["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            world.EVENT_1["wikipedia_title"],
+            world.mixed_scope_page(),
+            revision=200,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    out = update(runner, replay)
+    version = version_dir(workspace, out["version_id"])
+    verify_version(version)
+    rows = read_csv(version / "results.csv")
+    main_rows = [row for row in rows if row["event_id"] == "2026-MIX"]
+    qualifying_rows = [row for row in rows if row["event_id"] == "2026-MIX-Q"]
+    assert len(main_rows) == 7
+    assert {row["round"] for row in main_rows} == {"QF", "SF", "F"}
+    assert len(qualifying_rows) == 3
+    assert sorted(row["round"] for row in qualifying_rows) == ["Q1", "Q1", "Q2"]
+    assert not any(row["round"].startswith("R") for row in qualifying_rows)
+    assert not any(row["round"].startswith("Q") for row in main_rows if row["round"] != "QF")
+    events = json.loads((version / "events.json").read_text(encoding="utf-8"))
+    assert [event["draw_scope"] for event in events] == ["main", "qualifying"]
+    completeness = {
+        row["event_id"]: row
+        for row in json.loads((version / "completeness.json").read_text(encoding="utf-8"))
+    }
+    assert completeness["2026-MIX-Q"]["terminal_round"] == "Q2"
+    assert completeness["2026-MIX-Q"]["status"] == "complete"
+    manifest = json.loads((version / "manifest.json").read_text(encoding="utf-8"))
+    assert "events.json" in manifest["files"]
+    attempt = manifest["attempts"]["wikipedia_results"]
+    probe = json.loads(
+        (
+            workspace
+            / "data/live/sources/wikipedia_results/attempts"
+            / attempt
+            / "structural_probe.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert [item["draw_scope"] for item in probe] == ["main", "qualifying"]
+    assert probe[1]["round_labels"] == ["First round", "Qualifying competition"]
+
+
+def test_completeness_uses_declared_main_final_not_highest_parsed_round(ws) -> None:
+    workspace, runner = ws
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [{**world.EVENT_1, "draw_scope": "main"}]}, indent=2),
+        encoding="utf-8",
+    )
+    replay = workspace / "quarterfinal-only-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, world.EVENT_1["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            world.EVENT_1["wikipedia_title"],
+            world.bracket_page({"QF": world.complete_rounds()["QF"]}, qualifying=False),
+            revision=201,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    out = update(runner, replay)
+    completeness = json.loads(
+        (version_dir(workspace, out["version_id"]) / "completeness.json").read_text()
+    )[0]
+    assert completeness["status"] == "incomplete"
+    assert completeness["terminal_round"] == "F"
+    assert completeness["terminal_pairings_expected"] == 0
+    assert completeness["terminal_pairings_parsed"] == 0
+    assert completeness["final_decided"] is False
+
+
+def test_qualifying_empty_declared_terminal_does_not_fall_back_to_q1(ws) -> None:
+    workspace, runner = ws
+    event = {
+        **world.EVENT_1,
+        "event_id": "2026-MIX-Q",
+        "name": "Sample Open Qualifying",
+        "draw_scope": "qualifying",
+    }
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [event]}, indent=2), encoding="utf-8"
+    )
+    source = re.sub(r"(?m)^(\|RD2-team\d+=).*$", r"\1", world.mixed_scope_page())
+    replay = workspace / "empty-qualifying-terminal-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, event["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            event["wikipedia_title"],
+            source,
+            revision=202,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    out = update(runner, replay)
+    completeness = json.loads(
+        (version_dir(workspace, out["version_id"]) / "completeness.json").read_text()
+    )[0]
+    assert completeness["status"] == "incomplete"
+    assert completeness["terminal_round"] == "Q2"
+    assert completeness["terminal_pairings_expected"] == 1
+    assert completeness["terminal_pairings_parsed"] == 0
+    assert completeness["terminal_bye_or_empty_slots"] == 1
+    assert completeness["final_decided"] is False
+    assert completeness["generic_expectation_draw_size_minus_one"] is None
+
+
+def _with_second_qualifier(source: str) -> str:
+    second = f"""
+====Second qualifier====
+{{{{4TeamBracket-Tennis3
+|RD1=First round
+|RD2=Qualifying competition
+|RD1-team1='''[[{world.name_of("300005")}]]'''
+|RD1-score1-1=6
+|RD1-score1-2=6
+|RD1-team2=[[{world.name_of("300006")}]]
+|RD1-score2-1=3
+|RD1-score2-2=4
+|RD1-team3=[[{world.name_of("300007")}]]
+|RD1-score3-1=4
+|RD1-score3-2=4
+|RD1-team4='''[[{world.name_of("300008")}]]'''
+|RD1-score4-1=6
+|RD1-score4-2=6
+|RD2-team1=[[{world.name_of("300005")}]]
+|RD2-score1-1=2
+|RD2-score1-2=3
+|RD2-team2='''[[{world.name_of("300008")}]]'''
+|RD2-score2-1=6
+|RD2-score2-2=6
+}}}}
+"""
+    return source.replace("\n==References==", f"{second}\n==References==")
+
+
+def test_qualifying_completeness_accounts_for_every_qualifier_bracket(ws) -> None:
+    workspace, runner = ws
+    event = {
+        **world.EVENT_1,
+        "event_id": "2026-MULTI-Q",
+        "name": "Sample Open Qualifying",
+        "draw_scope": "qualifying",
+    }
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [event]}, indent=2), encoding="utf-8"
+    )
+    replay = workspace / "multiple-qualifier-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, event["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            event["wikipedia_title"],
+            _with_second_qualifier(world.mixed_scope_page()),
+            revision=203,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    out = update(runner, replay)
+    completeness = json.loads(
+        (version_dir(workspace, out["version_id"]) / "completeness.json").read_text()
+    )[0]
+    assert completeness["status"] == "complete"
+    assert completeness["terminal_round"] == "Q2"
+    assert completeness["terminal_pairings_expected"] == 2
+    assert completeness["terminal_pairings_parsed"] == 2
+    assert completeness["final_decided"] is True
+
+
+@pytest.mark.parametrize("defect", ["unresolved_identity", "conflicting_winner"])
+def test_qualifying_terminal_quarantine_prevents_completeness(ws, defect: str) -> None:
+    workspace, runner = ws
+    event = {
+        **world.EVENT_1,
+        "event_id": "2026-QUARANTINE-Q",
+        "name": "Sample Open Qualifying",
+        "draw_scope": "qualifying",
+    }
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [event]}, indent=2), encoding="utf-8"
+    )
+    source = world.mixed_scope_page()
+    if defect == "unresolved_identity":
+        source = source.replace(
+            "|RD2-team2='''{{flagicon|SYN}} [[Di Delta]]'''",
+            "|RD2-team2='''{{flagicon|SYN}} [[Unknown Qualifier]]'''",
+        )
+    else:
+        source = source.replace(
+            "|RD2-team1={{flagicon|SYN}} [[Ada Alpha]]",
+            "|RD2-team1='''{{flagicon|SYN}} [[Ada Alpha]]'''",
+        )
+    replay = workspace / f"{defect}-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, event["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            event["wikipedia_title"],
+            source,
+            revision=204,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    out = update(runner, replay)
+    completeness = json.loads(
+        (version_dir(workspace, out["version_id"]) / "completeness.json").read_text()
+    )[0]
+    assert completeness["status"] == "incomplete"
+    assert completeness["terminal_pairings_expected"] == 1
+    assert completeness["terminal_pairings_parsed"] == 1
+    assert completeness["terminal_pairings_quarantined"] == 1
+    assert completeness["quarantined_pairings"] == 1
+    assert completeness["final_decided"] is False
+
+
+def test_qualifying_metadata_requires_explicit_nonconflicting_scope(ws) -> None:
+    workspace, runner = ws
+    base = {
+        **world.EVENT_1,
+        "event_id": "2026-E1-Q",
+        "name": "Sample Open Qualifying",
+    }
+    for event, expected in (
+        (base, "requires explicit draw_scope='qualifying'"),
+        ({**base, "draw_scope": "main"}, "conflicts with qualifying event metadata"),
+        ({**base, "draw_scope": "other"}, "draw_scope must be one of"),
+    ):
+        (workspace / "events.json").write_text(
+            json.dumps({"events": [event]}, indent=2), encoding="utf-8"
+        )
+        err = runner.fails(
+            "update", "--config", CONFIG, "--events", "events.json", "--replay", "none"
+        )
+        assert expected in err
+    assert not (workspace / "data" / "live" / "versions").exists()
+
+
+def test_qualifying_section_and_round_ambiguity_fail_closed() -> None:
+    source = world.mixed_scope_page()
+    no_qualifying = source.split("\n==Qualifying==", 1)[0] + "\n==References==\n"
+    with pytest.raises(LiveError, match="no Qualifying section"):
+        wikitext.parse_draw(no_qualifying, draw_scope="qualifying")
+
+    duplicate = source.replace(
+        "\n==References==", "\n===Qualifying draw===\n{{4TeamBracket-Tennis3}}\n\n==References=="
+    )
+    with pytest.raises(LiveError, match="ambiguous duplicate Qualifying draw sections"):
+        wikitext.parse_draw(duplicate, draw_scope="qualifying")
+
+    unsupported = source.replace("|RD2=Qualifying competition", "|RD2=Final", 1)
+    with pytest.raises(LiveError, match="terminal round must be explicitly labelled"):
+        wikitext.parse_draw(unsupported, draw_scope="qualifying")
+
+    conflicting = source.replace(
+        "}}\n\n==References==",
+        "}}\n====Second qualifier====\n{{4TeamBracket-Tennis3\n|RD1=Qualifying competition\n"
+        f"|RD1-team1=[[{world.name_of('300005')}]]\n"
+        f"|RD1-team2=[[{world.name_of('300006')}]]\n}}}}\n\n==References==",
+    )
+    with pytest.raises(LiveError, match="conflicting round structures"):
+        wikitext.parse_draw(conflicting, draw_scope="qualifying")
+
+
+def test_qualifying_tiebreak_score_uses_set_loser_points_and_template_only_slot_is_empty() -> None:
+    source = """==Draw==
+{{4TeamBracket-Tennis3|RD1=Final}}
+==Qualifying==
+===Qualifying draw===
+{{4TeamBracket-Tennis3
+|RD1=First round
+|RD2=Qualifying competition
+|RD1-team1='''[[Alpha One]]'''
+|RD1-score1-1=6<sup>6</sup>
+|RD1-score1-2='''6'''
+|RD1-score1-3='''7'''
+|RD1-team2=[[Beta Two]]
+|RD1-score2-1='''7<sup>8</sup>'''
+|RD1-score2-2=4
+|RD1-score2-3=5
+|RD2-team1=[[Alpha One]]
+|RD2-team2={{flagicon|}}
+}}
+"""
+    matches, notes = wikitext.parse_draw(source, draw_scope="qualifying")
+    assert [(match.round, match.score, match.status) for match in matches] == [
+        ("Q1", "6-7(6) 6-4 7-5", "completed")
+    ]
+    assert notes == [
+        {
+            "template": "4TeamBracket-Tennis3",
+            "round": "Q2",
+            "position": "1",
+            "note": "bye_or_empty_slot",
+        }
+    ]
+
+
+@pytest.mark.parametrize("winner_side", ["a", "b"])
+@pytest.mark.parametrize(
+    ("winner_annotation", "loser_annotation", "expected_set"),
+    [("8", "6", "7-6(6)"), ("8", "", "7-6"), ("", "6", "7-6(6)")],
+)
+def test_tiebreak_annotation_is_read_only_from_set_loser(
+    winner_side: str, winner_annotation: str, loser_annotation: str, expected_set: str
+) -> None:
+    def annotated(games: str, points: str) -> str:
+        return games + (f"<sup>{points}</sup>" if points else "")
+
+    if winner_side == "a":
+        team_a, team_b = "'''[[Alpha One]]'''", "[[Beta Two]]"
+        first_a = annotated("7", winner_annotation)
+        first_b = annotated("6", loser_annotation)
+        second_a, second_b = "6", "4"
+    else:
+        team_a, team_b = "[[Alpha One]]", "'''[[Beta Two]]'''"
+        first_a = annotated("6", loser_annotation)
+        first_b = annotated("7", winner_annotation)
+        second_a, second_b = "4", "6"
+    source = f"""==Draw==
+{{{{4TeamBracket-Tennis3|RD1=Final}}}}
+==Qualifying==
+===Qualifying draw===
+{{{{4TeamBracket-Tennis3
+|RD1=Qualifying competition
+|RD1-team1={team_a}
+|RD1-score1-1={first_a}
+|RD1-score1-2={second_a}
+|RD1-team2={team_b}
+|RD1-score2-1={first_b}
+|RD1-score2-2={second_b}
+}}}}
+"""
+    matches, _ = wikitext.parse_draw(source, draw_scope="qualifying")
+    assert matches[0].score == f"{expected_set} 6-4"
+
+
+def test_absent_qualifying_section_records_failed_attempt_without_version(ws) -> None:
+    workspace, runner = ws
+    event = {
+        **world.EVENT_1,
+        "event_id": "2026-E1-Q",
+        "name": "Sample Open Qualifying",
+        "draw_scope": "qualifying",
+    }
+    (workspace / "events.json").write_text(
+        json.dumps({"events": [event]}, indent=2), encoding="utf-8"
+    )
+    replay = workspace / "main-only-replay"
+    write_replay_response(
+        replay,
+        wikipedia_url(world.ENDPOINT, event["wikipedia_title"]),
+        status=200,
+        body=world.envelope(
+            event["wikipedia_title"],
+            world.bracket_page(world.complete_rounds(), qualifying=False),
+            revision=300,
+            timestamp="2026-08-09T22:00:00Z",
+        ),
+    )
+    code, out, _ = runner.run(
+        "update", "--config", CONFIG, "--events", "events.json", "--replay", replay.name
+    )
+    assert code == 1
+    result = json.loads(out)
+    assert result["status"] == "failed"
+    assert result["normalization_error"] == "page has no Qualifying section"
+    attempt = workspace / "data/live/sources/wikipedia_results/attempts" / result["attempt_id"]
+    receipt = json.loads((attempt / "receipt.json").read_text(encoding="utf-8"))
+    assert receipt["status"] == "failed"
+    probe = json.loads((attempt / "structural_probe.json").read_text(encoding="utf-8"))
+    assert probe[0]["error"] == "page has no Qualifying section"
+    assert not (workspace / "data/live/sources/wikipedia_results/latest.json").exists()
+    assert not (workspace / "data/live/versions").exists()
 
 
 # --- 6: serve/ranking freshness -------------------------------------------------------------------
