@@ -4,6 +4,35 @@ This page preserves completed, aggregate-only historical findings that inform
 the landing page. All are exposed retrospective development comparisons; none
 changes the released default or establishes prospective performance.
 
+## Uncertainty through the final predictor
+
+On **7,610 ATP 2021–2023 targets**, a fixed two-arm experiment tested whether
+accounting for uncertainty in estimated serve/return strength improved the
+final predictor. The challenger replaced two main-tour/lower-tier dynamic
+probability inputs with the previously reviewed UNC01 joint uncertainty
+mapping. The other 46 features, observations, HGB menu, training windows,
+past-only selection and calibration procedure stayed the same.
+
+The challenger **worsened log loss by 0.000156526**, with a paired four-week
+95% interval **[−0.000312053, +0.000637206]**. It made **eight more correct
+picks** (+0.1051 percentage points), but the accuracy interval also included
+zero. Brier score worsened slightly; every registered four-week and
+tournament-edition interval included zero.
+
+The separately specified, exposed **2,681-match ATP 2024** extension showed
+the same tradeoff: log loss +0.000377980 and three more correct picks. Its
+primary eight-week log-loss interval [−0.000226557, +0.000994385] and both
+registered block-length sensitivities included zero. The incumbent and its
+existing buildoak comparison reproduced exactly.
+
+**Retain the incumbent.** The earlier standalone uncertainty result did not
+establish a benefit when carried through this final learning and calibration
+procedure. This does not establish equivalence or rule out other uncertainty
+models. The experiment reused 14 incumbent fits and fitted 14 challenger
+cells; independent reconstruction accepted the forecasts, selections and
+registered uncertainty calculations. These intervals condition on saved fits
+and forecasts, and the 2024 extension is not an untouched holdout.
+
 ## Learner capacity and training window
 
 On **7,610 ATP 2021–2023 targets**, a four-arm experiment held the existing
