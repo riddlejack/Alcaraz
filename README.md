@@ -75,6 +75,14 @@ The Ingram result supports a clear log-loss advantage over that specified
 adaptation; its accuracy advantage is a point estimate. The buildoak comparisons
 remain inconclusive, so these results do not establish state-of-the-art status.
 
+A separate [shared-data WTA control](docs/benchmarks/BUILDOAK_FAIRNESS_AUDIT.md)
+matched qualified observations and final training membership. Alcaraz made **39
+more correct picks** and reduced log loss by **0.022913** (95% interval
+[−0.032487, −0.013962]). Buildoak improved substantially when its own broader
+input policy was restored. This supports a scoped modeling-pipeline advantage
+on the shared data; the full-system comparisons above retain each model's
+legitimate data advantages and remain the primary results.
+
 ![Two evidence-backed public-XGBoost comparisons shown as separate ATP and WTA cards. Each card uses its own cohort, log-loss difference, accuracy result, and interval conclusion.](docs/assets/public-xgboost-comparisons.svg)
 
 The early work produced plausible backtests. Review found why that was not
