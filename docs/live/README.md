@@ -13,6 +13,16 @@ reports unavailable inputs until the separate model bundle and private histories
 These commands require a prepared workspace and the input schemas in [DESIGN.md](DESIGN.md).
 The replay option uses retained responses; it is not a command to launch a crawl.
 
+Each event declaration may set `draw_scope` to `main` or `qualifying`. Omission retains
+legacy main-draw behavior, except that metadata which itself identifies a qualifying event
+(for example, a `-Q` event id or “Qualifying” event name) is refused until
+`"draw_scope": "qualifying"` is explicit. Qualifying scope requires one unambiguous
+`Qualifying` / `Qualifying draw` subtree and maps a validated bracket sequence such as
+`First round` → `Qualifying competition` to `Q1` → `Q2`. Unsupported or conflicting
+section and round structures fail before a result version is written. Existing qualifying
+event files therefore require this one-field migration; the selected scope is retained in
+the version's `events.json` and hash-bound by its manifest.
+
 ```sh
 uv run tennislab readiness --config configs/live/live.json
 uv run tennislab update --config configs/live/live.json --events events.json --replay <dir>

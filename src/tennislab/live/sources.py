@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import json
+import re
 import urllib.parse
 from collections.abc import Iterable, Mapping
 from pathlib import Path
@@ -32,9 +33,11 @@ EVENT_FIELDS = (
     "best_of",
     "draw_size",
     "wikipedia_title",
+    "draw_scope",
     "window_start",
     "window_end",
 )
+DRAW_SCOPES = {"main", "qualifying"}
 TA_SERVE_FIELDS = (
     "p_ace",
     "p_df",
@@ -76,6 +79,31 @@ def read_events(path: Path) -> list[dict[str, Any]]:
         record["tour"] = str(record["tour"]).upper()
         if record["tour"] not in {"ATP", "WTA"}:
             raise LiveError(f"event {event['event_id']}: tour must be ATP or WTA")
+        scope = str(event.get("draw_scope") or "").strip().lower()
+        qualifying_identity = bool(
+            re.search(r"(?:^|[-_/])q(?:$|[-_/])", str(record["event_id"]), re.IGNORECASE)
+            or re.search(
+                r"\bqualif(?:y|ying|ier|iers|ication)\w*\b", str(record["name"]), re.IGNORECASE
+            )
+        )
+        if not scope:
+            if qualifying_identity:
+                raise LiveError(
+                    f"event {event['event_id']}: qualifying event metadata requires explicit "
+                    "draw_scope='qualifying'; omitted draw_scope is legacy main-draw behavior"
+                )
+            scope = "main"
+        if scope not in DRAW_SCOPES:
+            raise LiveError(
+                f"event {event['event_id']}: draw_scope must be one of {sorted(DRAW_SCOPES)}, "
+                f"got {scope!r}"
+            )
+        if scope == "main" and qualifying_identity:
+            raise LiveError(
+                f"event {event['event_id']}: draw_scope='main' conflicts with qualifying event "
+                "metadata"
+            )
+        record["draw_scope"] = scope
         for field in ("window_start", "window_end"):
             if record[field]:
                 parse_date(str(record[field]), label=f"event {event['event_id']} {field}")
@@ -160,11 +188,24 @@ def structural_probe(captures: Iterable[Mapping[str, Any]]) -> list[dict[str, An
         if "source" not in capture:
             out.append({"event_id": capture["event"]["event_id"], "error": capture.get("error")})
             continue
-        probe = wikitext.structure(capture["source"])
+        draw_scope = str(capture["event"].get("draw_scope") or "main")
+        try:
+            probe = wikitext.structure(capture["source"], draw_scope=draw_scope)
+        except LiveError as error:
+            out.append(
+                {
+                    "event_id": capture["event"]["event_id"],
+                    "revision_id": capture["revision_id"],
+                    "draw_scope": draw_scope,
+                    "error": str(error),
+                }
+            )
+            continue
         out.append(
             {
                 "event_id": capture["event"]["event_id"],
                 "revision_id": capture["revision_id"],
+                "draw_scope": probe.draw_scope,
                 "headings": probe.headings,
                 "templates": probe.templates,
                 "round_labels": probe.round_labels,

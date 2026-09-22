@@ -170,6 +170,40 @@ def bracket_page(rounds: dict[str, list[dict[str, Any]]], *, qualifying: bool = 
     return "\n".join(lines) + "\n"
 
 
+def mixed_scope_page() -> str:
+    """One page containing complete main and two-round qualifying draws."""
+    main = bracket_page(complete_rounds(), qualifying=False)
+    main = main.rsplit("\n==References==", 1)[0]
+    n = name_of
+    qualifier_rounds = {
+        "RD1": [
+            {"a": n("300001"), "b": n("300002"), "winner": "a", "sets": [("6", "2"), ("6", "3")]},
+            {"a": n("300003"), "b": n("300004"), "winner": "b", "sets": [("4", "6"), ("3", "6")]},
+        ],
+        "RD2": [
+            {"a": n("300001"), "b": n("300004"), "winner": "b", "sets": [("4", "6"), ("4", "6")]}
+        ],
+    }
+    lines = [main, "", "==Qualifying==", "===Qualifying draw===", "====First qualifier===="]
+    lines.extend(["{{4TeamBracket-Tennis3", "|RD1=First round", "|RD2=Qualifying competition"])
+    for rd, matches in qualifier_rounds.items():
+        for slot, match in enumerate(matches, 1):
+            base = 2 * slot - 1
+            a_bold = match["winner"] == "a"
+            b_bold = match["winner"] == "b"
+            lines.extend(
+                [
+                    f"|{rd}-seed{base}=",
+                    f"|{rd}-team{base}={team_cell(match['a'], a_bold)}",
+                    f"|{rd}-seed{base + 1}=",
+                    f"|{rd}-team{base + 1}={team_cell(match['b'], b_bold)}",
+                ]
+            )
+            lines.extend(score_cells(rd, base, match["sets"], winner_is_first=a_bold))
+    lines.extend(["}}", "", "==References=="])
+    return "\n".join(lines) + "\n"
+
+
 def envelope(title: str, source: str, *, revision: int, timestamp: str) -> str:
     return json.dumps(
         {

@@ -127,14 +127,29 @@ def cmd_update(args: argparse.Namespace) -> int:
                 )
             )
             return 1
+        receipt_id = f"wikipedia_results/{attempt.attempt_id}"
+        try:
+            results, quarantine, completeness = versions.normalize_captures(
+                captures, _identity(config), receipt_id=receipt_id
+            )
+        except LiveError as error:
+            attempt.finish("failed", note=f"normalization refused: {error}")
+            write_receipt(attempt)
+            print(
+                json.dumps(
+                    {
+                        "status": "failed",
+                        "attempt_id": attempt.attempt_id,
+                        "normalization_error": str(error),
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 1
         attempt.finish("complete")
         write_receipt(attempt)
         advance_latest(config, "wikipedia_results", attempt)
         attempts["wikipedia_results"] = attempt.attempt_id
-        receipt_id = f"wikipedia_results/{attempt.attempt_id}"
-        results, quarantine, completeness = versions.normalize_captures(
-            captures, _identity(config), receipt_id=receipt_id
-        )
     else:
         latest = versions.latest_version(config)
         if latest is None:

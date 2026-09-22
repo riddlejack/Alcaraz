@@ -8,9 +8,11 @@ a tiebreak is ``7<sup>9</sup>``, a retirement is ``<sup>r</sup>`` on the loser's
 a walkover is ``<small>w/o</small>`` in a score cell, and a ``-Byes`` template omits the
 slots that receive a bye. No date, time, statistic or identifier exists in the template.
 
-Only templates under the ``Draw`` heading are read; the qualifying draw is never parsed.
-Nothing here resolves an identity: the emitted rows carry the linked article title and the
-display form, and identity resolution happens elsewhere.
+Callers explicitly select the main or qualifying draw. Main-draw parsing retains the
+legacy default; qualifying parsing requires the page's ``Qualifying`` / ``Qualifying draw``
+structure and a consistent bracket-round sequence. Nothing here resolves an identity: the
+emitted rows carry the linked article title and display form, and identity resolution
+happens elsewhere.
 """
 
 from __future__ import annotations
@@ -20,7 +22,7 @@ from dataclasses import dataclass, field
 
 from tennislab.live.common import LiveError
 
-PARSER_VERSION = "tennislab-wikitext-1.0.0"
+PARSER_VERSION = "tennislab-wikitext-1.1.1"
 
 ROUND_LABELS = {
     "first round": "R1",
@@ -40,6 +42,8 @@ ROUND_LABELS = {
 }
 ROUND_ORDER = ("R1", "R2", "R3", "R4", "QF", "SF", "F")
 QUALIFYING_LABELS = {"qualifying competition", "qualifying", "qualifier"}
+QUALIFYING_PRELIMINARY_LABELS = ("first round", "second round", "third round", "fourth round")
+DRAW_SCOPES = {"main", "qualifying"}
 ENTRY_TOKENS = {"Q", "WC", "LL", "PR", "ALT", "SE", "JE", "ITF", "SR"}
 
 _TEMPLATE = re.compile(r"\{\{\s*(\d+TeamBracket[^|\n}]*)", re.IGNORECASE)
@@ -85,11 +89,21 @@ class BracketMatch:
 class PageStructure:
     """The outcome-free structural probe of a page."""
 
+    draw_scope: str = ""
     templates: list[str] = field(default_factory=list)
     round_labels: list[str] = field(default_factory=list)
     slots_per_template: list[int] = field(default_factory=list)
     headings: list[str] = field(default_factory=list)
     parameter_shapes: dict[str, int] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class DrawStructure:
+    """Outcome-free terminal structure needed to assess capture completeness."""
+
+    draw_scope: str
+    terminal_round: str
+    expected_terminal_pairings: int
 
 
 def strip_markup(text: str) -> str:
@@ -116,6 +130,10 @@ def parse_team_cell(raw: str) -> tuple[str, str, bool, bool]:
         display = strip_markup(match.group(2) or match.group(1))
         return title, display, bold, False
     plain = strip_markup(text)
+    # Parameter extraction removes the template-closing braces when an otherwise-empty
+    # team cell contains only ``{{flagicon|}}``. Treat that remnant as empty, not as an
+    # invented player title.
+    plain = re.sub(r"\{\{[^{}]*$", "", plain).strip()
     if plain.lower() in {"bye", "—", "-", ""}:
         return "", plain, False, plain.lower() == "bye"
     return plain, plain, bold, False
@@ -138,25 +156,54 @@ def parse_seed_cell(raw: str) -> tuple[str, str]:
     return seed, entry
 
 
-def _draw_section(source: str) -> str:
-    """The wikitext between the ``Draw`` heading and the next same-level heading."""
+def _named_sections(source: str, title: str) -> list[str]:
+    """Every exact named heading through the next heading at the same or higher level."""
     lines = source.splitlines()
-    start = None
-    level = 0
+    starts: list[tuple[int, int]] = []
     for index, line in enumerate(lines):
         heading = _HEADING.match(line)
         if not heading:
             continue
         depth = len(heading.group(1))
-        title = heading.group(2).strip().lower()
-        if start is None and title == "draw":
-            start = index
-            level = depth
-        elif start is not None and depth <= level:
-            return "\n".join(lines[start:index])
-    if start is None:
-        return ""
-    return "\n".join(lines[start:])
+        observed = heading.group(2).strip().lower()
+        if observed == title.lower():
+            starts.append((index, depth))
+    sections: list[str] = []
+    for start, level in starts:
+        end = len(lines)
+        for index in range(start + 1, len(lines)):
+            heading = _HEADING.match(lines[index])
+            if heading and len(heading.group(1)) <= level:
+                end = index
+                break
+        sections.append("\n".join(lines[start:end]))
+    return sections
+
+
+def _draw_section(source: str, draw_scope: str) -> str:
+    """Select one explicitly scoped draw section and reject absent or ambiguous structure."""
+    if draw_scope not in DRAW_SCOPES:
+        raise LiveError(f"unsupported draw scope {draw_scope!r}")
+    if draw_scope == "main":
+        sections = _named_sections(source, "draw")
+        label = "Draw"
+    else:
+        qualifying = _named_sections(source, "qualifying")
+        if len(qualifying) != 1:
+            raise LiveError(
+                "page has no Qualifying section"
+                if not qualifying
+                else "page has ambiguous duplicate Qualifying sections"
+            )
+        sections = _named_sections(qualifying[0], "qualifying draw")
+        label = "Qualifying draw"
+    if len(sections) != 1:
+        raise LiveError(
+            f"page has no {label} section"
+            if not sections
+            else f"page has ambiguous duplicate {label} sections"
+        )
+    return sections[0]
 
 
 def _templates(section: str) -> list[tuple[str, dict[str, str]]]:
@@ -178,14 +225,14 @@ def _templates(section: str) -> list[tuple[str, dict[str, str]]]:
     return found
 
 
-def structure(source: str) -> PageStructure:
+def structure(source: str, *, draw_scope: str = "main") -> PageStructure:
     """Headers, template names, round labels and parameter-shape counts; no names, no scores."""
-    probe = PageStructure()
+    probe = PageStructure(draw_scope=draw_scope)
     for line in source.splitlines():
         heading = _HEADING.match(line)
         if heading:
             probe.headings.append(heading.group(2).strip())
-    for name, params in _templates(_draw_section(source)):
+    for name, params in _templates(_draw_section(source, draw_scope)):
         probe.templates.append(name)
         probe.slots_per_template.append(sum(1 for key in params if "-team" in key))
         for key in params:
@@ -196,7 +243,41 @@ def structure(source: str) -> PageStructure:
     return probe
 
 
-def _slots(params: dict[str, str]) -> dict[str, dict[int, Slot]]:
+def _qualifying_round_codes(params: dict[str, str]) -> dict[str, str]:
+    labels = {
+        key: strip_markup(value).lower().rstrip(":")
+        for key, value in params.items()
+        if re.fullmatch(r"RD\d+", key)
+    }
+    team_rounds = {
+        match.group(1)
+        for key in params
+        if (match := re.match(r"^(RD\d+)-team\d+$", key)) is not None
+    }
+    ordered = sorted(team_rounds, key=lambda rd: int(rd[2:]))
+    if not ordered:
+        raise LiveError("qualifying draw bracket has no team slots")
+    expected_keys = [f"RD{i}" for i in range(1, len(ordered) + 1)]
+    if ordered != expected_keys:
+        raise LiveError(f"qualifying draw has nonconsecutive bracket rounds {ordered}")
+    observed = [labels.get(rd, "") for rd in ordered]
+    if observed[-1] not in QUALIFYING_LABELS:
+        raise LiveError(
+            "qualifying draw terminal round must be explicitly labelled as qualifying; "
+            f"got {observed[-1] or '<missing>'!r}"
+        )
+    expected_preliminary = list(QUALIFYING_PRELIMINARY_LABELS[: len(ordered) - 1])
+    if observed[:-1] != expected_preliminary:
+        raise LiveError(
+            "unsupported qualifying round labels: "
+            f"expected {expected_preliminary + ['qualifying']}, got {observed}"
+        )
+    return {rd: f"Q{index}" for index, rd in enumerate(ordered, 1)}
+
+
+def _slots(
+    params: dict[str, str], *, qualifying_rounds: dict[str, str] | None = None
+) -> dict[str, dict[int, Slot]]:
     labels = {
         key: strip_markup(value).lower().rstrip(":")
         for key, value in params.items()
@@ -209,11 +290,14 @@ def _slots(params: dict[str, str]) -> dict[str, dict[int, Slot]]:
             continue
         rd, position = team.group(1), int(team.group(2))
         label = labels.get(rd, "")
-        if label in QUALIFYING_LABELS:
-            continue
-        round_code = ROUND_LABELS.get(label)
-        if round_code is None:
-            round_code = f"unresolved:{label or rd}"
+        if qualifying_rounds is not None:
+            round_code = qualifying_rounds.get(rd, f"unresolved:{label or rd}")
+        else:
+            if label in QUALIFYING_LABELS:
+                continue
+            round_code = ROUND_LABELS.get(label)
+            if round_code is None:
+                round_code = f"unresolved:{label or rd}"
         title, display, bold, bye = parse_team_cell(value)
         seed, entry = parse_seed_cell(
             params.get(f"{rd}-seed{position:02d}", params.get(f"{rd}-seed{position}", ""))
@@ -287,7 +371,14 @@ def _pair(slot_a: Slot, slot_b: Slot, template_index: int) -> BracketMatch:
             complete_all = False
             continue
         first, second = (games_a, games_b) if winner != "b" else (games_b, games_a)
-        tb = tb_b if winner != "b" else tb_a
+        # Tennis score notation records the losing side's tiebreak points. That side is
+        # determined per set, independently of who won the match.
+        if int(games_a) < int(games_b):
+            tb = tb_a
+        elif int(games_b) < int(games_a):
+            tb = tb_b
+        else:
+            tb = ""
         if tb:
             tb = f"({tb})"
         sets.append(f"{first}-{second}{tb}")
@@ -320,15 +411,46 @@ def _pair(slot_a: Slot, slot_b: Slot, template_index: int) -> BracketMatch:
     )
 
 
-def parse_draw(source: str) -> tuple[list[BracketMatch], list[dict[str, str]]]:
-    """Matches from the main draw plus structural notes (byes, unresolved rounds)."""
-    section = _draw_section(source)
-    if not section:
-        raise LiveError("page has no Draw section")
+def parse_draw_with_structure(
+    source: str, *, draw_scope: str = "main"
+) -> tuple[list[BracketMatch], list[dict[str, str]], DrawStructure]:
+    """Matches, notes and declared terminal structure from one explicit draw scope."""
+    section = _draw_section(source, draw_scope)
+    templates = _templates(section)
+    if not templates:
+        raise LiveError(f"{draw_scope} draw section has no supported bracket templates")
+    qualifying_schemas: set[tuple[tuple[str, str], ...]] = set()
+    if draw_scope == "qualifying":
+        for _, params in templates:
+            qualifying_schemas.add(tuple(_qualifying_round_codes(params).items()))
+        if len(qualifying_schemas) != 1:
+            raise LiveError("qualifying draw templates have conflicting round structures")
     matches: list[BracketMatch] = []
     notes: list[dict[str, str]] = []
-    for template_index, (name, params) in enumerate(_templates(section)):
-        for slots in _slots(params).values():
+    terminal_round = "F"
+    expected_terminal_pairings = 0
+    for template_index, (name, params) in enumerate(templates):
+        qualifying_rounds = _qualifying_round_codes(params) if draw_scope == "qualifying" else None
+        rounds = _slots(params, qualifying_rounds=qualifying_rounds)
+        if qualifying_rounds is not None:
+            terminal_key, terminal_round = max(
+                qualifying_rounds.items(), key=lambda item: int(item[0][2:])
+            )
+        else:
+            final_keys = [
+                key
+                for key, value in params.items()
+                if re.fullmatch(r"RD\d+", key)
+                and ROUND_LABELS.get(strip_markup(value).lower().rstrip(":")) == "F"
+            ]
+            if len(final_keys) > 1:
+                raise LiveError("main draw bracket has ambiguous terminal rounds")
+            terminal_key = final_keys[0] if final_keys else ""
+        terminal_slots = rounds.get(terminal_key, {})
+        expected_terminal_pairings += len(
+            {position if position % 2 else position - 1 for position in terminal_slots}
+        )
+        for slots in rounds.values():
             positions = sorted(slots)
             for position in positions:
                 if position % 2 == 0:
@@ -362,4 +484,20 @@ def parse_draw(source: str) -> tuple[list[BracketMatch], list[dict[str, str]]]:
                             "note": "bye_or_empty_slot",
                         }
                     )
+    return (
+        matches,
+        notes,
+        DrawStructure(
+            draw_scope=draw_scope,
+            terminal_round=terminal_round,
+            expected_terminal_pairings=expected_terminal_pairings,
+        ),
+    )
+
+
+def parse_draw(
+    source: str, *, draw_scope: str = "main"
+) -> tuple[list[BracketMatch], list[dict[str, str]]]:
+    """Matches from one explicit draw scope plus structural notes."""
+    matches, notes, _ = parse_draw_with_structure(source, draw_scope=draw_scope)
     return matches, notes
