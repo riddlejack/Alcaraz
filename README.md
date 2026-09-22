@@ -133,6 +133,12 @@ not represent that unfinished workflow as an available live service. No batch
 of real forecasts has yet been verified as issued before play and later scored
 under a predeclared plan.
 
+A [September 2026 private-input refresh](docs/live/CURRENT_INPUT_REFRESH_2026_09.md)
+added current ranks, serving statistics and targeted lower-tier history, and
+exercised the unchanged models on generated matchups. It demonstrates usable
+input updates; complete current coverage and improved accuracy are separate
+questions.
+
 Code: **MIT**. Match, ranking, and player data: **Jeff Sackmann / Tennis
 Abstract**, with source terms and additional attribution in
 [DATA_LICENSES.md](DATA_LICENSES.md). The public XGBoost comparison is an
