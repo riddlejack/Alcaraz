@@ -219,6 +219,40 @@ def test_empty_incremental_results_use_bound_history_coverage(
     assert report["incremental_results_rows"] == 0
 
 
+def test_one_tour_incremental_results_preserve_other_bound_history_coverage(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workspace = world.build_workspace(tmp_path)
+    monkeypatch.setenv(WORKSPACE_ENVIRONMENT_VARIABLE, str(workspace))
+    reset_workspace_cache()
+    loaded = {
+        "manifest": {
+            "content_sha256": "a" * 64,
+            "counts": {"results": 1, "serve_state": 2, "rankings": 2},
+            "serve_frontier_observed": {"ATP": "2026-09-01", "WTA": "2026-09-01"},
+            "ranking_frontier_observed": {"ATP": "2026-06-08", "WTA": "2026-06-08"},
+        },
+        "results": [{"tour": "ATP"}],
+        "serve": [{"tour": "ATP"}, {"tour": "WTA"}],
+        "rankings": [{"tour": "ATP"}, {"tour": "WTA"}],
+    }
+    monkeypatch.setattr(
+        "tennislab.live.readiness.versions.latest_version", lambda config: Path("v")
+    )
+    monkeypatch.setattr("tennislab.live.readiness.versions.load_version", lambda path: loaded)
+    try:
+        report = _snapshot(
+            LiveConfig(CONFIG), {"ATP": {"status": "ready"}, "WTA": {"status": "ready"}}
+        )
+    finally:
+        reset_workspace_cache()
+    assert report["status"] == "ready"
+    assert report["tours"]["results"] == ["ATP"]
+    assert report["coverage_tours"]["results"] == ["ATP", "WTA"]
+    assert report["results_mode"] == "bound_history_plus_incremental_live_delta"
+    assert report["incremental_results_rows"] == 1
+
+
 def test_serve_state_age_is_separate_from_availability_age() -> None:
     freshness = serve_freshness(
         [
@@ -272,7 +306,7 @@ def test_history_availability_bound_does_not_replace_modeled_event_date(
     monkeypatch.setenv(WORKSPACE_ENVIRONMENT_VARIABLE, str(workspace))
     reset_workspace_cache()
     try:
-        eligible, _, withheld, _ = eligible_history(
+        eligible, _, withheld, _, source_keys = eligible_history(
             LiveConfig(CONFIG),
             "ATP",
             cutoff=dt.date(2026, 8, 9),
@@ -283,3 +317,4 @@ def test_history_availability_bound_does_not_replace_modeled_event_date(
     assert len(eligible) == 10
     assert max(result.date for result in eligible) == dt.date(2026, 7, 27)
     assert withheld["model_event_after_cutoff"] == 0
+    assert source_keys == set()

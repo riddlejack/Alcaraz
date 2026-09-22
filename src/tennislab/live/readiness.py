@@ -140,14 +140,19 @@ def _snapshot(config: LiveConfig, history: dict[str, dict[str, Any]]) -> dict[st
             )
         }
         incremental_results_rows = len(loaded["results"])
+        history_result_coverage = {
+            tour for tour, record in history.items() if record.get("status") == "ready"
+        }
         if incremental_results_rows == 0:
-            result_coverage = sorted(
-                tour for tour, record in history.items() if record.get("status") == "ready"
-            )
+            result_coverage = sorted(history_result_coverage)
             results_mode = "bound_history_no_live_delta"
         else:
-            result_coverage = tours["results"]
-            results_mode = "incremental_version_results"
+            # Incremental result captures supplement the independently bound history for
+            # their tour; they do not erase an unchanged tour's qualified history.  A
+            # one-tour refresh must therefore remain usable for the other tour without
+            # inventing a placeholder live result row.
+            result_coverage = sorted(history_result_coverage | set(tours["results"]))
+            results_mode = "bound_history_plus_incremental_live_delta"
         coverage_tours = {**tours, "results": result_coverage}
         missing = {
             name: sorted({"ATP", "WTA"} - set(present)) for name, present in coverage_tours.items()

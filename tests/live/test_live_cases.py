@@ -792,6 +792,33 @@ def test_same_cutoff_boundary_and_overlap_withholding(ws) -> None:
     )
 
 
+def test_live_result_already_bound_in_history_is_not_counted_twice(ws) -> None:
+    workspace, runner = ws
+    update(runner, world.replay_dir_for(workspace, world.complete_rounds(), revision=100))
+    latest = json.loads((workspace / "data/live/versions/latest.json").read_text())
+    version = workspace / "data/live/versions" / latest["version_id"]
+    with (version / "results.csv").open(newline="", encoding="utf-8") as handle:
+        live_row = next(
+            row
+            for row in csv.DictReader(handle)
+            if row["status"] in {"completed", "retired"} and row["winner_side"] in {"a", "b"}
+        )
+    _plant_history_row(
+        workspace,
+        source_key=live_row["row_id"],
+        winner_id=live_row["player_a_id"]
+        if live_row["winner_side"] == "a"
+        else live_row["player_b_id"],
+        loser_id=live_row["player_b_id"]
+        if live_row["winner_side"] == "a"
+        else live_row["player_a_id"],
+    )
+    fixtures, _ = issue_one(workspace, runner)
+    payload = forecast_payload(workspace, fixtures["fixtures"][0]["fixture_id"])
+    assert payload["lineage"]["live_rows_used"] == 5
+    assert payload["lineage"]["live_rows_already_bound_in_history"] == 1
+
+
 def test_future_outcome_invariance_and_hidden_labels(ws) -> None:
     """A decided row published after the issue time, or bounded after the cutoff, cannot
     change the forecast; and no fixture or forecast record carries an outcome field."""
@@ -1376,6 +1403,7 @@ def _plant_history_row(workspace: Path, **changes: str) -> None:
         reader = csv.DictReader(handle)
         header = list(reader.fieldnames or [])
         rows = [dict(row) for row in reader]
+    header.extend(key for key in changes if key not in header)
     planted = {
         **world.history_rows()[0],
         "date": "2026-08-09",
