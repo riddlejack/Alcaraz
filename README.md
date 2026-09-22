@@ -109,8 +109,8 @@ with an [inference guide](docs/MODEL_RELEASE.md).
   start under a [hash-chained ledger](docs/live/README.md); no scored prospective
   record exists yet.
 - The buildoak comparison is one season. The proposed next experiment runs it over
-  all eight years, adds entry status (the model currently underrates qualifiers) and
-  tests a fixed blend of the two systems. That decides whether "ahead of every public
+  all eight years, adds entry status (a post-hoc screen in the independent review found
+  the model underrates qualifiers) and tests a fixed blend of the two systems. That decides whether "ahead of every public
   model" holds with an interval that excludes zero.
 - Pinnacle's quote time is unknown, so the market comparison is descriptive.
 

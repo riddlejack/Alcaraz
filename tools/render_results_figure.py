@@ -144,8 +144,10 @@ def render(root: Path, output_dir: Path) -> list[Path]:
         }
     )
 
+    # Stacked panels: at README column width a side-by-side layout shrinks the type
+    # below legibility, so the figure is one column wide and two panels tall.
     fig, (ax1, ax2) = plt.subplots(
-        1, 2, figsize=(13.2, 4.8), gridspec_kw={"width_ratios": [1.15, 1.0], "wspace": 0.62}
+        2, 1, figsize=(8.6, 8.4), gridspec_kw={"height_ratios": [1.25, 1.0], "hspace": 0.62}
     )
     fig.patch.set_facecolor(SURFACE)
 
@@ -237,12 +239,13 @@ def render(root: Path, output_dir: Path) -> list[Path]:
 
     fig.text(
         0.01,
-        -0.06,
+        0.035,
         "Sources: docs/ladder.json, docs/winner_accuracy.json, docs/benchmarks/*.json. "
-        "Retrospective, outcome-exposed development comparisons; intervals condition on "
+        "Retrospective, outcome-exposed development\ncomparisons; intervals condition on "
         "saved forecasts.",
         fontsize=8.5,
         color=TEXT3,
+        va="top",
     )
 
     output_dir.mkdir(parents=True, exist_ok=True)
