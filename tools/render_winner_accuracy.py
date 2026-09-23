@@ -24,7 +24,9 @@ from tennislab.evaluation.ladder import (
 )
 
 ACCEPTED_RUNS = {
-    "ATP": Path("experiments/runs/TIER01/attempt_002/run"),
+    # Composed ATP root: TIER01 attempt 002 features, market and base/full/full_tier
+    # forecasts plus the ARMS01 attempt 002 full_tier_entry forecasts (LADDER_ROOT.json).
+    "ATP": Path("work/PHASE1_ATP_20260922/ladder_root/run"),
     "WTA": Path("experiments/runs/WTA02/attempt_002/run"),
 }
 

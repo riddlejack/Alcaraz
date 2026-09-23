@@ -38,7 +38,8 @@ stage config the feature file gains, appended after every existing column so not
 already written moves: the raw draw-time codes ``a_entry`` / ``b_entry`` copied from the
 panel (audit only; the pipeline refuses them as model inputs), four signed entry-status
 differences ``entry_{q,ll,wc,pr}_diff`` (A minus B, each in {-1, 0, +1}), one symmetric
-flag ``entry_any_qualifier`` (1 when either side is ``Q`` or ``LL``) and four swap-invariant
+flag ``entry_any_qualifier`` (by default 1 when either side is ``Q`` or ``LL``; the registered
+ARMS01 definition, ``Q`` only, is selected below) and four swap-invariant
 level indicators ``level_context_{g,m,a,f}`` for ``tourney_level`` in {G, M, A, F}; every
 other level (D, O, ...) and every other entry code (SE, ALT, blank, ...) is all-zero.
 Entry status and level are attributes of the published draw, not results, ratings or
