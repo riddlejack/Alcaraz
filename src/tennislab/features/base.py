@@ -46,6 +46,13 @@ Entry status and level are attributes of the published draw, not results, rating
 round-order arithmetic; the round is never emitted as a model column. When the flag is
 absent the stage's output is byte-identical to the accepted TIER01/WTA02 runs.
 
+The level indicators read ``tourney_level`` through a declared level map. Absent, the map
+is the ATP identity (G, M, A, F). A tour whose source codes differ (the Sackmann WTA
+``G``/``PM``/``P``/``I``/``F``/``W``) declares ``entry_level_map`` beside the switch: an
+object from the normalised raw code to one of G, M, A, F; every unmapped code is
+all-zero. A declared map is written into the column dictionary and the summary, so the
+validation and the receipts recompute exactly what was fitted.
+
 **The LL sensitivity (ARMS01 Arm 1-LLx, optional).** With, in addition,
 ``entry_level_block_ll_as_no_flag: true`` a lucky-loser code ``LL`` carries no flag: it
 contributes 0 to ``entry_ll_diff`` (then constant 0) and 0 to ``entry_any_qualifier``
@@ -251,6 +258,10 @@ ENTRY_LEVEL_SIGNED = ENTRY_SIGNED
 ENTRY_LEVEL_CONTEXT = ENTRY_CONTEXT + LEVEL_CONTEXT
 ENTRY_LEVEL_COLUMNS = ENTRY_LEVEL_SIGNED + ENTRY_LEVEL_CONTEXT
 ENTRY_LEVEL_BLOCK_KEY = "entry_level_block"
+# Optional per-tour map from the normalised raw `tourney_level` to a LEVEL_CODES letter.
+# Absent means the ATP identity below, under which every earlier output is unchanged.
+ENTRY_LEVEL_MAP_KEY = "entry_level_map"
+DEFAULT_LEVEL_MAP = {code: code for code in LEVEL_CODES}
 # ARMS01 Arm 1-LLx: the registered LL-timing sensitivity treats LL as no flag.
 ENTRY_LL_AS_NO_FLAG_KEY = "entry_level_block_ll_as_no_flag"
 # ARMS01 attempt 002: the registered `any_qualifier` counts Q only (default true: Q or LL).
@@ -827,16 +838,35 @@ def normalize_entry_code(code: str) -> str:
     return code.strip().upper()
 
 
+def validate_level_map(declared: Any) -> dict[str, str]:
+    """A declared level map: normalised raw codes to one of LEVEL_CODES, sorted by code."""
+    if not isinstance(declared, Mapping) or not declared:
+        raise ChainError(f"{ENTRY_LEVEL_MAP_KEY} must be a nonempty object")
+    resolved: dict[str, str] = {}
+    for raw, flag in declared.items():
+        if not isinstance(raw, str) or not raw or raw != raw.strip().upper():
+            raise ChainError(f"{ENTRY_LEVEL_MAP_KEY} key must be a normalised level code: {raw!r}")
+        if flag not in LEVEL_CODES:
+            raise ChainError(f"{ENTRY_LEVEL_MAP_KEY}[{raw!r}] must be one of {list(LEVEL_CODES)}")
+        resolved[raw] = flag
+    return dict(sorted(resolved.items()))
+
+
 def entry_level_values(
-    record: Record, *, ll_as_no_flag: bool = False, any_qualifier_counts_ll: bool = True
+    record: Record,
+    level_map: Mapping[str, str] | None = None,
+    *,
+    ll_as_no_flag: bool = False,
+    any_qualifier_counts_ll: bool = True,
 ) -> dict[str, int]:
     """The entry/level block for one target, from its draw-time codes and its level.
 
     Signed columns are A minus B of a per-side indicator, so they negate exactly under a
     player swap; the two context columns are functions of the unordered pair and the
     event, so they do not.  Only Q, LL, WC and PR are flagged; SE, ALT, W, blank and any
-    other code carry no flag.  Only G, M, A and F levels are indicated; any other level is
-    all-zero.  The round is deliberately not consulted.  With ``ll_as_no_flag`` (ARMS01
+    other code carry no flag.  The level is looked up in ``level_map`` (default: the ATP
+    identity on G, M, A, F); an unmapped level is all-zero, so the indicators stay
+    one-hot or empty.  The round is deliberately not consulted.  With ``ll_as_no_flag`` (ARMS01
     Arm 1-LLx) LL is read as no flag too, so ``entry_ll_diff`` is 0 and LL does not set
     ``entry_any_qualifier``.  With ``any_qualifier_counts_ll=False`` (the registered ARMS01
     definition, attempt 002) ``entry_any_qualifier`` counts Q only and ``entry_ll_diff`` is
@@ -851,8 +881,9 @@ def entry_level_values(
     qualifier_codes = {"Q", "LL"} if any_qualifier_counts_ll else {"Q"}
     values["entry_any_qualifier"] = int(any(code in qualifier_codes for code in codes))
     level = record.tourney_level.strip().upper()
+    flag = (DEFAULT_LEVEL_MAP if level_map is None else level_map).get(level)
     for code, column in zip(LEVEL_CODES, LEVEL_CONTEXT, strict=True):
-        values[column] = int(level == code)
+        values[column] = int(flag == code)
     if tuple(values) != ENTRY_LEVEL_COLUMNS:
         raise ChainError("entry/level block order drift")
     return values
@@ -885,6 +916,7 @@ def build_feature_row(
     rest_cap: int,
     *,
     entry_level: bool = False,
+    level_map: Mapping[str, str] | None = None,
     ll_as_no_flag: bool = False,
     any_qualifier_counts_ll: bool = True,
 ) -> dict[str, Any]:
@@ -1077,6 +1109,7 @@ def build_feature_row(
         row.update(
             entry_level_values(
                 record,
+                level_map,
                 ll_as_no_flag=ll_as_no_flag,
                 any_qualifier_counts_ll=any_qualifier_counts_ll,
             )
@@ -1156,6 +1189,7 @@ def stream_rows(
     diverged: Counter[str] | None = None,
     *,
     entry_level: bool = False,
+    level_map: Mapping[str, str] | None = None,
     ll_as_no_flag: bool = False,
     any_qualifier_counts_ll: bool = True,
 ) -> Iterator[tuple[Record, dict[str, Any]]]:
@@ -1220,6 +1254,7 @@ def stream_rows(
                     windows,
                     rest_cap,
                     entry_level=entry_level,
+                    level_map=level_map,
                     ll_as_no_flag=ll_as_no_flag,
                     any_qualifier_counts_ll=any_qualifier_counts_ll,
                 ),
@@ -1228,7 +1263,11 @@ def stream_rows(
 
 
 def column_dictionary(
-    entry_level: bool = False, ll_as_no_flag: bool = False, any_qualifier_counts_ll: bool = True
+    entry_level: bool = False,
+    ll_as_no_flag: bool = False,
+    any_qualifier_counts_ll: bool = True,
+    *,
+    level_map: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     interactions = linear_interactions()
     rank_interactions = rank_global_interactions()
@@ -1279,6 +1318,15 @@ def column_dictionary(
         semantics["entry_ll_diff"] = "constant 0: LL is read as no flag"
         semantics["entry_any_qualifier"] = (
             "1 when either side entered as Q (LL is read as no flag); symmetric under a player swap"
+        )
+    if entry_level and level_map is not None:
+        # A declared map is recorded so validation recomputes the fitted indicators;
+        # without one the dictionary is unchanged.
+        document["entry_level_level_map"] = dict(level_map)
+        document["entry_level_semantics"]["level"] = (
+            "one-hot over entry_level_level_map (normalised raw tourney_level to the "
+            "G, M, A or F indicator); every unmapped level is all-zero; symmetric "
+            "under a player swap"
         )
     return document
 
@@ -1396,6 +1444,7 @@ def write_features(
     diverged: Counter[str],
     *,
     entry_level: bool = False,
+    level_map: Mapping[str, str] | None = None,
     ll_as_no_flag: bool = False,
     any_qualifier_counts_ll: bool = True,
 ) -> tuple[list[Record], dict[str, Counter[Any]]]:
@@ -1416,6 +1465,7 @@ def write_features(
             parameters,
             diverged,
             entry_level=entry_level,
+            level_map=level_map,
             ll_as_no_flag=ll_as_no_flag,
             any_qualifier_counts_ll=any_qualifier_counts_ll,
         ):
@@ -1446,6 +1496,8 @@ def validate_written_outputs(
     if entry_level and list(dictionary["entry_level_columns"]) != list(ENTRY_LEVEL_COLUMNS):
         raise ChainError("dictionary entry_level_columns differ from the declared block")
     ll_as_no_flag = dictionary.get("entry_level_ll_as_no_flag", False) is True
+    declared_map = dictionary.get("entry_level_level_map")
+    level_map = None if declared_map is None else validate_level_map(declared_map)
     any_qualifier_counts_ll = dictionary.get(ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY, True) is not False
     model_columns = list(
         dict.fromkeys(
@@ -1504,6 +1556,7 @@ def validate_written_outputs(
                     raise ChainError(f"entry code copy mismatch for {record.match_id}")
                 for field, value in entry_level_values(
                     record,
+                    level_map,
                     ll_as_no_flag=ll_as_no_flag,
                     any_qualifier_counts_ll=any_qualifier_counts_ll,
                 ).items():
@@ -1580,7 +1633,11 @@ def validate_written_outputs(
 
 
 def entry_level_receipts(
-    records: list[Record], ll_as_no_flag: bool = False, any_qualifier_counts_ll: bool = True
+    records: list[Record],
+    ll_as_no_flag: bool = False,
+    any_qualifier_counts_ll: bool = True,
+    *,
+    level_map: Mapping[str, str] | None = None,
 ) -> dict[str, Any]:
     """Coverage of the raw entry codes and levels per season, plus the events whose rows
     carry no entry code at all.
@@ -1640,7 +1697,7 @@ def entry_level_receipts(
             ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY: False,
             "any_qualifier_rows_with_ll_and_no_q_by_season": dict(sorted(ll_only.items())),
         }
-    return {
+    receipts: dict[str, Any] = {
         **ll_receipt,
         "flagged_entry_codes": [
             code for code in ENTRY_CODES if not (ll_as_no_flag and code == "LL")
@@ -1654,6 +1711,17 @@ def entry_level_receipts(
             events[key] for key in sorted(events) if events[key]["rows_with_any_entry_code"] == 0
         ],
     }
+    if level_map is not None:
+        # The declared map and, per season, how many rows each indicator (or none) took.
+        indicated: dict[str, Counter[str]] = {}
+        for record in records:
+            flag = level_map.get(record.tourney_level.strip().upper(), "none")
+            indicated.setdefault(str(record.source_season), Counter())[flag] += 1
+        receipts["level_map"] = dict(level_map)
+        receipts["indicated_level_rows_by_season"] = {
+            season: dict(sorted(counter.items())) for season, counter in sorted(indicated.items())
+        }
+    return receipts
 
 
 HASH_VERIFIED_BINDINGS = ("design", "panel_manifest", "ranking_source", "ranking_index")
@@ -1712,11 +1780,22 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ChainError(f"{ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY} must be true or false")
     if not counts_ll and not flag:
         raise ChainError(f"{ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY} needs {ENTRY_LEVEL_BLOCK_KEY}: true")
+    entry_level_map(config)  # a declared level map is validated here, before any read
     return config
 
 
 def entry_level_enabled(config: Mapping[str, Any]) -> bool:
     return bool(config.get(ENTRY_LEVEL_BLOCK_KEY, False))
+
+
+def entry_level_map(config: Mapping[str, Any]) -> dict[str, str] | None:
+    """The declared level map, or None for the ATP identity.  A map is only meaningful
+    beside the block, so declaring one without ``entry_level_block: true`` is refused."""
+    if ENTRY_LEVEL_MAP_KEY not in config:
+        return None
+    if config.get(ENTRY_LEVEL_BLOCK_KEY) is not True:
+        raise ChainError(f"{ENTRY_LEVEL_MAP_KEY} requires {ENTRY_LEVEL_BLOCK_KEY}: true")
+    return validate_level_map(config[ENTRY_LEVEL_MAP_KEY])
 
 
 def entry_ll_as_no_flag(config: Mapping[str, Any]) -> bool:
@@ -1740,6 +1819,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     panel = config["panel"]
     entry_level = entry_level_enabled(config)
     ll_as_no_flag = entry_ll_as_no_flag(config)
+    level_map = entry_level_map(config)
     any_qualifier_counts_ll = entry_any_qualifier_counts_ll(config)
     records, rejections, input_header = load_records(
         resolve_under_root(panel["path"], label="panel"),
@@ -1750,7 +1830,9 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         entry_level=entry_level,
     )
     ranking = prepare_rankings(records, config)
-    dictionary = column_dictionary(entry_level, ll_as_no_flag, any_qualifier_counts_ll)
+    dictionary = column_dictionary(
+        entry_level, ll_as_no_flag, any_qualifier_counts_ll, level_map=level_map
+    )
     atomic_json(output / "column_dictionary.json", dictionary)
     atomic_json(output / "resolved_config.json", config)
     write_csv_simple(output / "rejections.csv", rejections, ("source_row", "match_id", "reason"))
@@ -1765,6 +1847,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         config["parameters"],
         diverged,
         entry_level=entry_level,
+        level_map=level_map,
         ll_as_no_flag=ll_as_no_flag,
         any_qualifier_counts_ll=any_qualifier_counts_ll,
     )
@@ -1788,7 +1871,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         **(
             {
                 "entry_level_block": entry_level_receipts(
-                    records, ll_as_no_flag, any_qualifier_counts_ll
+                    records, ll_as_no_flag, any_qualifier_counts_ll, level_map=level_map
                 )
             }
             if entry_level

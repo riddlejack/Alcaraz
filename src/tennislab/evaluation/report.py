@@ -88,7 +88,11 @@ TIER_NOQUAL_SUFFIX = "_tier_noqual"
 # It yields `<stem>_tier_entry_minus_<stem>_tier`, the Arm 1 minus Arm 0 contrast, and
 # `<stem>_tier_entry_minus_<stem>` when the JOINT04 stem was fitted too.
 TIER_ENTRY_SUFFIX = "_tier_entry"
-VARIANT_SUFFIXES = (TIER_ENTRY_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_SUFFIX)
+# ARMS01 WTA secondary: the tier-free `*_entry` bundle (the JOINT04 bundle plus the same
+# block), the one variant the tour contract records; it yields `<stem>_entry_minus_<stem>`.
+# Tested last, because `_tier_entry` ends with it.
+ENTRY_SUFFIX = "_entry"
+VARIANT_SUFFIXES = (TIER_ENTRY_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_SUFFIX, ENTRY_SUFFIX)
 LEARNERS = DEFAULT_LEARNERS
 BLOCKS = DEFAULT_BLOCKS
 CANDIDATES = {
@@ -96,6 +100,11 @@ CANDIDATES = {
     "hgb": ("hgb_leaf07_depth3", "hgb_leaf15_depth4"),
 }
 FIXED_RAW = {"ridge": "ridge_c1", "hgb": "hgb_leaf07_depth3"}
+# TUNE01: a bundle with a bound HGB menu has that menu's raw candidates (installed by
+# `configure_hgb_menus` from the predictor config's settings); every other bundle the
+# default menu above.  Empty unless a menu is bound.
+HGB_MENUS: dict[str, dict[str, str]] = {}
+HGB_MENU_CANDIDATES: dict[str, tuple[str, ...]] = {}
 LABEL_HEADER = (
     "match_id",
     "calendar_year",
@@ -184,7 +193,7 @@ def contrasts_for(blocks: Sequence[str]) -> tuple[tuple[str, dict[str, float]], 
         if set(coefficients).issubset(present)
     ]
     for stem in BASE_BLOCKS:
-        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_ENTRY_SUFFIX):
+        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_ENTRY_SUFFIX, ENTRY_SUFFIX):
             tier = f"{stem}{suffix}"
             if tier in present and stem in present:
                 derived.append((f"{tier}_minus_{stem}", {tier: 1.0, stem: -1.0}))
@@ -204,6 +213,8 @@ def default_primary_contrast(names: Sequence[str]) -> str:
     available = set(names)
     if f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}" in available:
         return f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}"
+    if f"full{ENTRY_SUFFIX}_minus_full" in available:
+        return f"full{ENTRY_SUFFIX}_minus_full"
     if f"full{TIER_SUFFIX}_minus_full" in available:
         return f"full{TIER_SUFFIX}_minus_full"
     if "full_minus_base" in available:
@@ -387,14 +398,14 @@ def configure_bundles(
     if not chosen_learners or len(set(chosen_learners)) != len(chosen_learners):
         raise ReportError("report learners must be a nonempty list of distinct names")
     for block in chosen_blocks:
-        stem = block
+        stem, matched = block, ""
         for suffix in VARIANT_SUFFIXES:
             if block.endswith(suffix):
-                stem = block[: -len(suffix)]
+                stem, matched = block[: -len(suffix)], suffix
                 break
         if stem not in BASE_BLOCKS:
             raise ReportError(f"unknown report block: {block}")
-        if stem != block and tour_contract():
+        if matched not in ("", ENTRY_SUFFIX) and tour_contract():
             raise ReportError(
                 "a configuration that declares a tour is read under the WTA02 settings "
                 f"contract, which cannot record the tier bundle {block}"
@@ -404,6 +415,7 @@ def configure_bundles(
             raise ReportError(f"unknown report learner: {learner}")
     BLOCKS = chosen_blocks
     LEARNERS = chosen_learners
+    configure_hgb_menus()
     CONTRASTS = contrasts_for(BLOCKS)
     if not CONTRASTS:
         raise ReportError("the configured bundles form no declared contrast")
@@ -411,6 +423,36 @@ def configure_bundles(
     # secondary, seed and unit are reinstalled from it; `configure_primary` is then
     # called again by `validate_config` with whatever the reporting config declares.
     configure_primary()
+
+
+def configure_hgb_menus(bindings: Mapping[str, Any] | None = None) -> None:
+    """Install the per-bundle HGB menus the predictor config bound (TUNE01); absent, none.
+
+    Each menu file is resolved under the workspace and must hash to its binding; its
+    candidate list is the raw menu the report expects for that bundle.
+    """
+    global HGB_MENUS, HGB_MENU_CANDIDATES
+    from tennislab.models import pipeline
+
+    menus: dict[str, dict[str, str]] = {}
+    candidates: dict[str, tuple[str, ...]] = {}
+    for block, binding in (bindings or {}).items():
+        if block not in BLOCKS or "hgb" not in LEARNERS:
+            raise ReportError(f"an HGB menu names a bundle the report has no HGB fit for: {block}")
+        if not isinstance(binding, Mapping) or set(binding) != {"path", "sha256"}:
+            raise ReportError(f"hgb_menus.{block} must be exactly {{path, sha256}}")
+        path = resolve_under_root(str(binding["path"]), label=f"hgb_menus.{block}.path")
+        if sha256(path) != binding["sha256"]:
+            raise ReportError(f"hgb_menus.{block} hash mismatch")
+        menus[block] = {"path": str(binding["path"]), "sha256": str(binding["sha256"])}
+        candidates[block] = pipeline.load_hgb_menu(path, str(binding["path"])).candidate_ids
+    HGB_MENUS, HGB_MENU_CANDIDATES = menus, candidates
+
+
+def raw_candidates(learner: str, block: str) -> tuple[str, ...]:
+    if learner == "hgb" and block in HGB_MENU_CANDIDATES:
+        return HGB_MENU_CANDIDATES[block]
+    return CANDIDATES[learner]
 
 
 def configure_cohort(mode: str | None = None) -> str:
@@ -441,6 +483,8 @@ def settings_document() -> dict[str, Any]:
         "t_critical_95": T_CRITICAL_95,
         "priority_effect_reference_log_loss": PRIORITY_REFERENCE,
     }
+    if HGB_MENUS:
+        document["hgb_menus"] = {block: dict(binding) for block, binding in HGB_MENUS.items()}
     if tour_contract():
         document["bootstrap_unit"] = BOOTSTRAP_UNIT
         document["bootstrap_units_emitted"] = list(BOOTSTRAP_UNITS)
@@ -663,6 +707,7 @@ def validate_config(config_path: Path) -> tuple[dict[str, Any], Path, dict[str, 
     configure_identity(config.get("experiment_id"), settings.get("tour"))
     configure_years(settings.get("year_plan", {}), settings.get("t_critical_95"))
     configure_bundles(settings.get("blocks"), settings.get("learners"))
+    configure_hgb_menus(settings.get("hgb_menus"))
     configure_cohort(settings.get("cohort"))
     configure_primary(
         settings.get("primary_contrast"),
@@ -729,7 +774,7 @@ def _validate_and_describe_forecasts(
         for year in RAW_YEARS
         for learner in LEARNERS
         for block in BLOCKS
-        for candidate in CANDIDATES[learner]
+        for candidate in raw_candidates(learner, block)
     }
     observed_raw = {(x.year, x.learner, x.block, x.candidate_id) for x in forecasts}
     if observed_raw != expected_raw or len(forecasts) != len(expected_raw):
@@ -1554,7 +1599,7 @@ def contrast_outputs(
             # `full - base`, so a negative value favours the richer bundle either way.
             "effect_direction": (
                 "negative_favors_entry_level_block"
-                if f"{TIER_ENTRY_SUFFIX}_minus_" in primary_id
+                if f"{ENTRY_SUFFIX}_minus_" in primary_id
                 else "negative_favors_tier_history"
                 if primary_id.endswith(f"{TIER_SUFFIX}_minus_full")
                 else "negative_favors_full"

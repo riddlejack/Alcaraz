@@ -1,0 +1,2199 @@
+{
+ "experiment_id": "TUNE01",
+ "status": "draft_not_registered — freeze pending lead review",
+ "learner": "hgb",
+ "bundle": "full_tier_entry (the ARMS01 Arm 1 bundle; 57 model columns); the enlarged menu applies to this bundle only",
+ "estimator": "sklearn.ensemble.HistGradientBoostingClassifier (scikit-learn 1.9.1, product uv environment)",
+ "menu_order": "anchors first in the incumbent's order, then the grid in the listed order (max_leaf_nodes ascending, min_samples_leaf descending, l2_regularization descending, learning_rate descending). Selection ties (within the existing 1e-12 tolerance) go to the earlier candidate.",
+ "counts": {
+  "anchors": 2,
+  "grid": 108,
+  "total_candidates_seen_by_selector": 110,
+  "raw_years": 11,
+  "raw_years_list": [
+   2014,
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024
+  ],
+  "member_fits_per_grid_candidate_year": 10,
+  "member_fits_total": 11902
+ },
+ "grid_axes": {
+  "max_leaf_nodes": [
+   7,
+   15,
+   23,
+   31
+  ],
+  "min_samples_leaf": [
+   160,
+   80,
+   40
+  ],
+  "l2_regularization": [
+   30.0,
+   10.0,
+   1.0
+  ],
+  "learning_rate": [
+   0.1,
+   0.05,
+   0.02
+  ]
+ },
+ "fixed_grid_params": {
+  "early_stopping": false,
+  "loss": "log_loss",
+  "max_bins": 255,
+  "max_depth": null,
+  "max_features": 1.0,
+  "random_state": 71101
+ },
+ "fixed_grid_params_note": "max_iter is not a fixed parameter for grid candidates: stopping fits use 1000 and the refit uses k_star. max_depth None: leaf-wise growth bounded by max_leaf_nodes and min_samples_leaf; realised depth recorded. max_features 1.0 (no column subsampling). sklearn internal early stopping is off; stopping is external and temporal (below). random_state has no effect with max_features 1.0 and internal early stopping off; kept at the incumbent's 71101. min_samples_leaf counts swap-augmented rows (two per match, weight 0.5 each), exactly as the incumbent.",
+ "early_stopping": {
+  "max_iter_cap": 1000,
+  "patience": 20,
+  "tol": 1e-07,
+  "stopping_validation_keys": "for raw year R: the raw year's training keys (training_keys(R)) with match_date in [(R-1)-01-01, (R-1)-12-30]",
+  "stopping_train_keys": "training keys with match_date <= (R-2)-12-30 (the product's fit-boundary convention applied to R-1)",
+  "keys_in_neither": "training keys dated (R-2)-12-31: counted and reported; excluded from both stopping sets; included in the final refit",
+  "curve": "L(k), k = 1..1000 (with internal early stopping off, scikit-learn 1.9.1 always completes max_iter iterations): match-weighted mean log loss, clip 1e-15, of the bag-averaged swap-symmetrised probability 0.5*(p(a,b) + 1 - p(b,a)) on the stopping-validation matches, from staged_predict_proba of each member after k iterations",
+  "rule": "k_stop = the smallest k >= 21 such that min over j in [k-19, k] of L(j) > (min over j <= k-20 of L(j)) - tol; k_star = argmin over j <= k_stop of L(j), ties to the smallest j. If the rule never fires, k_star = argmin over j <= 1000 of L(j) and the stop status is 'cap'.",
+  "refit": "each bag member is refit on its own subsample of the whole training window with max_iter = k_star; the stopping-fit models are never used for forecasts",
+  "no_row_scaling": "k_star is used unchanged for the larger refit window",
+  "early_termination_equivalence": "an implementation may stop the stopping fits at k_stop only if a test shows the identical k_star to the full-curve definition"
+ },
+ "bagging": {
+  "members": 5,
+  "row_subsample_fraction": 0.8,
+  "unit": "match: a drawn match contributes both swap-augmented orientations at weight 0.5; an undrawn match contributes neither",
+  "size": "floor(0.8 * n_keys) without replacement",
+  "key_order": "the canonical sorted key tuple (season, match_id) of the set being subsampled",
+  "rng": "numpy.random.Generator(numpy.random.PCG64(numpy.random.SeedSequence([71101, R, role, member])))",
+  "roles": {
+   "0": "stopping fit, subsample of the stopping-train keys",
+   "1": "final refit, subsample of the whole training window"
+  },
+  "draw": "idx = rng.choice(n_keys, size=floor(0.8 * n_keys), replace=False); idx sorted ascending",
+  "common_random_numbers": "subsamples depend on raw year, role and member only, never on the candidate, so candidates are compared on identical rows",
+  "aggregation": "arithmetic mean of the five members' swap-symmetrised probabilities; this mean is the candidate's raw forecast"
+ },
+ "selection": "unchanged product rule (pipeline.select_calibrated_candidate): for outer year Y, each candidate's raw forecasts for raw years Y-3..Y-1 on the selection keys (cutoff (Y-1)-12-30) get one non-negative intercept-free slope fitted with equal year weight (fit_nonnegative_slope, logit clip 1e-6); the candidate with the lowest in-sample calibrated equal-year mean log loss is selected, tie tolerance 1e-12 to menu order; its slope is applied to its raw year-Y forecast. Nothing is fitted or selected on year Y.",
+ "other_bundles": "base and full_tier keep the two-candidate default menu and must reproduce the ARMS01 attempt_002 forecasts byte-for-byte; the shared-base records remain well defined because both anchors are in the enlarged menu",
+ "excluded_from_menu_and_closed_by_the_freeze": [
+  "monotonic constraints",
+  "interaction constraints",
+  "column subsampling (max_features < 1)",
+  "recency or time-decay weights",
+  "training windows other than five years",
+  "max_bins other than 255",
+  "learners other than HGB",
+  "stacking or blending",
+  "calibration forms other than the single non-negative slope"
+ ],
+ "brief_literal_alternative": {
+  "note": "The orchestrator brief specified max_leaf_nodes in {15, 23, 31}. This draft adds 7 because the incumbent's own selector chose 7 leaves in 6 of 8 outer years (see TUNE01.design.md, 'Why this menu'). Dropping 7 gives 81 grid + 2 anchors = 83 candidates; everything else is unchanged.",
+  "grid": 81,
+  "total_candidates_seen_by_selector": 83
+ },
+ "anchors": [
+  {
+   "candidate_id": "hgb_leaf07_depth3",
+   "kind": "anchor_incumbent",
+   "bagging": null,
+   "early_stopping": null,
+   "estimator_params": {
+    "early_stopping": false,
+    "l2_regularization": 10.0,
+    "learning_rate": 0.05,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": 3,
+    "max_iter": 200,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "random_state": 71101
+   }
+  },
+  {
+   "candidate_id": "hgb_leaf15_depth4",
+   "kind": "anchor_incumbent",
+   "bagging": null,
+   "early_stopping": null,
+   "estimator_params": {
+    "early_stopping": false,
+    "l2_regularization": 10.0,
+    "learning_rate": 0.05,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": 4,
+    "max_iter": 200,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "random_state": 71101
+   }
+  }
+ ],
+ "grid": [
+  {
+   "candidate_id": "tune_lr100_leaf07_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf07_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf07_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf07_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 7,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf15_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf15_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf15_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf23_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf23_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf23_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 23,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min160_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min160_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min160_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 160,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min080_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min080_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min080_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 80,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min040_reg30",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 30.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min040_reg10",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 10.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr100_leaf31_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr050_leaf31_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  },
+  {
+   "candidate_id": "tune_lr020_leaf31_min040_reg01",
+   "kind": "grid_bagged_early_stopped",
+   "bagging": "five_member_subsample_0.8",
+   "early_stopping": "temporal_last_window_year_patience_20",
+   "estimator_params": {
+    "early_stopping": false,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "random_state": 71101,
+    "learning_rate": 0.02,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 40,
+    "l2_regularization": 1.0
+   },
+   "max_iter_rule": "stopping fits: 1000; final refit: k_star from the early_stopping rule"
+  }
+ ]
+}

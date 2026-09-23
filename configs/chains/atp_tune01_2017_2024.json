@@ -1,0 +1,201 @@
+{
+  "chain": {
+    "annual_eligible_floor_year": 2012,
+    "bridge_carry_forward_years": [
+      2023,
+      2024
+    ],
+    "bridge_seasons": [
+      2024
+    ],
+    "bridge_sources": {
+      "2024": {
+        "tennis_data": {
+          "path": "work/MULTI01_market_acquisition/raw/annual/2024.xlsx",
+          "sha256": "d92a4d4167cfece60b624e81ba8d6724d90a4704637341bb0bc87539a36c746a"
+        },
+        "wikipedia": [
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Cincinnati_Open_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Croatia_Open_Umag_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Generali_Open_Kitzbühel_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Los_Cabos_Open_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Mubadala_Citi_DC_Open_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_National_Bank_Open_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_US_Open_rehearsal.csv",
+          "work/CONFIRM2026_joint04/rehearsal_2024/wikipedia/atp_Winston-Salem_Open_rehearsal.csv"
+        ]
+      }
+    },
+    "bundles": [
+      "base",
+      "full_tier",
+      "full_tier_entry"
+    ],
+    "configs": {
+      "archive_panel": "work/PHASE1_ATP_20260922/tune01_run/configs/archive_panel.json",
+      "bridge": "work/PHASE1_ATP_20260922/tune01_run/configs/bridge.json",
+      "event_carry_forward": "work/PHASE1_ATP_20260922/tune01_run/configs/event_carry_forward.json",
+      "features": "work/PHASE1_ATP_20260922/tune01_run/configs/features.json",
+      "format_corrections": "work/PHASE1_ATP_20260922/tune01_run/configs/format_corrections.json",
+      "join": "work/PHASE1_ATP_20260922/tune01_run/configs/join.json",
+      "prepare_panel": "work/PHASE1_ATP_20260922/tune01_run/configs/prepare_panel.json",
+      "rankings": "work/PHASE1_ATP_20260922/tune01_run/configs/rankings.json",
+      "rule_mapping": "work/PHASE1_ATP_20260922/tune01_run/configs/rule_mapping.json",
+      "sidecar": "work/PHASE1_ATP_20260922/tune01_run/configs/sidecar.json",
+      "sr02_replay": "work/PHASE1_ATP_20260922/tune01_run/configs/sr02_replay.json",
+      "sr02_tier_noqual_replay": "work/PHASE1_ATP_20260922/tune01_run/configs/sr02_tier_noqual_replay.json",
+      "sr02_tier_replay": "work/PHASE1_ATP_20260922/tune01_run/configs/sr02_tier_replay.json",
+      "sr03": "work/PHASE1_ATP_20260922/tune01_run/configs/sr03.json",
+      "tier_block": "work/PHASE1_ATP_20260922/tune01_run/configs/tier_block.json",
+      "tier_elo": "work/PHASE1_ATP_20260922/tune01_run/configs/tier_elo.json",
+      "tier_stream": "work/PHASE1_ATP_20260922/tune01_run/configs/tier_stream.json",
+      "year_plan": "references/TUNE01/year_plan.tune01.json"
+    },
+    "configs_dir": "work/PHASE1_ATP_20260922/tune01_run/configs",
+    "decision": "D130",
+    "design": "experiments/TUNE01.design.md",
+    "dictionary": "work/PHASE1_ATP_20260922/tune01_run/run/features/column_dictionary.json",
+    "entry_any_qualifier_counts_ll": false,
+    "entry_level_block": true,
+    "experiment_id": "TUNE01",
+    "features": "work/PHASE1_ATP_20260922/tune01_run/run/features/features.csv",
+    "hgb_menus": {
+      "full_tier_entry": {
+        "path": "references/TUNE01/menu.json",
+        "sha256": "02ffa9f370daf89c893ebb4c6bd60f17e9b5e428743c3a22a0093cb00d52a676"
+      }
+    },
+    "inputs": {
+      "archive": {
+        "path": "data/raw/ARCHIVE01/snapshot/tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d.tar.gz",
+        "sha256": "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4",
+        "tar_root": "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d"
+      },
+      "archive_inventory": {
+        "path": "data/raw/ARCHIVE01/snapshot_file_inventory.csv",
+        "sha256": "903fc54f5c866ad855c238a2b6fadd8d53dc32b1748862504626fd4244cd2050"
+      },
+      "archive_manifest": {
+        "path": "data/manifests/ARCHIVE01.json",
+        "sha256": "ce5e58531bf1e7f874861a8dd5977901ea9f5751358b625e5c444807d44cf150"
+      },
+      "base_panel": {
+        "path": "data/raw/SR02/inputs/attempt_001/panel.csv",
+        "sha256": "708c18ac01aad0e2d3a5d454106dcb3e6be7c8d6df81999a6b483953b53c703e"
+      },
+      "base_rules": {
+        "path": "data/raw/SR02/rule_mapping/attempt_001/rules.csv",
+        "sha256": "d5c279b37ea526130bb9caf8b48e7e846e96fe7c24bfcfaf00b714b0eaa193ce"
+      },
+      "bio_contract": {
+        "path": "references/BIO01.md",
+        "sha256": "72280020f971b45430ebc6b010752e3d01c6f6c0a79bf9dfdac391caa8d14788"
+      },
+      "bio_players": {
+        "path": "data/raw/BIO01/attempt_001/atp_players.csv",
+        "sha256": "89e81bb3a02561dee29afe53dbcdabe4ae22f725fb5d0303617366a57e3b7a83"
+      },
+      "correction_proposals": {
+        "path": "data/raw/SR02/format_cases/correction_proposals.csv",
+        "sha256": "8d0f13cea5c89d1e87d8cdf5d4f6a3a6bbb34c3fae3c157051b0798e5df425d5"
+      },
+      "elo_engine": {
+        "path": "references/CONFIRM2026_elo/elo_engine.py",
+        "sha256": "7400705db42a446f86968494c0c76fa416653927353522519b69119591646f8b"
+      },
+      "features_design": {
+        "path": "experiments/MULTI01.design.md",
+        "sha256": "6ac3cda80a8a02fe3cb79715c5ca87b43d9bb1f4d11691742cb3f3d663809f2f"
+      },
+      "market_event_crosswalk": "work/MULTI01_event_crosswalk/qualified_event_crosswalk.csv",
+      "panel_manifest": {
+        "path": "data/manifests/SR02-inputs.json",
+        "sha256": "eb8eeffe292a6ff79f3e8e6b6b1162c808182784e4246c4f30a456185379e5f7"
+      },
+      "ranking_lookup_module": {
+        "path": "work/MULTI01_ranking_lookup/ranking_lookup.py",
+        "sha256": "d64e1640e11a137b7c5584af54f87577f928369904d622e14a4febf3c9583496"
+      },
+      "rule_config": {
+        "path": "experiments/SR02.rules.json",
+        "sha256": "a831480f0897c4c319e0b5fad230a79c35b2ca408a49d44f867d587fc79d2fe5"
+      },
+      "sr02_primary_config": {
+        "path": "experiments/SR02-C1.json",
+        "sha256": "36dce886e5f09f5c3f7a8b4449baf03da49905f0ea7b45a5c6116a0cc5116182"
+      },
+      "sr02_saved_selections": {
+        "path": "experiments/runs/SR02/attempt_002/selections.csv",
+        "sha256": "7740d54723b33ec2c65d09a61e0d43381631e7814498a130e501d2d5b3b8d87c"
+      }
+    },
+    "inputs_dir": "work/PHASE1_ATP_20260922/tune01_run/inputs",
+    "labels": "work/PHASE1_ATP_20260922/tune01_run/run/features/labels.csv",
+    "learners": [
+      "hgb"
+    ],
+    "panel_start_year": 2005,
+    "predictor_config": "work/PHASE1_ATP_20260922/tune01_run/predictor_config/config.2017_2024.json",
+    "ranking_year_min": 2000,
+    "rankings_source": "work/PHASE1_ATP_20260922/tune01_run/run/rankings/rankings_2000_2024.csv.gz",
+    "reporting_bootstrap_seed": 20260912,
+    "reporting_config": "work/PHASE1_ATP_20260922/tune01_run/reporting_config/reporting.2017_2024.json",
+    "reporting_primary_contrast": "full_tier_entry_minus_full_tier",
+    "reporting_secondary_contrast": "none",
+    "reserved_release_acknowledged": false,
+    "rule_carry_from_year": 2023,
+    "run_root": "work/PHASE1_ATP_20260922/tune01_run/run",
+    "selection_complete": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selection_complete.json",
+    "selection_year_min": 2011,
+    "sidecar": "work/PHASE1_ATP_20260922/tune01_run/run/tier_block/trait_latent_sidecar.csv",
+    "sidecar_program": "tennislab.features.sidecar",
+    "tier_first_year": 1991,
+    "tier_initial_rating_offset_by_year": {
+      "2005": -78.27569413301566,
+      "2006": -78.27569413301566,
+      "2007": -78.27569413301566,
+      "2008": -78.27569413301566,
+      "2009": -78.27569413301566,
+      "2010": -78.27569413301566,
+      "2011": -78.27569413301566,
+      "2012": -78.27569413301566,
+      "2013": -78.27569413301566,
+      "2014": -78.27569413301566,
+      "2015": -78.27569413301566,
+      "2016": -78.27569413301566,
+      "2017": -85.45973395512374,
+      "2018": -89.89891743546761,
+      "2019": -98.52433217348847,
+      "2020": -103.82503977999194,
+      "2021": -110.04383350029497,
+      "2022": -117.09617126996675,
+      "2023": -126.56327627097531,
+      "2024": -135.15154755359688
+    },
+    "tier_offset_measurement_end_year": 2016,
+    "tier_offset_mode": "per_training_window",
+    "tier_reported_date_offset_days": 7,
+    "tier_same_event_qualifying_ablation": true,
+    "tier_satellite_circuit_dating": true,
+    "tier_serve_counts_start_year": 2010,
+    "tier_thin_side_threshold": 20,
+    "tour": "ATP"
+  },
+  "year_plan": {
+    "calibration_years_back": 3,
+    "feature_end_year": 2024,
+    "history_floor_year": 2011,
+    "panel_end_year": 2024,
+    "target_years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "training_window_years": 5
+  }
+}

@@ -1278,6 +1278,11 @@ def write_configs(
     ):
         if section.get(key) is not None:
             plan_document_out[key] = list(section[key])
+    if section.get("hgb_menus") is not None:
+        # TUNE01: per-bundle HGB menu bindings ({bundle: {path, sha256}}), copied as bound.
+        plan_document_out["hgb_menus"] = {
+            str(block): dict(binding) for block, binding in dict(section["hgb_menus"]).items()
+        }
     emitted["year_plan"] = {
         "path": relative_to_root(plan_path),
         "sha256": guarded_json(plan_path, plan_document_out),
@@ -1679,6 +1684,12 @@ def _shared_stage_config_bodies(
             # ARMS01: the entry/level block is emitted only when the chain declares it,
             # so every chain without it still writes the accepted features config.
             **({"entry_level_block": True} if section.get("entry_level_block") is True else {}),
+            # ARMS01 WTA: a tour whose level codes are not G/M/A/F declares its map.
+            **(
+                {"entry_level_map": section["entry_level_map"]}
+                if section.get("entry_level_map") is not None
+                else {}
+            ),
             # ARMS01 Arm 1-LLx: LL read as no flag, likewise emitted only when declared.
             **(
                 {"entry_level_block_ll_as_no_flag": True}
@@ -1948,6 +1959,14 @@ def dry_run(section: Mapping[str, Any], run_root: Path, plan: Any) -> dict[str, 
                     entry["year_plan_matches_chain"] = (
                         year_plan(document).as_document() == plan.as_document()
                     )
+                if name == "year_plan" and (
+                    document.get("hgb_menus") is not None or section.get("hgb_menus") is not None
+                ):
+                    # TUNE01: the predictor reads the menu binding from the year plan; a
+                    # hand-written plan must bind exactly what the chain config declares.
+                    entry["hgb_menus_match_chain"] = document.get("hgb_menus") == section.get(
+                        "hgb_menus"
+                    )
         checks.append(entry)
 
     table = [*stages(section), *post_barrier_stages(section)]
@@ -2004,7 +2023,12 @@ def dry_run(section: Mapping[str, Any], run_root: Path, plan: Any) -> dict[str, 
         sequence.append(record)
 
     failures = [item for item in checks if item["status"] != "ok"]
-    mismatched = [item for item in checks if item.get("year_plan_matches_chain") is False]
+    mismatched = [
+        item
+        for item in checks
+        if item.get("year_plan_matches_chain") is False
+        or item.get("hgb_menus_match_chain") is False
+    ]
     absent_total = [
         item for item in sequence if item.get("inputs_absent_and_not_produced_by_an_earlier_stage")
     ]

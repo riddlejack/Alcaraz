@@ -24,6 +24,9 @@ only as draw-time status, and the round never. The raw ``tourney_level``, ``roun
 ``a_entry``/``b_entry``, seeds and draw size stay in ``FORBIDDEN_MODEL_COLUMNS``; a
 dictionary that lists any of them as a model column is refused. Without an entry bundle
 the settings document, the column order and every existing bundle are unchanged.
+The WTA secondary has no tier block: its ``*_entry`` bundle (``full_entry``) is the
+JOINT04 bundle of the same stem plus the same block, and it is the one variant the tour
+(WTA02) settings contract admits; the contract then records ``entry_level_columns``.
 
 Code bindings: the archive loaded ``numerical.py`` by path at a pinned hash and checked
 its own file hash against the config. Here the adapter is ``tennislab.models.numerical``
@@ -64,10 +67,11 @@ import csv
 import datetime as dt
 import json
 import math
+import multiprocessing
 import os
 import sys
-import time
 from collections.abc import Mapping, Sequence
+from concurrent.futures import Future, ProcessPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -75,7 +79,7 @@ from typing import Any
 import numpy as np
 from scipy import optimize
 
-from tennislab.chain import common
+from tennislab.chain import access, common
 from tennislab.chain.common import (
     ChainError,
     code_receipt,
@@ -114,6 +118,13 @@ TIER_NOQUAL_SUFFIX = "_tier_noqual"
 # ARMS01 Arm 1: `full_tier_entry` is `full_tier` plus the entry/level block.  Checked
 # first in `split_block`; the three variant suffixes are pairwise non-nested.
 TIER_ENTRY_SUFFIX = "_tier_entry"
+# ARMS01 WTA secondary: `full_entry` is the JOINT04 `full` bundle plus the same block (the
+# WTA chain has no tier block).  Tested after every tier suffix, since `_tier_entry` ends
+# with it.  The variants that carry the tier block are TIER_VARIANTS; the entry block is
+# carried by ENTRY_VARIANTS.
+ENTRY_SUFFIX = "_entry"
+TIER_VARIANTS = frozenset({"tier", "tier_noqual", "tier_entry"})
+ENTRY_VARIANTS = frozenset({"tier_entry", "entry"})
 DEFAULT_BLOCKS = BASE_BLOCKS
 DEFAULT_LEARNERS = ("ridge", "hgb")
 BLOCKS = DEFAULT_BLOCKS
@@ -392,19 +403,22 @@ def tour_contract() -> bool:
 
 def split_block(block: str) -> tuple[str, str]:
     """`("full", "tier")` for `full_tier`, `("full", "tier_noqual")` for the ablation,
-    `("full", "")` for `full`, `("full", "tier_entry")` for the entry/level variant.  The
-    variant suffixes are tested longest first."""
+    `("full", "")` for `full`, `("full", "tier_entry")` for the entry/level variant,
+    `("full", "entry")` for the tier-free entry/level variant.  The variant suffixes are
+    tested longest first."""
     if block.endswith(TIER_ENTRY_SUFFIX):
         return block[: -len(TIER_ENTRY_SUFFIX)], "tier_entry"
     if block.endswith(TIER_NOQUAL_SUFFIX):
         return block[: -len(TIER_NOQUAL_SUFFIX)], "tier_noqual"
     if block.endswith(TIER_SUFFIX):
         return block[: -len(TIER_SUFFIX)], "tier"
+    if block.endswith(ENTRY_SUFFIX):
+        return block[: -len(ENTRY_SUFFIX)], "entry"
     return block, ""
 
 
 def tier_enabled() -> bool:
-    return any(split_block(block)[1] for block in BLOCKS)
+    return any(split_block(block)[1] in TIER_VARIANTS for block in BLOCKS)
 
 
 def noqual_enabled() -> bool:
@@ -412,13 +426,14 @@ def noqual_enabled() -> bool:
 
 
 def entry_enabled() -> bool:
-    """True when a `*_tier_entry` bundle is configured: the entry/level block is then part
-    of the assembled column set and of the settings document, and nowhere otherwise."""
-    return any(split_block(block)[1] == "tier_entry" for block in BLOCKS)
+    """True when a `*_tier_entry` or `*_entry` bundle is configured: the entry/level block
+    is then part of the assembled column set and of the settings document, and nowhere
+    otherwise."""
+    return any(split_block(block)[1] in ENTRY_VARIANTS for block in BLOCKS)
 
 
 def _check_contract_supports_blocks(blocks: Sequence[str], tour: str | None) -> None:
-    if tour is not None and any(split_block(block)[1] for block in blocks):
+    if tour is not None and any(split_block(block)[1] in TIER_VARIANTS for block in blocks):
         raise PipelineError(
             "a configuration that declares a tour is read under the WTA02 settings "
             "contract, which cannot record a tier bundle"
@@ -483,13 +498,17 @@ def configure_bundles(
             raise PipelineError(f"unknown learner: {learner}")
     if "ridge" in chosen_learners and any(split_block(b)[1] for b in chosen_blocks):
         raise PipelineError(
-            "ridge cannot fit a tier bundle: TIER01 declares JOINT04's HGB menu only"
+            "ridge cannot fit a tier or entry bundle: TIER01 and ARMS01 declare JOINT04's "
+            "HGB menu only"
         )
     _check_contract_supports_blocks(chosen_blocks, TOUR)
     # Commit only after the checks pass, so a refused call leaves the module as it was.
     _check_cohort_supports_blocks(chosen_blocks, COHORT)
+    global HGB_MENUS
     BLOCKS = chosen_blocks
     LEARNERS = chosen_learners
+    # A bundle menu belongs to one bundle list; `configure_hgb_menus` reinstalls it.
+    HGB_MENUS = {}
     return BLOCKS, LEARNERS
 
 
@@ -502,6 +521,167 @@ def configure_cohort(mode: str | None = None) -> str:
     _check_cohort_supports_blocks(BLOCKS, chosen)
     COHORT = chosen
     return COHORT
+
+
+# ------------------------------------------------------------------ TUNE01: per-bundle HGB menus
+#
+# A configuration may bind, per bundle, an enlarged HGB menu file by path and sha256
+# (`hgb_menus: {"full_tier_entry": {"path": ..., "sha256": ...}}` beside the year plan).
+# The menu's anchors are JOINT04's two candidates, fitted exactly as without a menu; its
+# grid candidates are bagged and temporally early-stopped (`numerical.fit_bagged_early_stopped`).
+# Without `hgb_menus` nothing here is installed and every setting, count and forecast of
+# every existing configuration is unchanged.
+
+HGB_MENU_KIND_ANCHOR = "anchor_incumbent"
+HGB_MENU_KIND_GRID = "grid_bagged_early_stopped"
+HGB_GRID_AXES = ("learning_rate", "max_leaf_nodes", "min_samples_leaf", "l2_regularization")
+HGB_GRID_FIXED = {
+    "early_stopping": False,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": None,
+    "max_features": 1.0,
+    "random_state": 71101,
+}
+HGB_BAG_RNG = (
+    "numpy.random.Generator(numpy.random.PCG64(numpy.random.SeedSequence("
+    "[{seed}, R, role, member])))"
+)
+HGB_MENUS: dict[str, HgbMenu] = {}
+
+
+@dataclass(frozen=True)
+class HgbMenu:
+    """One bundle's HGB candidate menu, loaded from a hash-bound menu file."""
+
+    path: str
+    sha256: str
+    candidate_ids: tuple[str, ...]
+    grid_params: dict[str, dict[str, Any]]
+    tuning: dict[str, Any]
+
+    def binding(self) -> dict[str, str]:
+        return {"path": self.path, "sha256": self.sha256}
+
+
+def grid_candidate_id(params: Mapping[str, Any]) -> str:
+    """`tune_lr{1000*lr:03d}_leaf{leaves:02d}_min{min leaf:03d}_reg{l2:02d}`."""
+    return (
+        f"tune_lr{round(1000 * params['learning_rate']):03d}"
+        f"_leaf{params['max_leaf_nodes']:02d}"
+        f"_min{params['min_samples_leaf']:03d}"
+        f"_reg{round(params['l2_regularization']):02d}"
+    )
+
+
+def _anchor_params(leaves: int, depth: int) -> dict[str, Any]:
+    params = dict(HGB_PARAMS)
+    params.update({"max_leaf_nodes": leaves, "max_depth": depth})
+    return params
+
+
+def load_hgb_menu(path: Path, binding_path: str) -> HgbMenu:
+    """Parse and check a menu file: anchors equal today's candidates, the grid is the
+    full product of its declared axes, and the stopping and bagging rules are complete."""
+    digest = sha256(path)
+    document = read_config(path)
+
+    def fail(message: str) -> PipelineError:
+        return PipelineError(f"HGB menu {binding_path}: {message}")
+
+    anchors = document.get("anchors")
+    grid = document.get("grid")
+    if not isinstance(anchors, list) or not isinstance(grid, list) or not grid:
+        raise fail("needs anchor and grid candidate lists")
+    expected_anchors = [
+        {
+            "candidate_id": candidate_id,
+            "kind": HGB_MENU_KIND_ANCHOR,
+            "bagging": None,
+            "early_stopping": None,
+            "estimator_params": _anchor_params(leaves, depth),
+        }
+        for candidate_id, leaves, depth in HGB_CANDIDATES
+    ]
+    if anchors != expected_anchors:
+        raise fail("anchors must be JOINT04's two candidates with HGB_PARAMS, in menu order")
+    axes = document.get("grid_axes")
+    if not isinstance(axes, dict) or set(axes) != set(HGB_GRID_AXES):
+        raise fail(f"grid_axes must name exactly {list(HGB_GRID_AXES)}")
+    if document.get("fixed_grid_params") != HGB_GRID_FIXED:
+        raise fail("fixed_grid_params differ from the declared grid contract")
+    grid_params: dict[str, dict[str, Any]] = {}
+    for entry in grid:
+        if not isinstance(entry, dict) or entry.get("kind") != HGB_MENU_KIND_GRID:
+            raise fail("every grid entry must be a grid_bagged_early_stopped candidate")
+        params = entry.get("estimator_params")
+        if not isinstance(params, dict) or set(params) != set(HGB_GRID_FIXED) | set(HGB_GRID_AXES):
+            raise fail(f"grid parameters must be the fixed set plus {list(HGB_GRID_AXES)}")
+        if any(params[key] != value for key, value in HGB_GRID_FIXED.items()):
+            raise fail(f"{entry.get('candidate_id')} changes a fixed grid parameter")
+        if any(params[axis] not in axes[axis] for axis in HGB_GRID_AXES):
+            raise fail(f"{entry.get('candidate_id')} lies outside the grid axes")
+        candidate_id = grid_candidate_id(params)
+        if entry.get("candidate_id") != candidate_id or candidate_id in grid_params:
+            raise fail(f"grid candidate id must be the unique {candidate_id}")
+        grid_params[candidate_id] = dict(params)
+    if len(grid_params) != math.prod(len(axes[axis]) for axis in HGB_GRID_AXES):
+        raise fail("the grid must be the full product of its axes")
+    stopping = document.get("early_stopping")
+    bagging = document.get("bagging")
+    if not isinstance(stopping, dict) or not isinstance(bagging, dict):
+        raise fail("needs early_stopping and bagging objects")
+    base_seed = HGB_GRID_FIXED["random_state"]
+    if bagging.get("rng") != HGB_BAG_RNG.format(seed=base_seed):
+        raise fail(f"bagging rng must be {HGB_BAG_RNG.format(seed=base_seed)}")
+    tuning = {
+        "kind": NUM.TUNING_KIND,
+        "menu_sha256": digest,
+        "max_iter_cap": stopping.get("max_iter_cap"),
+        "patience": stopping.get("patience"),
+        "tol": stopping.get("tol"),
+        "members": bagging.get("members"),
+        "row_subsample_fraction": bagging.get("row_subsample_fraction"),
+        "base_seed": base_seed,
+    }
+    NUM._tuning_spec(
+        {"family": "hist_gradient_boosting", "estimator_params": HGB_GRID_FIXED, "tuning": tuning}
+    )
+    counts = document.get("counts", {})
+    ids = tuple(item[0] for item in HGB_CANDIDATES) + tuple(grid_params)
+    if (
+        counts.get("anchors"),
+        counts.get("grid"),
+        counts.get("total_candidates_seen_by_selector"),
+    ) != (
+        len(HGB_CANDIDATES),
+        len(grid_params),
+        len(ids),
+    ):
+        raise fail("declared counts differ from the enumerated menu")
+    return HgbMenu(binding_path, digest, ids, grid_params, tuning)
+
+
+def configure_hgb_menus(bindings: Mapping[str, Any] | None = None) -> dict[str, HgbMenu]:
+    """Install the per-bundle HGB menus a configuration binds; absent, none.
+
+    Install after the bundles: a menu may name only a configured bundle, and only when
+    HGB is a configured learner.  Each file is resolved under the workspace and must
+    hash to its binding.
+    """
+    global HGB_MENUS
+    chosen: dict[str, HgbMenu] = {}
+    for block, binding in (bindings or {}).items():
+        if block not in BLOCKS or "hgb" not in LEARNERS:
+            raise PipelineError(f"an HGB menu names a bundle that is not fitted by HGB: {block}")
+        if not isinstance(binding, Mapping) or set(binding) != {"path", "sha256"}:
+            raise PipelineError(f"hgb_menus.{block} must be exactly {{path, sha256}}")
+        path = resolve_under_root(str(binding["path"]), label=f"hgb_menus.{block}.path")
+        if sha256(path) != binding["sha256"]:
+            raise PipelineError(f"hgb_menus.{block} hash mismatch")
+        chosen[block] = load_hgb_menu(path, str(binding["path"]))
+    HGB_MENUS = chosen
+    return HGB_MENUS
 
 
 def settings_document() -> dict[str, Any]:
@@ -522,9 +702,17 @@ def settings_document() -> dict[str, Any]:
         "bootstrap_seed": 20260911,
         "reliability_edges": [index / 10 for index in range(11)],
     }
+    if HGB_MENUS:
+        # TUNE01: present only when a menu is bound, so every earlier settings document
+        # still equals the runner contract.
+        document["hgb_menus"] = {block: menu.binding() for block, menu in HGB_MENUS.items()}
     if tour_contract():
         document["cohort"] = COHORT
         document["tour"] = TOUR
+        if entry_enabled():
+            # Only with an entry bundle, so every frozen WTA settings document still
+            # equals the runner contract.
+            document["entry_level_columns"] = list(ENTRY_LEVEL_COLUMNS)
     else:
         document["tier_columns"] = (
             list(TIER_COLUMNS) + (list(TIER_NOQUAL_COLUMNS) if noqual_enabled() else [])
@@ -693,12 +881,12 @@ class FeatureContract:
         stem, variant = split_block(block)
         if stem not in BASE_BLOCKS:
             raise PipelineError(f"unknown block: {block}")
-        has_tier = bool(variant)
+        has_tier = variant in TIER_VARIANTS
         has_traits = stem in {"traits", "full"}
         has_dynamic = stem in {"dynamic", "full"}
         if learner == "ridge":
-            if has_tier:
-                raise PipelineError("ridge cannot fit a tier bundle")
+            if variant:
+                raise PipelineError("ridge cannot fit a tier or entry bundle")
             numeric = list(self.base_linear)
             if has_traits:
                 numeric.extend(TRAIT_SIGNED)
@@ -724,10 +912,11 @@ class FeatureContract:
                 signed.extend(
                     TIER_NOQUAL_DYNAMIC_SIGNED if variant == "tier_noqual" else TIER_DYNAMIC_SIGNED
                 )
-        if variant == "tier_entry":
-            # ARMS01: the `*_tier` bundle plus the entry/level block, appended after it:
-            # signed entry differences with the signed columns, the symmetric
-            # any-qualifier flag and level indicators with the context columns.
+        if variant in ENTRY_VARIANTS:
+            # ARMS01: the `*_tier` bundle (ATP) or the JOINT04 bundle (WTA `*_entry`) plus
+            # the entry/level block, appended after it: signed entry differences with the
+            # signed columns, the symmetric any-qualifier flag and level indicators with
+            # the context columns.
             if self.entry_level != ENTRY_LEVEL_COLUMNS:
                 raise PipelineError(
                     f"bundle {block} needs the features stage's entry/level block "
@@ -1199,6 +1388,22 @@ def numerical_config(
             "estimator_params": params,
         }
     if learner == "hgb":
+        menu = HGB_MENUS.get(block)
+        if menu is not None and q_id in menu.grid_params:
+            # TUNE01 grid candidate: the menu's parameters, the capped iteration count of
+            # the stopping fits (the refit takes k*), and the bagging/stopping contract.
+            return {
+                "config_id": config_id,
+                "family": "hist_gradient_boosting",
+                "signed_numeric_columns": list(numeric),
+                "context_columns": list(context),
+                "estimator_params": {
+                    **menu.grid_params[q_id],
+                    "max_iter": menu.tuning["max_iter_cap"],
+                },
+                "tuning": dict(menu.tuning),
+            }
+        # Anchors of a bundle menu are today's candidates, built exactly as without one.
         candidates = {candidate[0]: candidate[1:] for candidate in HGB_CANDIDATES}
         if q_id not in candidates:
             raise PipelineError(f"unknown HGB candidate: {q_id}")
@@ -1242,12 +1447,26 @@ def random_forest_numerical_config(
     }
 
 
-def candidate_ids(learner: str) -> tuple[str, ...]:
+def candidate_ids(learner: str, block: str | None = None) -> tuple[str, ...]:
+    """The candidate menu of one learner, in menu order; a bundle with a bound HGB menu
+    (TUNE01) has that menu's candidates, every other bundle the default menu."""
     if learner == "ridge":
         return tuple(item[0] for item in RIDGE_CANDIDATES)
     if learner == "hgb":
+        menu = HGB_MENUS.get(block) if block is not None else None
+        if menu is not None:
+            return menu.candidate_ids
         return tuple(item[0] for item in HGB_CANDIDATES)
     raise PipelineError(f"unknown learner: {learner}")
+
+
+def expected_fit_attempts() -> int:
+    """Raw fits per run: the candidate menu of every learner/bundle times the raw years."""
+    return sum(
+        len(candidate_ids(learner, block)) * len(RAW_YEARS)
+        for learner in LEARNERS
+        for block in BLOCKS
+    )
 
 
 def weighted_calibration_arrays(
@@ -1540,6 +1759,7 @@ def load_frozen_run_config(path: Path) -> FrozenRunConfig:
     configure_years(settings_binding.get("year_plan", {}))
     configure_bundles(settings_binding.get("blocks"), settings_binding.get("learners"))
     configure_cohort(settings_binding.get("cohort"))
+    configure_hgb_menus(settings_binding.get("hgb_menus"))
     if document.get("execution_scope") not in {"synthetic_fixture", "frozen_real_inputs"}:
         raise PipelineError(
             "config execution_scope must be synthetic_fixture or frozen_real_inputs"
@@ -1616,9 +1836,7 @@ def load_frozen_run_config(path: Path) -> FrozenRunConfig:
             raise PipelineError(
                 "expected_membership selected_primary_rows differs from the target-year per-year counts"
             )
-        derived_attempts = sum(
-            len(candidate_ids(learner)) * len(BLOCKS) * len(RAW_YEARS) for learner in LEARNERS
-        )
+        derived_attempts = expected_fit_attempts()
         if expected["raw_fit_attempts"] != derived_attempts:
             raise PipelineError(
                 f"expected_membership raw_fit_attempts must equal the derived menu size {derived_attempts}"
@@ -1750,9 +1968,7 @@ def validate_membership(
         "selected_primary_rows": sum(primary_by_year[str(year)] for year in OUTER_YEARS),
         "provisional_by_year": provisional_by_year,
         "aligned_primary_warmup_rows": warmup,
-        "raw_fit_attempts": sum(
-            len(candidate_ids(learner)) * len(BLOCKS) * len(RAW_YEARS) for learner in LEARNERS
-        ),
+        "raw_fit_attempts": expected_fit_attempts(),
     }
     expected = config.document["expected_membership"]
     for field, expected_value in expected.items():
@@ -1853,6 +2069,54 @@ def _ledger_provenance(config: FrozenRunConfig) -> dict[str, Any]:
     }
 
 
+WORKERS_ENVIRONMENT_VARIABLE = "TENNISLAB_PIPELINE_WORKERS"
+
+
+def pipeline_workers() -> int:
+    """Worker processes for bagged candidates (TUNE01); 1, the default, fits in-process.
+
+    Every other candidate is fitted in the stage's own process in the fixed loop order.
+    Each bagged fit is a pure function of its identity, so forecasts do not depend on the
+    worker count; every worker inherits the single-thread numerical environment.
+    """
+    text = os.environ.get(WORKERS_ENVIRONMENT_VARIABLE, "1")
+    try:
+        workers = int(text)
+    except ValueError as error:
+        raise PipelineError(
+            f"{WORKERS_ENVIRONMENT_VARIABLE} must be an integer: {text!r}"
+        ) from error
+    if workers < 1:
+        raise PipelineError(f"{WORKERS_ENVIRONMENT_VARIABLE} must be positive: {workers}")
+    return workers
+
+
+def stopping_partition(
+    metadata: Mapping[tuple[str, str], Mapping[str, str]], year: int
+) -> tuple[tuple[tuple[str, str], ...], tuple[tuple[str, str], ...]]:
+    """TUNE01: raw year R's training keys split for temporal early stopping.
+
+    Stopping-validation keys are the window's last year, (R-1)-01-01 to (R-1)-12-30;
+    stopping-train keys are dated up to (R-2)-12-30, the fit-boundary convention applied
+    to R-1.  Keys dated (R-2)-12-31 belong to neither (they return in the refit).
+    """
+    validation_start, validation_end = dt.date(year - 1, 1, 1), dt.date(year - 1, 12, 30)
+    train_end = dt.date(year - 2, 12, 30)
+    train: list[tuple[str, str]] = []
+    validation: list[tuple[str, str]] = []
+    for key in training_keys(metadata, year):
+        match_date = parse_iso(metadata[key]["match_date"])
+        if validation_start <= match_date <= validation_end:
+            validation.append(key)
+        elif match_date <= train_end:
+            train.append(key)
+        elif match_date != dt.date(year - 2, 12, 31):
+            raise PipelineError(f"training key outside every stopping set: {key}")
+    if not train or not validation:
+        raise PipelineError(f"raw year {year} has an empty stopping-train or validation set")
+    return tuple(train), tuple(validation)
+
+
 def run_raw_stage(
     config_path: Path,
     output_dir: Path,
@@ -1865,6 +2129,7 @@ def run_raw_stage(
         raise PipelineError("real raw fitting requires explicit execute_frozen_real=True")
     bundle = _assemble(config)
     membership = validate_membership(bundle, config)
+    workers = pipeline_workers()
     output_dir.mkdir(parents=True, exist_ok=True)
     progress_path = output_dir / "raw_progress.json"
     write_progress(
@@ -1876,6 +2141,32 @@ def run_raw_stage(
     )
     cache = NUM.FileFitCache(output_dir / "fit_cache")
     attempts: list[dict[str, Any]] = []
+
+    def settle(record: dict[str, Any], outcome: Any) -> None:
+        result = outcome.result() if isinstance(outcome, Future) else outcome
+        if "access" in result:
+            access.absorb(result.pop("access"))
+        record.update(result)
+        if "prediction_sha256" not in record:
+            record.pop("prediction_path")
+        attempts.append(record)
+        atomic_json(
+            output_dir
+            / "attempts"
+            / str(record["year"])
+            / record["learner"]
+            / record["block"]
+            / f"{record['candidate_id']}.json",
+            record,
+        )
+        write_progress(
+            progress_path,
+            "running",
+            config_sha256=config.sha256,
+            completed_attempts=len(attempts),
+            expected_attempts=membership["raw_fit_attempts"],
+        )
+
     # One fixed loop: len(RAW_YEARS) x (candidates x blocks) fits per learner.
     for year in RAW_YEARS:
         train_keys = training_keys(bundle.metadata, year)
@@ -1893,92 +2184,109 @@ def run_raw_stage(
             fold_outer_year=year,
         )
         prediction_features = bundle.features.subset(prediction_keys)
-        for learner in LEARNERS:
-            for block in BLOCKS:
-                for candidate_id in candidate_ids(learner):
-                    model_config = numerical_config(bundle.contract, learner, block, candidate_id)
-                    identity = NUM.fit_identity(
-                        model_config,
-                        training_window(year)[1].isoformat(),
-                        train_features,
-                        train_labels,
-                        config.sha256,
-                    )
-                    fit_started = time.monotonic()
-                    attempt, fit_manifest = cache.fit_or_load(
-                        identity,
-                        train_keys,
-                        lambda model_config=model_config, train_features=train_features, train_labels=train_labels: (
-                            NUM.fit_procedure(model_config, train_features, train_labels)
-                        ),
-                    )
-                    fit_seconds = time.monotonic() - fit_started
-                    record: dict[str, Any] = {
-                        # A measured cost per attempt, so a real run can be planned from
-                        # a measurement rather than a guess.  It enters no hash the
-                        # forecasts depend on.
-                        "fit_wall_clock_seconds": round(fit_seconds, 6),
-                        "year": year,
-                        "learner": learner,
-                        "block": block,
-                        "candidate_id": candidate_id,
-                        "config_id": model_config["config_id"],
-                        "status": attempt.status,
-                        "fit_cache_reused": attempt.cache_reused,
-                        "fit_identity_sha256": NUM.sha256_json(identity),
-                        "fit_manifest_sha256": fit_manifest["fit_manifest_file_sha256"],
-                        "training_rows": len(train_keys),
-                        "training_membership_sha256": NUM.key_hash(train_keys),
-                        "primary_target_rows": len(primary_keys),
-                        "primary_target_membership_sha256": NUM.key_hash(primary_keys),
-                        "provisional_target_rows": len(provisional_keys),
-                        "provisional_target_membership_sha256": NUM.key_hash(provisional_keys),
-                        "outcome_labels_used_for_fit": True,
-                        "outcome_labels_used_for_prediction": False,
-                        "warnings": attempt.warnings,
-                        "error": attempt.error,
-                    }
-                    if attempt.status == "complete" and attempt.fitted is not None:
-                        try:
-                            emitted = attempt.fitted.predict(prediction_features)
-                            if emitted.keys != prediction_keys:
-                                raise PipelineError("numerical prediction membership drift")
-                            prediction_path = raw_prediction_path(
-                                output_dir, year, learner, block, candidate_id
-                            )
-                            prediction_hash = emitted.write_csv(prediction_path)
-                            record.update(
-                                {
-                                    "prediction_path": str(prediction_path.relative_to(output_dir)),
-                                    "prediction_sha256": prediction_hash,
-                                    "prediction_rows": len(prediction_keys),
-                                    "prediction_membership_sha256": emitted.membership_sha256,
-                                    "prediction_diagnostics": emitted.diagnostics,
-                                }
-                            )
-                        except Exception as error:
-                            record["status"] = "failed_prediction"
-                            record["error"] = {
-                                "type": type(error).__name__,
-                                "message": str(error),
+        if prediction_features.keys != prediction_keys:
+            raise PipelineError("prediction feature membership drift")
+        # TUNE01: each bundle with a bound menu shares one set of rows per raw year
+        # (the stopping partition and the bag subsamples) across its grid candidates.
+        bagged_inputs: dict[str, NUM.BaggedTreeInputs] = {}
+        if "hgb" in LEARNERS and HGB_MENUS:
+            stopping_train, stopping_validation = stopping_partition(bundle.metadata, year)
+            for block, menu in HGB_MENUS.items():
+                bagged_inputs[block] = NUM.prepare_bagged_tree_inputs(
+                    numerical_config(bundle.contract, "hgb", block, next(iter(menu.grid_params))),
+                    train_features,
+                    train_labels,
+                    stopping_train_keys=stopping_train,
+                    stopping_validation_keys=stopping_validation,
+                    raw_year=year,
+                )
+        shared = {
+            "cache_root": str(output_dir / "fit_cache"),
+            "training_keys": train_keys,
+            "prediction_features": prediction_features,
+            "inputs": bagged_inputs,
+        }
+        pool = (
+            ProcessPoolExecutor(
+                max_workers=workers,
+                mp_context=multiprocessing.get_context("spawn"),
+                initializer=NUM.init_bagged_worker,
+                initargs=(shared,),
+            )
+            if bagged_inputs and workers > 1
+            else None
+        )
+        pending: list[tuple[dict[str, Any], Any]] = []
+        try:
+            for learner in LEARNERS:
+                for block in BLOCKS:
+                    for candidate_id in candidate_ids(learner, block):
+                        model_config = numerical_config(
+                            bundle.contract, learner, block, candidate_id
+                        )
+                        identity = NUM.fit_identity(
+                            model_config,
+                            training_window(year)[1].isoformat(),
+                            train_features,
+                            train_labels,
+                            config.sha256,
+                        )
+                        prediction_path = raw_prediction_path(
+                            output_dir, year, learner, block, candidate_id
+                        )
+                        record: dict[str, Any] = {
+                            # A measured cost per attempt (fit_wall_clock_seconds, from
+                            # the fit) so a real run can be planned from a measurement.
+                            "year": year,
+                            "learner": learner,
+                            "block": block,
+                            "candidate_id": candidate_id,
+                            "config_id": model_config["config_id"],
+                            "training_rows": len(train_keys),
+                            "training_membership_sha256": NUM.key_hash(train_keys),
+                            "primary_target_rows": len(primary_keys),
+                            "primary_target_membership_sha256": NUM.key_hash(primary_keys),
+                            "provisional_target_rows": len(provisional_keys),
+                            "provisional_target_membership_sha256": NUM.key_hash(provisional_keys),
+                            "outcome_labels_used_for_fit": True,
+                            "outcome_labels_used_for_prediction": False,
+                            "prediction_path": str(prediction_path.relative_to(output_dir)),
+                        }
+                        if "tuning" in model_config:
+                            # The partition and the subsamples enter the fit identity.
+                            identity["bagging"] = bagged_inputs[block].receipt
+                            record["fit_identity_sha256"] = NUM.sha256_json(identity)
+                            task = {
+                                "block": block,
+                                "config": model_config,
+                                "identity": identity,
+                                "prediction_path": str(prediction_path),
                             }
-                    attempts.append(record)
-                    atomic_json(
-                        output_dir
-                        / "attempts"
-                        / str(year)
-                        / learner
-                        / block
-                        / f"{candidate_id}.json",
-                        record,
-                    )
-                    write_progress(
-                        progress_path,
-                        "running",
-                        config_sha256=config.sha256,
-                        completed_attempts=len(attempts),
-                        expected_attempts=membership["raw_fit_attempts"],
-                    )
+                            if pool is not None:
+                                pending.append((record, pool.submit(NUM.run_bagged_task, task)))
+                                continue
+                            outcome = NUM.execute_bagged_task(task, shared)
+                        else:
+                            record["fit_identity_sha256"] = NUM.sha256_json(identity)
+                            outcome = NUM.fit_cached_and_predict(
+                                cache,
+                                identity,
+                                train_keys,
+                                lambda model_config=model_config, train_features=train_features, train_labels=train_labels: (
+                                    NUM.fit_procedure(model_config, train_features, train_labels)
+                                ),
+                                prediction_features,
+                                prediction_path,
+                            )
+                        if pending:
+                            pending.append((record, outcome))
+                        else:
+                            settle(record, outcome)
+            for record, outcome in pending:
+                settle(record, outcome)
+        finally:
+            if pool is not None:
+                pool.shutdown(wait=True, cancel_futures=True)
     if len(attempts) != membership["raw_fit_attempts"]:
         raise PipelineError("raw attempt count drift")
     ledger = {
@@ -1994,6 +2302,10 @@ def run_raw_stage(
         "all_candidate_predictions_saved_before_scoring": True,
         "target_outcomes_scored": False,
     }
+    if HGB_MENUS:
+        # TUNE01 only, so every earlier ledger keeps its shape.
+        ledger["hgb_menus"] = {block: menu.binding() for block, menu in HGB_MENUS.items()}
+        ledger["process_workers"] = workers
     atomic_json(output_dir / "raw_complete.json", ledger)
     write_progress(progress_path, ledger["status"], config_sha256=config.sha256)
     return ledger
@@ -2023,7 +2335,7 @@ def _raw_attempt_index(
         for year in RAW_YEARS
         for learner in LEARNERS
         for block in BLOCKS
-        for candidate_id in candidate_ids(learner)
+        for candidate_id in candidate_ids(learner, block)
     }
     if set(output) != expected:
         raise PipelineError("raw attempt ledger does not contain the configured candidate menu")
@@ -2081,6 +2393,26 @@ def market_keys(
     )
 
 
+def _tuning_summary(raw_record: Mapping[str, Any]) -> dict[str, Any]:
+    """A bagged raw attempt's stopped iteration count, stop status and bag seeds (none of
+    them a score); an empty mapping for every other candidate."""
+    tuning = raw_record.get("tuning")
+    if not isinstance(tuning, Mapping):
+        return {}
+    return {
+        "tuning": {
+            "k_star": tuning["k_star"],
+            "k_stop": tuning["k_stop"],
+            "stop_status": tuning["stop_status"],
+            "curve_sha256": tuning["curve_sha256"],
+            "bag_seeds": {
+                role: [item["seed_sequence"] for item in records]
+                for role, records in tuning["subsamples"].items()
+            },
+        }
+    }
+
+
 def run_selection_stage(
     config_path: Path,
     output_dir: Path,
@@ -2134,7 +2466,7 @@ def run_selection_stage(
         for learner in LEARNERS:
             for block in BLOCKS:
                 trials: dict[str, dict[str, Any]] = {}
-                for candidate_id in candidate_ids(learner):
+                for candidate_id in candidate_ids(learner, block):
                     candidate_probabilities: dict[int, list[float]] = {}
                     prediction_sources: dict[str, dict[str, Any]] = {}
                     try:
@@ -2157,6 +2489,9 @@ def run_selection_stage(
                                 "selection_membership_sha256": NUM.key_hash(
                                     keys_by_year[past_year]
                                 ),
+                                # TUNE01: the stopped iteration count and bag seeds of
+                                # a bagged candidate's raw year (absent otherwise).
+                                **_tuning_summary(raw_record),
                             }
                         trial = fit_nonnegative_slope(
                             candidate_probabilities,
@@ -2177,7 +2512,7 @@ def run_selection_stage(
                     trial["candidate_id"] = candidate_id
                     trial["prediction_sources"] = prediction_sources
                     trials[candidate_id] = trial
-                selected = select_calibrated_candidate(trials, candidate_ids(learner))
+                selected = select_calibrated_candidate(trials, candidate_ids(learner, block))
                 record: dict[str, Any] = {
                     "outer_year": outer_year,
                     "learner": learner,
@@ -2202,6 +2537,8 @@ def run_selection_stage(
                     "outer_provisional_membership_sha256": NUM.key_hash(outer_provisional_keys),
                     "outer_labels_used": False,
                 }
+                if learner == "hgb" and block in HGB_MENUS:
+                    record["hgb_menu"] = HGB_MENUS[block].binding()
                 if selected["status"] == "complete":
                     chosen_id = str(selected["selected_candidate_id"])
                     raw_values, raw_record = _read_bound_raw_prediction(
@@ -2233,6 +2570,7 @@ def run_selection_stage(
                             "selected_prediction_membership_sha256": NUM.key_hash(
                                 outer_prediction_keys
                             ),
+                            **_tuning_summary(raw_record),
                         }
                     )
                 selection_records.append(record)
@@ -2397,6 +2735,105 @@ def run_selection_stage(
     return ledger
 
 
+def run_curve_publication(config_path: Path, output_dir: Path, publish_dir: Path) -> dict[str, Any]:
+    """TUNE01, after the barrier (RB14): publish the early-stopping curves of the selected
+    bagged candidates.
+
+    The pipeline committed only each curve's sha256, because a curve is a set of scores
+    of an earlier fold's target year.  For every outer year whose selected candidate in a
+    menu bundle is a bagged one, the stopping members of that candidate and raw year (=
+    the outer year) are refitted from the same training-window rows, the curve is checked
+    against its committed hash and written with the patience decision.  Reads the same
+    training-window outcomes as the raw fit (purpose ``training_fit``, ceiling R - 1);
+    reads no target-year outcome.  A hash mismatch is recorded, never repaired.
+    """
+    config = load_frozen_run_config(config_path)
+    barrier = output_dir.parent / "barrier" / "stage_manifest.json"
+    if not barrier.is_file() or not read_config(barrier).get("run_tree_sha256"):
+        raise PipelineError(f"curve publication needs a frozen barrier: {barrier}")
+    if publish_dir.exists():
+        raise PipelineError(f"refusing to replace published curves: {publish_dir}")
+    selection = read_config(output_dir / "selection_complete.json")
+    raw_ledger = read_config(output_dir / "raw_complete.json")
+    if (
+        selection.get("config_sha256") != config.sha256
+        or raw_ledger.get("config_sha256") != config.sha256
+    ):
+        raise PipelineError("selection/raw ledgers were not produced from this config")
+    attempt_index = _raw_attempt_index(raw_ledger)
+    bundle = _assemble(config)
+    published: list[dict[str, Any]] = []
+    for record in selection["selection_records"]:
+        block, year = str(record["block"]), int(record["outer_year"])
+        if record["learner"] != "hgb" or block not in HGB_MENUS:
+            continue
+        candidate = str(record["selected_candidate_id"])
+        model_config = numerical_config(bundle.contract, "hgb", block, candidate)
+        entry: dict[str, Any] = {"outer_year": year, "block": block, "candidate_id": candidate}
+        if "tuning" not in model_config:
+            published.append({**entry, "status": "anchor_selected_no_curve"})
+            continue
+        committed = attempt_index[(year, "hgb", block, candidate)]["tuning"]
+        train_keys = training_keys(bundle.metadata, year)
+        stopping_train, stopping_validation = stopping_partition(bundle.metadata, year)
+        inputs = NUM.prepare_bagged_tree_inputs(
+            model_config,
+            bundle.features.subset(train_keys),
+            label_subset(  # outcome-history read: the raw fit's own training window
+                config.inputs["labels"],
+                config.input_hashes["labels"],
+                train_keys,
+                bundle.metadata,
+                purpose="training_fit",
+                year_ceiling=training_window(year)[1].year,
+                fold_outer_year=year,
+            ),
+            stopping_train_keys=stopping_train,
+            stopping_validation_keys=stopping_validation,
+            raw_year=year,
+        )
+        curve, _ = NUM.bagged_stopping_curve(model_config, inputs)
+        tuning = model_config["tuning"]
+        decision = NUM.early_stopping_decision(curve, tuning["patience"], tuning["tol"])
+        digest = NUM.sha256_json(curve)
+        entry.update(
+            {
+                "status": "published",
+                "raw_year": year,
+                "stopping_validation_year": year - 1,
+                "curve_semantics": "L(k), k = 1..cap: validation log loss of the bag-averaged "
+                "symmetrised forecast on the stopping-validation year (an earlier fold's "
+                "target year)",
+                "curve": curve,
+                "curve_sha256": digest,
+                "committed_curve_sha256": committed["curve_sha256"],
+                "hash_matches": digest == committed["curve_sha256"],
+                "partition_matches": all(
+                    inputs.receipt[key] == committed[key] for key in inputs.receipt
+                ),
+                "decision": decision,
+                "committed_decision": {key: committed[key] for key in decision},
+            }
+        )
+        published.append(entry)
+        atomic_json(publish_dir / str(year) / "hgb" / f"{block}.json", entry)
+    summary = {
+        "status": (
+            "complete"
+            if all(item.get("hash_matches", True) for item in published)
+            else "hash_mismatch_recorded"
+        ),
+        **_ledger_provenance(config),
+        "barrier_run_tree_sha256": read_config(barrier)["run_tree_sha256"],
+        "selection_complete_sha256": sha256(output_dir / "selection_complete.json"),
+        "published": [
+            {key: value for key, value in item.items() if key != "curve"} for item in published
+        ],
+    }
+    atomic_json(publish_dir / "curves_complete.json", summary)
+    return summary
+
+
 def run_preflight(config_path: Path) -> dict[str, Any]:
     config = load_frozen_run_config(config_path)
     bundle = _assemble(config)
@@ -2462,6 +2899,14 @@ def build_parser() -> argparse.ArgumentParser:
         if name != "preflight":
             command.add_argument("--output", type=Path, required=True)
             command.add_argument("--execute-frozen-real", action="store_true")
+    curves = subparsers.add_parser(
+        "curves",
+        help="TUNE01, after the barrier: publish the selected bagged candidates' "
+        "early-stopping curves and check them against their committed hashes",
+    )
+    curves.add_argument("--config", type=Path, required=True)
+    curves.add_argument("--output", type=Path, required=True, help="the pipeline stage directory")
+    curves.add_argument("--publish", type=Path, required=True, help="a new post-barrier directory")
     return parser
 
 
@@ -2476,6 +2921,12 @@ def main(argv: list[str] | None = None) -> int:
             result = runtime_description(plan)
         elif args.command == "preflight":
             result = run_preflight(args.config)
+        elif args.command == "curves":
+            result = run_curve_publication(
+                args.config,
+                resolve_under_root(args.output, label="output"),
+                resolve_output_under_root(args.publish, label="publish"),
+            )
         else:
             output = resolve_output_under_root(args.output, label="output")
             if args.command == "raw":

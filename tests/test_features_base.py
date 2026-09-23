@@ -460,6 +460,91 @@ def test_the_stage_config_switch_is_a_boolean_outside_the_frozen_parameters() ->
     assert bf.ENTRY_LEVEL_BLOCK_KEY not in bf.FIXED_PARAMETERS
 
 
+# ------------------------------------------------------------ ARMS01 WTA: the declared level map
+
+WTA_LEVEL_MAP = {"F": "F", "G": "G", "I": "A", "P": "A", "PM": "M", "W": "A"}
+
+
+def test_a_declared_level_map_indicates_the_mapped_codes_and_zeroes_the_rest() -> None:
+    base = record("t", dt.date(2020, 1, 1), 1, 2)
+    expected = {
+        # level -> (g, m, a, f)
+        "G": (1, 0, 0, 0),
+        "PM": (0, 1, 0, 0),
+        "pm": (0, 1, 0, 0),  # normalised like the ATP codes
+        "P": (0, 0, 1, 0),
+        "I": (0, 0, 1, 0),
+        "W": (0, 0, 1, 0),
+        "F": (0, 0, 0, 1),
+        "T1": (0, 0, 0, 0),
+        "D": (0, 0, 0, 0),
+        "": (0, 0, 0, 0),
+        "M": (0, 0, 0, 0),  # an ATP code the WTA map does not declare
+        "A": (0, 0, 0, 0),
+    }
+    for level, flags in expected.items():
+        item = bf.replace(base, entry_a="Q", entry_b="", tourney_level=level)
+        values = bf.entry_level_values(item, WTA_LEVEL_MAP)
+        assert tuple(values[column] for column in bf.LEVEL_CONTEXT) == flags, level
+        # The entry columns do not depend on the map.
+        assert values["entry_q_diff"] == 1 and values["entry_any_qualifier"] == 1
+    # Absent a map the ATP identity applies, exactly as before.
+    for level in ("G", "M", "A", "F", "PM", "P"):
+        item = bf.replace(base, tourney_level=level)
+        assert bf.entry_level_values(item) == bf.entry_level_values(item, bf.DEFAULT_LEVEL_MAP)
+    assert bf.DEFAULT_LEVEL_MAP == {"G": "G", "M": "M", "A": "A", "F": "F"}
+
+
+def test_a_level_map_is_validated_and_needs_the_block() -> None:
+    assert bf.validate_level_map({"PM": "M", "G": "G"}) == {"G": "G", "PM": "M"}
+    for bad in ({}, [], {" pm": "M"}, {"pm": "M"}, {"PM": "X"}, {"": "G"}, {"PM": None}):
+        with pytest.raises(ChainError):
+            bf.validate_level_map(bad)
+    assert bf.entry_level_map({"entry_level_block": True}) is None
+    assert bf.entry_level_map({}) is None
+    assert bf.entry_level_map(
+        {"entry_level_block": True, "entry_level_map": WTA_LEVEL_MAP}
+    ) == dict(sorted(WTA_LEVEL_MAP.items()))
+    for config in (
+        {"entry_level_map": WTA_LEVEL_MAP},
+        {"entry_level_block": False, "entry_level_map": WTA_LEVEL_MAP},
+    ):
+        with pytest.raises(ChainError, match="requires entry_level_block"):
+            bf.entry_level_map(config)
+    assert bf.ENTRY_LEVEL_MAP_KEY not in bf.FIXED_PARAMETERS
+
+
+def test_a_declared_map_reaches_the_rows_the_dictionary_and_the_receipts() -> None:
+    # Without a map the dictionary is the ATP one, byte for byte.
+    assert "entry_level_level_map" not in bf.column_dictionary(entry_level=True)
+    assert bf.column_dictionary(True, level_map=None) == bf.column_dictionary(entry_level=True)
+    mapped = bf.column_dictionary(True, level_map=WTA_LEVEL_MAP)
+    assert mapped["entry_level_level_map"] == WTA_LEVEL_MAP
+    assert "entry_level_level_map" in mapped["entry_level_semantics"]["level"]
+    unmapped = bf.column_dictionary(entry_level=True)
+    for key in unmapped:
+        if key != "entry_level_semantics":
+            assert mapped[key] == unmapped[key], key
+    d0 = dt.date(2020, 1, 1)
+    source = bf.replace(record("s", d0, 1, 3, a_won=True), tourney_level="PM")
+    target = bf.replace(
+        record("t", d0 + dt.timedelta(days=2), 1, 2), entry_a="LL", tourney_level="PM"
+    )
+    ranking = rank_map([source, target])
+    rows = dict(
+        bf.stream_rows(
+            [source, target], ranking, PARAMETERS, entry_level=True, level_map=WTA_LEVEL_MAP
+        )
+    )
+    assert [rows[target][column] for column in bf.LEVEL_CONTEXT] == [0, 1, 0, 0]
+    atp = dict(bf.stream_rows([source, target], ranking, PARAMETERS, entry_level=True))
+    assert [atp[target][column] for column in bf.LEVEL_CONTEXT] == [0, 0, 0, 0]
+    receipts = bf.entry_level_receipts([source, target], level_map=WTA_LEVEL_MAP)
+    assert receipts["level_map"] == WTA_LEVEL_MAP
+    assert receipts["indicated_level_rows_by_season"] == {str(source.source_season): {"M": 2}}
+    assert "level_map" not in bf.entry_level_receipts([source, target])
+
+
 # ------------------------------------- ARMS01 Arm 1-LLx: lucky loser read as no flag
 
 
