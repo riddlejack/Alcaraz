@@ -15,21 +15,22 @@ Rungs:
 - **atp_p0**: P0: base HistGradientBoosting on match-history features (Elo logits, serve/return count differences, workload, rankings, context), past-only candidate selection and calibration.
 - **atp_p1**: P1: the full bundle, P0 features plus player traits and the replayed SR02 dynamic serve/return states.
 - **atp_full_tier**: full_tier: P1 plus qualifying, Challenger and Futures history (tier-inclusive pooled Elo with per-training-window debut offsets, experience counts, the tier SR02 replay).
+- **atp_full_tier_entry**: full_tier_entry: full_tier plus entry status (Q, LL, WC, PR) and tournament-level context; −0.0011 versus full_tier [−0.0018, −0.0004], 6 of 8 years negative.
 
 ### Per year
 
-| year | n | elo | atp_p0 | atp_p1 | atp_full_tier | pinnacle_normalised | pinnacle_calibrated |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| 2017 | 2,311 | 0.6124 | 0.6029 | 0.5984 | 0.5938 | 0.5875 | 0.5885 |
-| 2018 | 2,587 | 0.6345 | 0.6200 | 0.6119 | 0.6044 | 0.5916 | 0.5915 |
-| 2019 | 2,491 | 0.6279 | 0.6159 | 0.6113 | 0.6053 | 0.5944 | 0.5944 |
-| 2020 | 1,241 | 0.6191 | 0.6093 | 0.6018 | 0.5953 | 0.5747 | 0.5748 |
-| 2021 | 2,384 | 0.6273 | 0.6186 | 0.6080 | 0.5973 | 0.5905 | 0.5906 |
-| 2022 | 2,525 | 0.6162 | 0.6058 | 0.5991 | 0.5926 | 0.5824 | 0.5822 |
-| 2023 | 2,672 | 0.6267 | 0.6116 | 0.6050 | 0.5998 | 0.5874 | 0.5874 |
-| 2024 | 2,671 | 0.6220 | 0.6108 | 0.6050 | 0.5968 | 0.5836 | 0.5833 |
-| **all, match-weighted** | 18,882 | **0.6237** | **0.6121** | **0.6053** | **0.5984** | **0.5873** | **0.5873** |
-| all, equal-year mean | 8 years | 0.6233 | 0.6119 | 0.6051 | 0.5982 | 0.5865 | 0.5866 |
+| year | n | elo | atp_p0 | atp_p1 | atp_full_tier | atp_full_tier_entry | pinnacle_normalised | pinnacle_calibrated |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2017 | 2,311 | 0.6124 | 0.6029 | 0.5984 | 0.5938 | 0.5917 | 0.5875 | 0.5885 |
+| 2018 | 2,587 | 0.6345 | 0.6200 | 0.6119 | 0.6044 | 0.6029 | 0.5916 | 0.5915 |
+| 2019 | 2,491 | 0.6279 | 0.6159 | 0.6113 | 0.6053 | 0.6061 | 0.5944 | 0.5944 |
+| 2020 | 1,241 | 0.6191 | 0.6093 | 0.6018 | 0.5953 | 0.5937 | 0.5747 | 0.5748 |
+| 2021 | 2,384 | 0.6273 | 0.6186 | 0.6080 | 0.5973 | 0.5962 | 0.5905 | 0.5906 |
+| 2022 | 2,525 | 0.6162 | 0.6058 | 0.5991 | 0.5926 | 0.5928 | 0.5824 | 0.5822 |
+| 2023 | 2,672 | 0.6267 | 0.6116 | 0.6050 | 0.5998 | 0.5973 | 0.5874 | 0.5874 |
+| 2024 | 2,671 | 0.6220 | 0.6108 | 0.6050 | 0.5968 | 0.5959 | 0.5836 | 0.5833 |
+| **all, match-weighted** | 18,882 | **0.6237** | **0.6121** | **0.6053** | **0.5984** | **0.5974** | **0.5873** | **0.5873** |
+| all, equal-year mean | 8 years | 0.6233 | 0.6119 | 0.6051 | 0.5982 | 0.5971 | 0.5865 | 0.5866 |
 
 ### Paired contrasts (log loss delta, negative favours the first)
 
@@ -41,7 +42,9 @@ Rungs:
 | atp_p0_minus_pinnacle_normalised | +0.0248 | +0.0254 | 0/8 | [+0.0220, +0.0276] |
 | atp_p1_minus_atp_full_tier | +0.0069 | +0.0069 | 0/8 | [+0.0051, +0.0086] |
 | atp_p1_minus_pinnacle_normalised | +0.0181 | +0.0185 | 0/8 | [+0.0154, +0.0206] |
+| atp_full_tier_minus_atp_full_tier_entry | +0.0011 | +0.0011 | 2/8 | [+0.0005, +0.0016] |
 | atp_full_tier_minus_pinnacle_normalised | +0.0112 | +0.0117 | 0/8 | [+0.0090, +0.0134] |
+| atp_full_tier_entry_minus_pinnacle_normalised | +0.0101 | +0.0106 | 0/8 | [+0.0080, +0.0122] |
 
 ## WTA
 

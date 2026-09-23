@@ -5,11 +5,13 @@ Every plotted number is read from a committed artifact; nothing is typed in by h
 - Panel A, the ATP feature ladder: match-weighted log loss per rung from
   ``docs/ladder.json`` and winner-picking accuracy from ``docs/winner_accuracy.json``
   (ATP overall rows). Both must describe the same matched cohort.
-- Panel B, paired log-loss differences on ATP 2024: buildoak from
-  ``docs/benchmarks/buildoak_2024.json``, Ultimate Tennis Statistics from
-  ``docs/benchmarks/EXTERNAL_2024_2025_RESULTS.json`` and Ingram from
-  ``docs/benchmarks/ingram_2024.json``, each with its primary eight-week
-  block-bootstrap 95% interval. All three must share one cohort size.
+- Panel B, paired log-loss differences against public systems, each on its own cohort:
+  BuildOak over ATP 2017–2024 from ``docs/benchmarks/buildoak_2017_2024.json`` (ARMS01
+  contrast 2, ``full_tier_entry``), Ultimate Tennis Statistics on ATP 2024 from
+  ``docs/benchmarks/EXTERNAL_2024_2025_RESULTS.json`` and Ingram on ATP 2024 from
+  ``docs/benchmarks/ingram_2024.json`` (both ``full_tier``), each with its primary
+  eight-week block-bootstrap 95% interval. The cohorts differ, so every row carries its
+  own cohort and Alcaraz-rung label; each row's two sides must have the same size.
 
 matplotlib is deliberately not part of the locked ``uv`` environment. Run this script
 with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
@@ -43,7 +45,8 @@ LADDER_RUNGS = (
     ("elo", "Elo only (K=32, overall + surface)", NEUTRAL),
     ("atp_p0", "+ boosted model on results, ranks, workload", NEUTRAL),
     ("atp_p1", "+ traits, dynamic serve/return states", NEUTRAL),
-    ("atp_full_tier", "+ qualifying, Challenger, Futures history", BLUE),
+    ("atp_full_tier", "+ qualifying, Challenger, Futures history", NEUTRAL),
+    ("atp_full_tier_entry", "+ entry status, tournament level", BLUE),
     ("pinnacle_normalised", "Pinnacle closing price (normalised)", ORANGE),
 )
 PRIMARY_BLOCK_WEEKS = 8
@@ -76,17 +79,22 @@ def _interval(results: dict[str, Any], weeks: int) -> tuple[float, float]:
     return float(low), float(high)
 
 
-def comparison_rows(root: Path) -> tuple[list[tuple[str, float, float, float]], int, int]:
-    """Alcaraz-minus-system paired log loss and its primary interval, ATP 2024."""
+def comparison_rows(root: Path) -> list[tuple[str, float, float, float]]:
+    """Alcaraz-minus-system paired log loss and its primary interval, one cohort per row."""
     benchmarks = root / "docs/benchmarks"
 
-    buildoak = _load(benchmarks / "buildoak_2024.json")["primary"]
-    weeks = int(buildoak["uncertainty"]["primary_block_weeks"])
-    _require(weeks == PRIMARY_BLOCK_WEEKS, f"buildoak primary block is {weeks} weeks")
+    arms01 = _load(benchmarks / "buildoak_2017_2024.json")
+    buildoak = arms01["contrasts"]["contrast2_arm1_minus_buildoak"]
+    _require(
+        int(buildoak["primary_interval_log_loss"]["mean_block_weeks"]) == PRIMARY_BLOCK_WEEKS,
+        "buildoak primary block is not eight weeks",
+    )
+    years = buildoak["years"]
     buildoak_row = (
-        "buildoak XGBoost\n(auto-research loop)",
-        float(buildoak["incumbent_minus_external_log_loss"]),
-        *_interval(buildoak["uncertainty"]["results"], weeks),
+        f"BuildOak XGBoost\n{int(buildoak['n']):,} ATP, {years[0]}–{str(years[-1])[2:]}"
+        f" · {arms01['systems']['arm1']['label']}",
+        float(buildoak["difference"]["match_weighted"]["log_loss"]),
+        *(float(bound) for bound in buildoak["intervals_95"]["log_loss"][str(PRIMARY_BLOCK_WEEKS)]),
     )
 
     external = _load(benchmarks / "EXTERNAL_2024_2025_RESULTS.json")["comparisons"]
@@ -95,7 +103,8 @@ def comparison_rows(root: Path) -> tuple[list[tuple[str, float, float, float]], 
     weeks = int(paired["primary_mean_block_weeks"])
     _require(weeks == PRIMARY_BLOCK_WEEKS, f"UTS primary block is {weeks} weeks")
     uts_row = (
-        "Ultimate Tennis Statistics\nformula",
+        f"Ultimate Tennis Statistics\n{int(uts['cohort']['matches']):,} ATP, "
+        f"{uts['cohort']['season']} · full_tier",
         float(paired["alcaraz_minus_external"]),
         *(float(bound) for bound in paired["primary_95_interval"]),
     )
@@ -103,21 +112,20 @@ def comparison_rows(root: Path) -> tuple[list[tuple[str, float, float, float]], 
     ingram = _load(benchmarks / "ingram_2024.json")["primary"]
     weeks = int(ingram["uncertainty"]["primary_block_weeks"])
     _require(weeks == PRIMARY_BLOCK_WEEKS, f"Ingram primary block is {weeks} weeks")
+    _require(
+        int(ingram["incumbent"]["n"]) == int(ingram["ingram"]["n"]), "Ingram sides differ in size"
+    )
+    _require(
+        int(uts["cohort"]["matches"]) == int(ingram["incumbent"]["n"]),
+        "UTS and Ingram 2024 cohorts differ in size",
+    )
     ingram_row = (
-        "Ingram Bayesian\npoint model",
+        f"Ingram point model\n{int(ingram['incumbent']['n']):,} ATP, "
+        f"{uts['cohort']['season']} · full_tier",
         float(ingram["incumbent_minus_ingram_log_loss"]),
         *_interval(ingram["uncertainty"]["results"], weeks),
     )
-
-    sizes = {
-        int(buildoak["incumbent"]["n"]),
-        int(buildoak["external"]["n"]),
-        int(uts["cohort"]["matches"]),
-        int(ingram["incumbent"]["n"]),
-        int(ingram["ingram"]["n"]),
-    }
-    _require(len(sizes) == 1, f"comparison cohorts differ in size: {sorted(sizes)}")
-    return [buildoak_row, uts_row, ingram_row], sizes.pop(), int(uts["cohort"]["season"])
+    return [buildoak_row, uts_row, ingram_row]
 
 
 def render(root: Path, output_dir: Path) -> list[Path]:
@@ -128,7 +136,7 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     from matplotlib import rcParams
 
     rows, ladder_n, years = ladder_rows(root)
-    comps, comparison_n, season = comparison_rows(root)
+    comps = comparison_rows(root)
 
     rcParams.update(
         {
@@ -147,7 +155,7 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     # Stacked panels: at README column width a side-by-side layout shrinks the type
     # below legibility, so the figure is one column wide and two panels tall.
     fig, (ax1, ax2) = plt.subplots(
-        2, 1, figsize=(8.6, 8.4), gridspec_kw={"height_ratios": [1.25, 1.0], "hspace": 0.62}
+        2, 1, figsize=(8.6, 9.0), gridspec_kw={"height_ratios": [1.45, 1.0], "hspace": 0.62}
     )
     fig.patch.set_facecolor(SURFACE)
 
@@ -169,7 +177,7 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     ax1.set_yticks(ys)
     ax1.set_yticklabels([row[0] for row in rows], fontsize=10.5)
     ax1.set_xlim(0.580, 0.640)
-    ax1.set_ylim(-0.6, 4.45)
+    ax1.set_ylim(-0.6, len(rows) - 0.55)
     ax1.set_xticks([0.58, 0.59, 0.60, 0.61, 0.62, 0.63])
     ax1.set_xlabel("log loss (lower is better)")
     ax1.grid(axis="x", color=GRID, lw=1)
@@ -221,14 +229,14 @@ def render(root: Path, output_dir: Path) -> list[Path]:
         ax2.spines[side].set_visible(False)
     ax2.tick_params(axis="y", length=0)
     ax2.set_title(
-        f"Same {comparison_n:,} ATP matches, {season}, vs public models",
+        "Paired against public models, each on its own matches",
         loc="left",
         fontsize=12.5,
         fontweight="bold",
         color=TEXT1,
         pad=22,
     )
-    crossing = [label.split("\n")[0].split()[0] for label, _, low, high in comps if low < 0 < high]
+    crossing = [label.split("\n")[0] for label, _, low, high in comps if low < 0 < high]
     subtitle = "95% calendar-week block bootstrap"
     if crossing:
         noun = "interval crosses" if len(crossing) == 1 else "intervals cross"

@@ -7,7 +7,7 @@
   },
   "source": {
     "accepted_runs": {
-      "ATP": "experiments/runs/TIER01/attempt_002/run",
+      "ATP": "work/PHASE1_ATP_20260922/ladder_root/run",
       "WTA": "experiments/runs/WTA02/attempt_002/run"
     },
     "ladder_config": "configs/ladder.json",
@@ -21,12 +21,19 @@
         "atp_p0",
         "atp_p1",
         "atp_full_tier",
+        "atp_full_tier_entry",
         "pinnacle_normalised"
       ],
       "overall": {
         "atp_full_tier": {
           "accuracy": 0.6651308124139392,
           "correct": 12559,
+          "n": 18882,
+          "ties": 0
+        },
+        "atp_full_tier_entry": {
+          "accuracy": 0.6676199555131872,
+          "correct": 12606,
           "n": 18882,
           "ties": 0
         },
@@ -61,6 +68,12 @@
             "atp_full_tier": {
               "accuracy": 0.667676330592817,
               "correct": 1543,
+              "n": 2311,
+              "ties": 0
+            },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6737343141497187,
+              "correct": 1557,
               "n": 2311,
               "ties": 0
             },
@@ -100,6 +113,12 @@
               "n": 2587,
               "ties": 0
             },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6644762272902976,
+              "correct": 1719,
+              "n": 2587,
+              "ties": 0
+            },
             "atp_p0": {
               "accuracy": 0.6474681097796676,
               "correct": 1675,
@@ -133,6 +152,12 @@
             "atp_full_tier": {
               "accuracy": 0.660377358490566,
               "correct": 1645,
+              "n": 2491,
+              "ties": 0
+            },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6623845845042152,
+              "correct": 1650,
               "n": 2491,
               "ties": 0
             },
@@ -172,6 +197,12 @@
               "n": 1241,
               "ties": 0
             },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6712328767123288,
+              "correct": 833,
+              "n": 1241,
+              "ties": 0
+            },
             "atp_p0": {
               "accuracy": 0.6591458501208702,
               "correct": 818,
@@ -205,6 +236,12 @@
             "atp_full_tier": {
               "accuracy": 0.6698825503355704,
               "correct": 1597,
+              "n": 2384,
+              "ties": 0
+            },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6690436241610739,
+              "correct": 1595,
               "n": 2384,
               "ties": 0
             },
@@ -244,6 +281,12 @@
               "n": 2525,
               "ties": 0
             },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6685148514851486,
+              "correct": 1688,
+              "n": 2525,
+              "ties": 0
+            },
             "atp_p0": {
               "accuracy": 0.6574257425742575,
               "correct": 1660,
@@ -280,6 +323,12 @@
               "n": 2672,
               "ties": 0
             },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6665419161676647,
+              "correct": 1781,
+              "n": 2672,
+              "ties": 0
+            },
             "atp_p0": {
               "accuracy": 0.655875748502994,
               "correct": 1752,
@@ -313,6 +362,12 @@
             "atp_full_tier": {
               "accuracy": 0.6611755896667915,
               "correct": 1766,
+              "n": 2671,
+              "ties": 0
+            },
+            "atp_full_tier_entry": {
+              "accuracy": 0.667540247098465,
+              "correct": 1783,
               "n": 2671,
               "ties": 0
             },

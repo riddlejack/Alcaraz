@@ -10,7 +10,7 @@
   "tours": {
     "ATP": {
       "chain_config": "configs/chains/atp_tier01_2017_2024.json",
-      "rungs": ["elo", "atp_p0", "atp_p1", "atp_full_tier"],
+      "rungs": ["elo", "atp_p0", "atp_p1", "atp_full_tier", "atp_full_tier_entry"],
       "reference": "pinnacle_normalised",
       "learner": "hgb"
     },
