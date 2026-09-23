@@ -52,6 +52,7 @@ PLAN_SETTING_KEYS = (
     "bootstrap_unit",
     "tour",
     "experiment_id",
+    "hgb_menus",
 )
 REPORTING_SETTING_KEYS = ("primary_contrast", "bootstrap_seed", "bootstrap_unit")
 
@@ -139,6 +140,8 @@ def build_predictor(
     # no-dynamic plan must not be judged against the default four.
     runner.configure_bundles(settings.get("blocks"), settings.get("learners"))
     runner.configure_cohort(settings.get("cohort"))
+    # TUNE01: per-bundle HGB menus, bound by path and hash beside the year plan.
+    runner.configure_hgb_menus(settings.get("hgb_menus"))
     info = runner.runtime_description()
 
     dictionary = json.loads(inputs["dictionary"].read_text(encoding="utf-8"))
@@ -164,10 +167,7 @@ def build_predictor(
         "raw_primary_rows": sum(primary_by_year.values()),
         "selected_primary_rows": sum(primary_by_year[str(year)] for year in runner.OUTER_YEARS),
         "aligned_primary_warmup_rows": warmup,
-        "raw_fit_attempts": sum(
-            len(runner.candidate_ids(learner)) * len(runner.BLOCKS) * len(runner.RAW_YEARS)
-            for learner in runner.LEARNERS
-        ),
+        "raw_fit_attempts": runner.expected_fit_attempts(),
     }
 
     def receipt(keys: Any) -> dict[str, Any]:
@@ -271,6 +271,7 @@ def build_reporting(
     # inside the reporter.  Command-line values override the settings the predictor
     # config carried from the year plan; absent both, the bundle list implies them.
     reporter.configure_bundles(predictor_settings.get("blocks"), predictor_settings.get("learners"))
+    reporter.configure_hgb_menus(predictor_settings.get("hgb_menus"))
     reporter.configure_cohort(predictor_settings.get("cohort"))
     reporting_settings = predictor.get("reporting_settings", {})
     if not isinstance(reporting_settings, dict):

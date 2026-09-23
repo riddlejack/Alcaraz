@@ -86,6 +86,36 @@ def record_receipt(receipt: dict[str, Any]) -> None:
         _receipts.append(dict(receipt))
 
 
+def detach() -> None:
+    """In a worker process a stage starts: keep recording, never write the log file.
+
+    The stage's own process absorbs the worker's records (:func:`drain` in the worker,
+    :func:`absorb` in the stage), so the one log still covers every file the stage's
+    processes opened, and a worker's exit cannot overwrite it.
+    """
+    _state["log"] = None
+
+
+def drain() -> dict[str, Any]:
+    """This process's records since the last drain, as data; the counters are emptied."""
+    records = {
+        "opens": [
+            [path, mode, opener, count] for (path, mode, opener), count in sorted(_opens.items())
+        ],
+        "receipts": [dict(receipt) for receipt in _receipts],
+    }
+    _opens.clear()
+    _receipts.clear()
+    return records
+
+
+def absorb(records: dict[str, Any]) -> None:
+    """Add a worker's drained records to this process's log."""
+    for path, mode, opener, count in records["opens"]:
+        _opens[(str(path), str(mode), str(opener))] += int(count)
+    _receipts.extend(dict(receipt) for receipt in records["receipts"])
+
+
 def _flush() -> None:
     log = _state["log"]
     if not log:
