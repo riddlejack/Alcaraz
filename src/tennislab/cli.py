@@ -45,14 +45,26 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="write the sample's expected.json from this run instead of comparing against it",
     )
-    ladder = subparsers.add_parser("report", help="reporting over completed runs")
+    # No abbreviations: "--run" used to resolve to "--runs", whose repeated use kept only
+    # the last value, so a second run root silently replaced the first.
+    ladder = subparsers.add_parser(
+        "report", help="reporting over completed runs", allow_abbrev=False
+    )
     ladder.add_argument("--ladder", action="store_true", help="the per-tour, per-year model ladder")
     ladder.add_argument(
         "--runs",
         nargs="*",
+        action="extend",
         default=[],
         metavar="TOUR=RUN_ROOT",
-        help="completed run roots, e.g. ATP=data/runs/atp_tier01/run",
+        help="completed run roots, e.g. ATP=data/runs/atp_tier01/run; repeatable",
+    )
+    ladder.add_argument(
+        "--run",
+        dest="runs",
+        action="append",
+        metavar="TOUR=RUN_ROOT",
+        help="one completed run root; repeatable and accumulated with --runs",
     )
     for name in LIVE_COMMANDS:
         subparsers.add_parser(name, help=f"live commands: tennislab {name} --help", add_help=False)

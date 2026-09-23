@@ -1,0 +1,764 @@
+{
+  "status": "independently_reconstructed",
+  "status_note": "Independently reconstructed (archive decision D134). The single registered scoring pass of TUNE01 attempt 001 was reproduced from separate code: membership rebuilt byte-identical, all 16 forecast files plus labels, panel and manifest rehashed identical, point estimate, interval, annual values and log-loss draw hashes identical, same gate verdict.",
+  "acceptance": {
+    "archive_decision": "D134",
+    "decision_scope": "no tuning gain; the frozen ATP model is ARMS01 attempt 002 full_tier_entry with the unchanged two-candidate HGB menu, past-only selection and slope calibration; no further feature or learner search follows (D130 Phase 3)",
+    "reconstruction_verdict": "ACCEPT",
+    "reconstruction_record": {
+      "archive_relative_path": "references/TUNE01/reconstruction/attempt_001/RECONSTRUCTION.md",
+      "sha256": "e64e7534fdb810f44ad29d1851b1cf46ec76319358930ac542f9489e5b8f6b8c"
+    },
+    "reconstruction_numbers": {
+      "archive_relative_path": "references/TUNE01/reconstruction/attempt_001/reconstruction_atp.json",
+      "sha256": "dcdb363a75f58a2c585227b7d099ced0a101b7d1e25bcbe3e980abbb57c1ea99"
+    }
+  },
+  "experiment_id": "TUNE01",
+  "attempt": "attempt_001",
+  "tour": "ATP",
+  "scope": "exposed_retrospective_ATP_2017_2024_single_registered_head_tuning_pass_then_model_freeze",
+  "registration": {
+    "design": {
+      "archive_relative_path": "experiments/TUNE01.design.md",
+      "sha256": "1409005f85262c0611d3adbf5ca1f10f2a13539c365cb6bcdff0270291678778"
+    },
+    "record": {
+      "archive_relative_path": "experiments/TUNE01.json",
+      "sha256": "d26cf8422d794684639ad52e990a673f8e840e6edbe6605d5982c1256872b145"
+    },
+    "analysis_spec": {
+      "archive_relative_path": "references/TUNE01/analysis_spec.md",
+      "sha256": "d1124f5488ae8c1931d8df2dae50c8919af7c003d49030b4e833951feb918ca1"
+    },
+    "power_note": {
+      "archive_relative_path": "references/TUNE01/power.md",
+      "sha256": "181f1bcf38b38c339f7cec403de2fd3279a996c9d8380abf6bf5d7fec613d913"
+    },
+    "menu": {
+      "archive_relative_path": "references/TUNE01/menu.json",
+      "sha256": "02ffa9f370daf89c893ebb4c6bd60f17e9b5e428743c3a22a0093cb00d52a676"
+    },
+    "freeze": {
+      "archive_relative_path": "references/TUNE01/FREEZE_2026-09-23.json",
+      "sha256": "a4dc11c84a58a2e079e772aab2b980aeef1cbacfb6b7653f94db0aa17a37ff75"
+    },
+    "frozen_at_utc": "2026-09-23T16:00:01.604384+00:00",
+    "frozen_before": "any TUNE01 fit on real targets",
+    "archive_decision": "D130 (Phase 3)",
+    "product_commit": "2fed784cff0767592b7835eec138ba0ecaffd105",
+    "product_chain_config": "configs/chains/atp_tune01_2017_2024.json",
+    "product_chain_config_sha256": "0633b96603d7a4f08014e392a7d957ee79877c5872c704c9b0979c8e798757e3",
+    "product_menu": "configs/menus/tune01_hgb_menu.json",
+    "product_menu_sha256": "02ffa9f370daf89c893ebb4c6bd60f17e9b5e428743c3a22a0093cb00d52a676"
+  },
+  "endpoint": {
+    "gated_metric": "log_loss",
+    "estimand": "match-weighted paired log-loss difference TUNE01 minus Arm 0 on identical matches; negative favours TUNE01",
+    "log_loss_clip": 1e-15,
+    "descriptive_metrics": [
+      "brier",
+      "accuracy (0.5 credit at p = 0.5)",
+      "calibration slopes",
+      "k* and stop status"
+    ],
+    "note": "Brier and winner accuracy are descriptive companions; log loss is the sole gated endpoint."
+  },
+  "cohort": {
+    "definition": "identical to ARMS01: all ATP primary targets 2017-2024 of the accepted TIER01 attempt 002 all-target cohort; 380 provisional-identity rows excluded; neutral orientation; retirements retained",
+    "years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "n": 18972,
+    "n_by_year": {
+      "2017": 2323,
+      "2018": 2606,
+      "2019": 2502,
+      "2020": 1250,
+      "2021": 2390,
+      "2022": 2538,
+      "2023": 2682,
+      "2024": 2681
+    },
+    "membership_sha256": "26f61e64e621fd299957449d540c204b156fcab0e3293ef955df47e6400c73a4",
+    "rows_outside_membership_ignored": {
+      "arm0": 380,
+      "tune01": 380
+    },
+    "clipped_rows": {
+      "arm0": 0,
+      "tune01": 0
+    }
+  },
+  "systems": {
+    "arm0": {
+      "label": "full_tier_entry",
+      "role": "the Phase 1 incumbent: saved ARMS01 attempt 002 Arm 1 forecasts (registered Q-only any-qualifier), no refit",
+      "head": "two-candidate menu hgb_leaf07_depth3 / hgb_leaf15_depth4; 200 iterations, learning rate 0.05, L2 10, min leaf 80, 255 bins, seed 71101, no early stopping, no subsampling; five-year window; past-only three-year selection; one non-negative intercept-free slope calibration"
+    },
+    "tune01": {
+      "label": "full_tier_entry with the TUNE01 head",
+      "role": "same chain, bundle (57 model columns), inputs and features; only this bundle's HGB candidate menu changes",
+      "menu": {
+        "candidates": 110,
+        "anchors": [
+          "hgb_leaf07_depth3",
+          "hgb_leaf15_depth4"
+        ],
+        "grid": {
+          "max_leaf_nodes": [
+            7,
+            15,
+            23,
+            31
+          ],
+          "min_samples_leaf": [
+            160,
+            80,
+            40
+          ],
+          "l2_regularization": [
+            30,
+            10,
+            1
+          ],
+          "learning_rate": [
+            0.1,
+            0.05,
+            0.02
+          ]
+        },
+        "grid_size": 108,
+        "fixed": "max_depth None, 255 bins, max_features 1.0, log loss, random_state 71101, sklearn internal early stopping off",
+        "temporal_early_stopping": "stopping validation = the training window's most recent year; five bagged stopping fits of 1,000 iterations; patience 20, tol 1e-7; k* = loss-minimising iteration up to the stop; members refit on the whole window with max_iter = k*",
+        "bagging": "5 members, each on floor(0.8 n) matches without replacement, both swap orientations at weight 0.5; PCG64(SeedSequence([71101, raw year, role, member])); common random numbers across candidates",
+        "selection_and_calibration": "unchanged: every candidate gets one non-negative intercept-free slope on raw forecasts for Y-3..Y-1; lowest in-sample calibrated equal-year mean log loss wins; ties within 1e-12 to menu order; nothing fitted, stopped, selected or calibrated on the target year",
+        "trial_budget": "110 candidates x 11 raw years (2014-2024) = 1,210 candidate-years; 22 anchor fits; 11,880 bagged member fits; 8 selections; one scoring pass"
+      }
+    }
+  },
+  "scores": {
+    "tune01": {
+      "n": 18972,
+      "match_weighted": {
+        "log_loss": 0.5975206848589429,
+        "brier": 0.20630193630174268,
+        "accuracy": 0.666561248155176
+      },
+      "equal_year": {
+        "log_loss": 0.5971660526758737,
+        "brier": 0.20612275391496696,
+        "accuracy": 0.6669129799819868
+      },
+      "by_year": {
+        "2017": {
+          "log_loss": 0.5920015668252078,
+          "brier": 0.2032371331744819,
+          "accuracy": 0.6693930262591476
+        },
+        "2018": {
+          "log_loss": 0.6045348953461503,
+          "brier": 0.20945101614884837,
+          "accuracy": 0.6634689178818112
+        },
+        "2019": {
+          "log_loss": 0.60572057556055,
+          "brier": 0.20983254024467463,
+          "accuracy": 0.6630695443645084
+        },
+        "2020": {
+          "log_loss": 0.5930365439034793,
+          "brier": 0.2041393495017397,
+          "accuracy": 0.672
+        },
+        "2021": {
+          "log_loss": 0.5963973549030785,
+          "brier": 0.20580838434669962,
+          "accuracy": 0.6635983263598326
+        },
+        "2022": {
+          "log_loss": 0.5913719153355502,
+          "brier": 0.20367960595532822,
+          "accuracy": 0.6698187549251379
+        },
+        "2023": {
+          "log_loss": 0.5987049471107043,
+          "brier": 0.20708677336638934,
+          "accuracy": 0.6659209545115585
+        },
+        "2024": {
+          "log_loss": 0.595560622422269,
+          "brier": 0.20574722858157393,
+          "accuracy": 0.6680343155538978
+        }
+      }
+    },
+    "arm0": {
+      "n": 18972,
+      "match_weighted": {
+        "log_loss": 0.5975511894597723,
+        "brier": 0.20633878294753072,
+        "accuracy": 0.6675627240143369
+      },
+      "equal_year": {
+        "log_loss": 0.5972335193184798,
+        "brier": 0.20618091394612995,
+        "accuracy": 0.6678716436244971
+      },
+      "by_year": {
+        "2017": {
+          "log_loss": 0.5915484760887889,
+          "brier": 0.20301878602723716,
+          "accuracy": 0.6732673267326733
+        },
+        "2018": {
+          "log_loss": 0.6034760878352238,
+          "brier": 0.20904625561318008,
+          "accuracy": 0.6642363775901765
+        },
+        "2019": {
+          "log_loss": 0.6064357139861559,
+          "brier": 0.21019473960420407,
+          "accuracy": 0.6622701838529177
+        },
+        "2020": {
+          "log_loss": 0.5936385292301364,
+          "brier": 0.20451488333953957,
+          "accuracy": 0.6712
+        },
+        "2021": {
+          "log_loss": 0.5965015639441045,
+          "brier": 0.20583893075916435,
+          "accuracy": 0.6686192468619246
+        },
+        "2022": {
+          "log_loss": 0.5920022139304557,
+          "brier": 0.20399971427775107,
+          "accuracy": 0.669424743892829
+        },
+        "2023": {
+          "log_loss": 0.5987049471107043,
+          "brier": 0.20708677336638934,
+          "accuracy": 0.6659209545115585
+        },
+        "2024": {
+          "log_loss": 0.595560622422269,
+          "brier": 0.20574722858157393,
+          "accuracy": 0.6680343155538978
+        }
+      }
+    }
+  },
+  "contrast_tune01_minus_arm0": {
+    "left": "tune01",
+    "right": "arm0",
+    "years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "n": 18972,
+    "left_match_weighted": {
+      "log_loss": 0.5975206848589429,
+      "brier": 0.20630193630174268,
+      "accuracy": 0.666561248155176
+    },
+    "right_match_weighted": {
+      "log_loss": 0.5975511894597723,
+      "brier": 0.20633878294753072,
+      "accuracy": 0.6675627240143369
+    },
+    "difference": {
+      "match_weighted": {
+        "log_loss": -3.0504600829331354e-05,
+        "brier": -3.684664578807998e-05,
+        "accuracy": -0.0010014758591608687
+      },
+      "equal_year_log_loss": -6.746664260612952e-05,
+      "annual_log_loss": {
+        "2017": 0.0004530907364188623,
+        "2018": 0.0010588075109265933,
+        "2019": -0.000715138425605939,
+        "2020": -0.0006019853266569569,
+        "2021": -0.000104209041026027,
+        "2022": -0.0006302985949055687,
+        "2023": 0.0,
+        "2024": 0.0
+      },
+      "years_negative": 4,
+      "years_positive": 2,
+      "correct_credit_delta": -19.0
+    },
+    "primary_interval_log_loss": {
+      "mean_block_weeks": 8,
+      "lower": -0.0003924036099376814,
+      "upper": 0.00033049631528513134,
+      "excludes_zero": false,
+      "favours_left": false
+    },
+    "intervals_95": {
+      "log_loss": {
+        "4": [
+          -0.0003875896118660062,
+          0.0003341971162563219
+        ],
+        "8": [
+          -0.0003924036099376814,
+          0.00033049631528513134
+        ],
+        "13": [
+          -0.00038512492653023647,
+          0.00032385997745949254
+        ]
+      },
+      "brier": {
+        "4": [
+          -0.0001892970769481947,
+          0.00011674198007439165
+        ],
+        "8": [
+          -0.0001929163857150824,
+          0.00011567310624979659
+        ],
+        "13": [
+          -0.00018880106361637543,
+          0.00011216431906051864
+        ]
+      },
+      "accuracy": {
+        "4": [
+          -0.002669321792090934,
+          0.0007704540252388459
+        ],
+        "8": [
+          -0.0026597538038431634,
+          0.0007555811327161354
+        ],
+        "13": [
+          -0.002603744685197496,
+          0.0007256170016340168
+        ]
+      }
+    },
+    "bootstrap_sd_log_loss": {
+      "4": 0.00018171527266282007,
+      "8": 0.00018387340570683315,
+      "13": 0.00018138780907319234
+    },
+    "draws": {
+      "4": {
+        "draws_attempted": 5000,
+        "empty_draws_skipped": 0,
+        "log_loss_draw_sha256": "e1b956771bbb20c8f49d15f4d5e7416fe843ea5a76ba4604bd9648a64b0ba40d",
+        "joint_draw_sha256": "ce0e8447f411042589e34bc432475168a6edfda002987e35cfea6a2ecb319321"
+      },
+      "8": {
+        "draws_attempted": 5000,
+        "empty_draws_skipped": 0,
+        "log_loss_draw_sha256": "218c9bbbfee18927185ef57585cd2c0df91b34a394fa9861895c05d3a0862657",
+        "joint_draw_sha256": "992c802b1e9a86af5fe781c3bf101c3d04d3d058eac662cb83e8f7b6afa6d70e"
+      },
+      "13": {
+        "draws_attempted": 5000,
+        "empty_draws_skipped": 0,
+        "log_loss_draw_sha256": "47fdea935add0abca59f9670aec04880e73e11ebbf20d4b096fd70a2df214403",
+        "joint_draw_sha256": "1836c77e9ae0652109453e47e9ddafd58a7543bf165578daafd933802e71531f"
+      }
+    },
+    "grid": {
+      "first_monday": "2017-01-02",
+      "last_monday": "2024-11-11",
+      "weeks_including_empty": 411,
+      "nonempty_weeks": 271
+    },
+    "equal_year_interval_log_loss": {
+      "draws_attempted": 5013,
+      "empty_draws_skipped": 13,
+      "mean_block_weeks": 8,
+      "percentile_95": [
+        -0.00035622193883951437,
+        0.00024377787739570178
+      ],
+      "bootstrap_sd": 0.00015297335097591217,
+      "draw_sha256": "6deb4fb21976e9cc3b04ac57792e184e02e2882cbd4c1f44247640deadf49051"
+    },
+    "variance_diagnostics": {
+      "per_match_sd_iid": 0.03054709638354909,
+      "iid_se": 0.00022177540306511255,
+      "bootstrap_se_block_primary": 0.00018387340570683315,
+      "design_effect_week_block": 0.6874024660993667,
+      "effective_sd": 0.0253265175888283
+    },
+    "orientation_control_max_error": 8.881784197001252e-16
+  },
+  "gate": {
+    "rule": "match-weighted log-loss difference <= -0.0008 and block-8 95% interval upper bound < 0",
+    "estimate": -3.0504600829331354e-05,
+    "interval": [
+      -0.0003924036099376814,
+      0.00033049631528513134
+    ],
+    "verdict_as_scored": "close_covariate_lever_retain_arm0",
+    "verdict": "failed: TUNE01 not adopted; Arm 0 (full_tier_entry) frozen as the model",
+    "note": "the scorer is the frozen ARMS01 scorer reused unchanged; its gate-1 verdict label names the covariate lever, here read as 'retain Arm 0'"
+  },
+  "per_outer_year": {
+    "2017": {
+      "tune01_selected_candidate": "tune_lr050_leaf07_min040_reg01",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9918267613317925,
+      "tune01_k_star": 179,
+      "tune01_k_stop": 199,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 0.9679366181683444,
+      "selection_years": [
+        2014,
+        2015,
+        2016
+      ],
+      "selected_forecast_sha256": "62cb7a5f5363ea53bb08a602378c88c709191e8c32e52ed87079ff6f428a5b67",
+      "log_loss_difference": 0.0004530907364188623
+    },
+    "2018": {
+      "tune01_selected_candidate": "tune_lr050_leaf07_min160_reg01",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9684001877432513,
+      "tune01_k_star": 99,
+      "tune01_k_stop": 119,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 0.9574881255088367,
+      "selection_years": [
+        2015,
+        2016,
+        2017
+      ],
+      "selected_forecast_sha256": "cae698b70fc04f1c57b3b653a8c6c211081cbab10163012c7dddbe73775afb50",
+      "log_loss_difference": 0.0010588075109265933
+    },
+    "2019": {
+      "tune01_selected_candidate": "tune_lr100_leaf07_min040_reg10",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9158103477106162,
+      "tune01_k_star": 79,
+      "tune01_k_stop": 99,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 0.9133412768401824,
+      "selection_years": [
+        2016,
+        2017,
+        2018
+      ],
+      "selected_forecast_sha256": "119dc8264301e36df369eed68f39a9288c75af596ccb380ebe8eb4d4a7163619",
+      "log_loss_difference": -0.000715138425605939
+    },
+    "2020": {
+      "tune01_selected_candidate": "tune_lr100_leaf07_min160_reg10",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9221081232028397,
+      "tune01_k_star": 91,
+      "tune01_k_stop": 111,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 0.9229865731862243,
+      "selection_years": [
+        2017,
+        2018,
+        2019
+      ],
+      "selected_forecast_sha256": "2b9d831e0593811704a48df4d2bb5960ea0623c345bc6bee2f00c54c348696d4",
+      "log_loss_difference": -0.0006019853266569569
+    },
+    "2021": {
+      "tune01_selected_candidate": "tune_lr100_leaf07_min160_reg10",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9543776327319303,
+      "tune01_k_star": 95,
+      "tune01_k_stop": 115,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf15_depth4",
+      "arm0_calibration_slope": 0.9416887156545537,
+      "selection_years": [
+        2018,
+        2019,
+        2020
+      ],
+      "selected_forecast_sha256": "3c143d33eb8e19c6a31b0b3d6d912aa122a065e571d2d262ebcef067efefb296",
+      "log_loss_difference": -0.000104209041026027
+    },
+    "2022": {
+      "tune01_selected_candidate": "tune_lr100_leaf07_min160_reg10",
+      "tune01_is_anchor": false,
+      "tune01_calibration_slope": 0.9866565835363371,
+      "tune01_k_star": 84,
+      "tune01_k_stop": 104,
+      "tune01_stop_status": "patience",
+      "arm0_selected_candidate": "hgb_leaf15_depth4",
+      "arm0_calibration_slope": 0.9765469336608396,
+      "selection_years": [
+        2019,
+        2020,
+        2021
+      ],
+      "selected_forecast_sha256": "e1d5e925f52cde442626f7d150d8ccef83c2442d8a270b7a8bad8fe5e8f50f19",
+      "log_loss_difference": -0.0006302985949055687
+    },
+    "2023": {
+      "tune01_selected_candidate": "hgb_leaf07_depth3",
+      "tune01_is_anchor": true,
+      "tune01_calibration_slope": 1.0299302220240576,
+      "tune01_k_star": null,
+      "tune01_k_stop": null,
+      "tune01_stop_status": null,
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 1.0299302220240576,
+      "selection_years": [
+        2020,
+        2021,
+        2022
+      ],
+      "selected_forecast_sha256": "2cd62490288a5be218f2992cfd58f8a55a6e236b8f62adbac9561b9aa32ef731",
+      "log_loss_difference": 0.0
+    },
+    "2024": {
+      "tune01_selected_candidate": "hgb_leaf07_depth3",
+      "tune01_is_anchor": true,
+      "tune01_calibration_slope": 1.0331579244881055,
+      "tune01_k_star": null,
+      "tune01_k_stop": null,
+      "tune01_stop_status": null,
+      "arm0_selected_candidate": "hgb_leaf07_depth3",
+      "arm0_calibration_slope": 1.0331579244881055,
+      "selection_years": [
+        2021,
+        2022,
+        2023
+      ],
+      "selected_forecast_sha256": "01f92c4da53f772bdbd584254af08d7f2df88600ec72a6029436d85656961e8f",
+      "log_loss_difference": 0.0
+    }
+  },
+  "diagnostics": {
+    "anchor_selected_years": [
+      "2023",
+      "2024"
+    ],
+    "anchor_years_byte_identical_to_arm0": true,
+    "grid_selected_years_all_rows_differ": true,
+    "grid_stop_status": "1,188 patience stops, 0 cap hits (108 grid candidates x 11 raw years)",
+    "stop_checks_before_scoring": "PASS_NO_SCORE: pre-model artefacts, base/full_tier forecasts and anchor raw forecasts byte-identical to the ARMS01 attempt 002 run; Arm 0 hashes equal",
+    "chain_run": "45 minutes at 12 workers"
+  },
+  "uncertainty_method": {
+    "method": "stationary calendar-week bootstrap on one pooled inclusive Monday grid, match-weighted ratio within each draw, percentile interval",
+    "rng": "numpy.PCG64",
+    "seed": 20260923,
+    "replicates": 5000,
+    "level": 0.95,
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [
+      4,
+      13
+    ],
+    "week_label": "ISO week of the panel's tourney_anchor_date (calendar Monday)",
+    "equal_year_secondary": "per-year inclusive Monday grids resampled independently, mean of yearly match-weighted means, percentile interval; a draw with an empty year is skipped and counted",
+    "conditioning": "intervals condition on the saved forecasts and omit refit, selection, early-stopping and bagging-seed variance"
+  },
+  "power": {
+    "registered_planning": {
+      "tune01_registered": {
+        "n": 18972,
+        "effective_sd": 0.076,
+        "standard_error": 0.0005517686663674407,
+        "expected_95_half_width": 0.0010814467138778809,
+        "mde_80_power_two_sided_05": 0.001545826939512928,
+        "power_at_observed_delta": {
+          "delta": -0.0008,
+          "power": 0.3049973573535635
+        }
+      },
+      "tune01_bracket_low": {
+        "n": 18972,
+        "effective_sd": 0.045,
+        "standard_error": 0.0003267051314017741,
+        "expected_95_half_width": 0.0006403302911119032,
+        "mde_80_power_two_sided_05": 0.0009152922668168653,
+        "power_at_observed_delta": {
+          "delta": -0.0008,
+          "power": 0.6874826047263145
+        }
+      },
+      "tune01_bracket_high": {
+        "n": 18972,
+        "effective_sd": 0.11,
+        "standard_error": 0.0007986125434265589,
+        "expected_95_half_width": 0.0015652518227179855,
+        "mde_80_power_two_sided_05": 0.0022373810966634486,
+        "power_at_observed_delta": {
+          "delta": -0.0008,
+          "power": 0.16897424061130295
+        }
+      }
+    },
+    "realised": {
+      "effective_sd": 0.0253265175888283,
+      "design_effect_week_block": 0.6874024660993667,
+      "standard_error": 0.00018387340570683315,
+      "mde_80_power_two_sided_05": 0.0005148455359791328
+    },
+    "note": "registered planning SD 0.076 (MDE 0.0015; gate pass probability 0.30 at a true -0.0008). The realised effective SD was 0.025, so gains of about 0.0005 or more were detectable; an interval including zero at this width is inconclusive below that size, not proof of zero effect."
+  },
+  "frozen_model": {
+    "statement": "The model is frozen at full_tier_entry; no further feature or learner search.",
+    "model": "ARMS01 attempt 002 full_tier_entry: full_tier plus nine entry-status and tournament-level columns (any-qualifier counts Q only), the unchanged two-candidate HGB menu, five-year window, past-only three-year selection and one non-negative slope calibration",
+    "chain_config": "configs/chains/atp_arms01_attempt002_2017_2024.json",
+    "selected_forecast_sha256_2017_2024": {
+      "2017": "c19a8088d19a441fa0c1d488329205e6de21427181db64cfee62126c6d4e8e41",
+      "2018": "204d100b1778b2a6e9e14e8a0249dff46abb915ae400745ae5cf72f0421f9b42",
+      "2019": "6db462325958c25bf1fa3fe7134021afc4c7a4ad156d7081dc7ce4a47fb68ca2",
+      "2020": "8586090f36919d27773de45a2cf3645672b0fb1d1164228ad02c91d7767faff7",
+      "2021": "959fc6d541d3aa912fe0ea4957f4db2eba176647498edd13e122b7325c2db1c1",
+      "2022": "f99dc37701d581edc0a9fe4dd1e420b07d29aaa2553f3d1dab9a9533a52a60ae",
+      "2023": "2cd62490288a5be218f2992cfd58f8a55a6e236b8f62adbac9561b9aa32ef731",
+      "2024": "01f92c4da53f772bdbd584254af08d7f2df88600ec72a6029436d85656961e8f"
+    },
+    "search_closed": "no new experiment, registered or exploratory, on ATP outcomes that changes or selects among features or feature blocks, learner families, hyperparameters or menus, training windows, weighting, selection rules, calibration forms, bagging, stacking or blending; no exploratory screen on saved forecasts that proposes such a change",
+    "still_permitted": [
+      "annual refits of the frozen procedure on new data",
+      "bug fixes recorded as defects, rerun as new attempts and compared with the frozen hashes",
+      "source maintenance that does not change the procedure, with any change to historical inputs disclosed",
+      "prospective evaluation",
+      "the WTA analogue under its own single-pass registration",
+      "the market study, which does not touch the model",
+      "publication"
+    ],
+    "reopen_when": "a new data source outside the public record is acquired and registered; a defect in the frozen model is demonstrated; or the owner lifts the freeze"
+  },
+  "provenance": {
+    "scorer": {
+      "archive_relative_path": "references/ARMS01/score_arms01.py",
+      "sha256": "850dc1b213cbc0deb54ae3bb3279eea3f9cf59d2bbec71d5fe24909325dd7042"
+    },
+    "manifest": {
+      "archive_relative_path": "experiments/runs/TUNE01/attempt_001/manifest_tune01.json",
+      "sha256": "60493c5107ae95c2bcf87545cf035ea3242ed3cdb60b917c16e59bbf64940886"
+    },
+    "result_json": {
+      "archive_relative_path": "references/TUNE01/results/attempt_001/tune01_atp_result.json",
+      "sha256": "e925173e34ae70cf7d9941f2d3de23efaec868e8860238a00fc434abe6cbda02"
+    },
+    "membership": {
+      "archive_relative_path": "experiments/runs/ARMS01/attempt_001/membership_atp_2017_2024.csv",
+      "sha256": "26f61e64e621fd299957449d540c204b156fcab0e3293ef955df47e6400c73a4"
+    },
+    "labels": {
+      "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/features/labels.csv",
+      "sha256": "987f05cdbc0c0e9bdb0c787195762e26f070219ca0633f2c231819e70b561352"
+    },
+    "weeks": {
+      "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/prepare_panel/panel.csv",
+      "sha256": "026f95589c5fe891ad67b643efa1184b33a53139ab4860f9b12e2acd41946c47",
+      "column": "tourney_anchor_date"
+    },
+    "forecast_files": {
+      "arm0": {
+        "2017": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2017/hgb/full_tier_entry.csv",
+          "sha256": "c19a8088d19a441fa0c1d488329205e6de21427181db64cfee62126c6d4e8e41"
+        },
+        "2018": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2018/hgb/full_tier_entry.csv",
+          "sha256": "204d100b1778b2a6e9e14e8a0249dff46abb915ae400745ae5cf72f0421f9b42"
+        },
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2019/hgb/full_tier_entry.csv",
+          "sha256": "6db462325958c25bf1fa3fe7134021afc4c7a4ad156d7081dc7ce4a47fb68ca2"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2020/hgb/full_tier_entry.csv",
+          "sha256": "8586090f36919d27773de45a2cf3645672b0fb1d1164228ad02c91d7767faff7"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2021/hgb/full_tier_entry.csv",
+          "sha256": "959fc6d541d3aa912fe0ea4957f4db2eba176647498edd13e122b7325c2db1c1"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2022/hgb/full_tier_entry.csv",
+          "sha256": "f99dc37701d581edc0a9fe4dd1e420b07d29aaa2553f3d1dab9a9533a52a60ae"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2023/hgb/full_tier_entry.csv",
+          "sha256": "2cd62490288a5be218f2992cfd58f8a55a6e236b8f62adbac9561b9aa32ef731"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2024/hgb/full_tier_entry.csv",
+          "sha256": "01f92c4da53f772bdbd584254af08d7f2df88600ec72a6029436d85656961e8f"
+        }
+      },
+      "tune01": {
+        "2017": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2017/hgb/full_tier_entry.csv",
+          "sha256": "62cb7a5f5363ea53bb08a602378c88c709191e8c32e52ed87079ff6f428a5b67"
+        },
+        "2018": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2018/hgb/full_tier_entry.csv",
+          "sha256": "cae698b70fc04f1c57b3b653a8c6c211081cbab10163012c7dddbe73775afb50"
+        },
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2019/hgb/full_tier_entry.csv",
+          "sha256": "119dc8264301e36df369eed68f39a9288c75af596ccb380ebe8eb4d4a7163619"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2020/hgb/full_tier_entry.csv",
+          "sha256": "2b9d831e0593811704a48df4d2bb5960ea0623c345bc6bee2f00c54c348696d4"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2021/hgb/full_tier_entry.csv",
+          "sha256": "3c143d33eb8e19c6a31b0b3d6d912aa122a065e571d2d262ebcef067efefb296"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2022/hgb/full_tier_entry.csv",
+          "sha256": "e1d5e925f52cde442626f7d150d8ccef83c2442d8a270b7a8bad8fe5e8f50f19"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2023/hgb/full_tier_entry.csv",
+          "sha256": "2cd62490288a5be218f2992cfd58f8a55a6e236b8f62adbac9561b9aa32ef731"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selected/2024/hgb/full_tier_entry.csv",
+          "sha256": "01f92c4da53f772bdbd584254af08d7f2df88600ec72a6029436d85656961e8f"
+        }
+      }
+    },
+    "selection_records": "work/PHASE1_ATP_20260922/tune01_run/run/pipeline/selection/<Y>/hgb/full_tier_entry.json (past-only; outer labels not used)",
+    "scoring_runtime_seconds": 2.8106989579991932
+  },
+  "reporting_sentences": {
+    "rule": "registered in experiments/TUNE01.design.md 'Reporting sentences'; X, L, U filled from this file at four decimals",
+    "gate_failed": "One registered tuning pass over the model's boosted-tree head moved log loss by −0.0000 [−0.0004, +0.0003] against full_tier_entry on 18,972 ATP matches from 2017 to 2024, short of the registered −0.0008 gate. The model is frozen as full_tier_entry.",
+    "either_outcome": "Model development is closed. No further feature or learner search will be run on this cohort."
+  },
+  "limitations": [
+    "exposed retrospective comparison on 2017-2024; not an untouched test and not prospective evidence",
+    "the registration was not blind: the menu was shaped by the 22 September review's audit of 2021-2023 outcomes and by the ARMS01 selection records",
+    "intervals omit refit, selection, early-stopping and bagging-seed variance; the five bag seeds are part of the model definition",
+    "an interval including zero at +/-0.0004 is inconclusive below the MDE (about 0.0005), not proof of zero effect",
+    "the grid (learning rate, leaves 7-31, min leaf, L2, bagging) is the registered menu, not every learner family; the declared exclusions (monotonic and interaction constraints, column subsampling, recency weights, other windows, bins, learners, stacking, blending and calibration forms) are closed by the freeze without having been tested",
+    "no WTA analogue (TUNE01-WTA) was registered or run"
+  ],
+  "interpretation": "Gate failed: TUNE01 - Arm 0 is inside a narrow interval around zero; TUNE01 is not adopted. The ATP model is frozen at ARMS01 attempt 002 full_tier_entry; no further feature or learner search. Independently reconstructed (archive decision D134)."
+}

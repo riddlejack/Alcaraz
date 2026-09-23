@@ -2873,7 +2873,16 @@
     "not_in_scoring_output": [
       "completed-only matches (registered as descriptive; absent from the attempt_002 scoring output)",
       "Arm 1b (optional; not run in attempt_002)"
-    ]
+    ],
+    "arm1_llx_fit_record_check": {
+      "question": "was entry_ll_diff ever split on in the fits behind the selected 2017, 2018, 2023 and 2024 forecasts (where arm1 and arm1_llx are byte-identical)?",
+      "answer": "no: across the selected candidate's raw-year fits behind each selected forecast (the target-year fit and the three calibration years), no tree of the attempt 002 run splits on entry_ll_diff for outer years 2017, 2018, 2023 and 2024; the only splits are in the raw-year 2019 fits (2 in hgb_leaf07_depth3, 12 in hgb_leaf15_depth4), which feed the 2019-2022 selected forecasts; the LLx run never splits on it (constant zero); both runs select the same candidate every year",
+      "method": "metadata only: selection records, attempt records, fit manifests and the pickled models (model sha256 checked against the fit manifest); no label, feature or forecast file opened",
+      "runs": [
+        "work/PHASE1_ATP_20260922/arm1_attempt_002_run",
+        "work/PHASE1_ATP_20260922/arm1_llx_run"
+      ]
+    }
   },
   "reference_lines": {
     "arm1_minus_pinnacle_normalised": {
@@ -3544,7 +3553,7 @@
     "gate1_passed": "full_tier_entry: full_tier plus entry status (Q, LL, WC, PR) and tournament-level context; −0.0011 versus full_tier [−0.0018, −0.0004], 6 of 8 years negative.",
     "gate3_failed": "A past-only logit blend with BuildOak did not beat both components with intervals excluding zero (blend − Alcaraz −0.0009 [−0.0021, +0.0003]; blend − BuildOak −0.0076 [−0.0107, −0.0043]); no blend is released."
   },
-  "wta_secondary": "in progress; reported separately under its own gates; never pooled with ATP; no WTA result changes the ATP claim",
+  "wta_secondary": "reported separately under its own gates in docs/benchmarks/buildoak_wta_2019_2024.json (archive decision D133); never pooled with ATP; no WTA result changes the ATP claim",
   "limitations": [
     "exposed retrospective comparison of complete systems with different legitimate histories; not an untouched test, prospective evidence or a market claim",
     "registration not blind to 2024 or to the entry-status signal (22 September review screens); the eight-year frozen design is a mitigation, not a cure",

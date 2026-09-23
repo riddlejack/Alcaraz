@@ -1,5 +1,49 @@
 # Changelog
 
+## 2026-09-23 — WTA secondary, TUNE01 null and the model freeze
+
+- Integrated the outstanding branches. The WTA entry branch (`73e499f`–`81a95a9`) adds the
+  WTA `full_entry` bundle: `full` plus the entry/level block, with a declared per-tour
+  `entry_level_map` that defaults to the ATP codes, so ATP outputs are unchanged. Its
+  cherry-picked copies of the LL and Q-only switches (`a4cc9b7`, `d083ae2`) resolve to the
+  same options as `6603b20` and `d37cbd5`, rebased on the level map. The BuildOak
+  walk-forward controller layers for ATP (`e22ed43`) and WTA (`13ba128`) sit under
+  `tools/buildoak_extension/`; the vendored BuildOak projection is excluded from ruff so
+  its audited bytes stay verbatim, as on the earlier benchmark branch. The TUNE01 branch
+  (`2fed784`) adds the menu-driven HGB candidate family with temporal early stopping, seed
+  bagging, worker parallelism and curve commitment, plus its chain configuration and menu.
+- Documented the ARMS01 WTA secondary on 12,900 WTA matches from 2019 to 2024 in
+  `docs/benchmarks/BUILDOAK_WTA_2019_2024_RESULTS.md` and `buildoak_wta_2019_2024.json`,
+  with the registered sentences: gate 1 passed (new WTA rung `full_entry`), gate 2
+  inconclusive (16% power at the 2024 gap), gate 3 passed, with the blend released as an
+  attributed research artefact. Also documented the level-map declaration and its
+  disclosures, BuildOak's 2024 structural break, the sensitivities, power and provenance.
+  Independently reconstructed (archive decision D133).
+- Documented TUNE01 in `docs/benchmarks/TUNE01_RESULTS.md` and `tune01.json`: one
+  registered 110-candidate tuning pass over the boosted-tree head, TUNE01 − Arm 0
+  −0.0000305 [−0.0003924, +0.0003305], gate failed. The model is frozen at
+  `full_tier_entry`; no further feature or learner search. Independently reconstructed
+  (archive decision D134).
+- Regenerated `docs/RESULTS.md`, `docs/ladder.json` and `docs/ladder.csv` with a WTA01
+  2019–2024 section (new rung config `configs/wta_full_entry.json`). Its run root is
+  composed from WTA01 attempt 001 features, market and `base`/`full` forecasts plus the
+  ARMS01 WTA attempt 002 `full_entry` forecasts, with a `LADDER_ROOT.json` receipt. Every
+  ATP and WTA 2025–26 value is unchanged. The experiment-ledger count is now 125.
+- Refreshed `data/registries/experiments.jsonl` from the archive ledger (12 new rows,
+  through D134); the leaderboard copy was already current.
+- `tennislab report` no longer accepts abbreviated options. `--run` used to resolve to
+  `--runs`, and repeating it kept only the last value, so a second run root silently
+  replaced the first. `--run` is now an explicit repeatable option that accumulates with
+  `--runs`.
+- `docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md` records the fit-record check that
+  `entry_ll_diff` is never split on in the fits behind the selected 2017, 2018, 2023 and
+  2024 forecasts, and points to the WTA and TUNE01 results.
+- The README reports the WTA secondary with its registered sentences, adds the WTA
+  BuildOak and blend rows, the tuning null and the model freeze, and updates the test
+  count.
+- Recorded RB35 (WTA secondary, mirroring D133) and RB36 (TUNE01 null and model freeze,
+  mirroring D134), accepted by the research lead.
+
 ## 2026-09-23 — ARMS01 ATP result (attempt 002), independently reconstructed
 
 - Added the `full_tier_entry` bundle variant: `full_tier` plus signed Q, LL, WC and PR

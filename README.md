@@ -12,11 +12,14 @@ calendar-week bootstrap. It does not beat the market, and after a long search, e
 of it logged, we think most of the remaining gap is information the market has and the
 public record does not.
 
-> **Independently reconstructed (archive decisions D131 and D132).** The
+> **Independently reconstructed (archive decisions D131 to D134).** The
 > `full_tier_entry` rung, the eight-year BuildOak comparison and the blend result come
 > from the registered ARMS01 experiment, attempt 002
 > ([details](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md)). Rows marked † below come
-> from it.
+> from it; rows marked ‡ come from its separately gated WTA secondary
+> ([details](docs/benchmarks/BUILDOAK_WTA_2019_2024_RESULTS.md)). A registered tuning
+> pass then found no gain, and the model is frozen
+> ([details](docs/benchmarks/TUNE01_RESULTS.md)).
 
 ![Top: the ATP feature ladder on one shared cohort of 18,882 matches, ending with the entry-status rung. Bottom: paired log-loss differences against three public systems: BuildOak on 18,972 ATP matches from 2017 to 2024, the other two on 2,681 ATP matches from 2024.](docs/assets/alcaraz-results.svg)
 
@@ -32,12 +35,29 @@ public record does not.
 | Ultimate Tennis Statistics formula | 2,681 ATP, 2024 | 0.6209 vs 0.5965 | 64.6% vs 66.2% | paired with full-tier; Alcaraz ahead |
 | Ingram Bayesian point model | 2,681 ATP, 2024 | 0.6417 vs 0.5965 | 63.5% vs 66.2% | paired with full-tier; Alcaraz ahead |
 | Five Elo and ranking baselines | 18,972 ATP; 12,900 WTA | Alcaraz lowest on both tours | reported per tour | all five intervals exclude zero; scored before the entry rung |
+| BuildOak XGBoost, WTA ‡ | 12,900 WTA, 2019–24 | 0.6118 vs 0.6092 | 66.1% vs 66.2% | paired with WTA full_entry, walk-forward; interval includes zero |
+| Blend of Alcaraz and BuildOak, WTA ‡ | 7,181 WTA, 2022–24 | 0.6064 vs 0.6088 | 66.2% vs 66.0% | past-only weight; research artefact, not the default model |
 
 Women's tennis runs through the same trunk with its own history and gets the same shape
 of result: Alcaraz 0.6153, Pinnacle 0.5953 on 2,344 priced WTA matches from 2025–26.
-The same registered test on 12,900 WTA matches from 2019 to 2024 is in progress.
+The same registered test ran separately on 12,900 WTA matches from 2019 to 2024, with its
+own gates and never pooled with ATP. The entry-status rung passed:
+
+> full_entry: full plus entry status (Q, LL, WC, PR) and tournament-level context;
+> −0.0012 versus full [−0.0020, −0.0005], 6 of 6 years negative.
+
+The public-model comparison is inconclusive: on 12,900 WTA matches from 2019 to 2024 the
+BuildOak margin is −0.0026 [−0.0058, +0.0004]; at the 2024 gap this comparison had 16%
+power. A logit blend of Alcaraz with the BuildOak adaptation, with the weight chosen on
+the three preceding seasons and never the target season, scores 0.0024 below Alcaraz
+alone [−0.0040, −0.0008] and 0.0053 below BuildOak alone [−0.0078, −0.0028] on 7,181 WTA
+matches from 2022 to 2024. It is a research artefact, not the default model; the BuildOak
+component is buildoak/tennis-xgboost-autoresearch at 237d1e7.
+
 Full tables, intervals and per-year values: [RESULTS.md](docs/RESULTS.md),
-[BUILDOAK_2017_2024_RESULTS.md](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md) and
+[BUILDOAK_2017_2024_RESULTS.md](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md),
+[BUILDOAK_WTA_2019_2024_RESULTS.md](docs/benchmarks/BUILDOAK_WTA_2019_2024_RESULTS.md),
+[TUNE01_RESULTS.md](docs/benchmarks/TUNE01_RESULTS.md) and
 [docs/benchmarks](docs/benchmarks).
 
 ## What is in the model
@@ -86,9 +106,9 @@ found four ways they were wrong, and the fixes are the reason the current number
 
 Beyond that: every published number is generated from a hashed artifact, a different
 model reconstructed the arithmetic before anything was accepted, and the 145-entry
-leaderboard and the experiment ledger are published in `data/registries` so the search
-history is visible. Nothing on disk is holdout; the 2025–26 window has been opened and is
-development data.
+leaderboard and the 125-entry experiment ledger (through the model freeze of 23 September
+2026) are published in `data/registries` so the search history is visible. Nothing on disk
+is holdout; the 2025–26 window has been opened and is development data.
 
 ## What did not work
 
@@ -102,7 +122,8 @@ These are honest nulls on matched cohorts, not abandoned ideas.
 | Serve sub-components, richer state geometry, WTA selection policy | all within ±0.0002 | no promotion |
 | Market-as-teacher distillation | −0.0007 vs outcome-only | below the 0.003 gate |
 | Model + Pinnacle residual | worse than calibrated Pinnacle alone | market already contains the model |
-| Past-only logit blend with BuildOak, 2020–24 † | −0.0009 [−0.0021, +0.0003] vs Alcaraz alone | no blend is released |
+| Past-only logit blend with BuildOak, ATP 2020–24 † | −0.0009 [−0.0021, +0.0003] vs Alcaraz alone | no ATP blend is released |
+| One registered tuning pass over the boosted head: 110 candidates with early stopping, tree size, minimum leaf, L2 and bagging | −0.00003 [−0.0004, +0.0003] vs full_tier_entry on 18,972 ATP matches | model frozen |
 | Weather, fatigue, point-by-point states | worse or null | retired |
 
 ## How the work was done
@@ -114,7 +135,7 @@ accepted results from scratch, one handled bounded data acquisition. No builder 
 its own claims. The archive keeps every failed attempt, and
 [PROCESS.md](docs/PROCESS.md) records what each failure changed.
 
-The product is 51k lines of Python in one trunk, 687 tests, a locked environment
+The product is 53k lines of Python in one trunk, 731 tests, a locked environment
 and CI that reproduces a synthetic end-to-end run on every push.
 
 ## Run it
@@ -142,7 +163,16 @@ with an [inference guide](docs/MODEL_RELEASE.md).
   reconstructed (archive decisions D131 and D132). A past-only logit blend with BuildOak
   did not beat both components with intervals excluding zero (blend − Alcaraz −0.0009
   [−0.0021, +0.0003]; blend − BuildOak −0.0076 [−0.0107, −0.0043]); no blend is released.
-  The WTA secondary is in progress.
+  The WTA secondary was scored once under its own gates and independently reconstructed
+  (archive decision D133): `full_entry` becomes the WTA rung for the 2019–2024 cohort only,
+  the WTA public-model comparison is inconclusive, and the WTA blend is a research
+  artefact. The 2025–26 WTA model was not refitted and stays `full`.
+- One registered tuning pass over the model's boosted-tree head moved log loss by −0.0000
+  [−0.0004, +0.0003] against full_tier_entry on 18,972 ATP matches from 2017 to 2024, short
+  of the registered −0.0008 gate. The model is frozen as full_tier_entry. Model development
+  is closed. No further feature or learner search will be run on this cohort. (TUNE01,
+  independently reconstructed, archive decision D134; gains of about 0.0005 or more were
+  detectable.)
 - Pinnacle's quote time is unknown, so the market comparison is descriptive.
 
 Methods: [METHODS.md](docs/METHODS.md) · Data and licences:
