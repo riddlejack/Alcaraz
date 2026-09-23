@@ -739,3 +739,13 @@ def test_an_hgb_fit_on_the_entry_bundle_is_exactly_swap_symmetric() -> None:
     mirrored = attempt.fitted.predict(num.FeatureTable.from_rows(swapped_rows, header))
     assert np.max(np.abs(original.probabilities + mirrored.probabilities - 1.0)) <= 1e-12
     assert np.std(original.probabilities) > 0.0
+
+
+def test_the_ll_sensitivity_dictionary_gives_the_identical_feature_contract() -> None:
+    """ARMS01 Arm 1-LLx changes values, not columns: the pipeline reads the same contract."""
+    from tennislab.features import base as features
+
+    arm1 = runner.FeatureContract.from_dictionary(features.column_dictionary(True))
+    llx = runner.FeatureContract.from_dictionary(features.column_dictionary(True, True))
+    assert llx == arm1
+    assert llx.entry_level == runner.ENTRY_LEVEL_COLUMNS
