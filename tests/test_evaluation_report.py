@@ -116,6 +116,21 @@ def test_report_forms_the_arms01_entry_contrast_and_names_its_direction() -> Non
         report.configure_bundles(["base", "full", "full_tier_entry"], ["hgb"])
 
 
+def test_report_forms_the_wta_entry_contrast_under_the_tour_contract() -> None:
+    # ARMS01 WTA secondary: `full_entry` (no tier block) against `full`.
+    report.configure_identity("ARMS01-WTA", "WTA")
+    report.configure_years(PLAN, T1)
+    report.configure_bundles(["base", "full", "full_entry"], ["hgb"])
+    names = [name for name, _ in report.CONTRASTS]
+    assert "full_entry_minus_full" in names and "full_minus_base" in names
+    assert report.primary_contrast_id() == "full_entry_minus_full"
+    assert dict(report.CONTRASTS)["full_entry_minus_full"] == {"full_entry": 1.0, "full": -1.0}
+    # Tier variants stay refused under the tour contract.
+    for tiered in ("full_tier", "full_tier_entry", "full_tier_noqual"):
+        with pytest.raises(ChainError):
+            report.configure_bundles(["base", "full", tiered], ["hgb"])
+
+
 def test_report_makes_the_tier_contrast_primary_and_reverts_with_the_defaults() -> None:
     report.configure_bundles(["base", "full", "base_tier", "full_tier"], ["hgb"])
     names = [name for name, _ in report.CONTRASTS]

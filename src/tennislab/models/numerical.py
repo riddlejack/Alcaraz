@@ -468,8 +468,10 @@ class FitAttempt:
     fit_seconds: float
     warnings: list[dict[str, str]] = field(default_factory=list)
     error: dict[str, str] | None = None
-    fitted: FittedProcedure | None = None
+    fitted: FittedProcedure | BaggedProcedure | None = None
     cache_reused: bool = False
+    # TUNE01: the early-stopping and bagging receipt of a bagged fit; None otherwise.
+    tuning: dict[str, Any] | None = None
 
 
 def validate_config(config: dict[str, Any], features: FeatureTable) -> None:
@@ -708,6 +710,8 @@ def save_fit_attempt(
         "error": attempt.error,
         "training_keys_path": keys_path.name,
         "training_keys_file_sha256": keys_file_hash,
+        # Written only for a bagged fit, so every other fit manifest keeps its shape.
+        **({"tuning": attempt.tuning} if attempt.tuning is not None else {}),
         "environment": {
             "python": platform.python_version(),
             "numpy": np.__version__,
@@ -726,24 +730,42 @@ def save_fit_attempt(
             raise NumericalError("complete fit lacks fitted procedure")
         model_path = directory / "model.joblib"
         joblib.dump(attempt.fitted, model_path, compress=0)
-        metadata.update(
-            {
-                "model_path": model_path.name,
-                "model_sha256": sha256_file(model_path),
-                "rms_scales": (
-                    attempt.fitted.rms_scale.tolist()
-                    if attempt.fitted.rms_scale is not None
-                    else None
-                ),
-                "estimator_feature_names": list(attempt.fitted.estimator_feature_names),
-                "identity_vocabulary": (
-                    json_safe(attempt.fitted.identity_vocabulary.__dict__)
-                    if attempt.fitted.identity_vocabulary is not None
-                    else None
-                ),
-                "estimator_get_params": json_safe(attempt.fitted.estimator.get_params(deep=True)),
-            }
-        )
+        if isinstance(attempt.fitted, BaggedProcedure):
+            members = attempt.fitted.members
+            metadata.update(
+                {
+                    "model_path": model_path.name,
+                    "model_sha256": sha256_file(model_path),
+                    "rms_scales": None,
+                    "estimator_feature_names": list(members[0].estimator_feature_names),
+                    "identity_vocabulary": None,
+                    "bag_members": len(members),
+                    "member_estimator_get_params": [
+                        json_safe(member.estimator.get_params(deep=True)) for member in members
+                    ],
+                }
+            )
+        else:
+            metadata.update(
+                {
+                    "model_path": model_path.name,
+                    "model_sha256": sha256_file(model_path),
+                    "rms_scales": (
+                        attempt.fitted.rms_scale.tolist()
+                        if attempt.fitted.rms_scale is not None
+                        else None
+                    ),
+                    "estimator_feature_names": list(attempt.fitted.estimator_feature_names),
+                    "identity_vocabulary": (
+                        json_safe(attempt.fitted.identity_vocabulary.__dict__)
+                        if attempt.fitted.identity_vocabulary is not None
+                        else None
+                    ),
+                    "estimator_get_params": json_safe(
+                        attempt.fitted.estimator.get_params(deep=True)
+                    ),
+                }
+            )
     metadata_path = directory / "fit_manifest.json"
     metadata_path.write_text(
         json.dumps(metadata, indent=2, sort_keys=True, allow_nan=False) + "\n",
@@ -795,9 +817,567 @@ class FileFitCache:
                     error=metadata["error"],
                     fitted=fitted,
                     cache_reused=True,
+                    tuning=metadata.get("tuning"),
                 ),
                 metadata,
             )
         attempt = fit_callable()
         metadata = save_fit_attempt(directory, attempt, identity, training_keys)
         return attempt, metadata
+
+
+# ------------------------------------------------------------------ TUNE01: bagged trees
+#
+# A tree candidate that is temporally early-stopped and row-subsample bagged
+# (``references/TUNE01/menu.json``, analysis_spec §2).  For raw year R the pipeline hands
+# over the training window's canonical keys split into the stopping-train keys (dated up
+# to (R-2)-12-30) and the stopping-validation keys (the window's last year, R-1); the
+# adapter never sees a date.  Five stopping members are fitted with the capped iteration
+# count on role-0 subsamples of the stopping-train keys; the bag-averaged,
+# swap-symmetrised validation log loss after each iteration is the curve; the patience
+# rule picks the best iteration k*; five members are then refitted on role-1 subsamples
+# of the whole window with ``max_iter = k*`` and their symmetrised probabilities are
+# averaged.  Subsamples depend on the raw year, the role and the member only, never on the
+# candidate.  The curve is a set of scores of an earlier fold's target year: only its
+# sha256 leaves this module (RB14); the stopping members are never persisted.
+
+CURVE_SCORE_CLIP = 1e-15
+BAGGING_ROLES = {"stopping": 0, "refit": 1}
+TUNING_KIND = "bagged_temporal_early_stopping"
+TUNING_KEYS = frozenset(
+    {
+        "kind",
+        "menu_sha256",
+        "max_iter_cap",
+        "patience",
+        "tol",
+        "members",
+        "row_subsample_fraction",
+        "base_seed",
+    }
+)
+
+
+def _tuning_spec(config: dict[str, Any]) -> dict[str, Any]:
+    tuning = config.get("tuning")
+    if not isinstance(tuning, dict) or set(tuning) != TUNING_KEYS:
+        raise NumericalError(
+            f"bagged tree config needs exactly the tuning keys {sorted(TUNING_KEYS)}"
+        )
+    if tuning["kind"] != TUNING_KIND:
+        raise NumericalError(f"unknown tuning kind: {tuning['kind']!r}")
+    if config.get("family") != "hist_gradient_boosting":
+        raise NumericalError("bagged early stopping is defined for hist_gradient_boosting only")
+    for name in ("max_iter_cap", "patience", "members", "base_seed"):
+        if not isinstance(tuning[name], int) or isinstance(tuning[name], bool) or tuning[name] < 1:
+            raise NumericalError(f"tuning {name} must be a positive integer")
+    if tuning["patience"] >= tuning["max_iter_cap"]:
+        raise NumericalError("tuning patience must be below the iteration cap")
+    fraction = tuning["row_subsample_fraction"]
+    if not isinstance(fraction, float) or not 0.0 < fraction <= 1.0:
+        raise NumericalError("tuning row_subsample_fraction must be a float in (0, 1]")
+    if (
+        not isinstance(tuning["tol"], float)
+        or not math.isfinite(tuning["tol"])
+        or tuning["tol"] < 0
+    ):
+        raise NumericalError("tuning tol must be a finite nonnegative float")
+    params = config.get("estimator_params", {})
+    if params.get("early_stopping") is not False:
+        raise NumericalError("scikit-learn's internal early stopping must be off")
+    return tuning
+
+
+def bag_seed(base_seed: int, raw_year: int, role: int, member: int) -> list[int]:
+    """The SeedSequence entropy of one bag member: ``[base, raw year, role, member]``."""
+    return [int(base_seed), int(raw_year), int(role), int(member)]
+
+
+def subsample_positions(n: int, seed: Sequence[int], fraction: float) -> np.ndarray:
+    """``floor(fraction * n)`` distinct positions of a canonically sorted key tuple.
+
+    ``Generator(PCG64(SeedSequence(seed))).choice(n, size, replace=False)``, sorted
+    ascending, exactly as ``menu.json`` declares.
+    """
+    size = math.floor(fraction * n)
+    if n < 1 or size < 1:
+        raise NumericalError(f"cannot subsample {fraction} of {n} keys")
+    generator = np.random.Generator(np.random.PCG64(np.random.SeedSequence(list(seed))))
+    return np.sort(generator.choice(n, size=size, replace=False))
+
+
+def early_stopping_decision(curve: Sequence[float], patience: int, tol: float) -> dict[str, Any]:
+    """The patience rule on a validation curve L(1..K) (1-based iterations).
+
+    ``k_stop`` is the smallest k > patience at which no iteration in the last ``patience``
+    improved on the best value up to k - patience by more than ``tol``; ``k_star`` is the
+    first minimiser of L over 1..k_stop.  When the rule never fires ``k_star`` is the first
+    minimiser over the whole curve and the status is ``cap`` (``k_stop`` is then None).
+    """
+    values = [float(value) for value in curve]
+    if not values or any(not math.isfinite(value) for value in values):
+        raise NumericalError("early-stopping curve must be nonempty and finite")
+    if patience < 1:
+        raise NumericalError("patience must be positive")
+    prefix_minimum: list[float] = []
+    running = math.inf
+    for value in values:
+        running = min(running, value)
+        prefix_minimum.append(running)
+    k_stop: int | None = None
+    for k in range(patience + 1, len(values) + 1):
+        recent = min(values[k - patience : k])  # L(k - patience + 1) .. L(k)
+        earlier = prefix_minimum[k - patience - 1]  # min L(1) .. L(k - patience)
+        if recent > earlier - tol:
+            k_stop = k
+            break
+    horizon = values if k_stop is None else values[:k_stop]
+    k_star = horizon.index(min(horizon)) + 1
+    return {
+        "k_star": k_star,
+        "k_stop": k_stop,
+        "stop_status": "cap" if k_stop is None else "patience",
+    }
+
+
+def _fit_estimator(
+    estimator: Any, matrix: np.ndarray, labels: np.ndarray, weights: np.ndarray
+) -> tuple[list[dict[str, str]], bool]:
+    """Fit in place; return the warning records and whether a ConvergenceWarning fired."""
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        estimator.fit(matrix, labels, sample_weight=weights)
+    records = [
+        {"category": item.category.__name__, "message": str(item.message)} for item in caught
+    ]
+    return records, any(issubclass(item.category, ConvergenceWarning) for item in caught)
+
+
+def _max_tree_depth(estimator: Any) -> int:
+    return max(
+        int(predictor.get_max_depth())
+        for iteration in estimator._predictors
+        for predictor in iteration
+    )
+
+
+@dataclass(frozen=True)
+class BaggedTreeInputs:
+    """One raw year's rows for the bagged tree family, shared by every candidate.
+
+    Rows ``2i`` and ``2i + 1`` of the augmented arrays are window match ``i`` (canonical
+    key order) in both orientations, exactly as ``_tree_augmentation`` emits them, so a
+    subsample's rows are the augmentation of the subsampled matches: a drawn match enters
+    in both orientations at weight 0.5, an undrawn one in neither.
+    """
+
+    raw_year: int
+    signed_columns: tuple[str, ...]
+    context_columns: tuple[str, ...]
+    fit_matrix: np.ndarray
+    fit_labels: np.ndarray
+    fit_weights: np.ndarray
+    validation_original: np.ndarray
+    validation_swapped: np.ndarray
+    validation_labels: np.ndarray
+    subsamples: dict[tuple[int, int], np.ndarray]
+    receipt: dict[str, Any]
+
+    def rows(self, role: int, member: int) -> np.ndarray:
+        positions = self.subsamples[(role, member)]
+        return np.column_stack((2 * positions, 2 * positions + 1)).reshape(-1)
+
+
+def prepare_bagged_tree_inputs(
+    config: dict[str, Any],
+    training_features: FeatureTable,
+    training_labels: LabelTable,
+    *,
+    stopping_train_keys: Sequence[tuple[str, str]],
+    stopping_validation_keys: Sequence[tuple[str, str]],
+    raw_year: int,
+) -> BaggedTreeInputs:
+    """Augment the window once and draw the role-0 and role-1 subsamples of raw year R."""
+    validate_config(config, training_features)
+    tuning = _tuning_spec(config)
+    keys = training_features.keys
+    labels = training_labels.align_exact(keys)
+    position = {key: index for index, key in enumerate(keys)}
+    train_set, validation_set = set(stopping_train_keys), set(stopping_validation_keys)
+    if len(train_set) != len(stopping_train_keys) or len(validation_set) != len(
+        stopping_validation_keys
+    ):
+        raise NumericalError("duplicate stopping keys")
+    if not train_set or not validation_set:
+        raise NumericalError("both stopping sets must be nonempty")
+    if train_set & validation_set:
+        raise NumericalError("stopping-train and stopping-validation keys overlap")
+    outside = sorted((train_set | validation_set) - set(position))
+    if outside:
+        raise NumericalError(f"stopping keys outside the training window: {outside[:5]}")
+    train_positions = np.asarray(sorted(position[key] for key in train_set), dtype=np.intp)
+    validation_positions = np.asarray(
+        sorted(position[key] for key in validation_set), dtype=np.intp
+    )
+    signed_columns = tuple(config["signed_numeric_columns"])
+    context_columns = tuple(config["context_columns"])
+    signed = training_features.matrix(signed_columns)
+    context = training_features.matrix(context_columns)
+    fit_matrix, fit_labels, fit_weights = _tree_augmentation(signed, context, labels)
+    validation_signed = signed[validation_positions]
+    validation_context = context[validation_positions]
+    members = int(tuning["members"])
+    fraction = float(tuning["row_subsample_fraction"])
+    subsamples: dict[tuple[int, int], np.ndarray] = {}
+    records: dict[str, list[dict[str, Any]]] = {}
+    for role_name, role in BAGGING_ROLES.items():
+        pool = train_positions if role == BAGGING_ROLES["stopping"] else np.arange(len(keys))
+        records[role_name] = []
+        for member in range(members):
+            seed = bag_seed(tuning["base_seed"], raw_year, role, member)
+            drawn = pool[subsample_positions(len(pool), seed, fraction)]
+            subsamples[(role, member)] = drawn
+            records[role_name].append(
+                {
+                    "member": member,
+                    "seed_sequence": seed,
+                    "keys": len(drawn),
+                    "keys_sha256": key_hash([keys[index] for index in drawn]),
+                }
+            )
+    receipt = {
+        "raw_year": int(raw_year),
+        "window_keys": len(keys),
+        "window_keys_sha256": key_hash(keys),
+        "stopping_train_keys": len(train_positions),
+        "stopping_train_keys_sha256": key_hash([keys[index] for index in train_positions]),
+        "stopping_validation_keys": len(validation_positions),
+        "stopping_validation_keys_sha256": key_hash(
+            [keys[index] for index in validation_positions]
+        ),
+        "keys_in_neither_stopping_set": len(keys)
+        - len(train_positions)
+        - len(validation_positions),
+        "subsamples": records,
+    }
+    return BaggedTreeInputs(
+        raw_year=int(raw_year),
+        signed_columns=signed_columns,
+        context_columns=context_columns,
+        fit_matrix=fit_matrix,
+        fit_labels=fit_labels,
+        fit_weights=fit_weights,
+        validation_original=np.hstack((validation_signed, validation_context)),
+        validation_swapped=np.hstack((-validation_signed, validation_context)),
+        validation_labels=labels[validation_positions].astype(np.float64),
+        subsamples=subsamples,
+        receipt=receipt,
+    )
+
+
+def bagged_validation_curve(
+    estimators: Sequence[Any], original: np.ndarray, swapped: np.ndarray, labels: np.ndarray
+) -> list[float]:
+    """L(k) for every iteration k: the match-weighted mean log loss (clip 1e-15) of the
+    member-averaged symmetrised probability 0.5 * (p(a, b) + 1 - p(b, a)).  Members are
+    summed in member order and divided by their count, as ``BaggedProcedure`` averages."""
+    streams = []
+    for estimator in estimators:
+        classes = list(estimator.classes_)
+        if 1 not in classes:
+            raise NumericalError(f"fitted estimator lacks class 1: {classes}")
+        streams.append(
+            (
+                estimator.staged_predict_proba(original),
+                estimator.staged_predict_proba(swapped),
+                classes.index(1),
+            )
+        )
+    curve: list[float] = []
+    positive = labels == 1.0
+    while True:
+        total: np.ndarray | None = None
+        exhausted = 0
+        for stream_original, stream_swapped, column in streams:
+            p_original = next(stream_original, None)
+            p_swapped = next(stream_swapped, None)
+            if p_original is None or p_swapped is None:
+                exhausted += 1
+                continue
+            member = 0.5 * (p_original[:, column] + 1.0 - p_swapped[:, column])
+            total = member if total is None else total + member
+        if exhausted:
+            if exhausted != len(streams):
+                raise NumericalError("bag members have different iteration counts")
+            break
+        assert total is not None
+        mean = np.clip(total / len(streams), CURVE_SCORE_CLIP, 1.0 - CURVE_SCORE_CLIP)
+        losses = -np.log(np.where(positive, mean, 1.0 - mean))
+        value = float(np.mean(losses))
+        if not math.isfinite(value):
+            raise NumericalError("nonfinite validation curve value")
+        curve.append(value)
+    return curve
+
+
+@dataclass
+class BaggedProcedure:
+    """Members averaged in probability: each member's swap-symmetrised forecast is summed
+    in member order and divided by the member count."""
+
+    config: dict[str, Any]
+    members: tuple[FittedProcedure, ...]
+
+    @property
+    def family(self) -> str:
+        return str(self.config["family"])
+
+    def predict(self, features: FeatureTable) -> Predictions:
+        """Emit probabilities without accepting or inspecting evaluation labels."""
+        if not self.members:
+            raise NumericalError("a bagged procedure needs at least one member")
+        outputs = [member.predict(features) for member in self.members]
+        total = outputs[0].probabilities.copy()
+        for output in outputs[1:]:
+            total = total + output.probabilities
+        emitted = total / len(outputs)
+        if not np.all(np.isfinite(emitted)) or np.any(emitted < 0) or np.any(emitted > 1):
+            raise NumericalError("bag averaging emitted invalid probabilities")
+        return Predictions(
+            keys=features.keys,
+            probabilities=emitted,
+            source_feature_sha256=features.source_sha256,
+            config_id=str(self.config["config_id"]),
+            diagnostics={
+                "raw_orientation_complement_max_abs_error": max(
+                    output.diagnostics["raw_orientation_complement_max_abs_error"]
+                    for output in outputs
+                ),
+                "emitted_complement_identity_max_abs_error": float(
+                    np.max(np.abs(emitted + (1.0 - emitted) - 1.0))
+                ),
+            },
+        )
+
+
+def _base_params(config: dict[str, Any], inputs: BaggedTreeInputs) -> dict[str, Any]:
+    if (
+        tuple(config["signed_numeric_columns"]) != inputs.signed_columns
+        or tuple(config["context_columns"]) != inputs.context_columns
+    ):
+        raise NumericalError("bagged inputs were built for different model columns")
+    return {key: value for key, value in config["estimator_params"].items() if key != "max_iter"}
+
+
+def _fit_bag_member(
+    base_params: dict[str, Any],
+    inputs: BaggedTreeInputs,
+    role: int,
+    member: int,
+    max_iter: int,
+    warning_records: list[dict[str, str]],
+) -> Any:
+    rows = inputs.rows(role, member)
+    estimator = HistGradientBoostingClassifier(**base_params, max_iter=max_iter)
+    records, convergence = _fit_estimator(
+        estimator, inputs.fit_matrix[rows], inputs.fit_labels[rows], inputs.fit_weights[rows]
+    )
+    warning_records.extend(records)
+    if convergence:
+        raise _BagConvergenceError(role, member)
+    if int(estimator.n_iter_) != max_iter:
+        raise NumericalError(
+            f"member {role}/{member} ran {estimator.n_iter_} of {max_iter} iterations"
+        )
+    return estimator
+
+
+def bagged_stopping_curve(
+    config: dict[str, Any],
+    inputs: BaggedTreeInputs,
+    warning_records: list[dict[str, str]] | None = None,
+) -> tuple[list[float], list[int]]:
+    """Fit the stopping members (capped iterations, role-0 subsamples) and return the
+    validation curve with each member's realised depth.  The members are discarded."""
+    tuning = _tuning_spec(config)
+    base_params = _base_params(config, inputs)
+    records = [] if warning_records is None else warning_records
+    stopping = [
+        _fit_bag_member(
+            base_params,
+            inputs,
+            BAGGING_ROLES["stopping"],
+            member,
+            int(tuning["max_iter_cap"]),
+            records,
+        )
+        for member in range(int(tuning["members"]))
+    ]
+    curve = bagged_validation_curve(
+        stopping, inputs.validation_original, inputs.validation_swapped, inputs.validation_labels
+    )
+    return curve, [_max_tree_depth(estimator) for estimator in stopping]
+
+
+def fit_bagged_early_stopped(config: dict[str, Any], inputs: BaggedTreeInputs) -> FitAttempt:
+    """Stopping fits, curve, patience rule and refits for one candidate and raw year.
+
+    Every member is fitted from ``inputs``; the fit never sees a row outside the training
+    window.  A ConvergenceWarning in any member fails the attempt with its receipt.
+    """
+    start = time.perf_counter()
+    config_id = str(config.get("config_id", "<missing>"))
+    warning_records: list[dict[str, str]] = []
+    try:
+        tuning = _tuning_spec(config)
+        base_params = _base_params(config, inputs)
+        members = int(tuning["members"])
+        cap = int(tuning["max_iter_cap"])
+        curve, stopping_depths = bagged_stopping_curve(config, inputs, warning_records)
+        decision = early_stopping_decision(curve, int(tuning["patience"]), float(tuning["tol"]))
+        k_star = int(decision["k_star"])
+        feature_names = inputs.signed_columns + inputs.context_columns
+        member_base = {key: value for key, value in config.items() if key != "tuning"}
+        refits: list[FittedProcedure] = []
+        for member in range(members):
+            estimator = _fit_bag_member(
+                base_params, inputs, BAGGING_ROLES["refit"], member, k_star, warning_records
+            )
+            member_config = {
+                **member_base,
+                "config_id": f"{config_id}::refit{member}",
+                "estimator_params": {**base_params, "max_iter": k_star},
+            }
+            refits.append(
+                FittedProcedure(
+                    config=json.loads(json.dumps(member_config)),
+                    estimator=estimator,
+                    rms_scale=None,
+                    identity_vocabulary=None,
+                    estimator_feature_names=feature_names,
+                )
+            )
+        receipt = {
+            **decision,
+            "max_iter_cap": cap,
+            "patience": int(tuning["patience"]),
+            "tol": float(tuning["tol"]),
+            "curve_points": len(curve),
+            "curve_sha256": sha256_json(curve),
+            "stopping_member_max_depth": stopping_depths,
+            "refit_member_n_iter": [int(item.estimator.n_iter_) for item in refits],
+            "refit_member_max_depth": [_max_tree_depth(item.estimator) for item in refits],
+            "menu_sha256": tuning["menu_sha256"],
+            **inputs.receipt,
+        }
+        return FitAttempt(
+            status="complete",
+            config_id=config_id,
+            fit_seconds=time.perf_counter() - start,
+            warnings=warning_records,
+            fitted=BaggedProcedure(config=json.loads(json.dumps(config)), members=tuple(refits)),
+            tuning=receipt,
+        )
+    except _BagConvergenceError as error:
+        return FitAttempt(
+            status="failed",
+            config_id=config_id,
+            fit_seconds=time.perf_counter() - start,
+            warnings=warning_records,
+            error={
+                "type": "ConvergenceWarning",
+                "message": f"convergence warning invalidates this fit (member {error})",
+            },
+        )
+    except Exception as error:  # preserve every affected configuration failure
+        return FitAttempt(
+            status="failed",
+            config_id=config_id,
+            fit_seconds=time.perf_counter() - start,
+            error={"type": type(error).__name__, "message": str(error)},
+        )
+
+
+class _BagConvergenceError(Exception):
+    def __init__(self, role: int, member: int):
+        super().__init__(f"{role}/{member}")
+
+
+def fit_cached_and_predict(
+    cache: FileFitCache,
+    identity: dict[str, Any],
+    training_keys: Sequence[tuple[str, str]],
+    fit_callable: Callable[[], FitAttempt],
+    prediction_features: FeatureTable,
+    prediction_path: Path,
+) -> dict[str, Any]:
+    """Fit (or load the exact identity), then write the unscored forecasts.
+
+    Returns the attempt's receipt fields for the raw ledger; the fit wall clock covers
+    the fit or cache load only.
+    """
+    started = time.monotonic()
+    attempt, fit_manifest = cache.fit_or_load(identity, training_keys, fit_callable)
+    result: dict[str, Any] = {
+        "fit_wall_clock_seconds": round(time.monotonic() - started, 6),
+        "status": attempt.status,
+        "fit_cache_reused": attempt.cache_reused,
+        "fit_manifest_sha256": fit_manifest["fit_manifest_file_sha256"],
+        "warnings": attempt.warnings,
+        "error": attempt.error,
+    }
+    if attempt.tuning is not None:
+        result["tuning"] = attempt.tuning
+    if attempt.status == "complete" and attempt.fitted is not None:
+        try:
+            emitted = attempt.fitted.predict(prediction_features)
+            if emitted.keys != prediction_features.keys:
+                raise NumericalError("numerical prediction membership drift")
+            result.update(
+                {
+                    "prediction_sha256": emitted.write_csv(prediction_path),
+                    "prediction_rows": len(emitted.keys),
+                    "prediction_membership_sha256": emitted.membership_sha256,
+                    "prediction_diagnostics": emitted.diagnostics,
+                }
+            )
+        except Exception as error:
+            result["status"] = "failed_prediction"
+            result["error"] = {"type": type(error).__name__, "message": str(error)}
+    return result
+
+
+# One raw year's shared rows in a worker process (set by `init_bagged_worker`).
+_WORKER_SHARED: dict[str, Any] = {}
+
+
+def init_bagged_worker(shared: dict[str, Any]) -> None:
+    """Initializer of a raw-stage worker process: install the year's shared rows and hand
+    the access log to the stage's own process (RB14)."""
+    from tennislab.chain import access
+
+    access.detach()
+    _WORKER_SHARED.clear()
+    _WORKER_SHARED.update(shared)
+
+
+def execute_bagged_task(task: dict[str, Any], shared: dict[str, Any]) -> dict[str, Any]:
+    """One bagged candidate for one raw year, from the year's shared rows."""
+    inputs = shared["inputs"][task["block"]]
+    return fit_cached_and_predict(
+        FileFitCache(Path(shared["cache_root"])),
+        task["identity"],
+        shared["training_keys"],
+        lambda: fit_bagged_early_stopped(task["config"], inputs),
+        shared["prediction_features"],
+        Path(task["prediction_path"]),
+    )
+
+
+def run_bagged_task(task: dict[str, Any]) -> dict[str, Any]:
+    """Worker entry point: the task's receipt plus the files this process opened."""
+    from tennislab.chain import access
+
+    result = execute_bagged_task(task, _WORKER_SHARED)
+    result["access"] = access.drain()
+    return result

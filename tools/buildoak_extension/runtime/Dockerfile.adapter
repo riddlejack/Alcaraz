@@ -1,0 +1,4 @@
+ARG RUNTIME_IMAGE=buildoak-extension-runtime:20260917
+FROM ${RUNTIME_IMAGE}
+COPY adapter/ /opt/benchmark/
+WORKDIR /opt/benchmark

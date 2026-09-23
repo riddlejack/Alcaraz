@@ -36,6 +36,8 @@ packages = ["src/tennislab"]
 required-version = ">=0.6"
 
 [tool.ruff]
+# Preserve the audited third-party formula projection verbatim.
+extend-exclude = ["tools/buildoak_extension/runtime/adapter/tennis_predict"]
 line-length = 100
 target-version = "py314"
 src = ["src", "tests", "tools"]
