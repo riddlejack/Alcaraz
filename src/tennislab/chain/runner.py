@@ -1676,6 +1676,12 @@ def _shared_stage_config_bodies(
             # ARMS01: the entry/level block is emitted only when the chain declares it,
             # so every chain without it still writes the accepted features config.
             **({"entry_level_block": True} if section.get("entry_level_block") is True else {}),
+            # ARMS01 WTA: a tour whose level codes are not G/M/A/F declares its map.
+            **(
+                {"entry_level_map": section["entry_level_map"]}
+                if section.get("entry_level_map") is not None
+                else {}
+            ),
             "year_plan": plan_document,
             "design": inputs["features_design"],
             "output_dir": stage_path("features"),

@@ -24,6 +24,9 @@ only as draw-time status, and the round never. The raw ``tourney_level``, ``roun
 ``a_entry``/``b_entry``, seeds and draw size stay in ``FORBIDDEN_MODEL_COLUMNS``; a
 dictionary that lists any of them as a model column is refused. Without an entry bundle
 the settings document, the column order and every existing bundle are unchanged.
+The WTA secondary has no tier block: its ``*_entry`` bundle (``full_entry``) is the
+JOINT04 bundle of the same stem plus the same block, and it is the one variant the tour
+(WTA02) settings contract admits; the contract then records ``entry_level_columns``.
 
 Code bindings: the archive loaded ``numerical.py`` by path at a pinned hash and checked
 its own file hash against the config. Here the adapter is ``tennislab.models.numerical``
@@ -114,6 +117,13 @@ TIER_NOQUAL_SUFFIX = "_tier_noqual"
 # ARMS01 Arm 1: `full_tier_entry` is `full_tier` plus the entry/level block.  Checked
 # first in `split_block`; the three variant suffixes are pairwise non-nested.
 TIER_ENTRY_SUFFIX = "_tier_entry"
+# ARMS01 WTA secondary: `full_entry` is the JOINT04 `full` bundle plus the same block (the
+# WTA chain has no tier block).  Tested after every tier suffix, since `_tier_entry` ends
+# with it.  The variants that carry the tier block are TIER_VARIANTS; the entry block is
+# carried by ENTRY_VARIANTS.
+ENTRY_SUFFIX = "_entry"
+TIER_VARIANTS = frozenset({"tier", "tier_noqual", "tier_entry"})
+ENTRY_VARIANTS = frozenset({"tier_entry", "entry"})
 DEFAULT_BLOCKS = BASE_BLOCKS
 DEFAULT_LEARNERS = ("ridge", "hgb")
 BLOCKS = DEFAULT_BLOCKS
@@ -392,19 +402,22 @@ def tour_contract() -> bool:
 
 def split_block(block: str) -> tuple[str, str]:
     """`("full", "tier")` for `full_tier`, `("full", "tier_noqual")` for the ablation,
-    `("full", "")` for `full`, `("full", "tier_entry")` for the entry/level variant.  The
-    variant suffixes are tested longest first."""
+    `("full", "")` for `full`, `("full", "tier_entry")` for the entry/level variant,
+    `("full", "entry")` for the tier-free entry/level variant.  The variant suffixes are
+    tested longest first."""
     if block.endswith(TIER_ENTRY_SUFFIX):
         return block[: -len(TIER_ENTRY_SUFFIX)], "tier_entry"
     if block.endswith(TIER_NOQUAL_SUFFIX):
         return block[: -len(TIER_NOQUAL_SUFFIX)], "tier_noqual"
     if block.endswith(TIER_SUFFIX):
         return block[: -len(TIER_SUFFIX)], "tier"
+    if block.endswith(ENTRY_SUFFIX):
+        return block[: -len(ENTRY_SUFFIX)], "entry"
     return block, ""
 
 
 def tier_enabled() -> bool:
-    return any(split_block(block)[1] for block in BLOCKS)
+    return any(split_block(block)[1] in TIER_VARIANTS for block in BLOCKS)
 
 
 def noqual_enabled() -> bool:
@@ -412,13 +425,14 @@ def noqual_enabled() -> bool:
 
 
 def entry_enabled() -> bool:
-    """True when a `*_tier_entry` bundle is configured: the entry/level block is then part
-    of the assembled column set and of the settings document, and nowhere otherwise."""
-    return any(split_block(block)[1] == "tier_entry" for block in BLOCKS)
+    """True when a `*_tier_entry` or `*_entry` bundle is configured: the entry/level block
+    is then part of the assembled column set and of the settings document, and nowhere
+    otherwise."""
+    return any(split_block(block)[1] in ENTRY_VARIANTS for block in BLOCKS)
 
 
 def _check_contract_supports_blocks(blocks: Sequence[str], tour: str | None) -> None:
-    if tour is not None and any(split_block(block)[1] for block in blocks):
+    if tour is not None and any(split_block(block)[1] in TIER_VARIANTS for block in blocks):
         raise PipelineError(
             "a configuration that declares a tour is read under the WTA02 settings "
             "contract, which cannot record a tier bundle"
@@ -483,7 +497,8 @@ def configure_bundles(
             raise PipelineError(f"unknown learner: {learner}")
     if "ridge" in chosen_learners and any(split_block(b)[1] for b in chosen_blocks):
         raise PipelineError(
-            "ridge cannot fit a tier bundle: TIER01 declares JOINT04's HGB menu only"
+            "ridge cannot fit a tier or entry bundle: TIER01 and ARMS01 declare JOINT04's "
+            "HGB menu only"
         )
     _check_contract_supports_blocks(chosen_blocks, TOUR)
     # Commit only after the checks pass, so a refused call leaves the module as it was.
@@ -525,6 +540,10 @@ def settings_document() -> dict[str, Any]:
     if tour_contract():
         document["cohort"] = COHORT
         document["tour"] = TOUR
+        if entry_enabled():
+            # Only with an entry bundle, so every frozen WTA settings document still
+            # equals the runner contract.
+            document["entry_level_columns"] = list(ENTRY_LEVEL_COLUMNS)
     else:
         document["tier_columns"] = (
             list(TIER_COLUMNS) + (list(TIER_NOQUAL_COLUMNS) if noqual_enabled() else [])
@@ -693,12 +712,12 @@ class FeatureContract:
         stem, variant = split_block(block)
         if stem not in BASE_BLOCKS:
             raise PipelineError(f"unknown block: {block}")
-        has_tier = bool(variant)
+        has_tier = variant in TIER_VARIANTS
         has_traits = stem in {"traits", "full"}
         has_dynamic = stem in {"dynamic", "full"}
         if learner == "ridge":
-            if has_tier:
-                raise PipelineError("ridge cannot fit a tier bundle")
+            if variant:
+                raise PipelineError("ridge cannot fit a tier or entry bundle")
             numeric = list(self.base_linear)
             if has_traits:
                 numeric.extend(TRAIT_SIGNED)
@@ -724,10 +743,11 @@ class FeatureContract:
                 signed.extend(
                     TIER_NOQUAL_DYNAMIC_SIGNED if variant == "tier_noqual" else TIER_DYNAMIC_SIGNED
                 )
-        if variant == "tier_entry":
-            # ARMS01: the `*_tier` bundle plus the entry/level block, appended after it:
-            # signed entry differences with the signed columns, the symmetric
-            # any-qualifier flag and level indicators with the context columns.
+        if variant in ENTRY_VARIANTS:
+            # ARMS01: the `*_tier` bundle (ATP) or the JOINT04 bundle (WTA `*_entry`) plus
+            # the entry/level block, appended after it: signed entry differences with the
+            # signed columns, the symmetric any-qualifier flag and level indicators with
+            # the context columns.
             if self.entry_level != ENTRY_LEVEL_COLUMNS:
                 raise PipelineError(
                     f"bundle {block} needs the features stage's entry/level block "
