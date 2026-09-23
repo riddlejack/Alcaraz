@@ -102,3 +102,23 @@ def test_command_uses_the_running_interpreter_and_module(tmp_path: Path) -> None
         "--output-dir",
         str(tmp_path / "run" / "archive_panel"),
     ]
+
+
+def test_the_ll_option_reaches_only_the_features_config_and_only_when_declared() -> None:
+    """ARMS01 Arm 1-LLx: `entry_level_block_ll_as_no_flag` is carried to features.json
+    exactly as `entry_level_block` is; no other emitted stage config changes."""
+    document = json.loads(
+        Path("configs/chains/atp_arms01_2017_2024.json").read_text(encoding="utf-8")
+    )
+    section = document["chain"]
+    plan = runner.year_plan(document).as_document()
+    arm1 = runner._stage_config_bodies(section, section["inputs"], plan)
+    assert "entry_level_block_ll_as_no_flag" not in arm1["features"]
+    assert arm1["features"]["entry_level_block"] is True
+    llx_section = {**section, "entry_level_block_ll_as_no_flag": True}
+    llx = runner._stage_config_bodies(llx_section, section["inputs"], plan)
+    assert [name for name in arm1 if arm1[name] != llx[name]] == ["features"]
+    assert {**arm1["features"], "entry_level_block_ll_as_no_flag": True} == llx["features"]
+    # Only a literal true is carried.
+    other = {**section, "entry_level_block_ll_as_no_flag": "true"}
+    assert runner._stage_config_bodies(other, section["inputs"], plan) == arm1

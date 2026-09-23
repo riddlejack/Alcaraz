@@ -1676,6 +1676,12 @@ def _shared_stage_config_bodies(
             # ARMS01: the entry/level block is emitted only when the chain declares it,
             # so every chain without it still writes the accepted features config.
             **({"entry_level_block": True} if section.get("entry_level_block") is True else {}),
+            # ARMS01 Arm 1-LLx: LL read as no flag, likewise emitted only when declared.
+            **(
+                {"entry_level_block_ll_as_no_flag": True}
+                if section.get("entry_level_block_ll_as_no_flag") is True
+                else {}
+            ),
             "year_plan": plan_document,
             "design": inputs["features_design"],
             "output_dir": stage_path("features"),

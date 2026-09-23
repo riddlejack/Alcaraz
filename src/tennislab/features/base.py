@@ -44,6 +44,13 @@ other level (D, O, ...) and every other entry code (SE, ALT, blank, ...) is all-
 Entry status and level are attributes of the published draw, not results, ratings or
 round-order arithmetic; the round is never emitted as a model column. When the flag is
 absent the stage's output is byte-identical to the accepted TIER01/WTA02 runs.
+
+**The LL sensitivity (ARMS01 Arm 1-LLx, optional).** With, in addition,
+``entry_level_block_ll_as_no_flag: true`` a lucky-loser code ``LL`` carries no flag: it
+contributes 0 to ``entry_ll_diff`` (then constant 0) and 0 to ``entry_any_qualifier``
+(``Q`` still counts). The column set, order and every other value are unchanged. The
+option is declared in the column dictionary and in ``summary.json``; without it the
+stage's output is byte-identical to the Arm 1 block.
 """
 
 from __future__ import annotations
@@ -236,6 +243,8 @@ ENTRY_LEVEL_SIGNED = ENTRY_SIGNED
 ENTRY_LEVEL_CONTEXT = ENTRY_CONTEXT + LEVEL_CONTEXT
 ENTRY_LEVEL_COLUMNS = ENTRY_LEVEL_SIGNED + ENTRY_LEVEL_CONTEXT
 ENTRY_LEVEL_BLOCK_KEY = "entry_level_block"
+# ARMS01 Arm 1-LLx: the registered LL-timing sensitivity treats LL as no flag.
+ENTRY_LL_AS_NO_FLAG_KEY = "entry_level_block_ll_as_no_flag"
 
 #: The barrier-protected label file: identity and chronology keys plus the outcome.
 LABEL_HEADER = (
@@ -808,16 +817,20 @@ def normalize_entry_code(code: str) -> str:
     return code.strip().upper()
 
 
-def entry_level_values(record: Record) -> dict[str, int]:
+def entry_level_values(record: Record, *, ll_as_no_flag: bool = False) -> dict[str, int]:
     """The entry/level block for one target, from its draw-time codes and its level.
 
     Signed columns are A minus B of a per-side indicator, so they negate exactly under a
     player swap; the two context columns are functions of the unordered pair and the
     event, so they do not.  Only Q, LL, WC and PR are flagged; SE, ALT, W, blank and any
     other code carry no flag.  Only G, M, A and F levels are indicated; any other level is
-    all-zero.  The round is deliberately not consulted.
+    all-zero.  The round is deliberately not consulted.  With ``ll_as_no_flag`` (ARMS01
+    Arm 1-LLx) LL is read as no flag too, so ``entry_ll_diff`` is 0 and LL does not set
+    ``entry_any_qualifier``.
     """
     codes = (normalize_entry_code(record.entry_a), normalize_entry_code(record.entry_b))
+    if ll_as_no_flag:
+        codes = tuple("" if code == "LL" else code for code in codes)
     values: dict[str, int] = {}
     for code, column in zip(ENTRY_CODES, ENTRY_SIGNED, strict=True):
         values[column] = int(codes[0] == code) - int(codes[1] == code)
@@ -857,6 +870,7 @@ def build_feature_row(
     rest_cap: int,
     *,
     entry_level: bool = False,
+    ll_as_no_flag: bool = False,
 ) -> dict[str, Any]:
     if (
         rank_a.snapshot_date != rank_b.snapshot_date
@@ -1044,7 +1058,7 @@ def build_feature_row(
         # Appended last: the raw codes verbatim (audit only) and the derived block.
         row["a_entry"] = record.entry_a
         row["b_entry"] = record.entry_b
-        row.update(entry_level_values(record))
+        row.update(entry_level_values(record, ll_as_no_flag=ll_as_no_flag))
     return row
 
 
@@ -1120,6 +1134,7 @@ def stream_rows(
     diverged: Counter[str] | None = None,
     *,
     entry_level: bool = False,
+    ll_as_no_flag: bool = False,
 ) -> Iterator[tuple[Record, dict[str, Any]]]:
     records = sorted(records, key=Record.order_key)
     if len({record.match_id for record in records}) != len(records):
@@ -1182,12 +1197,13 @@ def stream_rows(
                     windows,
                     rest_cap,
                     entry_level=entry_level,
+                    ll_as_no_flag=ll_as_no_flag,
                 ),
             )
         target_cursor = target_end
 
 
-def column_dictionary(entry_level: bool = False) -> dict[str, Any]:
+def column_dictionary(entry_level: bool = False, ll_as_no_flag: bool = False) -> dict[str, Any]:
     interactions = linear_interactions()
     rank_interactions = rank_global_interactions()
     linear = SIGNED_BASES + interactions + rank_interactions
@@ -1214,6 +1230,21 @@ def column_dictionary(entry_level: bool = False) -> dict[str, Any]:
             "tourney_level",
             "round",
         ]
+    if ll_as_no_flag:
+        if not entry_level:
+            raise ChainError(f"{ENTRY_LL_AS_NO_FLAG_KEY} needs {ENTRY_LEVEL_BLOCK_KEY}")
+        # Arm 1-LLx: same columns, LL read as no flag; declared so the file says so.
+        document["entry_level_ll_as_no_flag"] = True
+        semantics = document["entry_level_semantics"]
+        semantics["entry_codes"] = semantics["entry_codes"].replace(
+            "Q qualifier, LL lucky loser, WC wild card, PR protected ranking; SE,",
+            "Q qualifier, WC wild card, PR protected ranking; LL (lucky loser, the ARMS01 "
+            "Arm 1-LLx sensitivity), SE,",
+        )
+        semantics["entry_ll_diff"] = "constant 0: LL is read as no flag"
+        semantics["entry_any_qualifier"] = (
+            "1 when either side entered as Q (LL is read as no flag); symmetric under a player swap"
+        )
     return document
 
 
@@ -1330,6 +1361,7 @@ def write_features(
     diverged: Counter[str],
     *,
     entry_level: bool = False,
+    ll_as_no_flag: bool = False,
 ) -> tuple[list[Record], dict[str, Counter[Any]]]:
     """Write ``features.csv`` and return the targets in written order with their tallies."""
     feature_fields = feature_header(entry_level)
@@ -1343,7 +1375,12 @@ def write_features(
         writer = csv.DictWriter(stream, fieldnames=feature_fields, lineterminator="\n")
         writer.writeheader()
         for record, feature in stream_rows(
-            records, ranking, parameters, diverged, entry_level=entry_level
+            records,
+            ranking,
+            parameters,
+            diverged,
+            entry_level=entry_level,
+            ll_as_no_flag=ll_as_no_flag,
         ):
             write_csv_row(writer, feature, feature_fields)
             counts_summary["identity_tier"][record.identity_tier] += 1
@@ -1371,6 +1408,7 @@ def validate_written_outputs(
     entry_level = "entry_level_columns" in dictionary
     if entry_level and list(dictionary["entry_level_columns"]) != list(ENTRY_LEVEL_COLUMNS):
         raise ChainError("dictionary entry_level_columns differ from the declared block")
+    ll_as_no_flag = dictionary.get("entry_level_ll_as_no_flag", False) is True
     model_columns = list(
         dict.fromkeys(
             dictionary["linear_sports_model_features"]
@@ -1426,7 +1464,7 @@ def validate_written_outputs(
                 # The raw codes are copied verbatim and the block is recomputed from them.
                 if feature["a_entry"] != record.entry_a or feature["b_entry"] != record.entry_b:
                     raise ChainError(f"entry code copy mismatch for {record.match_id}")
-                for field, value in entry_level_values(record).items():
+                for field, value in entry_level_values(record, ll_as_no_flag=ll_as_no_flag).items():
                     if int(feature[field]) != value:
                         raise ChainError(f"wrong {field} for {record.match_id}")
                 if sum(int(feature[field]) for field in LEVEL_CONTEXT) > 1:
@@ -1499,7 +1537,7 @@ def validate_written_outputs(
     }
 
 
-def entry_level_receipts(records: list[Record]) -> dict[str, Any]:
+def entry_level_receipts(records: list[Record], ll_as_no_flag: bool = False) -> dict[str, Any]:
     """Coverage of the raw entry codes and levels per season, plus the events whose rows
     carry no entry code at all.
 
@@ -1533,8 +1571,23 @@ def entry_level_receipts(records: list[Record]) -> dict[str, Any]:
         event["rows_with_any_entry_code"] += int(
             bool(normalize_entry_code(record.entry_a) or normalize_entry_code(record.entry_b))
         )
+    ll_receipt: dict[str, Any] = {}
+    if ll_as_no_flag:
+        # Arm 1-LLx: the rows whose block the option changes (LL on either side).
+        ll_rows: Counter[str] = Counter(
+            str(record.source_season)
+            for record in records
+            if "LL" in (normalize_entry_code(record.entry_a), normalize_entry_code(record.entry_b))
+        )
+        ll_receipt = {
+            ENTRY_LL_AS_NO_FLAG_KEY: True,
+            "ll_either_side_rows_read_as_no_flag_by_season": dict(sorted(ll_rows.items())),
+        }
     return {
-        "flagged_entry_codes": list(ENTRY_CODES),
+        **ll_receipt,
+        "flagged_entry_codes": [
+            code for code in ENTRY_CODES if not (ll_as_no_flag and code == "LL")
+        ],
         "indicated_levels": list(LEVEL_CODES),
         "counts_by_season": {
             season: {name: dict(sorted(counter.items())) for name, counter in tallies.items()}
@@ -1592,11 +1645,20 @@ def load_config(path: Path) -> dict[str, Any]:
     flag = config.get(ENTRY_LEVEL_BLOCK_KEY, False)
     if not isinstance(flag, bool):
         raise ChainError(f"{ENTRY_LEVEL_BLOCK_KEY} must be true or false")
+    ll_flag = config.get(ENTRY_LL_AS_NO_FLAG_KEY, False)
+    if not isinstance(ll_flag, bool):
+        raise ChainError(f"{ENTRY_LL_AS_NO_FLAG_KEY} must be true or false")
+    if ll_flag and not flag:
+        raise ChainError(f"{ENTRY_LL_AS_NO_FLAG_KEY} needs {ENTRY_LEVEL_BLOCK_KEY}: true")
     return config
 
 
 def entry_level_enabled(config: Mapping[str, Any]) -> bool:
     return bool(config.get(ENTRY_LEVEL_BLOCK_KEY, False))
+
+
+def entry_ll_as_no_flag(config: Mapping[str, Any]) -> bool:
+    return bool(config.get(ENTRY_LL_AS_NO_FLAG_KEY, False))
 
 
 def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
@@ -1611,6 +1673,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=True)
     panel = config["panel"]
     entry_level = entry_level_enabled(config)
+    ll_as_no_flag = entry_ll_as_no_flag(config)
     records, rejections, input_header = load_records(
         resolve_under_root(panel["path"], label="panel"),
         panel["sha256"],
@@ -1620,7 +1683,7 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
         entry_level=entry_level,
     )
     ranking = prepare_rankings(records, config)
-    dictionary = column_dictionary(entry_level)
+    dictionary = column_dictionary(entry_level, ll_as_no_flag)
     atomic_json(output / "column_dictionary.json", dictionary)
     atomic_json(output / "resolved_config.json", config)
     write_csv_simple(output / "rejections.csv", rejections, ("source_row", "match_id", "reason"))
@@ -1629,7 +1692,13 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     labels_path = output / "labels.csv"
     diverged: Counter[str] = Counter()
     ordered, counts_summary = write_features(
-        features_path, records, ranking, config["parameters"], diverged, entry_level=entry_level
+        features_path,
+        records,
+        ranking,
+        config["parameters"],
+        diverged,
+        entry_level=entry_level,
+        ll_as_no_flag=ll_as_no_flag,
     )
     write_labels(labels_path, ordered)
     if len(ordered) != len(records):
@@ -1648,7 +1717,11 @@ def build(config_path: Path, overwrite: bool = False) -> dict[str, Any]:
     feature_fields = feature_header(entry_level)
     summary = {
         "status": config["status"],
-        **({"entry_level_block": entry_level_receipts(records)} if entry_level else {}),
+        **(
+            {"entry_level_block": entry_level_receipts(records, ll_as_no_flag)}
+            if entry_level
+            else {}
+        ),
         "input_rows": panel["rows"],
         "eligible_target_rows": len(records),
         "rejected_rows": len(rejections),
