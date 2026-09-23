@@ -1,0 +1,2826 @@
+{
+  "status": "independently_reconstructed",
+  "status_note": "Independently reconstructed (archive decision D133). The registered single scoring pass of the ARMS01 WTA secondary (wta_attempt_002) was reproduced from separate code: membership rebuilt byte-identical, all 24 forecast files plus labels, panel and manifest rehashed identical, every estimate within 1e-18 and every gate interval within 3e-18 (registered tolerances 1e-12 and 1e-14), blend weights and all 55 grid losses identical, same gate verdicts.",
+  "acceptance": {
+    "archive_decision": "D133",
+    "decision_scope": "adopt WTA full_entry as the WTA incumbent rung for the WTA01 2019-2024 cohort; the public-model claim is not supported on WTA (interval includes zero); release the WTA past-only logit blend with the BuildOak WTA adaptation as an attributed research artefact, not the default model; reported separately from ATP and never pooled with it",
+    "reconstruction_verdict": "ACCEPT",
+    "reconstruction_record": {
+      "archive_relative_path": "references/ARMS01/reconstruction/wta_attempt_002/RECONSTRUCTION.md",
+      "sha256": "c85bf48c738a4a3f8879a7cd353c3aaec9cf65de0a50a224ec6e67f73376e882"
+    },
+    "reconstruction_numbers": {
+      "archive_relative_path": "references/ARMS01/reconstruction/wta_attempt_002/reconstruction_atp.json",
+      "sha256": "3012672e6e3aa884be163fc7f3eb9470ae66455204b9e87a7986470271318af9"
+    },
+    "reconstruction_numbers_note": "file name kept by the shared reconstruction code; its content is the WTA secondary"
+  },
+  "experiment_id": "ARMS01",
+  "attempt": "wta_attempt_002",
+  "tour": "WTA",
+  "scope": "exposed_retrospective_WTA_2019_2024_walk_forward_full_system_comparison_secondary_to_ATP",
+  "registration": {
+    "design": {
+      "archive_relative_path": "experiments/ARMS01.design.md",
+      "sha256": "bd7880416e76a6c7bd9f768b7b384548446a590ac76a526913971efe6ab07715"
+    },
+    "record": {
+      "archive_relative_path": "experiments/ARMS01.json",
+      "sha256": "7dbd8729ed14cbec79442a3462bdacffe9ffec55d389b191bd7c0d3a5a9ae1a1"
+    },
+    "freeze": {
+      "archive_relative_path": "references/ARMS01/FREEZE_2026-09-22.json",
+      "sha256": "81e7d6031aca8e1a7b616217d066beb447448d40c762b67344155a60f88d2883"
+    },
+    "frozen_at_utc": "2026-09-22T21:30:44.037833+00:00",
+    "archive_decision": "D130",
+    "wta_section": "experiments/ARMS01.design.md 'WTA secondary': same design, own gates, cohort WTA01 2019-2024, never pooled with ATP",
+    "execution_declarations": {
+      "archive_relative_path": "references/ARMS01/wta/WTA_EXECUTION_DECLARATIONS.md",
+      "sha256": "19e6ff32f42ff1337f84e3fddeba960c116dc90f5616f6a5dedf25b3d7662447"
+    },
+    "level_mapping_note": {
+      "archive_relative_path": "references/ARMS01/wta/LEVEL_MAPPING.md",
+      "sha256": "da684e57818852827b7587f59473ed3faaccff8c23c926a33646d0d5e3a2ed20"
+    },
+    "level_map": {
+      "archive_relative_path": "references/ARMS01/wta/level_map.wta.json",
+      "sha256": "16e88b71a16ee261936ab914159f029c67f876f3ba31d36d832a3b2a03e70009"
+    },
+    "level_map_declared_at_utc": "2026-09-23T01:50:00Z (before any WTA Arm 1 fit)",
+    "attempt_arm1_product_commit": "81a95a99ba1963fca8f6e4dab8132d86aac597ae",
+    "attempt_arm1_chain_config": "configs/chains/wta01_arms01_attempt002_2019_2024.json",
+    "attempt_arm1_chain_config_sha256": "fcece3c06091984451d258c8517f5d345b053e47c1191fc708408e3afa025d8c",
+    "implemented_variant_chain_config": "configs/chains/wta01_arms01_2019_2024.json",
+    "implemented_variant_chain_config_sha256": "f920cbd356835d2718a08ad1282ec181d391b20efb44ac81593ee99002f472c8"
+  },
+  "endpoint": {
+    "gated_metric": "log_loss",
+    "estimand": "match-weighted paired log-loss difference, left minus right, on identical matches; negative favours the left",
+    "log_loss_clip": 1e-15,
+    "descriptive_metrics": [
+      "brier",
+      "accuracy (0.5 credit at p = 0.5)"
+    ],
+    "note": "Brier and winner accuracy are descriptive companions; log loss is the sole gated endpoint."
+  },
+  "cohort": {
+    "definition": "all WTA01 2019-2024 primary targets from experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/<Y>/hgb/full.csv with primary_target = 1; 244 provisional-identity rows excluded; neutral orientation; retirements retained",
+    "years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "n": 12900,
+    "n_by_year": {
+      "2019": 2337,
+      "2020": 1019,
+      "2021": 2363,
+      "2022": 2324,
+      "2023": 2453,
+      "2024": 2404
+    },
+    "membership_sha256": "69f3bb334de177ecacc49e11fe5a865f851f2f5d1138ffb58156cd2a204f2797",
+    "rows_outside_membership_ignored": {
+      "arm0": 244,
+      "arm1": 244,
+      "buildoak": 0,
+      "arm1_impl": 244
+    },
+    "clipped_rows": {
+      "arm0": 0,
+      "arm1": 0,
+      "buildoak": 0,
+      "arm1_impl": 0
+    },
+    "ties_at_half": {
+      "arm0": 0,
+      "arm1": 0,
+      "buildoak": 0,
+      "arm1_impl": 0
+    },
+    "priced_subset": "none; the WTA secondary registered no market reference line"
+  },
+  "systems": {
+    "arm0": {
+      "label": "full",
+      "role": "WTA incumbent at registration; saved WTA01 attempt 001 selected, calibrated HGB forecasts, no refit"
+    },
+    "arm1": {
+      "label": "full_entry",
+      "role": "full plus nine declared model columns, refit on the unchanged trunk (WTA has no tier block)",
+      "added_model_columns": [
+        "entry_q_diff",
+        "entry_ll_diff",
+        "entry_wc_diff",
+        "entry_pr_diff",
+        "entry_any_qualifier",
+        "level_context_g",
+        "level_context_m",
+        "level_context_a",
+        "level_context_f"
+      ],
+      "any_qualifier_definition": "1 when either side entered as Q, as the registered design text says; the LL signed difference is kept.",
+      "level_map": {
+        "G": "level_context_g",
+        "PM": "level_context_m",
+        "P": "level_context_a",
+        "I": "level_context_a",
+        "W": "level_context_a",
+        "F": "level_context_f",
+        "other": "all four zero"
+      },
+      "level_flag_counts_on_cohort": {
+        "g": 2858,
+        "m": 1405,
+        "a": 8534,
+        "f": 103,
+        "all_zero": 0
+      }
+    },
+    "buildoak": {
+      "label": "BuildOak XGBoost WTA adaptation",
+      "source_repository": "buildoak/tennis-xgboost-autoresearch",
+      "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+      "adaptation": "the accepted WTA 2024 adapter (BUILDOAK_EXTENSION attempt 001) replayed walk-forward: one fit per 30 December boundary (2018-12-30 for 2019 targets through 2022-12-30 for 2023), fit-boundary Elo reference, D-2 releases, native menu and blend-activation rules evaluated at each boundary; the accepted WTA 2024 forecasts reused byte-for-byte",
+      "extension_code_commit": "13ba1287d3fde8d5b3ccbc3dbe7d9f0150ab0154",
+      "image_id": "sha256:2cafed7f4ec6c964602c61b9802dfa59a8e2fd8e7d62ad5cbdaf74f47d820fa7",
+      "attempt_ids_2019_2023": [
+        "arms01-wta-2019-attempt-001",
+        "arms01-wta-2020-attempt-001",
+        "arms01-wta-2021-attempt-001",
+        "arms01-wta-2022-attempt-001",
+        "arms01-wta-2023-attempt-001"
+      ],
+      "reproduction_2024": "arms01-wta-2024-reproduction-002 byte-identical to the accepted WTA 2024 run (the -001 attempt was interrupted by a host power loss before any fit and is retained)",
+      "forecast_commitment_sha256": {
+        "2019": "21aa58826ed1e246b8b7458ca8b1523b0af5493a5edd5b86e5ee323eb52523b9",
+        "2020": "859383564caec4836d9c4ee15346ba8b6e340c52dcc820f739986a7f03ffa82c",
+        "2021": "df9b5a424f634a4b2fb8517ae28d4d67739d3d8054263680390b8d3e0e64d842",
+        "2022": "da0fea8325f0888d91ea22ab885dddc04fdcf03198eb0f7480a9b1e9b49cbc5d",
+        "2023": "3930bf690bc5407b40ad87c77d17be715ff3ad4fb9be10ef150bbbb390c2bfd4",
+        "2024_reproduction": "e5b578ae62ea2de8f3e147c55e7564071147248e2a7d8ee21ddc09bd8c51b518"
+      },
+      "native_rows": "all 12,900 forecasts native; no reason-coded fallback row",
+      "members": "2019-2023: four members (two global models blended 0.65/0.35 with 800 and 650 trees, a Hard specialist and a level-I specialist with 900 trees each); 2024: six members, adding the recent-era WTA global pair (800 and 650 trees, weight 0.35)",
+      "structural_break": "the recent-era blend activates only when the recent rows reach the frozen 15,000 threshold: 5,624 / 8,330 / 9,637 / 12,234 / 14,828 recent rows for 2019-2023 (inactive), 17,638 for 2024 (active). The 2019-2023 BuildOak forecasts therefore come from a structurally different recipe than the 2024 forecasts; the pooled contrasts mix both regimes.",
+      "independent_rerun_2019_2023": false
+    }
+  },
+  "scores": {
+    "arm0": {
+      "n": 12900,
+      "match_weighted": {
+        "log_loss": 0.6104287511922198,
+        "brier": 0.21164571917560912,
+        "accuracy": 0.6579069767441861
+      },
+      "equal_year": {
+        "log_loss": 0.6110630148803847,
+        "brier": 0.21194212952800476,
+        "accuracy": 0.6570868378814908
+      },
+      "by_year": {
+        "2019": {
+          "log_loss": 0.6189561892057615,
+          "brier": 0.21521274855978761,
+          "accuracy": 0.6491228070175439
+        },
+        "2020": {
+          "log_loss": 0.6168349019521963,
+          "brier": 0.21465282842616248,
+          "accuracy": 0.6496565260058881
+        },
+        "2021": {
+          "log_loss": 0.6005483689908557,
+          "brier": 0.2067667845365547,
+          "accuracy": 0.6766821836648328
+        },
+        "2022": {
+          "log_loss": 0.6132400871986895,
+          "brier": 0.21308326716350867,
+          "accuracy": 0.6518932874354562
+        },
+        "2023": {
+          "log_loss": 0.612776688368634,
+          "brier": 0.21253106359667265,
+          "accuracy": 0.6600081532816959
+        },
+        "2024": {
+          "log_loss": 0.6040218535661718,
+          "brier": 0.20940608488534254,
+          "accuracy": 0.6551580698835274
+        }
+      }
+    },
+    "arm1": {
+      "n": 12900,
+      "match_weighted": {
+        "log_loss": 0.6092370858995091,
+        "brier": 0.21111306755118506,
+        "accuracy": 0.6615503875968992
+      },
+      "equal_year": {
+        "log_loss": 0.6096893312942526,
+        "brier": 0.21134219025085296,
+        "accuracy": 0.6601080300160187
+      },
+      "by_year": {
+        "2019": {
+          "log_loss": 0.6177417854873938,
+          "brier": 0.21469390422207527,
+          "accuracy": 0.6551133932391956
+        },
+        "2020": {
+          "log_loss": 0.6138302373941813,
+          "brier": 0.2134594230470314,
+          "accuracy": 0.6467124631992149
+        },
+        "2021": {
+          "log_loss": 0.6000478610221549,
+          "brier": 0.20652593481489875,
+          "accuracy": 0.6783749471011427
+        },
+        "2022": {
+          "log_loss": 0.6109840514885947,
+          "brier": 0.21203661222868042,
+          "accuracy": 0.6561962134251291
+        },
+        "2023": {
+          "log_loss": 0.6127297623461119,
+          "brier": 0.21255314368790695,
+          "accuracy": 0.6632694659600489
+        },
+        "2024": {
+          "log_loss": 0.6028022900270792,
+          "brier": 0.208784123504525,
+          "accuracy": 0.660981697171381
+        }
+      }
+    },
+    "buildoak": {
+      "n": 12900,
+      "match_weighted": {
+        "log_loss": 0.6118448643376622,
+        "brier": 0.21237137505490286,
+        "accuracy": 0.6606976744186046
+      },
+      "equal_year": {
+        "log_loss": 0.6121822850849791,
+        "brier": 0.2126057200153567,
+        "accuracy": 0.659993897653899
+      },
+      "by_year": {
+        "2019": {
+          "log_loss": 0.6251424242334637,
+          "brier": 0.2179704099569499,
+          "accuracy": 0.6504065040650406
+        },
+        "2020": {
+          "log_loss": 0.6147610753848046,
+          "brier": 0.2145759452007586,
+          "accuracy": 0.6535819430814525
+        },
+        "2021": {
+          "log_loss": 0.5978093440344462,
+          "brier": 0.20620309560660996,
+          "accuracy": 0.6699111299195938
+        },
+        "2022": {
+          "log_loss": 0.618344821321798,
+          "brier": 0.21486951258705866,
+          "accuracy": 0.6622203098106713
+        },
+        "2023": {
+          "log_loss": 0.6119973578134232,
+          "brier": 0.21227392252540125,
+          "accuracy": 0.6628618018752548
+        },
+        "2024": {
+          "log_loss": 0.6050386877219381,
+          "brier": 0.20974143421536162,
+          "accuracy": 0.660981697171381
+        }
+      }
+    }
+  },
+  "contrasts": {
+    "contrast1_arm1_minus_arm0": {
+      "left": "arm1",
+      "right": "arm0",
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "n": 12900,
+      "left_match_weighted": {
+        "log_loss": 0.6092370858995091,
+        "brier": 0.21111306755118506,
+        "accuracy": 0.6615503875968992
+      },
+      "right_match_weighted": {
+        "log_loss": 0.6104287511922198,
+        "brier": 0.21164571917560912,
+        "accuracy": 0.6579069767441861
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": -0.0011916652927106426,
+          "brier": -0.0005326516244240165,
+          "accuracy": 0.0036434108527131784
+        },
+        "equal_year_log_loss": -0.0013736835861320965,
+        "annual_log_loss": {
+          "2019": -0.0012144037183676422,
+          "2020": -0.003004664558014952,
+          "2021": -0.000500507968700864,
+          "2022": -0.0022560357100946515,
+          "2023": -4.692602252201195e-05,
+          "2024": -0.0012195635390924572
+        },
+        "years_negative": 6,
+        "years_positive": 0,
+        "correct_credit_delta": 47.0
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.0019852417117385327,
+        "upper": -0.0004662636219964889,
+        "excludes_zero": true,
+        "favours_left": true
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            -0.0019687975445878787,
+            -0.00046258607023536247
+          ],
+          "8": [
+            -0.0019852417117385327,
+            -0.0004662636219964889
+          ],
+          "13": [
+            -0.001979055321646125,
+            -0.0004909043020163279
+          ]
+        },
+        "brier": {
+          "4": [
+            -0.0008666630906125873,
+            -0.00022073660933241934
+          ],
+          "8": [
+            -0.000878704518172743,
+            -0.00021931834331183098
+          ],
+          "13": [
+            -0.000860877110128982,
+            -0.00022872825184265243
+          ]
+        },
+        "accuracy": {
+          "4": [
+            0.0012101729739220689,
+            0.00612671893507095
+          ],
+          "8": [
+            0.0011889765922936202,
+            0.006005868379882748
+          ],
+          "13": [
+            0.0011593207993948799,
+            0.0060066799288592335
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.0003899638322117946,
+        "8": 0.0003908696799317054,
+        "13": 0.00038418316810742367
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "4da6ab0b3a4de0abb82603bedb4e5c308a62914c18b62b94b6b6b3600fd5968e",
+          "joint_draw_sha256": "cbbe6978f4201fc3b88c9180cfb1fbc5344ea1ee9c97a51a2932c6887642bc3e"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "068c1c05b7135066ba9709477455971f1958dc728d33308579e30fa35187892e",
+          "joint_draw_sha256": "d28dde32723dffe8168b93b8b73ee01528f8a92abfc9b7b1d1a08bc3e19465b6"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "cae9e7276d63c3145177e79a5fb943065a5a16401d526d980239e441419389d4",
+          "joint_draw_sha256": "317d4f48018209f74679a81d59e2008babd95ddb3b69f1ab75ccb1a4874aca7f"
+        }
+      },
+      "grid": {
+        "first_monday": "2018-12-31",
+        "last_monday": "2024-11-04",
+        "weeks_including_empty": 306,
+        "nonempty_weeks": 192
+      },
+      "equal_year_interval_log_loss": {
+        "draws_attempted": 5003,
+        "empty_draws_skipped": 3,
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          -0.0019798149990419684,
+          -0.0007031728452157618
+        ],
+        "bootstrap_sd": 0.0003283749838394973,
+        "draw_sha256": "197350f8ec2580cb3cf853db8eec91a1459183059bec65885c8b8999145a9da2"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.049427713845630765,
+        "iid_se": 0.0004351867545298919,
+        "bootstrap_se_block_primary": 0.0003908696799317054,
+        "design_effect_week_block": 0.8067010629500951,
+        "effective_sd": 0.04439426174968887
+      },
+      "orientation_control_max_error": 1.3322676295501878e-15
+    },
+    "contrast2_arm1_minus_buildoak": {
+      "left": "arm1",
+      "right": "buildoak",
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "n": 12900,
+      "left_match_weighted": {
+        "log_loss": 0.6092370858995091,
+        "brier": 0.21111306755118506,
+        "accuracy": 0.6615503875968992
+      },
+      "right_match_weighted": {
+        "log_loss": 0.6118448643376622,
+        "brier": 0.21237137505490286,
+        "accuracy": 0.6606976744186046
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": -0.002607778438153049,
+          "brier": -0.0012583075037177849,
+          "accuracy": 0.0008527131782945736
+        },
+        "equal_year_log_loss": -0.002492953790726299,
+        "annual_log_loss": {
+          "2019": -0.007400638746069815,
+          "2020": -0.0009308379906232308,
+          "2021": 0.002238516987708657,
+          "2022": -0.0073607698332032465,
+          "2023": 0.0007324045326887648,
+          "2024": -0.002236397694858923
+        },
+        "years_negative": 4,
+        "years_positive": 2,
+        "correct_credit_delta": 11.0
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.005776920678769269,
+        "upper": 0.00037878990120365904,
+        "excludes_zero": false,
+        "favours_left": false
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            -0.005795729742080141,
+            0.00038895048707660745
+          ],
+          "8": [
+            -0.005776920678769269,
+            0.00037878990120365904
+          ],
+          "13": [
+            -0.005900744359750701,
+            0.00044071930416822
+          ]
+        },
+        "brier": {
+          "4": [
+            -0.002575658321770259,
+            -3.0715838146218255e-05
+          ],
+          "8": [
+            -0.002554336728281799,
+            -5.326399088481718e-05
+          ],
+          "13": [
+            -0.0026069636225021704,
+            -1.909613131200772e-05
+          ]
+        },
+        "accuracy": {
+          "4": [
+            -0.005459857151537691,
+            0.007465743624692339
+          ],
+          "8": [
+            -0.005542925239636635,
+            0.006960342499583021
+          ],
+          "13": [
+            -0.0052028411560312805,
+            0.006771475475412381
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.001572322290694048,
+        "8": 0.0015804486587833787,
+        "13": 0.001627501101319861
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "8139bbfb261641dd2655096aab2937a1594329882b150550bbd9899ac9c157c4",
+          "joint_draw_sha256": "cf56e62ddd6bb931eba79fcd44311cf3c635e7cf15d10cdf42394ab318816f9e"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "79b8aba3e21c9b5b825d4e9ae20993c4e48222f836495a78bda7f1cde62ad201",
+          "joint_draw_sha256": "c7ce1536ee647c62505c8d306a33ab8fa56126cd4ce47ba7b6dd41d783119e6b"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "580fe11868d373c15794adf7129c645b0bf847d1c24be0f8918e6059a4ec49f8",
+          "joint_draw_sha256": "cb4bafe50893a6ec2abed5193ab88016dd9263dd8594b7e66cb4333d88eff52b"
+        }
+      },
+      "grid": {
+        "first_monday": "2018-12-31",
+        "last_monday": "2024-11-04",
+        "weeks_including_empty": 306,
+        "nonempty_weeks": 192
+      },
+      "equal_year_interval_log_loss": {
+        "draws_attempted": 5003,
+        "empty_draws_skipped": 3,
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          -0.004911864908164438,
+          -3.671632716116267e-05
+        ],
+        "bootstrap_sd": 0.0012724828164114082,
+        "draw_sha256": "7dbbda89d55ad6d92010e997d1b619819fff5d74ac5302693fc7ec662b827764"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.17689088621006047,
+        "iid_se": 0.0015574374108439054,
+        "bootstrap_se_block_primary": 0.0015804486587833787,
+        "design_effect_week_block": 1.02976844422291,
+        "effective_sd": 0.17950446156947555
+      },
+      "orientation_control_max_error": 8.881784197001252e-16
+    },
+    "contrast3_blend": {
+      "alcaraz_component": "arm1",
+      "external_component": "buildoak",
+      "form": "blend logit = (1 - w) * logit(Alcaraz) + w * logit(BuildOak)",
+      "weight_grid": [
+        0.0,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "rule": "per target year, minimise match-weighted log loss over the preceding 3 target years' saved forecasts; ties to the smaller weight; never fitted on the target year",
+      "selection": {
+        "2020": {
+          "weight": 0.3,
+          "fit_years": [
+            2019
+          ],
+          "fit_n": 2337,
+          "status": "secondary_short_lookback",
+          "grid_log_loss": {
+            "0.00": 0.6177417854873938,
+            "0.05": 0.6172761973942335,
+            "0.10": 0.6169028964516949,
+            "0.15": 0.6166212982702125,
+            "0.20": 0.6164307784365413,
+            "0.25": 0.6163306749577171,
+            "0.30": 0.6163202907542354,
+            "0.35": 0.6163988961750874,
+            "0.40": 0.6165657315088643,
+            "0.45": 0.6168200094674292,
+            "0.50": 0.6171609176214622
+          }
+        },
+        "2021": {
+          "weight": 0.35,
+          "fit_years": [
+            2019,
+            2020
+          ],
+          "fit_n": 3356,
+          "status": "secondary_short_lookback",
+          "grid_log_loss": {
+            "0.00": 0.6165541014865048,
+            "0.05": 0.6160172586629066,
+            "0.10": 0.6155697193828031,
+            "0.15": 0.615210899497294,
+            "0.20": 0.6149401815468991,
+            "0.25": 0.6147569169194026,
+            "0.30": 0.6146604280243787,
+            "0.35": 0.6146500104629773,
+            "0.40": 0.6147249351729998,
+            "0.45": 0.6148844505312219,
+            "0.50": 0.6151277843972172
+          }
+        },
+        "2022": {
+          "weight": 0.4,
+          "fit_years": [
+            2019,
+            2020,
+            2021
+          ],
+          "fit_n": 5719,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.6097339849945904,
+            "0.05": 0.6090497553238525,
+            "0.10": 0.6084537226932546,
+            "0.15": 0.6079453016003373,
+            "0.20": 0.607523870156306,
+            "0.25": 0.6071887722881704,
+            "0.30": 0.6069393200533015,
+            "0.35": 0.6067747960345533,
+            "0.40": 0.6066944557820941,
+            "0.45": 0.6066975302678778,
+            "0.50": 0.6067832283201122
+          }
+        },
+        "2023": {
+          "weight": 0.4,
+          "fit_years": [
+            2020,
+            2021,
+            2022
+          ],
+          "fit_n": 5706,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.6069633794531225,
+            "0.05": 0.6062994149956792,
+            "0.10": 0.6057200360981102,
+            "0.15": 0.6052248876871552,
+            "0.20": 0.6048135774087363,
+            "0.25": 0.6044856773429433,
+            "0.30": 0.604240725901782,
+            "0.35": 0.6040782298714915,
+            "0.40": 0.6039976665577366,
+            "0.45": 0.6039984859908358,
+            "0.50": 0.6040801131492635
+          }
+        },
+        "2024": {
+          "weight": 0.45,
+          "fit_years": [
+            2021,
+            2022,
+            2023
+          ],
+          "fit_n": 7140,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.6079644451386357,
+            "0.05": 0.6072540020218087,
+            "0.10": 0.6066278479726046,
+            "0.15": 0.6060857845011234,
+            "0.20": 0.6056275710026614,
+            "0.25": 0.6052529261265878,
+            "0.30": 0.604961529395402,
+            "0.35": 0.6047530230353582,
+            "0.40": 0.6046270139748796,
+            "0.45": 0.6045830759642864,
+            "0.50": 0.60462075177012
+          }
+        }
+      },
+      "primary_years": [
+        2022,
+        2023,
+        2024
+      ],
+      "secondary_years": [
+        2020,
+        2021
+      ],
+      "excluded_years": [
+        2019
+      ],
+      "blend_scores": {
+        "primary": {
+          "n": 7181,
+          "match_weighted": {
+            "log_loss": 0.6064321611837141,
+            "brier": 0.21013261949402065,
+            "accuracy": 0.6624425567469712
+          },
+          "equal_year": {
+            "log_loss": 0.6064574673940313,
+            "brier": 0.2101444271730225,
+            "accuracy": 0.6624012360608642
+          },
+          "by_year": {
+            "2022": {
+              "log_loss": 0.6099996589057074,
+              "brier": 0.21163224913090226,
+              "accuracy": 0.6622203098106713
+            },
+            "2023": {
+              "log_loss": 0.6085319862643979,
+              "brier": 0.21084309684073566,
+              "accuracy": 0.6681614349775785
+            },
+            "2024": {
+              "log_loss": 0.6008407570119884,
+              "brier": 0.2079579355474296,
+              "accuracy": 0.6568219633943427
+            }
+          }
+        },
+        "secondary": {
+          "n": 3382,
+          "match_weighted": {
+            "log_loss": 0.6001890894042061,
+            "brier": 0.20709939308442454,
+            "accuracy": 0.6712004730928445
+          },
+          "equal_year": {
+            "log_loss": 0.6032219246716932,
+            "brier": 0.20861571742170226,
+            "accuracy": 0.6656318771110226
+          },
+          "by_year": {
+            "2020": {
+              "log_loss": 0.6108536574653253,
+              "brier": 0.21243134905017938,
+              "accuracy": 0.6516192345436702
+            },
+            "2021": {
+              "log_loss": 0.5955901918780613,
+              "brier": 0.20480008579322515,
+              "accuracy": 0.6796445196783749
+            }
+          }
+        }
+      },
+      "primary_blend_minus_arm1": {
+        "left": "blend",
+        "right": "arm1",
+        "years": [
+          2022,
+          2023,
+          2024
+        ],
+        "n": 7181,
+        "left_match_weighted": {
+          "log_loss": 0.6064321611837141,
+          "brier": 0.21013261949402065,
+          "accuracy": 0.6624425567469712
+        },
+        "right_match_weighted": {
+          "log_loss": 0.608841351889654,
+          "brier": 0.2111242140636077,
+          "accuracy": 0.6602144548113076
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.0024091907059397744,
+            "brier": -0.0009915945695870903,
+            "accuracy": 0.0022281019356635567
+          },
+          "equal_year_log_loss": -0.0023812338932307987,
+          "annual_log_loss": {
+            "2022": -0.000984392582887411,
+            "2023": -0.00419777608171411,
+            "2024": -0.0019615330150908766
+          },
+          "years_negative": 3,
+          "years_positive": 0,
+          "correct_credit_delta": 16.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.0040240346383232884,
+          "upper": -0.0007837037399588669,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.003982518067902938,
+              -0.0008034001691856408
+            ],
+            "8": [
+              -0.0040240346383232884,
+              -0.0007837037399588669
+            ],
+            "13": [
+              -0.004037837082235131,
+              -0.0007687858203292844
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0016700401951603597,
+              -0.00027227091669229425
+            ],
+            "8": [
+              -0.0016984008446008793,
+              -0.0002472766293283546
+            ],
+            "13": [
+              -0.0017040877554373027,
+              -0.0002370907380179198
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.0031050089607585324,
+              0.0077731802448432535
+            ],
+            "8": [
+              -0.003106886063904293,
+              0.007774005500977661
+            ],
+            "13": [
+              -0.003055904071658315,
+              0.00755524824824695
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0008243030902990814,
+          "8": 0.0008371095916336986,
+          "13": 0.0008414677356202829
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "58b539ce4055a203a07322c4a46af360c3a67c1ee9b54648bfe2097058f6dd09",
+            "joint_draw_sha256": "21dfce803ab00d5660980aa3d6ede190543fe1be5137bca8063e8450604ea0f3"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "60c038689ded4712119b6590bbdfe2463e150a5fc6899f25f5d923f3d710e069",
+            "joint_draw_sha256": "b9873bf834e7e240846994c50e47b2e1bc41b890f0997f386b75b70c1ef50c9d"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "20b86ca1413ae72be3a15ba8f2486039c66b804d9c2332f07af846ecdcc13f02",
+            "joint_draw_sha256": "4f5bbe6c2c3656d12cd39de7fd0be0098ac09e6171113dd8c7fd5b9387b24fce"
+          }
+        },
+        "grid": {
+          "first_monday": "2022-01-03",
+          "last_monday": "2024-11-04",
+          "weeks_including_empty": 149,
+          "nonempty_weeks": 104
+        },
+        "equal_year_interval_log_loss": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.003604080458526997,
+            -0.0011699481427995258
+          ],
+          "bootstrap_sd": 0.0006260020546331134,
+          "draw_sha256": "5fdc159862421d7f0ec3a3c163135aef1d0a9721009b69d2aad71a814bcb43a0"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.07275613938627878,
+          "iid_se": 0.0008585729131572349,
+          "bootstrap_se_block_primary": 0.0008371095916336986,
+          "design_effect_week_block": 0.9506272741769012,
+          "effective_sd": 0.07093732075302317
+        },
+        "orientation_control_max_error": 1.3322676295501878e-15
+      },
+      "primary_blend_minus_buildoak": {
+        "left": "blend",
+        "right": "buildoak",
+        "years": [
+          2022,
+          2023,
+          2024
+        ],
+        "n": 7181,
+        "left_match_weighted": {
+          "log_loss": 0.6064321611837141,
+          "brier": 0.21013261949402065,
+          "accuracy": 0.6624425567469712
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6117220287914951,
+          "brier": 0.21226613104872064,
+          "accuracy": 0.6620247876340343
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.005289867607780696,
+            "brier": -0.002133511554700006,
+            "accuracy": 0.0004177691129369169
+          },
+          "equal_year_log_loss": -0.005336154891688601,
+          "annual_log_loss": {
+            "2022": -0.008345162416090656,
+            "2023": -0.003465371549025344,
+            "2024": -0.004197930709949801
+          },
+          "years_negative": 3,
+          "years_positive": 0,
+          "correct_credit_delta": 3.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.007832842935883856,
+          "upper": -0.0027879406488386335,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.007842250891281752,
+              -0.0027851537663447596
+            ],
+            "8": [
+              -0.007832842935883856,
+              -0.0027879406488386335
+            ],
+            "13": [
+              -0.00786556898212844,
+              -0.0027950102247117185
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0032005614970984815,
+              -0.0011242369363121355
+            ],
+            "8": [
+              -0.0031998476035072884,
+              -0.0011116562209636555
+            ],
+            "13": [
+              -0.0032054856763925666,
+              -0.0011043686584029115
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.005701921299149514,
+              0.006586828745195754
+            ],
+            "8": [
+              -0.005477208228145749,
+              0.0061915477810495214
+            ],
+            "13": [
+              -0.0051219048547138666,
+              0.005573076993832282
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0012807006803316155,
+          "8": 0.0012893304682975468,
+          "13": 0.001284937985936288
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "92fd05cdcf3a49fd7232db0700905b5692466e4394c6dcefcbedf6ddecdd1928",
+            "joint_draw_sha256": "fa8af5223ad2f63921e7cc537d5fee53641f0773e71ca6cab309826bc32804cf"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "50528f7457cac873aced5ca74a56c1742ec6da89dcdc57799cefb48b0c1f25a2",
+            "joint_draw_sha256": "7770d74d98245a11b71c0084a464ab162a74cced3bb636782598749fac139cbf"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "f6b7a281f88e4249f2607193fa71f2f8e63036288ac4d365c9e6443154b158e3",
+            "joint_draw_sha256": "33c20e3a59c54f8d22a24f460cc6b71925fa43cf723da16694bf2827e4250eb2"
+          }
+        },
+        "grid": {
+          "first_monday": "2022-01-03",
+          "last_monday": "2024-11-04",
+          "weeks_including_empty": 149,
+          "nonempty_weeks": 104
+        },
+        "equal_year_interval_log_loss": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.007193559848900017,
+            -0.003437468473522299
+          ],
+          "bootstrap_sd": 0.0009728668122400441,
+          "draw_sha256": "9a35ed5915b70d384d3e75cc424943bec368a0bc848858d9ae89a75379ce0325"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.10421731461366464,
+          "iid_se": 0.001229836604361569,
+          "bootstrap_se_block_primary": 0.0012893304682975468,
+          "design_effect_week_block": 1.099091024104998,
+          "effective_sd": 0.10925887112077236
+        },
+        "orientation_control_max_error": 8.881784197001252e-16
+      },
+      "secondary_blend_minus_arm1": {
+        "left": "blend",
+        "right": "arm1",
+        "years": [
+          2020,
+          2021
+        ],
+        "n": 3382,
+        "left_match_weighted": {
+          "log_loss": 0.6001890894042061,
+          "brier": 0.20709939308442454,
+          "accuracy": 0.6712004730928445
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6042005048787769,
+          "brier": 0.20861500178963063,
+          "accuracy": 0.6688350088704909
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.004011415474570567,
+            "brier": -0.0015156087052060816,
+            "accuracy": 0.002365464222353637
+          },
+          "equal_year_log_loss": -0.003717124536474865,
+          "annual_log_loss": {
+            "2020": -0.0029765799288560698,
+            "2021": -0.004457669144093661
+          },
+          "years_negative": 2,
+          "years_positive": 0,
+          "correct_credit_delta": 8.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.005361417652352046,
+          "upper": -0.002554768911322612,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.0056144779849401465,
+              -0.0024129639710619454
+            ],
+            "8": [
+              -0.005361417652352046,
+              -0.002554768911322612
+            ],
+            "13": [
+              -0.005187551697129014,
+              -0.002673273849530913
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0022143215796715213,
+              -0.0008311832796833238
+            ],
+            "8": [
+              -0.002105891979903015,
+              -0.0008957015777870175
+            ],
+            "13": [
+              -0.0020232391690534037,
+              -0.0009226861015338585
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.0034171983730371144,
+              0.00831423607579487
+            ],
+            "8": [
+              -0.0028080274569038614,
+              0.008542352956841316
+            ],
+            "13": [
+              -0.002560819462227913,
+              0.008373028845405433
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0008097851495617864,
+          "8": 0.000707008397786997,
+          "13": 0.0006369644710543901
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "8a92ba88ad8f12b582a3f21bdee8248768852cfbb43654a99f2959d664752a16",
+            "joint_draw_sha256": "02235dbe58ebf00bf552466d98289ea37a3c3ad29732ce76c2fdbf25e800218c"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "fd62f1f416df28540c04450e2c163f44bba1a569c46a389072471ab6629b4b15",
+            "joint_draw_sha256": "9c4279b0e532599fadd14dbeeec4e534ea410c7287307692ea2085cef77d0c82"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "9c9c05cf85590c6b49576e8b9b85c0140d05d463a192af2a8c3d9230e60b0081",
+            "joint_draw_sha256": "9c3cc8c1f02749b6d48e0d5db6a80d6b32d28a5a858992f34535e15fa2db4a15"
+          }
+        },
+        "grid": {
+          "first_monday": "2020-01-06",
+          "last_monday": "2021-11-08",
+          "weeks_including_empty": 97,
+          "nonempty_weeks": 52
+        },
+        "equal_year_interval_log_loss": {
+          "draws_attempted": 5006,
+          "empty_draws_skipped": 6,
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.005031989511966805,
+            -0.002383635188457855
+          ],
+          "bootstrap_sd": 0.0006808908644309267,
+          "draw_sha256": "c8103f2eb01f24951e048705458feb331e0da1d00699e348873ae1e7be0b2351"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.058339553014146825,
+          "iid_se": 0.001003174064651243,
+          "bootstrap_se_block_primary": 0.000707008397786997,
+          "design_effect_week_block": 0.4967027372162723,
+          "effective_sd": 0.041116048906707954
+        },
+        "orientation_control_max_error": 4.440892098500626e-16
+      },
+      "secondary_blend_minus_buildoak": {
+        "left": "blend",
+        "right": "buildoak",
+        "years": [
+          2020,
+          2021
+        ],
+        "n": 3382,
+        "left_match_weighted": {
+          "log_loss": 0.6001890894042061,
+          "brier": 0.20709939308442454,
+          "accuracy": 0.6712004730928445
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6029169177322626,
+          "brier": 0.20872584360673932,
+          "accuracy": 0.6649911295091662
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.0027278283280565262,
+            "brier": -0.0016264505223147598,
+            "accuracy": 0.006209343583678297
+          },
+          "equal_year_log_loss": -0.003063285037932152,
+          "annual_log_loss": {
+            "2020": -0.0039074179194793,
+            "2021": -0.0022191521563850037
+          },
+          "years_negative": 2,
+          "years_positive": 0,
+          "correct_credit_delta": 21.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.005617898393510957,
+          "upper": -9.158958392620605e-05,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.005928116230930231,
+              0.0005348388045559258
+            ],
+            "8": [
+              -0.005617898393510957,
+              -9.158958392620605e-05
+            ],
+            "13": [
+              -0.00526371382193106,
+              -0.00041548216448012186
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0029031581443451056,
+              -0.00034210895564789213
+            ],
+            "8": [
+              -0.0027445766315128905,
+              -0.000598082091887627
+            ],
+            "13": [
+              -0.0026249546708333724,
+              -0.0007481551604810883
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.0045560993611830905,
+              0.01711506946587017
+            ],
+            "8": [
+              -0.005396397721032783,
+              0.017123623901444195
+            ],
+            "13": [
+              -0.005919455858037954,
+              0.016044384262393737
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.00163460230745576,
+          "8": 0.00138936432804624,
+          "13": 0.0012424076427860046
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "1a64f399098b1e0b3ebc334aa93f7ccfce134bbfa972c752b636396660630c06",
+            "joint_draw_sha256": "a292b1fb97999189c336605c07eb92fd1356db93c77bdd6073241ce7a312be44"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "3adedf9c3dbb6c38c83779473bf74d28679161ee5e7a51e4e4b7203f285e9e44",
+            "joint_draw_sha256": "c76f752a6a1b56221c0ab108781559abab1dafe69da64e26a1113bf800dfbcc3"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "log_loss_draw_sha256": "c4b8f1682192471eec9e26b8f05450a9852d22dd1bb759715bcc03a1d6547442",
+            "joint_draw_sha256": "531596f18664bbcd9b1138d79a0fd9e4772ce44673e54c6566beb4325f0b25f1"
+          }
+        },
+        "grid": {
+          "first_monday": "2020-01-06",
+          "last_monday": "2021-11-08",
+          "weeks_including_empty": 97,
+          "nonempty_weeks": 52
+        },
+        "equal_year_interval_log_loss": {
+          "draws_attempted": 5006,
+          "empty_draws_skipped": 6,
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.00627255918101531,
+            -4.5787173617130764e-05
+          ],
+          "bootstrap_sd": 0.0015634975031012098,
+          "draw_sha256": "0a6c9a1eb941a5d8546dbf949c363df5c6e9444dc5a62470f70f1c2f5ad4c603"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.11405293443454782,
+          "iid_se": 0.0019611899630832355,
+          "bootstrap_se_block_primary": 0.00138936432804624,
+          "design_effect_week_block": 0.501871997481375,
+          "effective_sd": 0.08079843441745786
+        },
+        "orientation_control_max_error": 8.881784197001252e-16
+      }
+    }
+  },
+  "gates": {
+    "gate1_adopt_covariate_block": {
+      "rule": "match-weighted log-loss difference <= -0.0008 and block-8 95% interval upper bound < 0",
+      "estimate": -0.0011916652927106426,
+      "interval": [
+        -0.0019852417117385327,
+        -0.0004662636219964889
+      ],
+      "verdict": "adopt_arm1_as_incumbent"
+    },
+    "gate2_public_claim": {
+      "rule": "block-8 95% interval of best Alcaraz arm minus external excludes zero",
+      "estimate": -0.002607778438153049,
+      "interval": [
+        -0.005776920678769269,
+        0.00037878990120365904
+      ],
+      "verdict": "not_supported_interval_includes_zero"
+    },
+    "gate3_blend_research_artefact": {
+      "rule": "on the primary blend years, block-8 95% intervals of blend minus each component both have upper bound < 0; adoption additionally requires independent reconstruction",
+      "estimates": {
+        "blend_minus_alcaraz": -0.0024091907059397744,
+        "blend_minus_external": -0.005289867607780696
+      },
+      "intervals": {
+        "blend_minus_alcaraz": [
+          -0.0040240346383232884,
+          -0.0007837037399588669
+        ],
+        "blend_minus_external": [
+          -0.007832842935883856,
+          -0.0027879406488386335
+        ]
+      },
+      "verdict": "eligible_as_research_artefact_pending_reconstruction"
+    }
+  },
+  "gate_verdicts_as_accepted": {
+    "gate1": "adopt full_entry as the WTA incumbent rung for WTA01 2019-2024",
+    "gate2": "not supported: interval includes zero; registered as underpowered (16% power at the 2024 gap)",
+    "gate3": "passed; released as an attributed research artefact after independent reconstruction (D133); not the default model"
+  },
+  "uncertainty_method": {
+    "method": "stationary calendar-week bootstrap on one pooled inclusive Monday grid, match-weighted ratio within each draw, percentile interval",
+    "rng": "numpy.PCG64",
+    "seed": 20260922,
+    "replicates": 5000,
+    "level": 0.95,
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [
+      4,
+      13
+    ],
+    "week_label": "ISO week of the panel's tourney_anchor_date (calendar Monday)",
+    "equal_year_secondary": "per-year inclusive Monday grids resampled independently, mean of yearly match-weighted means, percentile interval; a draw with an empty year is skipped and counted",
+    "conditioning": "intervals condition on the saved forecasts and omit refit, selection and source-choice uncertainty"
+  },
+  "sensitivities": {
+    "arm1_impl_minus_arm0": {
+      "label": "WTA attempt_001 implemented variant: any_qualifier counted Q or LL (disclosed deviation)",
+      "left": "arm1_impl",
+      "right": "arm0",
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "n": 12900,
+      "left_match_weighted": {
+        "log_loss": 0.6091120484763055,
+        "brier": 0.21105867356917357,
+        "accuracy": 0.6626356589147286
+      },
+      "right_match_weighted": {
+        "log_loss": 0.6104287511922198,
+        "brier": 0.21164571917560912,
+        "accuracy": 0.6579069767441861
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": -0.0013167027159143216,
+          "brier": -0.0005870456064355615,
+          "accuracy": 0.004728682170542635
+        },
+        "equal_year_log_loss": -0.0014722388937206527,
+        "annual_log_loss": {
+          "2019": -0.0013632076499853626,
+          "2020": -0.0028344155341572075,
+          "2021": -0.0008409682581925013,
+          "2022": -0.0025182720295547027,
+          "2023": -5.781878724649584e-05,
+          "2024": -0.0012187511031876447
+        },
+        "years_negative": 6,
+        "years_positive": 0,
+        "correct_credit_delta": 61.0
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.0020812877517290876,
+        "upper": -0.0006323564929956808,
+        "excludes_zero": true,
+        "favours_left": true
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            -0.002046754815701664,
+            -0.0006157188342632475
+          ],
+          "8": [
+            -0.0020812877517290876,
+            -0.0006323564929956808
+          ],
+          "13": [
+            -0.0020651497020462194,
+            -0.0006410899033866241
+          ]
+        },
+        "brier": {
+          "4": [
+            -0.0009023138711146271,
+            -0.00028691692044376533
+          ],
+          "8": [
+            -0.0009178456227832721,
+            -0.0002926346575061895
+          ],
+          "13": [
+            -0.0009058545309481548,
+            -0.00029276505357350355
+          ]
+        },
+        "accuracy": {
+          "4": [
+            0.0023863575909322003,
+            0.007090392124254332
+          ],
+          "8": [
+            0.002378082542175919,
+            0.007048974359505846
+          ],
+          "13": [
+            0.0023516935778656006,
+            0.006971707942888361
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.00036843970119580907,
+        "8": 0.00036966283794563344,
+        "13": 0.00036979719930381797
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "5e284367e40525ab19d270d03f76e6781d2224555524f9307add8e824ad348f3",
+          "joint_draw_sha256": "11b8901d97f7a1d5f21fbc0843d43640340db73a86f0f63b89806cc8c7159d8f"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "ce34bb88c4e15a4cfe3f509e34eae36da5d423b54a810441dfc087810f64f0ab",
+          "joint_draw_sha256": "b73fcb1de6e666c925896801c6a68733364d930e15c867c010aa10d7cd1443dd"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "2f41ae1ae3fd3f464179daa450b8d4714fe9cafeec78d717e6d1eae02ff47dcf",
+          "joint_draw_sha256": "079e8905a8bec9b25f96e7d735375bdb137a13c472139fd93a0498503493999c"
+        }
+      },
+      "grid": {
+        "first_monday": "2018-12-31",
+        "last_monday": "2024-11-04",
+        "weeks_including_empty": 306,
+        "nonempty_weeks": 192
+      },
+      "equal_year_interval_log_loss": {
+        "draws_attempted": 5003,
+        "empty_draws_skipped": 3,
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          -0.002046821554632183,
+          -0.0008308359825167865
+        ],
+        "bootstrap_sd": 0.0003112097791677523,
+        "draw_sha256": "a905c6e28fbad2a7adacfd540110e5902f36894ee0f78a8d0f36dd3edc2463bb"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.04958639676568086,
+        "iid_se": 0.0004365838797376569,
+        "bootstrap_se_block_primary": 0.00036966283794563344,
+        "design_effect_week_block": 0.7169290770483718,
+        "effective_sd": 0.041985627510833436
+      },
+      "orientation_control_max_error": 8.881784197001252e-16
+    },
+    "arm0_minus_buildoak": {
+      "label": "non-selected Alcaraz arm against the external system (sensitivity, not gated)",
+      "left": "arm0",
+      "right": "buildoak",
+      "years": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "n": 12900,
+      "left_match_weighted": {
+        "log_loss": 0.6104287511922198,
+        "brier": 0.21164571917560912,
+        "accuracy": 0.6579069767441861
+      },
+      "right_match_weighted": {
+        "log_loss": 0.6118448643376622,
+        "brier": 0.21237137505490286,
+        "accuracy": 0.6606976744186046
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": -0.0014161131454424065,
+          "brier": -0.0007256558792937684,
+          "accuracy": -0.0027906976744186047
+        },
+        "equal_year_log_loss": -0.0011192702045942024,
+        "annual_log_loss": {
+          "2019": -0.006186235027702171,
+          "2020": 0.0020738265673917217,
+          "2021": 0.002739024956409521,
+          "2022": -0.005104734123108597,
+          "2023": 0.0007793305552107772,
+          "2024": -0.0010168341557664673
+        },
+        "years_negative": 3,
+        "years_positive": 3,
+        "correct_credit_delta": -36.0
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.004580744855432564,
+        "upper": 0.0016982653294826944,
+        "excludes_zero": false,
+        "favours_left": false
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            -0.0046668461740700835,
+            0.0017174361501403064
+          ],
+          "8": [
+            -0.004580744855432564,
+            0.0016982653294826944
+          ],
+          "13": [
+            -0.004739673803700979,
+            0.0016857247951871156
+          ]
+        },
+        "brier": {
+          "4": [
+            -0.0020732197117046304,
+            0.0005478668293811726
+          ],
+          "8": [
+            -0.002043356759981438,
+            0.000532275665386653
+          ],
+          "13": [
+            -0.002107411438496454,
+            0.0005553218847809349
+          ]
+        },
+        "accuracy": {
+          "4": [
+            -0.008998277588939072,
+            0.003585784675578826
+          ],
+          "8": [
+            -0.008860255075330597,
+            0.0030958197873789035
+          ],
+          "13": [
+            -0.00831492874600251,
+            0.0029429495078476683
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.0016125664115869964,
+        "8": 0.0016139541978216192,
+        "13": 0.0016505794389598575
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "30dfa61e985921702e81b212959c459e787eebcf2ab37aa333dcf754db2ba52c",
+          "joint_draw_sha256": "6968f495465f91f1e0d400caa20ae5125c60466cc34cbd5dbecc6fb4beb2b3a2"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "eb140e52cc67867c614ddf0449fa22d338c7a79ad4d306867e7ee87626154b69",
+          "joint_draw_sha256": "322fe3ea418a76c750a601275c431c6829c9feb026bb389ea77b2c1e27d04e30"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "log_loss_draw_sha256": "ac4babf538933041597cad05b89da8826952419ded8082975198b74f9d71220e",
+          "joint_draw_sha256": "67a0d10191dbc10ecff158871f8593e9757bf776aca5c82eccc9da50d7f69115"
+        }
+      },
+      "grid": {
+        "first_monday": "2018-12-31",
+        "last_monday": "2024-11-04",
+        "weeks_including_empty": 306,
+        "nonempty_weeks": 192
+      },
+      "equal_year_interval_log_loss": {
+        "draws_attempted": 5003,
+        "empty_draws_skipped": 3,
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          -0.0037198794033003807,
+          0.0014394054014324066
+        ],
+        "bootstrap_sd": 0.0013251724596849172,
+        "draw_sha256": "16e3b290f8d6e51defbb6b8f6c3c33323723f1e910def5fa14c5b30886997f9a"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.18103130669116446,
+        "iid_se": 0.0015938917804954771,
+        "bootstrap_se_block_primary": 0.0016139541978216192,
+        "design_effect_week_block": 1.0253325615143176,
+        "effective_sd": 0.1833099592749716
+      },
+      "orientation_control_max_error": 1.1102230246251565e-15
+    },
+    "excl_nocode_slams": {
+      "label": "declared sensitivity: all contrasts recomputed without the 996 rows of the eight Grand Slams whose source rows carry no entry code on any row",
+      "experiment_id": "ARMS01-WTA-SENS-excl-nocode-slams",
+      "cohort": {
+        "years": [
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "n": 11904,
+        "n_by_year": {
+          "2019": 2090,
+          "2020": 770,
+          "2021": 2363,
+          "2022": 1824,
+          "2023": 2453,
+          "2024": 2404
+        }
+      },
+      "membership_sha256": "7e83b7904ef4d5542b97829954b9ea6f0ed4631dbd2d3b55063274de4ad6220d",
+      "contrasts": {
+        "contrast1_arm1_minus_arm0": {
+          "left": "arm1",
+          "right": "arm0",
+          "years": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+          ],
+          "n": 11904,
+          "left_match_weighted": {
+            "log_loss": 0.6123305453133551,
+            "brier": 0.21237575843357664,
+            "accuracy": 0.6595262096774194
+          },
+          "right_match_weighted": {
+            "log_loss": 0.613513931138477,
+            "brier": 0.2129229148631943,
+            "accuracy": 0.6559139784946236
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.0011833858251219023,
+              "brier": -0.0005471564296176801,
+              "accuracy": 0.0036122311827956988
+            },
+            "equal_year_log_loss": -0.0014488482289702984,
+            "annual_log_loss": {
+              "2019": -0.0015349604364267445,
+              "2020": -0.003020974143889059,
+              "2021": -0.000500507968700864,
+              "2022": -0.0023701572631906528,
+              "2023": -4.692602252201195e-05,
+              "2024": -0.0012195635390924572
+            },
+            "years_negative": 6,
+            "years_positive": 0,
+            "correct_credit_delta": 43.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.0020422791987458316,
+            "upper": -0.00041941541378186296,
+            "excludes_zero": true,
+            "favours_left": true
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.002023688303884804,
+                -0.00039807538225084086
+              ],
+              "8": [
+                -0.0020422791987458316,
+                -0.00041941541378186296
+              ],
+              "13": [
+                -0.0020494596404491,
+                -0.0004287493135629477
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.000913131062966829,
+                -0.00021041052362527052
+              ],
+              "8": [
+                -0.0009280010680306404,
+                -0.0002156658924013491
+              ],
+              "13": [
+                -0.0009111183237510361,
+                -0.00021311902594225432
+              ]
+            },
+            "accuracy": {
+              "4": [
+                0.0010464874442795897,
+                0.006241792915597015
+              ],
+              "8": [
+                0.0010461970614607874,
+                0.006076013119886035
+              ],
+              "13": [
+                0.0009715058583282349,
+                0.006095665684511704
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.0004146226023093365,
+            "8": 0.0004172296065475648,
+            "13": 0.0004128922436669364
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "1b7fa46b517550d2de5559be53c96a66652deb67de820db407aa6e3b3f2032fa",
+              "joint_draw_sha256": "1bf3f8ce496ec5bb54a86ff6012c7127ecd02bba66fec32d141b06c99f6df3e0"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "0d2278c417bfc4ce29491ff096f9ff5a0b9fc98747865e56d1a046a6718a7310",
+              "joint_draw_sha256": "19bbea0afa648e69a6957ddfe8a6483055626004cc56747d35991e57996d3f85"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "462ed2d357d6642c478998fac19a7a6be6acfd0801ec5f60564f63454b0fb91e",
+              "joint_draw_sha256": "38811ba08a63429337399d9fd15ba76d66c192aeeb15de2abafed15e6f792117"
+            }
+          },
+          "grid": {
+            "first_monday": "2018-12-31",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 306,
+            "nonempty_weeks": 184
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5003,
+            "empty_draws_skipped": 3,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.0021366406125025847,
+              -0.0006695844589045454
+            ],
+            "bootstrap_sd": 0.0003745236541202299,
+            "draw_sha256": "171024ecf1e6633ee4e10d173009bf35587f18a225e0aaf78f17d47b3fb4bdc7"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.05051882823386824,
+            "iid_se": 0.0004630275259222541,
+            "bootstrap_se_block_primary": 0.0004172296065475648,
+            "design_effect_week_block": 0.8119637065921792,
+            "effective_sd": 0.04552202546766086
+          },
+          "orientation_control_max_error": 1.3322676295501878e-15
+        },
+        "contrast2_arm1_minus_buildoak": {
+          "left": "arm1",
+          "right": "buildoak",
+          "years": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+          ],
+          "n": 11904,
+          "left_match_weighted": {
+            "log_loss": 0.6123305453133551,
+            "brier": 0.21237575843357664,
+            "accuracy": 0.6595262096774194
+          },
+          "right_match_weighted": {
+            "log_loss": 0.6148301356426654,
+            "brier": 0.21362378008740668,
+            "accuracy": 0.6587701612903226
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.0024995903293103306,
+              "brier": -0.0012480216538300242,
+              "accuracy": 0.0007560483870967742
+            },
+            "equal_year_log_loss": -0.0030925185602942106,
+            "annual_log_loss": {
+              "2019": -0.006432778949608924,
+              "2020": -0.005152169449646693,
+              "2021": 0.002238516987708657,
+              "2022": -0.007704686788048145,
+              "2023": 0.0007324045326887648,
+              "2024": -0.002236397694858923
+            },
+            "years_negative": 4,
+            "years_positive": 2,
+            "correct_credit_delta": 9.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.005819024041515757,
+            "upper": 0.0005943781377262059,
+            "excludes_zero": false,
+            "favours_left": false
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.0059245817135245476,
+                0.000614514501122758
+              ],
+              "8": [
+                -0.005819024041515757,
+                0.0005943781377262059
+              ],
+              "13": [
+                -0.006034035368517128,
+                0.0006223795798738355
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.0026810285692392077,
+                3.41422255725372e-05
+              ],
+              "8": [
+                -0.0026097952394922006,
+                -1.3238336623644608e-05
+              ],
+              "13": [
+                -0.0027156382826050707,
+                1.886283772102561e-05
+              ]
+            },
+            "accuracy": {
+              "4": [
+                -0.005831163631366106,
+                0.007423797442963777
+              ],
+              "8": [
+                -0.0055976041420050275,
+                0.006854316803749033
+              ],
+              "13": [
+                -0.005081663270227163,
+                0.006595090163494265
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.001651567807228155,
+            "8": 0.0016399664407014613,
+            "13": 0.0017028232564798502
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "a69079e88b392e9a98701482757ece1006d06c144c5ccdfc1d7facc78061e775",
+              "joint_draw_sha256": "d7162b8400632cf3451618e3ca988224cd3944f199dd2676d0a6660a821f37c4"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "ffc920c55350b97a1a7350ebb63d8767042e2150710dbc776bac5c041b99f96e",
+              "joint_draw_sha256": "6bd56c51943d5a7aa1b630f634e9766933bcc1c0282a653cb5b5973bc24026fc"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "733318122d36c6d4fdf6bd21b36075262f01f428f9c8b2d245710c3166cefe68",
+              "joint_draw_sha256": "a0b6ece929dca0356380963e7791338ddfb16be9982fc81710401d08173e591c"
+            }
+          },
+          "grid": {
+            "first_monday": "2018-12-31",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 306,
+            "nonempty_weeks": 184
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5003,
+            "empty_draws_skipped": 3,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.005874457390333627,
+              -4.2508877755110925e-05
+            ],
+            "bootstrap_sd": 0.0014949496865920005,
+            "draw_sha256": "2daeff7f1249c63c044c7ac1e8f8ee69563794d759ef8ea72767fe5086bdec32"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.17853844237983849,
+            "iid_se": 0.0016363842184630895,
+            "bootstrap_se_block_primary": 0.0016399664407014613,
+            "design_effect_week_block": 1.0043830087507415,
+            "effective_sd": 0.17892928236196567
+          },
+          "orientation_control_max_error": 8.881784197001252e-16
+        },
+        "primary_blend_minus_arm1": {
+          "left": "blend",
+          "right": "arm1",
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "n": 6681,
+          "left_match_weighted": {
+            "log_loss": 0.6087878342868521,
+            "brier": 0.21105443076060004,
+            "accuracy": 0.6608292171830564
+          },
+          "right_match_weighted": {
+            "log_loss": 0.6113580766010449,
+            "brier": 0.21210661713704673,
+            "accuracy": 0.6587337224966322
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.0025702423141928626,
+              "brier": -0.0010521863764466422,
+              "accuracy": 0.002095494686424188
+            },
+            "equal_year_log_loss": -0.0024476788371658683,
+            "annual_log_loss": {
+              "2022": -0.0011837274146926184,
+              "2023": -0.00419777608171411,
+              "2024": -0.0019615330150908766
+            },
+            "years_negative": 3,
+            "years_positive": 0,
+            "correct_credit_delta": 14.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.004203458878489813,
+            "upper": -0.000858013458056794,
+            "excludes_zero": true,
+            "favours_left": true
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.00422349839449473,
+                -0.0009098634170765326
+              ],
+              "8": [
+                -0.004203458878489813,
+                -0.000858013458056794
+              ],
+              "13": [
+                -0.004198346504710252,
+                -0.0008579285841383612
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.0017741915294815901,
+                -0.000317307446480951
+              ],
+              "8": [
+                -0.0017763153100230817,
+                -0.0002806451283012754
+              ],
+              "13": [
+                -0.0017760193853564403,
+                -0.00027760901367488984
+              ]
+            },
+            "accuracy": {
+              "4": [
+                -0.003234610647118909,
+                0.007785630456883235
+              ],
+              "8": [
+                -0.003023164571757102,
+                0.007520223013204156
+              ],
+              "13": [
+                -0.002844744585803354,
+                0.007273387686373981
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.0008547414786642819,
+            "8": 0.0008602263952301527,
+            "13": 0.000857360702624341
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "2fd6c9d45632c25cb662a49e0c6687d25695258d7ce574fb539481a09eb8ad99",
+              "joint_draw_sha256": "a319774d489b5543271fe2f631fe7698558a6fea6205e4f9754b221c949af290"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "e56d4f11e2be68f537a7a477b3a86f2f097f1325bb260d28f7a44ce5d6237265",
+              "joint_draw_sha256": "4867db9672712ac95af1d9c77b94ea845ab76ad2f9fd2d75f3e8cd73007fa3cf"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "b1acb3b62c7b1f1a5499ef5bd486ea573c751e189b22a35c094df6d22990c120",
+              "joint_draw_sha256": "15bfd022e0734f4234ac55e631075d509d76cbf4bc81ac568060883eae6c2e78"
+            }
+          },
+          "grid": {
+            "first_monday": "2022-01-03",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 149,
+            "nonempty_weeks": 100
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.0038499854296392953,
+              -0.0010370159636585387
+            ],
+            "bootstrap_sd": 0.0007293332732285,
+            "draw_sha256": "30e7b2520430fa5c52afb883dde0adbbd4c8a1d20fb921458a106b0a4236d4b4"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.07354387337914445,
+            "iid_se": 0.0008997580968130636,
+            "bootstrap_se_block_primary": 0.0008602263952301527,
+            "design_effect_week_block": 0.9140585211942512,
+            "effective_sd": 0.07031265549294435
+          },
+          "orientation_control_max_error": 1.3322676295501878e-15
+        },
+        "primary_blend_minus_buildoak": {
+          "left": "blend",
+          "right": "buildoak",
+          "years": [
+            2022,
+            2023,
+            2024
+          ],
+          "n": 6681,
+          "left_match_weighted": {
+            "log_loss": 0.6087878342868521,
+            "brier": 0.21105443076060004,
+            "accuracy": 0.6608292171830564
+          },
+          "right_match_weighted": {
+            "log_loss": 0.613997361205319,
+            "brier": 0.21318127092137454,
+            "accuracy": 0.6605298607992816
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.005209526918466942,
+              "brier": -0.0021268401607744394,
+              "accuracy": 0.000299356383774884
+            },
+            "equal_year_log_loss": -0.00551723882057197,
+            "annual_log_loss": {
+              "2022": -0.008888414202740762,
+              "2023": -0.003465371549025344,
+              "2024": -0.004197930709949801
+            },
+            "years_negative": 3,
+            "years_positive": 0,
+            "correct_credit_delta": 2.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.008059015721715489,
+            "upper": -0.0026569043497979305,
+            "excludes_zero": true,
+            "favours_left": true
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.008010308545417703,
+                -0.002627574287188446
+              ],
+              "8": [
+                -0.008059015721715489,
+                -0.0026569043497979305
+              ],
+              "13": [
+                -0.00813755061605513,
+                -0.0026120778465300414
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.003258572600065672,
+                -0.0010778713614633779
+              ],
+              "8": [
+                -0.0032925539262343823,
+                -0.0010536473284923904
+              ],
+              "13": [
+                -0.0033327264817258075,
+                -0.0010477796627379264
+              ]
+            },
+            "accuracy": {
+              "4": [
+                -0.005862858861204336,
+                0.006618394087846194
+              ],
+              "8": [
+                -0.0056331198789399866,
+                0.006179227891886079
+              ],
+              "13": [
+                -0.00532644761102124,
+                0.005510677202825631
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.0013649009170036259,
+            "8": 0.001392606947732452,
+            "13": 0.0013923543801089826
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "20e1bccdf19299290cb68599607a81e88f290803b98ca4f42408efab266a3520",
+              "joint_draw_sha256": "56bbcd0af585b458079524a2f0dc58f806fab298bd69aa4dfd3892cc93fa74e7"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "612947dbd86d5f6496ad6c79d8939ea4a8e92a4b20dbd1aed495fe3c965fd4c8",
+              "joint_draw_sha256": "f6e8957955ac343015d24ab29fd37bbdffc938b7827acdded8f5b7a00c1e733f"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "a9d809cc6cd31b3dae1f578df1d6c69dfe3f93630033b3a66b46d58d883ca5ba",
+              "joint_draw_sha256": "5e1df43e980b1946843eb09171199ca8fbec39b792b0f0b73e55a9856a2c6e9f"
+            }
+          },
+          "grid": {
+            "first_monday": "2022-01-03",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 149,
+            "nonempty_weeks": 100
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.007775337143147145,
+              -0.003282884613024935
+            ],
+            "bootstrap_sd": 0.0011654642117321598,
+            "draw_sha256": "8ad129775a443ad5a8d9bef40835908ef4af3583d48c7afb26080bc0695ee822"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.1050363849898285,
+            "iid_se": 0.0012850470543936932,
+            "bootstrap_se_block_primary": 0.001392606947732452,
+            "design_effect_week_block": 1.1744081438568974,
+            "effective_sd": 0.11382804933205384
+          },
+          "orientation_control_max_error": 8.881784197001252e-16
+        },
+        "arm1_impl_minus_arm0": {
+          "left": "arm1_impl",
+          "right": "arm0",
+          "years": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+          ],
+          "n": 11904,
+          "left_match_weighted": {
+            "log_loss": 0.6121978858143159,
+            "brier": 0.2123214361437033,
+            "accuracy": 0.6606182795698925
+          },
+          "right_match_weighted": {
+            "log_loss": 0.613513931138477,
+            "brier": 0.2129229148631943,
+            "accuracy": 0.6559139784946236
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.0013160453241609707,
+              "brier": -0.0006014787194910194,
+              "accuracy": 0.004704301075268817
+            },
+            "equal_year_log_loss": -0.0015618206800370245,
+            "annual_log_loss": {
+              "2019": -0.0016919768212341811,
+              "2020": -0.002915515527660276,
+              "2021": -0.0008409682581925013,
+              "2022": -0.0026458935827010487,
+              "2023": -5.781878724649584e-05,
+              "2024": -0.0012187511031876447
+            },
+            "years_negative": 6,
+            "years_positive": 0,
+            "correct_credit_delta": 56.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.002158468818415408,
+            "upper": -0.000611676401144801,
+            "excludes_zero": true,
+            "favours_left": true
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.002111980408874327,
+                -0.0005783141375625139
+              ],
+              "8": [
+                -0.002158468818415408,
+                -0.000611676401144801
+              ],
+              "13": [
+                -0.002154696805584716,
+                -0.0006010112858678946
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.0009456883228699134,
+                -0.00028196256484604767
+              ],
+              "8": [
+                -0.0009628220025708071,
+                -0.00029203603257017916
+              ],
+              "13": [
+                -0.0009551570803307496,
+                -0.0002876103525884896
+              ]
+            },
+            "accuracy": {
+              "4": [
+                0.0022277214293782697,
+                0.00726376043511215
+              ],
+              "8": [
+                0.0022290043410626687,
+                0.007091518500247346
+              ],
+              "13": [
+                0.0021709004560230886,
+                0.00701186644866018
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.00039123480357380755,
+            "8": 0.0003934488929450834,
+            "13": 0.00039508853192178107
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "7a8222c9fdb45420f08bbc60d21c33f7ae2ba0fd7d551367aebdfa6fcaa9680e",
+              "joint_draw_sha256": "8f3cdcad4f95a1cd5d7a3d8d4585d2c3630f7892ea090a9d59f94db0251e9f84"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "684ab1d421e463139d8bcd36f8dec023801d880e9881dd9d3c12beeea50f3317",
+              "joint_draw_sha256": "c94823662ed7041c050babda8e585af56f873503ddefa08dac735d1f83321aa6"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "ec7a7620e4d01b6b42dc6c2e8b90f3ffef326a394a29e7d88207ea1ee3e45210",
+              "joint_draw_sha256": "c0373fd74e2906e1bf8242cc6175eb45e032e7f4e908fff47795195d99c9e410"
+            }
+          },
+          "grid": {
+            "first_monday": "2018-12-31",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 306,
+            "nonempty_weeks": 184
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5003,
+            "empty_draws_skipped": 3,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.0022168620111352143,
+              -0.0008287073485197333
+            ],
+            "bootstrap_sd": 0.0003594676708579733,
+            "draw_sha256": "08412499ffdfc7191e9bd5bfd226d0a8dd56248e93cb65c44c1315dc0a5b070f"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.050747157931884425,
+            "iid_se": 0.0004651202691402398,
+            "bootstrap_se_block_primary": 0.0003934488929450834,
+            "design_effect_week_block": 0.7155601128259143,
+            "effective_sd": 0.04292741992370387
+          },
+          "orientation_control_max_error": 8.881784197001252e-16
+        },
+        "arm0_minus_buildoak": {
+          "left": "arm0",
+          "right": "buildoak",
+          "years": [
+            2019,
+            2020,
+            2021,
+            2022,
+            2023,
+            2024
+          ],
+          "n": 11904,
+          "left_match_weighted": {
+            "log_loss": 0.613513931138477,
+            "brier": 0.2129229148631943,
+            "accuracy": 0.6559139784946236
+          },
+          "right_match_weighted": {
+            "log_loss": 0.6148301356426654,
+            "brier": 0.21362378008740668,
+            "accuracy": 0.6587701612903226
+          },
+          "difference": {
+            "match_weighted": {
+              "log_loss": -0.0013162045041884283,
+              "brier": -0.0007008652242123444,
+              "accuracy": -0.002856182795698925
+            },
+            "equal_year_log_loss": -0.0016436703313239128,
+            "annual_log_loss": {
+              "2019": -0.004897818513182181,
+              "2020": -0.002131195305757636,
+              "2021": 0.002739024956409521,
+              "2022": -0.005334529524857491,
+              "2023": 0.0007793305552107772,
+              "2024": -0.0010168341557664673
+            },
+            "years_negative": 4,
+            "years_positive": 2,
+            "correct_credit_delta": -34.0
+          },
+          "primary_interval_log_loss": {
+            "mean_block_weeks": 8,
+            "lower": -0.00463022792647978,
+            "upper": 0.0018566359313342445,
+            "excludes_zero": false,
+            "favours_left": false
+          },
+          "intervals_95": {
+            "log_loss": {
+              "4": [
+                -0.004749874497776296,
+                0.0018552742630140882
+              ],
+              "8": [
+                -0.00463022792647978,
+                0.0018566359313342445
+              ],
+              "13": [
+                -0.004904465987590288,
+                0.001833513854791431
+              ]
+            },
+            "brier": {
+              "4": [
+                -0.0021489892486527993,
+                0.0006224328101197534
+              ],
+              "8": [
+                -0.002085887862808732,
+                0.0005902092381453096
+              ],
+              "13": [
+                -0.0021330879935018603,
+                0.0005747185616724447
+              ]
+            },
+            "accuracy": {
+              "4": [
+                -0.009378816217024402,
+                0.0036480837050252555
+              ],
+              "8": [
+                -0.009031335397249466,
+                0.0031946063196063154
+              ],
+              "13": [
+                -0.008441543944979507,
+                0.0028746209542669663
+              ]
+            }
+          },
+          "bootstrap_sd_log_loss": {
+            "4": 0.0016846382751771701,
+            "8": 0.001657289577184747,
+            "13": 0.0017030205982693364
+          },
+          "draws": {
+            "4": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "9d7ea990fcc3e6a709cfca7ffcdcecec4504c28ecc65774f1a25fe68a424e74a",
+              "joint_draw_sha256": "c9ff5294fed4afad2667697dd06d69f4e36b4329cf85a3347c2e3a5da9c0ff2a"
+            },
+            "8": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "3545786b66ff83e40fee8e3a1cc17ca3801b6d63acf779fd96ed6224f88eb41f",
+              "joint_draw_sha256": "20cc3f372ff8a48653d39e91d849e8d3bbf6c6952d1e8660f5b0ec8e191d64a5"
+            },
+            "13": {
+              "draws_attempted": 5000,
+              "empty_draws_skipped": 0,
+              "log_loss_draw_sha256": "374ece30c3b0a2b35e3f720a25151e4c1964e8171f7b5d6e83a656398c8402fe",
+              "joint_draw_sha256": "0aa555d13a595700d0623ed7176840f3314727c86169be7b24a13ec66d0caa52"
+            }
+          },
+          "grid": {
+            "first_monday": "2018-12-31",
+            "last_monday": "2024-11-04",
+            "weeks_including_empty": 306,
+            "nonempty_weeks": 184
+          },
+          "equal_year_interval_log_loss": {
+            "draws_attempted": 5003,
+            "empty_draws_skipped": 3,
+            "mean_block_weeks": 8,
+            "percentile_95": [
+              -0.004568071351424641,
+              0.001481640089376684
+            ],
+            "bootstrap_sd": 0.0015522801830277148,
+            "draw_sha256": "7bd8d449388d4b315a2fb7afd60e08866ee73bec18cfd5283f1bea262d8bb50d"
+          },
+          "variance_diagnostics": {
+            "per_match_sd_iid": 0.18242030553571614,
+            "iid_se": 0.001671963220507911,
+            "bootstrap_se_block_primary": 0.001657289577184747,
+            "design_effect_week_block": 0.9825244323213759,
+            "effective_sd": 0.18081933102533154
+          },
+          "orientation_control_max_error": 1.1102230246251565e-15
+        }
+      },
+      "gates_recomputed": {
+        "gate1_adopt_covariate_block": {
+          "rule": "match-weighted log-loss difference <= -0.0008 and block-8 95% interval upper bound < 0",
+          "estimate": -0.0011833858251219023,
+          "interval": [
+            -0.0020422791987458316,
+            -0.00041941541378186296
+          ],
+          "verdict": "adopt_arm1_as_incumbent"
+        },
+        "gate2_public_claim": {
+          "rule": "block-8 95% interval of best Alcaraz arm minus external excludes zero",
+          "estimate": -0.0024995903293103306,
+          "interval": [
+            -0.005819024041515757,
+            0.0005943781377262059
+          ],
+          "verdict": "not_supported_interval_includes_zero"
+        },
+        "gate3_blend_research_artefact": {
+          "rule": "on the primary blend years, block-8 95% intervals of blend minus each component both have upper bound < 0; adoption additionally requires independent reconstruction",
+          "estimates": {
+            "blend_minus_alcaraz": -0.0025702423141928626,
+            "blend_minus_external": -0.005209526918466942
+          },
+          "intervals": {
+            "blend_minus_alcaraz": [
+              -0.004203458878489813,
+              -0.000858013458056794
+            ],
+            "blend_minus_external": [
+              -0.008059015721715489,
+              -0.0026569043497979305
+            ]
+          },
+          "verdict": "eligible_as_research_artefact_pending_reconstruction"
+        }
+      }
+    },
+    "not_in_scoring_output": [
+      "completed-only matches (registered as descriptive; absent from the scoring output)",
+      "Arm 1b and the LL-as-no-flag refit were not run for WTA",
+      "no market reference line was registered for the WTA secondary"
+    ]
+  },
+  "power": {
+    "registered_planning": {
+      "contrast2_wta": {
+        "n": 12900,
+        "effective_sd": 0.118,
+        "standard_error": 0.001038932069464236,
+        "expected_95_half_width": 0.0020362694385335682,
+        "mde_80_power_two_sided_05": 0.002910656728434519,
+        "power_at_observed_delta": {
+          "delta": -0.001,
+          "power": 0.15927618416314165
+        }
+      },
+      "contrast1_wta_conservative": {
+        "n": 12900,
+        "effective_sd": 0.1097,
+        "standard_error": 0.0009658546442392093,
+        "expected_95_half_width": 0.001893040317009597,
+        "mde_80_power_two_sided_05": 0.0027059240941463285,
+        "power_at_observed_delta": {
+          "delta": -0.0008,
+          "power": 0.12888407553872794
+        }
+      },
+      "contrast1_wta_optimistic": {
+        "n": 12900,
+        "effective_sd": 0.045,
+        "standard_error": 0.0003962029078465307,
+        "expected_95_half_width": 0.0007765434299492422,
+        "mde_80_power_two_sided_05": 0.001109996209996215,
+        "power_at_observed_delta": {
+          "delta": -0.0008,
+          "power": 0.5236049600788106
+        }
+      }
+    },
+    "realised_effective_sd": {
+      "contrast1_arm1_minus_arm0": 0.04439426174968887,
+      "contrast2_arm1_minus_buildoak": 0.17950446156947555,
+      "contrast3_primary_blend_minus_arm1": 0.07093732075302317,
+      "contrast3_primary_blend_minus_buildoak": 0.10925887112077236
+    },
+    "note": "registered planning values: contrast 2 effective SD 0.118 (MDE 0.0029, power 0.16 at the 2024 gap of -0.0010; registered as underpowered); contrast 1 bracketed between effective SD 0.045 and 0.1097. The realised effective SDs are reported so the reader can see which case obtained."
+  },
+  "provenance": {
+    "scorer": {
+      "archive_relative_path": "references/ARMS01/score_arms01.py",
+      "sha256": "850dc1b213cbc0deb54ae3bb3279eea3f9cf59d2bbec71d5fe24909325dd7042"
+    },
+    "manifest": {
+      "archive_relative_path": "work/PHASE1_ATP_20260922/scoring/manifest_wta_attempt_002.json",
+      "sha256": "afffc3d3015dc631afb0f9aeae9624529a418d08d1d103fcc663ba24a7ec035d"
+    },
+    "manifest_excl_nocode_slams": {
+      "archive_relative_path": "work/PHASE1_ATP_20260922/scoring/manifest_wta_attempt_002_sens_excl_nocode_slams.json",
+      "sha256": "5f834aed4ffcfb5408dbaf7ae2c579cbc5397cae90efe64e538719e4475a2c2a"
+    },
+    "result_json": {
+      "archive_relative_path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_result.json",
+      "sha256": "fb74b1adebcdce411dc97ef521cbbbd4a7a9da356524223e76dc09f3798636ec"
+    },
+    "result_json_excl_nocode_slams": {
+      "archive_relative_path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_sens_excl_nocode_slams.json",
+      "sha256": "193e1071b33b4c034a7aedc37b7ffd1292c73d025184cf76fc01501dd6f6efe8"
+    },
+    "membership": {
+      "archive_relative_path": "work/PHASE1_ATP_20260922/scoring/membership_wta_2019_2024.csv",
+      "sha256": "69f3bb334de177ecacc49e11fe5a865f851f2f5d1138ffb58156cd2a204f2797"
+    },
+    "labels": {
+      "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/features/labels.csv",
+      "sha256": "2089b5956f135a19a1015ace69bf89fb0e6581b6d02ea5024eca1a9340a08396"
+    },
+    "weeks": {
+      "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/prepare_panel/panel.csv",
+      "sha256": "d0dfe86fa614e9a3e233201f6ce6834d3fb4a21287030b47799828945cb1e1a3",
+      "column": "tourney_anchor_date"
+    },
+    "forecast_files": {
+      "arm0": {
+        "2019": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2019/hgb/full.csv",
+          "sha256": "6dd9e6a340ec44f95df6c4218ee9ebc77b350a8049a06614dc42a212d634f734"
+        },
+        "2020": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2020/hgb/full.csv",
+          "sha256": "b5de9df5085dab650fa367b4948c23bbe84e3c7dfa44d1bfdc7c1158bfa599ed"
+        },
+        "2021": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2021/hgb/full.csv",
+          "sha256": "61b47325b1bc13c79305307c206a262853dfce8e164efbef79f8f1b12f6fc524"
+        },
+        "2022": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2022/hgb/full.csv",
+          "sha256": "7f0b86cc2e6f454d422f94de242a2489243b57bf8cd20b8c8cd0585c3c00101d"
+        },
+        "2023": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2023/hgb/full.csv",
+          "sha256": "dbc06938ad4465f4a9b363e8418690cd9f21841a579affbf6c7a5e741e803b69"
+        },
+        "2024": {
+          "archive_relative_path": "experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/2024/hgb/full.csv",
+          "sha256": "03bb514047f743b60c9d096c5397100313791ee1a5a204c48ea72c9a543849f0"
+        }
+      },
+      "arm1": {
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2019/hgb/full_entry.csv",
+          "sha256": "18a1257fb3ab051702c820b073c18d83f677e6ed9a7d8dd3acb023d13c631f2f"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2020/hgb/full_entry.csv",
+          "sha256": "ca026e9a5c683e4d9a07e187657318cd29e58b8a1d0445eb5a75e23df9e8dc68"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2021/hgb/full_entry.csv",
+          "sha256": "3b4afc644e3ac98d9b6896c7211eea850226c29c71e1ff7d93050ee216815d1e"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2022/hgb/full_entry.csv",
+          "sha256": "a768d079c2bea80cd042f4a7ca357eed040480005bcca96580511ab147bff5d7"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2023/hgb/full_entry.csv",
+          "sha256": "96cf04bad4075df59723c2d7a3bcabb18dd7b6f21c90c56cefa217658b367199"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_attempt_002_run/run/pipeline/selected/2024/hgb/full_entry.csv",
+          "sha256": "c510fe4bc5a5d7217d311578bafabb769a4b8699c5047f473325d796fa8da94b"
+        }
+      },
+      "buildoak": {
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2019/report/panel_orientation_forecasts.csv",
+          "sha256": "c15f6debbf010042890ab2aacc887829d90f567398e84567817c75e967f411bf"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2020/report/panel_orientation_forecasts.csv",
+          "sha256": "7d397a9e8caed246bdb45fd831dd7dc734ab88a3db01deb4a83b72262da37458"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2021/report/panel_orientation_forecasts.csv",
+          "sha256": "603f5c8da358803601965ac52d250ff527afee55e70e31b4f32f0fac988ebf69"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2022/report/panel_orientation_forecasts.csv",
+          "sha256": "6937db633dd2f1d621fefa7a986794d1679ed157311e58cd70e12b168183cce4"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2023/report/panel_orientation_forecasts.csv",
+          "sha256": "ac6f28a4803006f414beb1740d6851b54b84a28c45d75abd9558eefa36fc7687"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_wta_replay/attempts/2024/report/panel_orientation_forecasts.csv",
+          "sha256": "332b49abebb88eabbbc2ea702f4e7601a91a0ef8ecd1a3eb98ebc6b8f3daabb3"
+        }
+      },
+      "arm1_impl": {
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2019/hgb/full_entry.csv",
+          "sha256": "d575a63ad5c0c0dfd8e2090ee1ad3b6cdf3a28f2035d7f4e6dc53fe43bcc4eec"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2020/hgb/full_entry.csv",
+          "sha256": "078bbc2f73079aaca36f187136f31027320ead682234267aa291329ae5385bc5"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2021/hgb/full_entry.csv",
+          "sha256": "040ab614b4d972054a6c5cb8f472f5b1144120cd1f752766e766caa1f92057d3"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2022/hgb/full_entry.csv",
+          "sha256": "79e96091585c26f2349b5be5491efc90de427aa374b585e66168a91252a5f67d"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2023/hgb/full_entry.csv",
+          "sha256": "6c9422783f7d3c6eafab1e50da28158c02989bb6aa399514bbbd4adfc00308f9"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/wta_arm1_run/run/pipeline/selected/2024/hgb/full_entry.csv",
+          "sha256": "bc1fab37e9208a4c081f6ce7cba9d89e62e43866518fee4eca7b7136a3cc63d0"
+        }
+      }
+    },
+    "buildoak_execution_notes": {
+      "archive_relative_path": "references/ARMS01/buildoak_wta_execution/EXECUTION_NOTES.md",
+      "sha256": "389a9e5082797324582b594fd24b0422d265090f455f4494294572ec575ab7c0"
+    },
+    "buildoak_implementation_notes": {
+      "archive_relative_path": "references/ARMS01/buildoak_wta_execution/IMPLEMENTATION.md",
+      "sha256": "da74e9a59e4fb8ec730bfcea4b3b362935c7fb5a841b3ceb9b816082c15963b6"
+    },
+    "scoring_runtime_seconds": 12.264266250000219
+  },
+  "reporting_sentences": {
+    "rule": "registered in experiments/ARMS01.design.md 'Reporting sentences' (WTA: the same sentences with the WTA cohorts; an inconclusive WTA contrast 2 has its own sentence); X, L, U and k filled from this file at four decimals",
+    "gate1_passed": "full_entry: full plus entry status (Q, LL, WC, PR) and tournament-level context; −0.0012 versus full [−0.0020, −0.0005], 6 of 6 years negative.",
+    "gate2_inconclusive": "On 12,900 WTA matches from 2019 to 2024 the BuildOak margin is −0.0026 [−0.0058, +0.0004]; at the 2024 gap this comparison had 16% power.",
+    "gate3_passed": "A logit blend of Alcaraz with the BuildOak adaptation, with the weight chosen on the three preceding seasons and never the target season, scores 0.0024 below Alcaraz alone [−0.0040, −0.0008] and 0.0053 below BuildOak alone [−0.0078, −0.0028] on 7,181 WTA matches from 2022 to 2024. It is a research artefact, not the default model; the BuildOak component is buildoak/tennis-xgboost-autoresearch at 237d1e7."
+  },
+  "release": {
+    "artefact": "WTA past-only logit blend of full_entry with the BuildOak WTA adaptation",
+    "status": "attributed research artefact (archive D133); not the default model; the BuildOak component is buildoak/tennis-xgboost-autoresearch at 237d1e7 and stays attributed to its author",
+    "exposure": "the BuildOak recipe was developed by its author with sight of later seasons; the artefact carries that exposure",
+    "atp": "no ATP blend is released (ATP gate 3 failed); the two tours are never pooled"
+  },
+  "limitations": [
+    "exposed retrospective comparison of complete systems with different legitimate histories; not an untouched test, prospective evidence or a market claim",
+    "registration not blind to 2024 (the 22 September review had screened WTA 2024 blends and the WTA 2024 gap); the frozen six-year design is a mitigation, not a cure",
+    "WTA contrast 2 was registered as underpowered (16% power at the 2024 gap); an interval including zero is inconclusive, not parity",
+    "the source's WTA level codes are inconsistent: level_context_m means 'coded PM', not 'is a WTA 1000'; W maps to the tour-level flag (15 Finals rows in 2015 train as a, not f); SR (WTA protected ranking) is unflagged; PR occurs only in 2024 and never varies in a training window",
+    "eight Grand Slams carry no entry code on any row (996 targets encoded as no flag; declared sensitivity reported)",
+    "the BuildOak recent-era blend is active only in 2024, so 2019-2023 BuildOak forecasts come from a structurally different recipe; the 2019-2023 BuildOak forecasts are committed and verified but not independently re-run",
+    "the BuildOak recipe was selected by its author on ROC AUC with sight of 2026 data; the WTA01 2019-2024 cohort is exposed development data (the full rung was scored on it before this registration)",
+    "intervals condition on saved forecasts; no family-wise adjustment across the three gates (disclosed, not corrected)",
+    "the WTA02 2025-2026 window is untouched by this result: no refit, and its rung stays full",
+    "no claim beyond the named systems, this cohort and paired log loss"
+  ],
+  "interpretation": "Gate 1: adopt full_entry as the WTA incumbent rung for WTA01 2019-2024. Gate 2: not supported (interval includes zero; registered as underpowered). Gate 3: passed; the blend is released as an attributed research artefact, not the default model. Independently reconstructed (archive decision D133). Secondary to ATP; never pooled."
+}

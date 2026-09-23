@@ -19,6 +19,12 @@
       "rungs": ["elo", "wta_base", "wta_full"],
       "reference": "pinnacle_normalised",
       "learner": "hgb"
+    },
+    "WTA01": {
+      "chain_config": "configs/chains/wta01_2019_2024.json",
+      "rungs": ["elo", "wta_base", "wta_full", "wta_full_entry"],
+      "reference": "pinnacle_normalised",
+      "learner": "hgb"
     }
   },
   "references": {

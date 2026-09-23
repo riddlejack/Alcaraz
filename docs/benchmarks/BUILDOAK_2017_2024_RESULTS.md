@@ -151,6 +151,11 @@ form, grid or fitting cohort was tried.
 | Arm 0 − BuildOak (the arm not selected) | 18,972 | −0.0059 | [−0.0087, −0.0032] | 7 of 8 |
 | Reference: Arm 1 − normalised Pinnacle closing price | 18,882 priced | +0.0101 | [+0.0078, +0.0125] | 0 of 8 |
 
+The fit records confirm that `entry_ll_diff`, the only column in which the LL-as-no-flag
+run differs, is never split on in any fit behind the selected 2017, 2018, 2023 and 2024
+forecasts, which is why those four years are byte-identical between the two runs; its only
+splits are in the raw-year 2019 fits, which feed the 2019–2022 forecasts.
+
 Wimbledon 2022 and the US Open 2022 carry no entry code on any row in the source, although
 both had qualifiers and wild cards. Their 245 targets are encoded as no flag in the
 primary analysis and removed in this sensitivity; every gate verdict is unchanged without
@@ -202,8 +207,11 @@ decisions D131 and D132 record the acceptance.
 
 Not done: an independent rerun of the 2017–2023 BuildOak forecasts. Reconstruction
 rescores the committed files; only 2024 has a byte-for-byte reproduction. The WTA
-secondary, on its own cohort and gates, is in progress. It is never pooled with ATP and
-cannot change this result.
+secondary, on its own cohort and gates, is reported in
+[BUILDOAK_WTA_2019_2024_RESULTS.md](BUILDOAK_WTA_2019_2024_RESULTS.md) (archive decision
+D133). It is never pooled with ATP and does not change this result. The later registered
+tuning pass on this cohort found no gain, and the model is frozen at `full_tier_entry`
+([TUNE01_RESULTS.md](TUNE01_RESULTS.md), archive decision D134).
 
 This is an exposed retrospective comparison of complete systems with different legitimate
 histories. It is not an untouched test, prospective evidence or a market claim. The

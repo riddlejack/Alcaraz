@@ -73,10 +73,44 @@ Rungs:
 | wta_base_minus_pinnacle_normalised | +0.0277 | +0.0328 | 0/2 | [+0.0200, +0.0356] |
 | wta_full_minus_pinnacle_normalised | +0.0200 | +0.0241 | 0/2 | [+0.0127, +0.0279] |
 
+## WTA01
+
+Rungs:
+
+- **elo**: Probability-pooled Elo (ELO-DATE-002-C1): the mean of the overall and surface Elo probabilities, tour-level results only, K 32, scale 400, D-2 cutoff. Read from the feature table's elo_overall_logit and elo_surface_logit; no fit, no calibration.
+- **wta_base**: WTA base HistGradientBoosting on match-history features under the WTA01 procedure.
+- **wta_full**: WTA full bundle: base plus traits and dynamic serve/return states.
+- **wta_full_entry**: full_entry: full plus entry status (Q, LL, WC, PR) and tournament-level context; −0.0012 versus full [−0.0020, −0.0005], 6 of 6 years negative (WTA01 2019–2024 only; WTA levels through the declared level map).
+
+### Per year
+
+| year | n | elo | wta_base | wta_full | wta_full_entry | pinnacle_normalised | pinnacle_calibrated |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 2019 | 2,317 | 0.6341 | 0.6231 | 0.6190 | 0.6178 | 0.6002 | 0.6000 |
+| 2020 | 1,013 | 0.6281 | 0.6184 | 0.6173 | 0.6145 | 0.6039 | 0.6039 |
+| 2021 | 2,321 | 0.6165 | 0.6072 | 0.6013 | 0.6008 | 0.5756 | 0.5747 |
+| 2022 | 2,307 | 0.6301 | 0.6171 | 0.6134 | 0.6113 | 0.5915 | 0.5918 |
+| 2023 | 2,439 | 0.6224 | 0.6182 | 0.6122 | 0.6122 | 0.5903 | 0.5903 |
+| 2024 | 2,388 | 0.6253 | 0.6117 | 0.6054 | 0.6043 | 0.5884 | 0.5882 |
+| **all, match-weighted** | 12,785 | **0.6258** | **0.6157** | **0.6108** | **0.6097** | **0.5904** | **0.5902** |
+| all, equal-year mean | 6 years | 0.6261 | 0.6160 | 0.6114 | 0.6101 | 0.5916 | 0.5915 |
+
+### Paired contrasts (log loss delta, negative favours the first)
+
+| contrast | match-weighted | equal-year | years negative | interval |
+|---|---:|---:|---:|---:|
+| elo_minus_wta_base | +0.0101 | +0.0101 | 0/6 | [+0.0074, +0.0128] |
+| elo_minus_pinnacle_normalised | +0.0355 | +0.0344 | 0/6 | [+0.0315, +0.0393] |
+| wta_base_minus_wta_full | +0.0049 | +0.0045 | 0/6 | [+0.0032, +0.0065] |
+| wta_base_minus_pinnacle_normalised | +0.0253 | +0.0243 | 0/6 | [+0.0219, +0.0287] |
+| wta_full_minus_wta_full_entry | +0.0011 | +0.0013 | 1/6 | [+0.0003, +0.0020] |
+| wta_full_minus_pinnacle_normalised | +0.0204 | +0.0198 | 0/6 | [+0.0173, +0.0236] |
+| wta_full_entry_minus_pinnacle_normalised | +0.0193 | +0.0185 | 0/6 | [+0.0163, +0.0224] |
+
 ## Research degrees of freedom
 
 - Leaderboard entries in the archive: 145
-- Experiment ledger entries: 113
+- Experiment ledger entries: 125
 - Leaderboard entries on cohorts naming a year in 2017–2024: 130
 
 | family | entries |
