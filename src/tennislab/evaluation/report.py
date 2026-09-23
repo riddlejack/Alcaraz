@@ -100,6 +100,11 @@ CANDIDATES = {
     "hgb": ("hgb_leaf07_depth3", "hgb_leaf15_depth4"),
 }
 FIXED_RAW = {"ridge": "ridge_c1", "hgb": "hgb_leaf07_depth3"}
+# TUNE01: a bundle with a bound HGB menu has that menu's raw candidates (installed by
+# `configure_hgb_menus` from the predictor config's settings); every other bundle the
+# default menu above.  Empty unless a menu is bound.
+HGB_MENUS: dict[str, dict[str, str]] = {}
+HGB_MENU_CANDIDATES: dict[str, tuple[str, ...]] = {}
 LABEL_HEADER = (
     "match_id",
     "calendar_year",
@@ -410,6 +415,7 @@ def configure_bundles(
             raise ReportError(f"unknown report learner: {learner}")
     BLOCKS = chosen_blocks
     LEARNERS = chosen_learners
+    configure_hgb_menus()
     CONTRASTS = contrasts_for(BLOCKS)
     if not CONTRASTS:
         raise ReportError("the configured bundles form no declared contrast")
@@ -417,6 +423,36 @@ def configure_bundles(
     # secondary, seed and unit are reinstalled from it; `configure_primary` is then
     # called again by `validate_config` with whatever the reporting config declares.
     configure_primary()
+
+
+def configure_hgb_menus(bindings: Mapping[str, Any] | None = None) -> None:
+    """Install the per-bundle HGB menus the predictor config bound (TUNE01); absent, none.
+
+    Each menu file is resolved under the workspace and must hash to its binding; its
+    candidate list is the raw menu the report expects for that bundle.
+    """
+    global HGB_MENUS, HGB_MENU_CANDIDATES
+    from tennislab.models import pipeline
+
+    menus: dict[str, dict[str, str]] = {}
+    candidates: dict[str, tuple[str, ...]] = {}
+    for block, binding in (bindings or {}).items():
+        if block not in BLOCKS or "hgb" not in LEARNERS:
+            raise ReportError(f"an HGB menu names a bundle the report has no HGB fit for: {block}")
+        if not isinstance(binding, Mapping) or set(binding) != {"path", "sha256"}:
+            raise ReportError(f"hgb_menus.{block} must be exactly {{path, sha256}}")
+        path = resolve_under_root(str(binding["path"]), label=f"hgb_menus.{block}.path")
+        if sha256(path) != binding["sha256"]:
+            raise ReportError(f"hgb_menus.{block} hash mismatch")
+        menus[block] = {"path": str(binding["path"]), "sha256": str(binding["sha256"])}
+        candidates[block] = pipeline.load_hgb_menu(path, str(binding["path"])).candidate_ids
+    HGB_MENUS, HGB_MENU_CANDIDATES = menus, candidates
+
+
+def raw_candidates(learner: str, block: str) -> tuple[str, ...]:
+    if learner == "hgb" and block in HGB_MENU_CANDIDATES:
+        return HGB_MENU_CANDIDATES[block]
+    return CANDIDATES[learner]
 
 
 def configure_cohort(mode: str | None = None) -> str:
@@ -447,6 +483,8 @@ def settings_document() -> dict[str, Any]:
         "t_critical_95": T_CRITICAL_95,
         "priority_effect_reference_log_loss": PRIORITY_REFERENCE,
     }
+    if HGB_MENUS:
+        document["hgb_menus"] = {block: dict(binding) for block, binding in HGB_MENUS.items()}
     if tour_contract():
         document["bootstrap_unit"] = BOOTSTRAP_UNIT
         document["bootstrap_units_emitted"] = list(BOOTSTRAP_UNITS)
@@ -669,6 +707,7 @@ def validate_config(config_path: Path) -> tuple[dict[str, Any], Path, dict[str, 
     configure_identity(config.get("experiment_id"), settings.get("tour"))
     configure_years(settings.get("year_plan", {}), settings.get("t_critical_95"))
     configure_bundles(settings.get("blocks"), settings.get("learners"))
+    configure_hgb_menus(settings.get("hgb_menus"))
     configure_cohort(settings.get("cohort"))
     configure_primary(
         settings.get("primary_contrast"),
@@ -735,7 +774,7 @@ def _validate_and_describe_forecasts(
         for year in RAW_YEARS
         for learner in LEARNERS
         for block in BLOCKS
-        for candidate in CANDIDATES[learner]
+        for candidate in raw_candidates(learner, block)
     }
     observed_raw = {(x.year, x.learner, x.block, x.candidate_id) for x in forecasts}
     if observed_raw != expected_raw or len(forecasts) != len(expected_raw):

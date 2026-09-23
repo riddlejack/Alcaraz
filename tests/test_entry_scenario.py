@@ -139,3 +139,217 @@ def test_the_bundles_without_the_block_reproduce_the_tier_pin(entry_chain: dict[
     primary = read_json(entry_chain["workspace"] / RUN_ROOT / "report" / "primary.json")
     assert primary["effect_direction"] == "negative_favors_entry_level_block"
     assert primary["secondary_contrasts"] == {}
+
+
+# ------------------------------------------------------------------ TUNE01: an enlarged menu
+
+MENU = Path("configs", "menus", "tune01_hgb_menu.json")
+TUNED_MENU = Path("configs", "menus", "tiny_tune_menu.json")
+
+
+def tiny_menu(root: Path) -> bytes:
+    """The TUNE01 menu cut to two grid candidates and a 40-iteration cap, so the synthetic
+    chain exercises every bagged path in seconds."""
+    document = read_json(root / MENU)
+    document["grid_axes"] = {
+        "max_leaf_nodes": [7],
+        "min_samples_leaf": [80, 40],
+        "l2_regularization": [10.0],
+        "learning_rate": [0.1],
+    }
+    document["grid"] = [
+        entry
+        for entry in document["grid"]
+        if entry["candidate_id"]
+        in ("tune_lr100_leaf07_min080_reg10", "tune_lr100_leaf07_min040_reg10")
+    ]
+    document["counts"].update(grid=2, total_candidates_seen_by_selector=4)
+    document["early_stopping"].update(max_iter_cap=40, patience=5)
+    return (json.dumps(document, indent=1) + "\n").encode("utf-8")
+
+
+@pytest.fixture(scope="module")
+def tuned_chain(
+    tmp_path_factory: pytest.TempPathFactory, request: pytest.FixtureRequest
+) -> Iterator[dict[str, Any]]:
+    """The same scenario with an HGB menu bound to `full_tier_entry`, fitted by two worker
+    processes, through the real chain driver from write-configs to report."""
+    import hashlib
+    import os
+
+    root = Path(request.config.rootpath)
+    workspace = tmp_path_factory.mktemp("tune_scenario")
+    generate(root, workspace)
+    menu = tiny_menu(root)
+    (workspace / TUNED_MENU).parent.mkdir(parents=True, exist_ok=True)
+    (workspace / TUNED_MENU).write_bytes(menu)
+    document = read_json(root / CHAIN_CONFIG)
+    document["chain"]["hgb_menus"] = {
+        "full_tier_entry": {
+            "path": TUNED_MENU.as_posix(),
+            "sha256": hashlib.sha256(menu).hexdigest(),
+        }
+    }
+    (workspace / CHAIN_CONFIG).parent.mkdir(parents=True, exist_ok=True)
+    (workspace / CHAIN_CONFIG).write_text(json.dumps(document, indent=2), encoding="utf-8")
+    config = str(workspace / CHAIN_CONFIG)
+    previous = os.environ.get(pipeline.WORKERS_ENVIRONMENT_VARIABLE)
+    os.environ[pipeline.WORKERS_ENVIRONMENT_VARIABLE] = "2"
+    try:
+        assert inside(workspace, ["write-configs", "--config", config]) == 0
+        assert inside(workspace, ["dry-run", "--config", config]) == 0
+        assert inside(workspace, ["run", "--include-report", "--config", config]) == 0
+    finally:
+        if previous is None:
+            os.environ.pop(pipeline.WORKERS_ENVIRONMENT_VARIABLE, None)
+        else:
+            os.environ[pipeline.WORKERS_ENVIRONMENT_VARIABLE] = previous
+    yield {"workspace": workspace, "config": config, "root": root}
+
+
+def forecast_bytes(run_root: Path) -> dict[str, bytes]:
+    pipeline_dir = run_root / "pipeline"
+    return {
+        path.relative_to(pipeline_dir).as_posix(): path.read_bytes()
+        for folder in ("raw", "selected", "shared_base", "market")
+        for path in sorted((pipeline_dir / folder).rglob("*.csv"))
+    }
+
+
+def test_a_bound_menu_leaves_every_default_forecast_and_the_anchors_byte_identical(
+    entry_chain: dict[str, Any], tuned_chain: dict[str, Any]
+) -> None:
+    default = forecast_bytes(entry_chain["workspace"] / RUN_ROOT)
+    tuned = forecast_bytes(tuned_chain["workspace"] / RUN_ROOT)
+    grid = {name for name in tuned if "/tune_" in name}
+    assert len(grid) == 2 * 5
+    assert set(tuned) - grid == set(default)
+    selection = read_json(
+        tuned_chain["workspace"] / RUN_ROOT / "pipeline" / "selection_complete.json"
+    )
+    chosen = {
+        record["outer_year"]: record["selected_candidate_id"]
+        for record in selection["selection_records"]
+        if record["block"] == "full_tier_entry"
+    }
+    for name, payload in default.items():
+        selected_entry = name.startswith("selected/") and name.endswith("/full_tier_entry.csv")
+        if selected_entry and chosen[int(name.split("/")[1])].startswith("tune_"):
+            continue  # a year whose selector chose a grid candidate
+        assert tuned[name] == payload, name
+
+
+def test_the_tuned_records_carry_the_menu_the_stopped_counts_and_the_bag_seeds(
+    tuned_chain: dict[str, Any],
+) -> None:
+    run_root = tuned_chain["workspace"] / RUN_ROOT
+    section = read_json(Path(tuned_chain["config"]))["chain"]
+    binding = section["hgb_menus"]["full_tier_entry"]
+    predictor = read_json(tuned_chain["workspace"] / section["predictor_config"])
+    assert predictor["settings"]["hgb_menus"] == {"full_tier_entry": binding}
+    assert predictor["expected_membership"]["raw_fit_attempts"] == (2 + 2 + 4) * 5
+    raw = read_json(run_root / "pipeline" / "raw_complete.json")
+    assert raw["process_workers"] == 2 and raw["hgb_menus"] == {"full_tier_entry": binding}
+    grid_attempts = [
+        item for item in raw["raw_attempts"] if item["candidate_id"].startswith("tune_")
+    ]
+    assert len(grid_attempts) == 10
+    for item in grid_attempts:
+        tuning = item["tuning"]
+        assert tuning["menu_sha256"] == binding["sha256"]
+        assert tuning["refit_member_n_iter"] == [tuning["k_star"]] * 5
+        assert 1 <= tuning["k_star"] <= 40 and tuning["curve_points"] == 40
+        assert [entry["seed_sequence"] for entry in tuning["subsamples"]["refit"]] == [
+            [71101, item["year"], 1, member] for member in range(5)
+        ]
+    for record in read_json(run_root / "pipeline" / "selection_complete.json")["selection_records"]:
+        if record["block"] != "full_tier_entry":
+            assert "hgb_menu" not in record
+            continue
+        assert record["hgb_menu"] == binding
+        assert set(record["candidate_trials"]) == {
+            "hgb_leaf07_depth3",
+            "hgb_leaf15_depth4",
+            "tune_lr100_leaf07_min080_reg10",
+            "tune_lr100_leaf07_min040_reg10",
+        }
+        for candidate, trial in record["candidate_trials"].items():
+            for source in trial["prediction_sources"].values():
+                assert ("tuning" in source) == candidate.startswith("tune_")
+                if "tuning" in source:
+                    assert set(source["tuning"]) == {
+                        "k_star", "k_stop", "stop_status", "curve_sha256", "bag_seeds",
+                    }  # fmt: skip
+        assert ("tuning" in record) == record["selected_candidate_id"].startswith("tune_")
+    # The report publishes every candidate's past-year log losses after the barrier.
+    trials = read_json(run_root / "report" / "selection_trials.json")
+    assert "tune_lr100_leaf07_min040_reg10" in json.dumps(trials)
+    assert inside(tuned_chain["workspace"], ["verify", "--config", tuned_chain["config"]]) == 0
+
+
+def test_the_dry_run_refuses_a_year_plan_whose_menu_differs_from_the_chain(
+    tuned_chain: dict[str, Any],
+) -> None:
+    workspace = tuned_chain["workspace"]
+    document = read_json(Path(tuned_chain["config"]))
+    plan_path = workspace / document["chain"]["configs"]["year_plan"]
+    plan = read_json(plan_path)
+    assert plan["hgb_menus"] == document["chain"]["hgb_menus"]
+    plan["hgb_menus"]["full_tier_entry"]["sha256"] = "0" * 64
+    other_plan = plan_path.with_name("year_plan.other_menu.json")
+    other_plan.write_text(json.dumps(plan), encoding="utf-8")
+    document["chain"]["configs"]["year_plan"] = other_plan.relative_to(workspace).as_posix()
+    other_config = Path(tuned_chain["config"]).with_name("other_menu.json")
+    other_config.write_text(json.dumps(document), encoding="utf-8")
+    assert inside(workspace, ["dry-run", "--config", str(other_config)]) == 1
+
+
+def test_the_selected_curves_are_published_after_the_barrier_and_match_their_hashes(
+    tuned_chain: dict[str, Any],
+) -> None:
+    import os
+
+    from tennislab.config import WORKSPACE_ENVIRONMENT_VARIABLE, reset_workspace_cache
+
+    workspace = tuned_chain["workspace"]
+    section = read_json(Path(tuned_chain["config"]))["chain"]
+    argv = [
+        "curves",
+        "--config",
+        section["predictor_config"],
+        "--output",
+        (RUN_ROOT / "pipeline").as_posix(),
+        "--publish",
+        (RUN_ROOT.parent / "tune_curves").as_posix(),
+    ]
+    os.environ[WORKSPACE_ENVIRONMENT_VARIABLE] = str(workspace)
+    reset_workspace_cache()
+    cwd = Path.cwd()
+    try:
+        os.chdir(workspace)
+        assert pipeline.main(argv) == 0
+        assert pipeline.main(argv) == 1  # never replaces published curves
+    finally:
+        os.chdir(cwd)
+        os.environ.pop(WORKSPACE_ENVIRONMENT_VARIABLE, None)
+        reset_workspace_cache()
+        pipeline.configure_identity()
+        pipeline.configure_years(pipeline.DEFAULT_YEAR_PLAN)
+        pipeline.configure_cohort()
+        pipeline.configure_bundles()
+    summary = read_json(workspace / RUN_ROOT.parent / "tune_curves" / "curves_complete.json")
+    assert summary["status"] == "complete" and len(summary["published"]) == 3
+    for item in summary["published"]:
+        if item["status"] == "anchor_selected_no_curve":
+            continue
+        assert item["hash_matches"] and item["partition_matches"]
+        assert item["decision"] == item["committed_decision"]
+        curve = read_json(
+            workspace
+            / RUN_ROOT.parent
+            / "tune_curves"
+            / str(item["outer_year"])
+            / "hgb"
+            / "full_tier_entry.json"
+        )["curve"]
+        assert len(curve) == 40
