@@ -88,7 +88,11 @@ TIER_NOQUAL_SUFFIX = "_tier_noqual"
 # It yields `<stem>_tier_entry_minus_<stem>_tier`, the Arm 1 minus Arm 0 contrast, and
 # `<stem>_tier_entry_minus_<stem>` when the JOINT04 stem was fitted too.
 TIER_ENTRY_SUFFIX = "_tier_entry"
-VARIANT_SUFFIXES = (TIER_ENTRY_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_SUFFIX)
+# ARMS01 WTA secondary: the tier-free `*_entry` bundle (the JOINT04 bundle plus the same
+# block), the one variant the tour contract records; it yields `<stem>_entry_minus_<stem>`.
+# Tested last, because `_tier_entry` ends with it.
+ENTRY_SUFFIX = "_entry"
+VARIANT_SUFFIXES = (TIER_ENTRY_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_SUFFIX, ENTRY_SUFFIX)
 LEARNERS = DEFAULT_LEARNERS
 BLOCKS = DEFAULT_BLOCKS
 CANDIDATES = {
@@ -184,7 +188,7 @@ def contrasts_for(blocks: Sequence[str]) -> tuple[tuple[str, dict[str, float]], 
         if set(coefficients).issubset(present)
     ]
     for stem in BASE_BLOCKS:
-        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_ENTRY_SUFFIX):
+        for suffix in (TIER_SUFFIX, TIER_NOQUAL_SUFFIX, TIER_ENTRY_SUFFIX, ENTRY_SUFFIX):
             tier = f"{stem}{suffix}"
             if tier in present and stem in present:
                 derived.append((f"{tier}_minus_{stem}", {tier: 1.0, stem: -1.0}))
@@ -204,6 +208,8 @@ def default_primary_contrast(names: Sequence[str]) -> str:
     available = set(names)
     if f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}" in available:
         return f"full{TIER_ENTRY_SUFFIX}_minus_full{TIER_SUFFIX}"
+    if f"full{ENTRY_SUFFIX}_minus_full" in available:
+        return f"full{ENTRY_SUFFIX}_minus_full"
     if f"full{TIER_SUFFIX}_minus_full" in available:
         return f"full{TIER_SUFFIX}_minus_full"
     if "full_minus_base" in available:
@@ -387,14 +393,14 @@ def configure_bundles(
     if not chosen_learners or len(set(chosen_learners)) != len(chosen_learners):
         raise ReportError("report learners must be a nonempty list of distinct names")
     for block in chosen_blocks:
-        stem = block
+        stem, matched = block, ""
         for suffix in VARIANT_SUFFIXES:
             if block.endswith(suffix):
-                stem = block[: -len(suffix)]
+                stem, matched = block[: -len(suffix)], suffix
                 break
         if stem not in BASE_BLOCKS:
             raise ReportError(f"unknown report block: {block}")
-        if stem != block and tour_contract():
+        if matched not in ("", ENTRY_SUFFIX) and tour_contract():
             raise ReportError(
                 "a configuration that declares a tour is read under the WTA02 settings "
                 f"contract, which cannot record the tier bundle {block}"
@@ -1554,7 +1560,7 @@ def contrast_outputs(
             # `full - base`, so a negative value favours the richer bundle either way.
             "effect_direction": (
                 "negative_favors_entry_level_block"
-                if f"{TIER_ENTRY_SUFFIX}_minus_" in primary_id
+                if f"{ENTRY_SUFFIX}_minus_" in primary_id
                 else "negative_favors_tier_history"
                 if primary_id.endswith(f"{TIER_SUFFIX}_minus_full")
                 else "negative_favors_full"

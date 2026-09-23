@@ -739,3 +739,81 @@ def test_an_hgb_fit_on_the_entry_bundle_is_exactly_swap_symmetric() -> None:
     mirrored = attempt.fitted.predict(num.FeatureTable.from_rows(swapped_rows, header))
     assert np.max(np.abs(original.probabilities + mirrored.probabilities - 1.0)) <= 1e-12
     assert np.std(original.probabilities) > 0.0
+
+
+# ------------------------------------------------------------------ ARMS01 WTA: the tier-free entry bundle
+
+WTA_ENTRY_BUNDLES = ["base", "full", "full_entry"]
+
+
+def test_the_tier_free_entry_variant_splits_after_every_tier_suffix() -> None:
+    assert runner.split_block("full_entry") == ("full", "entry")
+    assert runner.split_block("base_entry") == ("base", "entry")
+    assert runner.split_block("full_tier_entry") == ("full", "tier_entry")
+    assert runner.split_block("full_tier") == ("full", "tier")
+    assert runner.split_block("full") == ("full", "")
+    with pytest.raises(ChainError):
+        runner.configure_bundles(["full_nonsense_entry"], ["hgb"])
+
+
+def test_the_tour_contract_admits_the_entry_bundle_and_records_the_block() -> None:
+    runner.configure_identity("ARMS01-WTA", "WTA")
+    runner.configure_bundles(WTA_ENTRY_BUNDLES, ["hgb"])
+    assert runner.tier_enabled() is False and runner.noqual_enabled() is False
+    assert runner.entry_enabled() is True
+    settings = runner.settings_document()
+    assert settings["tour"] == "WTA" and settings["cohort"] == "aligned_primary"
+    assert settings["entry_level_columns"] == list(runner.ENTRY_LEVEL_COLUMNS)
+    assert settings["blocks"] == WTA_ENTRY_BUNDLES and "tier_columns" not in settings
+    # Ridge is refused for the entry bundle, and the tour contract still refuses tier ones.
+    with pytest.raises(ChainError, match="ridge"):
+        runner.configure_bundles(WTA_ENTRY_BUNDLES, ["ridge", "hgb"])
+    for tiered in ("full_tier", "full_tier_entry", "full_tier_noqual"):
+        with pytest.raises(ChainError, match="tier bundle"):
+            runner.configure_bundles(["base", "full", tiered], ["hgb"])
+    # Without an entry bundle the frozen WTA settings document is unchanged.
+    runner.configure_bundles(["base", "traits", "dynamic", "full"], ["ridge", "hgb"])
+    assert "entry_level_columns" not in runner.settings_document()
+
+
+def test_the_wta_entry_bundle_is_full_plus_the_block_and_carries_no_tier_column() -> None:
+    runner.configure_identity("ARMS01-WTA", "WTA")
+    runner.configure_bundles(WTA_ENTRY_BUNDLES, ["hgb"])
+    c = entry_contract()
+    full_signed, full_context = c.model_columns("hgb", "full")
+    entry_signed, entry_context = c.model_columns("hgb", "full_entry")
+    assert entry_signed == (*full_signed, *runner.ENTRY_LEVEL_SIGNED)
+    assert entry_context == (*full_context, *runner.ENTRY_LEVEL_CONTEXT)
+    tier_columns = {*runner.TIER_COLUMNS, *runner.TIER_NOQUAL_COLUMNS}
+    assert not tier_columns & {*entry_signed, *entry_context, *c.all_columns}
+    assert c.all_columns[-9:] == runner.ENTRY_LEVEL_COLUMNS
+    with_entry = {block: c.model_columns("hgb", block) for block in ("base", "full")}
+    for block, (signed, context) in with_entry.items():
+        assert not set(runner.ENTRY_LEVEL_COLUMNS) & {*signed, *context}, block
+    # Every non-entry bundle keeps today's columns; the plain contract refuses the entry one.
+    runner.configure_bundles(["base", "full"], ["hgb"])
+    for block, columns in with_entry.items():
+        assert contract().model_columns("hgb", block) == columns, block
+    runner.configure_bundles(WTA_ENTRY_BUNDLES, ["hgb"])
+    with pytest.raises(ChainError, match="entry_level_block"):
+        contract().model_columns("hgb", "full_entry")
+    config = runner.numerical_config(c, "hgb", "full_entry", "hgb_leaf07_depth3")
+    assert config["signed_numeric_columns"][-4:] == list(runner.ENTRY_LEVEL_SIGNED)
+    assert config["context_columns"][-5:] == list(runner.ENTRY_LEVEL_CONTEXT)
+
+
+def test_the_wta_entry_block_needs_no_tier_sidecar_and_negates_under_swap() -> None:
+    runner.configure_identity("ARMS01-WTA", "WTA")
+    runner.configure_bundles(WTA_ENTRY_BUNDLES, ["hgb"])
+    base, sidecar = base_and_sidecar()
+    base.update(ENTRY_BLOCK)
+    first = runner.transformed_additions(base, sidecar, entry_contract())
+    assert not {*runner.TIER_COLUMNS} & set(first)
+    other_base, other_sidecar = swapped(base, sidecar)
+    for column in runner.ENTRY_LEVEL_SIGNED:
+        other_base[column] = str(-int(base[column]))
+    second = runner.transformed_additions(other_base, other_sidecar, entry_contract())
+    for field in runner.ENTRY_LEVEL_SIGNED:
+        assert float(first[field]) == -float(second[field]), field
+    for field in runner.ENTRY_LEVEL_CONTEXT:
+        assert float(first[field]) == float(second[field]), field
