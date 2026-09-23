@@ -122,3 +122,25 @@ def test_the_ll_option_reaches_only_the_features_config_and_only_when_declared()
     # Only a literal true is carried.
     other = {**section, "entry_level_block_ll_as_no_flag": "true"}
     assert runner._stage_config_bodies(other, section["inputs"], plan) == arm1
+
+
+def test_the_any_qualifier_option_reaches_only_the_features_config_when_false() -> None:
+    """ARMS01 attempt 002: `entry_any_qualifier_counts_ll: false` is carried to features.json;
+    absent or true emits every stage config byte-identical to today's; a non-boolean is refused."""
+    document = json.loads(
+        Path("configs/chains/atp_arms01_2017_2024.json").read_text(encoding="utf-8")
+    )
+    section = document["chain"]
+    plan = runner.year_plan(document).as_document()
+    arm1 = runner._stage_config_bodies(section, section["inputs"], plan)
+    assert "entry_any_qualifier_counts_ll" not in arm1["features"]
+    explicit = {**section, "entry_any_qualifier_counts_ll": True}
+    assert runner._stage_config_bodies(explicit, section["inputs"], plan) == arm1
+    registered = {**section, "entry_any_qualifier_counts_ll": False}
+    attempt2 = runner._stage_config_bodies(registered, section["inputs"], plan)
+    assert [name for name in arm1 if arm1[name] != attempt2[name]] == ["features"]
+    assert {**arm1["features"], "entry_any_qualifier_counts_ll": False} == attempt2["features"]
+    with pytest.raises(ChainError, match="entry_any_qualifier_counts_ll"):
+        runner._stage_config_bodies(
+            {**section, "entry_any_qualifier_counts_ll": "false"}, section["inputs"], plan
+        )

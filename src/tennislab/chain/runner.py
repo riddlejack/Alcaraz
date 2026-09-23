@@ -1615,6 +1615,9 @@ def _shared_stage_config_bodies(
     """The four bodies both tours emit identically (bar the rankings tour switch)."""
     experiment = experiment_of(section)
     tour = tour_of(section)
+    # ARMS01 attempt 002: a non-boolean would otherwise fall back to the default silently.
+    if not isinstance(section.get("entry_any_qualifier_counts_ll", True), bool):
+        raise ChainError("entry_any_qualifier_counts_ll must be true or false")
     return {
         "rankings": {
             "year_plan": plan_document,
@@ -1686,6 +1689,13 @@ def _shared_stage_config_bodies(
             **(
                 {"entry_level_block_ll_as_no_flag": True}
                 if section.get("entry_level_block_ll_as_no_flag") is True
+                else {}
+            ),
+            # ARMS01 attempt 002: the registered Q-only any-qualifier flag.  The default
+            # (Q or LL) is emitted as nothing, so every existing features config is unchanged.
+            **(
+                {"entry_any_qualifier_counts_ll": False}
+                if section.get("entry_any_qualifier_counts_ll") is False
                 else {}
             ),
             "year_plan": plan_document,

@@ -827,3 +827,14 @@ def test_the_ll_sensitivity_dictionary_gives_the_identical_feature_contract() ->
     llx = runner.FeatureContract.from_dictionary(features.column_dictionary(True, True))
     assert llx == arm1
     assert llx.entry_level == runner.ENTRY_LEVEL_COLUMNS
+
+
+def test_the_registered_any_qualifier_dictionary_gives_the_identical_feature_contract() -> None:
+    """ARMS01 attempt 002 changes one column's values, not the columns the pipeline reads."""
+    from tennislab.features import base as features
+
+    attempt1 = runner.FeatureContract.from_dictionary(features.column_dictionary(True))
+    attempt2 = runner.FeatureContract.from_dictionary(
+        features.column_dictionary(True, any_qualifier_counts_ll=False)
+    )
+    assert attempt2 == attempt1

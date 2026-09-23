@@ -698,3 +698,137 @@ def test_the_ll_option_is_recorded_in_the_receipts_and_needs_the_block() -> None
     assert bf.ENTRY_LL_AS_NO_FLAG_KEY not in bf.FIXED_PARAMETERS
     with pytest.raises(ChainError, match=bf.ENTRY_LL_AS_NO_FLAG_KEY):
         bf.column_dictionary(entry_level=False, ll_as_no_flag=True)
+
+
+# ------------------------ ARMS01 attempt 002: the registered Q-only any-qualifier flag
+
+
+def test_any_qualifier_counts_ll_false_counts_q_only_and_keeps_the_signed_ll_column() -> None:
+    base = record("t", dt.date(2020, 1, 1), 1, 2)
+    codes = ("", "Q", "LL", " ll", "WC", "PR", "SE", "Alt")
+    for entry_a in codes:
+        for entry_b in codes:
+            item = bf.replace(base, entry_a=entry_a, entry_b=entry_b, tourney_level="G")
+            default = bf.entry_level_values(item)
+            assert bf.entry_level_values(item, any_qualifier_counts_ll=True) == default
+            registered = bf.entry_level_values(item, any_qualifier_counts_ll=False)
+            assert tuple(registered) == bf.ENTRY_LEVEL_COLUMNS
+            normalised = {entry_a.strip().upper(), entry_b.strip().upper()}
+            assert registered["entry_any_qualifier"] == int("Q" in normalised)
+            # Only the flag can change, and only where LL is on a side and Q is on neither.
+            differing = {column for column in default if default[column] != registered[column]}
+            ll_without_q = "LL" in normalised and "Q" not in normalised
+            assert differing == ({"entry_any_qualifier"} if ll_without_q else set()), (
+                entry_a,
+                entry_b,
+            )
+            # entry_ll_diff stays the signed LL difference.
+            assert registered["entry_ll_diff"] == default["entry_ll_diff"]
+    one_sided = bf.replace(base, entry_a="", entry_b="LL")
+    assert bf.entry_level_values(one_sided, any_qualifier_counts_ll=False)["entry_ll_diff"] == -1
+    # Combined with the LL-as-no-flag sensitivity the flag is Q only either way.
+    for item in (one_sided, bf.replace(base, entry_a="Q", entry_b="LL")):
+        assert bf.entry_level_values(
+            item, ll_as_no_flag=True, any_qualifier_counts_ll=False
+        ) == bf.entry_level_values(item, ll_as_no_flag=True)
+
+
+def test_any_qualifier_option_absent_or_true_is_byte_identical_and_false_changes_only_ll_rows(
+    tmp_path: Path,
+) -> None:
+    d0 = dt.date(2020, 1, 1)
+    plan = [
+        ("s1", 0, 1, 2, "", ""),
+        ("t1", 2, 1, 3, "LL", ""),
+        ("t2", 2, 2, 4, "Q", "LL"),
+        ("t3", 3, 3, 4, "LL", "LL"),
+        ("t4", 3, 1, 4, "WC", " ll"),
+        ("t5", 4, 2, 3, "Q", ""),
+        ("t6", 4, 1, 2, "PR", "SE"),
+        ("t7", 5, 3, 5, "", "WC"),
+    ]
+    records = [
+        bf.replace(record(match_id, d0 + dt.timedelta(days=offset), a, b), entry_a=ea, entry_b=eb)
+        for match_id, offset, a, b, ea, eb in plan
+    ]
+
+    def written(name: str, **options: bool) -> tuple[Path, dict[str, object]]:
+        features_path = tmp_path / f"{name}.features.csv"
+        labels_path = tmp_path / f"{name}.labels.csv"
+        rows, _ = bf.write_features(
+            features_path, records, rank_map(records), PARAMETERS, Counter(), **options
+        )
+        bf.write_labels(labels_path, rows)
+        dictionary = bf.column_dictionary(
+            True, any_qualifier_counts_ll=options.get("any_qualifier_counts_ll", True)
+        )
+        assert (
+            bf.validate_written_outputs(features_path, labels_path, rows, dictionary, PARAMETERS)[
+                "status"
+            ]
+            == "PASS"
+        )
+        return features_path, dictionary
+
+    absent, absent_dictionary = written("absent", entry_level=True)
+    explicit, explicit_dictionary = written("true", entry_level=True, any_qualifier_counts_ll=True)
+    registered, registered_dictionary = written(
+        "false", entry_level=True, any_qualifier_counts_ll=False
+    )
+    # Absent and true: identical bytes and dictionary, and the dictionary names no option.
+    assert explicit.read_bytes() == absent.read_bytes()
+    assert explicit_dictionary == absent_dictionary == bf.column_dictionary(True)
+    assert bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY not in absent_dictionary
+    # False: same header; only entry_any_qualifier changes, only on LL-without-Q rows.
+    with absent.open(newline="", encoding="utf-8") as handle:
+        before = list(csv.DictReader(handle))
+    with registered.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        assert reader.fieldnames == list(bf.feature_header(entry_level=True))
+        after = list(reader)
+    changed = set()
+    for old, new in zip(before, after, strict=True):
+        differing = {column for column in old if old[column] != new[column]}
+        assert differing <= {"entry_any_qualifier"}, old["match_id"]
+        if differing:
+            changed.add(old["match_id"])
+        assert new["entry_ll_diff"] == old["entry_ll_diff"]
+    assert changed == {"t1", "t3", "t4"}  # t2 keeps the flag through its Q
+    assert registered_dictionary[bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY] is False
+    assert {
+        key
+        for key in registered_dictionary
+        if registered_dictionary[key] != absent_dictionary.get(key)
+    } == {bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY, "entry_level_semantics"}
+    # Negative controls: each file fails validation against the other dictionary.
+    ordered = sorted(records, key=bf.Record.order_key)
+    with pytest.raises(ChainError, match="wrong entry_any_qualifier"):
+        bf.validate_written_outputs(
+            registered, tmp_path / "false.labels.csv", ordered, absent_dictionary, PARAMETERS
+        )
+    with pytest.raises(ChainError, match="wrong entry_any_qualifier"):
+        bf.validate_written_outputs(
+            absent, tmp_path / "absent.labels.csv", ordered, registered_dictionary, PARAMETERS
+        )
+
+
+def test_any_qualifier_option_is_recorded_in_the_receipts_and_needs_the_block() -> None:
+    d0 = dt.date(2020, 1, 1)
+    records = [
+        bf.replace(record("a", d0, 1, 2), entry_a="LL", entry_b=""),
+        bf.replace(record("b", d0, 1, 3), entry_a="Q", entry_b="ll"),
+        bf.replace(record("c", d0.replace(year=2021), 1, 3), entry_a="LL", entry_b="LL"),
+    ]
+    plain = bf.entry_level_receipts(records)
+    assert bf.entry_level_receipts(records, any_qualifier_counts_ll=True) == plain
+    assert bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY not in plain
+    receipt = bf.entry_level_receipts(records, any_qualifier_counts_ll=False)
+    assert receipt[bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY] is False
+    assert receipt["any_qualifier_rows_with_ll_and_no_q_by_season"] == {"2020": 1, "2021": 1}
+    assert {key: value for key, value in receipt.items() if key in plain} == plain
+    assert bf.entry_any_qualifier_counts_ll({}) is True
+    assert bf.entry_any_qualifier_counts_ll({bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY: True}) is True
+    assert bf.entry_any_qualifier_counts_ll({bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY: False}) is False
+    assert bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY not in bf.FIXED_PARAMETERS
+    with pytest.raises(ChainError, match=bf.ENTRY_ANY_QUALIFIER_COUNTS_LL_KEY):
+        bf.column_dictionary(entry_level=False, any_qualifier_counts_ll=False)
