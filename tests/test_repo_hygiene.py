@@ -25,6 +25,13 @@ ALLOWED = {
     # The hygiene test names the patterns it forbids; the harness anchors on the repo root.
     "tests/test_repo_hygiene.py": {*FORBIDDEN},
     "tools/equivalence.py": {"source-relative repository root"},
+    # The task-local test harness locates the CLI under test, as this harness does.
+    "tests/test_buildoak_extension_score.py": {"source-relative repository root"},
+    # This path is the reviewed container tmpfs, never a developer host path.
+    "tools/buildoak_extension/runtime/adapter/fit_worker.py": {"absolute host path"},
+    # The standalone task controller imports only its bound sibling stdlib schema.
+    # This exception does not apply to product runtime or import-by-path loaders.
+    "tools/buildoak_extension/runtime/empirical_controller.py": {"sys.path mutation"},
     # The build helper locates its checkout; its generated example locates its bundle.
     # Host-prefix literals are the forbidden strings its privacy scan detects, not paths
     # to a developer's files. Neither exception applies to the runtime model loader.
