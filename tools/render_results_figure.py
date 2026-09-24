@@ -20,7 +20,10 @@ with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
 
 It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``, and
 the per-season BuildOak figure ``docs/assets/alcaraz-by-season.svg`` / ``.png`` (ARMS01
-contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``).
+contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``), and
+``docs/assets/alcaraz-lead-by-history.svg`` / ``.png`` (WHY01 decomposition: Alcaraz minus
+BuildOak and the lower-tier block's gain by the less-experienced player's prior main-tour
+matches, from ``docs/benchmarks/why01.json``).
 """
 
 from __future__ import annotations
@@ -373,6 +376,139 @@ def render_by_season(root: Path, output_dir: Path) -> list[Path]:
     return [svg, png]
 
 
+HISTORY_BANDS = (
+    ("thin_history: <10 prior main-tour matches", "fewer than 10"),
+    ("thin_history: 10-24", "10 to 24"),
+    ("thin_history: 25-49", "25 to 49"),
+    ("thin_history: 50-99", "50 to 99"),
+    ("thin_history: >=100", "100 or more"),
+)
+
+
+def history_rows(
+    root: Path,
+) -> tuple[list[tuple[str, int, float, float, float, float, float, float]], int]:
+    """Per history band: Alcaraz-minus-BuildOak and the lower-tier block gain, with intervals."""
+    why = _load(root / "docs/benchmarks/why01.json")
+    vs = {r["segment"]: r for r in why["A"]["buildoak"]["rows"]}
+    block = {r["segment"]: r for r in why["D"]["increments"]["full_tier_minus_p1"]}
+    n_all = int(vs["all matches"]["n"])
+    rows = []
+    for key, label in HISTORY_BANDS:
+        a, b = vs[key], block[key]
+        _require(int(a["n"]) == int(b["n"]), f"{key}: segment sizes differ between tables")
+        rows.append(
+            (
+                label,
+                int(a["n"]),
+                float(a["diff"]),
+                *map(float, a["diff_ci"]),
+                float(b["diff"]),
+                *map(float, b["diff_ci"]),
+            )
+        )
+    _require(sum(r[1] for r in rows) == n_all, "history bands do not partition the cohort")
+    return rows, n_all
+
+
+def render_by_history(root: Path, output_dir: Path) -> list[Path]:
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib import rcParams
+
+    rows, n_all = history_rows(root)
+    rcParams.update(
+        {
+            "font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
+            "font.size": 11,
+            "axes.edgecolor": GRID,
+            "axes.labelcolor": TEXT2,
+            "xtick.color": TEXT2,
+            "ytick.color": TEXT1,
+            "text.color": TEXT1,
+            "svg.fonttype": "none",
+            "svg.hashsalt": "alcaraz-lead-by-history",
+        }
+    )
+    fig, ax = plt.subplots(figsize=(8.6, 4.2))
+    fig.patch.set_facecolor(SURFACE)
+    ax.set_facecolor(SURFACE)
+    ys = list(range(len(rows)))[::-1]
+    ax.axvline(0, color=TEXT3, lw=1, zorder=1)
+    for y, (_label, n, d, lo, hi, g, glo, ghi) in zip(ys, rows, strict=True):
+        ax.plot([lo, hi], [y + 0.16, y + 0.16], color=BLUE, lw=2, solid_capstyle="round", zorder=2)
+        ax.scatter([d], [y + 0.16], s=70, color=BLUE, edgecolor=SURFACE, linewidth=1.5, zorder=3)
+        ax.plot(
+            [glo, ghi], [y - 0.16, y - 0.16], color=NEUTRAL, lw=2, solid_capstyle="round", zorder=2
+        )
+        ax.scatter([g], [y - 0.16], s=70, color=NEUTRAL, edgecolor=SURFACE, linewidth=1.5, zorder=3)
+        ax.text(0.0022, y, f"n = {n:,}", fontsize=9, color=TEXT3, va="center", ha="left")
+    ax.set_yticks(ys)
+    ax.set_yticklabels([r[0] for r in rows], fontsize=10.5)
+    ax.set_ylabel(
+        "prior main-tour matches of the less-experienced player", fontsize=9.5, color=TEXT2
+    )
+    ax.set_xlim(-0.035, 0.008)
+    ax.set_xticks([-0.03, -0.02, -0.01, 0.0])
+    ax.set_xlabel("paired log loss difference (negative favours Alcaraz, or the added block)")
+    ax.grid(axis="x", color=GRID, lw=1)
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    ax.tick_params(axis="y", length=0)
+    ax.set_title(
+        "The lead is largest where a player's tour record is thinnest",
+        loc="left",
+        fontsize=12.5,
+        fontweight="bold",
+        color=TEXT1,
+        pad=46,
+    )
+    ax.text(
+        0,
+        1.10,
+        "\u25cf  Alcaraz minus BuildOak",
+        transform=ax.transAxes,
+        fontsize=9.5,
+        color=BLUE,
+        va="bottom",
+    )
+    ax.text(
+        0.36,
+        1.115,
+        "\u25cf  gain from adding qualifying, Challenger and Futures history",
+        transform=ax.transAxes,
+        fontsize=9.5,
+        color=TEXT2,
+        va="bottom",
+    )
+    ax.text(
+        0,
+        1.02,
+        f"Same {n_all:,} ATP matches, 2017–2024; 95% match-level bootstrap intervals; exploratory decomposition",
+        transform=ax.transAxes,
+        fontsize=9.5,
+        color=TEXT3,
+        va="bottom",
+    )
+    fig.text(
+        0.01,
+        -0.02,
+        "Source: docs/benchmarks/why01.json (WHY01). Post-hoc, descriptive, development data; no new model fitted.",
+        fontsize=8.5,
+        color=TEXT3,
+        va="top",
+    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    svg = output_dir / "alcaraz-lead-by-history.svg"
+    png = output_dir / "alcaraz-lead-by-history.png"
+    fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
+    fig.savefig(png, format="png", dpi=160, bbox_inches="tight", facecolor=SURFACE)
+    plt.close(fig)
+    return [svg, png]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", type=Path, default=ROOT, help="repository root")
@@ -380,7 +516,11 @@ def main() -> None:
         "--output-dir", type=Path, default=ROOT / "docs/assets", help="figure directory"
     )
     args = parser.parse_args()
-    for path in render(args.root, args.output_dir) + render_by_season(args.root, args.output_dir):
+    for path in (
+        render(args.root, args.output_dir)
+        + render_by_season(args.root, args.output_dir)
+        + render_by_history(args.root, args.output_dir)
+    ):
         print(f"wrote {path}")
 
 
