@@ -10,12 +10,18 @@ The repository date is not a shared data through-date.
 
 | Tour | Configured panel | Feature-history floor | Target years | All targets | Identical priced cohort |
 |---|---|---|---|---:|---:|
-| ATP | 2005–2024 | 2011 | 2017–2024 | 18,972 | 18,882 |
-| WTA | 2007–2026 | 2011; serve counts from 2016 | 2025–2026 | 4,296 | 2,344 |
+| ATP | 2005–2025 | 2011 | 2017–2025 | 21,561 | 21,361 |
+| WTA (WTA01) | 2007–2025 | 2011; serve counts from 2016 | 2019–2025 | 15,251 | 15,028 |
+| WTA (WTA02) | 2007–2026 | 2011; serve counts from 2016 | 2025–2026 | 4,296 | 2,344 |
 
 The configuration locators are `configs/chains/atp_tier01_2017_2024.json` and
-`configs/chains/wta02_2025_2026.json`. All-target counts come from each accepted run's
-`report/primary.json`; priced counts come from generated `docs/ladder.json`.
+`configs/chains/wta01_2019_2024.json` for the accepted seasons, the archive's REFIT2025
+chains for 2025 (the frozen model run once on 2025), and `configs/chains/wta02_2025_2026.json`.
+The 2017–2025 and 2019–2025 all-target counts come from
+`docs/benchmarks/buildoak_2017_2025.json` and `docs/benchmarks/buildoak_wta_2019_2025.json`,
+the WTA02 count from its accepted run's `report/primary.json`; priced counts come from
+generated `docs/ladder.json`. 2025 was inspected before the model was frozen: every 2025
+number is exposed retrospective data, not a holdout.
 
 ATP covers tour-level men's singles plus the lower-tier history used by `full_tier`.
 WTA applies the same product trunk with tour-specific source and feature rules. The WTA
@@ -69,9 +75,13 @@ Each rung adds a declared statistics block to the same chronology and evaluation
 3. **full** adds player traits and SR02 dynamic serve/return states replayed match by match.
 4. **full_tier** (ATP only) adds qualifying, Challenger, and Futures history, including a
    tier-aware Elo, experience counts, and tier serve/return states.
+5. **full_tier_entry** (ATP) and **full_entry** (WTA) add nine declared columns: the signed
+   differences of the Q, LL, WC and PR entry codes, a symmetric any-qualifier flag, and
+   one-hot tournament-level flags. These are the frozen models (archive decision D134).
 
-These names map to `atp_p0`, `atp_p1`, `atp_full_tier`, `wta_base`, and `wta_full` in
-`configs/`. The WTA product has no tier rung; a shared label does not imply that support.
+These names map to `atp_p0`, `atp_p1`, `atp_full_tier`, `atp_full_tier_entry`, `wta_base`,
+`wta_full`, and `wta_full_entry` in `configs/`. The WTA product has no tier rung; a shared
+label does not imply that support.
 
 ## Walk-forward fitting, selection, and calibration
 
@@ -123,8 +133,9 @@ On the identical priced cohorts, match-weighted log loss is:
 
 | Tour | Best sports rung | Normalised Pinnacle | Paired gap, sports minus market |
 |---|---:|---:|---:|
-| ATP, 18,882 matches | 0.5984 | 0.5873 | +0.0112 [0.0090, 0.0134] |
-| WTA, 2,344 matches | 0.6153 | 0.5953 | +0.0200 [0.0127, 0.0279] |
+| ATP 2017–2025, 21,361 matches, `full_tier_entry` | 0.5993 | 0.5890 | +0.0102 [0.0082, 0.0123] |
+| WTA 2019–2025, 15,028 matches, `wta_full_entry` | 0.6106 | 0.5913 | +0.0194 [0.0165, 0.0223] |
+| WTA 2025–2026, 2,344 matches, `wta_full` | 0.6153 | 0.5953 | +0.0200 [0.0127, 0.0279] |
 
 Source: generated `docs/RESULTS.md`, match-weighted paired contrasts. A positive gap means
 the sports model had higher loss. It does not establish why, and it neither proves nor
@@ -181,7 +192,8 @@ their broader ideas.
 ## Prospective status
 
 Nothing here is prospective confirmation. The 2025–2026 window was opened, repaired,
-and reviewed; it is development data. No real batch has been issued before play and later
+and reviewed, and 2025 was scored again for the frozen model and its extended comparisons;
+it is development data. No real batch has been issued before play and later
 scored under a frozen stopping rule. The manual workflow has passed scoped independent
 synthetic reconstruction; qualified real-source binding, the D2 snapshot, and integrated
 CI remain separate prerequisites before real issuance can create such evidence.

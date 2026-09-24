@@ -1,0 +1,66 @@
+# Ultimate Tennis Statistics and Ingram, ATP 2024–2025 (EXT2025)
+
+> **2025 is exposed retrospective data, not a holdout.** It was inspected before the model
+> freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
+> remain the registered claims, and each extended number is shown beside its registered
+> one: [EXTERNAL_2024_2025_RESULTS.md](EXTERNAL_2024_2025_RESULTS.md) for Ultimate Tennis Statistics and [INGRAM_2024_RESULTS.md](INGRAM_2024_RESULTS.md) for Ingram, both ATP 2024.
+> The extension's acceptance is pending a decision entry.
+
+Both external systems are scored with one scorer on one match set per block: ATP 2024,
+ATP 2025 and the two pooled (design amendments A2 and A4). The primary comparator is the
+frozen model (ATP `full_tier_entry`, D134); the continuity comparator is the version the
+accepted 2024 rows used (`full_tier`). Every number is filled from
+[uts_ingram_2024_2025.json](uts_ingram_2024_2025.json) and the accepted JSONs.
+
+## Ultimate Tennis Statistics fixed formula
+
+A public-data adaptation of the published formula, not the website's own output (see the
+accepted page for the adaptation).
+
+### Frozen model (primary)
+
+| Block | Matches | Alcaraz | UTS | Alcaraz − UTS | 95% interval, eight-week blocks |
+|---|---:|---:|---:|---:|---:|
+| 2024 | {{ui25:uts/primary/2024/n|int}} | {{ui25:uts/primary/2024/incumbent/log_loss|f4}} | {{ui25:uts/primary/2024/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/primary/2024/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/primary/2024/uncertainty/results/8/percentile_95|ci4}} |
+| 2025 | {{ui25:uts/primary/2025/n|int}} | {{ui25:uts/primary/2025/incumbent/log_loss|f4}} | {{ui25:uts/primary/2025/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/primary/2025/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/primary/2025/uncertainty/results/8/percentile_95|ci4}} |
+| 2024–2025 pooled | {{ui25:uts/primary/pooled_2024_2025/n|int}} | {{ui25:uts/primary/pooled_2024_2025/incumbent/log_loss|f4}} | {{ui25:uts/primary/pooled_2024_2025/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+
+### Accepted version (continuity)
+
+| Block | Matches | Alcaraz | UTS | Alcaraz − UTS | 95% interval, eight-week blocks |
+|---|---:|---:|---:|---:|---:|
+| 2024 | {{ui25:uts/continuity/2024/n|int}} | {{ui25:uts/continuity/2024/incumbent/log_loss|f4}} | {{ui25:uts/continuity/2024/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/continuity/2024/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/continuity/2024/uncertainty/results/8/percentile_95|ci4}} |
+| 2025 | {{ui25:uts/continuity/2025/n|int}} | {{ui25:uts/continuity/2025/incumbent/log_loss|f4}} | {{ui25:uts/continuity/2025/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/continuity/2025/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/continuity/2025/uncertainty/results/8/percentile_95|ci4}} |
+| 2024–2025 pooled | {{ui25:uts/continuity/pooled_2024_2025/n|int}} | {{ui25:uts/continuity/pooled_2024_2025/incumbent/log_loss|f4}} | {{ui25:uts/continuity/pooled_2024_2025/external_uts_adaptation/log_loss|f4}} | {{ui25:uts/continuity/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} | {{ui25:uts/continuity/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+
+The continuity 2024 row equals the registered 2024 result value for value (the builder
+checks it): {{ext:comparisons/[id=uts_fixed_formula_adaptation_atp_2024]/paired_log_loss/alcaraz_minus_external|s4}}
+{{ext:comparisons/[id=uts_fixed_formula_adaptation_atp_2024]/paired_log_loss/primary_95_interval|ci4}} on {{ext:comparisons/[id=uts_fixed_formula_adaptation_atp_2024]/cohort/matches|int}} matches.
+UTS is not run on 2017–2023: those seasons lie in the formula's weight-tuning window,
+predate its code or would need a new timing exclusion (design amendment A2).
+
+## Ingram's Bayesian point model
+
+The 2025 Ingram fit and its scoring pass with the same scorer are pending (design
+amendment A4); until they exist the registered 2024 result stands alone:
+{{ing:primary/incumbent_minus_ingram_log_loss|s4}}
+{{ing:primary/uncertainty/results/8/percentile_95|ci4}} on {{ing:primary/incumbent/n|int}}
+matches (its own bootstrap), against `full_tier`.
+{{# INGRAM SLOT: when uts_ingram_2024_2025.json carries ingram.primary and ingram.continuity
+(same layout as uts.primary), replace the paragraph above with the two tables below and
+delete these comment markers.
+
+### Frozen model (primary)
+
+| Block | Matches | Alcaraz | Ingram | Alcaraz − Ingram | 95% interval, eight-week blocks |
+|---|---:|---:|---:|---:|---:|
+| 2024 | {{ui25:ingram/primary/2024/n|int}} | ... |
+#}}
+
+## Limits
+
+- A public-data formula adaptation, not the UTS website's historical output or its private
+  database.
+- No claim of prospective validity, betting value or universal state of the art.
+- The 2024–2025 blocks share 2024 with the registered result and are not an independent
+  confirmation.

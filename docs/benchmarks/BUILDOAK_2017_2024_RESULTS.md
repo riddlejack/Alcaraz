@@ -5,6 +5,10 @@
 > ([buildoak_2017_2024.json](buildoak_2017_2024.json)). A separate implementation
 > reproduced every registered estimate and interval before acceptance.
 
+Extended to ATP 2017–2025 with the frozen model, as exposed retrospective data (EXT2025):
+[BUILDOAK_2017_2025_RESULTS.md](BUILDOAK_2017_2025_RESULTS.md). This page stays the registered
+result; nothing on it changes.
+
 ## Registered outcomes
 
 ARMS01 fixed three gates, and the sentences that report them, before any 2017–2023

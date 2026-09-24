@@ -5,6 +5,10 @@ review implementation reproduced the saved scores and uncertainty calculations. 
 comparison of specified implementations on historical data, not a claim to lead every public
 tennis model or reproduce the forecasts originally published by those services.
 
+Extended to ATP 2017–2025 and WTA 2019–2025, with the frozen model beside this comparison's
+version, as exposed retrospective data (EXT2025): [G_L_2017_2025_RESULTS.md](G_L_2017_2025_RESULTS.md).
+This page stays the registered result.
+
 Men: 18,972 ATP matches, 2017–2024, using the accepted full-tier model. Women: 12,900 WTA
 matches, 2019–2024, using accepted WTA01 full. All models within each column use the same
 matches. Each season has equal weight, so a busier year cannot dominate the result. These

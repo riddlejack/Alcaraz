@@ -6,6 +6,11 @@ evidence or reproductions of either external system's original headline result. 
 Brier score are better; higher accuracy is better. The paired log-loss difference is **Alcaraz
 minus external**, so a negative value favors Alcaraz.
 
+The UTS comparison is extended to ATP 2025 and pooled 2024–2025, with the frozen model as the
+comparator, as exposed retrospective data (EXT2025):
+[UTS_INGRAM_2024_2025_RESULTS.md](UTS_INGRAM_2024_2025_RESULTS.md). The 2024 result on this page
+stays the registered one.
+
 ## Headline results
 
 | Cohort | Matches | System | Log loss | Brier | Accuracy |

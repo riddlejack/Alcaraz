@@ -1,0 +1,166 @@
+# BuildOak comparison extended to 2025: ATP 2017–2025 and WTA 2019–2025 (EXT2025)
+
+> **2025 is exposed retrospective data, not a holdout.** It was inspected before the model
+> freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
+> remain the registered claims, and each extended number is shown beside its registered
+> one: [ATP 2017–2024](BUILDOAK_2017_2024_RESULTS.md), archive decisions D131 and D132; [WTA 2019–2024](BUILDOAK_WTA_2019_2024_RESULTS.md), D133.
+> Acceptance of this extension: decision {{bo25:acceptance/archive_decision|raw}}, independent reconstruction {{bo25:acceptance/reconstruction_verdict|raw}}.
+
+Every number on this page is filled from [buildoak_2017_2025.json](buildoak_2017_2025.json),
+[buildoak_wta_2019_2025.json](buildoak_wta_2019_2025.json) and the two accepted JSONs by
+`tools/check_readme_numbers.py`; the JSONs are built from the archive scorer outputs by
+`tools/build_benchmark_aggregates.py`.
+
+## What changed from the accepted comparison
+
+- **One Alcaraz arm, the frozen model.** Alcaraz is `{{bo25:systems/arm1/label|raw}}` on
+  the men's tour and `{{bow25:systems/arm1/label|raw}}` on the women's tour (D134): the
+  accepted forecasts for the earlier seasons and the REFIT2025 forecasts for 2025. The
+  previous version is bound for the record and not scored. The scorer, seed, draws and
+  block lengths are the accepted ones (design amendment A3).
+- **One more BuildOak fit.** BuildOak was fitted once more, at the 2024-12-30 boundary,
+  with the frozen adaptation in the same container; its 2025 forecasts were used only after
+  the accepted 2024 BuildOak runs reproduced byte for byte there (A1; men
+  {{bo25:systems/buildoak/reproduction_2024/status|raw}}, women
+  {{bow25:systems/buildoak/reproduction_2024/status|raw}}).
+- **A structural break in the rival.** {{bo25:systems/buildoak/structural_break|raw}}.
+  On the women's tour, {{bow25:systems/buildoak/structural_break|raw}}.
+- **No gates.** EXT2025 fixed what is reported before any extended score existed; every
+  number is reported whatever it shows, and the 2025-only difference is descriptive, not a
+  separate test.
+- **Accepted seasons unchanged.** Before writing the extended JSON, the builder checks that
+  every accepted season's counts, per-season scores, per-season differences, blend weights
+  and BuildOak forecast files equal the accepted result exactly.
+
+## Men's tour, {{bo25:contrasts/contrast2_arm1_minus_buildoak/years|span}}
+
+| | Extended (EXT2025) | Registered (accepted) |
+|---|---:|---:|
+| Seasons | {{bo25:contrasts/contrast2_arm1_minus_buildoak/years|span}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/years|span}} |
+| Matches | {{bo25:contrasts/contrast2_arm1_minus_buildoak/n|int}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/n|int}} |
+| Alcaraz log loss, match-weighted | {{bo25:contrasts/contrast2_arm1_minus_buildoak/left_match_weighted/log_loss|f4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/left_match_weighted/log_loss|f4}} |
+| BuildOak log loss, match-weighted | {{bo25:contrasts/contrast2_arm1_minus_buildoak/right_match_weighted/log_loss|f4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/right_match_weighted/log_loss|f4}} |
+| Alcaraz − BuildOak, paired log loss | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} |
+| 95% interval, eight-week blocks (primary) | {{bo25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}} |
+| 95% interval, four-week blocks | {{bo25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/4|ci4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/4|ci4}} |
+| 95% interval, thirteen-week blocks | {{bo25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/13|ci4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/13|ci4}} |
+| Equal-year mean difference | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/equal_year_log_loss|s4}} {{bo25:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95|ci4}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/difference/equal_year_log_loss|s4}} {{bo:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95|ci4}} |
+| Seasons with Alcaraz ahead | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bo25:contrasts/contrast2_arm1_minus_buildoak/years|len|d}} | {{bo:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bo:contrasts/contrast2_arm1_minus_buildoak/years|len|d}} |
+| Alcaraz − normalised Pinnacle, priced matches (descriptive) | {{bo25:reference_lines/arm1_minus_pinnacle_normalised/difference/match_weighted/log_loss|s4}} {{bo25:reference_lines/arm1_minus_pinnacle_normalised/intervals_95/log_loss/8|ci4}} on {{bo25:reference_lines/arm1_minus_pinnacle_normalised/n|int}} | {{bo:reference_lines/arm1_minus_pinnacle_normalised/difference/match_weighted/log_loss|s4}} {{bo:reference_lines/arm1_minus_pinnacle_normalised/intervals_95/log_loss/8|ci4}} on {{bo:reference_lines/arm1_minus_pinnacle_normalised/n|int}} |
+
+Paired log loss, left minus right, on identical matches; negative favours Alcaraz. Intervals
+are 95% percentile intervals from {{bo25:uncertainty_method/replicates|int}} stationary
+calendar-week bootstrap draws (seed {{bo25:uncertainty_method/seed|d}}); the extended
+interval shares its first seasons with the registered one and is not an independent
+confirmation.
+
+| Season | Matches | Alcaraz | BuildOak | Alcaraz − BuildOak |
+|---|---:|---:|---:|---:|
+| 2017 | {{bo25:cohort/n_by_year/2017|int}} | {{bo25:scores/arm1/by_year/2017/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2017/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2017|s4}} |
+| 2018 | {{bo25:cohort/n_by_year/2018|int}} | {{bo25:scores/arm1/by_year/2018/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2018/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2018|s4}} |
+| 2019 | {{bo25:cohort/n_by_year/2019|int}} | {{bo25:scores/arm1/by_year/2019/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2019/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2019|s4}} |
+| 2020 | {{bo25:cohort/n_by_year/2020|int}} | {{bo25:scores/arm1/by_year/2020/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2020/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2020|s4}} |
+| 2021 | {{bo25:cohort/n_by_year/2021|int}} | {{bo25:scores/arm1/by_year/2021/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2021/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2021|s4}} |
+| 2022 | {{bo25:cohort/n_by_year/2022|int}} | {{bo25:scores/arm1/by_year/2022/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2022/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2022|s4}} |
+| 2023 | {{bo25:cohort/n_by_year/2023|int}} | {{bo25:scores/arm1/by_year/2023/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2023/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2023|s4}} |
+| 2024 | {{bo25:cohort/n_by_year/2024|int}} | {{bo25:scores/arm1/by_year/2024/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2024/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2024|s4}} |
+| 2025 | {{bo25:cohort/n_by_year/2025|int}} | {{bo25:scores/arm1/by_year/2025/log_loss|f4}} | {{bo25:scores/buildoak/by_year/2025/log_loss|f4}} | {{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2025|s4}} |
+
+Per-season match-weighted log loss. The rows before 2025 equal the accepted page.
+
+### Blend, descriptive
+
+The accepted past-only blend rule, extended by one target year: blend logit =
+(1 − w)·logit(Alcaraz) + w·logit(BuildOak), with w chosen on the grid
+{{bo25:contrasts/contrast3_blend/weight_grid|first|f2}} to {{bo25:contrasts/contrast3_blend/weight_grid|last|f2}} over the three
+preceding target years and never the target year.
+
+| Target year | Weight on BuildOak | Fitted on | Matches in fit | Role |
+|---|---:|---|---:|---|
+| 2018 | {{bo25:contrasts/contrast3_blend/selection/2018/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2018/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2018/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2018/status|raw}} |
+| 2019 | {{bo25:contrasts/contrast3_blend/selection/2019/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2019/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2019/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2019/status|raw}} |
+| 2020 | {{bo25:contrasts/contrast3_blend/selection/2020/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2020/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2020/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2020/status|raw}} |
+| 2021 | {{bo25:contrasts/contrast3_blend/selection/2021/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2021/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2021/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2021/status|raw}} |
+| 2022 | {{bo25:contrasts/contrast3_blend/selection/2022/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2022/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2022/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2022/status|raw}} |
+| 2023 | {{bo25:contrasts/contrast3_blend/selection/2023/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2023/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2023/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2023/status|raw}} |
+| 2024 | {{bo25:contrasts/contrast3_blend/selection/2024/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2024/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2024/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2024/status|raw}} |
+| 2025 | {{bo25:contrasts/contrast3_blend/selection/2025/weight|f2}} | {{bo25:contrasts/contrast3_blend/selection/2025/fit_years|span}} | {{bo25:contrasts/contrast3_blend/selection/2025/fit_n|int}} | {{bo25:contrasts/contrast3_blend/selection/2025/status|raw}} |
+
+On the {{bo25:contrasts/contrast3_blend/primary_blend_minus_arm1/n|int}} primary matches
+({{bo25:contrasts/contrast3_blend/primary_years|first|d}}–{{bo25:contrasts/contrast3_blend/primary_years|last|d}}), blend − Alcaraz is
+{{bo25:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|s4}}
+{{bo25:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}} and blend − BuildOak
+{{bo25:contrasts/contrast3_blend/primary_blend_minus_buildoak/difference/match_weighted/log_loss|s4}}
+{{bo25:contrasts/contrast3_blend/primary_blend_minus_buildoak/intervals_95/log_loss/8|ci4}}. Registered
+({{bo:contrasts/contrast3_blend/primary_years|first|d}}–{{bo:contrasts/contrast3_blend/primary_years|last|d}},
+{{bo:contrasts/contrast3_blend/primary_blend_minus_arm1/n|int}} matches):
+{{bo:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|s4}}
+{{bo:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}} and
+{{bo:contrasts/contrast3_blend/primary_blend_minus_buildoak/difference/match_weighted/log_loss|s4}}
+{{bo:contrasts/contrast3_blend/primary_blend_minus_buildoak/intervals_95/log_loss/8|ci4}}.
+
+The registered 2020–2024 test is the claim and stays so: its interval for blend − Alcaraz
+included zero, the blend was not adopted, and no blend is released; the model is frozen
+(D134). With 2025 added, the interval touches zero: its upper bound is
+{{bo25:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|last|s5}} under the registered seed,
+and under {{bo25:readings/blend_interval_seed_sensitivity/alternative_seeds/n|word}} alternative seeds it is below zero only
+{{bo25:readings/blend_interval_seed_sensitivity/alternative_seeds/upper_below_zero|word}} times (independent reconstruction). This is a
+descriptive reading of one more exposed season, not a pass, and it changes neither decision.
+
+## Women's tour, {{bow25:contrasts/contrast2_arm1_minus_buildoak/years|span}}
+
+| | Extended (EXT2025) | Registered (accepted) |
+|---|---:|---:|
+| Seasons | {{bow25:contrasts/contrast2_arm1_minus_buildoak/years|span}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/years|span}} |
+| Matches | {{bow25:contrasts/contrast2_arm1_minus_buildoak/n|int}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/n|int}} |
+| Alcaraz log loss, match-weighted | {{bow25:contrasts/contrast2_arm1_minus_buildoak/left_match_weighted/log_loss|f4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/left_match_weighted/log_loss|f4}} |
+| BuildOak log loss, match-weighted | {{bow25:contrasts/contrast2_arm1_minus_buildoak/right_match_weighted/log_loss|f4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/right_match_weighted/log_loss|f4}} |
+| Alcaraz − BuildOak, paired log loss | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} |
+| 95% interval, eight-week blocks (primary) | {{bow25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}} |
+| 95% interval, four-week blocks | {{bow25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/4|ci4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/4|ci4}} |
+| 95% interval, thirteen-week blocks | {{bow25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/13|ci4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/13|ci4}} |
+| Equal-year mean difference | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/equal_year_log_loss|s4}} {{bow25:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95|ci4}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/difference/equal_year_log_loss|s4}} {{bow:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95|ci4}} |
+| Seasons with Alcaraz ahead | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bow25:contrasts/contrast2_arm1_minus_buildoak/years|len|d}} | {{bow:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bow:contrasts/contrast2_arm1_minus_buildoak/years|len|d}} |
+
+The accepted women's comparison was registered as underpowered, and its interval included
+zero; the extension adds one season and is read the same way. The equal-year interval now
+includes zero as well, {{bow25:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95|ci4}}; the accepted 2019–2024 one did not,
+[{{bow:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95/0|s4}}, {{bow:contrasts/contrast2_arm1_minus_buildoak/equal_year_interval_log_loss/percentile_95/1|s5}}].
+
+| Season | Matches | Alcaraz | BuildOak | Alcaraz − BuildOak |
+|---|---:|---:|---:|---:|
+| 2019 | {{bow25:cohort/n_by_year/2019|int}} | {{bow25:scores/arm1/by_year/2019/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2019/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2019|s4}} |
+| 2020 | {{bow25:cohort/n_by_year/2020|int}} | {{bow25:scores/arm1/by_year/2020/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2020/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2020|s4}} |
+| 2021 | {{bow25:cohort/n_by_year/2021|int}} | {{bow25:scores/arm1/by_year/2021/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2021/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2021|s4}} |
+| 2022 | {{bow25:cohort/n_by_year/2022|int}} | {{bow25:scores/arm1/by_year/2022/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2022/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2022|s4}} |
+| 2023 | {{bow25:cohort/n_by_year/2023|int}} | {{bow25:scores/arm1/by_year/2023/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2023/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2023|s4}} |
+| 2024 | {{bow25:cohort/n_by_year/2024|int}} | {{bow25:scores/arm1/by_year/2024/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2024/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2024|s4}} |
+| 2025 | {{bow25:cohort/n_by_year/2025|int}} | {{bow25:scores/arm1/by_year/2025/log_loss|f4}} | {{bow25:scores/buildoak/by_year/2025/log_loss|f4}} | {{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2025|s4}} |
+
+On the {{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/n|int}} primary blend matches
+({{bow25:contrasts/contrast3_blend/primary_years|first|d}}–{{bow25:contrasts/contrast3_blend/primary_years|last|d}}), blend − Alcaraz is
+{{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|s4}}
+{{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}} and blend − BuildOak
+{{bow25:contrasts/contrast3_blend/primary_blend_minus_buildoak/difference/match_weighted/log_loss|s4}}
+{{bow25:contrasts/contrast3_blend/primary_blend_minus_buildoak/intervals_95/log_loss/8|ci4}}; the registered
+release of the women's blend as a research artefact (D133) rests on the accepted
+{{bow:contrasts/contrast3_blend/primary_years|first|d}}–{{bow:contrasts/contrast3_blend/primary_years|last|d}} result, not on this
+extension.
+
+## Limits
+
+- An exposed retrospective comparison of complete systems with different legitimate
+  histories; not an untouched test, prospective evidence or a market claim.
+- The men's 2025 BuildOak forecasts come from a structurally different recipe than the
+  earlier seasons (A1); the pooled contrast mixes both. On the women's tour the recent-era
+  recipe runs in 2024 and 2025 only.
+- Independent reconstruction of both tours: {{bo25:acceptance/reconstruction_verdict|raw}} (men),
+  {{bow25:acceptance/reconstruction_verdict|raw}} (women); the decision entry is
+  {{bo25:acceptance/archive_decision|raw}}.
+- BuildOak's recipe was selected by its author on ROC AUC with sight of 2026 data.
+- The intervals condition on the saved forecasts and omit refit, selection and
+  source-choice uncertainty.
+
+Machine-readable aggregates, per-season tables, blend grids, draw hashes and provenance:
+[buildoak_2017_2025.json](buildoak_2017_2025.json),
+[buildoak_wta_2019_2025.json](buildoak_wta_2019_2025.json).
