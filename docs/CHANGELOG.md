@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-09-24 — IBM comparison extended to every provably pre-match file (IBM02)
+
+- `docs/benchmarks/IBM02_RESULTS.md` and `ibm02.json` (archive decision D136, independently
+  reconstructed): 64 Grand Slam matches from 2022–2023 with an IBM "Likelihood to Win"
+  shown to have been published before the first ball (29 archived, 36 recovered from
+  wimbledon.com's 2023 files under the AELTC terms; usopen.org's terms forbid automated
+  extraction). Log loss Alcaraz 0.5154, Pinnacle 0.4876, IBM 0.6012; Alcaraz − IBM −0.0858
+  [−0.1468, −0.0188]. The page states the sub-sample split (the archived 29 carry the gap;
+  the 36 live rows alone are inconclusive) and the finding that IBM's files are mutable
+  (2024/2025 re-published after the events; 2023 values rewritten on match day). README row
+  and paragraph updated; `IBM01_RESULTS.md` retained as the archived-only result.
+
 ## 2026-09-24 — join: configurable CH01 pin files; tier_stream: surface case drift
 
 - `tennislab.panel.join` accepts two optional config keys, `ch01_player_aliases` and

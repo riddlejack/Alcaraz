@@ -1,5 +1,8 @@
 # Grand Slams 2022–2023: Alcaraz, Pinnacle and IBM's Match Insights on the same matches (IBM01)
 
+> Superseded as the IBM comparison by [IBM02](IBM02_RESULTS.md) (64 matches, pooled with the
+> 2023 files recovered from wimbledon.com). This page is retained as the archived-only result.
+
 > **Independently reconstructed (archive decision D135).** Every number on this page comes
 > from the single registered scoring pass of IBM01 ([ibm01.json](ibm01.json)). The
 > population was frozen from start-time evidence before any Alcaraz forecast, price or

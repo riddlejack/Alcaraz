@@ -61,7 +61,7 @@ rows were scored with the previous model version, before the entry-status block.
 | [BuildOak XGBoost](https://github.com/buildoak/tennis-xgboost-autoresearch), replayed season by season | 18,972 ATP, 2017–24 | 0.6046 | 0.5976 | −0.0070 [−0.0100, −0.0040] | 7 of 8 |
 | [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 2,681 ATP, 2024 | 0.6209 | 0.5965 | −0.0244 [−0.0311, −0.0176] | 1 of 1 |
 | Ingram's Bayesian point model | 2,681 ATP, 2024 | 0.6417 | 0.5965 | −0.0452 [−0.0565, −0.0350] | 1 of 1 |
-| IBM Match Insights, archived pre-match forecasts | 29 Grand Slam matches, 2022–23, both tours | 0.6285 | 0.4550 | −0.1735 [−0.2383, −0.1074] | — |
+| IBM Match Insights, every provably pre-match forecast recoverable | 64 Grand Slam matches, 2022–23, both tours | 0.6012 | 0.5154 | -0.0858 [-0.1468, -0.0188] | — |
 | Five Elo and ranking baselines (FiveThirtyEight, Kovalchik, WElo, pooled Elo, ranking logistic) | 18,972 ATP; 12,900 WTA | 0.6222 to 0.6334 (ATP) | 0.5984 (ATP) | every interval excludes zero, on both tours | — |
 
 BuildOak is the closest, and the interval says the lead is real, not one lucky season:
@@ -78,14 +78,16 @@ alone [−0.0040, −0.0008] on 7,181 WTA matches from 2022 to 2024; it is publi
 research result, not the default model. Against the market, the women's model trails
 Pinnacle by 0.020 on 2,344 matches from 2025–26 (0.6153 against 0.5953).
 
-The IBM row is the smallest sample and the largest gap. IBM does not archive its Grand
-Slam "Likelihood to Win" files, but the Internet Archive holds the 37 that visitors saved
-(Wimbledon 2023 and 2024, US Open 2022 and 2023); 29 were published before the first
-ball, as fixed from the archived order-of-play and point-by-point feeds before any score
-was read. On those 29, Pinnacle scores 0.4394. The gap is sharpness, not picks: IBM's
-favourite averages 58% and never exceeds 72%, against 68% for Alcaraz, so IBM picks
-nearly as well (22 of 29 against 23) while its probabilities score far worse
-([details](docs/benchmarks/IBM01_RESULTS.md)). One system could not be run: Green Code's
+The IBM row is the smallest sample and needs the most care. IBM's Grand Slam "Likelihood to
+Win" is not kept fixed: every 2024 and 2025 file on wimbledon.com was re-published after the
+tournament, and 2023 files were rewritten on match day, so only copies provably published
+before the first ball count: 29 saved by the Internet Archive and 36 recovered from the
+2023 files, with first-ball times taken from the archived order of play
+([details](docs/benchmarks/IBM02_RESULTS.md)). On those 64, Pinnacle scores
+0.4876. The gap is sharpness, not picks: IBM's favourite averages 61% and never
+exceeds 85%, so it picks nearly as well while its probabilities score far worse. The
+archived 29 carry the gap; the 36 evidenced 2023 files alone are inconclusive, and the
+two groups differ in site, year and round. One system could not be run: Green Code's
 second model, which its creator reports at 66.3% winner accuracy on the Wimbledon 2025
 men's draw; it publishes no match list or probabilities, so a matched comparison is open
 work.
