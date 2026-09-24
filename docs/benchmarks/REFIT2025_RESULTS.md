@@ -70,6 +70,34 @@ points, so the comparison is a same-tournament reading, not a ranking.
 - Nothing in the model changed. Every 2017–2024 forecast is byte-identical to the frozen
   files (202 of 202 and 92 of 92 files).
 
+## The women's tour, same procedure (secondary)
+
+The frozen women's rung (`full_entry`) was run once with 2025 as the target, on the same
+mirror extended by one year; every 2019–2024 forecast reproduced byte for byte (156 of 156
+files). On the 2,243 priced WTA matches of 2025, log loss was 0.6160 (model),
+0.5965 (Pinnacle) and 0.6277 (Elo); model minus Pinnacle
++0.0195 [+0.0120, +0.0272], inside the 2019–2024 range. The Wimbledon 2025
+women's draw: 67.7% correct [59.1, 75.6] on 127 matches; on the 126 priced rows the
+model's log loss (0.5924) is below Pinnacle's (0.6064), with picks at 68.3% against
+67.5%.
+
+| Season | Priced matches | Elo only | Alcaraz | Pinnacle | Alcaraz − Pinnacle [95%] | Alcaraz − Elo |
+|---|---:|---:|---:|---:|---:|---:|
+| 2019 | 2,317 | 0.6341 | 0.6178 | 0.6002 | +0.0177 [+0.0107, +0.0246] | -0.0163 |
+| 2020 | 1,013 | 0.6281 | 0.6145 | 0.6039 | +0.0106 [-0.0022, +0.0235] | -0.0136 |
+| 2021 | 2,321 | 0.6165 | 0.6008 | 0.5756 | +0.0252 [+0.0178, +0.0328] | -0.0157 |
+| 2022 | 2,307 | 0.6301 | 0.6113 | 0.5915 | +0.0198 [+0.0125, +0.0270] | -0.0188 |
+| 2023 | 2,439 | 0.6224 | 0.6122 | 0.5903 | +0.0219 [+0.0148, +0.0291] | -0.0102 |
+| 2024 | 2,388 | 0.6253 | 0.6043 | 0.5884 | +0.0159 [+0.0083, +0.0235] | -0.0210 |
+| 2025 | 2,243 | 0.6277 | 0.6160 | 0.5965 | +0.0195 [+0.0120, +0.0272] | -0.0117 |
+
+The 2025 market join is 96.4% (2024: 99.8%): three events new in 2025 (Singapore, São
+Paulo, Queen's) have no earlier edition to map from and were not curated. This secondary is
+descriptive, as registered. The archive record lists its procedural exceptions: the run
+had no separate lead freeze (the executing agent's pre-run bindings cover every input it
+read), and the record, the scorer's tour argument and the scoring pass were written in one
+sequence. Machine-readable aggregates: [refit2025_wta.json](refit2025_wta.json).
+
 ## Limits
 
 - Exposed retrospective work: the season had been inspected before the freeze.

@@ -10,6 +10,10 @@
   127 matches; Pinnacle 70.8% on the priced 120. Every 2017–2024 forecast reproduced byte
   for byte. Exposed retrospective work, not a holdout. README: one sentence under the
   ladder table and the Wimbledon 2025 reading next to Green Code's figures.
+- WTA secondary (archive decision D138, reconstructed): the frozen `full_entry` rung on
+  2025: log loss 0.6160 (model), 0.5965 (Pinnacle), 0.6277 (Elo) on 2,243 priced matches;
+  model − Pinnacle +0.0195 [+0.0120, +0.0272], inside the 2019–2024 range; Wimbledon 2025
+  women's draw 67.7% [59.1, 75.6] on 127. Section on the REFIT2025 page; `refit2025_wta.json`.
 
 ## 2026-09-24 — IBM comparison extended to every provably pre-match file (IBM02)
 
