@@ -16,7 +16,11 @@ What changed from the archive revision:
 * ``implementation.original_adapter`` and ``implementation.tests`` stay declared
   bindings too -- they name the MULTI01 parent this file was copied from and its test
   file, both still resolved and hashed -- while ``implementation.adapter`` becomes the
-  package's own code receipt.
+  package's own code receipt;
+* the two CH01 pin files (player aliases, event crosswalk) keep their fixed paths as
+  defaults but can be named in the config (``ch01_player_aliases``,
+  ``ch01_event_crosswalk``), so a run can bind an extended pin set without a code edit.
+  Whichever file is read is hashed into ``audit.json`` under the same two names.
 
 The scientific content -- the Q1-Q4 classification, the alias resolution, the
 date-correction candidates and every agreement flag -- is untouched.
@@ -88,6 +92,8 @@ class JoinSettings:
     market_manifest: Path
     market_profile_adapter: Path
     span: dict[str, int]
+    ch01_player_aliases: Path
+    ch01_event_crosswalk: Path
 
     @property
     def source_panel(self) -> Path:
@@ -115,6 +121,13 @@ def configure(config: dict[str, Any] | None) -> JoinSettings:
     ``market_profile_adapter``, plus ``year_plan`` (or an explicit
     ``panel_start_year``/``panel_end_year``) for the summary span. Anything omitted keeps
     MULTI01's own value, so an empty config reproduces MULTI01.
+
+    ``ch01_player_aliases`` and ``ch01_event_crosswalk`` name the CH01 pin files, each a
+    JSON list in the schema of the frozen file it replaces (``CH01_PLAYERS``,
+    ``CH01_EVENTS``). Omitted, the frozen files are read, exactly as before. Either way
+    the file read is recorded with its hash in ``audit.json`` ``inputs`` under the key's
+    name, and ``validate`` re-checks it. ``describe()`` does not list them, so the
+    prepare stage's record of the join inputs is unchanged.
     """
     config = config or {}
     section = config.get("join", config)
@@ -144,6 +157,8 @@ def configure(config: dict[str, Any] | None) -> JoinSettings:
         market_manifest=market_manifest,
         market_profile_adapter=market_profile_adapter,
         span={"start": start, "end": end},
+        ch01_player_aliases=_path("ch01_player_aliases", CH01_PLAYERS),
+        ch01_event_crosswalk=_path("ch01_event_crosswalk", CH01_EVENTS),
     )
 
 
@@ -917,8 +932,8 @@ def build(output_dir: Path, settings: JoinSettings) -> dict[str, Any]:
         raise ChainError(f"refusing to overwrite a nonempty output directory: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
     archive_rows, market_rows, inputs = load_inputs(settings)
-    ch01_players = resolve_under_root(CH01_PLAYERS, label="ch01_players")
-    ch01_events = resolve_under_root(CH01_EVENTS, label="ch01_events")
+    ch01_players = settings.ch01_player_aliases
+    ch01_events = settings.ch01_event_crosswalk
     ch01_lineage = {
         year: resolve_under_root(path, label="ch01_lineage") for year, path in CH01_LINEAGE.items()
     }
