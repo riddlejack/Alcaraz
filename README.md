@@ -1,7 +1,6 @@
 # Alcaraz
 
-**State of the art among public, statistics-only tennis forecasters: ahead of every one
-that could be run against it, and 0.010 log loss behind the betting market.**
+**SOTA public, statistics-only tennis forecast model. Only 0.010 log loss behind the betting market.**
 
 Alcaraz predicts professional tennis matches from the public record alone: results,
 rankings, serve and return statistics, lower-tier history and the published draw. No
