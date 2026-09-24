@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-09-24 — tier_stream: a spent reserved year needs explicit acknowledgement
+
+- `tennislab.ratings.tier_stream` admits a `last_year` in the reserved window (2025–2026)
+  only when its stage config carries `reserved_release_acknowledged: true`; without it the
+  two refusals and their messages are unchanged, and `last_year == panel_end_year` is still
+  required. `tennislab.chain.runner` copies the chain's own `reserved_release_acknowledged`
+  (the field the bridge already reads) into the tier_stream config when it is `true`, so one
+  acknowledgement covers both stages; the stage note in the ledger says when a reserved
+  year is opened. The stage summary then lists the reserved years opened and never opened,
+  and its Futures limit sentence names the count-identity screen that can now touch a
+  2025 Futures row with serve counts. No numerical path, default or output for spans ending
+  in 2024 or earlier changed (byte-identical on the synthetic inputs; all 12 committed chain
+  configs emit identical stage configs). Nine new tests (refusal unchanged, acceptance,
+  runner propagation); 737 pass. Needed by the archive's REFIT2025 (the frozen recipe run
+  for target season 2025; the 2025–2026 window is spent, archive D130–D135).
+
 ## 2026-09-24 — IBM matched comparison, lead decomposition, README section
 
 - **IBM01** (archive decision D135, independently reconstructed): the 37 IBM Match Insights
