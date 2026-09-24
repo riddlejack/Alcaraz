@@ -38,32 +38,32 @@ z
    </g>
    <g id="line2d_1">
     <path d="M 219.850156 58.154428 
-L 569.280727 58.154428 
+L 578.739752 58.154428 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="line2d_2">
     <path d="M 219.850156 95.414267 
-L 476.56766 95.414267 
+L 493.28968 95.414267 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="line2d_3">
     <path d="M 219.850156 132.674107 
-L 422.49777 132.674107 
+L 441.389805 132.674107 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="line2d_4">
     <path d="M 219.850156 169.933946 
-L 367.224368 169.933946 
+L 383.24524 169.933946 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="line2d_5">
     <path d="M 219.850156 207.193785 
-L 358.820748 207.193785 
+L 373.874277 207.193785 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="line2d_6">
     <path d="M 219.850156 244.453625 
-L 277.861649 244.453625 
+L 292.037073 244.453625 
 " clip-path="url(#p350ef74184)" style="fill: none; stroke: #e6e5e1; stroke-linecap: square"/>
    </g>
    <g id="matplotlib.axis_1">
@@ -224,35 +224,35 @@ z
 " style="stroke: #fcfcfb; stroke-width: 2"/>
     </defs>
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#meb707d2c64" x="569.280727" y="58.154428" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#meb707d2c64" x="578.739752" y="58.154428" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_14">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="578.878327" y="61.849428" transform="rotate(-0 578.878327 61.849428)">0.6237   ·   64.6% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="588.337352" y="61.849428" transform="rotate(-0 588.337352 61.849428)">0.6249   ·   64.4% picks</text>
    </g>
    <g id="PathCollection_2">
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#meb707d2c64" x="476.56766" y="95.414267" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#meb707d2c64" x="493.28968" y="95.414267" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_15">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="486.16526" y="99.109267" transform="rotate(-0 486.16526 99.109267)">0.6121   ·   65.4% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="502.88728" y="99.109267" transform="rotate(-0 502.88728 99.109267)">0.6142   ·   65.3% picks</text>
    </g>
    <g id="PathCollection_3">
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#meb707d2c64" x="422.49777" y="132.674107" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#meb707d2c64" x="441.389805" y="132.674107" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_16">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="432.09537" y="136.369107" transform="rotate(-0 432.09537 136.369107)">0.6053   ·   66.2% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="450.987405" y="136.369107" transform="rotate(-0 450.987405 136.369107)">0.6077   ·   66.0% picks</text>
    </g>
    <g id="PathCollection_4">
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#meb707d2c64" x="367.224368" y="169.933946" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#meb707d2c64" x="383.24524" y="169.933946" style="fill: #9a9994; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_17">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="376.821968" y="173.628946" transform="rotate(-0 376.821968 173.628946)">0.5984   ·   66.5% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="392.84284" y="173.628946" transform="rotate(-0 392.84284 173.628946)">0.6004   ·   66.4% picks</text>
    </g>
    <g id="PathCollection_5">
     <defs>
@@ -269,11 +269,11 @@ z
 " style="stroke: #fcfcfb; stroke-width: 2"/>
     </defs>
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#mb6e0487414" x="358.820748" y="207.193785" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#mb6e0487414" x="373.874277" y="207.193785" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_18">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="368.418348" y="210.888785" transform="rotate(-0 368.418348 210.888785)">0.5974   ·   66.8% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="383.471877" y="210.888785" transform="rotate(-0 383.471877 210.888785)">0.5993   ·   66.6% picks</text>
    </g>
    <g id="PathCollection_6">
     <defs>
@@ -290,17 +290,17 @@ z
 " style="stroke: #fcfcfb; stroke-width: 2"/>
     </defs>
     <g clip-path="url(#p350ef74184)">
-     <use xlink:href="#m735136c907" x="277.861649" y="244.453625" style="fill: #eb6834; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#m735136c907" x="292.037073" y="244.453625" style="fill: #eb6834; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_19">
-    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="287.459249" y="248.148625" transform="rotate(-0 287.459249 248.148625)">0.5873   ·   68.0% picks</text>
+    <text style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #52514e" x="301.634673" y="248.148625" transform="rotate(-0 301.634673 248.148625)">0.5890   ·   67.9% picks</text>
    </g>
    <g id="text_20">
     <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #8a8985" x="219.850156" y="35.98267" transform="rotate(-0 219.850156 35.98267)">Each rung adds one block of public statistics; every step is paired on identical matches</text>
    </g>
    <g id="text_21">
-    <text style="font-weight: 700; font-size: 12.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="219.850156" y="19.3875" transform="rotate(-0 219.850156 19.3875)">Same 18,882 ATP matches, 2017–2024</text>
+    <text style="font-weight: 700; font-size: 12.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="219.850156" y="19.3875" transform="rotate(-0 219.850156 19.3875)">Same 21,361 ATP matches, 2017–2025</text>
    </g>
   </g>
   <g id="axes_2">
@@ -401,38 +401,26 @@ L 689.519943 384.884032
     <g id="ytick_7">
      <g id="line2d_36"/>
      <g id="text_28">
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(128.253516 405.554332)">BuildOak XGBoost</text>
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(47.259141 418.080832)">18,972 ATP, 2017–24 · full_tier_entry</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(128.253516 415.491628)">BuildOak XGBoost</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(118.426172 428.018128)">21,561 ATP, 2017–25</text>
      </g>
     </g>
     <g id="ytick_8">
      <g id="line2d_37"/>
      <g id="text_29">
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.495859 454.136666)">Ultimate Tennis Statistics</text>
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.801016 466.663166)">2,681 ATP, 2024 · full_tier</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.495859 486.156841)">Ultimate Tennis Statistics</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.263516 498.683341)">5,270 ATP, 2024–25</text>
      </g>
     </g>
-    <g id="ytick_9">
-     <g id="line2d_38"/>
-     <g id="text_30">
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.926328 502.719)">Ingram point model</text>
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.801016 515.2455)">2,681 ATP, 2024 · full_tier</text>
-     </g>
-    </g>
+   </g>
+   <g id="line2d_38">
+    <path d="M 538.865387 416.683378 
+L 566.709829 416.683378 
+" clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
    </g>
    <g id="line2d_39">
-    <path d="M 536.15964 406.746082 
-L 566.865513 406.746082 
-" clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_40">
-    <path d="M 428.590096 455.328416 
-L 497.82113 455.328416 
-" clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
-   </g>
-   <g id="line2d_41">
-    <path d="M 299.0513 503.91075 
-L 408.603449 503.91075 
+    <path d="M 429.585496 487.348591 
+L 490.118815 487.348591 
 " clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
@@ -442,36 +430,28 @@ L 699.730156 540.3475
    </g>
    <g id="PathCollection_7">
     <g clip-path="url(#p13b20f025a)">
-     <use xlink:href="#mb6e0487414" x="551.527192" y="406.746082" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#mb6e0487414" x="552.981553" y="416.683378" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
-   <g id="text_31">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="551.527192" y="425.506549" transform="rotate(-0 551.527192 425.506549)">-0.0070  [-0.0100, -0.0040]</text>
+   <g id="text_30">
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="552.981553" y="439.86042" transform="rotate(-0 552.981553 439.86042)">-0.0067  [-0.0095, -0.0041]</text>
    </g>
    <g id="PathCollection_8">
     <g clip-path="url(#p13b20f025a)">
-     <use xlink:href="#mb6e0487414" x="462.917756" y="455.328416" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#mb6e0487414" x="460.948136" y="487.348591" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="460.948136" y="510.525633" transform="rotate(-0 460.948136 510.525633)">-0.0248  [-0.0309, -0.0191]</text>
    </g>
    <g id="text_32">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="462.917756" y="474.088883" transform="rotate(-0 462.917756 474.088883)">-0.0244  [-0.0311, -0.0176]</text>
-   </g>
-   <g id="PathCollection_9">
-    <g clip-path="url(#p13b20f025a)">
-     <use xlink:href="#mb6e0487414" x="356.569362" y="503.91075" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
-    </g>
-   </g>
-   <g id="text_33">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="356.569362" y="522.671216" transform="rotate(-0 356.569362 522.671216)">-0.0452  [-0.0565, -0.0350]</text>
-   </g>
-   <g id="text_34">
     <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #8a8985" x="219.850156" y="380.52858" transform="rotate(-0 219.850156 380.52858)">95% calendar-week block bootstrap; every interval excludes zero</text>
    </g>
-   <g id="text_35">
+   <g id="text_33">
     <text style="font-weight: 700; font-size: 12.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="219.850156" y="362.884032" transform="rotate(-0 219.850156 362.884032)">Paired against public models, each on its own matches</text>
    </g>
   </g>
-  <g id="text_36">
+  <g id="text_34">
    <text style="font-size: 8.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #8a8985" transform="translate(148.642156 597.1585)">Sources: docs/ladder.json, docs/winner_accuracy.json, docs/benchmarks/*.json. Retrospective, outcome-exposed development</text>
    <text style="font-size: 8.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #8a8985" transform="translate(148.642156 607.299)">comparisons; intervals condition on saved forecasts.</text>
   </g>

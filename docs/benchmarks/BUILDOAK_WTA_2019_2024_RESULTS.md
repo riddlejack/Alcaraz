@@ -8,6 +8,10 @@
 > the ATP result ([BUILDOAK_2017_2024_RESULTS.md](BUILDOAK_2017_2024_RESULTS.md)), and it
 > cannot change it.
 
+Extended to WTA 2019–2025 with the frozen model, as exposed retrospective data (EXT2025):
+[BUILDOAK_2017_2025_RESULTS.md](BUILDOAK_2017_2025_RESULTS.md). This page stays the registered
+result; nothing on it changes.
+
 ## Registered outcomes
 
 ARMS01 registered the WTA secondary with the ATP design on 22 September 2026, before any

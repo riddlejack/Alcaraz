@@ -1,0 +1,186 @@
+{
+  "status": "extension_pending_acceptance",
+  "status_note": "EXT2025 extension of the accepted ARMS01 ATP comparison to {{out:cohort/years|first|d}}-{{out:cohort/years|last|d}} (design amendments A1 and A3), scored once with the accepted ARMS01 scorer. 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted result (buildoak_2017_2024.json, archive decisions D131 and D132) remains the registered claim; its headline numbers are carried unchanged under accepted_result. Independently reconstructed (REC2, verdict {{out:acceptance/reconstruction_verdict|raw}}); the decision entry is pending.",
+  "acceptance": {
+    "archive_decision": "pending",
+    "reconstruction_verdict": "@value rec_results:item1_buildoak/verdict",
+    "reconstruction_record": "@file rec",
+    "reconstruction_numbers": "@file rec_results"
+  },
+  "experiment_id": "@value res:experiment_id",
+  "extends": {
+    "product_json": "docs/benchmarks/buildoak_2017_2024.json",
+    "experiment_id": "ARMS01",
+    "attempt": "attempt_002",
+    "archive_decision": "D131 and D132",
+    "result_json": "@file accepted"
+  },
+  "tour": "@value res:tour",
+  "scope": "exposed_retrospective_ATP_2017_2025_walk_forward_full_system_comparison_extension",
+  "registration": {
+    "design": "@file design",
+    "amendments": "A1 (BuildOak 2025 fits; accepted 2024 reproductions byte-identical before the 2025 output is used), A3 (scoring: accepted ARMS01 scorer, frozen model as the only Alcaraz arm, blend years extended by 2025, no power restatement)",
+    "runs_freeze": "@file freeze_runs",
+    "scoring_freeze": "@file freeze_scoring",
+    "readings": "EXT2025 fixes readings, not gates: every extended number is reported whatever it shows; the scorer's verdict strings are kept under scorer_verdicts and read descriptively (A3)"
+  },
+  "endpoint": {
+    "gated_metric": "log_loss",
+    "estimand": "match-weighted paired log-loss difference, left minus right, on identical matches; negative favours the left",
+    "log_loss_clip": 1e-15,
+    "descriptive_metrics": [
+      "brier",
+      "accuracy (0.5 credit at p = 0.5)"
+    ],
+    "note": "Brier and winner accuracy are descriptive companions; log loss is the sole gated endpoint."
+  },
+  "cohort": {
+    "definition": "all ATP primary targets 2017-2025: the accepted 2017-2024 ARMS01 membership in its order, then the 2025 REFIT2025 primary targets with a frozen-model forecast; three Roland Garros 2025 rows recorded as best of three carry no forecast by rule and are excluded; neutral orientation; retirements retained",
+    "years": "@value res:cohort/years",
+    "n": "@value res:cohort/n",
+    "n_by_year": "@value res:cohort/n_by_year",
+    "membership_sha256": "@value res:bindings/membership/sha256",
+    "rows_outside_membership_ignored": "@per_arm res rows_outside_membership_ignored",
+    "clipped_rows": "@per_arm res clipped_rows",
+    "ties_at_half": "@per_arm res ties_at_half",
+    "priced_subset": {
+      "n": "@value res:reference_lines/pinnacle_normalised/n",
+      "n_by_year": "@value res:reference_lines/pinnacle_normalised/n_by_year",
+      "membership_sha256": "@value res:reference_lines/pinnacle_normalised/membership/sha256"
+    }
+  },
+  "systems": {
+    "arm1": {
+      "label": "full_tier_entry",
+      "role": "the frozen model (D134): ARMS01 attempt 002 forecasts for 2017-2024, REFIT2025 attempt 001 for 2025; the only Alcaraz arm scored (A3)"
+    },
+    "arm0": {
+      "label": "full_tier",
+      "role": "the previous version; its forecast files are bound for the record and it is not scored in EXT2025 (A3)"
+    },
+    "buildoak": {
+      "label": "BuildOak XGBoost adaptation",
+      "source_repository": "buildoak/tennis-xgboost-autoresearch",
+      "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+      "adaptation": "the accepted ARMS01 walk-forward replay for 2017-2024 plus one fit at the 2024-12-30 boundary for 2025 with the frozen adaptation, in the same Colima adapter; the 2025 output is used only because the accepted 2024 run reproduced byte for byte in that environment (A1)",
+      "structural_break": "ATP 2025 is the first ATP season in which the frozen adapter activates its recent-era model: {{fit_2025:recent_blend/recent_rows|int}} recent rows (from {{fit_2025:recent_blend/recent_start|raw}}) against its frozen threshold of {{fit_2025:recent_blend/min_recent_rows|int}}, so every one of the {{fit_2025:target_rows|int}} 2025 targets gets {{1 - fit_2025:recent_blend/recent_weight|f1}} of the full model plus {{fit_2025:recent_blend/recent_weight|f1}} of the recent model (A1); the 2017-2024 forecasts never used it, so the 2025 BuildOak forecasts come from a structurally different recipe",
+      "fit_2025": {
+        "replay_summary": "@file fit_2025",
+        "recent_blend": "@value fit_2025:recent_blend",
+        "target_rows": "@value fit_2025:target_rows",
+        "native_rows": "@value fit_2025:native_rows"
+      },
+      "reproduction_2024": {
+        "status": "@value repro:status",
+        "comparison": "@file repro",
+        "rule": "the 2025 output is used only if the accepted 2024 run reproduces byte for byte in the same environment (A1)"
+      }
+    }
+  },
+  "scores": {
+    "arm1": "@value res:contrasts/contrast2_best_alcaraz_minus_external/left_scores",
+    "buildoak": "@value res:contrasts/contrast2_best_alcaraz_minus_external/right_scores"
+  },
+  "contrasts": {
+    "contrast2_arm1_minus_buildoak": {
+      "@c": "@contrast res:contrasts/contrast2_best_alcaraz_minus_external"
+    },
+    "contrast3_blend": {
+      "alcaraz_component": "@name res:contrasts/contrast3_blend/alcaraz_component",
+      "external_component": "@name res:contrasts/contrast3_blend/external_component",
+      "form": "blend logit = (1 - w) * logit(Alcaraz) + w * logit(BuildOak)",
+      "weight_grid": "@value res:contrasts/contrast3_blend/weight_grid",
+      "rule": "@value res:contrasts/contrast3_blend/rule",
+      "selection": "@value res:contrasts/contrast3_blend/selection",
+      "primary_years": "@value res:contrasts/contrast3_blend/primary_years",
+      "secondary_years": "@value res:contrasts/contrast3_blend/secondary_years",
+      "excluded_years": "@value res:contrasts/contrast3_blend/excluded_years",
+      "blend_scores": {
+        "primary": "@value res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/left_scores",
+        "secondary": "@value res:contrasts/contrast3_blend/secondary_blend_minus_alcaraz/left_scores"
+      },
+      "primary_blend_minus_arm1": {
+        "@c": "@contrast res:contrasts/contrast3_blend/primary_blend_minus_alcaraz"
+      },
+      "primary_blend_minus_buildoak": {
+        "@c": "@contrast res:contrasts/contrast3_blend/primary_blend_minus_external"
+      },
+      "secondary_blend_minus_arm1": {
+        "@c": "@contrast res:contrasts/contrast3_blend/secondary_blend_minus_alcaraz"
+      },
+      "secondary_blend_minus_buildoak": {
+        "@c": "@contrast res:contrasts/contrast3_blend/secondary_blend_minus_external"
+      }
+    }
+  },
+  "readings": {
+    "gates": "none: EXT2025 fixes readings, not gates (A3); the scorer's verdict strings stay in the archive result file and are not a pass or a release",
+    "blend": "descriptive: the registered blend test is the accepted one and stays the claim; no blend is released and the model is frozen (D134)",
+    "blend_interval_seed_sensitivity": {
+      "reading": "the 2020-2025 blend - Alcaraz interval touches zero: its upper bound is below zero under the registered seed but not under most alternative seeds",
+      "registered_seed_interval": "@value res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/uncertainty/results/8/log_loss/percentile_95",
+      "alternative_seeds": "@value rec_blend:alternative_seeds",
+      "source": "@file rec_blend"
+    }
+  },
+  "uncertainty_method": {
+    "method": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/method",
+    "rng": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/rng",
+    "seed": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/seed",
+    "replicates": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/replicates",
+    "level": 0.95,
+    "primary_mean_block_weeks": "@value res:contrasts/contrast2_best_alcaraz_minus_external/primary_interval_log_loss/mean_block_weeks",
+    "sensitivity_mean_block_weeks": [
+      4,
+      13
+    ],
+    "week_label": "ISO week of the panel's tourney_anchor_date (calendar Monday)",
+    "equal_year_secondary": "@value res:contrasts/contrast2_best_alcaraz_minus_external/equal_year_interval_log_loss/method",
+    "conditioning": "intervals condition on the saved forecasts and omit refit, selection and source-choice uncertainty"
+  },
+  "reference_lines": {
+    "arm1_minus_pinnacle_normalised": {
+      "label": "@value res:reference_lines/pinnacle_normalised/label",
+      "descriptive_only": "@value res:reference_lines/pinnacle_normalised/descriptive_only",
+      "arm1": "@value res:reference_lines/pinnacle_normalised/result/left_scores",
+      "pinnacle_normalised": "@value res:reference_lines/pinnacle_normalised/result/right_scores",
+      "@c": "@contrast res:reference_lines/pinnacle_normalised/result"
+    }
+  },
+  "accepted_result": {
+    "note": "the registered result, unchanged (buildoak_2017_2024.json); shown beside the extension",
+    "cohort_n": "@value accepted:cohort/n",
+    "years": "@value accepted:cohort/years",
+    "contrast2_arm1_minus_buildoak": {
+      "n": "@value accepted:contrasts/contrast2_best_alcaraz_minus_external/n",
+      "difference_log_loss": "@value accepted:contrasts/contrast2_best_alcaraz_minus_external/difference/match_weighted/log_loss",
+      "primary_interval_log_loss": "@value accepted:contrasts/contrast2_best_alcaraz_minus_external/primary_interval_log_loss",
+      "annual_log_loss": "@value accepted:contrasts/contrast2_best_alcaraz_minus_external/difference/annual_log_loss",
+      "years_negative": "@value accepted:contrasts/contrast2_best_alcaraz_minus_external/difference/years_negative"
+    },
+    "arm1_minus_pinnacle_normalised": {
+      "n": "@value accepted:reference_lines/pinnacle_normalised/n",
+      "difference_log_loss": "@value accepted:reference_lines/pinnacle_normalised/result/difference/match_weighted/log_loss",
+      "primary_interval_log_loss": "@value accepted:reference_lines/pinnacle_normalised/result/primary_interval_log_loss"
+    }
+  },
+  "provenance": {
+    "scorer": "@binding res:bindings/scorer",
+    "manifest": "@binding res:bindings/manifest",
+    "result_json": "@file res",
+    "membership": "@binding res:bindings/membership",
+    "labels": "@binding res:bindings/labels",
+    "weeks": "@binding res:bindings/weeks",
+    "forecast_files": "@forecast_files res",
+    "scoring_runtime_seconds": "@value res:runtime_seconds"
+  },
+  "limitations": [
+    "exposed retrospective comparison of complete systems with different legitimate histories; not an untouched test, prospective evidence or a market claim",
+    "2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The extended interval shares its first seasons with the registered one and is not an independent confirmation.",
+    "ATP 2025 is the first ATP season in which the frozen adapter activates its recent-era model: {{fit_2025:recent_blend/recent_rows|int}} recent rows (from {{fit_2025:recent_blend/recent_start|raw}}) against its frozen threshold of {{fit_2025:recent_blend/min_recent_rows|int}}, so every one of the {{fit_2025:target_rows|int}} 2025 targets gets {{1 - fit_2025:recent_blend/recent_weight|f1}} of the full model plus {{fit_2025:recent_blend/recent_weight|f1}} of the recent model (A1); the 2017-2024 forecasts never used it, so the 2025 BuildOak forecasts come from a structurally different recipe",
+    "the BuildOak recipe was selected by its author on ROC AUC with sight of 2026 data",
+    "intervals condition on saved forecasts; no family-wise adjustment",
+    "no claim beyond the named systems, this cohort and paired log loss"
+  ],
+  "interpretation": "Descriptive extension: on {{out:contrasts/contrast2_arm1_minus_buildoak/n|int}} ATP matches from {{out:contrasts/contrast2_arm1_minus_buildoak/years|first|d}} to {{out:contrasts/contrast2_arm1_minus_buildoak/years|last|d}}, Alcaraz (full_tier_entry) minus BuildOak is {{out:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} {{out:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}} (8-week block bootstrap), negative in {{out:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{out:contrasts/contrast2_arm1_minus_buildoak/years|len|d}} seasons; {{out:contrasts/contrast2_arm1_minus_buildoak/years|last|d}} alone {{out:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss|values|last|s4}}. The registered claim remains the accepted result."
+}

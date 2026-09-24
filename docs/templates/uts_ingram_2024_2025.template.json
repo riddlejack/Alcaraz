@@ -1,0 +1,63 @@
+{
+  "status": "extension_pending_acceptance",
+  "status_note": "EXT2025 comparisons with Ultimate Tennis Statistics' fixed formula (and, when its pass exists, Ingram's Bayesian point model) on ATP 2024, 2025 and pooled 2024-2025 (design amendments A2, A2 correction and A4). 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted 2024 results (EXTERNAL_2024_2025_RESULTS.json for UTS, ingram_2024.json for Ingram) remain the registered claims.",
+  "experiment_id": "EXT2025",
+  "scope": "exposed_retrospective_ATP_2024_2025_external_model_comparisons",
+  "comparator": {
+    "primary_label": "full_tier_entry",
+    "primary": "the frozen model (D134, ATP full_tier_entry): the saved forecast carried by G-L run (b); the README row",
+    "continuity_label": "full_tier",
+    "continuity": "the previous version (ATP full_tier), the comparator of the accepted 2024 rows: the saved forecast carried by G-L run (a)",
+    "note": "G-L calibrates only its five baselines; the incumbent is the saved forecast unchanged (A2 correction)"
+  },
+  "metric_conventions": {
+    "log_loss": "mean natural log loss; lower is better",
+    "brier": "mean squared probability error; lower is better",
+    "accuracy": "threshold above 0.5, with half credit at exactly 0.5; higher is better",
+    "incumbent_minus_external_log_loss": "Alcaraz minus the external system, paired on identical matches; negative favours Alcaraz",
+    "uncertainty": "stationary calendar-week block bootstrap on each block's own Monday grid; primary mean block 8 weeks, 4 and 13 as sensitivities"
+  },
+  "uts": {
+    "label": "Ultimate Tennis Statistics fixed-formula adaptation (public-data adaptation, not the website's own output)",
+    "primary": {
+      "2024": "@value uts_primary:by_year/2024",
+      "2025": "@value uts_primary:by_year/2025",
+      "pooled_2024_2025": "@value uts_primary:pooled",
+      "score_plan_sha256": "@value uts_primary:plan_sha256",
+      "scorer_sha256": "@value uts_primary:script_sha256"
+    },
+    "continuity": {
+      "2024": "@value uts_continuity:by_year/2024",
+      "2025": "@value uts_continuity:by_year/2025",
+      "pooled_2024_2025": "@value uts_continuity:pooled",
+      "score_plan_sha256": "@value uts_continuity:plan_sha256",
+      "scorer_sha256": "@value uts_continuity:script_sha256"
+    },
+    "season_differences_primary": {
+      "2024": "@value uts_primary:by_year/2024/incumbent_minus_external_log_loss",
+      "2025": "@value uts_primary:by_year/2025/incumbent_minus_external_log_loss"
+    },
+    "original_website_claim_reproduction": "@value uts_primary:original_website_claim_reproduction",
+    "worldwide_sota": "@value uts_primary:worldwide_sota",
+    "continuity_2024_equals_accepted": "the continuity 2024 block equals the accepted UTS 2024 comparison value for value (checked by the builder)"
+  },
+  "ingram": {
+    "label": "Ingram's Bayesian point model (paper settings, 2024 seeds)",
+    "status": "pending: the 2025 fit (runs-3) and its scoring pass with the same scorer (A4); until then the accepted Ingram 2024 row (ingram_2024.json) stands alone",
+    "primary": null,
+    "continuity": null
+  },
+  "provenance": {
+    "uts_primary": "@file uts_primary",
+    "uts_continuity": "@file uts_continuity",
+    "uts_accepted_2024": "@file uts_accepted",
+    "scoring_freeze": "@file freeze_scoring",
+    "design": "@file design"
+  },
+  "limitations": [
+    "public-data formula adaptation, not historical UTS website output or private-database equivalence",
+    "2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout.",
+    "UTS 2017-2023 is not run: 2017-2019 lie in the formula's weight-tuning window, 2020 to January 2021 predate its code, and 2021 would need a new timing exclusion (A2)",
+    "no claim of prospective validity, betting value or universal state of the art"
+  ]
+}

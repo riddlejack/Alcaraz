@@ -1,0 +1,516 @@
+{
+  "status": "extension_pending_acceptance",
+  "status_note": "EXT2025 comparisons with Ultimate Tennis Statistics' fixed formula (and, when its pass exists, Ingram's Bayesian point model) on ATP 2024, 2025 and pooled 2024-2025 (design amendments A2, A2 correction and A4). 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted 2024 results (EXTERNAL_2024_2025_RESULTS.json for UTS, ingram_2024.json for Ingram) remain the registered claims.",
+  "experiment_id": "EXT2025",
+  "scope": "exposed_retrospective_ATP_2024_2025_external_model_comparisons",
+  "comparator": {
+    "primary_label": "full_tier_entry",
+    "primary": "the frozen model (D134, ATP full_tier_entry): the saved forecast carried by G-L run (b); the README row",
+    "continuity_label": "full_tier",
+    "continuity": "the previous version (ATP full_tier), the comparator of the accepted 2024 rows: the saved forecast carried by G-L run (a)",
+    "note": "G-L calibrates only its five baselines; the incumbent is the saved forecast unchanged (A2 correction)"
+  },
+  "metric_conventions": {
+    "log_loss": "mean natural log loss; lower is better",
+    "brier": "mean squared probability error; lower is better",
+    "accuracy": "threshold above 0.5, with half credit at exactly 0.5; higher is better",
+    "incumbent_minus_external_log_loss": "Alcaraz minus the external system, paired on identical matches; negative favours Alcaraz",
+    "uncertainty": "stationary calendar-week block bootstrap on each block's own Monday grid; primary mean block 8 weeks, 4 and 13 as sensitivities"
+  },
+  "uts": {
+    "label": "Ultimate Tennis Statistics fixed-formula adaptation (public-data adaptation, not the website's own output)",
+    "primary": {
+      "2024": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.6474654377880185,
+            "brier": 0.21527158874290211,
+            "log_loss": 0.6177964431616488,
+            "n": 2604,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6705069124423964,
+            "brier": 0.2042155337334334,
+            "log_loss": 0.5916423539812272,
+            "n": 2604,
+            "score_clip_count": 0
+          },
+          "n": 2604
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6460276016411787,
+          "brier": 0.21644348870739985,
+          "log_loss": 0.6208735589383172,
+          "n": 2681,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6680343155538978,
+          "brier": 0.20574722858157393,
+          "log_loss": 0.595560622422269,
+          "n": 2681,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.02531293651604809,
+        "independent_scalar_metric_check": "PASS",
+        "n": 2681,
+        "scope": "UTS fixed-formula adaptation, ATP 2024",
+        "uncertainty": {
+          "grid_first_monday": "2024-01-01",
+          "grid_last_monday": "2024-11-11",
+          "grid_weeks_including_empty": 46,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "04da7cfd1bd8b9f951521fad0755cc51c048e479842e8e90a29b77c015ea8dd5",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.0324378090241707,
+                -0.018107712200713347
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "6543f2ef9933cf384f86558d68e00573318c87239ea58d9c913c5883e0db6c05",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.032989437650354315,
+                -0.017333110498510607
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "e6a9c140fed0303f55976ddc2fb68762bf9985c83f362c7a3235af793a13accd",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.032613406155358106,
+                -0.017635970487736977
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "2025": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.6479099678456591,
+            "brier": 0.21867606480339424,
+            "log_loss": 0.6268045154789209,
+            "n": 2488,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6672025723472669,
+            "brier": 0.20869620215900364,
+            "log_loss": 0.6029978468100121,
+            "n": 2488,
+            "score_clip_count": 0
+          },
+          "n": 2488
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6415604480494399,
+          "brier": 0.22177170563761153,
+          "log_loss": 0.6345462813697993,
+          "n": 2589,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6608729239088451,
+          "brier": 0.2116475106151368,
+          "log_loss": 0.6103320540353052,
+          "n": 2589,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.024214227334494146,
+        "independent_scalar_metric_check": "PASS",
+        "n": 2589,
+        "scope": "UTS fixed-formula adaptation, ATP 2025",
+        "uncertainty": {
+          "grid_first_monday": "2024-12-30",
+          "grid_last_monday": "2025-11-03",
+          "grid_weeks_including_empty": 45,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "d3f80c140eb3dea1ca906cfbe6cb2aa4cc70bc782db179993ec4c714e3dcd3b3",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.03332071972558408,
+                -0.016217799629012698
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "f52efa641a6568e9ce6e08b1da7a5b5ffbb9f6a7cdb1512510c5b9bedf165bc2",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.03524631094229316,
+                -0.015123751404677532
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "ae957c02015985f73e3c51a61be8dfcc51f59fc354f9b7dc52c328ccb7e79a4f",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.03442121902663624,
+                -0.015700708387535046
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "pooled_2024_2025": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.647682639434407,
+            "brier": 0.21693504837340177,
+            "log_loss": 0.6221978736261762,
+            "n": 5092,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6688923802042419,
+            "brier": 0.20640483126737266,
+            "log_loss": 0.5971907566045612,
+            "n": 5092,
+            "score_clip_count": 0
+          },
+          "n": 5092
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6438330170777988,
+          "brier": 0.2190610890171376,
+          "log_loss": 0.6275905757077872,
+          "n": 5270,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6645161290322581,
+          "brier": 0.2086458680853489,
+          "log_loss": 0.6028174035315954,
+          "n": 5270,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.024773172176191703,
+        "independent_scalar_metric_check": "PASS",
+        "n": 5270,
+        "scope": "UTS fixed-formula adaptation, pooled listed ATP seasons (match-weighted)",
+        "uncertainty": {
+          "grid_first_monday": "2024-01-01",
+          "grid_last_monday": "2025-11-03",
+          "grid_weeks_including_empty": 97,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "19345c5fce2730c068832472ace6b87769df95741e09e2af8a596fa07c2f6168",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.030611140235652604,
+                -0.019534937330068218
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "59eea80ace8f8bfcb1bb983d466564d8fa81954106cc79d40547a75ae6dc3eca",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.0315407027596781,
+                -0.018701035497179427
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "a62d89f1ff022ac708c8c5921339e29c7815c8853248d4b933c3385f865f9551",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.030916558512420315,
+                -0.01905915244895242
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "score_plan_sha256": "8a0855e62c65e1e904e5a2a53e6c2edfeb13ffbda094805cde601fea61e83fcd",
+      "scorer_sha256": "cc4b020df33ee9cee4db31b37af9c4dc661ca1d2cacb1722597f3711c458ebe7"
+    },
+    "continuity": {
+      "2024": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.6474654377880185,
+            "brier": 0.21527158874290211,
+            "log_loss": 0.6177964431616488,
+            "n": 2604,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6643625192012289,
+            "brier": 0.20461645249252705,
+            "log_loss": 0.5924424918781835,
+            "n": 2604,
+            "score_clip_count": 0
+          },
+          "n": 2604
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6460276016411787,
+          "brier": 0.21644348870739985,
+          "log_loss": 0.6208735589383172,
+          "n": 2681,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6616933979858262,
+          "brier": 0.2062225526599624,
+          "log_loss": 0.5964862003276956,
+          "n": 2681,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.024387358610621527,
+        "independent_scalar_metric_check": "PASS",
+        "n": 2681,
+        "scope": "UTS fixed-formula adaptation, ATP 2024",
+        "uncertainty": {
+          "grid_first_monday": "2024-01-01",
+          "grid_last_monday": "2024-11-11",
+          "grid_weeks_including_empty": 46,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "32008c44abf774fb760e63efff6e779e13fa352d9569f6d0b03a235576cc2d14",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.03067933477846698,
+                -0.01800533462315554
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "a82cd57c7a35d3957dbed6ead4be0fb558baa8aa6718d03a6c1d62aa8ebba997",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.0315803942083747,
+                -0.017231856769862375
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "9944e509b10906a9f72d9fcbc92b908e94ba82f3aba0ce1285d88d15b3c77cd8",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.03111153967286377,
+                -0.017550405181038373
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "2025": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.6479099678456591,
+            "brier": 0.21867606480339424,
+            "log_loss": 0.6268045154789209,
+            "n": 2488,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6659967845659164,
+            "brier": 0.20957538865605335,
+            "log_loss": 0.6047916662088388,
+            "n": 2488,
+            "score_clip_count": 0
+          },
+          "n": 2488
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6415604480494399,
+          "brier": 0.22177170563761153,
+          "log_loss": 0.6345462813697993,
+          "n": 2589,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6597141753572808,
+          "brier": 0.21256038478578704,
+          "log_loss": 0.612187222039732,
+          "n": 2589,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.022359059330067273,
+        "independent_scalar_metric_check": "PASS",
+        "n": 2589,
+        "scope": "UTS fixed-formula adaptation, ATP 2025",
+        "uncertainty": {
+          "grid_first_monday": "2024-12-30",
+          "grid_last_monday": "2025-11-03",
+          "grid_weeks_including_empty": 45,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "be88aa8a4111b2dedaaf303fac9ef95ff4018f678cf97c98f3ba73ae9fe4c204",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.029922299576086973,
+                -0.015546271199793894
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "27c0a3955a1998c450d2a2d3c000631d19806f66666855a042f4001a0cd5e58e",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.03196107145514816,
+                -0.014308295402365506
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "87c56bbcc6e6b7a46ea07899eec432f21f5674cd7422f961ede1c07c34cd2734",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.030796082588849763,
+                -0.015006748093000215
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "pooled_2024_2025": {
+        "completed_only": {
+          "external": {
+            "accuracy": 0.647682639434407,
+            "brier": 0.21693504837340177,
+            "log_loss": 0.6221978736261762,
+            "n": 5092,
+            "score_clip_count": 0
+          },
+          "incumbent": {
+            "accuracy": 0.6651610369206599,
+            "brier": 0.20703943622678736,
+            "log_loss": 0.5984764168064377,
+            "n": 5092,
+            "score_clip_count": 0
+          },
+          "n": 5092
+        },
+        "external_uts_adaptation": {
+          "accuracy": 0.6438330170777988,
+          "brier": 0.2190610890171376,
+          "log_loss": 0.6275905757077872,
+          "n": 5270,
+          "score_clip_count": 0
+        },
+        "incumbent": {
+          "accuracy": 0.6607210626185959,
+          "brier": 0.20933614798705164,
+          "log_loss": 0.6041996624173469,
+          "n": 5270,
+          "score_clip_count": 0
+        },
+        "incumbent_minus_external_log_loss": -0.02339091329044032,
+        "independent_scalar_metric_check": "PASS",
+        "n": 5270,
+        "scope": "UTS fixed-formula adaptation, pooled listed ATP seasons (match-weighted)",
+        "uncertainty": {
+          "grid_first_monday": "2024-01-01",
+          "grid_last_monday": "2025-11-03",
+          "grid_weeks_including_empty": 97,
+          "primary_block_weeks": 8,
+          "results": {
+            "13": {
+              "draw_sha256": "d87d61f537f8f61c115a68929835ffed32318e62c19c211ce54816a313abb587",
+              "mean_block_weeks": 13,
+              "percentile_95": [
+                -0.02841048788491394,
+                -0.018891729840692154
+              ],
+              "replicates": 5000
+            },
+            "4": {
+              "draw_sha256": "f1d4a029132a83266aad5a613d0b9cb342269f6ae5b4b00a4756d0d5d8d880ca",
+              "mean_block_weeks": 4,
+              "percentile_95": [
+                -0.02940773736140514,
+                -0.017909582843245443
+              ],
+              "replicates": 5000
+            },
+            "8": {
+              "draw_sha256": "601bad2a7ccb8f9ae77fceea7fc44f551ffbe0b96110ac32ca70b57d07dafbb0",
+              "mean_block_weeks": 8,
+              "percentile_95": [
+                -0.02864648395322864,
+                -0.018429857157903996
+              ],
+              "replicates": 5000
+            }
+          },
+          "rng": "PCG64",
+          "seed": 20260915
+        }
+      },
+      "score_plan_sha256": "b9e0e3ee3d4e458aa5dfb9feebfa262eefe7be25cab50e2b567aaabc3058a8ef",
+      "scorer_sha256": "cc4b020df33ee9cee4db31b37af9c4dc661ca1d2cacb1722597f3711c458ebe7"
+    },
+    "season_differences_primary": {
+      "2024": -0.02531293651604809,
+      "2025": -0.024214227334494146
+    },
+    "original_website_claim_reproduction": false,
+    "worldwide_sota": false,
+    "continuity_2024_equals_accepted": "the continuity 2024 block equals the accepted UTS 2024 comparison value for value (checked by the builder)"
+  },
+  "ingram": {
+    "label": "Ingram's Bayesian point model (paper settings, 2024 seeds)",
+    "status": "pending: the 2025 fit (runs-3) and its scoring pass with the same scorer (A4); until then the accepted Ingram 2024 row (ingram_2024.json) stands alone",
+    "primary": null,
+    "continuity": null
+  },
+  "provenance": {
+    "uts_primary": {
+      "archive_relative_path": "work/EXT2025/baselines/uts/score_ext2025_primary_001/MATCHED_COMPARISON.json",
+      "sha256": "f77ee54c32a871c4df79fdc3e9d1e3daba25fe7b5bcad9613f45625ac15507cc"
+    },
+    "uts_continuity": {
+      "archive_relative_path": "work/EXT2025/baselines/uts/score_ext2025_continuity_001/MATCHED_COMPARISON.json",
+      "sha256": "1c57b606f2dcbde89764182a7140cbd31b0c76885c48c6432eeddb515b9d320d"
+    },
+    "uts_accepted_2024": {
+      "archive_relative_path": "work/root_uts_contract_2026-09-15/attempt_002/MATCHED_COMPARISON.json",
+      "sha256": "0e0797679db6501872d53391a916aff687942277882eaa48c15fb12c9398b468"
+    },
+    "scoring_freeze": {
+      "archive_relative_path": "references/EXT2025/FREEZE_SCORING_1_2026-09-24.json",
+      "sha256": "36e37f1b08b8ef5f6907a6f137ec33a9e7d7f363bbb96af7167fcec3f27f30a6"
+    },
+    "design": {
+      "archive_relative_path": "experiments/EXT2025.design.md",
+      "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
+    }
+  },
+  "limitations": [
+    "public-data formula adaptation, not historical UTS website output or private-database equivalence",
+    "2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout.",
+    "UTS 2017-2023 is not run: 2017-2019 lie in the formula's weight-tuning window, 2020 to January 2021 predate its code, and 2021 would need a new timing exclusion (A2)",
+    "no claim of prospective validity, betting value or universal state of the art"
+  ]
+}

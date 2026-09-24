@@ -1,0 +1,296 @@
+{
+  "status": "independently_reconstructed",
+  "status_note": "Independently reconstructed (archive decision D133). The registered single scoring pass of the ARMS01 WTA secondary (wta_attempt_002) was reproduced from separate code: membership rebuilt byte-identical, all 24 forecast files plus labels, panel and manifest rehashed identical, every estimate within 1e-18 and every gate interval within 3e-18 (registered tolerances 1e-12 and 1e-14), blend weights and all 55 grid losses identical, same gate verdicts.",
+  "acceptance": {
+    "archive_decision": "D133",
+    "decision_scope": "adopt WTA full_entry as the WTA incumbent rung for the WTA01 2019-2024 cohort; the public-model claim is not supported on WTA (interval includes zero); release the WTA past-only logit blend with the BuildOak WTA adaptation as an attributed research artefact, not the default model; reported separately from ATP and never pooled with it",
+    "reconstruction_verdict": "ACCEPT",
+    "reconstruction_record": {
+      "archive_relative_path": "references/ARMS01/reconstruction/wta_attempt_002/RECONSTRUCTION.md",
+      "sha256": "c85bf48c738a4a3f8879a7cd353c3aaec9cf65de0a50a224ec6e67f73376e882"
+    },
+    "reconstruction_numbers": {
+      "archive_relative_path": "references/ARMS01/reconstruction/wta_attempt_002/reconstruction_atp.json",
+      "sha256": "3012672e6e3aa884be163fc7f3eb9470ae66455204b9e87a7986470271318af9"
+    },
+    "reconstruction_numbers_note": "file name kept by the shared reconstruction code; its content is the WTA secondary"
+  },
+  "experiment_id": "ARMS01",
+  "attempt": "wta_attempt_002",
+  "tour": "WTA",
+  "scope": "exposed_retrospective_WTA_2019_2024_walk_forward_full_system_comparison_secondary_to_ATP",
+  "registration": {
+    "design": {
+      "archive_relative_path": "experiments/ARMS01.design.md",
+      "sha256": "bd7880416e76a6c7bd9f768b7b384548446a590ac76a526913971efe6ab07715"
+    },
+    "record": {
+      "archive_relative_path": "experiments/ARMS01.json",
+      "sha256": "7dbd8729ed14cbec79442a3462bdacffe9ffec55d389b191bd7c0d3a5a9ae1a1"
+    },
+    "freeze": {
+      "archive_relative_path": "references/ARMS01/FREEZE_2026-09-22.json",
+      "sha256": "81e7d6031aca8e1a7b616217d066beb447448d40c762b67344155a60f88d2883"
+    },
+    "frozen_at_utc": "2026-09-22T21:30:44.037833+00:00",
+    "archive_decision": "D130",
+    "wta_section": "experiments/ARMS01.design.md 'WTA secondary': same design, own gates, cohort WTA01 2019-2024, never pooled with ATP",
+    "execution_declarations": {
+      "archive_relative_path": "references/ARMS01/wta/WTA_EXECUTION_DECLARATIONS.md",
+      "sha256": "19e6ff32f42ff1337f84e3fddeba960c116dc90f5616f6a5dedf25b3d7662447"
+    },
+    "level_mapping_note": {
+      "archive_relative_path": "references/ARMS01/wta/LEVEL_MAPPING.md",
+      "sha256": "da684e57818852827b7587f59473ed3faaccff8c23c926a33646d0d5e3a2ed20"
+    },
+    "level_map": {
+      "archive_relative_path": "references/ARMS01/wta/level_map.wta.json",
+      "sha256": "16e88b71a16ee261936ab914159f029c67f876f3ba31d36d832a3b2a03e70009"
+    },
+    "level_map_declared_at_utc": "2026-09-23T01:50:00Z (before any WTA Arm 1 fit)",
+    "attempt_arm1_product_commit": "81a95a99ba1963fca8f6e4dab8132d86aac597ae",
+    "attempt_arm1_chain_config": "configs/chains/wta01_arms01_attempt002_2019_2024.json",
+    "attempt_arm1_chain_config_sha256": "fcece3c06091984451d258c8517f5d345b053e47c1191fc708408e3afa025d8c",
+    "implemented_variant_chain_config": "configs/chains/wta01_arms01_2019_2024.json",
+    "implemented_variant_chain_config_sha256": "f920cbd356835d2718a08ad1282ec181d391b20efb44ac81593ee99002f472c8"
+  },
+  "endpoint": {
+    "gated_metric": "log_loss",
+    "estimand": "match-weighted paired log-loss difference, left minus right, on identical matches; negative favours the left",
+    "log_loss_clip": 1e-15,
+    "descriptive_metrics": [
+      "brier",
+      "accuracy (0.5 credit at p = 0.5)"
+    ],
+    "note": "Brier and winner accuracy are descriptive companions; log loss is the sole gated endpoint."
+  },
+  "cohort": {
+    "definition": "all WTA01 2019-2024 primary targets from experiments/runs/WTA01/attempt_001/primary/run/pipeline/selected/<Y>/hgb/full.csv with primary_target = 1; 244 provisional-identity rows excluded; neutral orientation; retirements retained",
+    "years": "@value res:cohort/years",
+    "n": "@value res:cohort/n",
+    "n_by_year": "@value res:cohort/n_by_year",
+    "membership_sha256": "@value res:bindings/membership/sha256",
+    "rows_outside_membership_ignored": "@per_arm res rows_outside_membership_ignored",
+    "clipped_rows": "@per_arm res clipped_rows",
+    "ties_at_half": "@per_arm res ties_at_half",
+    "priced_subset": "none; the WTA secondary registered no market reference line"
+  },
+  "systems": {
+    "arm0": {
+      "label": "full",
+      "role": "WTA incumbent at registration; saved WTA01 attempt 001 selected, calibrated HGB forecasts, no refit"
+    },
+    "arm1": {
+      "label": "full_entry",
+      "role": "full plus nine declared model columns, refit on the unchanged trunk (WTA has no tier block)",
+      "added_model_columns": [
+        "entry_q_diff",
+        "entry_ll_diff",
+        "entry_wc_diff",
+        "entry_pr_diff",
+        "entry_any_qualifier",
+        "level_context_g",
+        "level_context_m",
+        "level_context_a",
+        "level_context_f"
+      ],
+      "any_qualifier_definition": "1 when either side entered as Q, as the registered design text says; the LL signed difference is kept.",
+      "level_map": {
+        "G": "level_context_g",
+        "PM": "level_context_m",
+        "P": "level_context_a",
+        "I": "level_context_a",
+        "W": "level_context_a",
+        "F": "level_context_f",
+        "other": "all four zero"
+      },
+      "level_flag_counts_on_cohort": {
+        "g": 2858,
+        "m": 1405,
+        "a": 8534,
+        "f": 103,
+        "all_zero": 0
+      }
+    },
+    "buildoak": {
+      "label": "BuildOak XGBoost WTA adaptation",
+      "source_repository": "buildoak/tennis-xgboost-autoresearch",
+      "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+      "adaptation": "the accepted WTA 2024 adapter (BUILDOAK_EXTENSION attempt 001) replayed walk-forward: one fit per 30 December boundary (2018-12-30 for 2019 targets through 2022-12-30 for 2023), fit-boundary Elo reference, D-2 releases, native menu and blend-activation rules evaluated at each boundary; the accepted WTA 2024 forecasts reused byte-for-byte",
+      "extension_code_commit": "13ba1287d3fde8d5b3ccbc3dbe7d9f0150ab0154",
+      "image_id": "sha256:2cafed7f4ec6c964602c61b9802dfa59a8e2fd8e7d62ad5cbdaf74f47d820fa7",
+      "attempt_ids_2019_2023": [
+        "arms01-wta-2019-attempt-001",
+        "arms01-wta-2020-attempt-001",
+        "arms01-wta-2021-attempt-001",
+        "arms01-wta-2022-attempt-001",
+        "arms01-wta-2023-attempt-001"
+      ],
+      "reproduction_2024": "arms01-wta-2024-reproduction-002 byte-identical to the accepted WTA 2024 run (the -001 attempt was interrupted by a host power loss before any fit and is retained)",
+      "forecast_commitment_sha256": {
+        "2019": "21aa58826ed1e246b8b7458ca8b1523b0af5493a5edd5b86e5ee323eb52523b9",
+        "2020": "859383564caec4836d9c4ee15346ba8b6e340c52dcc820f739986a7f03ffa82c",
+        "2021": "df9b5a424f634a4b2fb8517ae28d4d67739d3d8054263680390b8d3e0e64d842",
+        "2022": "da0fea8325f0888d91ea22ab885dddc04fdcf03198eb0f7480a9b1e9b49cbc5d",
+        "2023": "3930bf690bc5407b40ad87c77d17be715ff3ad4fb9be10ef150bbbb390c2bfd4",
+        "2024_reproduction": "e5b578ae62ea2de8f3e147c55e7564071147248e2a7d8ee21ddc09bd8c51b518"
+      },
+      "native_rows": "all 12,900 forecasts native; no reason-coded fallback row",
+      "members": "2019-2023: four members (two global models blended 0.65/0.35 with 800 and 650 trees, a Hard specialist and a level-I specialist with 900 trees each); 2024: six members, adding the recent-era WTA global pair (800 and 650 trees, weight 0.35)",
+      "structural_break": "the recent-era blend activates only when the recent rows reach the frozen 15,000 threshold: 5,624 / 8,330 / 9,637 / 12,234 / 14,828 recent rows for 2019-2023 (inactive), 17,638 for 2024 (active). The 2019-2023 BuildOak forecasts therefore come from a structurally different recipe than the 2024 forecasts; the pooled contrasts mix both regimes.",
+      "independent_rerun_2019_2023": false
+    }
+  },
+  "scores": {
+    "arm0": "@value res:contrasts/contrast1_arm1_minus_arm0/right_scores",
+    "arm1": "@value res:contrasts/contrast1_arm1_minus_arm0/left_scores",
+    "buildoak": "@value res:contrasts/contrast2_best_alcaraz_minus_external/right_scores"
+  },
+  "contrasts": {
+    "contrast1_arm1_minus_arm0": {
+      "@contrast": "@contrast_detailed res:contrasts/contrast1_arm1_minus_arm0"
+    },
+    "contrast2_arm1_minus_buildoak": {
+      "@contrast": "@contrast_detailed res:contrasts/contrast2_best_alcaraz_minus_external"
+    },
+    "contrast3_blend": {
+      "alcaraz_component": "@name res:contrasts/contrast3_blend/alcaraz_component",
+      "external_component": "@name res:contrasts/contrast3_blend/external_component",
+      "form": "blend logit = (1 - w) * logit(Alcaraz) + w * logit(BuildOak)",
+      "weight_grid": "@value res:contrasts/contrast3_blend/weight_grid",
+      "rule": "@value res:contrasts/contrast3_blend/rule",
+      "selection": "@value res:contrasts/contrast3_blend/selection",
+      "primary_years": "@value res:contrasts/contrast3_blend/primary_years",
+      "secondary_years": "@value res:contrasts/contrast3_blend/secondary_years",
+      "excluded_years": "@value res:contrasts/contrast3_blend/excluded_years",
+      "blend_scores": {
+        "primary": "@value res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/left_scores",
+        "secondary": "@value res:contrasts/contrast3_blend/secondary_blend_minus_alcaraz/left_scores"
+      },
+      "primary_blend_minus_arm1": {
+        "@c": "@contrast_detailed res:contrasts/contrast3_blend/primary_blend_minus_alcaraz"
+      },
+      "primary_blend_minus_buildoak": {
+        "@c": "@contrast_detailed res:contrasts/contrast3_blend/primary_blend_minus_external"
+      },
+      "secondary_blend_minus_arm1": {
+        "@c": "@contrast_detailed res:contrasts/contrast3_blend/secondary_blend_minus_alcaraz"
+      },
+      "secondary_blend_minus_buildoak": {
+        "@c": "@contrast_detailed res:contrasts/contrast3_blend/secondary_blend_minus_external"
+      }
+    }
+  },
+  "gates": "@value res:gates",
+  "gate_verdicts_as_accepted": {
+    "gate1": "adopt full_entry as the WTA incumbent rung for WTA01 2019-2024",
+    "gate2": "not supported: interval includes zero; registered as underpowered (16% power at the 2024 gap)",
+    "gate3": "passed; released as an attributed research artefact after independent reconstruction (D133); not the default model"
+  },
+  "uncertainty_method": {
+    "method": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/method",
+    "rng": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/rng",
+    "seed": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/seed",
+    "replicates": "@value res:contrasts/contrast2_best_alcaraz_minus_external/uncertainty/replicates",
+    "level": 0.95,
+    "primary_mean_block_weeks": "@value res:contrasts/contrast2_best_alcaraz_minus_external/primary_interval_log_loss/mean_block_weeks",
+    "sensitivity_mean_block_weeks": [
+      4,
+      13
+    ],
+    "week_label": "ISO week of the panel's tourney_anchor_date (calendar Monday)",
+    "equal_year_secondary": "@value res:contrasts/contrast2_best_alcaraz_minus_external/equal_year_interval_log_loss/method",
+    "conditioning": "intervals condition on the saved forecasts and omit refit, selection and source-choice uncertainty"
+  },
+  "sensitivities": {
+    "arm1_impl_minus_arm0": {
+      "label": "@value res:sensitivities/arm1_impl_minus_arm0/label",
+      "@c": "@contrast_detailed res:sensitivities/arm1_impl_minus_arm0/result"
+    },
+    "arm0_minus_buildoak": {
+      "label": "@value res:sensitivities/arm0_minus_buildoak/label",
+      "@c": "@contrast_detailed res:sensitivities/arm0_minus_buildoak/result"
+    },
+    "excl_nocode_slams": {
+      "label": "declared sensitivity: all contrasts recomputed without the 996 rows of the eight Grand Slams whose source rows carry no entry code on any row",
+      "experiment_id": "@value excl:experiment_id",
+      "cohort": "@value excl:cohort",
+      "membership_sha256": "@value excl:bindings/membership/sha256",
+      "contrasts": {
+        "contrast1_arm1_minus_arm0": {
+          "@c": "@contrast_detailed excl:contrasts/contrast1_arm1_minus_arm0"
+        },
+        "contrast2_arm1_minus_buildoak": {
+          "@c": "@contrast_detailed excl:contrasts/contrast2_best_alcaraz_minus_external"
+        },
+        "primary_blend_minus_arm1": {
+          "@c": "@contrast_detailed excl:contrasts/contrast3_blend/primary_blend_minus_alcaraz"
+        },
+        "primary_blend_minus_buildoak": {
+          "@c": "@contrast_detailed excl:contrasts/contrast3_blend/primary_blend_minus_external"
+        },
+        "arm1_impl_minus_arm0": {
+          "@c": "@contrast_detailed excl:sensitivities/arm1_impl_minus_arm0/result"
+        },
+        "arm0_minus_buildoak": {
+          "@c": "@contrast_detailed excl:sensitivities/arm0_minus_buildoak/result"
+        }
+      },
+      "gates_recomputed": "@value excl:gates"
+    },
+    "not_in_scoring_output": [
+      "completed-only matches (registered as descriptive; absent from the scoring output)",
+      "Arm 1b and the LL-as-no-flag refit were not run for WTA",
+      "no market reference line was registered for the WTA secondary"
+    ]
+  },
+  "power": {
+    "registered_planning": "@value res:power",
+    "realised_effective_sd": {
+      "contrast1_arm1_minus_arm0": "@value res:contrasts/contrast1_arm1_minus_arm0/variance_diagnostics/effective_sd",
+      "contrast2_arm1_minus_buildoak": "@value res:contrasts/contrast2_best_alcaraz_minus_external/variance_diagnostics/effective_sd",
+      "contrast3_primary_blend_minus_arm1": "@value res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/variance_diagnostics/effective_sd",
+      "contrast3_primary_blend_minus_buildoak": "@value res:contrasts/contrast3_blend/primary_blend_minus_external/variance_diagnostics/effective_sd"
+    },
+    "note": "registered planning values: contrast 2 effective SD 0.118 (MDE 0.0029, power 0.16 at the 2024 gap of -0.0010; registered as underpowered); contrast 1 bracketed between effective SD 0.045 and 0.1097. The realised effective SDs are reported so the reader can see which case obtained."
+  },
+  "provenance": {
+    "scorer": "@binding res:bindings/scorer",
+    "manifest": "@binding res:bindings/manifest",
+    "manifest_excl_nocode_slams": "@binding excl:bindings/manifest",
+    "result_json": "@file res",
+    "result_json_excl_nocode_slams": "@file excl",
+    "membership": "@binding res:bindings/membership",
+    "labels": "@binding res:bindings/labels",
+    "weeks": "@binding res:bindings/weeks",
+    "forecast_files": "@forecast_files res",
+    "buildoak_execution_notes": "@file buildoak_execution_notes",
+    "buildoak_implementation_notes": "@file buildoak_implementation_notes",
+    "scoring_runtime_seconds": "@value res:runtime_seconds"
+  },
+  "reporting_sentences": {
+    "rule": "registered in experiments/ARMS01.design.md 'Reporting sentences' (WTA: the same sentences with the WTA cohorts; an inconclusive WTA contrast 2 has its own sentence); X, L, U and k filled from this file at four decimals",
+    "gate1_passed": "full_entry: full plus entry status (Q, LL, WC, PR) and tournament-level context; {{out:contrasts/contrast1_arm1_minus_arm0/difference/match_weighted/log_loss|s4}} versus full {{out:contrasts/contrast1_arm1_minus_arm0/intervals_95/log_loss/8|ci4}}, {{out:contrasts/contrast1_arm1_minus_arm0/difference/years_negative|d}} of {{out:contrasts/contrast1_arm1_minus_arm0/years|len|d}} years negative.",
+    "gate2_inconclusive": "On {{out:contrasts/contrast2_arm1_minus_buildoak/n|int}} WTA matches from {{out:contrasts/contrast2_arm1_minus_buildoak/years|first|d}} to {{out:contrasts/contrast2_arm1_minus_buildoak/years|last|d}} the BuildOak margin is {{out:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}} {{out:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}}; at the 2024 gap this comparison had {{out:power/registered_planning/contrast2_wta/power_at_observed_delta/power|pct0}} power.",
+    "gate3_passed": "A logit blend of Alcaraz with the BuildOak adaptation, with the weight chosen on the three preceding seasons and never the target season, scores {{out:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|abs4}} below Alcaraz alone {{out:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}} and {{out:contrasts/contrast3_blend/primary_blend_minus_buildoak/difference/match_weighted/log_loss|abs4}} below BuildOak alone {{out:contrasts/contrast3_blend/primary_blend_minus_buildoak/intervals_95/log_loss/8|ci4}} on {{out:contrasts/contrast3_blend/primary_blend_minus_arm1/n|int}} WTA matches from {{out:contrasts/contrast3_blend/primary_years|first|d}} to {{out:contrasts/contrast3_blend/primary_years|last|d}}. It is a research artefact, not the default model; the BuildOak component is buildoak/tennis-xgboost-autoresearch at 237d1e7."
+  },
+  "release": {
+    "artefact": "WTA past-only logit blend of full_entry with the BuildOak WTA adaptation",
+    "status": "attributed research artefact (archive D133); not the default model; the BuildOak component is buildoak/tennis-xgboost-autoresearch at 237d1e7 and stays attributed to its author",
+    "exposure": "the BuildOak recipe was developed by its author with sight of later seasons; the artefact carries that exposure",
+    "atp": "no ATP blend is released (ATP gate 3 failed); the two tours are never pooled"
+  },
+  "limitations": [
+    "exposed retrospective comparison of complete systems with different legitimate histories; not an untouched test, prospective evidence or a market claim",
+    "registration not blind to 2024 (the 22 September review had screened WTA 2024 blends and the WTA 2024 gap); the frozen six-year design is a mitigation, not a cure",
+    "WTA contrast 2 was registered as underpowered (16% power at the 2024 gap); an interval including zero is inconclusive, not parity",
+    "the source's WTA level codes are inconsistent: level_context_m means 'coded PM', not 'is a WTA 1000'; W maps to the tour-level flag (15 Finals rows in 2015 train as a, not f); SR (WTA protected ranking) is unflagged; PR occurs only in 2024 and never varies in a training window",
+    "eight Grand Slams carry no entry code on any row (996 targets encoded as no flag; declared sensitivity reported)",
+    "the BuildOak recent-era blend is active only in 2024, so 2019-2023 BuildOak forecasts come from a structurally different recipe; the 2019-2023 BuildOak forecasts are committed and verified but not independently re-run",
+    "the BuildOak recipe was selected by its author on ROC AUC with sight of 2026 data; the WTA01 2019-2024 cohort is exposed development data (the full rung was scored on it before this registration)",
+    "intervals condition on saved forecasts; no family-wise adjustment across the three gates (disclosed, not corrected)",
+    "the WTA02 2025-2026 window is untouched by this result: no refit, and its rung stays full",
+    "no claim beyond the named systems, this cohort and paired log loss"
+  ],
+  "interpretation": "Gate 1: adopt full_entry as the WTA incumbent rung for WTA01 2019-2024. Gate 2: not supported (interval includes zero; registered as underpowered). Gate 3: passed; the blend is released as an attributed research artefact, not the default model. Independently reconstructed (archive decision D133). Secondary to ATP; never pooled."
+}

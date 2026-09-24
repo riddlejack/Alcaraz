@@ -1,0 +1,539 @@
+{
+  "about": "Sources of the product benchmark JSONs, built by tools/build_benchmark_aggregates.py. Paths are relative to the named root (default archive = the research archive, --archive-root or TENNISLAB_ARCHIVE). Every source is hashed before it is read and must match its sha256. accepted: committed registered result, only checked byte for byte; extension: written by the tool; pending: a source is not frozen yet (sha256 null), skipped.",
+  "targets": [
+    {
+      "output": "docs/benchmarks/buildoak_2017_2024.json",
+      "status": "accepted",
+      "note": "ARMS01 attempt 002, ATP 2017-2024 (archive decisions D131, D132). Registered claim; never rewritten.",
+      "template": "docs/templates/buildoak_2017_2024.template.json",
+      "sources": {
+        "res": {
+          "path": "references/ARMS01/results/attempt_002/arms01_atp_attempt_002_result.json",
+          "sha256": "03bf7fe427c3a49d723d80f3430ce0eebe142b449476fc0501008b80c161f885"
+        },
+        "excl": {
+          "path": "references/ARMS01/results/attempt_002/arms01_atp_attempt_002_sens_excl_2022_slams.json",
+          "sha256": "f38370e1b0025da9a4dff4f0a2bbca0cd9bf7acf3fe4510459d5b4192c53c39b"
+        },
+        "variant": {
+          "path": "references/ARMS01/results/attempt_001/arms01_atp_result.json",
+          "sha256": "7bf3b8f602bfa937ee79188c6426bb2a599ca7e610afe9594fe5dde542eaa84e"
+        },
+        "buildoak_execution_notes": {
+          "path": "references/ARMS01/buildoak_execution/EXECUTION_NOTES.md",
+          "sha256": "59c6fde3bea8bbffe2694b52ef6b7e504e6d741c88378c011107a7c9af798308"
+        },
+        "buildoak_commitments": {
+          "path": "references/ARMS01/buildoak_execution/ARM2_COMMITMENTS.json",
+          "sha256": "f83d3c0eb4d427ed587fbf1a1567597dd4af0fb00e19f0e9a7d867eef29563fc"
+        },
+        "admissibility_note": {
+          "path": "references/ARMS01/ADMISSIBILITY.md",
+          "sha256": "28c1819d0b5b3fc391f4f665fb436c879c6fccf11ccad9d1e99c1e91f66801e2"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/buildoak_wta_2019_2024.json",
+      "status": "accepted",
+      "note": "ARMS01 WTA secondary wta_attempt_002, 2019-2024 (archive decision D133). Registered claim; never rewritten.",
+      "template": "docs/templates/buildoak_wta_2019_2024.template.json",
+      "sources": {
+        "res": {
+          "path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_result.json",
+          "sha256": "fb74b1adebcdce411dc97ef521cbbbd4a7a9da356524223e76dc09f3798636ec"
+        },
+        "excl": {
+          "path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_sens_excl_nocode_slams.json",
+          "sha256": "193e1071b33b4c034a7aedc37b7ffd1292c73d025184cf76fc01501dd6f6efe8"
+        },
+        "buildoak_execution_notes": {
+          "path": "references/ARMS01/buildoak_wta_execution/EXECUTION_NOTES.md",
+          "sha256": "389a9e5082797324582b594fd24b0422d265090f455f4494294572ec575ab7c0"
+        },
+        "buildoak_implementation_notes": {
+          "path": "references/ARMS01/buildoak_wta_execution/IMPLEMENTATION.md",
+          "sha256": "da74e9a59e4fb8ec730bfcea4b3b362935c7fb5a841b3ceb9b816082c15963b6"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/G_L_RESULTS.json",
+      "status": "accepted",
+      "note": "G-L attempt 002 report, ATP 2017-2024 and WTA 2019-2024 (byte copy). Its source lives in the G-benchmark checkout: --root g_benchmark=<path to tennis-lab-g-benchmark>.",
+      "copy": "report",
+      "sources": {
+        "report": {
+          "path": "work/G-L-freeze/attempt_002/workspace/outputs/G-L-real/attempt_002/report/benchmark_report.json",
+          "sha256": "734b1234b07823744c2323d95d8ea81a4fae18b59b564ec44a0f0a9094986d2f",
+          "root": "g_benchmark"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/why01.json",
+      "status": "accepted",
+      "note": "WHY01 decomposition, ATP 2017-2024 (byte copy of the archive results).",
+      "copy": "results",
+      "sources": {
+        "results": {
+          "path": "references/WHY01/results.json",
+          "sha256": "22bf76a481c83f6e74128f1fc3a69211d00b58fcadec78175cc5cf81c3f92693"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/buildoak_2017_2025.json",
+      "status": "extension",
+      "note": "EXT2025 BuildOak ATP 2017-2025 (design amendments A1, A3), scoring freeze 2. Independently reconstructed (REC2, ACCEPT); decision entry pending.",
+      "template": "docs/templates/buildoak_2017_2025.template.json",
+      "arm_names": {
+        "alcaraz_frozen": "arm1",
+        "alcaraz_prior_full_tier": "arm0"
+      },
+      "sources": {
+        "res": {
+          "path": "work/EXT2025/scoring/buildoak_pass/ext2025_buildoak_atp_result.json",
+          "sha256": "335bda4050e3110a994c4ce4aa750268891d6bb2d45149f112ea6e30245e0ab2"
+        },
+        "accepted": {
+          "path": "references/ARMS01/results/attempt_002/arms01_atp_attempt_002_result.json",
+          "sha256": "03bf7fe427c3a49d723d80f3430ce0eebe142b449476fc0501008b80c161f885"
+        },
+        "design": {
+          "path": "experiments/EXT2025.design.md",
+          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
+        },
+        "freeze_runs": {
+          "path": "references/EXT2025/FREEZE_RUNS_1_2026-09-24.json",
+          "sha256": "c7ebf3ba8a02d1db5088461c088f01ea22dd4d4b34f5014af98de855f89abff4"
+        },
+        "freeze_scoring": {
+          "path": "references/EXT2025/FREEZE_SCORING_2_2026-09-24.json",
+          "sha256": "e12ccd0a8d47b72a86509f08a1be29b0fb84fc55105366e2b26598816ea41e11"
+        },
+        "repro": {
+          "path": "work/EXT2025/buildoak/attempts/atp_2024_reproduction/COMPARISON.json",
+          "sha256": "82fe2d27ce1ed60dfbc8bd5416fc0bbfe94b6b310940e17fe7dab3c9963f5e1c"
+        },
+        "fit_2025": {
+          "path": "work/EXT2025/buildoak/attempts/atp_2025/REPLAY_SUMMARY.json",
+          "sha256": "dec7eae403072e9557375e20ecc64a4cae663b715804c2380a009fcc0a8d4356"
+        },
+        "rec": {
+          "path": "work/EXT2025/reconstruction/rec2/RECONSTRUCTION.md",
+          "sha256": "1cc5456bb4da83ef1bef976638e389e66794da0f739487adb503c73016fafd1d"
+        },
+        "rec_results": {
+          "path": "work/EXT2025/reconstruction/rec2/results.json",
+          "sha256": "625d5a16bd4599143208afa7a6262c5bc3856bb39dc35ce84ff720f4b06b4584"
+        },
+        "rec_blend": {
+          "path": "work/EXT2025/reconstruction/rec2/results_mc_blend.json",
+          "sha256": "dfb227b1b72035c8bc8fa581fb1dfee5b582e869d51f9045e518aa058d6444f4"
+        }
+      },
+      "checks": [
+        {
+          "equal": [
+            "repro:status",
+            "=value"
+          ],
+          "value": "BYTE_IDENTICAL"
+        },
+        {
+          "equal": [
+            "fit_2025:target_rows",
+            "res:cohort/n_by_year/2025"
+          ]
+        },
+        {
+          "equal": [
+            "res:cohort/n_by_year/{each}",
+            "accepted:cohort/n_by_year/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/left_scores/by_year/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/left_scores/by_year/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/right_scores/by_year/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/right_scores/by_year/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/difference/annual_log_loss/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/difference/annual_log_loss/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast3_blend/selection/{each}",
+            "accepted:contrasts/contrast3_blend/selection/{each}"
+          ],
+          "each": [
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:arms/buildoak/bindings/{each}",
+            "accepted:arms/buildoak/bindings/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:reference_lines/pinnacle_normalised/n_by_year/{each}",
+            "accepted:reference_lines/pinnacle_normalised/n_by_year/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:reference_lines/pinnacle_normalised/result/right_scores/by_year/{each}",
+            "accepted:reference_lines/pinnacle_normalised/result/right_scores/by_year/{each}"
+          ],
+          "each": [
+            "2017",
+            "2018",
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "rec_blend:point",
+            "res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/difference/match_weighted/log_loss"
+          ]
+        },
+        {
+          "equal": [
+            "rec_blend:seeds/20260922/interval",
+            "res:contrasts/contrast3_blend/primary_blend_minus_alcaraz/uncertainty/results/8/log_loss/percentile_95"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "docs/benchmarks/buildoak_wta_2019_2025.json",
+      "status": "extension",
+      "note": "EXT2025 BuildOak WTA 2019-2025 (design amendments A1, A3), scoring freeze 2. Independently reconstructed (REC2, ACCEPT); decision entry pending.",
+      "template": "docs/templates/buildoak_wta_2019_2025.template.json",
+      "arm_names": {
+        "alcaraz_frozen": "arm1",
+        "alcaraz_prior_full": "arm0"
+      },
+      "sources": {
+        "res": {
+          "path": "work/EXT2025/scoring/buildoak_pass/ext2025_buildoak_wta_result.json",
+          "sha256": "1bb999a730dd71c6fe18d881f03369f6053fc0cbf69df32b7933efcda64b8cc0"
+        },
+        "accepted": {
+          "path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_result.json",
+          "sha256": "fb74b1adebcdce411dc97ef521cbbbd4a7a9da356524223e76dc09f3798636ec"
+        },
+        "design": {
+          "path": "experiments/EXT2025.design.md",
+          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
+        },
+        "freeze_runs": {
+          "path": "references/EXT2025/FREEZE_RUNS_1_2026-09-24.json",
+          "sha256": "c7ebf3ba8a02d1db5088461c088f01ea22dd4d4b34f5014af98de855f89abff4"
+        },
+        "freeze_scoring": {
+          "path": "references/EXT2025/FREEZE_SCORING_2_2026-09-24.json",
+          "sha256": "e12ccd0a8d47b72a86509f08a1be29b0fb84fc55105366e2b26598816ea41e11"
+        },
+        "repro": {
+          "path": "work/EXT2025/buildoak/attempts/wta_2024_reproduction/COMPARISON.json",
+          "sha256": "b523cea11c0c71446b106e93171bc0adddb0b7bc8348edb1b2ba85b915c9e706"
+        },
+        "fit_2025": {
+          "path": "work/EXT2025/buildoak/attempts/wta_2025/REPLAY_SUMMARY.json",
+          "sha256": "a40756c37008ceb3a541fd3d9cdc743d29092c492fb5e36a6a1f7c9b93e5cd50"
+        },
+        "rec": {
+          "path": "work/EXT2025/reconstruction/rec2/RECONSTRUCTION.md",
+          "sha256": "1cc5456bb4da83ef1bef976638e389e66794da0f739487adb503c73016fafd1d"
+        },
+        "rec_results": {
+          "path": "work/EXT2025/reconstruction/rec2/results.json",
+          "sha256": "625d5a16bd4599143208afa7a6262c5bc3856bb39dc35ce84ff720f4b06b4584"
+        }
+      },
+      "checks": [
+        {
+          "equal": [
+            "repro:status",
+            "=value"
+          ],
+          "value": "BYTE_IDENTICAL"
+        },
+        {
+          "equal": [
+            "fit_2025:target_rows",
+            "res:cohort/n_by_year/2025"
+          ]
+        },
+        {
+          "equal": [
+            "res:cohort/n_by_year/{each}",
+            "accepted:cohort/n_by_year/{each}"
+          ],
+          "each": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/left_scores/by_year/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/left_scores/by_year/{each}"
+          ],
+          "each": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/right_scores/by_year/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/right_scores/by_year/{each}"
+          ],
+          "each": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast2_best_alcaraz_minus_external/difference/annual_log_loss/{each}",
+            "accepted:contrasts/contrast2_best_alcaraz_minus_external/difference/annual_log_loss/{each}"
+          ],
+          "each": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:contrasts/contrast3_blend/selection/{each}",
+            "accepted:contrasts/contrast3_blend/selection/{each}"
+          ],
+          "each": [
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "equal": [
+            "res:arms/buildoak/bindings/{each}",
+            "accepted:arms/buildoak/bindings/{each}"
+          ],
+          "each": [
+            "2019",
+            "2020",
+            "2021",
+            "2022",
+            "2023",
+            "2024"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "docs/benchmarks/G_L_RESULTS_2017_2025.json",
+      "status": "extension",
+      "note": "EXT2025 G-L run (b), frozen-model incumbent (ATP full_tier_entry, WTA full_entry), ATP 2017-2025 and WTA 2019-2025 (A2). Byte copy. Acceptance: pending the lead's decision entry; move the path to references/EXT2025/ when the result is filed there.",
+      "copy": "report",
+      "sources": {
+        "report": {
+          "path": "work/EXT2025/baselines/gl/workspace/outputs/G-L-EXT2025-frozen-model/attempt_001/report/benchmark_report.json",
+          "sha256": "083098f7de76dcbc76357e1b841ee73b1a4f30865e211919fd6fb1bdae1d9af7"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/G_L_RESULTS_2017_2025_continuity.json",
+      "status": "extension",
+      "note": "EXT2025 G-L run (a), continuity incumbent (ATP full_tier, WTA full); its 2017-2024 per-season values equal the accepted G_L_RESULTS.json (A2). Byte copy.",
+      "copy": "report",
+      "sources": {
+        "report": {
+          "path": "work/EXT2025/baselines/gl/workspace/outputs/G-L-EXT2025/attempt_001/report/benchmark_report.json",
+          "sha256": "768c1f8858934008d633798fbe2bd653621a5660d9f65a942171b40fbedc16a9"
+        }
+      }
+    },
+    {
+      "output": "docs/benchmarks/uts_ingram_2024_2025.json",
+      "status": "extension",
+      "note": "EXT2025 UTS 2024, 2025 and pooled 2024-2025 (A2, A4; scoring freeze 1). Ingram slot empty until its scoring pass exists: add ingram_primary / ingram_continuity sources and the template's ingram block then.",
+      "template": "docs/templates/uts_ingram_2024_2025.template.json",
+      "sources": {
+        "uts_primary": {
+          "path": "work/EXT2025/baselines/uts/score_ext2025_primary_001/MATCHED_COMPARISON.json",
+          "sha256": "f77ee54c32a871c4df79fdc3e9d1e3daba25fe7b5bcad9613f45625ac15507cc"
+        },
+        "uts_continuity": {
+          "path": "work/EXT2025/baselines/uts/score_ext2025_continuity_001/MATCHED_COMPARISON.json",
+          "sha256": "1c57b606f2dcbde89764182a7140cbd31b0c76885c48c6432eeddb515b9d320d"
+        },
+        "freeze_scoring": {
+          "path": "references/EXT2025/FREEZE_SCORING_1_2026-09-24.json",
+          "sha256": "36e37f1b08b8ef5f6907a6f137ec33a9e7d7f363bbb96af7167fcec3f27f30a6"
+        },
+        "design": {
+          "path": "experiments/EXT2025.design.md",
+          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
+        },
+        "uts_accepted": {
+          "path": "work/root_uts_contract_2026-09-15/attempt_002/MATCHED_COMPARISON.json",
+          "sha256": "0e0797679db6501872d53391a916aff687942277882eaa48c15fb12c9398b468"
+        }
+      },
+      "checks": [
+        {
+          "equal": [
+            "uts_continuity:by_year/2024/{each}",
+            "uts_accepted:{each}"
+          ],
+          "each": [
+            "incumbent",
+            "external_uts_adaptation",
+            "completed_only",
+            "incumbent_minus_external_log_loss",
+            "n"
+          ]
+        },
+        {
+          "equal": [
+            "uts_continuity:by_year/2024/uncertainty/results/{each}/percentile_95",
+            "uts_accepted:uncertainty/results/{each}/percentile_95"
+          ],
+          "each": [
+            "4",
+            "8",
+            "13"
+          ]
+        },
+        {
+          "equal": [
+            "uts_continuity:by_year/2024/uncertainty/results/{each}/draw_sha256",
+            "uts_accepted:uncertainty/results/{each}/draw_sha256"
+          ],
+          "each": [
+            "4",
+            "8",
+            "13"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "docs/benchmarks/why01_2017_2025.json",
+      "status": "extension",
+      "note": "WHY01 exploratory decomposition on ATP 2017-2025 (EXT2025 scoring freeze 3; segment definitions fixed at the published values; UTS and Ingram parts on 2024). Byte copy of the run's results.json. Independently reconstructed (REC2, ACCEPT, work/EXT2025/reconstruction/rec2/RECONSTRUCTION.md); decision entry pending.",
+      "copy": "results",
+      "sources": {
+        "results": {
+          "path": "work/EXT2025/why01/ext2025_run/results.json",
+          "sha256": "bf3e286714a600ea60030ace58cbd2d2e89f834120fb68604138c79fdee22176"
+        }
+      }
+    }
+  ]
+}

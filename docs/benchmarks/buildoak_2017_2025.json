@@ -1,0 +1,1757 @@
+{
+  "status": "extension_pending_acceptance",
+  "status_note": "EXT2025 extension of the accepted ARMS01 ATP comparison to 2017-2025 (design amendments A1 and A3), scored once with the accepted ARMS01 scorer. 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted result (buildoak_2017_2024.json, archive decisions D131 and D132) remains the registered claim; its headline numbers are carried unchanged under accepted_result. Independently reconstructed (REC2, verdict ACCEPT); the decision entry is pending.",
+  "acceptance": {
+    "archive_decision": "pending",
+    "reconstruction_verdict": "ACCEPT",
+    "reconstruction_record": {
+      "archive_relative_path": "work/EXT2025/reconstruction/rec2/RECONSTRUCTION.md",
+      "sha256": "1cc5456bb4da83ef1bef976638e389e66794da0f739487adb503c73016fafd1d"
+    },
+    "reconstruction_numbers": {
+      "archive_relative_path": "work/EXT2025/reconstruction/rec2/results.json",
+      "sha256": "625d5a16bd4599143208afa7a6262c5bc3856bb39dc35ce84ff720f4b06b4584"
+    }
+  },
+  "experiment_id": "EXT2025-ATP-BUILDOAK",
+  "extends": {
+    "product_json": "docs/benchmarks/buildoak_2017_2024.json",
+    "experiment_id": "ARMS01",
+    "attempt": "attempt_002",
+    "archive_decision": "D131 and D132",
+    "result_json": {
+      "archive_relative_path": "references/ARMS01/results/attempt_002/arms01_atp_attempt_002_result.json",
+      "sha256": "03bf7fe427c3a49d723d80f3430ce0eebe142b449476fc0501008b80c161f885"
+    }
+  },
+  "tour": "ATP",
+  "scope": "exposed_retrospective_ATP_2017_2025_walk_forward_full_system_comparison_extension",
+  "registration": {
+    "design": {
+      "archive_relative_path": "experiments/EXT2025.design.md",
+      "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
+    },
+    "amendments": "A1 (BuildOak 2025 fits; accepted 2024 reproductions byte-identical before the 2025 output is used), A3 (scoring: accepted ARMS01 scorer, frozen model as the only Alcaraz arm, blend years extended by 2025, no power restatement)",
+    "runs_freeze": {
+      "archive_relative_path": "references/EXT2025/FREEZE_RUNS_1_2026-09-24.json",
+      "sha256": "c7ebf3ba8a02d1db5088461c088f01ea22dd4d4b34f5014af98de855f89abff4"
+    },
+    "scoring_freeze": {
+      "archive_relative_path": "references/EXT2025/FREEZE_SCORING_2_2026-09-24.json",
+      "sha256": "e12ccd0a8d47b72a86509f08a1be29b0fb84fc55105366e2b26598816ea41e11"
+    },
+    "readings": "EXT2025 fixes readings, not gates: every extended number is reported whatever it shows; the scorer's verdict strings are kept under scorer_verdicts and read descriptively (A3)"
+  },
+  "endpoint": {
+    "gated_metric": "log_loss",
+    "estimand": "match-weighted paired log-loss difference, left minus right, on identical matches; negative favours the left",
+    "log_loss_clip": 1e-15,
+    "descriptive_metrics": [
+      "brier",
+      "accuracy (0.5 credit at p = 0.5)"
+    ],
+    "note": "Brier and winner accuracy are descriptive companions; log loss is the sole gated endpoint."
+  },
+  "cohort": {
+    "definition": "all ATP primary targets 2017-2025: the accepted 2017-2024 ARMS01 membership in its order, then the 2025 REFIT2025 primary targets with a frozen-model forecast; three Roland Garros 2025 rows recorded as best of three carry no forecast by rule and are excluded; neutral orientation; retirements retained",
+    "years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "n": 21561,
+    "n_by_year": {
+      "2017": 2323,
+      "2018": 2606,
+      "2019": 2502,
+      "2020": 1250,
+      "2021": 2390,
+      "2022": 2538,
+      "2023": 2682,
+      "2024": 2681,
+      "2025": 2589
+    },
+    "membership_sha256": "71009f2c3e3d6216d7e683c801c63e41d654f8316aae86397e8dde3122969376",
+    "rows_outside_membership_ignored": {
+      "arm1": 380,
+      "arm0": 380,
+      "buildoak": 0
+    },
+    "clipped_rows": {
+      "arm1": 0,
+      "arm0": 0,
+      "buildoak": 0
+    },
+    "ties_at_half": {
+      "arm1": 0,
+      "arm0": 0,
+      "buildoak": 0
+    },
+    "priced_subset": {
+      "n": 21361,
+      "n_by_year": {
+        "2017": 2311,
+        "2018": 2587,
+        "2019": 2491,
+        "2020": 1241,
+        "2021": 2384,
+        "2022": 2525,
+        "2023": 2672,
+        "2024": 2671,
+        "2025": 2479
+      },
+      "membership_sha256": "2f23b25b1dbdbe12d60572026e4468ae6d09983011cbd825adfd2bbf37211264"
+    }
+  },
+  "systems": {
+    "arm1": {
+      "label": "full_tier_entry",
+      "role": "the frozen model (D134): ARMS01 attempt 002 forecasts for 2017-2024, REFIT2025 attempt 001 for 2025; the only Alcaraz arm scored (A3)"
+    },
+    "arm0": {
+      "label": "full_tier",
+      "role": "the previous version; its forecast files are bound for the record and it is not scored in EXT2025 (A3)"
+    },
+    "buildoak": {
+      "label": "BuildOak XGBoost adaptation",
+      "source_repository": "buildoak/tennis-xgboost-autoresearch",
+      "source_revision": "237d1e7ae020de062a994dd7f987881fa2c9a795",
+      "adaptation": "the accepted ARMS01 walk-forward replay for 2017-2024 plus one fit at the 2024-12-30 boundary for 2025 with the frozen adaptation, in the same Colima adapter; the 2025 output is used only because the accepted 2024 run reproduced byte for byte in that environment (A1)",
+      "structural_break": "ATP 2025 is the first ATP season in which the frozen adapter activates its recent-era model: 15,959 recent rows (from 2019-01-01) against its frozen threshold of 15,000, so every one of the 2,589 2025 targets gets 0.8 of the full model plus 0.2 of the recent model (A1); the 2017-2024 forecasts never used it, so the 2025 BuildOak forecasts come from a structurally different recipe",
+      "fit_2025": {
+        "replay_summary": {
+          "archive_relative_path": "work/EXT2025/buildoak/attempts/atp_2025/REPLAY_SUMMARY.json",
+          "sha256": "dec7eae403072e9557375e20ecc64a4cae663b715804c2380a009fcc0a8d4356"
+        },
+        "recent_blend": {
+          "recent_start": "2019-01-01",
+          "recent_weight": 0.2,
+          "min_recent_rows": 15000,
+          "recent_rows": 15959,
+          "active": true
+        },
+        "target_rows": 2589,
+        "native_rows": 2589
+      },
+      "reproduction_2024": {
+        "status": "BYTE_IDENTICAL",
+        "comparison": {
+          "archive_relative_path": "work/EXT2025/buildoak/attempts/atp_2024_reproduction/COMPARISON.json",
+          "sha256": "82fe2d27ce1ed60dfbc8bd5416fc0bbfe94b6b310940e17fe7dab3c9963f5e1c"
+        },
+        "rule": "the 2025 output is used only if the accepted 2024 run reproduces byte for byte in the same environment (A1)"
+      }
+    }
+  },
+  "scores": {
+    "arm1": {
+      "n": 21561,
+      "match_weighted": {
+        "log_loss": 0.5990858890741712,
+        "brier": 0.20697624391554853,
+        "accuracy": 0.6667594267427299
+      },
+      "equal_year": {
+        "log_loss": 0.5986889120647937,
+        "brier": 0.2067883135760196,
+        "accuracy": 0.6670940081005358
+      },
+      "by_year": {
+        "2017": {
+          "log_loss": 0.5915484760887889,
+          "brier": 0.20301878602723716,
+          "accuracy": 0.6732673267326733
+        },
+        "2018": {
+          "log_loss": 0.6034760878352238,
+          "brier": 0.20904625561318008,
+          "accuracy": 0.6642363775901765
+        },
+        "2019": {
+          "log_loss": 0.6064357139861559,
+          "brier": 0.21019473960420407,
+          "accuracy": 0.6622701838529177
+        },
+        "2020": {
+          "log_loss": 0.5936385292301364,
+          "brier": 0.20451488333953957,
+          "accuracy": 0.6712
+        },
+        "2021": {
+          "log_loss": 0.5965015639441045,
+          "brier": 0.20583893075916435,
+          "accuracy": 0.6686192468619246
+        },
+        "2022": {
+          "log_loss": 0.5920022139304557,
+          "brier": 0.20399971427775107,
+          "accuracy": 0.669424743892829
+        },
+        "2023": {
+          "log_loss": 0.5987049471107043,
+          "brier": 0.20708677336638934,
+          "accuracy": 0.6659209545115585
+        },
+        "2024": {
+          "log_loss": 0.595560622422269,
+          "brier": 0.20574722858157393,
+          "accuracy": 0.6680343155538978
+        },
+        "2025": {
+          "log_loss": 0.6103320540353052,
+          "brier": 0.2116475106151368,
+          "accuracy": 0.6608729239088451
+        }
+      }
+    },
+    "buildoak": {
+      "n": 21561,
+      "match_weighted": {
+        "log_loss": 0.6058313435032229,
+        "brier": 0.20991520633178523,
+        "accuracy": 0.6611010621028709
+      },
+      "equal_year": {
+        "log_loss": 0.6052758913642985,
+        "brier": 0.20968289672138224,
+        "accuracy": 0.6623172079288265
+      },
+      "by_year": {
+        "2017": {
+          "log_loss": 0.5993345316261321,
+          "brier": 0.20633985736413732,
+          "accuracy": 0.6702539819199311
+        },
+        "2018": {
+          "log_loss": 0.6101223242957922,
+          "brier": 0.2113905519211425,
+          "accuracy": 0.659247889485802
+        },
+        "2019": {
+          "log_loss": 0.6149686248831061,
+          "brier": 0.21340313705658207,
+          "accuracy": 0.6566746602717826
+        },
+        "2020": {
+          "log_loss": 0.597103221510331,
+          "brier": 0.20642520004556741,
+          "accuracy": 0.6808
+        },
+        "2021": {
+          "log_loss": 0.6086243352000478,
+          "brier": 0.21147833293709437,
+          "accuracy": 0.6556485355648536
+        },
+        "2022": {
+          "log_loss": 0.5904923515130652,
+          "brier": 0.20348412877889768,
+          "accuracy": 0.6674546887312844
+        },
+        "2023": {
+          "log_loss": 0.6118038369503564,
+          "brier": 0.21264723131057153,
+          "accuracy": 0.6547352721849367
+        },
+        "2024": {
+          "log_loss": 0.6000438940842217,
+          "brier": 0.2077005650668946,
+          "accuracy": 0.660574412532637
+        },
+        "2025": {
+          "log_loss": 0.614989902215634,
+          "brier": 0.21427706601155258,
+          "accuracy": 0.6554654306682116
+        }
+      }
+    }
+  },
+  "contrasts": {
+    "contrast2_arm1_minus_buildoak": {
+      "left": "arm1",
+      "right": "buildoak",
+      "years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n": 21561,
+      "left_match_weighted": {
+        "log_loss": 0.5990858890741712,
+        "brier": 0.20697624391554853,
+        "accuracy": 0.6667594267427299
+      },
+      "right_match_weighted": {
+        "log_loss": 0.6058313435032229,
+        "brier": 0.20991520633178523,
+        "accuracy": 0.6611010621028709
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": -0.006745454429051669,
+          "brier": -0.0029389624162366626,
+          "accuracy": 0.005658364639859004
+        },
+        "equal_year_log_loss": -0.006586979299504769,
+        "annual_log_loss": {
+          "2017": -0.007786055537343285,
+          "2018": -0.0066462364605684,
+          "2019": -0.008532910896950192,
+          "2020": -0.0034646922801947313,
+          "2021": -0.01212277125594332,
+          "2022": 0.0015098624173905187,
+          "2023": -0.013098889839652076,
+          "2024": -0.004483271661952575,
+          "2025": -0.004657848180328854
+        },
+        "years_negative": 8,
+        "years_positive": 1,
+        "correct_credit_delta": 122.0
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.009510561647835267,
+        "upper": -0.00405632818531036,
+        "excludes_zero": true,
+        "favours_left": true
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            -0.009374096007956119,
+            -0.004121688383935438
+          ],
+          "8": [
+            -0.009510561647835267,
+            -0.00405632818531036
+          ],
+          "13": [
+            -0.009578226752875289,
+            -0.0038958791222053007
+          ]
+        },
+        "brier": {
+          "4": [
+            -0.004087906592681427,
+            -0.0018102031668791642
+          ],
+          "8": [
+            -0.004123451650131091,
+            -0.001788347619146872
+          ],
+          "13": [
+            -0.0041583484975920414,
+            -0.0017166786869042168
+          ]
+        },
+        "accuracy": {
+          "4": [
+            0.000868177967973075,
+            0.010294792024169547
+          ],
+          "8": [
+            0.0010829489666180987,
+            0.01018062393034256
+          ],
+          "13": [
+            0.001226434079711508,
+            0.00994976689526966
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.001340949004262848,
+        "8": 0.0014097156809514664,
+        "13": 0.0014270175000535153
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "67c10816b62ff281d87872aecdb076702e787be46445242c7f8fa18aac437640"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "5c195944145e96ff76d2bf14e72c5f2a1b3be248e00338d552f9aa89ecefb6bb"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "93dd348b277ade6da417e8b9f885729f790ccdd093b25a5476b2de9b083290dc"
+        }
+      },
+      "grid": {
+        "first_monday": "2017-01-02",
+        "last_monday": "2025-11-03",
+        "weeks_including_empty": 462,
+        "nonempty_weeks": 304
+      },
+      "equal_year_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          -0.008880178867804718,
+          -0.004369747521923509
+        ],
+        "draws_attempted": 5010,
+        "empty_draws_skipped": 10,
+        "draw_sha256": "16f129f5f03c85f9c9ee808171e1cf9aadd220d9bfbd972aee4fa117eb349365"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.1769875978976305,
+        "iid_se": 0.0012053367140737142,
+        "bootstrap_se_block_primary": 0.0014097156809514664,
+        "design_effect_week_block": 1.3678746177825667,
+        "effective_sd": 0.20699791948340487
+      },
+      "orientation_control_max_error": 1.3322676295501878e-15
+    },
+    "contrast3_blend": {
+      "alcaraz_component": "arm1",
+      "external_component": "buildoak",
+      "form": "blend logit = (1 - w) * logit(Alcaraz) + w * logit(BuildOak)",
+      "weight_grid": [
+        0.0,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5
+      ],
+      "rule": "per target year, minimise match-weighted log loss over the preceding 3 target years' saved forecasts; ties to the smaller weight; never fitted on the target year",
+      "selection": {
+        "2018": {
+          "weight": 0.3,
+          "fit_years": [
+            2017
+          ],
+          "fit_n": 2323,
+          "status": "secondary_short_lookback",
+          "grid_log_loss": {
+            "0.00": 0.5915484760887889,
+            "0.05": 0.5910772179662099,
+            "0.10": 0.5906966079011446,
+            "0.15": 0.5904067579273834,
+            "0.20": 0.5902077531075116,
+            "0.25": 0.5900996508253922,
+            "0.30": 0.5900824801260858,
+            "0.35": 0.5901562411074568,
+            "0.40": 0.5903209043664247,
+            "0.45": 0.5905764105014933,
+            "0.50": 0.5909226696719027
+          }
+        },
+        "2019": {
+          "weight": 0.3,
+          "fit_years": [
+            2017,
+            2018
+          ],
+          "fit_n": 4929,
+          "status": "secondary_short_lookback",
+          "grid_log_loss": {
+            "0.00": 0.5978546956487826,
+            "0.05": 0.5974081696023448,
+            "0.10": 0.5970469096021993,
+            "0.15": 0.5967709489152488,
+            "0.20": 0.5965802959551852,
+            "0.25": 0.59647493393012,
+            "0.30": 0.5964548205207008,
+            "0.35": 0.5965198875916258,
+            "0.40": 0.5966700409390601,
+            "0.45": 0.59690516007598,
+            "0.50": 0.5972250980569199
+          }
+        },
+        "2020": {
+          "weight": 0.25,
+          "fit_years": [
+            2017,
+            2018,
+            2019
+          ],
+          "fit_n": 7431,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.6007439040837319,
+            "0.05": 0.600348493543738,
+            "0.10": 0.6000361329539544,
+            "0.15": 0.599806712798096,
+            "0.20": 0.5996601010960262,
+            "0.25": 0.5995961433644837,
+            "0.30": 0.5996146625965217,
+            "0.35": 0.5997154592610368,
+            "0.40": 0.5998983113236066,
+            "0.45": 0.6001629742896345,
+            "0.50": 0.6005091812705798
+          }
+        },
+        "2021": {
+          "weight": 0.3,
+          "fit_years": [
+            2018,
+            2019,
+            2020
+          ],
+          "fit_n": 6358,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.6027066692088118,
+            "0.05": 0.6023043488444371,
+            "0.10": 0.6019820444397624,
+            "0.15": 0.6017394870753087,
+            "0.20": 0.6015763886573796,
+            "0.25": 0.6014924423279921,
+            "0.30": 0.6014873228646266,
+            "0.35": 0.6015606870699348,
+            "0.40": 0.601712174152026,
+            "0.45": 0.6019414060963839,
+            "0.50": 0.6022479880308345
+          }
+        },
+        "2022": {
+          "weight": 0.2,
+          "fit_years": [
+            2019,
+            2020,
+            2021
+          ],
+          "fit_n": 6142,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.5999656554473205,
+            "0.05": 0.5996607003192476,
+            "0.10": 0.5994374694833823,
+            "0.15": 0.5992955702279429,
+            "0.20": 0.5992345906394421,
+            "0.25": 0.5992541003710833,
+            "0.30": 0.5993536513764615,
+            "0.35": 0.599532778606544,
+            "0.40": 0.599791000669154,
+            "0.45": 0.600127820451393,
+            "0.50": 0.6005427257065755
+          }
+        },
+        "2023": {
+          "weight": 0.35,
+          "fit_years": [
+            2020,
+            2021,
+            2022
+          ],
+          "fit_n": 6178,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.5940738941922268,
+            "0.05": 0.5935640296922159,
+            "0.10": 0.5931352731568353,
+            "0.15": 0.5927873167848184,
+            "0.20": 0.5925198315470771,
+            "0.25": 0.5923324680083831,
+            "0.30": 0.5922248571138718,
+            "0.35": 0.5921966109341651,
+            "0.40": 0.592247323363936,
+            "0.45": 0.5923765707698462,
+            "0.50": 0.5925839125849615
+          }
+        },
+        "2024": {
+          "weight": 0.25,
+          "fit_years": [
+            2021,
+            2022,
+            2023
+          ],
+          "fit_n": 7610,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.5957775328426826,
+            "0.05": 0.5954222362470196,
+            "0.10": 0.5951472654318717,
+            "0.15": 0.5949524955941061,
+            "0.20": 0.5948377814147592,
+            "0.25": 0.5948029575390839,
+            "0.30": 0.5948478390287223,
+            "0.35": 0.5949722217782174,
+            "0.40": 0.5951758828888645,
+            "0.45": 0.5954585809939201,
+            "0.50": 0.5958200565304044
+          }
+        },
+        "2025": {
+          "weight": 0.3,
+          "fit_years": [
+            2022,
+            2023,
+            2024
+          ],
+          "fit_n": 7901,
+          "status": "primary",
+          "grid_log_loss": {
+            "0.00": 0.5954849153044562,
+            "0.05": 0.59504189716812,
+            "0.10": 0.5946746349377067,
+            "0.15": 0.5943831561772169,
+            "0.20": 0.5941674712757424,
+            "0.25": 0.5940275736208925,
+            "0.30": 0.5939634397486363,
+            "0.35": 0.5939750294618152,
+            "0.40": 0.5940622859096323,
+            "0.45": 0.5942251356207569,
+            "0.50": 0.5944634884833349
+          }
+        }
+      },
+      "primary_years": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "secondary_years": [
+        2018,
+        2019
+      ],
+      "excluded_years": [
+        2017
+      ],
+      "blend_scores": {
+        "primary": {
+          "n": 14130,
+          "match_weighted": {
+            "log_loss": 0.597145346244811,
+            "brier": 0.20633784277128306,
+            "accuracy": 0.6658174097664543
+          },
+          "equal_year": {
+            "log_loss": 0.5966389062750087,
+            "brier": 0.20610961143446235,
+            "accuracy": 0.667331776724377
+          },
+          "by_year": {
+            "2020": {
+              "log_loss": 0.5915931966778238,
+              "brier": 0.20385513129237628,
+              "accuracy": 0.6824
+            },
+            "2021": {
+              "log_loss": 0.5967104338889401,
+              "brier": 0.20614521299177851,
+              "accuracy": 0.6682008368200837
+            },
+            "2022": {
+              "log_loss": 0.589290226978665,
+              "brier": 0.2028343792355397,
+              "accuracy": 0.6710007880220646
+            },
+            "2023": {
+              "log_loss": 0.5996712021235888,
+              "brier": 0.20761106631486115,
+              "accuracy": 0.6599552572706935
+            },
+            "2024": {
+              "log_loss": 0.5940002047513013,
+              "brier": 0.2050940945095385,
+              "accuracy": 0.6654233494964565
+            },
+            "2025": {
+              "log_loss": 0.6085681732297326,
+              "brier": 0.21111778426268002,
+              "accuracy": 0.657010428736964
+            }
+          }
+        },
+        "secondary": {
+          "n": 5108,
+          "match_weighted": {
+            "log_loss": 0.6039496782345062,
+            "brier": 0.20912703873319408,
+            "accuracy": 0.6611198120595145
+          },
+          "equal_year": {
+            "log_loss": 0.6039873901874617,
+            "brier": 0.2091419360796617,
+            "accuracy": 0.6611268161219297
+          },
+          "by_year": {
+            "2018": {
+              "log_loss": 0.6021351531134448,
+              "brier": 0.20841024717815534,
+              "accuracy": 0.6607828089025326
+            },
+            "2019": {
+              "log_loss": 0.6058396272614788,
+              "brier": 0.20987362498116804,
+              "accuracy": 0.6614708233413269
+            }
+          }
+        }
+      },
+      "primary_blend_minus_arm1": {
+        "left": "blend",
+        "right": "arm1",
+        "years": [
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "n": 14130,
+        "left_match_weighted": {
+          "log_loss": 0.597145346244811,
+          "brier": 0.20633784277128306,
+          "accuracy": 0.6658174097664543
+        },
+        "right_match_weighted": {
+          "log_loss": 0.5982139351084214,
+          "brier": 0.2066751857398588,
+          "accuracy": 0.6669497523000708
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.0010685888636103107,
+            "brier": -0.0003373429685757047,
+            "accuracy": -0.001132342533616419
+          },
+          "equal_year_log_loss": -0.001151082170487209,
+          "annual_log_loss": {
+            "2020": -0.0020453325523124405,
+            "2021": 0.00020886994483565834,
+            "2022": -0.002711986951790688,
+            "2023": 0.0009662550128845185,
+            "2024": -0.0015604176709677047,
+            "2025": -0.0017638808055725989
+          },
+          "years_negative": 4,
+          "years_positive": 2,
+          "correct_credit_delta": -16.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.0020532338652258365,
+          "upper": -1.7968554016990654e-05,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.002051149978622078,
+              -6.145778007406859e-05
+            ],
+            "8": [
+              -0.0020532338652258365,
+              -1.7968554016990654e-05
+            ],
+            "13": [
+              -0.0020808247124522307,
+              1.4956455914815246e-05
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0007562731702825529,
+              0.00010143716789664159
+            ],
+            "8": [
+              -0.0007682122181225088,
+              0.00011689614217742665
+            ],
+            "13": [
+              -0.0007814750879210581,
+              0.00013349556392716443
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.004397065290950256,
+              0.002023644137365476
+            ],
+            "8": [
+              -0.004463773779043482,
+              0.002150922600017767
+            ],
+            "13": [
+              -0.004423673190798271,
+              0.0021718864572783684
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0005063333573522151,
+          "8": 0.0005249867906491774,
+          "13": 0.0005387563955859239
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "54310faa49d6b311b477a5639b21d3caea9e73f2a4048cf978b673198eb464ad"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "98dd39dff02061014057ccec9d12739d454b8011b18d47761f1d11e286b60b17"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "14aaa746b953687c920b930e82fbef94dd316dd340cd6899e24b33e27097f21b"
+          }
+        },
+        "grid": {
+          "first_monday": "2020-01-06",
+          "last_monday": "2025-11-03",
+          "weeks_including_empty": 305,
+          "nonempty_weeks": 197
+        },
+        "equal_year_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.001973742184435363,
+            -0.0002809804190656891
+          ],
+          "draws_attempted": 5006,
+          "empty_draws_skipped": 6,
+          "draw_sha256": "f02d363f267e2c39f9e7d0edfd422e36bf69221b27c13a0fd464cc253c1d2c67"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.04949799970971163,
+          "iid_se": 0.00041640560613727173,
+          "bootstrap_se_block_primary": 0.0005249867906491774,
+          "design_effect_week_block": 1.5895112884348481,
+          "effective_sd": 0.06240500999064114
+        },
+        "orientation_control_max_error": 1.7763568394002505e-15
+      },
+      "primary_blend_minus_buildoak": {
+        "left": "blend",
+        "right": "buildoak",
+        "years": [
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "n": 14130,
+        "left_match_weighted": {
+          "log_loss": 0.597145346244811,
+          "brier": 0.20633784277128306,
+          "accuracy": 0.6658174097664543
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6044901064213105,
+          "brier": 0.2096132942562395,
+          "accuracy": 0.6607218683651804
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.007344760176499477,
+            "brier": -0.003275451484956429,
+            "accuracy": 0.005095541401273885
+          },
+          "equal_year_log_loss": -0.007204017303934048,
+          "annual_log_loss": {
+            "2020": -0.005510024832507171,
+            "2021": -0.011913901311107662,
+            "2022": -0.001202124534400169,
+            "2023": -0.012132634826767555,
+            "2024": -0.0060436893329202795,
+            "2025": -0.0064217289859014514
+          },
+          "years_negative": 6,
+          "years_positive": 0,
+          "correct_credit_delta": 72.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.010118742596195223,
+          "upper": -0.004569436486599118,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.00993784778660843,
+              -0.0047695362595064775
+            ],
+            "8": [
+              -0.010118742596195223,
+              -0.004569436486599118
+            ],
+            "13": [
+              -0.01014097777444346,
+              -0.004488410092162602
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.004375375523576091,
+              -0.0021751645288267596
+            ],
+            "8": [
+              -0.004452583207032105,
+              -0.0020850838678508387
+            ],
+            "13": [
+              -0.004453115735944722,
+              -0.002045950151088399
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -6.586953232391619e-05,
+              0.010011940254603205
+            ],
+            "8": [
+              0.0,
+              0.010110375969256244
+            ],
+            "13": [
+              0.0,
+              0.01010176220049489
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.001336321123801825,
+          "8": 0.0014268086248071766,
+          "13": 0.0014676685021659563
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "1c11218da5513bb346fa477df675c97290532491d274f35292d969d9f7f862f7"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "30f925d5a46eec79330d69f71eee81c85e0687ff7f6c99645adccf0765dce506"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "6c9fe307a1e349114ba131c289a5b86f06275a92bdbb06043218887f5d8acfdb"
+          }
+        },
+        "grid": {
+          "first_monday": "2020-01-06",
+          "last_monday": "2025-11-03",
+          "weeks_including_empty": 305,
+          "nonempty_weeks": 197
+        },
+        "equal_year_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.00952528737876965,
+            -0.005036264898320134
+          ],
+          "draws_attempted": 5006,
+          "empty_draws_skipped": 6,
+          "draw_sha256": "d1872af8d184578030cf549147321ed333b4e830f7df631cb33688f7483ae1a4"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.12600862088503434,
+          "iid_se": 0.0010600569005995513,
+          "bootstrap_se_block_primary": 0.0014268086248071766,
+          "design_effect_week_block": 1.8116449880244916,
+          "effective_sd": 0.1696042797109648
+        },
+        "orientation_control_max_error": 1.7763568394002505e-15
+      },
+      "secondary_blend_minus_arm1": {
+        "left": "blend",
+        "right": "arm1",
+        "years": [
+          2018,
+          2019
+        ],
+        "n": 5108,
+        "left_match_weighted": {
+          "log_loss": 0.6039496782345062,
+          "brier": 0.20912703873319408,
+          "accuracy": 0.6611198120595145
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6049257715920038,
+          "brier": 0.20960880591575287,
+          "accuracy": 0.66327329678935
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.0009760933574976833,
+            "brier": -0.00048176718255883076,
+            "accuracy": -0.002153484729835552
+          },
+          "equal_year_log_loss": -0.0009685107232280474,
+          "annual_log_loss": {
+            "2018": -0.0013409347217790166,
+            "2019": -0.0005960867246770783
+          },
+          "years_negative": 2,
+          "years_positive": 0,
+          "correct_credit_delta": -11.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.002109350457323889,
+          "upper": 0.00011175649059474676,
+          "excludes_zero": false,
+          "favours_left": false
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.0022183542347592937,
+              0.00029524100116059843
+            ],
+            "8": [
+              -0.002109350457323889,
+              0.00011175649059474676
+            ],
+            "13": [
+              -0.0020009696791730017,
+              -7.751019331061998e-06
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.0010013829422673317,
+              5.778346672831915e-05
+            ],
+            "8": [
+              -0.0009440723918950039,
+              -2.8069847080966255e-05
+            ],
+            "13": [
+              -0.0008922706251409275,
+              -8.029457976269125e-05
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.008267825092635479,
+              0.004119388163985747
+            ],
+            "8": [
+              -0.007972152266664301,
+              0.0037502721694378425
+            ],
+            "13": [
+              -0.007742626915580708,
+              0.0035596866134988987
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0006401573197545264,
+          "8": 0.0005700695501156702,
+          "13": 0.0005074349816558096
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "b092baefdce6e0e6307cb5a261940d3c1b7266c6a1813a3de50892397d9faaa2"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "48acc8f36f93e10e42014d1d975c71a08bf10f36f0a3d1423369a8122be2f0af"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "d949fb5dc281f6f502267d1ba00008f53997085d195cdfa649a350fbe450257c"
+          }
+        },
+        "grid": {
+          "first_monday": "2018-01-01",
+          "last_monday": "2019-11-11",
+          "weeks_including_empty": 98,
+          "nonempty_weeks": 72
+        },
+        "equal_year_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.001992716513863123,
+            9.382876114277124e-05
+          ],
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "draw_sha256": "41037922849e4f149935d6b4486599105101bfb336ce0bc83fd850925741a66b"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.05351583619729893,
+          "iid_se": 0.0007487845442025857,
+          "bootstrap_se_block_primary": 0.0005700695501156702,
+          "design_effect_week_block": 0.579618108382974,
+          "effective_sd": 0.0407430266840606
+        },
+        "orientation_control_max_error": 8.881784197001252e-16
+      },
+      "secondary_blend_minus_buildoak": {
+        "left": "blend",
+        "right": "buildoak",
+        "years": [
+          2018,
+          2019
+        ],
+        "n": 5108,
+        "left_match_weighted": {
+          "log_loss": 0.6039496782345062,
+          "brier": 0.20912703873319408,
+          "accuracy": 0.6611198120595145
+        },
+        "right_match_weighted": {
+          "log_loss": 0.6124961387181609,
+          "brier": 0.21237635615153985,
+          "accuracy": 0.6579874706342992
+        },
+        "difference": {
+          "match_weighted": {
+            "log_loss": -0.008546460483654815,
+            "brier": -0.0032493174183458257,
+            "accuracy": 0.0031323414252153485
+          },
+          "equal_year_log_loss": -0.008558084401987343,
+          "annual_log_loss": {
+            "2018": -0.007987171182347416,
+            "2019": -0.009128997621627272
+          },
+          "years_negative": 2,
+          "years_positive": 0,
+          "correct_credit_delta": 16.0
+        },
+        "primary_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "lower": -0.011212289502578153,
+          "upper": -0.005787112098623002,
+          "excludes_zero": true,
+          "favours_left": true
+        },
+        "intervals_95": {
+          "log_loss": {
+            "4": [
+              -0.01160172346880186,
+              -0.005517466281485093
+            ],
+            "8": [
+              -0.011212289502578153,
+              -0.005787112098623002
+            ],
+            "13": [
+              -0.010887404096037454,
+              -0.006052932607752163
+            ]
+          },
+          "brier": {
+            "4": [
+              -0.004527772305646961,
+              -0.002018076561810779
+            ],
+            "8": [
+              -0.004322617783975072,
+              -0.002139934315596391
+            ],
+            "13": [
+              -0.004193413891939171,
+              -0.002265422200151732
+            ]
+          },
+          "accuracy": {
+            "4": [
+              -0.004275260384969174,
+              0.010760690941036257
+            ],
+            "8": [
+              -0.0035074146623140633,
+              0.009974173439729154
+            ],
+            "13": [
+              -0.0025461128744760845,
+              0.008980896075868567
+            ]
+          }
+        },
+        "bootstrap_sd_log_loss": {
+          "4": 0.0015468986122408911,
+          "8": 0.0013834283144476519,
+          "13": 0.0012342190571080134
+        },
+        "draws": {
+          "4": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "2814c3ab2616ace1268b416dd37d66b9172b1b04bdcae6eb866b644177165de3"
+          },
+          "8": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "ffe64e8bb6927a174f452fbe419201c7fcbad8f1f4ca703d8ad42cd15c9e1a3b"
+          },
+          "13": {
+            "draws_attempted": 5000,
+            "empty_draws_skipped": 0,
+            "joint_draw_sha256": "511b649bf58185c1b7540efa3a377b60fe87b794b82429499935fa0a10f504e4"
+          }
+        },
+        "grid": {
+          "first_monday": "2018-01-01",
+          "last_monday": "2019-11-11",
+          "weeks_including_empty": 98,
+          "nonempty_weeks": 72
+        },
+        "equal_year_interval_log_loss": {
+          "mean_block_weeks": 8,
+          "percentile_95": [
+            -0.011183376251853295,
+            -0.006011096757120031
+          ],
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "draw_sha256": "eeb09580d0ea3bb1d011776dcc9ecec053a29dae676cfcb0422fa2f7f56b1aa4"
+        },
+        "variance_diagnostics": {
+          "per_match_sd_iid": 0.12618162097736701,
+          "iid_se": 0.0017655119356062674,
+          "bootstrap_se_block_primary": 0.0013834283144476519,
+          "design_effect_week_block": 0.6140051365612466,
+          "effective_sd": 0.09887400005769274
+        },
+        "orientation_control_max_error": 4.440892098500626e-16
+      }
+    }
+  },
+  "readings": {
+    "gates": "none: EXT2025 fixes readings, not gates (A3); the scorer's verdict strings stay in the archive result file and are not a pass or a release",
+    "blend": "descriptive: the registered blend test is the accepted one and stays the claim; no blend is released and the model is frozen (D134)",
+    "blend_interval_seed_sensitivity": {
+      "reading": "the 2020-2025 blend - Alcaraz interval touches zero: its upper bound is below zero under the registered seed but not under most alternative seeds",
+      "registered_seed_interval": [
+        -0.0020532338652258365,
+        -1.7968554016990654e-05
+      ],
+      "alternative_seeds": {
+        "n": 20,
+        "upper_below_zero": 5,
+        "upper_min": -2.100044451623131e-05,
+        "upper_max": 4.850065567641114e-05,
+        "upper_mean": 1.4186132307548563e-05,
+        "upper_sd": 2.086375357490687e-05
+      },
+      "source": {
+        "archive_relative_path": "work/EXT2025/reconstruction/rec2/results_mc_blend.json",
+        "sha256": "dfb227b1b72035c8bc8fa581fb1dfee5b582e869d51f9045e518aa058d6444f4"
+      }
+    }
+  },
+  "uncertainty_method": {
+    "method": "stationary calendar-week bootstrap on one pooled inclusive Monday grid, match-weighted ratio within each draw, percentile interval",
+    "rng": "numpy.PCG64",
+    "seed": 20260922,
+    "replicates": 5000,
+    "level": 0.95,
+    "primary_mean_block_weeks": 8,
+    "sensitivity_mean_block_weeks": [
+      4,
+      13
+    ],
+    "week_label": "ISO week of the panel's tourney_anchor_date (calendar Monday)",
+    "equal_year_secondary": "per-year inclusive Monday grids resampled independently, mean of yearly match-weighted means, percentile interval; a draw with an empty year is skipped and counted",
+    "conditioning": "intervals condition on the saved forecasts and omit refit, selection and source-choice uncertainty"
+  },
+  "reference_lines": {
+    "arm1_minus_pinnacle_normalised": {
+      "label": "normalised Pinnacle on the priced subset (descriptive)",
+      "descriptive_only": true,
+      "arm1": {
+        "n": 21361,
+        "match_weighted": {
+          "log_loss": 0.5992578295307923,
+          "brier": 0.20706369430597024,
+          "accuracy": 0.6662609428397547
+        },
+        "equal_year": {
+          "log_loss": 0.5989176142201215,
+          "brier": 0.20689615331338718,
+          "accuracy": 0.6665975869503534
+        },
+        "by_year": {
+          "2017": {
+            "log_loss": 0.5916952517939252,
+            "brier": 0.20306975809607627,
+            "accuracy": 0.6737343141497187
+          },
+          "2018": {
+            "log_loss": 0.6028987735335416,
+            "brier": 0.2087713513095529,
+            "accuracy": 0.6644762272902976
+          },
+          "2019": {
+            "log_loss": 0.6060886101018972,
+            "brier": 0.21003996509257022,
+            "accuracy": 0.6623845845042152
+          },
+          "2020": {
+            "log_loss": 0.5937172133612072,
+            "brier": 0.2045246204007881,
+            "accuracy": 0.6712328767123288
+          },
+          "2021": {
+            "log_loss": 0.5961692449016067,
+            "brier": 0.20568414035010701,
+            "accuracy": 0.6690436241610739
+          },
+          "2022": {
+            "log_loss": 0.5928453305505313,
+            "brier": 0.20435328396068633,
+            "accuracy": 0.6685148514851486
+          },
+          "2023": {
+            "log_loss": 0.5973301831430698,
+            "brier": 0.2066319607745641,
+            "accuracy": 0.6665419161676647
+          },
+          "2024": {
+            "log_loss": 0.5959200783101548,
+            "brier": 0.2059202355739611,
+            "accuracy": 0.667540247098465
+          },
+          "2025": {
+            "log_loss": 0.6135938422851586,
+            "brier": 0.21307006426217837,
+            "accuracy": 0.6559096409842678
+          }
+        }
+      },
+      "pinnacle_normalised": {
+        "n": 21361,
+        "match_weighted": {
+          "log_loss": 0.5890256209876684,
+          "brier": 0.20281134354851463,
+          "accuracy": 0.6793455362576658
+        },
+        "equal_year": {
+          "log_loss": 0.5882852652332355,
+          "brier": 0.2024784243151973,
+          "accuracy": 0.6801897190437936
+        },
+        "by_year": {
+          "2017": {
+            "log_loss": 0.587466367251334,
+            "brier": 0.20183587978076906,
+            "accuracy": 0.6804413673734314
+          },
+          "2018": {
+            "log_loss": 0.5915506561805927,
+            "brier": 0.20380306305272633,
+            "accuracy": 0.6810977966756862
+          },
+          "2019": {
+            "log_loss": 0.594366507447271,
+            "brier": 0.2051607460768294,
+            "accuracy": 0.6726214371738257
+          },
+          "2020": {
+            "log_loss": 0.5747222359117656,
+            "brier": 0.19647031546431667,
+            "accuracy": 0.6946011281224819
+          },
+          "2021": {
+            "log_loss": 0.5904610180142601,
+            "brier": 0.2036607585592013,
+            "accuracy": 0.6822567114093959
+          },
+          "2022": {
+            "log_loss": 0.582442079332781,
+            "brier": 0.19973868769946082,
+            "accuracy": 0.6784158415841585
+          },
+          "2023": {
+            "log_loss": 0.5874443021324532,
+            "brier": 0.20269070337362594,
+            "accuracy": 0.6760853293413174
+          },
+          "2024": {
+            "log_loss": 0.5835888377576549,
+            "brier": 0.200330676597238,
+            "accuracy": 0.6849494571321603
+          },
+          "2025": {
+            "log_loss": 0.6025253830710067,
+            "brier": 0.2086149882326083,
+            "accuracy": 0.6712384025816862
+          }
+        }
+      },
+      "left": "arm1",
+      "right": "pinnacle_normalised",
+      "years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n": 21361,
+      "left_match_weighted": {
+        "log_loss": 0.5992578295307923,
+        "brier": 0.20706369430597024,
+        "accuracy": 0.6662609428397547
+      },
+      "right_match_weighted": {
+        "log_loss": 0.5890256209876684,
+        "brier": 0.20281134354851463,
+        "accuracy": 0.6793455362576658
+      },
+      "difference": {
+        "match_weighted": {
+          "log_loss": 0.010232208543123887,
+          "brier": 0.004252350757455589,
+          "accuracy": -0.013084593417911147
+        },
+        "equal_year_log_loss": 0.010632348986885923,
+        "annual_log_loss": {
+          "2017": 0.004228884542591269,
+          "2018": 0.01134811735294889,
+          "2019": 0.011722102654626134,
+          "2020": 0.01899497744944162,
+          "2021": 0.00570822688734656,
+          "2022": 0.010403251217750424,
+          "2023": 0.009885881010616639,
+          "2024": 0.012331240552499914,
+          "2025": 0.011068459214151859
+        },
+        "years_negative": 0,
+        "years_positive": 9,
+        "correct_credit_delta": -279.5
+      },
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": 0.008146534188095472,
+        "upper": 0.012335158706347445,
+        "excludes_zero": true,
+        "favours_left": false
+      },
+      "intervals_95": {
+        "log_loss": {
+          "4": [
+            0.008134618946410823,
+            0.012320244015751157
+          ],
+          "8": [
+            0.008146534188095472,
+            0.012335158706347445
+          ],
+          "13": [
+            0.008161083572427086,
+            0.012487069736138268
+          ]
+        },
+        "brier": {
+          "4": [
+            0.0033322612681510513,
+            0.005168203751549609
+          ],
+          "8": [
+            0.003332875576114885,
+            0.005192492381886758
+          ],
+          "13": [
+            0.003324168791557874,
+            0.005263468984959456
+          ]
+        },
+        "accuracy": {
+          "4": [
+            -0.01682355092522613,
+            -0.009371383145107826
+          ],
+          "8": [
+            -0.016575829940643758,
+            -0.009602532350946174
+          ],
+          "13": [
+            -0.016489100496310832,
+            -0.009822726041232655
+          ]
+        }
+      },
+      "bootstrap_sd_log_loss": {
+        "4": 0.0010801385921446463,
+        "8": 0.001088817098159702,
+        "13": 0.0010841144920462657
+      },
+      "draws": {
+        "4": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "8adba88e4ea9de5d49dcc7cd7993a2fe52ad0e05bbeef8aee724901cc98019e5"
+        },
+        "8": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "3f05c8ba65d306261b2d2ca64036b7fe94892e03c2954c3572e2f0b74b581891"
+        },
+        "13": {
+          "draws_attempted": 5000,
+          "empty_draws_skipped": 0,
+          "joint_draw_sha256": "03b164ce9e16d5a459b32488f43f8f30e5541c23a7c7df079f9716244014126e"
+        }
+      },
+      "grid": {
+        "first_monday": "2017-01-02",
+        "last_monday": "2025-11-03",
+        "weeks_including_empty": 462,
+        "nonempty_weeks": 304
+      },
+      "equal_year_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "percentile_95": [
+          0.008470744130372285,
+          0.012727568932126222
+        ],
+        "draws_attempted": 5010,
+        "empty_draws_skipped": 10,
+        "draw_sha256": "3a067dd10ca2ca33abd8850b414d142cfc4832a7867b90f4626938a035260ae7"
+      },
+      "variance_diagnostics": {
+        "per_match_sd_iid": 0.15463561069228426,
+        "iid_se": 0.0010580318069139218,
+        "bootstrap_se_block_primary": 0.001088817098159702,
+        "design_effect_week_block": 1.0590401291630376,
+        "effective_sd": 0.1591350050214742
+      },
+      "orientation_control_max_error": 2.6645352591003757e-15
+    }
+  },
+  "accepted_result": {
+    "note": "the registered result, unchanged (buildoak_2017_2024.json); shown beside the extension",
+    "cohort_n": 18972,
+    "years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024
+    ],
+    "contrast2_arm1_minus_buildoak": {
+      "n": 18972,
+      "difference_log_loss": -0.007030338077477947,
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": -0.010040569483303893,
+        "upper": -0.004025832365403878,
+        "excludes_zero": true,
+        "favours_left": true
+      },
+      "annual_log_loss": {
+        "2017": -0.007786055537343285,
+        "2018": -0.0066462364605684,
+        "2019": -0.008532910896950192,
+        "2020": -0.0034646922801947313,
+        "2021": -0.01212277125594332,
+        "2022": 0.0015098624173905187,
+        "2023": -0.013098889839652076,
+        "2024": -0.004483271661952575
+      },
+      "years_negative": 7
+    },
+    "arm1_minus_pinnacle_normalised": {
+      "n": 18882,
+      "difference_log_loss": 0.010122417979969649,
+      "primary_interval_log_loss": {
+        "mean_block_weeks": 8,
+        "lower": 0.007793773312297066,
+        "upper": 0.01249457065951242,
+        "excludes_zero": true,
+        "favours_left": false
+      }
+    }
+  },
+  "provenance": {
+    "scorer": {
+      "archive_relative_path": "references/ARMS01/score_arms01.py",
+      "sha256": "850dc1b213cbc0deb54ae3bb3279eea3f9cf59d2bbec71d5fe24909325dd7042"
+    },
+    "manifest": {
+      "archive_relative_path": "work/EXT2025/scoring/manifest_ext2025_buildoak_atp.json",
+      "sha256": "2906abbd905002e5c1a6b8224e992369f5085d0f90b744bf65a0b0267fde4923"
+    },
+    "result_json": {
+      "archive_relative_path": "work/EXT2025/scoring/buildoak_pass/ext2025_buildoak_atp_result.json",
+      "sha256": "335bda4050e3110a994c4ce4aa750268891d6bb2d45149f112ea6e30245e0ab2"
+    },
+    "membership": {
+      "archive_relative_path": "work/EXT2025/buildoak/membership_atp_2017_2025_DRAFT.csv",
+      "sha256": "71009f2c3e3d6216d7e683c801c63e41d654f8316aae86397e8dde3122969376"
+    },
+    "labels": {
+      "archive_relative_path": "work/REFIT2025_ATP/run/features/labels.csv",
+      "sha256": "7593e145634a49291811b078b941a31c0c880e89f7f316ffb9dc3d9f0dc3bb70"
+    },
+    "weeks": {
+      "archive_relative_path": "work/REFIT2025_ATP/run/prepare_panel/panel.csv",
+      "sha256": "e3b1d77c7784c09b778dcbf298f243b313bb6c24d9e8ffea8939a5382c4c4cf3",
+      "column": "tourney_anchor_date"
+    },
+    "forecast_files": {
+      "arm1": {
+        "2017": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2017/hgb/full_tier_entry.csv",
+          "sha256": "c19a8088d19a441fa0c1d488329205e6de21427181db64cfee62126c6d4e8e41"
+        },
+        "2018": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2018/hgb/full_tier_entry.csv",
+          "sha256": "204d100b1778b2a6e9e14e8a0249dff46abb915ae400745ae5cf72f0421f9b42"
+        },
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2019/hgb/full_tier_entry.csv",
+          "sha256": "6db462325958c25bf1fa3fe7134021afc4c7a4ad156d7081dc7ce4a47fb68ca2"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2020/hgb/full_tier_entry.csv",
+          "sha256": "8586090f36919d27773de45a2cf3645672b0fb1d1164228ad02c91d7767faff7"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2021/hgb/full_tier_entry.csv",
+          "sha256": "959fc6d541d3aa912fe0ea4957f4db2eba176647498edd13e122b7325c2db1c1"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2022/hgb/full_tier_entry.csv",
+          "sha256": "f99dc37701d581edc0a9fe4dd1e420b07d29aaa2553f3d1dab9a9533a52a60ae"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2023/hgb/full_tier_entry.csv",
+          "sha256": "2cd62490288a5be218f2992cfd58f8a55a6e236b8f62adbac9561b9aa32ef731"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/arm1_attempt_002_run/run/pipeline/selected/2024/hgb/full_tier_entry.csv",
+          "sha256": "01f92c4da53f772bdbd584254af08d7f2df88600ec72a6029436d85656961e8f"
+        },
+        "2025": {
+          "archive_relative_path": "work/REFIT2025_ATP/run/pipeline/selected/2025/hgb/full_tier_entry.csv",
+          "sha256": "3d9a6bfa98d0fb70956133fb8595d75b547f3f1d7ffb3ec3eb4579d77549e76e"
+        }
+      },
+      "arm0": {
+        "2017": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2017/hgb/full_tier.csv",
+          "sha256": "4b37f3b4ed34a2e223570b2f522d807386b54eeea6f3a6f25b09952df92307cf"
+        },
+        "2018": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2018/hgb/full_tier.csv",
+          "sha256": "0bf4cab31fde5355052a4dc3fa1aa9ed49f68b39760fd296e5a59d30a6f4164d"
+        },
+        "2019": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2019/hgb/full_tier.csv",
+          "sha256": "09f27dbed33153c73848bc0c9348f79bc2d40a2ce12f9332bb1cf0951b748f01"
+        },
+        "2020": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2020/hgb/full_tier.csv",
+          "sha256": "410098303efd5e9252637aba348897c7831df05ddce83f8ec3e2446cd7e49214"
+        },
+        "2021": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2021/hgb/full_tier.csv",
+          "sha256": "8600cce0b31c2952b8cd3661290517cabe188d22575f50e8ae734622bccbec52"
+        },
+        "2022": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2022/hgb/full_tier.csv",
+          "sha256": "358977344b3c23303ea10e88a125962ff9bf8448c3a06ed4109537d07d7d93e4"
+        },
+        "2023": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2023/hgb/full_tier.csv",
+          "sha256": "f1cff812183537507855a0ddf43a0830d76bfac8c31aa0c5180017eb1e95a84b"
+        },
+        "2024": {
+          "archive_relative_path": "experiments/runs/TIER01/attempt_002/run/pipeline/selected/2024/hgb/full_tier.csv",
+          "sha256": "03c8341d01ca38509c49835790fd4408f08d1edc57aaafafd45735295f1ce9a7"
+        },
+        "2025": {
+          "archive_relative_path": "work/REFIT2025_ATP/run/pipeline/selected/2025/hgb/full_tier.csv",
+          "sha256": "b916b04983f380fa46a8a8402052162c22823350f7d2348fd6fbd63ab43fe974"
+        }
+      },
+      "buildoak": {
+        "2017": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2017_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "f3834f5fc6a313841765b3acd784238aa93b769a931de8306c3e1bbc112d9f3a"
+        },
+        "2018": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2018_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "f7736d1fe39f9d3754ac4b28e2c9797bfac6e03fc37af31eb94e328875e2b5ef"
+        },
+        "2019": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2019_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "8d2a9e8c005322e689545a1e33f22ae44936909acc296cd385fd75bf1e91f30c"
+        },
+        "2020": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2020_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "3e1663eeb5ea80aa7fa2980265dc7ef12fd38e79afdca9b9cac60d3b5233fdcd"
+        },
+        "2021": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2021_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "4f0a2b6f13202f71d737917ae44707e8d2f4f8fdb9c4c64434a078a33d927bcf"
+        },
+        "2022": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2022_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "96d161e6a2e850f6e8bc8caabfee3c5986062b49e20a0630f160463e633f2918"
+        },
+        "2023": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/buildoak_replay/attempts/2023_attempt_002/report/panel_orientation_forecasts.csv",
+          "sha256": "e3da6452902a251978ca8d3ba3971d4cf1170c073c4e7e222dabb16d26369723"
+        },
+        "2024": {
+          "archive_relative_path": "work/PHASE1_ATP_20260922/scoring/buildoak_2024_panel_orientation.csv",
+          "sha256": "9340a36d2bb677797576cabedd28f243dba7bdf6c692671aa58b3c9792791ba6"
+        },
+        "2025": {
+          "archive_relative_path": "work/EXT2025/buildoak/attempts/atp_2025/report/panel_orientation_forecasts.csv",
+          "sha256": "00d0100a3c74ae70e19a72f2b6d1b64704906df417858f1a8d2d3bb2c20b7d59"
+        }
+      }
+    },
+    "scoring_runtime_seconds": 10.335707666992676
+  },
+  "limitations": [
+    "exposed retrospective comparison of complete systems with different legitimate histories; not an untouched test, prospective evidence or a market claim",
+    "2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The extended interval shares its first seasons with the registered one and is not an independent confirmation.",
+    "ATP 2025 is the first ATP season in which the frozen adapter activates its recent-era model: 15,959 recent rows (from 2019-01-01) against its frozen threshold of 15,000, so every one of the 2,589 2025 targets gets 0.8 of the full model plus 0.2 of the recent model (A1); the 2017-2024 forecasts never used it, so the 2025 BuildOak forecasts come from a structurally different recipe",
+    "the BuildOak recipe was selected by its author on ROC AUC with sight of 2026 data",
+    "intervals condition on saved forecasts; no family-wise adjustment",
+    "no claim beyond the named systems, this cohort and paired log loss"
+  ],
+  "interpretation": "Descriptive extension: on 21,561 ATP matches from 2017 to 2025, Alcaraz (full_tier_entry) minus BuildOak is −0.0067 [−0.0095, −0.0041] (8-week block bootstrap), negative in 8 of 9 seasons; 2025 alone −0.0047. The registered claim remains the accepted result."
+}
