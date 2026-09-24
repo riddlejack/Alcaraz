@@ -698,6 +698,8 @@ NAMED_INPUT_KEYS = frozenset(
         "original_archive",
         "market_event_crosswalk",
         "market_profile_adapter",
+        "ch01_player_aliases",
+        "ch01_event_crosswalk",
         "design",
         "join_dir",
         "event_map_dir",
