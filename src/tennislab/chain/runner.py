@@ -25,6 +25,14 @@ beyond its fold. The ``barrier`` stage scans every earlier stage directory for
 metric-shaped content and refuses to freeze a run tree that carries any; ``verify``
 repeats both checks.
 
+The reserved window. The chain config's ``reserved_release_acknowledged`` is the one
+acknowledgement that a reserved (2025/2026) season may be opened. ``write-configs`` copies
+it into the bridge config (the bridge stage always runs with ``--allow-reserved-years``, so
+the config field decides), into the WTA join config and, only when it is ``true``, into the
+``tier_stream`` config, which otherwise refuses a ``last_year`` in the window. A chain that
+does not acknowledge emits exactly the stage configs it emitted before tier_stream read
+the flag.
+
 Usage::
 
     python -m tennislab.chain.runner --config <chain.json> print
@@ -350,10 +358,29 @@ def _reporting_config_stage(section: Mapping[str, Any], tour: str) -> Stage:
     )
 
 
+def _tier_stream_acknowledged(section: Mapping[str, Any]) -> bool:
+    """The reserved-window acknowledgement the emitted tier_stream config will carry: the
+    chain's own flag, unless ``stage_config_overrides`` sets the tier_stream leaf."""
+    override = section.get("stage_config_overrides", {}).get("tier_stream", {})
+    stage = override.get("tier_stream", {})
+    return (
+        stage.get("reserved_release_acknowledged", section.get("reserved_release_acknowledged"))
+        is True
+    )
+
+
 def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
     tour = "ATP"
     ablation = bool(section.get("tier_same_event_qualifying_ablation", False))
     tier = bool(section.get("tier_enabled", "tier_stream" in section.get("configs", {})))
+    tier_stream_note = (
+        "Qualifying/Challenger/Futures history from the pinned mirror through the plan's "
+        "panel_end_year; with reserved_release_acknowledged true in its config it opens "
+        "any reserved year in that span (summary.span lists which); reads no run artifact."
+        if _tier_stream_acknowledged(section)
+        else "Qualifying/Challenger/Futures history from the pinned mirror; "
+        "reads no reserved year and no run artifact."
+    )
     table = [
         _bridge_stage(tour),
         Stage(
@@ -406,8 +433,7 @@ def _atp_stages(section: Mapping[str, Any]) -> list[Stage]:
                 module_for("tier_stream", tour),
                 ["--config", "{configs.tier_stream}", "--output-dir", "{stage_dir}"],
                 outcome_access="history",
-                note="Qualifying/Challenger/Futures history from the pinned mirror; "
-                "reads no reserved year and no run artifact.",
+                note=tier_stream_note,
             ),
             Stage(
                 "tier_elo",
@@ -1513,6 +1539,14 @@ def _tier_bodies(
                 "inventory": inputs["archive_inventory"],
                 "archive_manifest": inputs["archive_manifest"],
                 "last_year": plan_document["panel_end_year"],
+                # The chain's reserved-window acknowledgement, the one the bridge reads.
+                # Emitted only when true, so a chain that does not acknowledge writes
+                # the same tier_stream config as before.
+                **(
+                    {"reserved_release_acknowledged": True}
+                    if section.get("reserved_release_acknowledged") is True
+                    else {}
+                ),
                 "parameters": {
                     "first_year": section.get("tier_first_year", 1991),
                     "elo_start_year": section.get("panel_start_year", 2005),

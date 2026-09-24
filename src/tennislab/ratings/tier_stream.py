@@ -14,9 +14,10 @@ tarball produces the two streams the rest of TIER01 consumes:
 
 Families and years: ``atp/atp_matches_qual_chall_YYYY.csv`` and
 ``atp/atp_matches_futures_YYYY.csv`` from ``first_year`` to ``last_year``, which must equal
-the year plan's ``panel_end_year`` and may not reach a reserved year. The tarball, the
-inventory and the ARCHIVE01 manifest are hash-verified, the manifest must pin the other
-two, and every member read is verified against the inventory before a byte is parsed.
+the year plan's ``panel_end_year`` (a reserved year needs the acknowledgement below). The
+tarball, the inventory and the ARCHIVE01 manifest are hash-verified, the manifest must pin
+the other two, and every member read is verified against the inventory before a byte is
+parsed.
 
 The tier split is the audit's: a ``round`` matching ``^Q\\d$`` is a qualifying draw,
 anything else at ``tourney_level = C`` is a Challenger main draw, every Futures row is
@@ -38,6 +39,13 @@ record ``relative_to_root`` strings; the code receipt is ``code_receipt(__name__
 circuit end is computed by the chronology module instead of inline arithmetic, so the
 circuit rule requires the declared 7-day leg length (an offset of 0 with circuit dating
 on was never run and is refused). Every data output is byte-identical to the archive's.
+
+RESERVED WINDOW. A ``last_year`` at or after 2025 opens reserved-year result files. As in
+the bridge, it is refused unless the ``tier_stream`` section carries
+``reserved_release_acknowledged: true``; the chain runner copies the chain config's own
+``reserved_release_acknowledged`` here, so one acknowledgement covers both stages. The
+summary's ``span`` then lists the reserved years opened and those never opened. With no
+reserved year in the span, nothing here changes.
 
     python -m tennislab.ratings.tier_stream --config <configs/tier_stream.json> [--output-dir D]
     python -m tennislab.ratings.tier_stream --config <...> --dry-run
@@ -411,7 +419,10 @@ def read_parameters(section: Mapping[str, Any], plan: Any) -> tuple[dict[str, An
             f"tier_stream last_year {last_year} must equal the plan's panel_end_year "
             f"{plan.panel_end_year}"
         )
-    if last_year >= min(RESERVED_YEARS):
+    if (
+        last_year >= min(RESERVED_YEARS)
+        and section.get("reserved_release_acknowledged") is not True
+    ):
         raise TierStreamError(
             f"refusing to read a reserved year: last_year {last_year} >= {min(RESERVED_YEARS)}"
         )
@@ -762,17 +773,42 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
         ],
     )
 
+    # Every year of the span is read (a missing member is refused above), so a reserved
+    # year inside it was opened. With none opened the span and the limits are unchanged.
+    first_year = int(parameters["first_year"])
+    reserved_opened = [year for year in RESERVED_YEARS if first_year <= year <= last_year]
+    span: dict[str, Any] = {
+        "first_year": first_year,
+        "last_year": last_year,
+        "reserved_years_never_opened": [
+            year for year in RESERVED_YEARS if year not in reserved_opened
+        ],
+    }
+    if reserved_opened:
+        span["reserved_years_opened"] = reserved_opened
+        span["reserved_release_acknowledged"] = True
+        futures_limit = (
+            "Futures is outcome history only: the SR02 feed takes qualifying/Challenger "
+            "rows alone. The audit's finding (0 of 498,555 Futures rows with a serve "
+            "count, 1991-2024) does not cover the reserved years opened here "
+            f"({', '.join(map(str, reserved_opened))}). A Futures row there that carries a "
+            "complete serve block meets the same count-identity screen as every row, and "
+            "one that fails it is dropped from the outcome stream "
+            "(count_identity_failure_rows lists it)."
+        )
+    else:
+        futures_limit = (
+            "Futures carries no serve count in any year read here (the audit: 0 of "
+            "498,555 rows, 1991-2024), so the family can only ever be outcome history."
+        )
+
     summary = {
         "id": "TIER01-tier-stream",
         "status": "complete",
         "artifact_kind": "lower_tier_match_stream_no_fit_no_score",
         "year_plan": plan.as_document(),
         "parameters": dict(parameters),
-        "span": {
-            "first_year": int(parameters["first_year"]),
-            "last_year": last_year,
-            "reserved_years_never_opened": list(RESERVED_YEARS),
-        },
+        "span": span,
         "inputs": {
             **{
                 name: {"path": relative_to_root(paths[name], label=name), "sha256": hashes[name]}
@@ -826,8 +862,7 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
             "With satellite_circuit_dating true every leg takes the circuit's last "
             "possible completion instead.  Within-event ordering is not recoverable "
             "from these bytes.",
-            "Futures carries no serve count in any year read here (the audit: 0 of "
-            "498,555 rows, 1991-2024), so the family can only ever be outcome history.",
+            futures_limit,
             "Coverage of Futures and qualifying is nonrandom across countries and eras.",
             "An identity-failing row is dropped entirely, per the design's exclusion "
             "list; every retained row still carries the usable/missing_all labelling.",
@@ -847,7 +882,10 @@ def dry_run(config: Mapping[str, Any]) -> dict[str, Any]:
         path = resolve_under_root(entry["path"], label=name)
         require_hash(path, entry.get("sha256"), label=name)
     last_year = int(section.get("last_year", plan.panel_end_year))
-    if last_year >= min(RESERVED_YEARS):
+    if (
+        last_year >= min(RESERVED_YEARS)
+        and section.get("reserved_release_acknowledged") is not True
+    ):
         raise TierStreamError("configured span reaches a reserved year")
     return {"status": "dry_run_ok", "last_year": last_year, "year_plan": plan.as_document()}
 
