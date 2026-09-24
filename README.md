@@ -47,7 +47,11 @@ adds one block of inputs to the row above, and every step's interval excludes ze
 
 Alcaraz minus Pinnacle: +0.0101 [+0.0080, +0.0122]. The model is refitted for each
 season on the five seasons before it and calibrated on the three seasons immediately
-before it, so no season is scored by a model that has seen it.
+before it, so no season is scored by a model that has seen it. Run once more, unchanged,
+on the 2025 season it was frozen before, it scores 0.6136 against 0.6025 for Pinnacle on
+2,479 priced matches, a gap of +0.0111 [+0.0048, +0.0174] that sits inside the eight-year
+range; the 2025 season had been inspected before the freeze, so this is a retrospective
+check, not a holdout ([details](docs/benchmarks/REFIT2025_RESULTS.md)).
 
 ### Head to head with public models
 
@@ -87,10 +91,11 @@ before the first ball count: 29 saved by the Internet Archive and 36 recovered f
 0.4876. The gap is sharpness, not picks: IBM's favourite averages 61% and never
 exceeds 85%, so it picks nearly as well while its probabilities score far worse. The
 archived 29 carry the gap; the 36 evidenced 2023 files alone are inconclusive, and the
-two groups differ in site, year and round. One system could not be run: Green Code's
-second model, which its creator reports at 66.3% winner accuracy on the Wimbledon 2025
-men's draw; it publishes no match list or probabilities, so a matched comparison is open
-work.
+two groups differ in site, year and round. Green Code's second model could not be run, but its Wimbledon 2025 men's draw can be
+scored: he reports 66.3% correct picks, with bookmakers at 72%. The frozen model, issued
+two days before each match, picked 71.7% of winners on all 127 main-draw matches
+[63.8, 79.5], and Pinnacle 70.8% on the 120 with a price; an interval that wide makes it a
+same-tournament reading, not a ranking ([details](docs/benchmarks/REFIT2025_RESULTS.md)).
 
 ## What is in the model
 

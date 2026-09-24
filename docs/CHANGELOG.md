@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-09-24 — the frozen model run on 2025 (REFIT2025, ATP)
+
+- `docs/benchmarks/REFIT2025_RESULTS.md` and `refit2025.json` (archive decision D137,
+  independently reconstructed): the frozen recipe applied unchanged to target season 2025
+  on the pinned mirror extended by one year. On 2,479 priced ATP matches: log loss 0.6136
+  (model), 0.6025 (Pinnacle), 0.6339 (Elo rung); model − Pinnacle +0.0111 [+0.0048, +0.0174],
+  inside the 2017–2024 range. Wimbledon 2025 men's main draw: 71.7% correct [63.8, 79.5] on
+  127 matches; Pinnacle 70.8% on the priced 120. Every 2017–2024 forecast reproduced byte
+  for byte. Exposed retrospective work, not a holdout. README: one sentence under the
+  ladder table and the Wimbledon 2025 reading next to Green Code's figures.
+
 ## 2026-09-24 — IBM comparison extended to every provably pre-match file (IBM02)
 
 - `docs/benchmarks/IBM02_RESULTS.md` and `ibm02.json` (archive decision D136, independently

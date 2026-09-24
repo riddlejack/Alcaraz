@@ -1,0 +1,736 @@
+{
+ "experiment_id": "REFIT2025",
+ "tour": "ATP",
+ "attempt": 1,
+ "status": "accepted_exposed_retrospective",
+ "archive_decision": "D137",
+ "reconstruction": "every reported number reproduces from separate code; 42/42 regression files byte-identical; procedural REJECT resolved by a recorded freeze correction (post-pass presentation-only scorer edit)",
+ "scored_at_utc": "2026-09-24T15:21:12.445667+00:00",
+ "seed": 20260924,
+ "draws": 5000,
+ "clip": 1e-15,
+ "product_commit": "80ada05 (code); 33149e0 checkout (docs-only on top)",
+ "run": {
+  "wall_seconds": 665.7,
+  "barrier_digest": "f270792341c78088725a47ac85424e68a6a5bd6edcd65fe83a9e22ae42b695f2",
+  "regression": "PASS 202/202 ARMS01 attempt 002; 92/92 TIER01 attempt 002",
+  "panel_identity": "PASS",
+  "tier_stream_expectations": "met exactly",
+  "report": "work/REFIT2025_ATP/RUN_REPORT.md"
+ },
+ "cliff_check": {
+  "model_minus_elo_2025": -0.020286742602077863,
+  "registered_range": [
+   -0.036,
+   -0.02
+  ],
+  "passed": true
+ },
+ "cliff_check_reading": {
+  "registered_text": "2025 full_tier_entry minus Elo rung within the 2017-2024 range of that difference (-0.036 to -0.020)",
+  "observed_2025": -0.020287,
+  "registered_numeric_range": [
+   -0.036,
+   -0.02
+  ],
+  "exact_2017_2024_per_year_range_from_this_run": [
+   -0.0316,
+   -0.0207
+  ],
+  "reading": "The numeric range in the registration was mis-stated on the wide side (-0.036 has no source; the exact per-year minimum is -0.0316). Against the registered numbers the check passes by 0.0003; against the exact range it fails by 0.0004. Either way: the 2025 interval [-0.0289, -0.0115] excludes zero, the gain over Elo is the smallest of nine seasons, and the gap to Pinnacle (+0.0111 [+0.0048, +0.0174]) is mid-range for 2017-2024. Conclusion recorded in D137: no cliff; the Elo margin is at the low end of its history."
+ },
+ "population_note": "28 season-2025 matches played 29-31 December 2024 (Brisbane, Hong Kong) are in no forecast file; the recipe's yearly folds leave 49 such matches across 2017-2025. A standing property of the recipe, stated here.",
+ "years": {
+  "2017": {
+   "year": 2017,
+   "n": 2311,
+   "n_model_forecasts": 2573,
+   "n_priced": 2311,
+   "scores": {
+    "model": {
+     "log_loss": 0.5916952517939252,
+     "brier": 0.20306975809607627,
+     "accuracy": 0.6737343141497187
+    },
+    "elo": {
+     "log_loss": 0.6124209416983147,
+     "brier": 0.21126658289791553,
+     "accuracy": 0.6650800519255733
+    },
+    "pinnacle": {
+     "log_loss": 0.587466367251334,
+     "brier": 0.20183587978076908,
+     "accuracy": 0.6804413673734314
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.020725689904389468,
+     "ci95_match": [
+      -0.02940669894792325,
+      -0.011864478636824645
+     ],
+     "ci95_week_cluster": [
+      -0.02965712749456217,
+      -0.011976469427254758
+     ],
+     "weeks": 43
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.0042288845425912675,
+     "ci95_match": [
+      -0.0023737245868310115,
+      0.01071519930661699
+     ],
+     "ci95_week_cluster": [
+      -0.001645626557680513,
+      0.009822910844338891
+     ],
+     "weeks": 43
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.024954574446980734,
+     "ci95_match": [
+      0.015313234713843847,
+      0.03449776522139876
+     ],
+     "ci95_week_cluster": [
+      0.015906043111628302,
+      0.034277772090851706
+     ],
+     "weeks": 43
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 121,
+    "model_accuracy": 0.743801652892562,
+    "model_accuracy_ci95": [
+     0.6611570247933884,
+     0.8181818181818182
+    ],
+    "model_log_loss": 0.4992216014291526,
+    "priced": {
+     "n": 121,
+     "model_accuracy": 0.743801652892562,
+     "pinnacle_accuracy": 0.743801652892562,
+     "model_log_loss": 0.4992216014291526,
+     "pinnacle_log_loss": 0.50539756412356
+    }
+   }
+  },
+  "2018": {
+   "year": 2018,
+   "n": 2587,
+   "n_model_forecasts": 2606,
+   "n_priced": 2587,
+   "scores": {
+    "model": {
+     "log_loss": 0.6028987735335416,
+     "brier": 0.2087713513095529,
+     "accuracy": 0.6644762272902976
+    },
+    "elo": {
+     "log_loss": 0.6344734578952722,
+     "brier": 0.22147343458615684,
+     "accuracy": 0.6439891766524932
+    },
+    "pinnacle": {
+     "log_loss": 0.5915506561805927,
+     "brier": 0.20380306305272633,
+     "accuracy": 0.6810977966756862
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.03157468436173063,
+     "ci95_match": [
+      -0.039847638322355806,
+      -0.023416255413607326
+     ],
+     "ci95_week_cluster": [
+      -0.0406639792687209,
+      -0.022235211422880707
+     ],
+     "weeks": 43
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.011348117352948887,
+     "ci95_match": [
+      0.005762949869614677,
+      0.01693803705171988
+     ],
+     "ci95_week_cluster": [
+      0.00575474508136848,
+      0.016787974604007695
+     ],
+     "weeks": 43
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.042922801714679513,
+     "ci95_match": [
+      0.034046353295446107,
+      0.05201591819403918
+     ],
+     "ci95_week_cluster": [
+      0.03206415865368206,
+      0.05354188437868861
+     ],
+     "weeks": 43
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 126,
+    "model_accuracy": 0.7301587301587301,
+    "model_accuracy_ci95": [
+     0.6507936507936508,
+     0.8015873015873016
+    ],
+    "model_log_loss": 0.5542462537426409,
+    "priced": {
+     "n": 126,
+     "model_accuracy": 0.7301587301587301,
+     "pinnacle_accuracy": 0.746031746031746,
+     "model_log_loss": 0.5542462537426409,
+     "pinnacle_log_loss": 0.5215079276022541
+    }
+   }
+  },
+  "2019": {
+   "year": 2019,
+   "n": 2491,
+   "n_model_forecasts": 2554,
+   "n_priced": 2491,
+   "scores": {
+    "model": {
+     "log_loss": 0.6060886101018972,
+     "brier": 0.21003996509257017,
+     "accuracy": 0.6623845845042152
+    },
+    "elo": {
+     "log_loss": 0.6279043643583204,
+     "brier": 0.2195421421647213,
+     "accuracy": 0.639502207948615
+    },
+    "pinnacle": {
+     "log_loss": 0.594366507447271,
+     "brier": 0.20516074607682944,
+     "accuracy": 0.6726214371738257
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.021815754256423205,
+     "ci95_match": [
+      -0.029269108719591,
+      -0.014223545378022394
+     ],
+     "ci95_week_cluster": [
+      -0.027874922009348168,
+      -0.015623907742857728
+     ],
+     "weeks": 43
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.011722102654626133,
+     "ci95_match": [
+      0.005895829835580537,
+      0.01734609122853103
+     ],
+     "ci95_week_cluster": [
+      0.007233329096682723,
+      0.016001353117646572
+     ],
+     "weeks": 43
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.03353785691104934,
+     "ci95_match": [
+      0.024600756937981867,
+      0.0422099648409501
+     ],
+     "ci95_week_cluster": [
+      0.026047872126644174,
+      0.040329702024050326
+     ],
+     "weeks": 43
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 126,
+    "model_accuracy": 0.7222222222222222,
+    "model_accuracy_ci95": [
+     0.6428571428571429,
+     0.8015873015873016
+    ],
+    "model_log_loss": 0.5321220134577037,
+    "priced": {
+     "n": 126,
+     "model_accuracy": 0.7222222222222222,
+     "pinnacle_accuracy": 0.746031746031746,
+     "model_log_loss": 0.5321220134577037,
+     "pinnacle_log_loss": 0.5162176599733364
+    }
+   }
+  },
+  "2020": {
+   "year": 2020,
+   "n": 1241,
+   "n_model_forecasts": 1250,
+   "n_priced": 1241,
+   "scores": {
+    "model": {
+     "log_loss": 0.5937172133612072,
+     "brier": 0.20452462040078806,
+     "accuracy": 0.6712328767123288
+    },
+    "elo": {
+     "log_loss": 0.6191153707265822,
+     "brier": 0.2159412320810797,
+     "accuracy": 0.6414182111200645
+    },
+    "pinnacle": {
+     "log_loss": 0.5747222359117655,
+     "brier": 0.19647031546431667,
+     "accuracy": 0.6946011281224819
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.025398157365375026,
+     "ci95_match": [
+      -0.037715592598776236,
+      -0.013058380313505173
+     ],
+     "ci95_week_cluster": [
+      -0.03667642121960461,
+      -0.014045335863140317
+     ],
+     "weeks": 22
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.018994977449441616,
+     "ci95_match": [
+      0.009770323222090722,
+      0.02845446052301543
+     ],
+     "ci95_week_cluster": [
+      0.009211391896516243,
+      0.029354290023644997
+     ],
+     "weeks": 22
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.04439313481481664,
+     "ci95_match": [
+      0.02968988852814574,
+      0.05898832592191279
+     ],
+     "ci95_week_cluster": [
+      0.032410657581772785,
+      0.05664682096738087
+     ],
+     "weeks": 22
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 0,
+    "model_accuracy": null,
+    "model_accuracy_ci95": null,
+    "model_log_loss": null,
+    "priced": {
+     "n": 0,
+     "model_accuracy": null,
+     "pinnacle_accuracy": null,
+     "model_log_loss": null,
+     "pinnacle_log_loss": null
+    }
+   }
+  },
+  "2021": {
+   "year": 2021,
+   "n": 2384,
+   "n_model_forecasts": 2441,
+   "n_priced": 2384,
+   "scores": {
+    "model": {
+     "log_loss": 0.5961692449016067,
+     "brier": 0.20568414035010701,
+     "accuracy": 0.6690436241610739
+    },
+    "elo": {
+     "log_loss": 0.6273141329487132,
+     "brier": 0.21950653352998722,
+     "accuracy": 0.6310822147651006
+    },
+    "pinnacle": {
+     "log_loss": 0.5904610180142602,
+     "brier": 0.20366075855920127,
+     "accuracy": 0.6822567114093959
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.03114488804710644,
+     "ci95_match": [
+      -0.03971265151649631,
+      -0.022197539919410158
+     ],
+     "ci95_week_cluster": [
+      -0.042577390988986004,
+      -0.019997072448590558
+     ],
+     "weeks": 44
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.00570822688734656,
+     "ci95_match": [
+      -0.000569314023774787,
+      0.011992181049807114
+     ],
+     "ci95_week_cluster": [
+      -0.0006383373945440863,
+      0.012202731128711088
+     ],
+     "weeks": 44
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.036853114934453,
+     "ci95_match": [
+      0.02703530136200225,
+      0.04668395230753768
+     ],
+     "ci95_week_cluster": [
+      0.024478807509645036,
+      0.04883389763035565
+     ],
+     "weeks": 44
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 122,
+    "model_accuracy": 0.8032786885245902,
+    "model_accuracy_ci95": [
+     0.7295081967213115,
+     0.8688524590163934
+    ],
+    "model_log_loss": 0.5059980779720554,
+    "priced": {
+     "n": 122,
+     "model_accuracy": 0.8032786885245902,
+     "pinnacle_accuracy": 0.7745901639344263,
+     "model_log_loss": 0.5059980779720554,
+     "pinnacle_log_loss": 0.4997167260864782
+    }
+   }
+  },
+  "2022": {
+   "year": 2022,
+   "n": 2525,
+   "n_model_forecasts": 2565,
+   "n_priced": 2525,
+   "scores": {
+    "model": {
+     "log_loss": 0.5928453305505313,
+     "brier": 0.20435328396068633,
+     "accuracy": 0.6685148514851486
+    },
+    "elo": {
+     "log_loss": 0.6161622454767548,
+     "brier": 0.21411025837279138,
+     "accuracy": 0.6481188118811881
+    },
+    "pinnacle": {
+     "log_loss": 0.5824420793327809,
+     "brier": 0.19973868769946082,
+     "accuracy": 0.6784158415841585
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.02331691492622344,
+     "ci95_match": [
+      -0.032335289889611485,
+      -0.014579026608099977
+     ],
+     "ci95_week_cluster": [
+      -0.033412561389563,
+      -0.013391666254809543
+     ],
+     "weeks": 44
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.01040325121775042,
+     "ci95_match": [
+      0.004022706638405482,
+      0.016734908408663186
+     ],
+     "ci95_week_cluster": [
+      0.004211800514687786,
+      0.01611043156164642
+     ],
+     "weeks": 44
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.03372016614397386,
+     "ci95_match": [
+      0.024366099904430037,
+      0.04351236599731398
+     ],
+     "ci95_week_cluster": [
+      0.023536106505292625,
+      0.044380687960936506
+     ],
+     "weeks": 44
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 123,
+    "model_accuracy": 0.7317073170731707,
+    "model_accuracy_ci95": [
+     0.6504065040650406,
+     0.8048780487804879
+    ],
+    "model_log_loss": 0.51585265228358,
+    "priced": {
+     "n": 123,
+     "model_accuracy": 0.7317073170731707,
+     "pinnacle_accuracy": 0.7560975609756098,
+     "model_log_loss": 0.51585265228358,
+     "pinnacle_log_loss": 0.4911599310823429
+    }
+   }
+  },
+  "2023": {
+   "year": 2023,
+   "n": 2672,
+   "n_model_forecasts": 2682,
+   "n_priced": 2672,
+   "scores": {
+    "model": {
+     "log_loss": 0.5973301831430698,
+     "brier": 0.2066319607745641,
+     "accuracy": 0.6665419161676647
+    },
+    "elo": {
+     "log_loss": 0.6267205027202891,
+     "brier": 0.21873346715416087,
+     "accuracy": 0.6476422155688623
+    },
+    "pinnacle": {
+     "log_loss": 0.5874443021324532,
+     "brier": 0.20269070337362594,
+     "accuracy": 0.6760853293413174
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.02939031957721925,
+     "ci95_match": [
+      -0.038337504775538385,
+      -0.020663357377745915
+     ],
+     "ci95_week_cluster": [
+      -0.03833446723193476,
+      -0.020795727224869512
+     ],
+     "weeks": 45
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.009885881010616637,
+     "ci95_match": [
+      0.004334967019832303,
+      0.015456621777786072
+     ],
+     "ci95_week_cluster": [
+      0.004248963596589489,
+      0.01540817518714417
+     ],
+     "weeks": 45
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.03927620058783589,
+     "ci95_match": [
+      0.030400874894191455,
+      0.048154630194645005
+     ],
+     "ci95_week_cluster": [
+      0.03050318771134544,
+      0.04769179557312955
+     ],
+     "weeks": 45
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 127,
+    "model_accuracy": 0.7007874015748031,
+    "model_accuracy_ci95": [
+     0.6220472440944882,
+     0.7795275590551181
+    ],
+    "model_log_loss": 0.5325618105813764,
+    "priced": {
+     "n": 127,
+     "model_accuracy": 0.7007874015748031,
+     "pinnacle_accuracy": 0.7007874015748031,
+     "model_log_loss": 0.5325618105813764,
+     "pinnacle_log_loss": 0.5155179687645615
+    }
+   }
+  },
+  "2024": {
+   "year": 2024,
+   "n": 2671,
+   "n_model_forecasts": 2681,
+   "n_priced": 2671,
+   "scores": {
+    "model": {
+     "log_loss": 0.5959200783101548,
+     "brier": 0.2059202355739611,
+     "accuracy": 0.667540247098465
+    },
+    "elo": {
+     "log_loss": 0.6220390933358768,
+     "brier": 0.2169377283615147,
+     "accuracy": 0.6460127293148633
+    },
+    "pinnacle": {
+     "log_loss": 0.5835888377576549,
+     "brier": 0.200330676597238,
+     "accuracy": 0.6849494571321603
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.02611901502572192,
+     "ci95_match": [
+      -0.034211826351501176,
+      -0.018158968376103733
+     ],
+     "ci95_week_cluster": [
+      -0.032911021114403284,
+      -0.019091486341233636
+     ],
+     "weeks": 45
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.012331240552499914,
+     "ci95_match": [
+      0.006627160663430807,
+      0.01789629246434433
+     ],
+     "ci95_week_cluster": [
+      0.005967065286288157,
+      0.018379795637038267
+     ],
+     "weeks": 45
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.038450255578221834,
+     "ci95_match": [
+      0.03014743391013333,
+      0.04684161969165219
+     ],
+     "ci95_week_cluster": [
+      0.029389006228244436,
+      0.047660390824079586
+     ],
+     "weeks": 45
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 125,
+    "model_accuracy": 0.784,
+    "model_accuracy_ci95": [
+     0.712,
+     0.856
+    ],
+    "model_log_loss": 0.5023773804091622,
+    "priced": {
+     "n": 125,
+     "model_accuracy": 0.784,
+     "pinnacle_accuracy": 0.82,
+     "model_log_loss": 0.5023773804091622,
+     "pinnacle_log_loss": 0.46571362224129387
+    }
+   }
+  },
+  "2025": {
+   "year": 2025,
+   "n": 2479,
+   "n_model_forecasts": 2589,
+   "n_priced": 2479,
+   "scores": {
+    "model": {
+     "log_loss": 0.6135938422851586,
+     "brier": 0.21307006426217837,
+     "accuracy": 0.6559096409842678
+    },
+    "elo": {
+     "log_loss": 0.6338805848872364,
+     "brier": 0.22214525351223766,
+     "accuracy": 0.6288826139572409
+    },
+    "pinnacle": {
+     "log_loss": 0.6025253830710067,
+     "brier": 0.2086149882326083,
+     "accuracy": 0.6712384025816862
+    }
+   },
+   "contrasts": {
+    "model_minus_elo": {
+     "difference": -0.020286742602077863,
+     "ci95_match": [
+      -0.028879297290767696,
+      -0.011546626628889549
+     ],
+     "ci95_week_cluster": [
+      -0.028907404372505618,
+      -0.011982243630457204
+     ],
+     "weeks": 45
+    },
+    "model_minus_pinnacle": {
+     "difference": 0.011068459214151859,
+     "ci95_match": [
+      0.004795223078757237,
+      0.017377291895971196
+     ],
+     "ci95_week_cluster": [
+      0.005995082964187013,
+      0.01629498868924381
+     ],
+     "weeks": 45
+    },
+    "elo_minus_pinnacle": {
+     "difference": 0.03135520181622972,
+     "ci95_match": [
+      0.02258580570206869,
+      0.04030481578302904
+     ],
+     "ci95_week_cluster": [
+      0.022782955996900646,
+      0.0396835819694587
+     ],
+     "weeks": 45
+    }
+   },
+   "wimbledon": {
+    "n_main_draw_forecast": 127,
+    "model_accuracy": 0.7165354330708661,
+    "model_accuracy_ci95": [
+     0.6377952755905512,
+     0.7952755905511811
+    ],
+    "model_log_loss": 0.5986913201309979,
+    "priced": {
+     "n": 120,
+     "model_accuracy": 0.7,
+     "pinnacle_accuracy": 0.7083333333333334,
+     "model_log_loss": 0.6300468389688746,
+     "pinnacle_log_loss": 0.611747033319822
+    }
+   }
+  }
+ },
+ "note": "Aggregates only; per-match forecasts stay in the research archive (work/REFIT2025_ATP/run). 2017-2024 rows are rescored from the run's byte-identical frozen files and equal docs/RESULTS.md at four decimals."
+}
