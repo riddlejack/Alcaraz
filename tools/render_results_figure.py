@@ -18,7 +18,9 @@ with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
 
     python3 tools/render_results_figure.py   # from the repository root
 
-It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``.
+It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``, and
+the per-season BuildOak figure ``docs/assets/alcaraz-by-season.svg`` / ``.png`` (ARMS01
+contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``).
 """
 
 from __future__ import annotations
@@ -265,6 +267,112 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     return [svg, png]
 
 
+def season_rows(root: Path) -> tuple[list[tuple[int, float]], int, int, float]:
+    """Alcaraz-minus-BuildOak paired log loss per season, ARMS01 contrast 2."""
+    arms01 = _load(root / "docs/benchmarks/buildoak_2017_2024.json")
+    contrast = arms01["contrasts"]["contrast2_arm1_minus_buildoak"]
+    annual = contrast["difference"]["annual_log_loss"]
+    years = [int(year) for year in contrast["years"]]
+    _require(sorted(annual) == [str(year) for year in years], "annual years differ from cohort")
+    rows = [(year, float(annual[str(year)])) for year in years]
+    negative = sum(1 for _year, delta in rows if delta < 0)
+    _require(negative == int(contrast["difference"]["years_negative"]), "years_negative mismatch")
+    pooled = float(contrast["difference"]["match_weighted"]["log_loss"])
+    return rows, int(contrast["n"]), negative, pooled
+
+
+def render_by_season(root: Path, output_dir: Path) -> list[Path]:
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib import rcParams
+
+    rows, n, negative, pooled = season_rows(root)
+    rcParams.update(
+        {
+            "font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
+            "font.size": 11,
+            "axes.edgecolor": GRID,
+            "axes.labelcolor": TEXT2,
+            "xtick.color": TEXT1,
+            "ytick.color": TEXT2,
+            "text.color": TEXT1,
+            "svg.fonttype": "none",
+            "svg.hashsalt": "alcaraz-by-season",
+        }
+    )
+    fig, ax = plt.subplots(figsize=(8.6, 3.6))
+    fig.patch.set_facecolor(SURFACE)
+    ax.set_facecolor(SURFACE)
+    xs = list(range(len(rows)))
+    ax.axhline(0, color=TEXT3, lw=1, zorder=1)
+    ax.axhline(pooled, color=BLUE, lw=1, ls=(0, (4, 3)), zorder=1)
+    ax.text(
+        -0.35,
+        0.0028,
+        f"dashed line: all seasons pooled, {pooled:+.4f}",
+        fontsize=9,
+        color=BLUE,
+        ha="left",
+        va="center",
+    )
+    for x, (_year, delta) in zip(xs, rows, strict=True):
+        colour = BLUE if delta < 0 else NEUTRAL
+        ax.bar(x, delta, width=0.62, color=colour, zorder=2)
+        ax.text(
+            x,
+            delta - 0.0006 if delta < 0 else delta + 0.0006,
+            f"{delta:+.4f}",
+            fontsize=9,
+            color=TEXT2,
+            ha="center",
+            va="top" if delta < 0 else "bottom",
+        )
+    ax.set_xticks(xs)
+    ax.set_xticklabels([str(year) for year, _delta in rows])
+    ax.set_ylim(-0.0165, 0.0045)
+    ax.set_yticks([-0.015, -0.010, -0.005, 0.0])
+    ax.set_ylabel("Alcaraz minus BuildOak, paired log loss")
+    ax.grid(axis="y", color=GRID, lw=1)
+    for side in ("top", "right", "bottom"):
+        ax.spines[side].set_visible(False)
+    ax.tick_params(axis="x", length=0)
+    ax.set_title(
+        f"Ahead of BuildOak in {negative} of {len(rows)} seasons",
+        loc="left",
+        fontsize=12.5,
+        fontweight="bold",
+        color=TEXT1,
+        pad=20,
+    )
+    ax.text(
+        0,
+        1.02,
+        f"Same {n:,} ATP matches, {rows[0][0]}–{rows[-1][0]}; negative favours Alcaraz",
+        transform=ax.transAxes,
+        fontsize=9.5,
+        color=TEXT3,
+        va="bottom",
+    )
+    fig.text(
+        0.01,
+        -0.02,
+        "Source: docs/benchmarks/buildoak_2017_2024.json (ARMS01 contrast 2). "
+        "Retrospective development comparison.",
+        fontsize=8.5,
+        color=TEXT3,
+        va="top",
+    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    svg = output_dir / "alcaraz-by-season.svg"
+    png = output_dir / "alcaraz-by-season.png"
+    fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
+    fig.savefig(png, format="png", dpi=160, bbox_inches="tight", facecolor=SURFACE)
+    plt.close(fig)
+    return [svg, png]
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--root", type=Path, default=ROOT, help="repository root")
@@ -272,7 +380,7 @@ def main() -> None:
         "--output-dir", type=Path, default=ROOT / "docs/assets", help="figure directory"
     )
     args = parser.parse_args()
-    for path in render(args.root, args.output_dir):
+    for path in render(args.root, args.output_dir) + render_by_season(args.root, args.output_dir):
         print(f"wrote {path}")
 
 

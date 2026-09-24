@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-09-23 — README reworked for the portfolio reader
+
+- Rewrote `README.md` around the scoped claim the registered ARMS01 result supports:
+  state of the art among public, statistics-only forecasters on every matched test we
+  could run, 0.010 log loss behind Pinnacle. The head-to-head table now carries explicit
+  columns (their log loss, Alcaraz on the same matches, paired difference with interval,
+  seasons ahead) instead of the earlier "x vs y" cells, and explains why Alcaraz's own
+  score shifts between match sets (18,972 all-target versus 18,882 priced; 2024 rows
+  scored with `full_tier`). Section headings state the point of each section; the
+  operating-model paragraph moved out of the README (it stays in `docs/PROCESS.md`).
+  Green Code's videos are named as the project's origin and, with IBM, as systems not yet
+  compared on matched matches. No number changed; every figure still traces to
+  `docs/ladder.json`, `docs/winner_accuracy.json` or `docs/benchmarks/*.json`.
+- `tools/render_results_figure.py` also renders `docs/assets/alcaraz-by-season.svg` /
+  `.png`: the ARMS01 contrast 2 paired difference per season (Alcaraz ahead of BuildOak
+  in 7 of 8), read from `docs/benchmarks/buildoak_2017_2024.json`.
+- `docs/METHODS.md`: the market-reference section no longer says no external public-model
+  benchmark exists; it points to `docs/benchmarks/`.
+
 ## 2026-09-23 — WTA secondary, TUNE01 null and the model freeze
 
 - Integrated the outstanding branches. The WTA entry branch (`73e499f`–`81a95a9`) adds the

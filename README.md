@@ -1,70 +1,94 @@
 # Alcaraz
 
-**How close can public statistics get to the betting market at predicting tennis?**
+**State of the art among public, statistics-only tennis forecasters: ahead of every one
+we could run, and 0.010 log loss behind the betting market.**
 
-Close, but not all the way. On 18,882 ATP matches from 2017 to 2024, Alcaraz scores a log
-loss of **0.5974** against **0.5873** for Pinnacle's closing price. Alcaraz scores ahead
-of every public model we could run, with intervals excluding zero: the BuildOak XGBoost
-adaptation on 18,972 ATP matches from 2017 to 2024 (paired log loss −0.0070, 95% interval
-[−0.0100, −0.0040], 7 of 8 years), and the Ultimate Tennis Statistics formula and the
-Ingram point model on 2,681 ATP matches from 2024. Paired log loss, stationary
-calendar-week bootstrap. It does not beat the market, and after a long search, every step
-of it logged, we think most of the remaining gap is information the market has and the
-public record does not.
+Alcaraz predicts professional tennis matches from the public record alone: results,
+rankings, serve and return statistics, lower-tier history and the published draw. No
+betting price, injury report or scouting note enters the model. On 18,972 ATP matches
+from 2017 to 2024 it scores ahead of the strongest public model we could reproduce, and
+every men's-tour comparison we could build has a 95% interval that excludes zero. Within
+that scope it is the state of the art as far as we were able to test; models we could not
+run are listed below, not assumed beaten.
 
-> **Independently reconstructed (archive decisions D131 to D134).** The
-> `full_tier_entry` rung, the eight-year BuildOak comparison and the blend result come
-> from the registered ARMS01 experiment, attempt 002
-> ([details](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md)). Rows marked † below come
-> from it; rows marked ‡ come from its separately gated WTA secondary
-> ([details](docs/benchmarks/BUILDOAK_WTA_2019_2024_RESULTS.md)). A registered tuning
-> pass then found no gain, and the model is frozen
-> ([details](docs/benchmarks/TUNE01_RESULTS.md)).
+The sharpest benchmark is the market itself. Against Pinnacle's closing price on the same
+matches, Alcaraz trails by 0.010 log loss, about one correct pick in eighty. We think most
+of that gap is information the public record does not hold: fitness, injuries,
+withdrawals and how much a match matters to each player on the day.
 
-![Top: the ATP feature ladder on one shared cohort of 18,882 matches, ending with the entry-status rung. Bottom: paired log-loss differences against three public systems: BuildOak on 18,972 ATP matches from 2017 to 2024, the other two on 2,681 ATP matches from 2024.](docs/assets/alcaraz-results.svg)
+The project started with Green Code's *I Trained AI to Predict Sports*. Its first model
+reported 85% accuracy and, as its creator later disclosed, had post-match ratings leaking
+into pre-match features. That left a question worth answering properly: with every leak
+hunted down, how well can public statistics really predict tennis?
 
-## The result in one table
+![Top: the ATP model built up block by block on one shared set of 18,882 matches, ending with the entry-status block. Bottom: paired log-loss differences against three public systems, each on its own matches, with 95% intervals.](docs/assets/alcaraz-results.svg)
 
-| System | Matches | Log loss | Correct picks | Compared how |
-|---|---:|---:|---:|---|
-| Pinnacle closing price | 18,882 ATP, 2017–24 | **0.5873** | 68.0% | market reference, quote time unknown |
-| **Alcaraz full_tier_entry** † | 18,882 ATP, 2017–24 | **0.5974** | 66.8% | walk-forward, calibrated on earlier seasons |
-| Alcaraz full-tier (previous rung) | 18,882 ATP, 2017–24 | 0.5984 | 66.5% | same matches |
-| Elo only | 18,882 ATP, 2017–24 | 0.6237 | 64.6% | same matches, no fitting |
-| BuildOak XGBoost † | 18,972 ATP, 2017–24 | 0.6046 vs 0.5976 | 66.2% vs 66.8% | paired, walk-forward; interval excludes zero |
-| Ultimate Tennis Statistics formula | 2,681 ATP, 2024 | 0.6209 vs 0.5965 | 64.6% vs 66.2% | paired with full-tier; Alcaraz ahead |
-| Ingram Bayesian point model | 2,681 ATP, 2024 | 0.6417 vs 0.5965 | 63.5% vs 66.2% | paired with full-tier; Alcaraz ahead |
-| Five Elo and ranking baselines | 18,972 ATP; 12,900 WTA | Alcaraz lowest on both tours | reported per tour | all five intervals exclude zero; scored before the entry rung |
-| BuildOak XGBoost, WTA ‡ | 12,900 WTA, 2019–24 | 0.6118 vs 0.6092 | 66.1% vs 66.2% | paired with WTA full_entry, walk-forward; interval includes zero |
-| Blend of Alcaraz and BuildOak, WTA ‡ | 7,181 WTA, 2022–24 | 0.6064 vs 0.6088 | 66.2% vs 66.0% | past-only weight; research artefact, not the default model |
+## Results
 
-Women's tennis runs through the same trunk with its own history and gets the same shape
-of result: Alcaraz 0.6153, Pinnacle 0.5953 on 2,344 priced WTA matches from 2025–26.
-The same registered test ran separately on 12,900 WTA matches from 2019 to 2024, with its
-own gates and never pooled with ATP. The entry-status rung passed:
+Log loss scores a probability forecast, and lower is better: a coin flip scores 0.693.
+Every comparison below is paired, meaning both systems are scored on exactly the same
+matches, with a 95% interval from a calendar-week block bootstrap. Every number is
+generated from a committed artifact, and every accepted result was reproduced from
+separate code before acceptance. Full tables and per-season values:
+[RESULTS.md](docs/RESULTS.md) and [docs/benchmarks](docs/benchmarks).
 
-> full_entry: full plus entry status (Q, LL, WC, PR) and tournament-level context;
-> −0.0012 versus full [−0.0020, −0.0005], 6 of 6 years negative.
+### Each block of public statistics moved the model closer to the market
 
-The public-model comparison is inconclusive: on 12,900 WTA matches from 2019 to 2024 the
-BuildOak margin is −0.0026 [−0.0058, +0.0004]; at the 2024 gap this comparison had 16%
-power. A logit blend of Alcaraz with the BuildOak adaptation, with the weight chosen on
-the three preceding seasons and never the target season, scores 0.0024 below Alcaraz
-alone [−0.0040, −0.0008] and 0.0053 below BuildOak alone [−0.0078, −0.0028] on 7,181 WTA
-matches from 2022 to 2024. It is a research artefact, not the default model; the BuildOak
-component is buildoak/tennis-xgboost-autoresearch at 237d1e7.
+The same 18,882 ATP matches from 2017 to 2024, every one with a Pinnacle price. Each row
+adds one block of inputs to the row above, and every step's interval excludes zero.
 
-Full tables, intervals and per-year values: [RESULTS.md](docs/RESULTS.md),
-[BUILDOAK_2017_2024_RESULTS.md](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md),
-[BUILDOAK_WTA_2019_2024_RESULTS.md](docs/benchmarks/BUILDOAK_WTA_2019_2024_RESULTS.md),
-[TUNE01_RESULTS.md](docs/benchmarks/TUNE01_RESULTS.md) and
-[docs/benchmarks](docs/benchmarks).
+| Model | Log loss | Correct picks |
+|---|---:|---:|
+| Elo ratings only, no fitting | 0.6237 | 64.6% |
+| + boosted model on results, rankings and workload | 0.6121 | 65.4% |
+| + player traits and dynamic serve/return states | 0.6053 | 66.2% |
+| + qualifying, Challenger and Futures history | 0.5984 | 66.5% |
+| **+ entry status and tournament level: Alcaraz** | **0.5974** | **66.8%** |
+| Pinnacle closing price, normalised | 0.5873 | 68.0% |
+
+Alcaraz minus Pinnacle: +0.0101 [+0.0080, +0.0122]. The model is refitted for each
+season on the five seasons before it and calibrated on the three seasons immediately
+before it, so no season is scored by a model that has seen it.
+
+### Head to head with public models
+
+Each row is its own matched comparison, so the public model and Alcaraz share every match
+in that row. Alcaraz's own score shifts slightly between rows because the match sets
+differ: the 18,972-match set includes 90 matches without a market price, and the 2024
+rows were scored with the previous model version, before the entry-status block.
+
+| Public model | Matches | Their log loss | Alcaraz | Alcaraz minus theirs [95% interval] | Seasons ahead |
+|---|---|---:|---:|---:|---:|
+| [BuildOak XGBoost](https://github.com/buildoak/tennis-xgboost-autoresearch), replayed season by season | 18,972 ATP, 2017–24 | 0.6046 | 0.5976 | −0.0070 [−0.0100, −0.0040] | 7 of 8 |
+| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 2,681 ATP, 2024 | 0.6209 | 0.5965 | −0.0244 [−0.0311, −0.0176] | 1 of 1 |
+| Ingram's Bayesian point model | 2,681 ATP, 2024 | 0.6417 | 0.5965 | −0.0452 [−0.0565, −0.0350] | 1 of 1 |
+| Five Elo and ranking baselines (FiveThirtyEight, Kovalchik, WElo, pooled Elo, ranking logistic) | 18,972 ATP; 12,900 WTA | 0.6222 to 0.6334 (ATP) | 0.5984 (ATP) | every interval excludes zero, on both tours | — |
+
+BuildOak is the closest, and the interval says the lead is real, not one lucky season:
+
+![Alcaraz minus BuildOak, paired log loss by season on the same 18,972 ATP matches: ahead in seven of eight seasons.](docs/assets/alcaraz-by-season.svg)
+
+The women's tour runs through the same pipeline with its own history, and the same
+registered test ran on 12,900 WTA matches from 2019 to 2024, never pooled with the men's
+result. The entry-status block passed again (−0.0012 against the previous version
+[−0.0020, −0.0005], 6 of 6 seasons). The BuildOak comparison is inconclusive: −0.0026
+[−0.0058, +0.0004], a test with 16% power at the margin seen in 2024. A logit blend of the
+two systems, weighted on the three preceding seasons only, scores 0.0024 below Alcaraz
+alone [−0.0040, −0.0008] on 7,181 WTA matches from 2022 to 2024; it is published as a
+research result, not the default model. Against the market, the women's model trails
+Pinnacle by 0.020 on 2,344 matches from 2025–26 (0.6153 against 0.5953).
+
+Two systems we could not run are noted for completeness: Green Code's second model, which
+its creator reports at 66.3% winner accuracy at Wimbledon 2025, and IBM's Grand Slam
+forecasts, for which no archived pre-match probabilities have been recovered yet.
+Accuracies on different matches are not comparable, and neither system publishes
+match-level probabilities. A matched comparison with both is open work.
 
 ## What is in the model
 
 Alcaraz is a histogram gradient-boosting classifier over 57 inputs, refitted each season
 on a five-year window and calibrated on the three seasons before the target. The inputs
-come in five blocks, and the ladder adds them one at a time:
+come in five blocks, and the table above adds them one at a time:
 
 - **Ratings.** Overall and surface Elo from tour results.
 - **Match history.** Rankings, recent workload and rest, match format, player traits.
@@ -72,30 +96,51 @@ come in five blocks, and the ladder adds them one at a time:
   strength, updated match by match and adjusted for who they played. This is the block
   that separates a strong run from an easy draw.
 - **Lower-tier history (ATP).** Qualifying, Challenger and Futures results and serve
-  statistics. It is the largest single gain on the ladder because it fills in the years
+  statistics. It is the largest single gain in the table above because it fills in the years
   before a player reaches the main tour.
-- **Draw context (ATP).** Each player's entry status (qualifier, lucky loser, wild card,
+- **Draw context.** Each player's entry status (qualifier, lucky loser, wild card,
   protected ranking) and the tournament level, both published with the draw. Round and
   seeding are not used.
 
-The fifth block came out of review. A post-hoc screen in the independent review of
-22 September found that the model underrated qualifiers: in matches with exactly one
-qualifier, qualifiers won 39.5% and the model gave them 34.6%. Entry status had never been
-an input, and the qualifying wins behind it are not yet visible at the two-day cutoff.
-The registered ARMS01 experiment then added the block and refitted all eight seasons:
-
-> full_tier_entry: full_tier plus entry status (Q, LL, WC, PR) and tournament-level
-> context; −0.0011 versus full_tier [−0.0018, −0.0004], 6 of 8 years negative.
+The fifth block came out of review. A screen in the independent review of 22 September
+found that the model underrated qualifiers: in matches with exactly one qualifier,
+qualifiers won 39.5% and the model gave them 34.6%. Entry status had never been an input,
+and the qualifying wins behind it are not yet visible at the two-day cutoff. A registered
+experiment then added the block and refitted all eight seasons: −0.0011 against the
+previous version [−0.0018, −0.0004], 6 of 8 seasons negative.
 
 No price, odds or market field enters the model. Every result, rating and statistic must
 be knowable two days before the match date; draw facts such as surface, format, entry
 status and level come with the pairing itself. The pipeline records which outcomes each
 fold read and refuses anything later.
 
-## Why the numbers are trustworthy
+## Where the remaining gap to the market comes from
 
-The first version of this project produced plausible backtests. Independent review then
-found four ways they were wrong, and the fixes are the reason the current numbers hold:
+Adding any weight of Alcaraz to Pinnacle's price makes the price worse, so the market
+already holds everything the model knows. Using the price as a training signal, never as
+an input, recovered −0.0007, below the gate we set. An exploratory screen of the gap, not
+a registered result, found it concentrated where private information is richest: matches
+involving a qualifier, Grand Slams, and players returning from a long absence. Before the
+final experiments we estimated that public statistics could close 0.002 to 0.003 of the
+0.011 gap; the entry-status block took 0.0011 of that, and a registered tuning pass over
+110 candidate models found nothing more. The rest is acquisition, not modelling.
+
+For scale, Green Code's Wimbledon 2025 test put the bookmakers' picks at 72% against his
+model's 66.3%, by his account. Alcaraz's gap to Pinnacle over eight seasons is 1.2 points
+of accuracy and 0.010 of log loss. Different matches, but the same benchmark.
+
+## Registered before scored, reproduced before accepted
+
+Every accepted result was registered before it was scored: the matches, the cutoff, the
+inputs, the primary contrast and the pass rule were frozen and hashed first, then scored
+once. A second implementation, written separately, reproduced every estimate and interval
+before acceptance. Leak detectors enter CI only after failing a planted leak. The
+145-entry leaderboard and the 125-entry experiment ledger are published in
+`data/registries`, so every attempt, including the failures, is visible. Nothing on disk
+is an untouched test set: the 2025–26 seasons were opened once and are development data.
+
+The discipline came out of review. The first version of this project produced plausible
+backtests, and independent review found four ways they were wrong:
 
 | What review found | What it would have done | What changed |
 |---|---|---|
@@ -104,39 +149,24 @@ found four ways they were wrong, and the fixes are the reason the current number
 | A calibration stage wrote scores before the report barrier | Downstream barriers could not stop an upstream scorer | Forecasts are emitted before the barrier, scores after |
 | A 24-test leakage suite stayed green when leaks were planted | "All green" meant nothing | A detector enters CI only after it fails its planted control |
 
-Beyond that: every published number is generated from a hashed artifact, a different
-model reconstructed the arithmetic before anything was accepted, and the 145-entry
-leaderboard and the 125-entry experiment ledger (through the model freeze of 23 September
-2026) are published in `data/registries` so the search history is visible. Nothing on disk
-is holdout; the 2025–26 window has been opened and is development data.
+[PROCESS.md](docs/PROCESS.md) records each failure and the rule it produced.
 
-## What did not work
+## Experiments that did not improve the model
 
-These are honest nulls on matched cohorts, not abandoned ideas.
+Each was a registered comparison on matched matches. A null here is a result, not an
+abandoned idea.
 
-| Tried | Result | Verdict |
+| Tried | Result | Outcome |
 |---|---|---|
 | Larger boosting head, longer training window | +0.0033 log loss, interval wholly adverse | keep the small model |
-| Eight-member stack over the incumbent and alternatives | −0.0004, interval crosses zero | no promotion |
-| Uncertainty-aware serve/return states through the final model | +0.0002 | no promotion |
-| Serve sub-components, richer state geometry, WTA selection policy | all within ±0.0002 | no promotion |
-| Market-as-teacher distillation | −0.0007 vs outcome-only | below the 0.003 gate |
+| Eight-member stack over the incumbent and alternatives | −0.0004, interval crosses zero | not adopted |
+| Uncertainty-aware serve/return states through the final model | +0.0002 | not adopted |
+| Serve sub-components, richer state geometry, WTA selection policy | all within ±0.0002 | not adopted |
+| Market-as-teacher distillation | −0.0007 against outcome-only | below the 0.003 gate |
 | Model + Pinnacle residual | worse than calibrated Pinnacle alone | market already contains the model |
-| Past-only logit blend with BuildOak, ATP 2020–24 † | −0.0009 [−0.0021, +0.0003] vs Alcaraz alone | no ATP blend is released |
-| One registered tuning pass over the boosted head: 110 candidates with early stopping, tree size, minimum leaf, L2 and bagging | −0.00003 [−0.0004, +0.0003] vs full_tier_entry on 18,972 ATP matches | model frozen |
+| Past-only logit blend with BuildOak, ATP 2020–24 | −0.0009 [−0.0021, +0.0003] against Alcaraz alone | no ATP blend released |
+| One registered tuning pass over the boosted head: 110 candidates with early stopping, tree size, minimum leaf, L2 and bagging | −0.0000 [−0.0004, +0.0003] on 18,972 ATP matches | model frozen |
 | Weather, fatigue, point-by-point states | worse or null | retired |
-
-## How the work was done
-
-One person, no data-science background, set the question, the scope and the licence
-boundaries, and decided when to stop. Four LLM roles did the rest under narrow briefs
-with explicit write boundaries: one built, one reviewed adversarially, one reconstructed
-accepted results from scratch, one handled bounded data acquisition. No builder accepted
-its own claims. The archive keeps every failed attempt, and
-[PROCESS.md](docs/PROCESS.md) records what each failure changed.
-
-The product is 53k lines of Python in one trunk, 731 tests, a locked environment
-and CI that reproduces a synthetic end-to-end run on every push.
 
 ## Run it
 
@@ -145,35 +175,31 @@ make setup
 make reproduce-small
 ```
 
-Reproduces the full pipeline on a synthetic sample in about a minute. Real history is
-governed by source terms and stays out of Git; the accepted model checkpoints are a
+That reproduces the full pipeline on a synthetic sample in about a minute, and CI does
+the same on every push. The codebase is 53k lines of Python in one pipeline, with 731
+tests and a locked environment. Real match history is governed by source terms and stays
+out of Git; the accepted model checkpoints are a
 [GitHub release](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
 with an [inference guide](docs/MODEL_RELEASE.md).
 
-## Status and limits
+## Scope and limits
 
 - Retrospective research. Two real forecasts have been issued before their scheduled
-  start under a [hash-chained ledger](docs/live/README.md); no scored prospective
-  record exists yet.
-- ARMS01 was registered and frozen on 22 September 2026, before any of its scores existed.
-  It ran the BuildOak comparison over all eight seasons, added entry status and tournament
-  level, and tested a past-only blend. Attempt 001 implemented the any-qualifier flag as Q
-  or LL, while the registration says Q; attempt 002 reran the block exactly as registered,
-  and attempt 001 is reported as a disclosed sensitivity. Attempt 002 was independently
-  reconstructed (archive decisions D131 and D132). A past-only logit blend with BuildOak
-  did not beat both components with intervals excluding zero (blend − Alcaraz −0.0009
-  [−0.0021, +0.0003]; blend − BuildOak −0.0076 [−0.0107, −0.0043]); no blend is released.
-  The WTA secondary was scored once under its own gates and independently reconstructed
-  (archive decision D133): `full_entry` becomes the WTA rung for the 2019–2024 cohort only,
-  the WTA public-model comparison is inconclusive, and the WTA blend is a research
-  artefact. The 2025–26 WTA model was not refitted and stays `full`.
-- One registered tuning pass over the model's boosted-tree head moved log loss by −0.0000
-  [−0.0004, +0.0003] against full_tier_entry on 18,972 ATP matches from 2017 to 2024, short
-  of the registered −0.0008 gate. The model is frozen as full_tier_entry. Model development
-  is closed. No further feature or learner search will be run on this cohort. (TUNE01,
-  independently reconstructed, archive decision D134; gains of about 0.0005 or more were
-  detectable.)
+  start under a [hash-chained ledger](docs/live/README.md); no scored prospective record
+  exists yet.
+- The model is frozen. The registered tuning pass could have detected a gain of about
+  0.0005 and found none, so no further feature or learner search runs on these matches.
+  One registration–implementation deviation in the entry-status experiment was caught by
+  checking the code against the registration and rerun exactly as registered; both
+  attempts are reported
+  ([details](docs/benchmarks/BUILDOAK_2017_2024_RESULTS.md)).
 - Pinnacle's quote time is unknown, so the market comparison is descriptive.
+- The head-to-head rows compare complete systems with different legitimate histories,
+  not one algorithm against another on identical inputs. BuildOak's recipe was selected
+  by its author with sight of later data; the eight-season design was frozen before its
+  scores existed but was not blind to the 2024 result.
+- The women's public-model comparison is inconclusive at its sample size, and the
+  women's 2025–26 model was not refitted with the entry-status block.
 
 Methods: [METHODS.md](docs/METHODS.md) · Data and licences:
 [DATA.md](docs/DATA.md), [DATA_LICENSES.md](DATA_LICENSES.md) · Decisions:

@@ -128,8 +128,9 @@ On the identical priced cohorts, match-weighted log loss is:
 
 Source: generated `docs/RESULTS.md`, match-weighted paired contrasts. A positive gap means
 the sports model had higher loss. It does not establish why, and it neither proves nor
-disproves a claim relative to other public statistics-only models. No accepted external
-public-model benchmark has been run on these cohorts.
+disproves a claim relative to other public statistics-only models. Matched comparisons
+with public models are reported separately in `docs/benchmarks/`; they use their own
+cohorts and are never read off this table.
 
 ## Scores and uncertainty
 
