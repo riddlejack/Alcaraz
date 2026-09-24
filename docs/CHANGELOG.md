@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-09-24 — join: configurable CH01 pin files; tier_stream: surface case drift
+
+- `tennislab.panel.join` accepts two optional config keys, `ch01_player_aliases` and
+  `ch01_event_crosswalk`, naming the CH01 pin files (JSON lists in the schema of the frozen
+  files). Omitted, the frozen files under `data/manifests/CH01/` are read exactly as before
+  (byte-identical output; all 12 committed chain configs emit identical stage configs).
+  Whichever file is read is hashed into `audit.json` and re-checked by `validate`; the
+  runner lists both keys as named inputs so `dry-run` reports a missing file. Needed so
+  REFIT2025 can bind "frozen pins + curated 2025 pins" without editing the frozen files.
+- `tennislab.ratings.tier_stream` maps a case variant of a canonical surface (`clay`,
+  `carpet`: 1,175 rows of the 2025 Futures file; no 1991–2024 row of either family) to the
+  canonical form before the surface screen and reports the count in
+  `surface_case_normalized_rows`; a surface still unknown after folding is excluded as
+  before. Frozen-year outputs unchanged (byte-identical on the synthetic fixtures and the
+  sample tier chain). Nine new tests; 746 pass.
+
 ## 2026-09-24 — tier_stream: a spent reserved year needs explicit acknowledgement
 
 - `tennislab.ratings.tier_stream` admits a `last_year` in the reserved window (2025–2026)
