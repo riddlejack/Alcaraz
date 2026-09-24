@@ -1,20 +1,20 @@
 # Alcaraz
 
 **State of the art among public, statistics-only tennis forecasters: ahead of every one
-we could run, and 0.010 log loss behind the betting market.**
+that could be run against it, and 0.010 log loss behind the betting market.**
 
 Alcaraz predicts professional tennis matches from the public record alone: results,
 rankings, serve and return statistics, lower-tier history and the published draw. No
 betting price, injury report or scouting note enters the model. On 18,972 ATP matches
-from 2017 to 2024 it scores ahead of the strongest public model we could reproduce, and
-every men's-tour comparison we could build has a 95% interval that excludes zero. Within
-that scope it is the state of the art as far as we were able to test; models we could not
-run are listed below, not assumed beaten.
+from 2017 to 2024 it scores ahead of the strongest public model that could be reproduced,
+and every men's-tour comparison that could be built has a 95% interval that excludes zero.
+Within that scope it is the state of the art as far as it could be tested; the one model
+that could not be run is named below, not assumed beaten.
 
 The sharpest benchmark is the market itself. Against Pinnacle's closing price on the same
-matches, Alcaraz trails by 0.010 log loss, about one correct pick in eighty. We think most
-of that gap is information the public record does not hold: fitness, injuries,
-withdrawals and how much a match matters to each player on the day.
+matches, Alcaraz trails by 0.010 log loss, about one correct pick in eighty. The leading
+hypothesis is that most of that gap is information the public record does not hold:
+fitness, injuries, withdrawals and how much a match matters to each player on the day.
 
 The project started with Green Code's *I Trained AI to Predict Sports*. Its first model
 reported 85% accuracy and, as its creator later disclosed, had post-match ratings leaking
@@ -62,6 +62,7 @@ rows were scored with the previous model version, before the entry-status block.
 | [BuildOak XGBoost](https://github.com/buildoak/tennis-xgboost-autoresearch), replayed season by season | 18,972 ATP, 2017–24 | 0.6046 | 0.5976 | −0.0070 [−0.0100, −0.0040] | 7 of 8 |
 | [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 2,681 ATP, 2024 | 0.6209 | 0.5965 | −0.0244 [−0.0311, −0.0176] | 1 of 1 |
 | Ingram's Bayesian point model | 2,681 ATP, 2024 | 0.6417 | 0.5965 | −0.0452 [−0.0565, −0.0350] | 1 of 1 |
+| IBM Match Insights, archived pre-match forecasts | 29 Grand Slam matches, 2022–23, both tours | 0.6285 | 0.4550 | −0.1735 [−0.2383, −0.1074] | — |
 | Five Elo and ranking baselines (FiveThirtyEight, Kovalchik, WElo, pooled Elo, ranking logistic) | 18,972 ATP; 12,900 WTA | 0.6222 to 0.6334 (ATP) | 0.5984 (ATP) | every interval excludes zero, on both tours | — |
 
 BuildOak is the closest, and the interval says the lead is real, not one lucky season:
@@ -78,11 +79,17 @@ alone [−0.0040, −0.0008] on 7,181 WTA matches from 2022 to 2024; it is publi
 research result, not the default model. Against the market, the women's model trails
 Pinnacle by 0.020 on 2,344 matches from 2025–26 (0.6153 against 0.5953).
 
-Two systems we could not run are noted for completeness: Green Code's second model, which
-its creator reports at 66.3% winner accuracy at Wimbledon 2025, and IBM's Grand Slam
-forecasts, for which no archived pre-match probabilities have been recovered yet.
-Accuracies on different matches are not comparable, and neither system publishes
-match-level probabilities. A matched comparison with both is open work.
+The IBM row is the smallest sample and the largest gap. IBM does not archive its Grand
+Slam "Likelihood to Win" files, but the Internet Archive holds the 37 that visitors saved
+(Wimbledon 2023 and 2024, US Open 2022 and 2023); 29 were published before the first
+ball, as fixed from the archived order-of-play and point-by-point feeds before any score
+was read. On those 29, Pinnacle scores 0.4394. The gap is sharpness, not picks: IBM's
+favourite averages 58% and never exceeds 72%, against 68% for Alcaraz, so IBM picks
+nearly as well (22 of 29 against 23) while its probabilities score far worse
+([details](docs/benchmarks/IBM01_RESULTS.md)). One system could not be run: Green Code's
+second model, which its creator reports at 66.3% winner accuracy on the Wimbledon 2025
+men's draw; it publishes no match list or probabilities, so a matched comparison is open
+work.
 
 ## What is in the model
 
@@ -114,15 +121,64 @@ be knowable two days before the match date; draw facts such as surface, format, 
 status and level come with the pairing itself. The pipeline records which outcomes each
 fold read and refuses anything later.
 
+## Where the lead over public models comes from
+
+The rival forecasts are on disk, so the lead can be taken apart match by match. An
+exploratory decomposition of the saved forecasts (post hoc, on development data, no new
+model; [details](docs/benchmarks/WHY01_LEAD_DECOMPOSITION.md)) gives four findings.
+
+**The lead is concentrated where a player's main-tour record is thin.** Against BuildOak,
+matches with a qualifier, lucky loser or wild card are 35% of the sample and carry 58% of
+the gap (−0.0117 [−0.0165, −0.0070]); matches whose lower-ranked player sits at 101–200
+carry 45%; matches where a player has fewer than 10 prior main-tour matches carry 29% on
+12% of the sample (−0.0164 [−0.0255, −0.0075]). These overlap, because they describe the
+same match: a qualifier from outside the top 100 with little tour record. Alcaraz still
+leads in the remaining 56% of matches (−0.0041 [−0.0071, −0.0010]) and is level with
+BuildOak from the quarter-finals on. The same pattern holds against Ultimate Tennis
+Statistics, Ingram and the Elo baselines; the ranking-only baseline is the exception,
+because a ranking already reflects lower-tier results.
+
+![Alcaraz minus BuildOak, and the gain from the lower-tier history block, by the less-experienced player's prior main-tour matches: both are largest below 10 matches and fade above 50.](docs/assets/alcaraz-lead-by-history.svg)
+
+**That is the lower-tier history block at work.** On the same matches, the model one step
+below it (ratings, match history, serve and return states) is level with BuildOak
+(+0.0008 [−0.0013, +0.0030]) and behind it when a player has fewer than 10 tour matches
+(+0.0085 [+0.0004, +0.0164]). Adding qualifying, Challenger and Futures history gains
+−0.0239 [−0.0321, −0.0158] in those matches and nothing from the quarter-finals on. BuildOak
+reads main-tour files only and drops entry status, so neither block has a counterpart
+there. The entry-status block's smaller gain sits where expected: matches with a qualifier,
+lucky loser or wild card (−0.0025 [−0.0038, −0.0011]) and Grand Slams (−0.0021
+[−0.0031, −0.0011]).
+
+**The lead is better ranking of matches, not better calibration, except against Ingram.**
+If each rival were perfectly recalibrated on the very outcomes it is scored on, an upper
+bound rather than a legitimate forecast, BuildOak's gap would shrink by 14%, Ultimate
+Tennis Statistics' by 19% and Ingram's by 48%. What remains is discrimination: Alcaraz's
+AUC is higher by 0.008 against BuildOak and by about 0.03 against the other two. BuildOak
+is overconfident (recalibration slope 0.89), consistent with a recipe its author selected
+on ROC AUC, which rewards ordering and ignores calibration; Ingram's point model is
+strongly overconfident (slope 0.62); the Elo baselines are well scaled but over-rate the
+older player, as ratings that lag rising players would. Alcaraz's own slope is 1.01. The
+past-only calibration stage does its job.
+
+**When the systems disagree, Alcaraz is right slightly more often and pays less when
+wrong.** Alcaraz and BuildOak pick different winners in 2,186 matches, 11.5% of the
+sample; Alcaraz is right in 1,147, BuildOak in 1,039, and those matches carry a third of
+the gap. Where the two probabilities differ by 0.15 or more, BuildOak is the more
+confident side and loses more when wrong, and such disagreements are almost twice as
+common in thin-history matches. The market is the mirror image: Pinnacle's edge over
+Alcaraz is also discrimination, and it concentrates after a long absence from the tour,
+in first and second rounds and at Grand Slams, which is where the next section starts.
+
 ## Where the remaining gap to the market comes from
 
 Adding any weight of Alcaraz to Pinnacle's price makes the price worse, so the market
 already holds everything the model knows. Using the price as a training signal, never as
-an input, recovered −0.0007, below the gate we set. An exploratory screen of the gap, not
+an input, recovered −0.0007, below the registered gate. An exploratory screen of the gap, not
 a registered result, found it concentrated where private information is richest: matches
 involving a qualifier, Grand Slams, and players returning from a long absence. Before the
-final experiments we estimated that public statistics could close 0.002 to 0.003 of the
-0.011 gap; the entry-status block took 0.0011 of that, and a registered tuning pass over
+final experiments the estimate was that public statistics could close 0.002 to 0.003 of
+the 0.011 gap; the entry-status block took 0.0011 of that, and a registered tuning pass over
 110 candidate models found nothing more. The rest is acquisition, not modelling.
 
 For scale, Green Code's Wimbledon 2025 test put the bookmakers' picks at 72% against his

@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-09-24 — IBM matched comparison, lead decomposition, README section
+
+- **IBM01** (archive decision D135, independently reconstructed): the 37 IBM Match Insights
+  pre-match files that the Internet Archive holds for Wimbledon 2023–2024 and the US Open
+  2022–2023 were recovered with receipts and joined to this repository's matches; 29 were
+  published before the first ball (fixed from archived order-of-play and point-by-point
+  feeds before any score was read). On those 29, log loss is 0.4550 (Alcaraz, saved frozen
+  forecasts), 0.4394 (Pinnacle) and 0.6285 (IBM); Alcaraz − IBM −0.1735 [−0.2383, −0.1074].
+  `docs/benchmarks/IBM01_RESULTS.md`, `ibm01.json` (aggregates and match identities only).
+- **WHY01** (exploratory, post hoc): decomposition of the lead over BuildOak, Ultimate Tennis
+  Statistics, Ingram and the five Elo/ranking baselines on the saved forecasts: the gap
+  concentrates in matches with a qualifier, a player ranked 101–200 or a player with fewer
+  than 10 prior main-tour matches; it is earned mainly by the lower-tier history block; it
+  is discrimination rather than calibration except against Ingram; when systems disagree,
+  Alcaraz is right slightly more often and pays less when wrong.
+  `docs/benchmarks/WHY01_LEAD_DECOMPOSITION.md`, `why01.json`.
+- README: new section "Where the lead over public models comes from" with the figure
+  `docs/assets/alcaraz-lead-by-history.svg` (rendered by `tools/render_results_figure.py`
+  from `why01.json`); IBM row in the head-to-head table; first-person plural removed
+  throughout.
+
 ## 2026-09-23 — README reworked for the portfolio reader
 
 - Rewrote `README.md` around the scoped claim the registered ARMS01 result supports:
