@@ -8,6 +8,7 @@ import pytest
 from tennislab.chain import runner
 from tennislab.chain.common import ChainError, canonical_hash
 from tennislab.config import reset_workspace_cache
+from tennislab.ratings import tier_stream
 
 ATP_SECTION = {
     "tour": "ATP",
@@ -144,3 +145,95 @@ def test_the_any_qualifier_option_reaches_only_the_features_config_when_false() 
         runner._stage_config_bodies(
             {**section, "entry_any_qualifier_counts_ll": "false"}, section["inputs"], plan
         )
+
+
+def _tier_chain() -> tuple[dict, dict]:
+    document = json.loads(
+        Path("configs/chains/atp_tier01_2017_2024.json").read_text(encoding="utf-8")
+    )
+    return document, document["chain"]
+
+
+def test_the_chain_acknowledgement_reaches_the_tier_stream_config_only_when_true() -> None:
+    """One chain-level `reserved_release_acknowledged` covers the bridge and tier_stream;
+    a chain that does not acknowledge emits every stage config as before."""
+    document, section = _tier_chain()
+    plan = runner.year_plan(document).as_document()
+    assert section["reserved_release_acknowledged"] is False
+    base = runner._stage_config_bodies(section, section["inputs"], plan)
+    assert "reserved_release_acknowledged" not in base["tier_stream"]["tier_stream"]
+    assert base["bridge"]["bridge"]["reserved_release_acknowledged"] is False
+    acknowledged = runner._stage_config_bodies(
+        {**section, "reserved_release_acknowledged": True}, section["inputs"], plan
+    )
+    assert [name for name in base if base[name] != acknowledged[name]] == [
+        "bridge",
+        "tier_stream",
+    ]
+    assert acknowledged["bridge"]["bridge"]["reserved_release_acknowledged"] is True
+    assert acknowledged["tier_stream"]["tier_stream"] == {
+        **base["tier_stream"]["tier_stream"],
+        "reserved_release_acknowledged": True,
+    }
+    # Only a literal true reaches tier_stream.
+    loose = runner._stage_config_bodies(
+        {**section, "reserved_release_acknowledged": "true"}, section["inputs"], plan
+    )
+    assert loose["tier_stream"] == base["tier_stream"]
+
+
+def test_the_emitted_tier_stream_config_opens_2025_only_under_the_chain_acknowledgement() -> None:
+    document, section = _tier_chain()
+    plan_document = {
+        **document["year_plan"],
+        "panel_end_year": 2025,
+        "feature_end_year": 2025,
+        "target_years": [*document["year_plan"]["target_years"], 2025],
+    }
+    plan = runner.year_plan({"year_plan": plan_document}).as_document()
+    for acknowledged in (False, True):
+        body = runner._stage_config_bodies(
+            {**section, "reserved_release_acknowledged": acknowledged}, section["inputs"], plan
+        )["tier_stream"]
+        stage_plan = tier_stream.year_plan(body)
+        if acknowledged:
+            _, _, last_year = tier_stream.read_parameters(body["tier_stream"], stage_plan)
+            assert last_year == 2025
+        else:
+            with pytest.raises(tier_stream.TierStreamError) as refused:
+                tier_stream.read_parameters(body["tier_stream"], stage_plan)
+            assert str(refused.value) == (
+                "refusing to read a reserved year: last_year 2025 >= 2025"
+            )
+
+
+def test_the_tier_stream_note_changes_only_for_an_acknowledging_chain() -> None:
+    _, section = _tier_chain()
+    notes = {stage.name: stage.note for stage in runner.stages(section)}
+    assert notes["tier_stream"] == (
+        "Qualifying/Challenger/Futures history from the pinned mirror; "
+        "reads no reserved year and no run artifact."
+    )
+    acknowledged = {
+        stage.name: stage.note
+        for stage in runner.stages({**section, "reserved_release_acknowledged": True})
+    }
+    assert [name for name in notes if notes[name] != acknowledged[name]] == ["tier_stream"]
+    assert "reads no reserved year" not in acknowledged["tier_stream"]
+    assert "summary.span" in acknowledged["tier_stream"]
+    # The note follows what the emitted config carries, so a per-stage override that sets
+    # (or clears) the flag moves the note with it.
+    override = {"tier_stream": {"tier_stream": {"reserved_release_acknowledged": True}}}
+    by_override = {
+        stage.name: stage.note
+        for stage in runner.stages({**section, "stage_config_overrides": override})
+    }
+    assert by_override == acknowledged
+    cleared = {"tier_stream": {"tier_stream": {"reserved_release_acknowledged": False}}}
+    by_clearing = {
+        stage.name: stage.note
+        for stage in runner.stages(
+            {**section, "reserved_release_acknowledged": True, "stage_config_overrides": cleared}
+        )
+    }
+    assert by_clearing == notes

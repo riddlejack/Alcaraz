@@ -361,3 +361,219 @@ def test_a_tampered_inventory_is_refused_by_the_manifest(workspace: Path) -> Non
     inventory.write_text("\n".join(lines[:2]) + "\n", encoding="utf-8")
     with pytest.raises(tier_stream.TierStreamError, match="manifest does not pin"):
         tier_stream.build(config)
+
+
+# ------------------------------------------------------------ the reserved window
+
+# The two messages a reserved span has always been refused with; they must not drift.
+REFUSED_BUILD = "refusing to read a reserved year: last_year 2025 >= 2025"
+REFUSED_DRY_RUN = "configured span reaches a reserved year"
+FUTURES_LIMIT_THROUGH_2024 = (
+    "Futures carries no serve count in any year read here (the audit: 0 of "
+    "498,555 rows, 1991-2024), so the family can only ever be outcome history."
+)
+
+
+def write_two_season_archive(root: Path) -> dict:
+    """An ARCHIVE01 look-alike holding 2024 and 2025; returns the custody entries.
+
+    2025 Futures carry serve counts (2024's carry none, as in the audit): one complete
+    block that passes the count identities and one that fails them.
+    """
+    match_num = iter(range(1, 100))
+    members_rows = {
+        "atp/atp_matches_qual_chall_2024.csv": [
+            raw_row("2024-1234", "20240304", 101, 102, round_name="F", counts=GOOD),
+            raw_row("2024-1234", "20240304", 103, 104, round_name="Q1"),
+        ],
+        "atp/atp_matches_futures_2024.csv": [
+            raw_row("2024-M-ITF-FRA-01A-2024", "20240311", 201, 202, level="S"),
+        ],
+        "atp/atp_matches_qual_chall_2025.csv": [
+            raw_row("2025-1234", "20250303", 101, 103, counts=GOOD),
+        ],
+        "atp/atp_matches_futures_2025.csv": [
+            raw_row("2025-M-ITF-FRA-01A-2025", "20250310", 203, 204, level="S", counts=GOOD),
+            raw_row(
+                "2025-M-ITF-FRA-01A-2025",
+                "20250310",
+                205,
+                206,
+                level="S",
+                counts=BAD_SECOND_SERVE,
+            ),
+        ],
+    }
+    members: dict[str, bytes] = {}
+    for name, rows in members_rows.items():
+        for row in rows:
+            row["match_num"] = str(next(match_num))
+        members[name] = member_bytes(rows)
+    snapshot = root / "data/raw/ARCHIVE01/snapshot"
+    snapshot.mkdir(parents=True)
+    archive = snapshot / "x.tar.gz"
+    with tarfile.open(archive, "w:gz") as tar:
+        for name, payload in members.items():
+            info = tarfile.TarInfo(f"x/{name}")
+            info.size = len(payload)
+            tar.addfile(info, io.BytesIO(payload))
+    inventory = root / "data/raw/ARCHIVE01/snapshot_file_inventory.csv"
+    with inventory.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["path", "sha256"])
+        writer.writeheader()
+        for name, payload in members.items():
+            writer.writerow({"path": name, "sha256": hashlib.sha256(payload).hexdigest()})
+    manifest = root / "data/manifests/ARCHIVE01.json"
+    manifest.parent.mkdir(parents=True)
+    archive_sha = hashlib.sha256(archive.read_bytes()).hexdigest()
+    pinned = {
+        "data/raw/ARCHIVE01/snapshot/x.tar.gz": archive_sha,
+        "data/raw/ARCHIVE01/snapshot_file_inventory.csv": hashlib.sha256(
+            inventory.read_bytes()
+        ).hexdigest(),
+    }
+    manifest.write_text(
+        json.dumps({"files": [{"path": path, "sha256": sha} for path, sha in pinned.items()]}),
+        encoding="utf-8",
+    )
+    return {
+        "archive": {
+            "path": "data/raw/ARCHIVE01/snapshot/x.tar.gz",
+            "sha256": archive_sha,
+            "tar_root": "x",
+        },
+        "inventory": {"path": "data/raw/ARCHIVE01/snapshot_file_inventory.csv"},
+        "archive_manifest": {"path": "data/manifests/ARCHIVE01.json"},
+    }
+
+
+def span_config(custody: dict, last_year: int, output: str, **section: object) -> dict:
+    """A 2024-first span ending at ``last_year``, with the plan ending there too."""
+    return {
+        "year_plan": {
+            "panel_end_year": last_year,
+            "feature_end_year": last_year,
+            "target_years": [last_year],
+            "calibration_years_back": 1,
+            "history_floor_year": last_year - 1,
+            "training_window_years": 1,
+        },
+        "tier_stream": {
+            **custody,
+            "last_year": last_year,
+            "parameters": {
+                "first_year": 2024,
+                "elo_start_year": 2024,
+                "experience_start_year": 2024,
+                "serve_counts_start_year": 2024,
+                "reported_date_offset_days": 7,
+                "satellite_circuit_dating": True,
+            },
+            "output_dir": output,
+            **section,
+        },
+    }
+
+
+def read_gz(path: Path) -> list[dict[str, str]]:
+    with gzip.open(path, "rt", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+@pytest.mark.parametrize(
+    "acknowledgement",
+    [{}, {"reserved_release_acknowledged": False}, {"reserved_release_acknowledged": "true"}],
+)
+def test_a_reserved_span_is_refused_with_the_same_messages_unless_acknowledged(
+    workspace: Path, acknowledgement: dict
+) -> None:
+    custody = write_two_season_archive(workspace)
+    config = span_config(custody, 2025, "work/TIER01/test/refused", **acknowledgement)
+    with pytest.raises(tier_stream.TierStreamError) as refused:
+        tier_stream.build(config)
+    assert str(refused.value) == REFUSED_BUILD
+    with pytest.raises(tier_stream.TierStreamError) as refused_dry:
+        tier_stream.dry_run(config)
+    assert str(refused_dry.value) == REFUSED_DRY_RUN
+    assert not (workspace / "work/TIER01/test/refused").exists()
+
+
+def test_an_acknowledged_reserved_span_is_admitted_and_says_what_it_opened(
+    workspace: Path,
+) -> None:
+    custody = write_two_season_archive(workspace)
+    config = span_config(
+        custody, 2025, "work/TIER01/test/reserved", reserved_release_acknowledged=True
+    )
+    assert tier_stream.dry_run(config)["status"] == "dry_run_ok"
+    # The acknowledgement does not relax last_year == panel_end_year.
+    mismatched = span_config(
+        custody, 2025, "work/TIER01/test/never", reserved_release_acknowledged=True
+    )
+    mismatched["year_plan"]["panel_end_year"] = 2026
+    with pytest.raises(tier_stream.TierStreamError, match="must equal the plan's panel_end_year"):
+        tier_stream.build(mismatched)
+
+    summary = tier_stream.build(config)
+    assert summary["span"] == {
+        "first_year": 2024,
+        "last_year": 2025,
+        "reserved_years_opened": [2025],
+        "reserved_years_never_opened": [2026],
+        "reserved_release_acknowledged": True,
+    }
+    assert sorted(summary["inputs"]["members"]) == [
+        "atp/atp_matches_futures_2024.csv",
+        "atp/atp_matches_futures_2025.csv",
+        "atp/atp_matches_qual_chall_2024.csv",
+        "atp/atp_matches_qual_chall_2025.csv",
+    ]
+    futures_limit = summary["limits"][1]
+    assert futures_limit != FUTURES_LIMIT_THROUGH_2024
+    assert "reserved years opened here (2025)" in futures_limit
+    assert "count-identity screen" in futures_limit
+    # What the sentence claims: a 2025 Futures block that fails an identity drops the
+    # row from the outcome stream; one that passes stays as history; neither is fed.
+    assert summary["excluded"] == {"count_identity_failure": 1}
+    assert [(row["family"], row["year"]) for row in summary["count_identity_failure_rows"]] == [
+        ("atp_futures", "2025")
+    ]
+    output = workspace / "work/TIER01/test/reserved"
+    results = read_gz(output / "tier_results.csv.gz")
+    assert [row["season"] for row in results if row["tier"] == "futures"] == ["2024", "2025"]
+    feed = read_gz(output / "tier_source_rows.csv.gz")
+    assert [row["match_date"][:4] for row in feed] == ["2024", "2024", "2025"]
+    assert all(row["tourney_id"].split("-")[1] == "1234" for row in feed)
+
+
+@pytest.mark.parametrize("acknowledgement", [{}, {"reserved_release_acknowledged": True}])
+def test_a_span_ending_in_2024_is_unchanged_by_the_reserved_window_rule(
+    workspace: Path, acknowledgement: dict
+) -> None:
+    custody = write_two_season_archive(workspace)
+    summary = tier_stream.build(
+        span_config(custody, 2024, "work/TIER01/test/through_2024", **acknowledgement)
+    )
+    # The span and the limit sentence are exactly what every pre-window build wrote.
+    assert summary["span"] == {
+        "first_year": 2024,
+        "last_year": 2024,
+        "reserved_years_never_opened": [2025, 2026],
+    }
+    assert summary["limits"][1] == FUTURES_LIMIT_THROUGH_2024
+    assert sorted(summary["inputs"]["members"]) == [
+        "atp/atp_matches_futures_2024.csv",
+        "atp/atp_matches_qual_chall_2024.csv",
+    ]
+    # Opening 2025 leaves every 2024 row as it was.
+    tier_stream.build(
+        span_config(
+            custody, 2025, "work/TIER01/test/through_2025", reserved_release_acknowledged=True
+        )
+    )
+    for name in ("tier_results.csv.gz", "tier_source_rows.csv.gz"):
+        through_2024 = read_gz(workspace / "work/TIER01/test/through_2024" / name)
+        through_2025 = read_gz(workspace / "work/TIER01/test/through_2025" / name)
+        date_field = "date" if name == "tier_results.csv.gz" else "match_date"
+        assert through_2024 == [row for row in through_2025 if row[date_field] < "2025-01-01"]
+        assert len(through_2025) > len(through_2024)
