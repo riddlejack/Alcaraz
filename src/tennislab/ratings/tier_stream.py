@@ -24,6 +24,13 @@ anything else at ``tourney_level = C`` is a Challenger main draw, every Futures 
 Futures, and a main-draw row at a tour level inside the qualifying/Challenger family is
 refused rather than guessed.
 
+**The surface.** A row's surface, stripped, must be one of ``SURFACES`` up to case: a case
+variant (the 2025 Futures file writes ``clay`` and ``carpet`` on some rows; no 1991-2024
+row of either family does) is mapped to the canonical form before the screen and counted
+in the summary's ``surface_case_normalized_rows`` (family -> season -> rows, present only
+when a row was mapped), while ``surfaces_seen`` keeps the source spelling. A surface that
+is still unknown is excluded as ``surface_unsupported``, as before.
+
 **The reported date.** A lower-tier row has no match clock, only ``tourney_date``, the
 event anchor. The declared rule is ``reported date = anchor + reported_date_offset_days``
 (7, or 0 for the declared sensitivity). With ``satellite_circuit_dating`` true a
@@ -181,6 +188,8 @@ RESULT_FIELDS = (
     "is_final",
 )
 SURFACES = ("Hard", "Clay", "Grass", "Carpet")
+# Source case drift (2025 Futures: `clay`, `carpet`) maps onto the canonical spelling.
+SURFACE_BY_CASEFOLD = {surface.casefold(): surface for surface in SURFACES}
 QUALIFYING_ROUND = re.compile(r"^Q\d$")
 COUNT_RE = re.compile(r"^-?[0-9]+$")
 # A satellite-circuit component edition: the ordinary tourney id followed by a single
@@ -491,6 +500,7 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
     later_season_rows: list[dict[str, str]] = []
     best_of_other: Counter[str] = Counter()
     surfaces_seen: Counter[str] = Counter()
+    surface_case_normalized: Counter[tuple[str, int]] = Counter()
     # The satellite-circuit leg index, collected over every row *read* (so a leg whose
     # rows are all excluded still delays its siblings) and the anchor each component
     # edition carries.
@@ -562,9 +572,13 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
                     )
                 surface = (row["surface"] or "").strip()
                 surfaces_seen[surface or "(blank)"] += 1
-                if surface not in SURFACES:
+                canonical_surface = SURFACE_BY_CASEFOLD.get(surface.casefold())
+                if canonical_surface is None:
                     exclude("surface_unsupported", year)
                     continue
+                if canonical_surface != surface:
+                    surface_case_normalized[(family, year)] += 1
+                    surface = canonical_surface
                 status, played = classify_status(row["score"])
                 block, violations = count_block_status(row)
                 if violations:
@@ -868,6 +882,19 @@ def build(config: Mapping[str, Any]) -> dict[str, Any]:
             "list; every retained row still carries the usable/missing_all labelling.",
         ],
     }
+    if surface_case_normalized:
+        # Only when a row was mapped, so a span without case drift writes the same summary.
+        by_family: dict[str, dict[str, int]] = {}
+        for (family, year), rows in sorted(surface_case_normalized.items()):
+            by_family.setdefault(family, {})[str(year)] = rows
+        summary["surface_case_normalized_rows"] = by_family
+        summary["limits"].append(
+            f"Surface case: {sum(surface_case_normalized.values())} rows whose source surface "
+            "was a case variant of a canonical surface (e.g. 'clay') were mapped to the "
+            "canonical form before the surface screen (surface_case_normalized_rows, by "
+            "family and season; surfaces_seen keeps the source spelling). A surface still "
+            "unknown after case folding is excluded as surface_unsupported."
+        )
     outputs["summary.json"] = atomic_json(output_dir / "summary.json", summary)
     summary["outputs"] = outputs
     return summary

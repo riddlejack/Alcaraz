@@ -374,11 +374,14 @@ FUTURES_LIMIT_THROUGH_2024 = (
 )
 
 
-def write_two_season_archive(root: Path) -> dict:
+def write_two_season_archive(
+    root: Path, extra_rows: dict[str, list[dict[str, str]]] | None = None
+) -> dict:
     """An ARCHIVE01 look-alike holding 2024 and 2025; returns the custody entries.
 
     2025 Futures carry serve counts (2024's carry none, as in the audit): one complete
-    block that passes the count identities and one that fails them.
+    block that passes the count identities and one that fails them. ``extra_rows`` appends
+    rows to named members.
     """
     match_num = iter(range(1, 100))
     members_rows = {
@@ -404,11 +407,15 @@ def write_two_season_archive(root: Path) -> dict:
             ),
         ],
     }
-    members: dict[str, bytes] = {}
-    for name, rows in members_rows.items():
+    for rows in members_rows.values():
         for row in rows:
             row["match_num"] = str(next(match_num))
-        members[name] = member_bytes(rows)
+    # Extra rows are numbered after the base rows, so no base row's match id moves.
+    for name, rows in (extra_rows or {}).items():
+        for row in rows:
+            row["match_num"] = str(next(match_num))
+        members_rows[name] = [*members_rows[name], *rows]
+    members = {name: member_bytes(rows) for name, rows in members_rows.items()}
     snapshot = root / "data/raw/ARCHIVE01/snapshot"
     snapshot.mkdir(parents=True)
     archive = snapshot / "x.tar.gz"
@@ -577,3 +584,110 @@ def test_a_span_ending_in_2024_is_unchanged_by_the_reserved_window_rule(
         date_field = "date" if name == "tier_results.csv.gz" else "match_date"
         assert through_2024 == [row for row in through_2025 if row[date_field] < "2025-01-01"]
         assert len(through_2025) > len(through_2024)
+
+
+# ------------------------------------------------------------ surface case drift
+
+# 2025 Futures write some surfaces in lower case; one row per case below, plus one
+# qualifying/Challenger row so the SR02 feed's surface is checked too.
+SURFACE_DRIFT = {
+    "atp/atp_matches_futures_2025.csv": [
+        raw_row("2025-M-ITF-ESP-02A-2025", "20250602", 211, 212, level="S", score="6-1 6-1"),
+        raw_row("2025-M-ITF-ESP-02A-2025", "20250602", 213, 214, level="S"),
+        raw_row("2025-M-ITF-ESP-03A-2025", "20250609", 215, 216, level="S"),
+        raw_row("2025-M-ITF-ESP-03A-2025", "20250609", 217, 218, level="S"),
+        raw_row("2025-M-ITF-ESP-03A-2025", "20250609", 219, 220, level="S"),
+    ],
+    "atp/atp_matches_qual_chall_2025.csv": [
+        raw_row("2025-5678", "20250616", 105, 106, counts=GOOD),
+    ],
+}
+for _row, _surface in zip(
+    [
+        *SURFACE_DRIFT["atp/atp_matches_futures_2025.csv"],
+        *SURFACE_DRIFT["atp/atp_matches_qual_chall_2025.csv"],
+    ],
+    ["clay", "clay", "carpet", "Indoor", "Clay court", "hard"],
+    strict=True,
+):
+    _row["surface"] = _surface
+
+
+def test_a_case_variant_surface_is_normalized_counted_and_named(workspace: Path) -> None:
+    custody = write_two_season_archive(workspace, SURFACE_DRIFT)
+    summary = tier_stream.build(
+        span_config(custody, 2025, "work/TIER01/test/drift", reserved_release_acknowledged=True)
+    )
+    assert summary["surface_case_normalized_rows"] == {
+        "atp_futures": {"2025": 3},
+        "atp_qual_chall": {"2025": 1},
+    }
+    # The source spelling stays visible; the unknown surfaces are still excluded.
+    for spelling in ("clay", "carpet", "hard", "Indoor", "Clay court"):
+        assert summary["surfaces_seen"][spelling] == (2 if spelling == "clay" else 1)
+    assert summary["excluded"] == {"count_identity_failure": 1, "surface_unsupported": 2}
+    assert summary["limits"][-1].startswith("Surface case: 4 rows whose source surface")
+    output = workspace / "work/TIER01/test/drift"
+    results = read_gz(output / "tier_results.csv.gz")
+    drift = {row["match_id"].split("/")[0].split(":")[2]: row["surface"] for row in results}
+    assert drift["2025-M-ITF-ESP-02A-2025"] == "Clay"
+    assert drift["2025-M-ITF-ESP-03A-2025"] == "Carpet"
+    assert drift["2025-5678"] == "Hard"
+    assert {row["surface"] for row in results} <= set(tier_stream.SURFACES)
+    feed = read_gz(output / "tier_source_rows.csv.gz")
+    assert [row["surface"] for row in feed if row["tourney_id"] == "2025-5678"] == ["Hard"]
+    with (output / "tier_exclusions.csv").open(newline="", encoding="utf-8") as handle:
+        exclusions = list(csv.DictReader(handle))
+    assert {"reason": "surface_unsupported", "season": "2025", "rows": "2"} in exclusions
+
+
+def test_an_unknown_surface_is_still_excluded_after_case_folding() -> None:
+    assert tier_stream.SURFACE_BY_CASEFOLD == {
+        "hard": "Hard",
+        "clay": "Clay",
+        "grass": "Grass",
+        "carpet": "Carpet",
+    }
+    for unknown in ("", "Indoor", "Clay court", "Hard (i)", "Acrylic"):
+        assert tier_stream.SURFACE_BY_CASEFOLD.get(unknown.casefold()) is None
+
+
+def test_a_span_without_case_drift_writes_no_normalization_field_or_sentence(
+    workspace: Path,
+) -> None:
+    # The drift rows sit in 2025 members, which a span ending in 2024 never opens.
+    custody = write_two_season_archive(workspace, SURFACE_DRIFT)
+    summary = tier_stream.build(span_config(custody, 2024, "work/TIER01/test/frozen"))
+    assert "surface_case_normalized_rows" not in summary
+    assert len(summary["limits"]) == 4
+    assert not any(limit.startswith("Surface case") for limit in summary["limits"])
+    assert set(summary["surfaces_seen"]) <= set(tier_stream.SURFACES)
+    written = json.loads(
+        (workspace / "work/TIER01/test/frozen/summary.json").read_text(encoding="utf-8")
+    )
+    assert "surface_case_normalized_rows" not in written
+
+
+def test_normalizing_surface_case_moves_no_other_row(
+    workspace: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The acknowledged 2024-2025 build with and without the drift rows: every other row
+    is identical, so the mapping touches nothing else."""
+    rows = {}
+    for name, extra in (("plain", None), ("drifted", SURFACE_DRIFT)):
+        root = workspace / name
+        monkeypatch.setenv("TENNISLAB_WORKSPACE", str(root))
+        reset_workspace_cache()
+        custody = write_two_season_archive(root, extra)
+        tier_stream.build(
+            span_config(custody, 2025, "work/out", reserved_release_acknowledged=True)
+        )
+        rows[name] = read_gz(root / "work/out/tier_results.csv.gz")
+    drift_ids = {"2025-M-ITF-ESP-02A-2025", "2025-M-ITF-ESP-03A-2025", "2025-5678"}
+    kept = [
+        row
+        for row in rows["drifted"]
+        if row["match_id"].split("/")[0].split(":")[2] not in drift_ids
+    ]
+    assert kept == rows["plain"]
+    assert len(rows["drifted"]) == len(rows["plain"]) + 4
