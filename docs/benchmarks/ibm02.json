@@ -1,0 +1,1602 @@
+{
+ "experiment_id": "IBM02",
+ "attempt": 2,
+ "status": "accepted_descriptive_matched_comparison",
+ "archive_decision": "D136",
+ "reconstruction": "ACCEPT WITH EXCEPTIONS (all point fields exact; lead-order interval bounds exact; registered per-round and day-cluster measures supplied by the reconstruction)",
+ "scored_at_utc": "2026-09-24T14:53:04.890593+00:00",
+ "seed": 20260924,
+ "draws": 5000,
+ "population": {
+  "pooled_primary": 64,
+  "archived_pre_start": 29,
+  "live_2023_strict_pre_start": 36,
+  "overlap": 1,
+  "live_files_pulled": {
+   "2023": 253,
+   "2024": 243,
+   "2025": 253
+  },
+  "excluded": {
+   "archived_not_pre_start": 8,
+   "live_unmapped": 4,
+   "missing_inputs": 0,
+   "duplicate_kept_archived": 1,
+   "live_unknown_first_ball_other": 33,
+   "live_unknown_first_ball_lenient_pre": 178,
+   "live_in_play_or_post": 5,
+   "live_post_event_republication_2024_2025": 493,
+   "lenient_rows_already_pooled": 8
+  },
+  "why_2024_2025_excluded": "every live 2024 file was re-published on 2024-07-17 and every 2025 file on 2025-07-30, after the tournaments",
+  "why_most_2023_live_excluded": "211 rows: matches suspended overnight whose file was published within seconds or minutes of the court's scheduled start, or single-day rows whose derived first ball is unreliable under rain (no archived first-ball evidence); 5 rows published during or after play"
+ },
+ "mutability_finding": {
+  "archived_vs_live_2023_pairs": 12,
+  "pairs_with_changed_value": 8,
+  "max_abs_change": 0.149
+ },
+ "cohorts": {
+  "pooled_primary": {
+   "n": 64,
+   "by_source": {
+    "archived": 29,
+    "live_2023": 35
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.515411619695402,
+     "brier": 0.1731648574007609,
+     "accuracy": 0.6875
+    },
+    "pinnacle": {
+     "log_loss": 0.4875696448884363,
+     "brier": 0.16237398063119235,
+     "accuracy": 0.765625
+    },
+    "ibm": {
+     "log_loss": 0.6011930590659571,
+     "brier": 0.2065067237442432,
+     "accuracy": 0.71875
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": -0.08578143937055517,
+     "ci95": [
+      -0.14680112531457806,
+      -0.01884977844090636
+     ],
+     "n": 64
+    },
+    "pinnacle_minus_ibm": {
+     "difference": -0.11362341417752085,
+     "ci95": [
+      -0.17177024501788632,
+      -0.05125564586690772
+     ],
+     "n": 64
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.02784197480696568,
+     "ci95": [
+      -0.001463443556435591,
+      0.05815162141143512
+     ],
+     "n": 64
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 27,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.44034663231637383,
+       "brier": 0.14286077803986336,
+       "accuracy": 0.7407407407407407
+      },
+      "pinnacle": {
+       "log_loss": 0.41619824840154346,
+       "brier": 0.13331170435706965,
+       "accuracy": 0.8518518518518519
+      },
+      "ibm": {
+       "log_loss": 0.5402654795117384,
+       "brier": 0.17764198833861555,
+       "accuracy": 0.8148148148148148
+      }
+     }
+    },
+    "WS": {
+     "n": 37,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5701887726476658,
+       "brier": 0.19527864504249692,
+       "accuracy": 0.6486486486486487
+      },
+      "pinnacle": {
+       "log_loss": 0.53965147475725,
+       "brier": 0.18358158764203866,
+       "accuracy": 0.7027027027027027
+      },
+      "ibm": {
+       "log_loss": 0.6456537252271438,
+       "brier": 0.227570179310512,
+       "accuracy": 0.6486486486486487
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 14,
+    "alcaraz_right": 6,
+    "ibm_right": 8
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.6809321420952678,
+     "favourite_max": 0.9534949545045
+    },
+    "pinnacle": {
+     "favourite_mean": 0.6896834774046854,
+     "favourite_max": 0.9725372318622764
+    },
+    "ibm": {
+     "favourite_mean": 0.6078402017300345,
+     "favourite_max": 0.8545321482920838
+    }
+   }
+  },
+  "S1_live_2023_strict_only": {
+   "n": 36,
+   "by_source": {
+    "archived": 0,
+    "live_2023": 36
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.5645874877842009,
+     "brier": 0.19564309508087518,
+     "accuracy": 0.6111111111111112
+    },
+    "pinnacle": {
+     "log_loss": 0.5248668839450529,
+     "brier": 0.18022741258981861,
+     "accuracy": 0.7222222222222222
+    },
+    "ibm": {
+     "log_loss": 0.578353119450007,
+     "brier": 0.19703412168335455,
+     "accuracy": 0.6944444444444444
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": -0.013765631665806154,
+     "ci95": [
+      -0.10098202630500182,
+      0.07856329684869515
+     ],
+     "n": 36
+    },
+    "pinnacle_minus_ibm": {
+     "difference": -0.05348623550495419,
+     "ci95": [
+      -0.14436916919306314,
+      0.041446663518377586
+     ],
+     "n": 36
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.03972060383914803,
+     "ci95": [
+      -0.0018413598686154932,
+      0.08283283444622792
+     ],
+     "n": 36
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 11,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.49785152763302565,
+       "brier": 0.1694196884718382,
+       "accuracy": 0.6363636363636364
+      },
+      "pinnacle": {
+       "log_loss": 0.4425786499405227,
+       "brier": 0.14652024603227407,
+       "accuracy": 0.8181818181818182
+      },
+      "ibm": {
+       "log_loss": 0.4653459111568104,
+       "brier": 0.14429494201795515,
+       "accuracy": 0.8181818181818182
+      }
+     }
+    },
+    "WS": {
+     "n": 25,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5939513102507179,
+       "brier": 0.20718139398885146,
+       "accuracy": 0.6
+      },
+      "pinnacle": {
+       "log_loss": 0.561073706907046,
+       "brier": 0.19505856587513826,
+       "accuracy": 0.68
+      },
+      "ibm": {
+       "log_loss": 0.6280762910990135,
+       "brier": 0.22023936073613032,
+       "accuracy": 0.64
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 9,
+    "alcaraz_right": 3,
+    "ibm_right": 6
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.6760523007533021,
+     "favourite_max": 0.9534949545045
+    },
+    "pinnacle": {
+     "favourite_mean": 0.6862013627035647,
+     "favourite_max": 0.9709401709401709
+    },
+    "ibm": {
+     "favourite_mean": 0.6287401957963463,
+     "favourite_max": 0.8545321482920838
+    }
+   }
+  },
+  "S2_archived_only": {
+   "n": 29,
+   "by_source": {
+    "archived": 29,
+    "live_2023": 0
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.4550120665994623,
+     "brier": 0.14519516435116023,
+     "accuracy": 0.7931034482758621
+    },
+    "pinnacle": {
+     "log_loss": 0.4394167329681173,
+     "brier": 0.13888409583811934,
+     "accuracy": 0.8275862068965517
+    },
+    "ibm": {
+     "log_loss": 0.6284669344693556,
+     "brier": 0.21765240597165053,
+     "accuracy": 0.7586206896551724
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": -0.1734548678698933,
+     "ci95": [
+      -0.23873773890984526,
+      -0.1084393114594253
+     ],
+     "n": 29
+    },
+    "pinnacle_minus_ibm": {
+     "difference": -0.18905020150123827,
+     "ci95": [
+      -0.24575194357093808,
+      -0.12816664411180043
+     ],
+     "n": 29
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.01559533363134499,
+     "ci95": [
+      -0.020849749255124308,
+      0.05374861766255594
+     ],
+     "n": 29
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 16,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.40081201678617573,
+       "brier": 0.12460152711788067,
+       "accuracy": 0.8125
+      },
+      "pinnacle": {
+       "log_loss": 0.39806172234349513,
+       "brier": 0.1242308319553666,
+       "accuracy": 0.875
+      },
+      "ibm": {
+       "log_loss": 0.5917726827557513,
+       "brier": 0.2005680826840696,
+       "accuracy": 0.8125
+      }
+     }
+    },
+    "WS": {
+     "n": 13,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5217198202158151,
+       "brier": 0.17054117940750432,
+       "accuracy": 0.7692307692307693
+      },
+      "pinnacle": {
+       "log_loss": 0.4903152075830369,
+       "brier": 0.15691888215535346,
+       "accuracy": 0.7692307692307693
+      },
+      "ibm": {
+       "log_loss": 0.6736290904245609,
+       "brier": 0.23867926540251938,
+       "accuracy": 0.6923076923076923
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 5,
+    "alcaraz_right": 3,
+    "ibm_right": 2
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.6837220058502262,
+     "favourite_max": 0.9383670435678407
+    },
+    "pinnacle": {
+     "favourite_mean": 0.6925693842962132,
+     "favourite_max": 0.9725372318622764
+    },
+    "ibm": {
+     "favourite_mean": 0.5804382483601148,
+     "favourite_max": 0.7187319148922069
+    }
+   }
+  },
+  "S4_plus_lenient_first_ball": {
+   "n": 234,
+   "by_source": {
+    "archived": 29,
+    "live_2023": 205
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.5408716908945943,
+     "brier": 0.18288152724316473,
+     "accuracy": 0.7094017094017094
+    },
+    "pinnacle": {
+     "log_loss": 0.5160158059772139,
+     "brier": 0.17307637105900966,
+     "accuracy": 0.7393162393162394
+    },
+    "ibm": {
+     "log_loss": 0.6129731146090813,
+     "brier": 0.21180257832352448,
+     "accuracy": 0.6923076923076923
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": -0.072101423714487,
+     "ci95": [
+      -0.10927007631592651,
+      -0.034848383586100325
+     ],
+     "n": 234
+    },
+    "pinnacle_minus_ibm": {
+     "difference": -0.09695730863186748,
+     "ci95": [
+      -0.13570123125637878,
+      -0.05782028351240678
+     ],
+     "n": 234
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.024855884917380486,
+     "ci95": [
+      0.005488841999146953,
+      0.04415121925069915
+     ],
+     "n": 234
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 111,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5166510312873398,
+       "brier": 0.1745635244864595,
+       "accuracy": 0.7207207207207207
+      },
+      "pinnacle": {
+       "log_loss": 0.49189137435294616,
+       "brier": 0.16450418778194778,
+       "accuracy": 0.7477477477477478
+      },
+      "ibm": {
+       "log_loss": 0.6081630336019448,
+       "brier": 0.20963911830347132,
+       "accuracy": 0.6936936936936937
+      }
+     }
+    },
+    "WS": {
+     "n": 123,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5627293593206532,
+       "brier": 0.19038801753580117,
+       "accuracy": 0.6991869918699187
+      },
+      "pinnacle": {
+       "log_loss": 0.537786634516187,
+       "brier": 0.1808122437724557,
+       "accuracy": 0.7317073170731707
+      },
+      "ibm": {
+       "log_loss": 0.6173139194203997,
+       "brier": 0.21375496907332858,
+       "accuracy": 0.6910569105691057
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 54,
+    "alcaraz_right": 29,
+    "ibm_right": 25
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.694380208178609,
+     "favourite_max": 0.9542561911200967
+    },
+    "pinnacle": {
+     "favourite_mean": 0.7153271966475471,
+     "favourite_max": 0.9745762711864405
+    },
+    "ibm": {
+     "favourite_mean": 0.6221977301524961,
+     "favourite_max": 0.8636277806765635
+    }
+   }
+  },
+  "S5_plus_lenient_and_other_unknown": {
+   "n": 266,
+   "by_source": {
+    "archived": 29,
+    "live_2023": 237
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.539866673304724,
+     "brier": 0.1824989173469983,
+     "accuracy": 0.706766917293233
+    },
+    "pinnacle": {
+     "log_loss": 0.5205219438272448,
+     "brier": 0.17530328475829926,
+     "accuracy": 0.7255639097744361
+    },
+    "ibm": {
+     "log_loss": 0.6205202263718139,
+     "brier": 0.21543308618063267,
+     "accuracy": 0.6654135338345865
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": -0.08065355306708993,
+     "ci95": [
+      -0.11444222818246652,
+      -0.047198585770985034
+     ],
+     "n": 266
+    },
+    "pinnacle_minus_ibm": {
+     "difference": -0.0999982825445691,
+     "ci95": [
+      -0.13712749832408364,
+      -0.06267592218329171
+     ],
+     "n": 266
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.01934472947747917,
+     "ci95": [
+      -0.00016382795401323393,
+      0.03891385325966563
+     ],
+     "n": 266
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 135,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5195866684616693,
+       "brier": 0.17590648985179325,
+       "accuracy": 0.7111111111111111
+      },
+      "pinnacle": {
+       "log_loss": 0.5046573095125788,
+       "brier": 0.170558805912191,
+       "accuracy": 0.7185185185185186
+      },
+      "ibm": {
+       "log_loss": 0.6173275274108359,
+       "brier": 0.21400409666387085,
+       "accuracy": 0.6592592592592592
+      }
+     }
+    },
+    "WS": {
+     "n": 131,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5607659149368794,
+       "brier": 0.18929264033824014,
+       "accuracy": 0.7022900763358778
+      },
+      "pinnacle": {
+       "log_loss": 0.5368709944568625,
+       "brier": 0.18019263318749476,
+       "accuracy": 0.732824427480916
+      },
+      "ibm": {
+       "log_loss": 0.6238104123239668,
+       "brier": 0.2169057089650819,
+       "accuracy": 0.6717557251908397
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 63,
+    "alcaraz_right": 37,
+    "ibm_right": 26
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.6919214059309843,
+     "favourite_max": 0.9542561911200967
+    },
+    "pinnacle": {
+     "favourite_mean": 0.7138607768098311,
+     "favourite_max": 0.9745762711864405
+    },
+    "ibm": {
+     "favourite_mean": 0.6190719489134667,
+     "favourite_max": 0.8636277806765635
+    }
+   }
+  },
+  "S3_in_play_or_post_only": {
+   "n": 5,
+   "by_source": {
+    "archived": 0,
+    "live_2023": 5
+   },
+   "scores": {
+    "alcaraz": {
+     "log_loss": 0.6110165890422756,
+     "brier": 0.2105639932646463,
+     "accuracy": 0.6
+    },
+    "pinnacle": {
+     "log_loss": 0.551988613135049,
+     "brier": 0.18577043094958062,
+     "accuracy": 0.6
+    },
+    "ibm": {
+     "log_loss": 0.5166527327801275,
+     "brier": 0.16700041275354033,
+     "accuracy": 0.8
+    }
+   },
+   "paired_log_loss": {
+    "alcaraz_minus_ibm": {
+     "difference": 0.09436385626214819,
+     "ci95": [
+      -0.013381100747150553,
+      0.20385442446892968
+     ],
+     "n": 5
+    },
+    "pinnacle_minus_ibm": {
+     "difference": 0.03533588035492155,
+     "ci95": [
+      -0.10449339991032942,
+      0.21995939520313118
+     ],
+     "n": 5
+    },
+    "alcaraz_minus_pinnacle": {
+     "difference": 0.05902797590722664,
+     "ci95": [
+      -0.04263585920067518,
+      0.15226431234190602
+     ],
+     "n": 5
+    }
+   },
+   "by_event": {
+    "MS": {
+     "n": 4,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.5682950036714555,
+       "brier": 0.18963779395059271,
+       "accuracy": 0.75
+      },
+      "pinnacle": {
+       "log_loss": 0.4927444905545166,
+       "brier": 0.1577699327064043,
+       "accuracy": 0.75
+      },
+      "ibm": {
+       "log_loss": 0.4281754118976836,
+       "brier": 0.1242777896403595,
+       "accuracy": 1.0
+      }
+     }
+    },
+    "WS": {
+     "n": 1,
+     "scores": {
+      "alcaraz": {
+       "log_loss": 0.7819029305255563,
+       "brier": 0.2942687905208608,
+       "accuracy": 0.0
+      },
+      "pinnacle": {
+       "log_loss": 0.7889651034571786,
+       "brier": 0.297772423922286,
+       "accuracy": 0.0
+      },
+      "ibm": {
+       "log_loss": 0.8705620163099027,
+       "brier": 0.33789090520626364,
+       "accuracy": 0.0
+      }
+     }
+    }
+   },
+   "picks_differ_alcaraz_vs_ibm": {
+    "n": 1,
+    "alcaraz_right": 0,
+    "ibm_right": 1
+   },
+   "sharpness": {
+    "alcaraz": {
+     "favourite_mean": 0.6038125762811892,
+     "favourite_max": 0.6645024118791863
+    },
+    "pinnacle": {
+     "favourite_mean": 0.6662073501543306,
+     "favourite_max": 0.7803163444639719
+    },
+    "ibm": {
+     "favourite_mean": 0.6414930988338061,
+     "favourite_max": 0.7669830109900135
+    }
+   }
+  }
+ },
+ "supplement_from_reconstruction": {
+  "pooled_primary": {
+   "by_round": {
+    "F": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.4391936214549719,
+      "pinnacle": 0.4170527232805524,
+      "ibm": 0.6451441493637177
+     }
+    },
+    "QF": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.5700487478477523,
+      "pinnacle": 0.4629030076961594,
+      "ibm": 0.6605526187609254
+     }
+    },
+    "R128": {
+     "n": 18,
+     "log_loss": {
+      "alcaraz": 0.5182989258090237,
+      "pinnacle": 0.5030975312546931,
+      "ibm": 0.6277368312505627
+     }
+    },
+    "R16": {
+     "n": 9,
+     "log_loss": {
+      "alcaraz": 0.49682797164826353,
+      "pinnacle": 0.43101308546254746,
+      "ibm": 0.6510227891244806
+     }
+    },
+    "R32": {
+     "n": 22,
+     "log_loss": {
+      "alcaraz": 0.47263774166134254,
+      "pinnacle": 0.4701937094619433,
+      "ibm": 0.6055558154262923
+     }
+    },
+    "R64": {
+     "n": 13,
+     "log_loss": {
+      "alcaraz": 0.5983260434812822,
+      "pinnacle": 0.5419512770748505,
+      "ibm": 0.5146125390836714
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 14,
+    "alcaraz_minus_ibm": [
+     -0.15567771120341342,
+     -0.01557248049734468
+    ],
+    "pinnacle_minus_ibm": [
+     -0.1743900546801827,
+     -0.053509826331633356
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.0005181523099455081,
+     0.05491131811853042
+    ]
+   }
+  },
+  "S1_live_2023_strict_only": {
+   "by_round": {
+    "R128": {
+     "n": 17,
+     "log_loss": {
+      "alcaraz": 0.5450450919111897,
+      "pinnacle": 0.5310534495913757,
+      "ibm": 0.6437054722321586
+     }
+    },
+    "R16": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.5341558311099104,
+      "pinnacle": 0.43383580523737986,
+      "ibm": 0.5698976195903064
+     }
+    },
+    "R32": {
+     "n": 5,
+     "log_loss": {
+      "alcaraz": 0.5493977202748853,
+      "pinnacle": 0.47761935435161557,
+      "ibm": 0.5235717289151044
+     }
+    },
+    "R64": {
+     "n": 13,
+     "log_loss": {
+      "alcaraz": 0.5983260434812822,
+      "pinnacle": 0.5419512770748505,
+      "ibm": 0.5146125390836714
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 7,
+    "alcaraz_minus_ibm": [
+     -0.1017912264320689,
+     0.05765891769090062
+    ],
+    "pinnacle_minus_ibm": [
+     -0.12064092801279272,
+     0.01956709051938391
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.003043478741751756,
+     0.06966114989029794
+    ]
+   }
+  },
+  "S2_archived_only": {
+   "by_round": {
+    "F": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.4391936214549719,
+      "pinnacle": 0.4170527232805524,
+      "ibm": 0.6451441493637177
+     }
+    },
+    "QF": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.5700487478477523,
+      "pinnacle": 0.4629030076961594,
+      "ibm": 0.6605526187609254
+     }
+    },
+    "R128": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.06361410207220285,
+      "pinnacle": 0.027846919531089035,
+      "ibm": 0.3562699345634338
+     }
+    },
+    "R16": {
+     "n": 9,
+     "log_loss": {
+      "alcaraz": 0.49682797164826353,
+      "pinnacle": 0.43101308546254746,
+      "ibm": 0.6510227891244806
+     }
+    },
+    "R32": {
+     "n": 17,
+     "log_loss": {
+      "alcaraz": 0.45006127736324164,
+      "pinnacle": 0.4680096962590985,
+      "ibm": 0.62966878204723
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 8,
+    "alcaraz_minus_ibm": [
+     -0.19773228177475022,
+     -0.1519719693367281
+    ],
+    "pinnacle_minus_ibm": [
+     -0.2391374890440776,
+     -0.15387167398103027
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.008083718098283907,
+     0.05331655531410336
+    ]
+   }
+  },
+  "S4_plus_lenient_first_ball": {
+   "by_round": {
+    "F": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.4391936214549719,
+      "pinnacle": 0.4170527232805524,
+      "ibm": 0.6451441493637177
+     }
+    },
+    "QF": {
+     "n": 5,
+     "log_loss": {
+      "alcaraz": 0.8206273890467507,
+      "pinnacle": 0.7201075613243539,
+      "ibm": 0.7501883824452262
+     }
+    },
+    "R128": {
+     "n": 104,
+     "log_loss": {
+      "alcaraz": 0.5564707615751686,
+      "pinnacle": 0.5495676627965751,
+      "ibm": 0.6328252412490685
+     }
+    },
+    "R16": {
+     "n": 15,
+     "log_loss": {
+      "alcaraz": 0.5342392730396421,
+      "pinnacle": 0.49332885095377976,
+      "ibm": 0.6158305557618597
+     }
+    },
+    "R32": {
+     "n": 47,
+     "log_loss": {
+      "alcaraz": 0.45915766111006423,
+      "pinnacle": 0.4293738389276582,
+      "ibm": 0.5484590907261995
+     }
+    },
+    "R64": {
+     "n": 61,
+     "log_loss": {
+      "alcaraz": 0.5593449164433765,
+      "pinnacle": 0.515826618684026,
+      "ibm": 0.61347022404376
+     }
+    },
+    "SF": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.43464682801518234,
+      "pinnacle": 0.5291442042896755,
+      "ibm": 0.7890783998034245
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 16,
+    "alcaraz_minus_ibm": [
+     -0.12103100901666969,
+     -0.03693273036369327
+    ],
+    "pinnacle_minus_ibm": [
+     -0.14046466184038633,
+     -0.07114656136175666
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.0036496984435487297,
+     0.04443795769698169
+    ]
+   }
+  },
+  "S5_plus_lenient_and_other_unknown": {
+   "by_round": {
+    "F": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.4391936214549719,
+      "pinnacle": 0.4170527232805524,
+      "ibm": 0.6451441493637177
+     }
+    },
+    "QF": {
+     "n": 9,
+     "log_loss": {
+      "alcaraz": 0.6512943951226784,
+      "pinnacle": 0.6002542659491724,
+      "ibm": 0.7400853186822025
+     }
+    },
+    "R128": {
+     "n": 127,
+     "log_loss": {
+      "alcaraz": 0.5549357236398205,
+      "pinnacle": 0.5506309046654073,
+      "ibm": 0.6370924814988878
+     }
+    },
+    "R16": {
+     "n": 15,
+     "log_loss": {
+      "alcaraz": 0.5342392730396421,
+      "pinnacle": 0.49332885095377976,
+      "ibm": 0.6158305557618597
+     }
+    },
+    "R32": {
+     "n": 48,
+     "log_loss": {
+      "alcaraz": 0.4629050848407538,
+      "pinnacle": 0.4353542616987223,
+      "ibm": 0.5489476206818072
+     }
+    },
+    "R64": {
+     "n": 64,
+     "log_loss": {
+      "alcaraz": 0.5532988085485044,
+      "pinnacle": 0.514413077478878,
+      "ibm": 0.6169092447784625
+     }
+    },
+    "SF": {
+     "n": 2,
+     "log_loss": {
+      "alcaraz": 0.5913490520925966,
+      "pinnacle": 0.7449983821118706,
+      "ibm": 0.8862936260319857
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 17,
+    "alcaraz_minus_ibm": [
+     -0.1227337689286699,
+     -0.05185554488436438
+    ],
+    "pinnacle_minus_ibm": [
+     -0.13859176564709666,
+     -0.0779412036914339
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.00038841903300099916,
+     0.03492598382209482
+    ]
+   }
+  },
+  "S3_in_play_or_post_only": {
+   "by_round": {
+    "F": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.881511552654703,
+      "pinnacle": 0.9808292530117262,
+      "ibm": 0.6023467366256009
+     }
+    },
+    "R128": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.4087167712203957,
+      "pinnacle": 0.36699882728036837,
+      "ibm": 0.2652906278080257
+     }
+    },
+    "R16": {
+     "n": 1,
+     "log_loss": {
+      "alcaraz": 0.7819029305255563,
+      "pinnacle": 0.7889651034571786,
+      "ibm": 0.8705620163099027
+     }
+    },
+    "SF": {
+     "n": 2,
+     "log_loss": {
+      "alcaraz": 0.49147584540536154,
+      "pinnacle": 0.3115749409629859,
+      "ibm": 0.4225321415785539
+     }
+    }
+   },
+   "day_cluster_bootstrap": {
+    "clusters": 4,
+    "alcaraz_minus_ibm": [
+     -0.02561796993988482,
+     0.2112954797207361
+    ],
+    "pinnacle_minus_ibm": [
+     -0.1011704380279534,
+     0.263462659076413
+    ],
+    "alcaraz_minus_pinnacle": [
+     -0.06405878928276053,
+     0.15319189338894737
+    ]
+   }
+  }
+ },
+ "rows": [
+  {
+   "lab_match_id": "2022-560/100",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R128",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/196",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/197",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/198",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/199",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/200",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/201",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/202",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/203",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/222",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "QF",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/226",
+   "event": "MS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "F",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/204",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/205",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/207",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/208",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/209",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/210",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2022-560/211",
+   "event": "WS",
+   "year": 2022,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-560/206",
+   "event": "MS",
+   "year": 2023,
+   "site": "usopen",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/216",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/217",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/218",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/219",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/209",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/212",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/213",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/214",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/215",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/219",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R16",
+   "source": "archived"
+  },
+  {
+   "lab_match_id": "2023-540/100",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/112",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/126",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/137",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/164",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/171",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/177",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/182",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/189",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/201",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/207",
+   "event": "MS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/100",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/109",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/111",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/116",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/117",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/122",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/123",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/124",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/133",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/144",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/152",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/158",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/159",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R128",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/166",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/173",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/178",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/182",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/188",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/189",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/192",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/193",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R64",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/196",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/203",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "live_2023"
+  },
+  {
+   "lab_match_id": "2023-540/206",
+   "event": "WS",
+   "year": 2023,
+   "site": "wimbledon",
+   "round": "R32",
+   "source": "live_2023"
+  }
+ ],
+ "note": "Aggregates and match identities only; per-row probabilities and prices stay in the research archive. Source data: AELTC/IBM Match Insights (wimbledon.com), USTA/IBM (usopen.org, archived copies only), Internet Archive."
+}
