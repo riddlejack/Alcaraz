@@ -7,7 +7,7 @@
   },
   "source": {
     "accepted_runs": {
-      "ATP": "work/PHASE1_ATP_20260922/ladder_root/run",
+      "ATP": "work/EXT2025/ladder/roots/ATP_2017_2025/run",
       "WTA": "experiments/runs/WTA02/attempt_002/run"
     },
     "ladder_config": "configs/ladder.json",
@@ -26,40 +26,40 @@
       ],
       "overall": {
         "atp_full_tier": {
-          "accuracy": 0.6651308124139392,
-          "correct": 12559,
-          "n": 18882,
+          "accuracy": 0.6639670427414447,
+          "correct": 14183,
+          "n": 21361,
           "ties": 0
         },
         "atp_full_tier_entry": {
-          "accuracy": 0.6676199555131872,
-          "correct": 12606,
-          "n": 18882,
+          "accuracy": 0.6662609428397547,
+          "correct": 14232,
+          "n": 21361,
           "ties": 0
         },
         "atp_p0": {
-          "accuracy": 0.6539826289587968,
-          "correct": 12347,
-          "n": 18882,
+          "accuracy": 0.6527082065446375,
+          "correct": 13941,
+          "n": 21361,
           "ties": 3
         },
         "atp_p1": {
-          "accuracy": 0.6622179853829043,
-          "correct": 12504,
-          "n": 18882,
+          "accuracy": 0.6600814568606339,
+          "correct": 14100,
+          "n": 21361,
           "ties": 0
         },
         "elo": {
-          "accuracy": 0.6455354305687957,
-          "correct": 12185,
-          "n": 18882,
+          "accuracy": 0.6436028275829784,
+          "correct": 13744,
+          "n": 21361,
           "ties": 8
         },
         "pinnacle_normalised": {
-          "accuracy": 0.6804099142040038,
-          "correct": 12803,
-          "n": 18882,
-          "ties": 89
+          "accuracy": 0.6793455362576658,
+          "correct": 14461,
+          "n": 21361,
+          "ties": 101
         }
       },
       "per_year": [
@@ -398,6 +398,48 @@
           },
           "n": 2671,
           "year": 2024
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6551028640580879,
+              "correct": 1624,
+              "n": 2479,
+              "ties": 0
+            },
+            "atp_full_tier_entry": {
+              "accuracy": 0.6559096409842678,
+              "correct": 1626,
+              "n": 2479,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6430012101653892,
+              "correct": 1594,
+              "n": 2479,
+              "ties": 0
+            },
+            "atp_p1": {
+              "accuracy": 0.6438079870915692,
+              "correct": 1596,
+              "n": 2479,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6288826139572409,
+              "correct": 1559,
+              "n": 2479,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6712384025816862,
+              "correct": 1658,
+              "n": 2479,
+              "ties": 12
+            }
+          },
+          "n": 2479,
+          "year": 2025
         }
       ]
     },

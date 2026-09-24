@@ -29,22 +29,23 @@ Rungs:
 | 2022 | 2,525 | 0.6162 | 0.6058 | 0.5991 | 0.5926 | 0.5928 | 0.5824 | 0.5822 |
 | 2023 | 2,672 | 0.6267 | 0.6116 | 0.6050 | 0.5998 | 0.5973 | 0.5874 | 0.5874 |
 | 2024 | 2,671 | 0.6220 | 0.6108 | 0.6050 | 0.5968 | 0.5959 | 0.5836 | 0.5833 |
-| **all, match-weighted** | 18,882 | **0.6237** | **0.6121** | **0.6053** | **0.5984** | **0.5974** | **0.5873** | **0.5873** |
-| all, equal-year mean | 8 years | 0.6233 | 0.6119 | 0.6051 | 0.5982 | 0.5971 | 0.5865 | 0.5866 |
+| 2025 | 2,479 | 0.6339 | 0.6301 | 0.6257 | 0.6157 | 0.6136 | 0.6025 | 0.6031 |
+| **all, match-weighted** | 21,361 | **0.6249** | **0.6142** | **0.6077** | **0.6004** | **0.5993** | **0.5890** | **0.5891** |
+| all, equal-year mean | 9 years | 0.6244 | 0.6139 | 0.6073 | 0.6001 | 0.5989 | 0.5883 | 0.5884 |
 
 ### Paired contrasts (log loss delta, negative favours the first)
 
 | contrast | match-weighted | equal-year | years negative | interval |
 |---|---:|---:|---:|---:|
-| elo_minus_atp_p0 | +0.0116 | +0.0114 | 0/8 | [+0.0093, +0.0138] |
-| elo_minus_pinnacle_normalised | +0.0364 | +0.0368 | 0/8 | [+0.0331, +0.0398] |
-| atp_p0_minus_atp_p1 | +0.0068 | +0.0068 | 0/8 | [+0.0051, +0.0085] |
-| atp_p0_minus_pinnacle_normalised | +0.0248 | +0.0254 | 0/8 | [+0.0220, +0.0276] |
-| atp_p1_minus_atp_full_tier | +0.0069 | +0.0069 | 0/8 | [+0.0051, +0.0086] |
-| atp_p1_minus_pinnacle_normalised | +0.0181 | +0.0185 | 0/8 | [+0.0154, +0.0206] |
-| atp_full_tier_minus_atp_full_tier_entry | +0.0011 | +0.0011 | 2/8 | [+0.0005, +0.0016] |
-| atp_full_tier_minus_pinnacle_normalised | +0.0112 | +0.0117 | 0/8 | [+0.0090, +0.0134] |
-| atp_full_tier_entry_minus_pinnacle_normalised | +0.0101 | +0.0106 | 0/8 | [+0.0080, +0.0122] |
+| elo_minus_atp_p0 | +0.0107 | +0.0106 | 0/9 | [+0.0086, +0.0129] |
+| elo_minus_pinnacle_normalised | +0.0358 | +0.0362 | 0/9 | [+0.0328, +0.0389] |
+| atp_p0_minus_atp_p1 | +0.0065 | +0.0065 | 0/9 | [+0.0049, +0.0080] |
+| atp_p0_minus_pinnacle_normalised | +0.0252 | +0.0256 | 0/9 | [+0.0225, +0.0277] |
+| atp_p1_minus_atp_full_tier | +0.0073 | +0.0072 | 0/9 | [+0.0056, +0.0088] |
+| atp_p1_minus_pinnacle_normalised | +0.0187 | +0.0191 | 0/9 | [+0.0163, +0.0210] |
+| atp_full_tier_minus_atp_full_tier_entry | +0.0012 | +0.0012 | 2/9 | [+0.0006, +0.0017] |
+| atp_full_tier_minus_pinnacle_normalised | +0.0114 | +0.0118 | 0/9 | [+0.0094, +0.0136] |
+| atp_full_tier_entry_minus_pinnacle_normalised | +0.0102 | +0.0106 | 0/9 | [+0.0082, +0.0123] |
 
 ## WTA
 
@@ -92,25 +93,26 @@ Rungs:
 | 2022 | 2,307 | 0.6301 | 0.6171 | 0.6134 | 0.6113 | 0.5915 | 0.5918 |
 | 2023 | 2,439 | 0.6224 | 0.6182 | 0.6122 | 0.6122 | 0.5903 | 0.5903 |
 | 2024 | 2,388 | 0.6253 | 0.6117 | 0.6054 | 0.6043 | 0.5884 | 0.5882 |
-| **all, match-weighted** | 12,785 | **0.6258** | **0.6157** | **0.6108** | **0.6097** | **0.5904** | **0.5902** |
-| all, equal-year mean | 6 years | 0.6261 | 0.6160 | 0.6114 | 0.6101 | 0.5916 | 0.5915 |
+| 2025 | 2,243 | 0.6277 | 0.6237 | 0.6161 | 0.6160 | 0.5965 | 0.5964 |
+| **all, match-weighted** | 15,028 | **0.6261** | **0.6169** | **0.6116** | **0.6106** | **0.5913** | **0.5911** |
+| all, equal-year mean | 7 years | 0.6263 | 0.6171 | 0.6121 | 0.6110 | 0.5923 | 0.5922 |
 
 ### Paired contrasts (log loss delta, negative favours the first)
 
 | contrast | match-weighted | equal-year | years negative | interval |
 |---|---:|---:|---:|---:|
-| elo_minus_wta_base | +0.0101 | +0.0101 | 0/6 | [+0.0074, +0.0128] |
-| elo_minus_pinnacle_normalised | +0.0355 | +0.0344 | 0/6 | [+0.0315, +0.0393] |
-| wta_base_minus_wta_full | +0.0049 | +0.0045 | 0/6 | [+0.0032, +0.0065] |
-| wta_base_minus_pinnacle_normalised | +0.0253 | +0.0243 | 0/6 | [+0.0219, +0.0287] |
-| wta_full_minus_wta_full_entry | +0.0011 | +0.0013 | 1/6 | [+0.0003, +0.0020] |
-| wta_full_minus_pinnacle_normalised | +0.0204 | +0.0198 | 0/6 | [+0.0173, +0.0236] |
-| wta_full_entry_minus_pinnacle_normalised | +0.0193 | +0.0185 | 0/6 | [+0.0163, +0.0224] |
+| elo_minus_wta_base | +0.0092 | +0.0092 | 0/7 | [+0.0067, +0.0116] |
+| elo_minus_pinnacle_normalised | +0.0348 | +0.0340 | 0/7 | [+0.0313, +0.0386] |
+| wta_base_minus_wta_full | +0.0053 | +0.0050 | 0/7 | [+0.0038, +0.0069] |
+| wta_base_minus_pinnacle_normalised | +0.0256 | +0.0247 | 0/7 | [+0.0226, +0.0289] |
+| wta_full_minus_wta_full_entry | +0.0010 | +0.0011 | 1/7 | [+0.0002, +0.0017] |
+| wta_full_minus_pinnacle_normalised | +0.0203 | +0.0198 | 0/7 | [+0.0173, +0.0233] |
+| wta_full_entry_minus_pinnacle_normalised | +0.0194 | +0.0187 | 0/7 | [+0.0165, +0.0223] |
 
 ## Research degrees of freedom
 
 - Leaderboard entries in the archive: 145
-- Experiment ledger entries: 125
+- Experiment ledger entries: 133
 - Leaderboard entries on cohorts naming a year in 2017–2024: 130
 
 | family | entries |
