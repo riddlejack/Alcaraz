@@ -3,6 +3,10 @@
 This tool reads only saved forecasts and labels. It does not fit, select, calibrate,
 or issue a model. The matched population is the same identical priced cohort used by
 ``tennislab report --ladder`` and is checked against ``docs/ladder.json`` by year.
+
+``--run TOUR=RUN_ROOT`` (archive-relative, repeatable) replaces one accepted run root, for
+example a composed root that adds a target year; the root used is recorded in
+``source.accepted_runs``. Without it the accepted roots below are read, as before.
 """
 
 from __future__ import annotations
@@ -58,6 +62,7 @@ def build_accuracy(
     configs_dir: Path,
     archive_root: Path,
     ladder: Mapping[str, Any],
+    accepted_runs: Mapping[str, Path] = ACCEPTED_RUNS,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {
         "definition": {
@@ -69,15 +74,15 @@ def build_accuracy(
         "source": {
             "ladder_config": "configs/ladder.json",
             "ladder_counts": "docs/ladder.json",
-            "accepted_runs": {tour: str(path) for tour, path in ACCEPTED_RUNS.items()},
+            "accepted_runs": {tour: str(path) for tour, path in accepted_runs.items()},
             "note": "saved forecasts and labels only; no fit, selection, calibration, or issuance",
         },
         "tours": {},
     }
     for tour, spec in config["tours"].items():
-        if tour not in ACCEPTED_RUNS or tour not in ladder["tours"]:
+        if tour not in accepted_runs or tour not in ladder["tours"]:
             continue
-        run_root = archive_root / ACCEPTED_RUNS[tour]
+        run_root = archive_root / accepted_runs[tour]
         labels = load_labels(run_root)
         rungs = [load_rung(configs_dir, name) for name in spec["rungs"]]
         reference = spec["reference"]
@@ -165,12 +170,27 @@ def main() -> int:
     parser.add_argument("--output-csv", type=Path, default=Path("docs/winner_accuracy.csv"))
     archive = os.environ.get("TENNISLAB_ARCHIVE")
     parser.add_argument("--archive-root", type=Path, default=Path(archive) if archive else None)
+    parser.add_argument(
+        "--run",
+        action="append",
+        default=[],
+        metavar="TOUR=RUN_ROOT",
+        help="replace one accepted run root (archive-relative), e.g. a composed 2017-2025 ATP root",
+    )
     args = parser.parse_args()
     if args.archive_root is None:
         raise ChainError("pass --archive-root or set TENNISLAB_ARCHIVE")
     config = read_config(args.config)
     ladder = json.loads(args.ladder.read_text(encoding="utf-8"))
-    result = build_accuracy(config, args.configs_dir, args.archive_root, ladder)
+    accepted_runs = dict(ACCEPTED_RUNS)
+    for item in args.run:
+        tour, _, root = item.partition("=")
+        if tour.upper() not in ACCEPTED_RUNS or not root or Path(root).is_absolute():
+            raise ChainError(
+                f"--run needs TOUR=ARCHIVE_RELATIVE_ROOT with TOUR in {sorted(ACCEPTED_RUNS)}: {item}"
+            )
+        accepted_runs[tour.upper()] = Path(root)
+    result = build_accuracy(config, args.configs_dir, args.archive_root, ladder, accepted_runs)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     args.output_csv.parent.mkdir(parents=True, exist_ok=True)
     args.output_json.write_text(
