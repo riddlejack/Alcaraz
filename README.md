@@ -80,7 +80,10 @@ result. The entry-status block passed again (−0.0012 against the previous vers
 two systems, weighted on the three preceding seasons only, scores 0.0024 below Alcaraz
 alone [−0.0040, −0.0008] on 7,181 WTA matches from 2022 to 2024; it is published as a
 research result, not the default model. Against the market, the women's model trails
-Pinnacle by 0.020 on 2,344 matches from 2025–26 (0.6153 against 0.5953).
+Pinnacle by 0.020 on 2,344 matches from 2025–26 (0.6153 against 0.5953); run unchanged on
+the 2025 season with the entry-status block, it trails by 0.0195 [+0.0120, +0.0272] on
+2,243 priced matches, inside its 2019–2024 range
+([details](docs/benchmarks/REFIT2025_RESULTS.md)).
 
 The IBM row is the smallest sample and needs the most care. IBM's Grand Slam "Likelihood to
 Win" is not kept fixed: every 2024 and 2025 file on wimbledon.com was re-published after the
