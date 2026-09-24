@@ -18,6 +18,13 @@ with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
 
     python3 tools/render_results_figure.py   # from the repository root
 
+``--buildoak-json`` and ``--why01-json`` name a successor JSON under ``docs/benchmarks``
+(for example ``buildoak_2017_2025.json``), and ``--external-json uts_ingram_2024_2025.json``
+replaces the 2024 UTS and Ingram rows with their pooled 2024–2025 rows (a system without a
+result yet is left out); the defaults reproduce the committed figures.
+Axis ranges widen only when a value falls outside the default frame, and the history
+subtitle takes its years from the WHY01 JSON's ``meta.years`` when present.
+
 It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``, and
 the per-season BuildOak figure ``docs/assets/alcaraz-by-season.svg`` / ``.png`` (ARMS01
 contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``), and
@@ -55,6 +62,10 @@ LADDER_RUNGS = (
     ("pinnacle_normalised", "Pinnacle closing price (normalised)", ORANGE),
 )
 PRIMARY_BLOCK_WEEKS = 8
+# The ARMS01 comparison JSON; the 2017-2025 successor is passed with --buildoak-json.
+BUILDOAK_JSON = "buildoak_2017_2024.json"
+# The WHY01 decomposition JSON; a 2017-2025 successor is passed with --why01-json.
+WHY01_JSON = "why01.json"
 
 
 def _load(path: Path) -> Any:
@@ -84,23 +95,65 @@ def _interval(results: dict[str, Any], weeks: int) -> tuple[float, float]:
     return float(low), float(high)
 
 
-def comparison_rows(root: Path) -> list[tuple[str, float, float, float]]:
-    """Alcaraz-minus-system paired log loss and its primary interval, one cohort per row."""
+def pooled_external_rows(
+    external: dict[str, Any],
+) -> list[tuple[str, float, float, float]]:
+    """UTS and Ingram rows from the EXT2025 JSON (``uts_ingram_2024_2025.json``): the pooled
+    block against the frozen model, each row with its own match count; a system whose slot is
+    still empty (``primary`` null) is left out. Every row uses the frozen model, so the labels
+    carry no model name."""
+    rows = []
+    for key, name in (("uts", "Ultimate Tennis Statistics"), ("ingram", "Ingram point model")):
+        series = external[key]["primary"]
+        if series is None:
+            continue
+        seasons = sorted(int(block) for block in series if block.isdigit())
+        pooled = series[f"pooled_{seasons[0]}_{seasons[-1]}"]
+        weeks = int(pooled["uncertainty"]["primary_block_weeks"])
+        _require(weeks == PRIMARY_BLOCK_WEEKS, f"{name} primary block is {weeks} weeks")
+        _require(
+            int(pooled["n"]) == sum(int(series[str(season)]["n"]) for season in seasons),
+            f"{name} pooled block is not the sum of its seasons",
+        )
+        rows.append(
+            (
+                f"{name}\n{int(pooled['n']):,} ATP, {seasons[0]}–{str(seasons[-1])[2:]}",
+                float(pooled["incumbent_minus_external_log_loss"]),
+                *(
+                    float(bound)
+                    for bound in pooled["uncertainty"]["results"][str(weeks)]["percentile_95"]
+                ),
+            )
+        )
+    return rows
+
+
+def comparison_rows(
+    root: Path, buildoak_json: str = BUILDOAK_JSON, external_json: str | None = None
+) -> list[tuple[str, float, float, float]]:
+    """Alcaraz-minus-system paired log loss and its primary interval, one cohort per row.
+
+    By default UTS and Ingram are the accepted 2024 rows; ``external_json`` names the EXT2025
+    JSON whose pooled rows replace them."""
     benchmarks = root / "docs/benchmarks"
 
-    arms01 = _load(benchmarks / "buildoak_2017_2024.json")
+    arms01 = _load(benchmarks / buildoak_json)
     buildoak = arms01["contrasts"]["contrast2_arm1_minus_buildoak"]
     _require(
         int(buildoak["primary_interval_log_loss"]["mean_block_weeks"]) == PRIMARY_BLOCK_WEEKS,
         "buildoak primary block is not eight weeks",
     )
     years = buildoak["years"]
+    # The accepted rows pair different model versions, so each names its own; the EXT2025
+    # rows all use the frozen model and name none.
+    model = "" if external_json is not None else f" · {arms01['systems']['arm1']['label']}"
     buildoak_row = (
-        f"BuildOak XGBoost\n{int(buildoak['n']):,} ATP, {years[0]}–{str(years[-1])[2:]}"
-        f" · {arms01['systems']['arm1']['label']}",
+        f"BuildOak XGBoost\n{int(buildoak['n']):,} ATP, {years[0]}–{str(years[-1])[2:]}{model}",
         float(buildoak["difference"]["match_weighted"]["log_loss"]),
         *(float(bound) for bound in buildoak["intervals_95"]["log_loss"][str(PRIMARY_BLOCK_WEEKS)]),
     )
+    if external_json is not None:
+        return [buildoak_row, *pooled_external_rows(_load(benchmarks / external_json))]
 
     external = _load(benchmarks / "EXTERNAL_2024_2025_RESULTS.json")["comparisons"]
     uts = next(c for c in external if c["id"] == "uts_fixed_formula_adaptation_atp_2024")
@@ -133,7 +186,12 @@ def comparison_rows(root: Path) -> list[tuple[str, float, float, float]]:
     return [buildoak_row, uts_row, ingram_row]
 
 
-def render(root: Path, output_dir: Path) -> list[Path]:
+def render(
+    root: Path,
+    output_dir: Path,
+    buildoak_json: str = BUILDOAK_JSON,
+    external_json: str | None = None,
+) -> list[Path]:
     import matplotlib
 
     matplotlib.use("Agg")
@@ -141,7 +199,7 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     from matplotlib import rcParams
 
     rows, ladder_n, years = ladder_rows(root)
-    comps = comparison_rows(root)
+    comps = comparison_rows(root, buildoak_json, external_json)
 
     rcParams.update(
         {
@@ -181,7 +239,9 @@ def render(root: Path, output_dir: Path) -> list[Path]:
         )
     ax1.set_yticks(ys)
     ax1.set_yticklabels([row[0] for row in rows], fontsize=10.5)
-    ax1.set_xlim(0.580, 0.640)
+    ax1.set_xlim(
+        min(0.580, min(r[1] for r in rows) - 0.004), max(0.640, max(r[1] for r in rows) + 0.012)
+    )
     ax1.set_ylim(-0.6, len(rows) - 0.55)
     ax1.set_xticks([0.58, 0.59, 0.60, 0.61, 0.62, 0.63])
     ax1.set_xlabel("log loss (lower is better)")
@@ -226,7 +286,7 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     ax2.set_yticks(ys2)
     ax2.set_yticklabels([comp[0] for comp in comps], fontsize=10.5)
     ax2.set_xlim(-0.072, 0.022)
-    ax2.set_ylim(-0.75, 2.45)
+    ax2.set_ylim(-0.75, len(comps) - 0.55)
     ax2.set_xticks([-0.06, -0.04, -0.02, 0.0, 0.02])
     ax2.set_xlabel("Alcaraz minus system, paired log loss (negative favours Alcaraz)")
     ax2.grid(axis="x", color=GRID, lw=1)
@@ -270,9 +330,11 @@ def render(root: Path, output_dir: Path) -> list[Path]:
     return [svg, png]
 
 
-def season_rows(root: Path) -> tuple[list[tuple[int, float]], int, int, float]:
+def season_rows(
+    root: Path, buildoak_json: str = BUILDOAK_JSON
+) -> tuple[list[tuple[int, float]], int, int, float]:
     """Alcaraz-minus-BuildOak paired log loss per season, ARMS01 contrast 2."""
-    arms01 = _load(root / "docs/benchmarks/buildoak_2017_2024.json")
+    arms01 = _load(root / "docs/benchmarks" / buildoak_json)
     contrast = arms01["contrasts"]["contrast2_arm1_minus_buildoak"]
     annual = contrast["difference"]["annual_log_loss"]
     years = [int(year) for year in contrast["years"]]
@@ -284,14 +346,16 @@ def season_rows(root: Path) -> tuple[list[tuple[int, float]], int, int, float]:
     return rows, int(contrast["n"]), negative, pooled
 
 
-def render_by_season(root: Path, output_dir: Path) -> list[Path]:
+def render_by_season(
+    root: Path, output_dir: Path, buildoak_json: str = BUILDOAK_JSON
+) -> list[Path]:
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib import rcParams
 
-    rows, n, negative, pooled = season_rows(root)
+    rows, n, negative, pooled = season_rows(root, buildoak_json)
     rcParams.update(
         {
             "font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
@@ -334,7 +398,8 @@ def render_by_season(root: Path, output_dir: Path) -> list[Path]:
         )
     ax.set_xticks(xs)
     ax.set_xticklabels([str(year) for year, _delta in rows])
-    ax.set_ylim(-0.0165, 0.0045)
+    deltas = [delta for _year, delta in rows]
+    ax.set_ylim(min(-0.0165, min(deltas) - 0.0025), max(0.0045, max(deltas) + 0.0025))
     ax.set_yticks([-0.015, -0.010, -0.005, 0.0])
     ax.set_ylabel("Alcaraz minus BuildOak, paired log loss")
     ax.grid(axis="y", color=GRID, lw=1)
@@ -361,7 +426,7 @@ def render_by_season(root: Path, output_dir: Path) -> list[Path]:
     fig.text(
         0.01,
         -0.02,
-        "Source: docs/benchmarks/buildoak_2017_2024.json (ARMS01 contrast 2). "
+        f"Source: docs/benchmarks/{buildoak_json} (ARMS01 contrast 2). "
         "Retrospective development comparison.",
         fontsize=8.5,
         color=TEXT3,
@@ -386,10 +451,10 @@ HISTORY_BANDS = (
 
 
 def history_rows(
-    root: Path,
-) -> tuple[list[tuple[str, int, float, float, float, float, float, float]], int]:
+    root: Path, why01_json: str = WHY01_JSON
+) -> tuple[list[tuple[str, int, float, float, float, float, float, float]], int, list[int]]:
     """Per history band: Alcaraz-minus-BuildOak and the lower-tier block gain, with intervals."""
-    why = _load(root / "docs/benchmarks/why01.json")
+    why = _load(root / "docs/benchmarks" / why01_json)
     vs = {r["segment"]: r for r in why["A"]["buildoak"]["rows"]}
     block = {r["segment"]: r for r in why["D"]["increments"]["full_tier_minus_p1"]}
     n_all = int(vs["all matches"]["n"])
@@ -408,17 +473,18 @@ def history_rows(
             )
         )
     _require(sum(r[1] for r in rows) == n_all, "history bands do not partition the cohort")
-    return rows, n_all
+    years = why["meta"].get("years", [2017, 2024])  # legacy why01.json has no meta.years
+    return rows, n_all, years
 
 
-def render_by_history(root: Path, output_dir: Path) -> list[Path]:
+def render_by_history(root: Path, output_dir: Path, why01_json: str = WHY01_JSON) -> list[Path]:
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib import rcParams
 
-    rows, n_all = history_rows(root)
+    rows, n_all, why_years = history_rows(root, why01_json)
     rcParams.update(
         {
             "font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
@@ -486,7 +552,8 @@ def render_by_history(root: Path, output_dir: Path) -> list[Path]:
     ax.text(
         0,
         1.02,
-        f"Same {n_all:,} ATP matches, 2017–2024; 95% match-level bootstrap intervals; exploratory decomposition",
+        f"Same {n_all:,} ATP matches, {why_years[0]}–{why_years[-1]}; 95% match-level bootstrap intervals; "
+        "exploratory decomposition",
         transform=ax.transAxes,
         fontsize=9.5,
         color=TEXT3,
@@ -495,7 +562,7 @@ def render_by_history(root: Path, output_dir: Path) -> list[Path]:
     fig.text(
         0.01,
         -0.02,
-        "Source: docs/benchmarks/why01.json (WHY01). Post-hoc, descriptive, development data; no new model fitted.",
+        f"Source: docs/benchmarks/{why01_json} (WHY01). Post-hoc, descriptive, development data; no new model fitted.",
         fontsize=8.5,
         color=TEXT3,
         va="top",
@@ -515,11 +582,21 @@ def main() -> None:
     parser.add_argument(
         "--output-dir", type=Path, default=ROOT / "docs/assets", help="figure directory"
     )
+    parser.add_argument(
+        "--buildoak-json",
+        default=BUILDOAK_JSON,
+        help="ARMS01 comparison JSON under docs/benchmarks",
+    )
+    parser.add_argument("--why01-json", default=WHY01_JSON, help="WHY01 JSON under docs/benchmarks")
+    parser.add_argument(
+        "--external-json",
+        help="EXT2025 UTS/Ingram JSON under docs/benchmarks (pooled rows replace the 2024 rows)",
+    )
     args = parser.parse_args()
     for path in (
-        render(args.root, args.output_dir)
-        + render_by_season(args.root, args.output_dir)
-        + render_by_history(args.root, args.output_dir)
+        render(args.root, args.output_dir, args.buildoak_json, args.external_json)
+        + render_by_season(args.root, args.output_dir, args.buildoak_json)
+        + render_by_history(args.root, args.output_dir, args.why01_json)
     ):
         print(f"wrote {path}")
 
