@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-09-25 — every public comparison extended through 2025 (EXT2025)
+
+- The frozen model is now compared on 2017–2025 (ATP) and 2019–2025 (WTA) wherever a
+  comparison can be computed on identical rows (archive decision D139, each pass
+  independently reconstructed). Accepted 2017–2024 results are unchanged and shown beside
+  the extended ones; 2025 is exposed retrospective data, not a holdout.
+- Ladder (`docs/ladder.json`, `RESULTS.md`, `winner_accuracy.*`): 21,361 priced ATP matches,
+  Alcaraz 0.5993 against Pinnacle 0.5890 (+0.0102 [+0.0082, +0.0123]); every block step still
+  excludes zero; ATP `full` fitted for 2025 (2017–2024 byte-identical). WTA01 2019–2025 on
+  15,028: +0.0194 [+0.0165, +0.0223] to Pinnacle. The accepted ladder is kept as
+  `docs/ladder_2017_2024.json`.
+- BuildOak (`BUILDOAK_2017_2025_RESULTS.md`, `buildoak_2017_2025.json`,
+  `buildoak_wta_2019_2025.json`): one more walk-forward fit at 2024-12-30 after the 2024 runs
+  reproduced byte for byte. ATP −0.0067 [−0.0095, −0.0041] on 21,561, 8 of 9 seasons; WTA
+  −0.0019 [−0.0050, +0.0009] on 15,251, inconclusive. BuildOak's recent-seasons model is
+  active on the men's tour for the first time in 2025 (disclosed). ATP past-only blend
+  2020–2025 − Alcaraz −0.0011, interval touching zero: no blend released.
+- Five Elo/ranking baselines (`G_L_2017_2025_RESULTS.md`): every interval excludes zero on
+  both tours; Ultimate Tennis Statistics and Ingram on 2024–2025 (`UTS_INGRAM_2024_2025_RESULTS.md`):
+  −0.0248 [−0.0309, −0.0191] and −0.0443 [−0.0519, −0.0367] on 5,270. Ingram 2025 was
+  completed from its saved sampling runs after a one-draw rounding stop (design amendment A5).
+- Where the lead comes from (`WHY01_LEAD_DECOMPOSITION.md`, `why01_2017_2025.json`): rerun on
+  2017–2025 with the published segment definitions; the 2017–2024 page is kept.
+- Every figure regenerated; `tools/build_benchmark_aggregates.py` now builds the benchmark
+  JSONs from archive results, and `tools/check_readme_numbers.py` ties every README number to
+  a JSON (`docs/numbers.json`). README moved to 2017–2025; stale counts corrected.
+
 ## 2026-09-24 — the frozen model run on 2025 (REFIT2025, ATP)
 
 - `docs/benchmarks/REFIT2025_RESULTS.md` and `refit2025.json` (archive decision D137,

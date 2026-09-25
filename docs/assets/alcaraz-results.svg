@@ -401,26 +401,38 @@ L 689.519943 384.884032
     <g id="ytick_7">
      <g id="line2d_36"/>
      <g id="text_28">
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(128.253516 415.491628)">BuildOak XGBoost</text>
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(118.426172 428.018128)">21,561 ATP, 2017–25</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(128.253516 405.554332)">BuildOak XGBoost</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(118.426172 418.080832)">21,561 ATP, 2017–25</text>
      </g>
     </g>
     <g id="ytick_8">
      <g id="line2d_37"/>
      <g id="text_29">
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.495859 486.156841)">Ultimate Tennis Statistics</text>
-      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.263516 498.683341)">5,270 ATP, 2024–25</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(98.495859 454.136666)">Ultimate Tennis Statistics</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.263516 466.663166)">5,270 ATP, 2024–25</text>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_38"/>
+     <g id="text_30">
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.926328 502.719)">Ingram point model</text>
+      <text style="font-size: 10.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #0b0b0b" transform="translate(124.263516 515.2455)">5,270 ATP, 2024–25</text>
      </g>
     </g>
    </g>
-   <g id="line2d_38">
-    <path d="M 538.865387 416.683378 
-L 566.709829 416.683378 
+   <g id="line2d_39">
+    <path d="M 538.865387 406.746082 
+L 566.709829 406.746082 
 " clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
    </g>
-   <g id="line2d_39">
-    <path d="M 429.585496 487.348591 
-L 490.118815 487.348591 
+   <g id="line2d_40">
+    <path d="M 429.585496 455.328416 
+L 490.118815 455.328416 
+" clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_41">
+    <path d="M 322.648634 503.91075 
+L 399.990835 503.91075 
 " clip-path="url(#p13b20f025a)" style="fill: none; stroke: #2a78d6; stroke-width: 2; stroke-linecap: round"/>
    </g>
    <g id="patch_5">
@@ -430,28 +442,36 @@ L 699.730156 540.3475
    </g>
    <g id="PathCollection_7">
     <g clip-path="url(#p13b20f025a)">
-     <use xlink:href="#mb6e0487414" x="552.981553" y="416.683378" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
-    </g>
-   </g>
-   <g id="text_30">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="552.981553" y="439.86042" transform="rotate(-0 552.981553 439.86042)">-0.0067  [-0.0095, -0.0041]</text>
-   </g>
-   <g id="PathCollection_8">
-    <g clip-path="url(#p13b20f025a)">
-     <use xlink:href="#mb6e0487414" x="460.948136" y="487.348591" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+     <use xlink:href="#mb6e0487414" x="552.981553" y="406.746082" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
     </g>
    </g>
    <g id="text_31">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="460.948136" y="510.525633" transform="rotate(-0 460.948136 510.525633)">-0.0248  [-0.0309, -0.0191]</text>
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="552.981553" y="425.506549" transform="rotate(-0 552.981553 425.506549)">-0.0067  [-0.0095, -0.0041]</text>
+   </g>
+   <g id="PathCollection_8">
+    <g clip-path="url(#p13b20f025a)">
+     <use xlink:href="#mb6e0487414" x="460.948136" y="455.328416" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+    </g>
    </g>
    <g id="text_32">
-    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #8a8985" x="219.850156" y="380.52858" transform="rotate(-0 219.850156 380.52858)">95% calendar-week block bootstrap; every interval excludes zero</text>
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="460.948136" y="474.088883" transform="rotate(-0 460.948136 474.088883)">-0.0248  [-0.0309, -0.0191]</text>
+   </g>
+   <g id="PathCollection_9">
+    <g clip-path="url(#p13b20f025a)">
+     <use xlink:href="#mb6e0487414" x="361.492306" y="503.91075" style="fill: #2a78d6; stroke: #fcfcfb; stroke-width: 2"/>
+    </g>
    </g>
    <g id="text_33">
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: middle; fill: #52514e" x="361.492306" y="522.671216" transform="rotate(-0 361.492306 522.671216)">-0.0443  [-0.0519, -0.0367]</text>
+   </g>
+   <g id="text_34">
+    <text style="font-size: 9.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #8a8985" x="219.850156" y="380.52858" transform="rotate(-0 219.850156 380.52858)">95% calendar-week block bootstrap; every interval excludes zero</text>
+   </g>
+   <g id="text_35">
     <text style="font-weight: 700; font-size: 12.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; text-anchor: start; fill: #0b0b0b" x="219.850156" y="362.884032" transform="rotate(-0 219.850156 362.884032)">Paired against public models, each on its own matches</text>
    </g>
   </g>
-  <g id="text_34">
+  <g id="text_36">
    <text style="font-size: 8.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #8a8985" transform="translate(148.642156 597.1585)">Sources: docs/ladder.json, docs/winner_accuracy.json, docs/benchmarks/*.json. Retrospective, outcome-exposed development</text>
    <text style="font-size: 8.5px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'DejaVu Sans'; fill: #8a8985" transform="translate(148.642156 607.299)">comparisons; intervals condition on saved forecasts.</text>
   </g>

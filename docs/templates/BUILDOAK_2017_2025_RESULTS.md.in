@@ -4,7 +4,7 @@
 > freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
 > remain the registered claims, and each extended number is shown beside its registered
 > one: [ATP 2017–2024](BUILDOAK_2017_2024_RESULTS.md), archive decisions D131 and D132; [WTA 2019–2024](BUILDOAK_WTA_2019_2024_RESULTS.md), D133.
-> Acceptance of this extension: decision {{bo25:acceptance/archive_decision|raw}}, independent reconstruction {{bo25:acceptance/reconstruction_verdict|raw}}.
+> Accepted as archive decision {{bo25:acceptance/archive_decision|raw}}, independently reconstructed (verdict {{bo25:acceptance/reconstruction_verdict|raw}}).
 
 Every number on this page is filled from [buildoak_2017_2025.json](buildoak_2017_2025.json),
 [buildoak_wta_2019_2025.json](buildoak_wta_2019_2025.json) and the two accepted JSONs by
@@ -155,8 +155,9 @@ extension.
   earlier seasons (A1); the pooled contrast mixes both. On the women's tour the recent-era
   recipe runs in 2024 and 2025 only.
 - Independent reconstruction of both tours: {{bo25:acceptance/reconstruction_verdict|raw}} (men),
-  {{bow25:acceptance/reconstruction_verdict|raw}} (women); the decision entry is
-  {{bo25:acceptance/archive_decision|raw}}.
+  {{bow25:acceptance/reconstruction_verdict|raw}} (women); accepted as archive decision
+  {{bo25:acceptance/archive_decision|raw}}. Acceptance records the extension; the registered
+  claims are still the accepted eight- and six-season results.
 - BuildOak's recipe was selected by its author on ROC AUC with sight of 2026 data.
 - The intervals condition on the saved forecasts and omit refit, selection and
   source-choice uncertainty.

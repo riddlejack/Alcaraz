@@ -1,6 +1,6 @@
 {
-  "status": "extension_pending_acceptance",
-  "status_note": "EXT2025 comparisons with Ultimate Tennis Statistics' fixed formula (and, when its pass exists, Ingram's Bayesian point model) on ATP 2024, 2025 and pooled 2024-2025 (design amendments A2, A2 correction and A4). 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted 2024 results (EXTERNAL_2024_2025_RESULTS.json for UTS, ingram_2024.json for Ingram) remain the registered claims.",
+  "status": "independently_reconstructed",
+  "status_note": "EXT2025 comparisons with Ultimate Tennis Statistics' fixed formula and Ingram's Bayesian point model on ATP 2024, 2025 and pooled 2024-2025 (design amendments A2, A2 correction and A4). 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted 2024 results (EXTERNAL_2024_2025_RESULTS.json for UTS, ingram_2024.json for Ingram) remain the registered claims. Accepted as archive decision {{out:acceptance/archive_decision|raw}}, independently reconstructed (UTS: REC1, verdict {{out:acceptance/reconstruction_uts/verdict|raw}}; Ingram: REC3, verdicts {{out:acceptance/reconstruction_ingram/verdict_scoring|raw}} for the scoring and {{out:acceptance/reconstruction_ingram/verdict_continuation|raw}} for the A5 continuation).",
   "experiment_id": "EXT2025",
   "scope": "exposed_retrospective_ATP_2024_2025_external_model_comparisons",
   "comparator": {
@@ -42,22 +42,80 @@
     "continuity_2024_equals_accepted": "the continuity 2024 block equals the accepted UTS 2024 comparison value for value (checked by the builder)"
   },
   "ingram": {
-    "label": "Ingram's Bayesian point model (paper settings, 2024 seeds)",
-    "status": "pending: the 2025 fit (runs-3) and its scoring pass with the same scorer (A4); until then the accepted Ingram 2024 row (ingram_2024.json) stands alone",
-    "primary": null,
-    "continuity": null
+    "label": "Ingram's Bayesian point model (paper settings, 2024 seeds; raw posterior forecast)",
+    "primary": {
+      "2024": "@value ingram_primary:by_year/2024",
+      "2025": "@value ingram_primary:by_year/2025",
+      "pooled_2024_2025": "@value ingram_primary:pooled",
+      "score_plan_sha256": "@value ingram_primary:plan_sha256",
+      "scorer_sha256": "@value ingram_primary:script_sha256"
+    },
+    "continuity": {
+      "2024": "@value ingram_continuity:by_year/2024",
+      "2025": "@value ingram_continuity:by_year/2025",
+      "pooled_2024_2025": "@value ingram_continuity:pooled",
+      "score_plan_sha256": "@value ingram_continuity:plan_sha256",
+      "scorer_sha256": "@value ingram_continuity:script_sha256"
+    },
+    "season_differences_primary": {
+      "2024": "@value ingram_primary:by_year/2024/incumbent_minus_external_log_loss",
+      "2025": "@value ingram_primary:by_year/2025/incumbent_minus_external_log_loss"
+    },
+    "run_2025": {
+      "account": "attempt_001 finished sampling and passed the frozen gates in all six periods but stopped in prediction on one match-probability draw a floating-point rounding step above one; attempt_002 continued from the saved traces with the frozen seeds, clipping values within the recorded tolerance of [0, 1], counting and locating each clip (design amendment A5)",
+      "rounding_clips_by_period": {
+        "1": "@value ingram_p1:prediction_parallelism/probability_rounding_clips",
+        "2": "@value ingram_p2:prediction_parallelism/probability_rounding_clips",
+        "3": "@value ingram_p3:prediction_parallelism/probability_rounding_clips",
+        "4": "@value ingram_p4:prediction_parallelism/probability_rounding_clips",
+        "5": "@value ingram_p5:prediction_parallelism/probability_rounding_clips",
+        "6": "@value ingram_p6:prediction_parallelism/probability_rounding_clips"
+      },
+      "periods_reproduced_byte_for_byte": {
+        "2": "@value ingram_regression:checks/period_02/forecast_csv_byte_identical",
+        "5": "@value ingram_regression:checks/period_05/forecast_csv_byte_identical",
+        "6": "@value ingram_regression:checks/period_06/forecast_csv_byte_identical"
+      },
+      "forecast_commitment": "@file ingram_commitment"
+    },
+    "interval_2024": "the 2024 continuity points equal the accepted Ingram 2024 result; the intervals here come from this scorer's calendar-week bootstrap, the accepted interval from the Ingram run's own bootstrap, so the 2024 intervals differ slightly"
   },
   "provenance": {
     "uts_primary": "@file uts_primary",
     "uts_continuity": "@file uts_continuity",
     "uts_accepted_2024": "@file uts_accepted",
-    "scoring_freeze": "@file freeze_scoring",
-    "design": "@file design"
+    "ingram_primary": "@file ingram_primary",
+    "ingram_continuity": "@file ingram_continuity",
+    "ingram_accepted_2024": "@file ingram_accepted",
+    "scoring_freeze_uts": "@file freeze_scoring",
+    "scoring_freeze_ingram": "@file freeze_scoring_ingram",
+    "design_at_uts_scoring": {
+      "archive_relative_path": "experiments/EXT2025.design.md",
+      "sha256_at_scoring_freeze": "@value freeze_scoring:file_sha256/'experiments/EXT2025.design.md'"
+    },
+    "design_at_ingram_scoring": {
+      "archive_relative_path": "experiments/EXT2025.design.md",
+      "sha256_at_scoring_freeze": "@value freeze_scoring_ingram:file_sha256/'experiments/EXT2025.design.md'"
+    }
   },
   "limitations": [
     "public-data formula adaptation, not historical UTS website output or private-database equivalence",
     "2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout.",
     "UTS 2017-2023 is not run: 2017-2019 lie in the formula's weight-tuning window, 2020 to January 2021 predate its code, and 2021 would need a new timing exclusion (A2)",
     "no claim of prospective validity, betting value or universal state of the art"
-  ]
+  ],
+  "acceptance": {
+    "archive_decision": "D139",
+    "reconstruction_uts": {
+      "verdict": "@value rec1_results:verdicts/item3_uts",
+      "reconstruction_record": "@file rec1",
+      "reconstruction_numbers": "@file rec1_results"
+    },
+    "reconstruction_ingram": {
+      "verdict_scoring": "@value rec3_results:verdicts/1_ingram_scoring_2024_2025_pooled_primary_and_continuity",
+      "verdict_continuation": "@value rec3_results:verdicts/2_ingram_2025_continuation_integrity_A5",
+      "reconstruction_record": "@file rec3",
+      "reconstruction_numbers": "@file rec3_results"
+    }
+  }
 }
