@@ -18,7 +18,7 @@ reproduce-small:
 reproduce-tier:
 	$(UV) run tennislab reproduce-small --scenario tier
 
-check: lint test reproduce-small reproduce-tier
+check: lint test numbers reproduce-small reproduce-tier
 
 # The README results figure needs matplotlib, which is deliberately not in the locked
 # environment. Render it with the system python3 (tested with matplotlib 3.11).
