@@ -4,7 +4,7 @@
 > freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
 > remain the registered claims, and each extended number is shown beside its registered
 > one: [G_L_RESULTS.md](G_L_RESULTS.md), ATP 2017–2024 and WTA 2019–2024.
-> The extension's acceptance is pending a decision entry.
+> Accepted as archive decision D139, independently reconstructed.
 
 The frozen G-L procedure was run twice with the season range extended (design amendment
 A2), each run once: **(b)** with the frozen model as the Tennis Lab row (ATP

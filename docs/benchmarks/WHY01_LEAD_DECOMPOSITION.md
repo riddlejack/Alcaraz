@@ -9,7 +9,7 @@
 > (segment rows and aggregates only, no match rows). The analysis reruns in about a minute
 > from the scripts kept in the research archive (`references/WHY01_EXT2025/`). The 2017–2024
 > version stays as published: [WHY01_LEAD_DECOMPOSITION_2017_2024.md](WHY01_LEAD_DECOMPOSITION_2017_2024.md)
-> and [why01.json](why01.json).
+> and [why01.json](why01.json). Accepted as archive decision D139, independently reconstructed.
 
 This version extends the WHY01 decomposition from 2017–2024 to 2017–2025 (EXT2025). It is
 exploratory and post hoc. The 2025 season was inspected before the model freeze (D134) and has

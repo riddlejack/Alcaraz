@@ -1,0 +1,1042 @@
+{
+  "about": "Pages whose numbers tools/check_readme_numbers.py verifies. Bindings mode (README and other plain Markdown): each binding's context identifies one line (offset: lines below it), text is what the line shows, value is a placeholder string {{alias:path|pipe}} that must render to that text; every other number must be allowed with a reason. Template mode: the page is rendered from docs/templates/<page>.md.in. strict false: untraced numbers are listed, not failed.",
+  "aliases": {
+    "ladder": "docs/ladder.json",
+    "acc": "docs/winner_accuracy.json",
+    "bo": "docs/benchmarks/buildoak_2017_2024.json",
+    "bo25": "docs/benchmarks/buildoak_2017_2025.json",
+    "bow": "docs/benchmarks/buildoak_wta_2019_2024.json",
+    "bow25": "docs/benchmarks/buildoak_wta_2019_2025.json",
+    "gl": "docs/benchmarks/G_L_RESULTS.json",
+    "gl25": "docs/benchmarks/G_L_RESULTS_2017_2025.json",
+    "gl25c": "docs/benchmarks/G_L_RESULTS_2017_2025_continuity.json",
+    "ext": "docs/benchmarks/EXTERNAL_2024_2025_RESULTS.json",
+    "ing": "docs/benchmarks/ingram_2024.json",
+    "ui25": "docs/benchmarks/uts_ingram_2024_2025.json",
+    "ibm": "docs/benchmarks/ibm02.json",
+    "r25": "docs/benchmarks/refit2025.json",
+    "r25w": "docs/benchmarks/refit2025_wta.json",
+    "tune": "docs/benchmarks/tune01.json",
+    "why": "docs/benchmarks/why01.json",
+    "why25": "docs/benchmarks/why01_2017_2025.json",
+    "ladder24": "docs/ladder_2017_2024.json"
+  },
+  "pages": [
+    {
+      "page": "README.md",
+      "strict": true,
+      "allowed": [
+        {
+          "text": "95%",
+          "reason": "interval level (method constant)"
+        },
+        {
+          "text": "0.693",
+          "reason": "log loss of a coin flip, ln 2 (constant)"
+        },
+        {
+          "text": "85%",
+          "reason": "external quote: Green Code's first model, his own claim (line 19); line 103's 85% is bound to ibm02.json"
+        },
+        {
+          "text": "66.3%",
+          "reason": "external quote: Green Code's Wimbledon 2025 figure, attributed"
+        },
+        {
+          "text": "72%",
+          "reason": "external quote: Green Code's bookmaker figure, attributed"
+        },
+        {
+          "text": "57",
+          "reason": "model input count, stated only in text (docs/benchmarks/tune01.json systems.tune01.role: 'bundle (57 model columns)')"
+        },
+        {
+          "text": "101",
+          "reason": "WHY01 segment definition (rank 101-200)"
+        },
+        {
+          "text": "200",
+          "reason": "WHY01 segment definition (rank 101-200); line 63's 200 is bound"
+        },
+        {
+          "text": "10",
+          "reason": "WHY01 history-band boundary (fewer than 10 prior matches)"
+        },
+        {
+          "text": "50",
+          "reason": "WHY01 history-band boundary"
+        },
+        {
+          "text": "100",
+          "reason": "WHY01 segment definition (outside the top 100)"
+        },
+        {
+          "text": "0.15",
+          "reason": "WHY01 disagreement threshold (method constant)"
+        },
+        {
+          "text": "4.0",
+          "reason": "licence version, CC BY-NC-SA 4.0"
+        },
+        {
+          "text": "24",
+          "reason": "history, not a result: size of the leakage suite the review found blind (the 24-test suite of the 2026-09-13 rebuild)"
+        },
+        {
+          "text": "53k",
+          "reason": "NO JSON: tracked src/ Python lines, 52,947 at 3824dfc (53,138 with the uncommitted src/tennislab/numbers.py)"
+        },
+        {
+          "text": "785",
+          "reason": "NO JSON: tests collected by pytest (sum of per-file counts from pytest --collect-only -q), 785 at the EXT2025 merge on 2026-09-25; recount when tests change"
+        },
+        {
+          "text": "39.5%",
+          "reason": "NO PRODUCT JSON: 22 September review qualifier screen (archive review record)"
+        },
+        {
+          "text": "34.6%",
+          "reason": "NO PRODUCT JSON: 22 September review qualifier screen (archive review record)"
+        },
+        {
+          "text": "−0.0007",
+          "reason": "NO PRODUCT JSON: market-as-teacher result (archive TEACHER/JOINT records; data/registries/leaderboard.csv)"
+        },
+        {
+          "text": "0.002",
+          "reason": "NO PRODUCT JSON: pre-experiment estimate of the 22 September review"
+        },
+        {
+          "text": "0.003",
+          "reason": "NO PRODUCT JSON: review estimate (line 200) and the registered teacher gate (line 242)"
+        },
+        {
+          "text": "+0.0033",
+          "reason": "NO PRODUCT JSON: experiments table (docs/experiments/RECENT_EXPERIMENTS.md prose)"
+        },
+        {
+          "text": "−0.0004",
+          "reason": "NO PRODUCT JSON: Campaign E stack (derivable from LANDING_PAGE_FACTS.json only); line 245's −0.0004 is bound"
+        },
+        {
+          "text": "+0.0002",
+          "reason": "NO PRODUCT JSON: experiments table (UNC01; archive)"
+        },
+        {
+          "text": "±0.0002",
+          "reason": "NO PRODUCT JSON: experiments table (serve components, state geometry, WTA selection; archive)"
+        }
+      ],
+      "bindings": [
+        {
+          "context": "**SOTA public",
+          "text": "0.010",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|f3}}"
+        },
+        {
+          "context": "betting price,",
+          "text": "21,561",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/n|int}}"
+        },
+        {
+          "context": "matches, Alcaraz",
+          "text": "0.010",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|f3}}"
+        },
+        {
+          "context": "matches, Alcaraz",
+          "text": "seventy-six",
+          "value": "{{acc:tours/ATP/overall/pinnacle_normalised/accuracy - acc:tours/ATP/overall/atp_full_tier_entry/accuracy|inv|round|word}}"
+        },
+        {
+          "context": "![Top: the",
+          "text": "21,361",
+          "value": "{{ladder:tours/ATP/pooled/n|int}}"
+        },
+        {
+          "context": "every one",
+          "text": "21,361",
+          "value": "{{ladder:tours/ATP/pooled/n|int}}"
+        },
+        {
+          "context": "| Elo",
+          "text": "0.6249",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_elo_match_weighted|f4}}"
+        },
+        {
+          "context": "+ boosted",
+          "text": "0.6142",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_atp_p0_match_weighted|f4}}"
+        },
+        {
+          "context": "+ player",
+          "text": "0.6077",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_atp_p1_match_weighted|f4}}"
+        },
+        {
+          "context": "+ qualifying,",
+          "text": "0.6004",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_atp_full_tier_match_weighted|f4}}"
+        },
+        {
+          "context": "**+ entry",
+          "text": "0.5993",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_atp_full_tier_entry_match_weighted|f4}}"
+        },
+        {
+          "context": "| Pinnacle",
+          "text": "0.5890",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_pinnacle_normalised_match_weighted|f4}}"
+        },
+        {
+          "context": "| Elo",
+          "text": "64.4%",
+          "value": "{{acc:tours/ATP/overall/elo/accuracy|pct1}}"
+        },
+        {
+          "context": "+ boosted",
+          "text": "65.3%",
+          "value": "{{acc:tours/ATP/overall/atp_p0/accuracy|pct1}}"
+        },
+        {
+          "context": "+ player",
+          "text": "66.0%",
+          "value": "{{acc:tours/ATP/overall/atp_p1/accuracy|pct1}}"
+        },
+        {
+          "context": "+ qualifying,",
+          "text": "66.4%",
+          "value": "{{acc:tours/ATP/overall/atp_full_tier/accuracy|pct1}}"
+        },
+        {
+          "context": "**+ entry",
+          "text": "66.6%",
+          "value": "{{acc:tours/ATP/overall/atp_full_tier_entry/accuracy|pct1}}"
+        },
+        {
+          "context": "| Pinnacle",
+          "text": "67.9%",
+          "value": "{{acc:tours/ATP/overall/pinnacle_normalised/accuracy|pct1}}"
+        },
+        {
+          "context": "minus Pinnacle:",
+          "text": "+0.0102",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|s4}}"
+        },
+        {
+          "context": "minus Pinnacle:",
+          "text": "[+0.0082, +0.0123]",
+          "value": "[{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_lower|s4}}, {{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_upper|s4}}]"
+        },
+        {
+          "context": "minus Pinnacle:",
+          "text": "nine",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/years|word}}"
+        },
+        {
+          "context": "that has",
+          "text": "0.6136",
+          "value": "{{r25:years/2025/scores/model/log_loss|f4}}"
+        },
+        {
+          "context": "that has",
+          "text": "0.6025",
+          "value": "{{r25:years/2025/scores/pinnacle/log_loss|f4}}"
+        },
+        {
+          "context": "Pinnacle on",
+          "text": "2,479",
+          "value": "{{r25:years/2025/n_priced|int}}"
+        },
+        {
+          "context": "Pinnacle on",
+          "text": "+0.0111",
+          "value": "{{r25:years/2025/contrasts/model_minus_pinnacle/difference|s4}}"
+        },
+        {
+          "context": "Pinnacle on",
+          "text": "[+0.0048, +0.0174]",
+          "value": "{{r25:years/2025/contrasts/model_minus_pinnacle/ci95_match|ci4}}"
+        },
+        {
+          "context": "range of",
+          "text": "+0.0101",
+          "value": "{{ladder24:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|s4}}"
+        },
+        {
+          "context": "range of",
+          "text": "[+0.0080, +0.0122]",
+          "value": "[{{ladder24:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_lower|s4}}, {{ladder24:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_upper|s4}}]",
+          "offset": 1
+        },
+        {
+          "context": "slightly between",
+          "text": "21,561",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/n|int}}"
+        },
+        {
+          "context": "slightly between",
+          "text": "200",
+          "value": "{{bo25:cohort/n - bo25:cohort/priced_subset/n|int}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "21,561",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/n|int}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "0.6058",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/right_match_weighted/log_loss|f4}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "0.5991",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/left_match_weighted/log_loss|f4}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "−0.0067",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "[−0.0095, −0.0041]",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "| [BuildOak",
+          "text": "8 of 9",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bo25:contrasts/contrast2_arm1_minus_buildoak/years|len|d}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "5,270",
+          "value": "{{ui25:uts/primary/pooled_2024_2025/n|int}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "0.6276",
+          "value": "{{ui25:uts/primary/pooled_2024_2025/external_uts_adaptation/log_loss|f4}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "0.6028",
+          "value": "{{ui25:uts/primary/pooled_2024_2025/incumbent/log_loss|f4}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "−0.0248",
+          "value": "{{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "[−0.0309, −0.0191]",
+          "value": "{{ui25:uts/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}}"
+        },
+        {
+          "context": "| [Ultimate",
+          "text": "2 of 2",
+          "value": "{{ui25:uts/season_differences_primary|values|negatives|d}} of {{ui25:uts/season_differences_primary|len|d}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "5,270",
+          "value": "{{ui25:ingram/primary/pooled_2024_2025/n|int}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "0.6471",
+          "value": "{{ui25:ingram/primary/pooled_2024_2025/external_ingram_raw_posterior/log_loss|f4}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "0.6028",
+          "value": "{{ui25:ingram/primary/pooled_2024_2025/incumbent/log_loss|f4}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "−0.0443",
+          "value": "{{ui25:ingram/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "[−0.0519, −0.0367]",
+          "value": "{{ui25:ingram/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}}"
+        },
+        {
+          "context": "| Ingram's",
+          "text": "2 of 2",
+          "value": "{{ui25:ingram/season_differences_primary|values|negatives|d}} of {{ui25:ingram/season_differences_primary|len|d}}"
+        },
+        {
+          "context": "| IBM",
+          "text": "64",
+          "value": "{{ibm:cohorts/pooled_primary/n|d}}"
+        },
+        {
+          "context": "| IBM",
+          "text": "0.6012",
+          "value": "{{ibm:cohorts/pooled_primary/scores/ibm/log_loss|f4}}"
+        },
+        {
+          "context": "| IBM",
+          "text": "0.5154",
+          "value": "{{ibm:cohorts/pooled_primary/scores/alcaraz/log_loss|f4}}"
+        },
+        {
+          "context": "| IBM",
+          "text": "−0.0858",
+          "value": "{{ibm:cohorts/pooled_primary/paired_log_loss/alcaraz_minus_ibm/difference|s4}}"
+        },
+        {
+          "context": "| IBM",
+          "text": "[−0.1468, −0.0188]",
+          "value": "{{ibm:cohorts/pooled_primary/paired_log_loss/alcaraz_minus_ibm/ci95|ci4}}"
+        },
+        {
+          "context": "| Five",
+          "text": "21,561",
+          "value": "{{gl25:tours/ATP/primary_rows|int}}"
+        },
+        {
+          "context": "| Five",
+          "text": "15,251",
+          "value": "{{gl25:tours/WTA/primary_rows|int}}"
+        },
+        {
+          "context": "| Five",
+          "text": "0.6229",
+          "value": "{{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/k32_pooled/log_loss|f4}}"
+        },
+        {
+          "context": "| Five",
+          "text": "0.6334",
+          "value": "{{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/rank_logistic/log_loss|f4}}"
+        },
+        {
+          "context": "| Five",
+          "text": "0.5987",
+          "value": "{{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}}"
+        },
+        {
+          "context": "BuildOak, paired",
+          "text": "21,561",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/n|int}}"
+        },
+        {
+          "context": "BuildOak, paired",
+          "text": "eight of nine",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|word}} of {{bo25:contrasts/contrast2_arm1_minus_buildoak/years|len|word}}"
+        },
+        {
+          "context": "registered eight-season",
+          "text": "−0.0070",
+          "value": "{{bo:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "registered eight-season",
+          "text": "[−0.0100, −0.0040]",
+          "value": "{{bo:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "registered eight-season",
+          "text": "7 of 8",
+          "value": "{{bo:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bo:contrasts/contrast2_arm1_minus_buildoak/years|len|d}}"
+        },
+        {
+          "context": "first time,",
+          "text": "0.0047",
+          "value": "{{bo25:contrasts/contrast2_arm1_minus_buildoak/difference/annual_log_loss/2025|abs4}}"
+        },
+        {
+          "context": "men's result.",
+          "text": "12,900",
+          "value": "{{bow:cohort/n|int}}"
+        },
+        {
+          "context": "block passed",
+          "text": "−0.0012",
+          "value": "{{bow:contrasts/contrast1_arm1_minus_arm0/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "seasons). The",
+          "text": "[−0.0020, −0.0005]",
+          "value": "{{bow:contrasts/contrast1_arm1_minus_arm0/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "seasons). The",
+          "text": "6 of 6",
+          "value": "{{bow:contrasts/contrast1_arm1_minus_arm0/difference/years_negative|d}} of {{bow:contrasts/contrast1_arm1_minus_arm0/years|len|d}}"
+        },
+        {
+          "context": "seasons). The",
+          "text": "−0.0019",
+          "value": "{{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "seasons, with",
+          "text": "[−0.0050, +0.0009]",
+          "value": "{{bow25:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "seasons, with",
+          "text": "15,251",
+          "value": "{{bow25:contrasts/contrast2_arm1_minus_buildoak/n|int}}"
+        },
+        {
+          "context": "seasons, with",
+          "text": "4 of 7",
+          "value": "{{bow25:contrasts/contrast2_arm1_minus_buildoak/difference/years_negative|d}} of {{bow25:contrasts/contrast2_arm1_minus_buildoak/years|len|d}}"
+        },
+        {
+          "context": "BuildOak ahead",
+          "text": "−0.0026",
+          "value": "{{bow:contrasts/contrast2_arm1_minus_buildoak/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "BuildOak ahead",
+          "text": "[−0.0058, +0.0004]",
+          "value": "{{bow:contrasts/contrast2_arm1_minus_buildoak/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "power at",
+          "text": "16%",
+          "value": "{{bow:power/registered_planning/contrast2_wta/power_at_observed_delta/power|pct0}}"
+        },
+        {
+          "context": "three preceding",
+          "text": "0.0027",
+          "value": "{{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|abs4}}"
+        },
+        {
+          "context": "three preceding",
+          "text": "[−0.0039, −0.0014]",
+          "value": "{{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "is published",
+          "text": "9,532",
+          "value": "{{bow25:contrasts/contrast3_blend/primary_blend_minus_arm1/n|int}}"
+        },
+        {
+          "context": "default model.",
+          "text": "0.0194",
+          "value": "{{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/match_weighted_delta|f4}}"
+        },
+        {
+          "context": "priced matches from",
+          "text": "[+0.0165, +0.0223]",
+          "value": "[{{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/interval_lower|s4}}, {{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/interval_upper|s4}}]"
+        },
+        {
+          "context": "priced matches from",
+          "text": "15,028",
+          "value": "{{ladder:tours/WTA01/pooled/n|int}}"
+        },
+        {
+          "context": "priced matches from",
+          "text": "0.6106",
+          "value": "{{ladder:tours/WTA01/pooled/log_loss_wta_full_entry_match_weighted|f4}}"
+        },
+        {
+          "context": "priced matches from",
+          "text": "0.5913",
+          "value": "{{ladder:tours/WTA01/pooled/log_loss_pinnacle_normalised_match_weighted|f4}}"
+        },
+        {
+          "context": "the first",
+          "text": "29",
+          "value": "{{ibm:population/archived_pre_start|d}}"
+        },
+        {
+          "context": "the first",
+          "text": "36",
+          "value": "{{ibm:population/live_2023_strict_pre_start|d}}"
+        },
+        {
+          "context": "On those",
+          "text": "64",
+          "value": "{{ibm:cohorts/pooled_primary/n|d}}"
+        },
+        {
+          "context": "The gap",
+          "text": "0.4876",
+          "value": "{{ibm:cohorts/pooled_primary/scores/pinnacle/log_loss|f4}}"
+        },
+        {
+          "context": "The gap",
+          "text": "61%",
+          "value": "{{ibm:cohorts/pooled_primary/sharpness/ibm/favourite_mean|pct0}}"
+        },
+        {
+          "context": "it picks",
+          "text": "85%",
+          "value": "{{ibm:cohorts/pooled_primary/sharpness/ibm/favourite_max|pct0}}"
+        },
+        {
+          "context": "carry the",
+          "text": "29",
+          "value": "{{ibm:population/archived_pre_start|d}}"
+        },
+        {
+          "context": "carry the",
+          "text": "36",
+          "value": "{{ibm:population/live_2023_strict_pre_start|d}}"
+        },
+        {
+          "context": "before each",
+          "text": "71.7%",
+          "value": "{{r25:years/2025/wimbledon/model_accuracy|pct1}}"
+        },
+        {
+          "context": "before each",
+          "text": "127",
+          "value": "{{r25:years/2025/wimbledon/n_main_draw_forecast|d}}"
+        },
+        {
+          "context": "and Pinnacle",
+          "text": "[63.8, 79.5]",
+          "value": "[{{r25:years/2025/wimbledon/model_accuracy_ci95/0|x100|f1}}, {{r25:years/2025/wimbledon/model_accuracy_ci95/1|x100|f1}}]"
+        },
+        {
+          "context": "and Pinnacle",
+          "text": "70.8%",
+          "value": "{{r25:years/2025/wimbledon/priced/pinnacle_accuracy|pct1}}"
+        },
+        {
+          "context": "and Pinnacle",
+          "text": "120",
+          "value": "{{r25:years/2025/wimbledon/priced/n|d}}"
+        },
+        {
+          "context": "experiment then",
+          "text": "−0.0011",
+          "value": "{{bo:contrasts/contrast1_arm1_minus_arm0/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "seasons negative.",
+          "text": "[−0.0018, −0.0004]",
+          "value": "{{bo:contrasts/contrast1_arm1_minus_arm0/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "seasons negative.",
+          "text": "6 of 8",
+          "value": "{{bo:contrasts/contrast1_arm1_minus_arm0/difference/years_negative|d}} of {{bo:contrasts/contrast1_arm1_minus_arm0/years|len|d}}"
+        },
+        {
+          "context": "the priced",
+          "text": "0.0012",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/match_weighted_delta|f4}}"
+        },
+        {
+          "context": "the priced",
+          "text": "[0.0006, 0.0017]",
+          "value": "[{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/interval_lower|f4}}, {{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/interval_upper|f4}}]"
+        },
+        {
+          "context": "the priced",
+          "text": "7 of 9",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/years - ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/years_negative|d}} of {{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_atp_full_tier_entry]/years|d}}"
+        },
+        {
+          "context": "card are",
+          "text": "35%",
+          "value": "{{why25:A/buildoak/rows/[segment=entry: Q, LL or WC involved]/share_of_matches|pct0}}"
+        },
+        {
+          "context": "card are",
+          "text": "58%",
+          "value": "{{why25:A/buildoak/rows/[segment=entry: Q, LL or WC involved]/gap_share|pct0}}"
+        },
+        {
+          "context": "matches whose",
+          "text": "−0.0112",
+          "value": "{{why25:A/buildoak/rows/[segment=entry: Q, LL or WC involved]/diff|s4}}"
+        },
+        {
+          "context": "matches whose",
+          "text": "[−0.0156, −0.0068]",
+          "value": "{{why25:A/buildoak/rows/[segment=entry: Q, LL or WC involved]/diff_ci|ci4}}"
+        },
+        {
+          "context": "matches where",
+          "text": "44%",
+          "value": "{{why25:A/buildoak/rows/[segment=lower_ranked_player_rank: 101-200]/gap_share|pct0}}"
+        },
+        {
+          "context": "matches where",
+          "text": "28%",
+          "value": "{{why25:A/buildoak/rows/[segment=thin_history: <10 prior main-tour matches]/gap_share|pct0}}"
+        },
+        {
+          "context": "These overlap,",
+          "text": "12%",
+          "value": "{{why25:A/buildoak/rows/[segment=thin_history: <10 prior main-tour matches]/share_of_matches|pct0}}"
+        },
+        {
+          "context": "These overlap,",
+          "text": "−0.0151",
+          "value": "{{why25:A/buildoak/rows/[segment=thin_history: <10 prior main-tour matches]/diff|s4}}"
+        },
+        {
+          "context": "These overlap,",
+          "text": "[−0.0236, −0.0070]",
+          "value": "{{why25:A/buildoak/rows/[segment=thin_history: <10 prior main-tour matches]/diff_ci|ci4}}"
+        },
+        {
+          "context": "leads in",
+          "text": "56%",
+          "value": "{{why25:A_top3/buildoak/union_vs_rest/[segment=none of the three]/share_of_matches|pct0}}"
+        },
+        {
+          "context": "leads in",
+          "text": "−0.0037",
+          "value": "{{why25:A_top3/buildoak/union_vs_rest/[segment=none of the three]/diff|s4}}"
+        },
+        {
+          "context": "leads in",
+          "text": "[−0.0065, −0.0009]",
+          "value": "{{why25:A_top3/buildoak/union_vs_rest/[segment=none of the three]/diff_ci|ci4}}"
+        },
+        {
+          "context": "BuildOak, and",
+          "text": "21,561",
+          "value": "{{why25:A/buildoak/rows/[segment=all matches]/n|int}}"
+        },
+        {
+          "context": "and behind",
+          "text": "+0.0015",
+          "value": "{{why25:D/rung_minus_buildoak/p1/[segment=all matches]/diff|s4}}"
+        },
+        {
+          "context": "and behind",
+          "text": "[−0.0005, +0.0036]",
+          "value": "{{why25:D/rung_minus_buildoak/p1/[segment=all matches]/diff_ci|ci4}}"
+        },
+        {
+          "context": "Adding qualifying,",
+          "text": "+0.0081",
+          "value": "{{why25:D/rung_minus_buildoak/p1/[segment=thin_history: <10 prior main-tour matches]/diff|s4}}"
+        },
+        {
+          "context": "Adding qualifying,",
+          "text": "[+0.0011, +0.0153]",
+          "value": "{{why25:D/rung_minus_buildoak/p1/[segment=thin_history: <10 prior main-tour matches]/diff_ci|ci4}}"
+        },
+        {
+          "context": "in those",
+          "text": "−0.0220",
+          "value": "{{why25:D/increments/full_tier_minus_p1/[segment=thin_history: <10 prior main-tour matches]/diff|s4}}"
+        },
+        {
+          "context": "in those",
+          "text": "[−0.0301, −0.0144]",
+          "value": "{{why25:D/increments/full_tier_minus_p1/[segment=thin_history: <10 prior main-tour matches]/diff_ci|ci4}}"
+        },
+        {
+          "context": "and Grand",
+          "text": "−0.0027",
+          "value": "{{why25:D/increments/full_tier_entry_minus_full_tier/[segment=entry: Q, LL or WC involved]/diff|s4}}"
+        },
+        {
+          "context": "and Grand",
+          "text": "[−0.0040, −0.0014]",
+          "value": "{{why25:D/increments/full_tier_entry_minus_full_tier/[segment=entry: Q, LL or WC involved]/diff_ci|ci4}}"
+        },
+        {
+          "context": "and Grand",
+          "text": "−0.0024",
+          "value": "{{why25:D/increments/full_tier_entry_minus_full_tier/[segment=level: Grand Slam]/diff|s4}}"
+        },
+        {
+          "context": "and Grand",
+          "text": "[−0.0033, −0.0015]",
+          "value": "{{why25:D/increments/full_tier_entry_minus_full_tier/[segment=level: Grand Slam]/diff_ci|ci4}}",
+          "offset": 1
+        },
+        {
+          "context": "bound rather",
+          "text": "17%",
+          "value": "{{why25:B/atp_21561/gaps/buildoak/share_of_gap_removed_by_recalibrating_rival|pct0}}"
+        },
+        {
+          "context": "Tennis Statistics'",
+          "text": "19%",
+          "value": "{{why25:B/atp_2024_2681/gaps/uts/share_of_gap_removed_by_recalibrating_rival|pct0}}"
+        },
+        {
+          "context": "Tennis Statistics'",
+          "text": "48%",
+          "value": "{{why25:B/atp_2024_2681/gaps/ingram/share_of_gap_removed_by_recalibrating_rival|pct0}}"
+        },
+        {
+          "context": "AUC is",
+          "text": "0.008",
+          "value": "{{why25:B/atp_21561/gaps/buildoak/auc_alcaraz_minus_rival|f3}}"
+        },
+        {
+          "context": "AUC is",
+          "text": "0.03",
+          "value": "{{why25:B/atp_2024_2681/gaps/uts/auc_alcaraz_minus_rival|f2}}"
+        },
+        {
+          "context": "AUC is",
+          "text": "0.03",
+          "value": "{{why25:B/atp_2024_2681/gaps/ingram/auc_alcaraz_minus_rival|f2}}"
+        },
+        {
+          "context": "is overconfident",
+          "text": "0.88",
+          "value": "{{why25:B/atp_21561/systems/buildoak/recal_slope|f2}}"
+        },
+        {
+          "context": "strongly overconfident",
+          "text": "0.62",
+          "value": "{{why25:B/atp_2024_2681/systems/ingram/recal_slope|f2}}"
+        },
+        {
+          "context": "older player,",
+          "text": "0.99",
+          "value": "{{why25:B/atp_21561/systems/alcaraz/recal_slope|f2}}"
+        },
+        {
+          "context": "wrong.** Alcaraz",
+          "text": "2,496",
+          "value": "{{why25:C/buildoak/pick_disagreement/n|int}}"
+        },
+        {
+          "context": "wrong.** Alcaraz",
+          "text": "11.6%",
+          "value": "{{why25:C/buildoak/pick_disagreement/share_of_matches|pct1}}"
+        },
+        {
+          "context": "sample; Alcaraz",
+          "text": "1,309",
+          "value": "{{why25:C/buildoak/pick_disagreement/alcaraz_pick_correct|int}}"
+        },
+        {
+          "context": "sample; Alcaraz",
+          "text": "1,187",
+          "value": "{{why25:C/buildoak/pick_disagreement/rival_pick_correct|int}}"
+        },
+        {
+          "context": "block took",
+          "text": "0.011",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_minus_pinnacle_normalised]/match_weighted_delta|f3}}"
+        },
+        {
+          "context": "block took",
+          "text": "0.0011",
+          "value": "{{bo:contrasts/contrast1_arm1_minus_arm0/difference/match_weighted/log_loss|abs4}}"
+        },
+        {
+          "context": "candidate models",
+          "text": "110",
+          "value": "{{tune:systems/tune01/menu/candidates|d}}"
+        },
+        {
+          "context": "by his",
+          "text": "1.3",
+          "value": "{{acc:tours/ATP/overall/pinnacle_normalised/accuracy - acc:tours/ATP/overall/atp_full_tier_entry/accuracy|x100|f1}}"
+        },
+        {
+          "context": "by his",
+          "text": "nine",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/years|word}}"
+        },
+        {
+          "context": "of accuracy",
+          "text": "0.010",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|f3}}"
+        },
+        {
+          "context": "leaderboard and",
+          "text": "145",
+          "value": "{{ladder:research_degrees_of_freedom/leaderboard_entries|d}}"
+        },
+        {
+          "context": "leaderboard and",
+          "text": "133",
+          "value": "{{ladder:research_degrees_of_freedom/experiment_ledger_entries|d}}"
+        },
+        {
+          "context": "| Past-only",
+          "text": "−0.0009",
+          "value": "{{bo:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "| Past-only",
+          "text": "[−0.0021, +0.0003]",
+          "value": "{{bo:contrasts/contrast3_blend/primary_blend_minus_arm1/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "| Past-only",
+          "text": "−0.0011",
+          "value": "{{bo25:contrasts/contrast3_blend/primary_blend_minus_arm1/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "| One",
+          "text": "110",
+          "value": "{{tune:systems/tune01/menu/candidates|d}}"
+        },
+        {
+          "context": "| One",
+          "text": "−0.0000",
+          "value": "{{tune:contrast_tune01_minus_arm0/difference/match_weighted/log_loss|s4}}"
+        },
+        {
+          "context": "| One",
+          "text": "[−0.0004, +0.0003]",
+          "value": "{{tune:contrast_tune01_minus_arm0/intervals_95/log_loss/8|ci4}}"
+        },
+        {
+          "context": "| One",
+          "text": "18,972",
+          "value": "{{tune:cohort/n|int}}"
+        },
+        {
+          "context": "and found",
+          "text": "0.0005",
+          "value": "{{tune:power/realised/mde_80_power_two_sided_05|f4}}"
+        }
+      ]
+    },
+    {
+      "page": "docs/METHODS.md",
+      "strict": false,
+      "note": "only the population and market tables are bound so far; other numbers are listed, not failed",
+      "bindings": [
+        {
+          "context": "| ATP | 2005–2025",
+          "text": "21,561",
+          "value": "{{bo25:cohort/n|int}}"
+        },
+        {
+          "context": "| ATP | 2005–2025",
+          "text": "21,361",
+          "value": "{{ladder:tours/ATP/pooled/n|int}}"
+        },
+        {
+          "context": "| WTA (WTA01)",
+          "text": "15,251",
+          "value": "{{bow25:cohort/n|int}}"
+        },
+        {
+          "context": "| WTA (WTA01)",
+          "text": "15,028",
+          "value": "{{ladder:tours/WTA01/pooled/n|int}}"
+        },
+        {
+          "context": "| WTA (WTA02)",
+          "text": "2,344",
+          "value": "{{ladder:tours/WTA/pooled/n|int}}"
+        },
+        {
+          "context": "`full_tier_entry` |",
+          "text": "21,361",
+          "value": "{{ladder:tours/ATP/pooled/n|int}}"
+        },
+        {
+          "context": "`full_tier_entry` |",
+          "text": "0.5993",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_atp_full_tier_entry_match_weighted|f4}}"
+        },
+        {
+          "context": "`full_tier_entry` |",
+          "text": "0.5890",
+          "value": "{{ladder:tours/ATP/pooled/log_loss_pinnacle_normalised_match_weighted|f4}}"
+        },
+        {
+          "context": "`full_tier_entry` |",
+          "text": "+0.0102 [0.0082, 0.0123]",
+          "value": "{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_lower|f4}}, {{ladder:tours/ATP/contrasts/[contrast=atp_full_tier_entry_minus_pinnacle_normalised]/interval_upper|f4}}]"
+        },
+        {
+          "context": "`wta_full_entry` |",
+          "text": "15,028",
+          "value": "{{ladder:tours/WTA01/pooled/n|int}}"
+        },
+        {
+          "context": "`wta_full_entry` |",
+          "text": "0.6106",
+          "value": "{{ladder:tours/WTA01/pooled/log_loss_wta_full_entry_match_weighted|f4}}"
+        },
+        {
+          "context": "`wta_full_entry` |",
+          "text": "0.5913",
+          "value": "{{ladder:tours/WTA01/pooled/log_loss_pinnacle_normalised_match_weighted|f4}}"
+        },
+        {
+          "context": "`wta_full_entry` |",
+          "text": "+0.0194 [0.0165, 0.0223]",
+          "value": "{{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/interval_lower|f4}}, {{ladder:tours/WTA01/contrasts/[contrast=wta_full_entry_minus_pinnacle_normalised]/interval_upper|f4}}]"
+        },
+        {
+          "context": "`wta_full` |",
+          "text": "2,344",
+          "value": "{{ladder:tours/WTA/pooled/n|int}}"
+        },
+        {
+          "context": "`wta_full` |",
+          "text": "0.6153",
+          "value": "{{ladder:tours/WTA/pooled/log_loss_wta_full_match_weighted|f4}}"
+        },
+        {
+          "context": "`wta_full` |",
+          "text": "0.5953",
+          "value": "{{ladder:tours/WTA/pooled/log_loss_pinnacle_normalised_match_weighted|f4}}"
+        },
+        {
+          "context": "`wta_full` |",
+          "text": "+0.0200 [0.0127, 0.0279]",
+          "value": "{{ladder:tours/WTA/contrasts/[contrast=wta_full_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{ladder:tours/WTA/contrasts/[contrast=wta_full_minus_pinnacle_normalised]/interval_lower|f4}}, {{ladder:tours/WTA/contrasts/[contrast=wta_full_minus_pinnacle_normalised]/interval_upper|f4}}]"
+        }
+      ],
+      "allowed": [
+        {
+          "text": "95%",
+          "reason": "interval level"
+        }
+      ]
+    },
+    {
+      "page": "docs/benchmarks/BUILDOAK_2017_2025_RESULTS.md",
+      "template": "docs/templates/BUILDOAK_2017_2025_RESULTS.md.in",
+      "allowed": [
+        {
+          "text": "95%",
+          "reason": "interval level"
+        },
+        {
+          "text": "1",
+          "reason": "blend formula (1 − w)"
+        }
+      ]
+    },
+    {
+      "page": "docs/benchmarks/G_L_2017_2025_RESULTS.md",
+      "template": "docs/templates/G_L_2017_2025_RESULTS.md.in",
+      "allowed": [
+        {
+          "text": "95%",
+          "reason": "interval level"
+        },
+        {
+          "text": "32",
+          "reason": "K-factor in the model name Pooled Elo (K=32)"
+        }
+      ]
+    },
+    {
+      "page": "docs/benchmarks/UTS_INGRAM_2024_2025_RESULTS.md",
+      "template": "docs/templates/UTS_INGRAM_2024_2025_RESULTS.md.in",
+      "allowed": [
+        {
+          "text": "95%",
+          "reason": "interval level"
+        }
+      ]
+    }
+  ]
+}

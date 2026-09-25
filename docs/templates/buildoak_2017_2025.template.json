@@ -1,8 +1,8 @@
 {
-  "status": "extension_pending_acceptance",
-  "status_note": "EXT2025 extension of the accepted ARMS01 ATP comparison to {{out:cohort/years|first|d}}-{{out:cohort/years|last|d}} (design amendments A1 and A3), scored once with the accepted ARMS01 scorer. 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted result (buildoak_2017_2024.json, archive decisions D131 and D132) remains the registered claim; its headline numbers are carried unchanged under accepted_result. Independently reconstructed (REC2, verdict {{out:acceptance/reconstruction_verdict|raw}}); the decision entry is pending.",
+  "status": "independently_reconstructed",
+  "status_note": "EXT2025 extension of the accepted ARMS01 ATP comparison to {{out:cohort/years|first|d}}-{{out:cohort/years|last|d}} (design amendments A1 and A3), scored once with the accepted ARMS01 scorer. 2025 was inspected before the model freeze (D134) and scored by REFIT2025 (D137 ATP, D138 WTA): it is exposed retrospective data, not a holdout. The accepted result (buildoak_2017_2024.json, archive decisions D131 and D132) remains the registered claim; its headline numbers are carried unchanged under accepted_result. Accepted as archive decision {{out:acceptance/archive_decision|raw}}, independently reconstructed (REC2, verdict {{out:acceptance/reconstruction_verdict|raw}}).",
   "acceptance": {
-    "archive_decision": "pending",
+    "archive_decision": "D139",
     "reconstruction_verdict": "@value rec_results:item1_buildoak/verdict",
     "reconstruction_record": "@file rec",
     "reconstruction_numbers": "@file rec_results"
@@ -18,7 +18,10 @@
   "tour": "@value res:tour",
   "scope": "exposed_retrospective_ATP_2017_2025_walk_forward_full_system_comparison_extension",
   "registration": {
-    "design": "@file design",
+    "design": {
+      "archive_relative_path": "experiments/EXT2025.design.md",
+      "sha256_at_scoring_freeze": "@value freeze_scoring:file_sha256/'experiments/EXT2025.design.md'"
+    },
     "amendments": "A1 (BuildOak 2025 fits; accepted 2024 reproductions byte-identical before the 2025 output is used), A3 (scoring: accepted ARMS01 scorer, frozen model as the only Alcaraz arm, blend years extended by 2025, no power restatement)",
     "runs_freeze": "@file freeze_runs",
     "scoring_freeze": "@file freeze_scoring",

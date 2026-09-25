@@ -4,10 +4,12 @@
 > freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
 > remain the registered claims, and each extended number is shown beside its registered
 > one: [EXTERNAL_2024_2025_RESULTS.md](EXTERNAL_2024_2025_RESULTS.md) for Ultimate Tennis Statistics and [INGRAM_2024_RESULTS.md](INGRAM_2024_RESULTS.md) for Ingram, both ATP 2024.
-> The extension's acceptance is pending a decision entry.
+> Accepted as archive decision {{ui25:acceptance/archive_decision|raw}}, independently reconstructed (Ultimate Tennis Statistics:
+> verdict {{ui25:acceptance/reconstruction_uts/verdict|raw}}; Ingram: verdicts {{ui25:acceptance/reconstruction_ingram/verdict_scoring|raw}} for the scoring and
+> {{ui25:acceptance/reconstruction_ingram/verdict_continuation|raw}} for the continued 2025 fit).
 
 Both external systems are scored with one scorer on one match set per block: ATP 2024,
-ATP 2025 and the two pooled (design amendments A2 and A4). The primary comparator is the
+ATP 2025 and the two pooled (design amendments A2, A4 and A5). The primary comparator is the
 frozen model (ATP `full_tier_entry`, D134); the continuity comparator is the version the
 accepted 2024 rows used (`full_tier`). Every number is filled from
 [uts_ingram_2024_2025.json](uts_ingram_2024_2025.json) and the accepted JSONs.
@@ -41,21 +43,40 @@ predate its code or would need a new timing exclusion (design amendment A2).
 
 ## Ingram's Bayesian point model
 
-The 2025 Ingram fit and its scoring pass with the same scorer are pending (design
-amendment A4); until they exist the registered 2024 result stands alone:
-{{ing:primary/incumbent_minus_ingram_log_loss|s4}}
-{{ing:primary/uncertainty/results/8/percentile_95|ci4}} on {{ing:primary/incumbent/n|int}}
-matches (its own bootstrap), against `full_tier`.
-{{# INGRAM SLOT: when uts_ingram_2024_2025.json carries ingram.primary and ingram.continuity
-(same layout as uts.primary), replace the paragraph above with the two tables below and
-delete these comment markers.
+The unchanged paper model, fitted for 2025 with the accepted settings and the 2024 seeds;
+its raw posterior forecast is scored.
 
 ### Frozen model (primary)
 
 | Block | Matches | Alcaraz | Ingram | Alcaraz − Ingram | 95% interval, eight-week blocks |
 |---|---:|---:|---:|---:|---:|
-| 2024 | {{ui25:ingram/primary/2024/n|int}} | ... |
-#}}
+| 2024 | {{ui25:ingram/primary/2024/n|int}} | {{ui25:ingram/primary/2024/incumbent/log_loss|f4}} | {{ui25:ingram/primary/2024/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/primary/2024/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/primary/2024/uncertainty/results/8/percentile_95|ci4}} |
+| 2025 | {{ui25:ingram/primary/2025/n|int}} | {{ui25:ingram/primary/2025/incumbent/log_loss|f4}} | {{ui25:ingram/primary/2025/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/primary/2025/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/primary/2025/uncertainty/results/8/percentile_95|ci4}} |
+| 2024–2025 pooled | {{ui25:ingram/primary/pooled_2024_2025/n|int}} | {{ui25:ingram/primary/pooled_2024_2025/incumbent/log_loss|f4}} | {{ui25:ingram/primary/pooled_2024_2025/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+
+### Accepted version (continuity)
+
+| Block | Matches | Alcaraz | Ingram | Alcaraz − Ingram | 95% interval, eight-week blocks |
+|---|---:|---:|---:|---:|---:|
+| 2024 | {{ui25:ingram/continuity/2024/n|int}} | {{ui25:ingram/continuity/2024/incumbent/log_loss|f4}} | {{ui25:ingram/continuity/2024/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/continuity/2024/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/continuity/2024/uncertainty/results/8/percentile_95|ci4}} |
+| 2025 | {{ui25:ingram/continuity/2025/n|int}} | {{ui25:ingram/continuity/2025/incumbent/log_loss|f4}} | {{ui25:ingram/continuity/2025/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/continuity/2025/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/continuity/2025/uncertainty/results/8/percentile_95|ci4}} |
+| 2024–2025 pooled | {{ui25:ingram/continuity/pooled_2024_2025/n|int}} | {{ui25:ingram/continuity/pooled_2024_2025/incumbent/log_loss|f4}} | {{ui25:ingram/continuity/pooled_2024_2025/external_ingram_raw_posterior/log_loss|f4}} | {{ui25:ingram/continuity/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} | {{ui25:ingram/continuity/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+
+The continuity 2024 log losses equal the registered 2024 result (the builder checks them).
+The registered interval, {{ing:primary/incumbent_minus_ingram_log_loss|s4}}
+{{ing:primary/uncertainty/results/8/percentile_95|ci4}} on {{ing:primary/incumbent/n|int}} matches, came from
+the Ingram run's own bootstrap; the intervals here come from this page's common scorer, so the
+2024 interval differs slightly while the points agree.
+
+**How the 2025 fit ran.** The first attempt finished sampling and passed the frozen gates in
+every period, then stopped in the prediction step on one match-probability draw that floating-point
+rounding had put a hair above one. The second attempt continued from the saved samples with the
+frozen seeds, clipping probabilities within {{ui25:ingram/run_2025/rounding_clips_by_period/1/tolerance|e0}} of the boundary and
+recording each clip: {{ui25:ingram/run_2025/rounding_clips_by_period/1/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/1/clipped_below_zero + ui25:ingram/run_2025/rounding_clips_by_period/2/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/2/clipped_below_zero + ui25:ingram/run_2025/rounding_clips_by_period/3/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/3/clipped_below_zero + ui25:ingram/run_2025/rounding_clips_by_period/4/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/4/clipped_below_zero + ui25:ingram/run_2025/rounding_clips_by_period/5/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/5/clipped_below_zero + ui25:ingram/run_2025/rounding_clips_by_period/6/clipped_above_one + ui25:ingram/run_2025/rounding_clips_by_period/6/clipped_below_zero|word}} clips in all, all in best-of-five matches
+according to design amendment A5, which names them. The
+{{ui25:ingram/run_2025/periods_reproduced_byte_for_byte|len|word}} periods without a clip that were
+checked before the freeze reproduced their forecasts byte for byte from the saved samples.
+Model, sampler, seeds, gates, inputs and scoring are unchanged.
 
 ## Limits
 

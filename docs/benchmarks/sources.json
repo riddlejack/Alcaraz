@@ -84,8 +84,8 @@
     },
     {
       "output": "docs/benchmarks/buildoak_2017_2025.json",
-      "status": "extension",
-      "note": "EXT2025 BuildOak ATP 2017-2025 (design amendments A1, A3), scoring freeze 2. Independently reconstructed (REC2, ACCEPT); decision entry pending.",
+      "status": "accepted",
+      "note": "EXT2025 BuildOak ATP 2017-2025 (design amendments A1, A3), scoring freeze 2. Accepted as archive decision D139 (independently reconstructed: REC2, ACCEPT); the builder only checks it.",
       "template": "docs/templates/buildoak_2017_2025.template.json",
       "arm_names": {
         "alcaraz_frozen": "arm1",
@@ -99,10 +99,6 @@
         "accepted": {
           "path": "references/ARMS01/results/attempt_002/arms01_atp_attempt_002_result.json",
           "sha256": "03bf7fe427c3a49d723d80f3430ce0eebe142b449476fc0501008b80c161f885"
-        },
-        "design": {
-          "path": "experiments/EXT2025.design.md",
-          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
         },
         "freeze_runs": {
           "path": "references/EXT2025/FREEZE_RUNS_1_2026-09-24.json",
@@ -290,8 +286,8 @@
     },
     {
       "output": "docs/benchmarks/buildoak_wta_2019_2025.json",
-      "status": "extension",
-      "note": "EXT2025 BuildOak WTA 2019-2025 (design amendments A1, A3), scoring freeze 2. Independently reconstructed (REC2, ACCEPT); decision entry pending.",
+      "status": "accepted",
+      "note": "EXT2025 BuildOak WTA 2019-2025 (A1, A3), scoring freeze 2. Accepted as archive decision D139 (independently reconstructed: REC2, ACCEPT); the builder only checks it.",
       "template": "docs/templates/buildoak_wta_2019_2025.template.json",
       "arm_names": {
         "alcaraz_frozen": "arm1",
@@ -305,10 +301,6 @@
         "accepted": {
           "path": "references/ARMS01/results/wta_attempt_002/arms01_wta_attempt_002_result.json",
           "sha256": "fb74b1adebcdce411dc97ef521cbbbd4a7a9da356524223e76dc09f3798636ec"
-        },
-        "design": {
-          "path": "experiments/EXT2025.design.md",
-          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
         },
         "freeze_runs": {
           "path": "references/EXT2025/FREEZE_RUNS_1_2026-09-24.json",
@@ -436,8 +428,8 @@
     },
     {
       "output": "docs/benchmarks/G_L_RESULTS_2017_2025.json",
-      "status": "extension",
-      "note": "EXT2025 G-L run (b), frozen-model incumbent (ATP full_tier_entry, WTA full_entry), ATP 2017-2025 and WTA 2019-2025 (A2). Byte copy. Acceptance: pending the lead's decision entry; move the path to references/EXT2025/ when the result is filed there.",
+      "status": "accepted",
+      "note": "EXT2025 G-L run (b), frozen-model incumbent (ATP full_tier_entry, WTA full_entry), ATP 2017-2025 and WTA 2019-2025 (A2). Byte copy. Accepted as archive decision D139 (independently reconstructed: REC1, ACCEPT); the builder only checks it.",
       "copy": "report",
       "sources": {
         "report": {
@@ -448,8 +440,8 @@
     },
     {
       "output": "docs/benchmarks/G_L_RESULTS_2017_2025_continuity.json",
-      "status": "extension",
-      "note": "EXT2025 G-L run (a), continuity incumbent (ATP full_tier, WTA full); its 2017-2024 per-season values equal the accepted G_L_RESULTS.json (A2). Byte copy.",
+      "status": "accepted",
+      "note": "EXT2025 G-L run (a), continuity incumbent (ATP full_tier, WTA full); its 2017-2024 per-season values equal the accepted G_L_RESULTS.json (A2). Byte copy. Accepted as archive decision D139 (independently reconstructed: REC1, ACCEPT); the builder only checks it.",
       "copy": "report",
       "sources": {
         "report": {
@@ -460,8 +452,8 @@
     },
     {
       "output": "docs/benchmarks/uts_ingram_2024_2025.json",
-      "status": "extension",
-      "note": "EXT2025 UTS 2024, 2025 and pooled 2024-2025 (A2, A4; scoring freeze 1). Ingram slot empty until its scoring pass exists: add ingram_primary / ingram_continuity sources and the template's ingram block then.",
+      "status": "accepted",
+      "note": "EXT2025 UTS and Ingram 2024, 2025 and pooled 2024-2025 (A2, A4, A5; scoring freezes 1 and 4). Accepted as archive decision D139 (independently reconstructed: UTS REC1, Ingram REC3, ACCEPT); the builder only checks it.",
       "template": "docs/templates/uts_ingram_2024_2025.template.json",
       "sources": {
         "uts_primary": {
@@ -476,13 +468,73 @@
           "path": "references/EXT2025/FREEZE_SCORING_1_2026-09-24.json",
           "sha256": "36e37f1b08b8ef5f6907a6f137ec33a9e7d7f363bbb96af7167fcec3f27f30a6"
         },
-        "design": {
-          "path": "experiments/EXT2025.design.md",
-          "sha256": "c3ae11975ac4705d5f821e423e2640610372a25fa53e586bdab707b343700e6b"
-        },
         "uts_accepted": {
           "path": "work/root_uts_contract_2026-09-15/attempt_002/MATCHED_COMPARISON.json",
           "sha256": "0e0797679db6501872d53391a916aff687942277882eaa48c15fb12c9398b468"
+        },
+        "ingram_primary": {
+          "path": "work/EXT2025/baselines/uts/score_ext2025_ingram_primary_001/MATCHED_COMPARISON.json",
+          "sha256": "cdeed3a8b520e937ff2c63cdc8af37a7860afca97f17c8c67f2e06710c92bfac"
+        },
+        "ingram_continuity": {
+          "path": "work/EXT2025/baselines/uts/score_ext2025_ingram_continuity_001/MATCHED_COMPARISON.json",
+          "sha256": "7cc0906e525ffb91cf98fce4bb404e5e14b19e6f1649690725879fdc2726a9a0"
+        },
+        "ingram_accepted": {
+          "path": "work/INGRAM_RECOVERY_20260921/runtime_real/INGRAM-PAPER-ATP2024-RECOVERY-20260921/attempt_002/score.json",
+          "sha256": "b68deda9e32d77846d4baf4ab3555d015022fc22e2549ee7b3bfe0e8d4ca4305"
+        },
+        "freeze_scoring_ingram": {
+          "path": "references/EXT2025/FREEZE_SCORING_4_2026-09-25.json",
+          "sha256": "42588f7935517f22d5d9b2a1417e0c7510fa2683df395db236c2febac6cb0566"
+        },
+        "ingram_commitment": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/FORECAST_COMMITMENT.json",
+          "sha256": "0bb540aa63b6c68a6f884e3343c7812c6fdb8a1ffd183cc497c654f3c70ec45b"
+        },
+        "ingram_regression": {
+          "path": "work/EXT2025/baselines/ingram/regression_cont/REGRESSION_RESULT.json",
+          "sha256": "027ef74f36f732a452e09af6f0a9f9af597950ffed5a83b91b31c32fe6d184ce"
+        },
+        "ingram_p1": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_01/COMPLETE.json",
+          "sha256": "e474e8a73952832f0dd8d9deea92b1afea79b392a10e7c345a6ee0882cec7828"
+        },
+        "ingram_p2": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_02/COMPLETE.json",
+          "sha256": "756c9ec15b9695c3b720205c04114a4bb5151f667e6bff1ebcfbfdb75644193a"
+        },
+        "ingram_p3": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_03/COMPLETE.json",
+          "sha256": "f48dad1b86a87b35c12ba024616e15d77f936c920ca45b0ebfac3b82f593c0bf"
+        },
+        "ingram_p4": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_04/COMPLETE.json",
+          "sha256": "a890cb9e730a287f0095af074dab03d2c20dbedb8521ce18b0024f0664b21cbb"
+        },
+        "ingram_p5": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_05/COMPLETE.json",
+          "sha256": "c92668d57af1fab9e5f53d76dfb2b155ee55752f79235e96d9b1b483efe6c50b"
+        },
+        "ingram_p6": {
+          "path": "work/EXT2025/baselines/ingram/runtime_real/INGRAM-PAPER-ATP2025-01/attempt_002/period_06/COMPLETE.json",
+          "sha256": "befb265663bd52696bf61479ec539748bf8ad3d7272de34238a13dfaa43e848b"
+        },
+        "rec1": {
+          "path": "work/EXT2025/reconstruction/rec1/RECONSTRUCTION.md",
+          "sha256": "dedb5c2985c8e5429e1d813a4d2fffbf495fd096db39ab0d606ca7987469af32"
+        },
+        "rec1_results": {
+          "path": "work/EXT2025/reconstruction/rec1/results.json",
+          "sha256": "fe3c0586e8234cce28aeb583b15f909555454a0447884027a082a6a0256aa9ee"
+        },
+        "rec3": {
+          "path": "work/EXT2025/reconstruction/rec3/RECONSTRUCTION.md",
+          "sha256": "1aa5d42f0683fab50e39e37adee7d7f38d0591d6ba69d1e3a6a2639db0c61607"
+        },
+        "rec3_results": {
+          "path": "work/EXT2025/reconstruction/rec3/results.json",
+          "sha256": "149335433d742154a63ba7a109613d1bfd011c31e8e676e621f1739f2911f014"
         }
       },
       "checks": [
@@ -520,13 +572,53 @@
             "8",
             "13"
           ]
+        },
+        {
+          "equal": [
+            "ingram_continuity:by_year/2024/n",
+            "ingram_accepted:metrics/ingram_raw_posterior/n"
+          ]
+        },
+        {
+          "equal": [
+            "ingram_continuity:by_year/2024/external_ingram_raw_posterior/log_loss",
+            "ingram_accepted:metrics/ingram_raw_posterior/natural_log_loss"
+          ]
+        },
+        {
+          "equal": [
+            "ingram_continuity:by_year/2024/incumbent/log_loss",
+            "ingram_accepted:metrics/saved_incumbent_raw_field/natural_log_loss"
+          ]
+        },
+        {
+          "equal": [
+            "ingram_primary:by_year/{each}/incumbent",
+            "uts_primary:by_year/{each}/incumbent"
+          ],
+          "each": [
+            "2024",
+            "2025"
+          ]
+        },
+        {
+          "equal": [
+            "ingram_primary:pooled/incumbent",
+            "uts_primary:pooled/incumbent"
+          ]
+        },
+        {
+          "equal": [
+            "ingram_continuity:pooled/incumbent",
+            "uts_continuity:pooled/incumbent"
+          ]
         }
       ]
     },
     {
       "output": "docs/benchmarks/why01_2017_2025.json",
-      "status": "extension",
-      "note": "WHY01 exploratory decomposition on ATP 2017-2025 (EXT2025 scoring freeze 3; segment definitions fixed at the published values; UTS and Ingram parts on 2024). Byte copy of the run's results.json. Independently reconstructed (REC2, ACCEPT, work/EXT2025/reconstruction/rec2/RECONSTRUCTION.md); decision entry pending.",
+      "status": "accepted",
+      "note": "WHY01 exploratory decomposition on ATP 2017-2025 (scoring freeze 3; segment definitions fixed at the published values; UTS and Ingram parts on 2024). Copy of the run's results.json with host paths as placeholders. Accepted as archive decision D139 (independently reconstructed: REC2, ACCEPT); the builder only checks it.",
       "copy": "results",
       "sources": {
         "results": {
