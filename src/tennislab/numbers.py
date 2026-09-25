@@ -7,12 +7,13 @@ only; nothing here reads a file.
 
 - ``{{alias:path|pipe|...}}`` reads a JSON value through a resolver. ``path`` is
   ``/``-separated; a list element is chosen by index (``years/0``) or by field
-  (``comparisons/[id=uts]``), and a bracket may hold spaces, slashes and colons.
+  (``comparisons/[id=uts]``), and a bracket may hold spaces, slashes and colons; a key
+  that contains a slash is quoted: ``file_sha256/'experiments/EXT2025.design.md'``.
 - References and numbers may be joined by `` + ``, `` - ``, `` * ``, `` / `` (spaces
   required, evaluated left to right): ``{{bo:cohort/n - bo:cohort/priced_subset/n|int}}``.
 - Pipes transform (``len``, ``values``, ``first``, ``last``, ``abs``, ``neg``, ``x100``,
   ``min``, ``max``, ``round`` to an integer, ``inv`` for 1/x, ``negatives`` counting values below zero) and format (``f4`` fixed, ``s4`` signed, ``abs4``, ``ci4`` interval,
-  ``pct1`` percent, ``int`` thousands separator, ``d`` plain integer, ``word``/``Word``
+  ``pct1`` percent, ``e0`` scientific, ``int`` thousands separator, ``d`` plain integer, ``word``/``Word``
   spelled 0-99, ``span`` for years as first–last, ``raw``). A placeholder must end in a
   format. Negative numbers use the minus sign U+2212.
 - ``{{# ... #}}`` is a template comment, removed before rendering.
@@ -44,20 +45,23 @@ class NumbersError(ValueError):
 
 
 def split_path(path: str) -> list[str]:
-    """Split on ``/`` outside brackets."""
-    parts, depth, current = [], 0, []
+    """Split on ``/`` outside brackets and quotes; ``'a/b.md'`` is one literal key."""
+    parts, depth, quoted, current = [], 0, False, []
     for char in path:
-        if char == "[":
+        if char == "'" and depth == 0:
+            quoted = not quoted
+            continue
+        if not quoted and char == "[":
             depth += 1
-        elif char == "]":
+        elif not quoted and char == "]":
             depth -= 1
-        if char == "/" and depth == 0:
+        if char == "/" and depth == 0 and not quoted:
             parts.append("".join(current))
             current = []
         else:
             current.append(char)
     parts.append("".join(current))
-    if depth != 0 or any(part == "" for part in parts):
+    if depth != 0 or quoted or any(part == "" for part in parts):
         raise NumbersError(f"malformed path {path!r}")
     return parts
 
@@ -132,6 +136,7 @@ DIGIT_FORMATS: dict[str, Callable[[Any, int], str]] = {
     "abs": lambda v, d: _plain(abs(float(v)), d),
     "ci": lambda v, d: f"[{_signed(float(v[0]), d)}, {_signed(float(v[1]), d)}]",
     "pct": lambda v, d: f"{_plain(100 * float(v), d)}%",
+    "e": lambda v, d: f"{float(v):.{d}e}",
 }
 
 
