@@ -11,6 +11,7 @@ DATA = {
     "contrast": {"difference": -0.00703, "interval": [-0.01004, -0.00402], "years_negative": 2},
     "rows": [{"segment": "rank: 101/200", "share": 0.3456}, {"segment": "other", "share": 0.5}],
     "annual": {"2017": -0.0078, "2025": 0.0015},
+    "files": {"docs/a.md": 0.25},
 }
 
 
@@ -36,6 +37,8 @@ def resolve(alias: str, path: str):
         ("x:annual|values|negatives|word", "one"),
         ("x:cohort/n / 1000|round|word", "nineteen"),
         ("75|word", "seventy-five"),
+        ("0.000000000001|e0", "1e-12"),
+        ("x:files/'docs/a.md'|pct0", "25%"),
         ("1 / x:contrast/difference|neg|f1", "142.2"),
     ],
 )
