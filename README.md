@@ -1,6 +1,6 @@
 # Alcaraz
 
-**SOTA public statistics-only tennis prediction model. Only 0.010 log loss behind the betting market.**
+**SOTA public statistics-only tennis prediction model. Beats IBM & every other public model. Only 0.010 log loss behind the betting market.**
 
 Alcaraz predicts professional tennis matches from the public record alone: results,
 rankings, serve and return statistics, lower-tier history and the published draw. No
@@ -15,10 +15,7 @@ matches, Alcaraz trails by 0.010 log loss, about one correct pick in seventy-six
 hypothesis is that most of that gap is information the public record does not hold:
 fitness, injuries, withdrawals and how much a match matters to each player on the day.
 
-The project started with Green Code's *I Trained AI to Predict Sports*. Its first model
-reported 85% accuracy and, as its creator later disclosed, had post-match ratings leaking
-into pre-match features. That left a question worth answering properly: with every leak
-hunted down, how well can public statistics really predict tennis?
+The project was inspired by Green Code's *I Trained AI to Predict Sports*. 
 
 ![Top: the ATP model built up block by block on one shared set of 21,361 matches from 2017 to 2025, ending with the entry-status block. Bottom: paired log-loss differences against three public systems, each on its own matches, with 95% intervals.](docs/assets/alcaraz-results.svg)
 
