@@ -237,3 +237,30 @@ def test_the_tier_stream_note_changes_only_for_an_acknowledging_chain() -> None:
         )
     }
     assert by_clearing == notes
+
+
+def test_the_2025_refit_chain_extends_the_arms01_chain_by_one_season() -> None:
+    """The previous version's 2017-2025 run (the input of `tennislab current`): the ARMS01
+    recipe with every year ceiling moved to 2025, the 2025 bridge source, and the 2005-2025
+    crosswalk pins merged into the join config only."""
+    arms01 = json.loads(
+        Path("configs/chains/atp_arms01_2017_2024.json").read_text(encoding="utf-8")
+    )
+    refit = json.loads(
+        Path("configs/chains/atp_refit2025_2017_2025.json").read_text(encoding="utf-8")
+    )
+    assert refit["year_plan"] == {
+        **arms01["year_plan"],
+        "feature_end_year": 2025,
+        "panel_end_year": 2025,
+        "target_years": [*arms01["year_plan"]["target_years"], 2025],
+    }
+    section = refit["chain"]
+    assert sorted(section["bridge_sources"]) == ["2024", "2025"]
+    assert section["entry_any_qualifier_counts_ll"] is False
+    assert list(section["stage_config_overrides"]) == ["join"]
+    plan = runner.year_plan(refit).as_document()
+    bodies = runner._stage_config_bodies(section, section["inputs"], plan)
+    merged = runner._deep_merge(bodies["join"], section["stage_config_overrides"]["join"])
+    assert merged["join"]["ch01_event_crosswalk"].endswith("_2005_2025.json")
+    assert merged["join"]["ch01_player_aliases"].endswith("_2005_2025.json")
