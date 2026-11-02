@@ -1,4 +1,4 @@
-.PHONY: setup lint test reproduce-small reproduce-tier check results-figure benchmarks numbers
+.PHONY: setup lint test reproduce-small reproduce-tier reproduce-current check results-figure benchmarks numbers
 
 UV ?= uv
 
@@ -18,7 +18,12 @@ reproduce-small:
 reproduce-tier:
 	$(UV) run tennislab reproduce-small --scenario tier
 
-check: lint test numbers reproduce-small reproduce-tier
+# The previous version on the tier sample, then the current Alcaraz on its run root: the
+# all-tier table, the all-tier model and the pool (synthetic data only).
+reproduce-current:
+	$(UV) run tennislab reproduce-small --scenario current
+
+check: lint test numbers reproduce-small reproduce-tier reproduce-current
 
 # The README results figure needs matplotlib, which is deliberately not in the locked
 # environment. Render it with the system python3 (tested with matplotlib 3.11).

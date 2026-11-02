@@ -1,0 +1,86 @@
+{
+  "forecasts": {
+    "2018": {
+      "mean_alltier": 0.5086268257655167,
+      "mean_current": 0.5063301400855946,
+      "n": 531
+    },
+    "2019": {
+      "mean_alltier": 0.5110825216215227,
+      "mean_current": 0.5100635054414671,
+      "n": 526
+    },
+    "2020": {
+      "mean_alltier": 0.4889281190163736,
+      "mean_current": 0.4940898611369459,
+      "n": 525
+    }
+  },
+  "picks": {
+    "2018": {
+      "window03": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.7743982403227263
+      },
+      "window05": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.7554569163418563
+      },
+      "window08": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.7489651640578985
+      }
+    },
+    "2019": {
+      "window03": {
+        "candidate": "hgb_leaf31_iter400",
+        "slope": 0.7480574669616452
+      },
+      "window05": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.7692891190443261
+      },
+      "window08": {
+        "candidate": "hgb_leaf31_iter400",
+        "slope": 0.7685048006103264
+      }
+    },
+    "2020": {
+      "window03": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.8853513189036831
+      },
+      "window05": {
+        "candidate": "hgb_leaf127_iter800",
+        "slope": 0.8172547143766841
+      },
+      "window08": {
+        "candidate": "hgb_leaf31_iter400",
+        "slope": 0.8071321350841753
+      }
+    }
+  },
+  "pinned_on": {
+    "environment": "uv.lock",
+    "numpy": "2.5.3",
+    "package_version": "0.1.0",
+    "python": "3.14.6",
+    "scikit_learn": "1.9.1",
+    "scipy": "1.18.1"
+  },
+  "source": "tennislab reproduce-small --pin --scenario current",
+  "table_columns": 113,
+  "table_rows": 11772,
+  "table_rows_by_tier": {
+    "challenger": 1950,
+    "futures": 2197,
+    "qualifying": 2275,
+    "tour": 5350
+  },
+  "targets_without_alltier_row": {
+    "2018": 0,
+    "2019": 0,
+    "2020": 0
+  },
+  "tolerance": 1e-09
+}

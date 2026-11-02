@@ -1,0 +1,43 @@
+{
+  "description": "The all-tier table of the synthetic tier sample (tour from 2011, lower tiers from 2008, through 2020), dated by the sample's panel and the tier stream of the sample's previous-version run (reproduce-small --scenario current).",
+  "table": {
+    "max_year": 2020,
+    "first_year": {
+      "atp_tour": 2011,
+      "atp_qual_chall": 2008,
+      "atp_futures": 2008
+    },
+    "archive": {
+      "path": "data/sample_tier/archive.tar.gz",
+      "sha256": "c6e113ece79c7633605864408757c2f81c52cde99afc484f2b5c011302fea2b0",
+      "tar_root": "synthetic-sample-archive"
+    },
+    "inventory": {
+      "path": "data/sample_tier/snapshot_file_inventory.csv",
+      "sha256": "295533f3468a9da231633ecb18711b5153115148342fac07436feca47157d74d"
+    },
+    "archive_manifest": {
+      "path": "data/sample_tier/archive_manifest.json",
+      "sha256": "70278255a17f14f3ca02962bdb0b2ec8485db07adeaed4d0443b710f563caa16"
+    },
+    "previous_run": {
+      "panel": {
+        "path": "data/sample_tier/panel.csv",
+        "sha256": "26cb2c87d4f7357611b23435e4093d938c4b1c52c83d746bc8fd18345024b24a"
+      },
+      "tier_results": {
+        "path": "work/sample_atp_tier_entry/run/tier_stream/tier_results.csv.gz",
+        "sha256": "0bb0325a334e63278ebe9f9dad78eb5fc22db951a92c848feb40ffe2e0443bc5"
+      }
+    },
+    "serve_return_filter": {
+      "V0": 0.005,
+      "q": 1e-05,
+      "V_surf": 0.001,
+      "temper_lower": 1.0,
+      "mu_rate": 0.002,
+      "mu0_serve_share": 0.62
+    },
+    "output_dir": "work/sample_current/table"
+  }
+}

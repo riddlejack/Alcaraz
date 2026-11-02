@@ -24,3 +24,5 @@ jobs:
         run: make reproduce-small
       - name: Tier reproduction from the committed tier sample
         run: make reproduce-tier
+      - name: Current Alcaraz reproduction from the committed tier sample
+        run: make reproduce-current

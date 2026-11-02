@@ -1,0 +1,22 @@
+{
+  "description": "The current Alcaraz on the synthetic tier sample for 2018-2020: equal fixed log-odds weights, as the real model.",
+  "pool": {
+    "previous_run": {
+      "root": "work/sample_atp_tier_entry/run",
+      "learner": "hgb",
+      "bundle": "full_tier_entry"
+    },
+    "alltier_dir": "work/sample_current/alltier",
+    "target_years": [
+      2018,
+      2019,
+      2020
+    ],
+    "weights": {
+      "previous": 0.5,
+      "alltier": 0.5
+    },
+    "max_missing_share": 0.01,
+    "output_dir": "work/sample_current/pool"
+  }
+}

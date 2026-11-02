@@ -1,0 +1,75 @@
+{
+  "description": "The all-tier model on the synthetic tier sample for 2018-2020. The sample's history is too short for 8/12/16-season windows and its previous-version run selects on two past seasons, so the windows here are 3, 5 and 8 seasons and selection looks back two seasons; the menu, tiers and slope rule are the real model's.",
+  "alltier": {
+    "table": {
+      "path": "work/sample_current/table/table.npz",
+      "sha256": null
+    },
+    "previous_run": {
+      "root": "work/sample_atp_tier_entry/run",
+      "learner": "hgb",
+      "bundle": "full_tier_entry"
+    },
+    "target_years": [
+      2018,
+      2019,
+      2020
+    ],
+    "selection_years_back": 2,
+    "windows": [
+      3,
+      5,
+      8
+    ],
+    "training_tiers": [
+      "tour",
+      "qualifying",
+      "challenger"
+    ],
+    "base_params": {
+      "early_stopping": false,
+      "l2_regularization": 10.0,
+      "learning_rate": 0.05,
+      "loss": "log_loss",
+      "max_bins": 255,
+      "max_depth": 3,
+      "max_iter": 200,
+      "max_leaf_nodes": 7,
+      "min_samples_leaf": 80,
+      "random_state": 71101
+    },
+    "candidates": [
+      {
+        "id": "hgb_leaf31_iter400",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 31,
+          "max_iter": 400,
+          "min_samples_leaf": 200
+        }
+      },
+      {
+        "id": "hgb_leaf63_iter600",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 63,
+          "max_iter": 600,
+          "min_samples_leaf": 400,
+          "learning_rate": 0.05
+        }
+      },
+      {
+        "id": "hgb_leaf127_iter800",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 127,
+          "max_iter": 800,
+          "min_samples_leaf": 600,
+          "learning_rate": 0.04
+        }
+      }
+    ],
+    "workers": 4,
+    "output_dir": "work/sample_current/alltier"
+  }
+}

@@ -89,3 +89,19 @@ scenario's pins exactly and the 32 `base`/`full_tier` forecast files are byte-id
 between the two runs: appending the block changes nothing for a bundle that does not
 read it. The sign of the entry contrast on this synthetic world is noise, not a result.
 `tests/test_entry_scenario.py` drives this configuration through the chain driver.
+
+## The current Alcaraz (`--scenario current`)
+
+`make reproduce-current` runs the `tier_entry` chain above as the previous version and
+then the current Alcaraz on its run root (`configs/current/sample_table.json`,
+`sample_alltier.json`, `sample_pool.json`): the all-tier table of this sample (11,772
+rows: tour from 2011, lower tiers from 2008), the all-tier model for 2018–2020 and the
+log-odds pool with the previous version. The sample's history is too short for the real
+8/12/16-season windows and its previous-version run selects on two past seasons, so the
+scenario's windows are 3, 5 and 8 seasons and its selection looks back two seasons; the
+menu, training tiers, slope rule and pool weights are the real model's.
+`expected_current.json` was pinned by `uv run tennislab reproduce-small --scenario current
+--pin` on the pinned environment and is judged on the table's shape, each window's
+candidate and slope (to 1e-9), the targets without a table row, and each season's mean
+all-tier and current forecast (to 1e-9). It pins no score. The run takes about four
+minutes on four cores.
