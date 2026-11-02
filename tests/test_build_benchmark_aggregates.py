@@ -269,3 +269,55 @@ def test_host_path_in_a_copy_becomes_a_placeholder(setup: tuple[Path, Path]) -> 
     original = repo / "local/evidence/docs/benchmarks/copy.json"
     assert original.read_bytes() == report.read_bytes()
     assert run(repo, archive, "--only", "docs/benchmarks/copy.json", "--check").returncode == 0
+
+
+def relabel_repo(repo: Path, archive: Path, source: dict, template: dict, names: dict) -> None:
+    (archive / "results").mkdir(parents=True, exist_ok=True)
+    (archive / "results/s.json").write_text(json.dumps(source))
+    (repo / "docs/templates").mkdir(parents=True, exist_ok=True)
+    (repo / "docs/benchmarks").mkdir(exist_ok=True)
+    (repo / "docs/templates/t.json").write_text(json.dumps(template))
+    target = {
+        "output": "docs/benchmarks/out.json",
+        "status": "extension",
+        "template": "docs/templates/t.json",
+        "relabel": names,
+        "sources": {"src": {"path": "results/s.json", "sha256": sha(archive / "results/s.json")}},
+    }
+    (repo / "docs/benchmarks/sources.json").write_text(json.dumps({"targets": [target]}))
+
+
+def test_relabel_renames_whole_tokens_in_keys_and_strings(tmp_path: Path) -> None:
+    archive, repo = tmp_path / "archive", tmp_path / "repo"
+    source = {
+        "pooled": {"log_loss_atp_pool_match_weighted": 0.59, "log_loss_atp_pool2_x": 0.6},
+        "contrasts": [{"contrast": "atp_frozen_minus_atp_pool", "match_weighted_delta": 0.003}],
+        "arms": ["B_M", "B_MC", "pool"],
+    }
+    template = {
+        "p": "@relabel src:pooled",
+        "c": "@relabel src:contrasts",
+        "a": "@relabel src:arms",
+        "kept": "@value src:arms",
+    }
+    names = {"atp_pool": "current", "atp_frozen": "previous", "B_M": "released"}
+    relabel_repo(repo, archive, source, template, names)
+    done = run(repo, archive)
+    assert done.returncode == 0, done.stdout + done.stderr
+    out = json.loads((repo / "docs/benchmarks/out.json").read_text())
+    # "atp_pool2" is not the token "atp_pool", and "B_MC" is not the token "B_M".
+    assert out["p"] == {"log_loss_current_match_weighted": 0.59, "log_loss_atp_pool2_x": 0.6}
+    assert out["c"] == [{"contrast": "previous_minus_current", "match_weighted_delta": 0.003}]
+    assert out["a"] == ["released", "B_MC", "pool"]
+    assert out["kept"] == ["B_M", "B_MC", "pool"]
+
+
+def test_relabel_refuses_to_merge_two_keys(tmp_path: Path) -> None:
+    archive, repo = tmp_path / "archive", tmp_path / "repo"
+    relabel_repo(
+        repo, archive, {"v": {"a_x": 1, "a_y": 2}}, {"v": "@relabel src:v"}, {"x": "z", "y": "z"}
+    )
+    done = run(repo, archive)
+    assert done.returncode == 1
+    assert "relabel maps two keys" in done.stdout
+    assert not (repo / "docs/benchmarks/out.json").exists()

@@ -1,0 +1,214 @@
+{
+  "about": "Numbers for the current version of Alcaraz (ATP only): the previous version averaged with a second, all-tier model, equal weights on log-odds fixed in advance. Every value is copied from the research result files named under provenance (hash-pinned in docs/benchmarks/sources.json); nothing here is recomputed. Differences are left minus right; negative favours the left side. Contrast blocks keep the scorer's own layout: difference and scores per metric, interval_95_block8 the primary 95% interval (stationary calendar-week bootstrap, mean block eight weeks, 5,000 draws), interval_95_block4_log_loss and interval_95_block13_log_loss the block-length checks, annual_log_loss the per-season differences.",
+  "versions": {
+    "current": "Alcaraz, the current version: sigma(0.5 logit(previous) + 0.5 logit(second_model)) for every match; no refit and no weight fitted on test data.",
+    "previous": "The previous version of Alcaraz: the boosted model with lower-tier history and the entry-status block, unchanged.",
+    "second_model": "The second model: gradient boosting on an all-tier match table from 1991 (tour, qualifying, Challenger and Futures), trained on tour, qualifying and Challenger matches, three training windows (8, 12, 16 seasons) averaged in log-odds."
+  },
+  "names": {
+    "buildoak_fair": "BuildOak (github.com/buildoak/tennis-xgboost-autoresearch) on the same lower-tier files and the same timing rule as Alcaraz (results visible two days after the match, no future-dated settings).",
+    "buildoak_native_lower_tier": "BuildOak on the same lower-tier files with its own native setup (results used at once, lower-tier results dated on the Sunday of their week).",
+    "buildoak_two_day_rule_only": "As buildoak_fair, with only the timing change applied.",
+    "buildoak_released": "BuildOak as released: its own main-tour data and its own native setup.",
+    "buildoak_main_tour_fair": "BuildOak on main-tour data only, with the fair timing rule.",
+    "catboost_walk_forward": "hikmatazimzade/tennis-ai's CatBoost recipe, refitted for each season on the author's own feature table.",
+    "catboost_lower_tier": "The same CatBoost recipe given the lower-tier files Alcaraz uses.",
+    "catboost_shipped_checkpoint": "The CatBoost checkpoint the author ships, on 2025.",
+    "catboost_shipped_refit": "The same recipe refitted through 2024, on 2025.",
+    "stack_without_lookahead": "yaobviously/tennis_elo's ridge and LightGBM stack, rerun from the author's notebook with its look-ahead removed.",
+    "alcaraz": "In the stack and shipped-CatBoost blocks the left side is named alcaraz; the block's key (current or previous) says which version it is."
+  },
+  "rival_bootstrap": "@value corrected:bootstrap",
+  "ladder_2017_2025": {
+    "about": "Identical priced ATP matches, 2017-2025; match-level bootstrap stratified by year (interval). Rungs: elo, atp_p0, atp_full_tier, previous, current, pinnacle_normalised. The atp_p1 rung was not rerun on this pass; its values on the same matches are in docs/ladder.json.",
+    "interval": "@value ladder_2017_2025:ladder/interval",
+    "pooled": "@relabel ladder_2017_2025:ladder/tours/ATP/pooled",
+    "contrasts": "@relabel ladder_2017_2025:ladder/tours/ATP/contrasts",
+    "per_year": "@relabel ladder_2017_2025:ladder/tours/ATP/per_year",
+    "winner_accuracy": {
+      "definition": "@value ladder_2017_2025:winner_accuracy/definition/accuracy",
+      "model_order": "@relabel ladder_2017_2025:winner_accuracy/tours/ATP/model_order",
+      "overall": "@relabel ladder_2017_2025:winner_accuracy/tours/ATP/overall",
+      "per_year": "@relabel ladder_2017_2025:winner_accuracy/tours/ATP/per_year"
+    }
+  },
+  "ladder_2017_2024": {
+    "pooled": "@relabel ladder_2017_2024:ladder/tours/ATP/pooled",
+    "contrasts": "@relabel ladder_2017_2024:ladder/tours/ATP/contrasts",
+    "winner_accuracy": "@relabel ladder_2017_2024:winner_accuracy/tours/ATP/overall"
+  },
+  "ladder_2025": {
+    "pooled": "@relabel ladder_2025:ladder/tours/ATP/pooled",
+    "contrasts": "@relabel ladder_2025:ladder/tours/ATP/contrasts",
+    "winner_accuracy": "@relabel ladder_2025:winner_accuracy/tours/ATP/overall"
+  },
+  "fair_buildoak": {
+    "about": "Alcaraz against BuildOak on the same lower-tier files and timing rule. corrected: the 2025 pass with the selection-label defect fixed (run after the registered result was seen). registered: the pre-registered pass, whose 2025 second-model settings were chosen on a file with 2024's results blanked. 2017-2024 is identical in both.",
+    "corrected": {
+      "current_vs_fair_buildoak": {
+        "y2017_2025": "@relabel corrected:cohorts/cp/contrasts/pool_vs_BC/all_2017_2025/brief",
+        "y2017_2024": "@relabel corrected:cohorts/cp/contrasts/pool_vs_BC/bc_2017_2024/brief",
+        "y2025": "@relabel corrected:cohorts/cp/contrasts/pool_vs_BC/pooled/brief",
+        "y2025_p_holm": "@value corrected:cohorts/cp/contrasts/pool_vs_BC/p_holm"
+      },
+      "previous_vs_fair_buildoak": {
+        "y2017_2025": "@relabel corrected:cohorts/cp/contrasts/frozen_vs_BC/all_2017_2025/brief",
+        "y2025": "@relabel corrected:cohorts/cp/contrasts/frozen_vs_BC/pooled/brief"
+      },
+      "second_model_vs_fair_buildoak": {
+        "y2017_2025": "@relabel corrected:cohorts/cp/contrasts/w_vs_BC/all_2017_2025/brief",
+        "y2025": "@relabel corrected:cohorts/cp/contrasts/w_vs_BC/pooled/brief"
+      },
+      "current_vs_previous": {
+        "y2017_2025": "@relabel corrected:cohorts/cp/contrasts/pool_vs_frozen/all_2017_2025/brief",
+        "y2025": "@relabel corrected:cohorts/cp/contrasts/pool_vs_frozen/pooled/brief"
+      },
+      "second_model_vs_previous": {
+        "y2025": "@relabel corrected:cohorts/cp/contrasts/w_vs_frozen/pooled/brief"
+      },
+      "whole_membership_scores": "@relabel corrected:cohorts/cp/alcaraz_on_whole_membership"
+    },
+    "registered": {
+      "current_vs_fair_buildoak": {
+        "y2017_2025": "@relabel registered:cohorts/cp/contrasts/pool_vs_BC/all_2017_2025/brief",
+        "y2025": "@relabel registered:cohorts/cp/contrasts/pool_vs_BC/pooled/brief",
+        "y2025_p_holm": "@value registered:cohorts/cp/contrasts/pool_vs_BC/p_holm"
+      },
+      "current_vs_previous": {
+        "y2025": "@relabel registered:cohorts/cp/contrasts/pool_vs_frozen/pooled/brief"
+      },
+      "second_model_vs_previous": {
+        "y2025": "@relabel registered:cohorts/cp/contrasts/w_vs_frozen/pooled/brief"
+      },
+      "second_model_vs_fair_buildoak": {
+        "y2025": "@relabel registered:cohorts/cp/contrasts/w_vs_BC/pooled/brief"
+      }
+    },
+    "y2017_2024": {
+      "about": "The registered 2017-2024 pass that put BuildOak on the fair timing rule; also measures what BuildOak's native setup was worth to it. y2024 is the 2024 season alone; y2017_2023 the seasons before it.",
+      "current_vs_fair_buildoak": {
+        "y2017_2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BC/pooled/brief",
+        "y2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BC/leg_2024/brief",
+        "y2017_2023": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BC/r2_window_2017_2023/brief"
+      },
+      "previous_vs_fair_buildoak": {
+        "y2017_2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/frozen_vs_BC/pooled/brief",
+        "y2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/frozen_vs_BC/leg_2024/brief"
+      },
+      "native_setup_worth": {
+        "fair_minus_native": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/BC_vs_BT/pooled/brief",
+        "two_day_rule_only_minus_native": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/BD2_vs_BT/pooled/brief",
+        "fair_minus_two_day_rule_only": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/BC_vs_BD2/pooled/brief",
+        "main_tour_fair_minus_released": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/BMC_vs_BM/pooled/brief"
+      },
+      "current_vs_native_lower_tier": {
+        "y2017_2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BT/pooled/brief",
+        "y2024": "@relabel fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BT/leg_2024/brief"
+      }
+    },
+    "y2014_2016": {
+      "about": "Seasons on which none of these forecasts had been scored before. The current version can be formed only for 2015-2016 (the previous version's lineage needs six warm-up seasons); the second model alone reaches 2014.",
+      "current_vs_fair_buildoak_2015_2016": "@relabel early_2015_2016:cohorts/bk/contrasts/pool_vs_BC/pooled/brief",
+      "previous_vs_fair_buildoak_2015_2016": "@relabel early_2015_2016:cohorts/bk/contrasts/frozen_vs_BC/pooled/brief",
+      "current_vs_previous_2015_2016": "@relabel early_2015_2016:cohorts/bk/contrasts/pool_vs_frozen/pooled/brief",
+      "second_model_vs_fair_buildoak_2015_2016": "@relabel early_2015_2016:cohorts/bk/contrasts/w_vs_BC_2015_2016/pooled/brief",
+      "second_model_vs_fair_buildoak_2014_2016": "@relabel early_2014_2016:cohorts/bk/contrasts/w_vs_BC/pooled/brief"
+    }
+  },
+  "buildoak_released": {
+    "about": "BuildOak as released, run with its own main-tour data and native setup, on the same 2017-2025 matches (corrected 2025 file).",
+    "current": {
+      "y2017_2025": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_BM/pooled/brief",
+      "y2025": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_BM/y2025/brief"
+    },
+    "previous": {
+      "y2017_2025": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_BM/pooled/brief",
+      "y2025": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_BM/y2025/brief"
+    }
+  },
+  "baselines": {
+    "about": "Five Elo and ranking baselines on the same 2017-2025 matches: FiveThirtyEight surface Elo, pooled Elo with K 32, Kovalchik's overall Elo with a major-tournament adjustment, a ranking logistic and weighted Elo (WElo).",
+    "current": {
+      "fivethirtyeight_surface": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_fivethirtyeight_surface/pooled/brief",
+      "k32_pooled": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_k32_pooled/pooled/brief",
+      "kovalchik_overall_major": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_kovalchik_overall_major/pooled/brief",
+      "rank_logistic": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_rank_logistic/pooled/brief",
+      "welo": "@relabel released_and_baselines:cohorts/cpa/contrasts/pool_vs_welo/pooled/brief"
+    },
+    "previous": {
+      "fivethirtyeight_surface": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_fivethirtyeight_surface/pooled/brief",
+      "k32_pooled": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_k32_pooled/pooled/brief",
+      "kovalchik_overall_major": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_kovalchik_overall_major/pooled/brief",
+      "rank_logistic": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_rank_logistic/pooled/brief",
+      "welo": "@relabel released_and_baselines:cohorts/cpa/contrasts/frozen_vs_welo/pooled/brief"
+    }
+  },
+  "catboost_walk_forward": {
+    "about": "hikmatazimzade/tennis-ai's CatBoost refitted for each season 2017-2024 on the author's own table (the author's files list some seasons' finals first, which lets later-round results reach earlier rows: a look-ahead in the rival's favour).",
+    "current": "@relabel walk_forward_catboost:cohorts/primary/contrasts/pool_primary/pooled/brief",
+    "previous": "@relabel walk_forward_catboost:cohorts/primary/contrasts/primary/pooled/brief"
+  },
+  "catboost_lower_tier": {
+    "about": "The same CatBoost recipe given Alcaraz's lower-tier files, 2017-2024 and 2024 alone.",
+    "current": {
+      "y2017_2024": "@relabel lower_tier_catboost:cohorts/catboost/contrasts/catboost_primary/pooled/brief",
+      "y2024": "@relabel lower_tier_catboost:cohorts/catboost/contrasts/catboost_primary/leg_2024/brief"
+    },
+    "previous": {
+      "y2017_2024": "@relabel lower_tier_catboost:cohorts/catboost/contrasts/catboost_frozen_vs_T/pooled/brief"
+    }
+  },
+  "stack": {
+    "about": "yaobviously/tennis_elo's ridge and LightGBM stack with its look-ahead removed, on its own 2017-2023 rows (anchor dates through February 2023).",
+    "current": "@relabel stack_current:cohort/readings/primary/contrasts/alcaraz - arm_b/brief",
+    "previous": "@relabel stack_previous:cohort/readings/primary/contrasts/alcaraz - arm_b/brief"
+  },
+  "shipped_catboost_2025": {
+    "about": "The CatBoost the author ships (its checkpoint) and the same recipe refitted through 2024, on 2025.",
+    "current": {
+      "checkpoint": "@relabel shipped_catboost:blocks/atp_2025_pool/cohorts/primary/contrasts/alcaraz - arm_b2025_i_checkpoint/brief",
+      "refit": "@relabel shipped_catboost:blocks/atp_2025_pool/cohorts/primary/contrasts/alcaraz - arm_b2025_ii_refit/brief"
+    },
+    "previous": {
+      "checkpoint": "@relabel shipped_catboost:blocks/atp_2025/cohorts/primary/contrasts/alcaraz - arm_b2025_i_checkpoint/brief",
+      "refit": "@relabel shipped_catboost:blocks/atp_2025/cohorts/primary/contrasts/alcaraz - arm_b2025_ii_refit/brief"
+    }
+  },
+  "members": {
+    "about": "Log loss of the average and of each member on every target match (no market price needed). The average scores below both members over 2017-2024 and 2017-2025.",
+    "y2017_2024": "@relabel lower_tier_catboost:cohorts/buildoak/alcaraz_on_whole_membership",
+    "y2017_2025": "@relabel corrected:cohorts/cp/alcaraz_on_whole_membership"
+  },
+  "current_vs_previous_unseen": {
+    "about": "The gain over the previous version on seasons never used to build the second model: 2024, 2015-2016 and 2025 (corrected).",
+    "y2024": "@relabel lower_tier_catboost:cohorts/buildoak/contrasts/buildoak_pool_vs_frozen/leg_2024/brief",
+    "y2015_2016": "@relabel early_2015_2016:cohorts/bk/contrasts/pool_vs_frozen/pooled/brief",
+    "y2025": "@relabel corrected:cohorts/cp/contrasts/pool_vs_frozen/pooled/brief"
+  },
+  "calibration_2017_2024": {
+    "about": "Descriptive calibration on 18,888 ATP matches from 2017 to 2024: slope of a no-intercept logistic fit of the outcome on logit(p) (1 is calibrated, below 1 overconfident) and favourite-side bins ten points wide.",
+    "current": "@value calibration:film_18888/current_alcaraz",
+    "previous": "@value calibration:film_18888/previous_alcaraz",
+    "buildoak_fair": "@value calibration:film_18888/buildoak_fair_B_C",
+    "buildoak_released": "@value calibration:film_18888/buildoak_as_released_B_M",
+    "catboost_main_tour": "@value calibration:film_18888/catboost_C_M"
+  },
+  "provenance": {
+    "ladder_2017_2025": "@file ladder_2017_2025",
+    "ladder_2017_2024": "@file ladder_2017_2024",
+    "ladder_2025": "@file ladder_2025",
+    "fair_buildoak_corrected": "@file corrected",
+    "fair_buildoak_registered": "@file registered",
+    "buildoak_released_and_baselines": "@file released_and_baselines",
+    "fair_buildoak_2017_2024": "@file fair_2017_2024",
+    "seasons_2015_2016": "@file early_2015_2016",
+    "seasons_2014_2016": "@file early_2014_2016",
+    "catboost_lower_tier_2017_2024": "@file lower_tier_catboost",
+    "catboost_walk_forward": "@file walk_forward_catboost",
+    "stack_current": "@file stack_current",
+    "stack_previous": "@file stack_previous",
+    "shipped_catboost_2025": "@file shipped_catboost",
+    "calibration": "@file calibration",
+    "write_up": "@file write_up"
+  }
+}

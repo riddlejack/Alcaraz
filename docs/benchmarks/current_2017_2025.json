@@ -1,0 +1,5041 @@
+{
+  "about": "Numbers for the current version of Alcaraz (ATP only): the previous version averaged with a second, all-tier model, equal weights on log-odds fixed in advance. Every value is copied from the research result files named under provenance (hash-pinned in docs/benchmarks/sources.json); nothing here is recomputed. Differences are left minus right; negative favours the left side. Contrast blocks keep the scorer's own layout: difference and scores per metric, interval_95_block8 the primary 95% interval (stationary calendar-week bootstrap, mean block eight weeks, 5,000 draws), interval_95_block4_log_loss and interval_95_block13_log_loss the block-length checks, annual_log_loss the per-season differences.",
+  "versions": {
+    "current": "Alcaraz, the current version: sigma(0.5 logit(previous) + 0.5 logit(second_model)) for every match; no refit and no weight fitted on test data.",
+    "previous": "The previous version of Alcaraz: the boosted model with lower-tier history and the entry-status block, unchanged.",
+    "second_model": "The second model: gradient boosting on an all-tier match table from 1991 (tour, qualifying, Challenger and Futures), trained on tour, qualifying and Challenger matches, three training windows (8, 12, 16 seasons) averaged in log-odds."
+  },
+  "names": {
+    "buildoak_fair": "BuildOak (github.com/buildoak/tennis-xgboost-autoresearch) on the same lower-tier files and the same timing rule as Alcaraz (results visible two days after the match, no future-dated settings).",
+    "buildoak_native_lower_tier": "BuildOak on the same lower-tier files with its own native setup (results used at once, lower-tier results dated on the Sunday of their week).",
+    "buildoak_two_day_rule_only": "As buildoak_fair, with only the timing change applied.",
+    "buildoak_released": "BuildOak as released: its own main-tour data and its own native setup.",
+    "buildoak_main_tour_fair": "BuildOak on main-tour data only, with the fair timing rule.",
+    "catboost_walk_forward": "hikmatazimzade/tennis-ai's CatBoost recipe, refitted for each season on the author's own feature table.",
+    "catboost_lower_tier": "The same CatBoost recipe given the lower-tier files Alcaraz uses.",
+    "catboost_shipped_checkpoint": "The CatBoost checkpoint the author ships, on 2025.",
+    "catboost_shipped_refit": "The same recipe refitted through 2024, on 2025.",
+    "stack_without_lookahead": "yaobviously/tennis_elo's ridge and LightGBM stack, rerun from the author's notebook with its look-ahead removed.",
+    "alcaraz": "In the stack and shipped-CatBoost blocks the left side is named alcaraz; the block's key (current or previous) says which version it is."
+  },
+  "rival_bootstrap": {
+    "mean_blocks": [
+      8,
+      4,
+      13
+    ],
+    "primary": 8,
+    "replicates": 5000,
+    "seed": 20260922
+  },
+  "ladder_2017_2025": {
+    "about": "Identical priced ATP matches, 2017-2025; match-level bootstrap stratified by year (interval). Rungs: elo, atp_p0, atp_full_tier, previous, current, pinnacle_normalised. The atp_p1 rung was not rerun on this pass; its values on the same matches are in docs/ladder.json.",
+    "interval": {
+      "level": 0.95,
+      "replicates": 2000,
+      "seed": 20260912,
+      "type": "match_level_bootstrap_stratified_by_year"
+    },
+    "pooled": {
+      "clip_count_atp_full_tier": 0,
+      "clip_count_previous": 0,
+      "clip_count_current": 0,
+      "clip_count_atp_p0": 0,
+      "clip_count_elo": 0,
+      "clip_count_pinnacle_calibrated": 0,
+      "clip_count_pinnacle_normalised": 0,
+      "log_loss_previous_equal_year": 0.5989176142201215,
+      "log_loss_previous_match_weighted": 0.5992578295307923,
+      "log_loss_atp_full_tier_equal_year": 0.6001098036524645,
+      "log_loss_atp_full_tier_match_weighted": 0.60042949287783,
+      "log_loss_current_equal_year": 0.5957546018757112,
+      "log_loss_current_match_weighted": 0.5961082281034883,
+      "log_loss_atp_p0_equal_year": 0.61388966198121,
+      "log_loss_atp_p0_match_weighted": 0.6141884875673279,
+      "log_loss_elo_equal_year": 0.6244478548941511,
+      "log_loss_elo_match_weighted": 0.6248724176214071,
+      "log_loss_pinnacle_calibrated_equal_year": 0.5884114410377348,
+      "log_loss_pinnacle_calibrated_match_weighted": 0.5891410077210092,
+      "log_loss_pinnacle_normalised_equal_year": 0.5882852652332355,
+      "log_loss_pinnacle_normalised_match_weighted": 0.5890256209876684,
+      "n": 21361,
+      "tour": "ATP",
+      "years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    },
+    "contrasts": [
+      {
+        "contrast": "elo_minus_atp_p0",
+        "equal_year_delta": 0.01055819291294115,
+        "interval_lower": 0.008576206325601602,
+        "interval_upper": 0.01285239132674637,
+        "match_weighted_delta": 0.0106839300540791,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "elo_minus_pinnacle_normalised",
+        "equal_year_delta": 0.036162589660915616,
+        "interval_lower": 0.03275591872873284,
+        "interval_upper": 0.03889036825648707,
+        "match_weighted_delta": 0.035846796633738645,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_atp_full_tier",
+        "equal_year_delta": 0.013779858328745401,
+        "interval_lower": 0.01157219904486603,
+        "interval_upper": 0.015959501125181783,
+        "match_weighted_delta": 0.01375899468949796,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_pinnacle_normalised",
+        "equal_year_delta": 0.025604396747974465,
+        "interval_lower": 0.022462977602209003,
+        "interval_upper": 0.027710539468840986,
+        "match_weighted_delta": 0.02516286657965954,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_full_tier_minus_previous",
+        "equal_year_delta": 0.0011921894323431402,
+        "interval_lower": 0.0006269115721365296,
+        "interval_upper": 0.001704845310645523,
+        "match_weighted_delta": 0.0011716633470376945,
+        "years": 9,
+        "years_negative": 2
+      },
+      {
+        "contrast": "atp_full_tier_minus_pinnacle_normalised",
+        "equal_year_delta": 0.011824538419229064,
+        "interval_lower": 0.009409337373018871,
+        "interval_upper": 0.013569832962363327,
+        "match_weighted_delta": 0.01140387189016158,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_current",
+        "equal_year_delta": 0.003163012344410311,
+        "interval_lower": 0.0023892224837283494,
+        "interval_upper": 0.003932943128356353,
+        "match_weighted_delta": 0.0031496014273039333,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_pinnacle_normalised",
+        "equal_year_delta": 0.010632348986885922,
+        "interval_lower": 0.008245729720500644,
+        "interval_upper": 0.012311192028497633,
+        "match_weighted_delta": 0.010232208543123886,
+        "years": 9,
+        "years_negative": 0
+      },
+      {
+        "contrast": "current_minus_pinnacle_normalised",
+        "equal_year_delta": 0.007469336642475611,
+        "interval_lower": 0.005266008917045005,
+        "interval_upper": 0.008899163328639333,
+        "match_weighted_delta": 0.007082607115819952,
+        "years": 9,
+        "years_negative": 0
+      }
+    ],
+    "per_year": [
+      {
+        "delta_previous_minus_current": 0.0030204355874984055,
+        "delta_previous_minus_pinnacle_normalised": 0.0042288845425912675,
+        "delta_atp_full_tier_minus_previous": 0.002095339771445707,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.006324224314036975,
+        "delta_current_minus_pinnacle_normalised": 0.0012084489550928616,
+        "delta_atp_p0_minus_atp_full_tier": 0.009125008200410959,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.015449232514447932,
+        "delta_elo_minus_atp_p0": 0.009505341932532801,
+        "delta_elo_minus_pinnacle_normalised": 0.024954574446980734,
+        "log_loss_atp_full_tier": 0.593790591565371,
+        "log_loss_previous": 0.5916952517939253,
+        "log_loss_current": 0.5886748162064269,
+        "log_loss_atp_p0": 0.602915599765782,
+        "log_loss_elo": 0.6124209416983147,
+        "log_loss_pinnacle_calibrated": 0.5884509534891338,
+        "log_loss_pinnacle_normalised": 0.587466367251334,
+        "n": 2311,
+        "tour": "ATP",
+        "year": 2017
+      },
+      {
+        "delta_previous_minus_current": 0.00309526537842414,
+        "delta_previous_minus_pinnacle_normalised": 0.011348117352948887,
+        "delta_atp_full_tier_minus_previous": 0.001540421624717108,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.012888538977665997,
+        "delta_current_minus_pinnacle_normalised": 0.008252851974524748,
+        "delta_atp_p0_minus_atp_full_tier": 0.015527750102697668,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.02841628908036366,
+        "delta_elo_minus_atp_p0": 0.014506512634315854,
+        "delta_elo_minus_pinnacle_normalised": 0.042922801714679513,
+        "log_loss_atp_full_tier": 0.6044391951582586,
+        "log_loss_previous": 0.6028987735335416,
+        "log_loss_current": 0.5998035081551174,
+        "log_loss_atp_p0": 0.6199669452609564,
+        "log_loss_elo": 0.6344734578952722,
+        "log_loss_pinnacle_calibrated": 0.5914616014122852,
+        "log_loss_pinnacle_normalised": 0.5915506561805927,
+        "n": 2587,
+        "tour": "ATP",
+        "year": 2018
+      },
+      {
+        "delta_previous_minus_current": 0.003304059904301537,
+        "delta_previous_minus_pinnacle_normalised": 0.011722102654626134,
+        "delta_atp_full_tier_minus_previous": -0.0007724106514834082,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.010949692003142726,
+        "delta_current_minus_pinnacle_normalised": 0.008418042750324596,
+        "delta_atp_p0_minus_atp_full_tier": 0.010592962720192904,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.021542654723335632,
+        "delta_elo_minus_atp_p0": 0.011995202187713709,
+        "delta_elo_minus_pinnacle_normalised": 0.03353785691104934,
+        "log_loss_atp_full_tier": 0.6053161994504137,
+        "log_loss_previous": 0.6060886101018972,
+        "log_loss_current": 0.6027845501975956,
+        "log_loss_atp_p0": 0.6159091621706066,
+        "log_loss_elo": 0.6279043643583204,
+        "log_loss_pinnacle_calibrated": 0.5943956238868849,
+        "log_loss_pinnacle_normalised": 0.594366507447271,
+        "n": 2491,
+        "tour": "ATP",
+        "year": 2019
+      },
+      {
+        "delta_previous_minus_current": 0.003057075520066601,
+        "delta_previous_minus_pinnacle_normalised": 0.018994977449441616,
+        "delta_atp_full_tier_minus_previous": 0.0015354392069431221,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.020530416656384737,
+        "delta_current_minus_pinnacle_normalised": 0.015937901929375015,
+        "delta_atp_p0_minus_atp_full_tier": 0.014026743525390385,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.034557160181775126,
+        "delta_elo_minus_atp_p0": 0.009835974633041523,
+        "delta_elo_minus_pinnacle_normalised": 0.044393134814816645,
+        "log_loss_atp_full_tier": 0.5952526525681503,
+        "log_loss_previous": 0.5937172133612072,
+        "log_loss_current": 0.5906601378411406,
+        "log_loss_atp_p0": 0.6092793960935406,
+        "log_loss_elo": 0.6191153707265822,
+        "log_loss_pinnacle_calibrated": 0.574785893339811,
+        "log_loss_pinnacle_normalised": 0.5747222359117656,
+        "n": 1241,
+        "tour": "ATP",
+        "year": 2020
+      },
+      {
+        "delta_previous_minus_current": 0.0037663843810531355,
+        "delta_previous_minus_pinnacle_normalised": 0.00570822688734656,
+        "delta_atp_full_tier_minus_previous": 0.0011623790221931673,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.0068706059095397275,
+        "delta_current_minus_pinnacle_normalised": 0.0019418425062934245,
+        "delta_atp_p0_minus_atp_full_tier": 0.021241615872958582,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.028112221782498316,
+        "delta_elo_minus_atp_p0": 0.008740893151954683,
+        "delta_elo_minus_pinnacle_normalised": 0.03685311493445299,
+        "log_loss_atp_full_tier": 0.5973316239237999,
+        "log_loss_previous": 0.5961692449016067,
+        "log_loss_current": 0.5924028605205536,
+        "log_loss_atp_p0": 0.6185732397967585,
+        "log_loss_elo": 0.6273141329487132,
+        "log_loss_pinnacle_calibrated": 0.5905840561893336,
+        "log_loss_pinnacle_normalised": 0.5904610180142601,
+        "n": 2384,
+        "tour": "ATP",
+        "year": 2021
+      },
+      {
+        "delta_previous_minus_current": 0.004215466475343286,
+        "delta_previous_minus_pinnacle_normalised": 0.01040325121775042,
+        "delta_atp_full_tier_minus_previous": -0.00028868241523236825,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.010114568802518055,
+        "delta_current_minus_pinnacle_normalised": 0.006187784742407136,
+        "delta_atp_p0_minus_atp_full_tier": 0.013283213378787347,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.0233977821813054,
+        "delta_elo_minus_atp_p0": 0.010322383962668456,
+        "delta_elo_minus_pinnacle_normalised": 0.03372016614397386,
+        "log_loss_atp_full_tier": 0.592556648135299,
+        "log_loss_previous": 0.5928453305505313,
+        "log_loss_current": 0.588629864075188,
+        "log_loss_atp_p0": 0.6058398615140863,
+        "log_loss_elo": 0.6161622454767547,
+        "log_loss_pinnacle_calibrated": 0.582248970913069,
+        "log_loss_pinnacle_normalised": 0.582442079332781,
+        "n": 2525,
+        "tour": "ATP",
+        "year": 2022
+      },
+      {
+        "delta_previous_minus_current": 0.0012903903877895628,
+        "delta_previous_minus_pinnacle_normalised": 0.009885881010616635,
+        "delta_atp_full_tier_minus_previous": 0.0025127470817181536,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.012398628092334793,
+        "delta_current_minus_pinnacle_normalised": 0.008595490622827074,
+        "delta_atp_p0_minus_atp_full_tier": 0.011805341427665792,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.024203969520000587,
+        "delta_elo_minus_atp_p0": 0.015072231067835302,
+        "delta_elo_minus_pinnacle_normalised": 0.03927620058783588,
+        "log_loss_atp_full_tier": 0.5998429302247881,
+        "log_loss_previous": 0.5973301831430698,
+        "log_loss_current": 0.5960397927552804,
+        "log_loss_atp_p0": 0.6116482716524538,
+        "log_loss_elo": 0.626720502720289,
+        "log_loss_pinnacle_calibrated": 0.5873601561439289,
+        "log_loss_pinnacle_normalised": 0.5874443021324532,
+        "n": 2672,
+        "tour": "ATP",
+        "year": 2023
+      },
+      {
+        "delta_previous_minus_current": 0.002821211868815118,
+        "delta_previous_minus_pinnacle_normalised": 0.012331240552499914,
+        "delta_atp_full_tier_minus_previous": 0.0008515716387950558,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.013182812191294972,
+        "delta_current_minus_pinnacle_normalised": 0.009510028683684797,
+        "delta_atp_p0_minus_atp_full_tier": 0.01398936710970478,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.027172179300999747,
+        "delta_elo_minus_atp_p0": 0.011278076277222082,
+        "delta_elo_minus_pinnacle_normalised": 0.03845025557822184,
+        "log_loss_atp_full_tier": 0.5967716499489499,
+        "log_loss_previous": 0.5959200783101549,
+        "log_loss_current": 0.5930988664413397,
+        "log_loss_atp_p0": 0.6107610170586547,
+        "log_loss_elo": 0.6220390933358768,
+        "log_loss_pinnacle_calibrated": 0.5832761623826824,
+        "log_loss_pinnacle_normalised": 0.5835888377576549,
+        "n": 2671,
+        "tour": "ATP",
+        "year": 2024
+      },
+      {
+        "delta_previous_minus_current": 0.0038968215964010123,
+        "delta_previous_minus_pinnacle_normalised": 0.011068459214151857,
+        "delta_atp_full_tier_minus_previous": 0.0020928996119917226,
+        "delta_atp_full_tier_minus_pinnacle_normalised": 0.013161358826143582,
+        "delta_current_minus_pinnacle_normalised": 0.0071716376177508425,
+        "delta_atp_p0_minus_atp_full_tier": 0.014426722620900202,
+        "delta_atp_p0_minus_pinnacle_normalised": 0.027588081447043784,
+        "delta_elo_minus_atp_p0": 0.003767120369185941,
+        "delta_elo_minus_pinnacle_normalised": 0.03135520181622972,
+        "log_loss_atp_full_tier": 0.6156867418971502,
+        "log_loss_previous": 0.6135938422851586,
+        "log_loss_current": 0.6096970206887576,
+        "log_loss_atp_p0": 0.6301134645180504,
+        "log_loss_elo": 0.6338805848872364,
+        "log_loss_pinnacle_calibrated": 0.6031395515824847,
+        "log_loss_pinnacle_normalised": 0.6025253830710067,
+        "n": 2479,
+        "tour": "ATP",
+        "year": 2025
+      }
+    ],
+    "winner_accuracy": {
+      "definition": "(correct + 0.5 * ties) / n",
+      "model_order": [
+        "elo",
+        "atp_p0",
+        "atp_full_tier",
+        "previous",
+        "current",
+        "pinnacle_normalised"
+      ],
+      "overall": {
+        "atp_full_tier": {
+          "accuracy": 0.6639670427414447,
+          "correct": 14183,
+          "n": 21361,
+          "ties": 0
+        },
+        "previous": {
+          "accuracy": 0.6662609428397547,
+          "correct": 14232,
+          "n": 21361,
+          "ties": 0
+        },
+        "current": {
+          "accuracy": 0.6693506858293151,
+          "correct": 14298,
+          "n": 21361,
+          "ties": 0
+        },
+        "atp_p0": {
+          "accuracy": 0.6527082065446375,
+          "correct": 13941,
+          "n": 21361,
+          "ties": 3
+        },
+        "elo": {
+          "accuracy": 0.6436028275829784,
+          "correct": 13744,
+          "n": 21361,
+          "ties": 8
+        },
+        "pinnacle_normalised": {
+          "accuracy": 0.6793455362576658,
+          "correct": 14461,
+          "n": 21361,
+          "ties": 101
+        }
+      },
+      "per_year": [
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.667676330592817,
+              "correct": 1543,
+              "n": 2311,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6737343141497187,
+              "correct": 1557,
+              "n": 2311,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6707053223712679,
+              "correct": 1550,
+              "n": 2311,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6698398961488533,
+              "correct": 1548,
+              "n": 2311,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6650800519255733,
+              "correct": 1537,
+              "n": 2311,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6804413673734314,
+              "correct": 1562,
+              "n": 2311,
+              "ties": 21
+            }
+          },
+          "n": 2311,
+          "year": 2017
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6602241979126401,
+              "correct": 1708,
+              "n": 2587,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6644762272902976,
+              "correct": 1719,
+              "n": 2587,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.664089679165056,
+              "correct": 1718,
+              "n": 2587,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6474681097796676,
+              "correct": 1675,
+              "n": 2587,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6439891766524932,
+              "correct": 1666,
+              "n": 2587,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6810977966756862,
+              "correct": 1758,
+              "n": 2587,
+              "ties": 8
+            }
+          },
+          "n": 2587,
+          "year": 2018
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.660377358490566,
+              "correct": 1645,
+              "n": 2491,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6623845845042152,
+              "correct": 1650,
+              "n": 2491,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6696105981533521,
+              "correct": 1668,
+              "n": 2491,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6475311120032116,
+              "correct": 1613,
+              "n": 2491,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.639502207948615,
+              "correct": 1592,
+              "n": 2491,
+              "ties": 2
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6726214371738257,
+              "correct": 1669,
+              "n": 2491,
+              "ties": 13
+            }
+          },
+          "n": 2491,
+          "year": 2019
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6728444802578566,
+              "correct": 835,
+              "n": 1241,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6712328767123288,
+              "correct": 833,
+              "n": 1241,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.684931506849315,
+              "correct": 850,
+              "n": 1241,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6591458501208702,
+              "correct": 818,
+              "n": 1241,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6414182111200645,
+              "correct": 796,
+              "n": 1241,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6946011281224819,
+              "correct": 860,
+              "n": 1241,
+              "ties": 4
+            }
+          },
+          "n": 1241,
+          "year": 2020
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6698825503355704,
+              "correct": 1597,
+              "n": 2384,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6690436241610739,
+              "correct": 1595,
+              "n": 2384,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6791107382550335,
+              "correct": 1619,
+              "n": 2384,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6430369127516778,
+              "correct": 1532,
+              "n": 2384,
+              "ties": 2
+            },
+            "elo": {
+              "accuracy": 0.6310822147651006,
+              "correct": 1503,
+              "n": 2384,
+              "ties": 3
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6822567114093959,
+              "correct": 1621,
+              "n": 2384,
+              "ties": 11
+            }
+          },
+          "n": 2384,
+          "year": 2021
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6708910891089109,
+              "correct": 1694,
+              "n": 2525,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6685148514851486,
+              "correct": 1688,
+              "n": 2525,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6708910891089109,
+              "correct": 1694,
+              "n": 2525,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6574257425742575,
+              "correct": 1660,
+              "n": 2525,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6481188118811881,
+              "correct": 1636,
+              "n": 2525,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6784158415841585,
+              "correct": 1710,
+              "n": 2525,
+              "ties": 6
+            }
+          },
+          "n": 2525,
+          "year": 2022
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6627994011976048,
+              "correct": 1771,
+              "n": 2672,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6665419161676647,
+              "correct": 1781,
+              "n": 2672,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6642964071856288,
+              "correct": 1775,
+              "n": 2672,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.655875748502994,
+              "correct": 1752,
+              "n": 2672,
+              "ties": 1
+            },
+            "elo": {
+              "accuracy": 0.6476422155688623,
+              "correct": 1730,
+              "n": 2672,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6760853293413174,
+              "correct": 1803,
+              "n": 2672,
+              "ties": 7
+            }
+          },
+          "n": 2672,
+          "year": 2023
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6611755896667915,
+              "correct": 1766,
+              "n": 2671,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.667540247098465,
+              "correct": 1783,
+              "n": 2671,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6671658554848371,
+              "correct": 1782,
+              "n": 2671,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6548109322351179,
+              "correct": 1749,
+              "n": 2671,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6460127293148633,
+              "correct": 1725,
+              "n": 2671,
+              "ties": 1
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6849494571321603,
+              "correct": 1820,
+              "n": 2671,
+              "ties": 19
+            }
+          },
+          "n": 2671,
+          "year": 2024
+        },
+        {
+          "models": {
+            "atp_full_tier": {
+              "accuracy": 0.6551028640580879,
+              "correct": 1624,
+              "n": 2479,
+              "ties": 0
+            },
+            "previous": {
+              "accuracy": 0.6559096409842678,
+              "correct": 1626,
+              "n": 2479,
+              "ties": 0
+            },
+            "current": {
+              "accuracy": 0.6623638563937071,
+              "correct": 1642,
+              "n": 2479,
+              "ties": 0
+            },
+            "atp_p0": {
+              "accuracy": 0.6430012101653892,
+              "correct": 1594,
+              "n": 2479,
+              "ties": 0
+            },
+            "elo": {
+              "accuracy": 0.6288826139572409,
+              "correct": 1559,
+              "n": 2479,
+              "ties": 0
+            },
+            "pinnacle_normalised": {
+              "accuracy": 0.6712384025816862,
+              "correct": 1658,
+              "n": 2479,
+              "ties": 12
+            }
+          },
+          "n": 2479,
+          "year": 2025
+        }
+      ]
+    }
+  },
+  "ladder_2017_2024": {
+    "pooled": {
+      "clip_count_atp_full_tier": 0,
+      "clip_count_previous": 0,
+      "clip_count_current": 0,
+      "clip_count_atp_p0": 0,
+      "clip_count_atp_p1": 0,
+      "clip_count_elo": 0,
+      "clip_count_pinnacle_calibrated": 0,
+      "clip_count_pinnacle_normalised": 0,
+      "log_loss_previous_equal_year": 0.5970830857119918,
+      "log_loss_previous_match_weighted": 0.5973756679155993,
+      "log_loss_atp_full_tier_equal_year": 0.5981626863718787,
+      "log_loss_atp_full_tier_match_weighted": 0.5984263830208819,
+      "log_loss_current_equal_year": 0.5940117995240803,
+      "log_loss_current_match_weighted": 0.5943241683206856,
+      "log_loss_atp_p0_equal_year": 0.6118616866641049,
+      "log_loss_atp_p0_match_weighted": 0.6120977123390238,
+      "log_loss_atp_p1_equal_year": 0.6050546252079078,
+      "log_loss_atp_p1_match_weighted": 0.6053372859922209,
+      "log_loss_elo_equal_year": 0.6232687636450154,
+      "log_loss_elo_match_weighted": 0.6236897438235047,
+      "log_loss_pinnacle_calibrated_equal_year": 0.5865704272196411,
+      "log_loss_pinnacle_calibrated_match_weighted": 0.5873031520789905,
+      "log_loss_pinnacle_normalised_equal_year": 0.5865052505035141,
+      "log_loss_pinnacle_normalised_match_weighted": 0.5872532499356297,
+      "n": 18882,
+      "tour": "ATP",
+      "years": [
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ]
+    },
+    "contrasts": [
+      {
+        "contrast": "elo_minus_atp_p0",
+        "equal_year_delta": 0.011407076980910551,
+        "interval_lower": 0.009343128872286445,
+        "interval_upper": 0.013827842406123579,
+        "match_weighted_delta": 0.011592031484481078,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "elo_minus_pinnacle_normalised",
+        "equal_year_delta": 0.03676351314150135,
+        "interval_lower": 0.033106935559759076,
+        "interval_upper": 0.0397884405226269,
+        "match_weighted_delta": 0.03643649388787511,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_atp_p1",
+        "equal_year_delta": 0.006807061456197057,
+        "interval_lower": 0.005064975076211557,
+        "interval_upper": 0.008474917582169405,
+        "match_weighted_delta": 0.006760426346802779,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_pinnacle_normalised",
+        "equal_year_delta": 0.0253564361605908,
+        "interval_lower": 0.022018997644683857,
+        "interval_upper": 0.027633836637305304,
+        "match_weighted_delta": 0.024844462403394024,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p1_minus_atp_full_tier",
+        "equal_year_delta": 0.006891938836028996,
+        "interval_lower": 0.005128071601044285,
+        "interval_upper": 0.008607154430375368,
+        "match_weighted_delta": 0.006910902971339069,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p1_minus_pinnacle_normalised",
+        "equal_year_delta": 0.018549374704393745,
+        "interval_lower": 0.015399027905924652,
+        "interval_upper": 0.020628536078536933,
+        "match_weighted_delta": 0.018084036056591243,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_full_tier_minus_previous",
+        "equal_year_delta": 0.0010796006598870673,
+        "interval_lower": 0.0005237086604367126,
+        "interval_upper": 0.0016122818136030787,
+        "match_weighted_delta": 0.001050715105282529,
+        "years": 8,
+        "years_negative": 2
+      },
+      {
+        "contrast": "atp_full_tier_minus_pinnacle_normalised",
+        "equal_year_delta": 0.011657435868364749,
+        "interval_lower": 0.008969593866608236,
+        "interval_upper": 0.01339336519699259,
+        "match_weighted_delta": 0.011173133085252177,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_current",
+        "equal_year_delta": 0.003071286187911473,
+        "interval_lower": 0.002234592150190525,
+        "interval_upper": 0.003852064882964835,
+        "match_weighted_delta": 0.003051499594913738,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_pinnacle_normalised",
+        "equal_year_delta": 0.01057783520847768,
+        "interval_lower": 0.007992254936831904,
+        "interval_upper": 0.012240447294291294,
+        "match_weighted_delta": 0.010122417979969647,
+        "years": 8,
+        "years_negative": 0
+      },
+      {
+        "contrast": "current_minus_pinnacle_normalised",
+        "equal_year_delta": 0.007506549020566207,
+        "interval_lower": 0.005111344347092029,
+        "interval_upper": 0.008911086606516466,
+        "match_weighted_delta": 0.007070918385055909,
+        "years": 8,
+        "years_negative": 0
+      }
+    ],
+    "winner_accuracy": {
+      "atp_full_tier": {
+        "accuracy": 0.6651308124139392,
+        "correct": 12559,
+        "n": 18882,
+        "ties": 0
+      },
+      "previous": {
+        "accuracy": 0.6676199555131872,
+        "correct": 12606,
+        "n": 18882,
+        "ties": 0
+      },
+      "current": {
+        "accuracy": 0.6702679800868552,
+        "correct": 12656,
+        "n": 18882,
+        "ties": 0
+      },
+      "atp_p0": {
+        "accuracy": 0.6539826289587968,
+        "correct": 12347,
+        "n": 18882,
+        "ties": 3
+      },
+      "atp_p1": {
+        "accuracy": 0.6622179853829043,
+        "correct": 12504,
+        "n": 18882,
+        "ties": 0
+      },
+      "elo": {
+        "accuracy": 0.6455354305687957,
+        "correct": 12185,
+        "n": 18882,
+        "ties": 8
+      },
+      "pinnacle_normalised": {
+        "accuracy": 0.6804099142040038,
+        "correct": 12803,
+        "n": 18882,
+        "ties": 89
+      }
+    }
+  },
+  "ladder_2025": {
+    "pooled": {
+      "clip_count_atp_full_tier": 0,
+      "clip_count_previous": 0,
+      "clip_count_current": 0,
+      "clip_count_atp_p0": 0,
+      "clip_count_elo": 0,
+      "clip_count_pinnacle_calibrated": 0,
+      "clip_count_pinnacle_normalised": 0,
+      "log_loss_previous_equal_year": 0.6135938422851586,
+      "log_loss_previous_match_weighted": 0.6135938422851586,
+      "log_loss_atp_full_tier_equal_year": 0.6156867418971502,
+      "log_loss_atp_full_tier_match_weighted": 0.6156867418971502,
+      "log_loss_current_equal_year": 0.6096970206887576,
+      "log_loss_current_match_weighted": 0.6096970206887576,
+      "log_loss_atp_p0_equal_year": 0.6301134645180504,
+      "log_loss_atp_p0_match_weighted": 0.6301134645180504,
+      "log_loss_elo_equal_year": 0.6338805848872364,
+      "log_loss_elo_match_weighted": 0.6338805848872364,
+      "log_loss_pinnacle_calibrated_equal_year": 0.6031395515824847,
+      "log_loss_pinnacle_calibrated_match_weighted": 0.6031395515824847,
+      "log_loss_pinnacle_normalised_equal_year": 0.6025253830710067,
+      "log_loss_pinnacle_normalised_match_weighted": 0.6025253830710067,
+      "n": 2479,
+      "tour": "ATP",
+      "years": [
+        2025
+      ]
+    },
+    "contrasts": [
+      {
+        "contrast": "elo_minus_atp_p0",
+        "equal_year_delta": 0.003767120369185941,
+        "interval_lower": -0.0028572652375630178,
+        "interval_upper": 0.010324751717090328,
+        "match_weighted_delta": 0.003767120369185941,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "elo_minus_pinnacle_normalised",
+        "equal_year_delta": 0.03135520181622972,
+        "interval_lower": 0.022964906785268864,
+        "interval_upper": 0.04028043445942609,
+        "match_weighted_delta": 0.03135520181622972,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_atp_full_tier",
+        "equal_year_delta": 0.014426722620900202,
+        "interval_lower": 0.00748141431235111,
+        "interval_upper": 0.021528600844272154,
+        "match_weighted_delta": 0.014426722620900202,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_p0_minus_pinnacle_normalised",
+        "equal_year_delta": 0.027588081447043784,
+        "interval_lower": 0.020226411230655342,
+        "interval_upper": 0.03529757454880885,
+        "match_weighted_delta": 0.027588081447043784,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_full_tier_minus_previous",
+        "equal_year_delta": 0.0020928996119917226,
+        "interval_lower": 0.0001142812158822863,
+        "interval_upper": 0.003997030230958909,
+        "match_weighted_delta": 0.0020928996119917226,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "atp_full_tier_minus_pinnacle_normalised",
+        "equal_year_delta": 0.013161358826143582,
+        "interval_lower": 0.006812862446423691,
+        "interval_upper": 0.019884609535745234,
+        "match_weighted_delta": 0.013161358826143582,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_current",
+        "equal_year_delta": 0.0038968215964010123,
+        "interval_lower": 0.0016803063187669194,
+        "interval_upper": 0.006142423840612233,
+        "match_weighted_delta": 0.0038968215964010123,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "previous_minus_pinnacle_normalised",
+        "equal_year_delta": 0.011068459214151857,
+        "interval_lower": 0.00474746568520972,
+        "interval_upper": 0.01755815212767427,
+        "match_weighted_delta": 0.011068459214151857,
+        "years": 1,
+        "years_negative": 0
+      },
+      {
+        "contrast": "current_minus_pinnacle_normalised",
+        "equal_year_delta": 0.0071716376177508425,
+        "interval_lower": 0.0015046927493964385,
+        "interval_upper": 0.012771562541024633,
+        "match_weighted_delta": 0.0071716376177508425,
+        "years": 1,
+        "years_negative": 0
+      }
+    ],
+    "winner_accuracy": {
+      "atp_full_tier": {
+        "accuracy": 0.6551028640580879,
+        "correct": 1624,
+        "n": 2479,
+        "ties": 0
+      },
+      "previous": {
+        "accuracy": 0.6559096409842678,
+        "correct": 1626,
+        "n": 2479,
+        "ties": 0
+      },
+      "current": {
+        "accuracy": 0.6623638563937071,
+        "correct": 1642,
+        "n": 2479,
+        "ties": 0
+      },
+      "atp_p0": {
+        "accuracy": 0.6430012101653892,
+        "correct": 1594,
+        "n": 2479,
+        "ties": 0
+      },
+      "elo": {
+        "accuracy": 0.6288826139572409,
+        "correct": 1559,
+        "n": 2479,
+        "ties": 0
+      },
+      "pinnacle_normalised": {
+        "accuracy": 0.6712384025816862,
+        "correct": 1658,
+        "n": 2479,
+        "ties": 12
+      }
+    }
+  },
+  "fair_buildoak": {
+    "about": "Alcaraz against BuildOak on the same lower-tier files and timing rule. corrected: the 2025 pass with the selection-label defect fixed (run after the registered result was seen). registered: the pre-registered pass, whose 2025 second-model settings were chosen on a file with 2024's results blanked. 2017-2024 is identical in both.",
+    "corrected": {
+      "current_vs_fair_buildoak": {
+        "y2017_2025": {
+          "annual_log_loss": {
+            "2017": -0.0031750352173961606,
+            "2018": -0.0032514882873656524,
+            "2019": -0.0044829819666377686,
+            "2020": -0.007089185322431194,
+            "2021": -0.002195116347642794,
+            "2022": -0.0026470917629389207,
+            "2023": -0.009015366710897334,
+            "2024": 0.002065886047916906,
+            "2025": -0.006189908364467696
+          },
+          "correct_credit_delta": 53.0,
+          "difference": {
+            "accuracy": 0.0024627108405743227,
+            "brier": -0.0017540924216128875,
+            "log_loss": -0.0038260741170699133
+          },
+          "iid_se_log_loss": 0.0009220099388554202,
+          "interval_95_block13_log_loss": [
+            -0.005538021916280251,
+            -0.0019874968843586094
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0055828458747663595,
+            -0.0020622707874146558
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0025867107068142207,
+              0.007314333190936868
+            ],
+            "brier": [
+              -0.0025459748251656206,
+              -0.0009679873719334986
+            ],
+            "log_loss": [
+              -0.005631397740591086,
+              -0.0019990314724179625
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6703220110589657,
+            "brier": 0.20557236904038448,
+            "log_loss": 0.595636836577138
+          },
+          "n": 21521,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6678593002183913,
+            "brier": 0.20732646146199737,
+            "log_loss": 0.5994629106942078
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 8,
+          "years_positive": 1
+        },
+        "y2017_2024": {
+          "annual_log_loss": {
+            "2017": -0.0031750352173961606,
+            "2018": -0.0032514882873656524,
+            "2019": -0.0044829819666377686,
+            "2020": -0.007089185322431194,
+            "2021": -0.002195116347642794,
+            "2022": -0.0026470917629389207,
+            "2023": -0.009015366710897334,
+            "2024": 0.002065886047916906
+          },
+          "correct_credit_delta": 29.0,
+          "difference": {
+            "accuracy": 0.0015293745385507858,
+            "brier": -0.0016003655481936945,
+            "log_loss": -0.003507064949308553
+          },
+          "iid_se_log_loss": 0.0009806946342544808,
+          "interval_95_block13_log_loss": [
+            -0.005423944616197585,
+            -0.00163525799486807
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005344779898766937,
+            -0.0016114473903788987
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0037988055102691006,
+              0.006606847052631706
+            ],
+            "brier": [
+              -0.002458519726479391,
+              -0.0007821279258682511
+            ],
+            "log_loss": [
+              -0.0054476472040883035,
+              -0.0016430499298955895
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6702352072566184,
+            "brier": 0.20508798614033108,
+            "log_loss": 0.5944698881677359
+          },
+          "n": 18962,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6687058327180677,
+            "brier": 0.20668835168852476,
+            "log_loss": 0.5979769531170446
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 7,
+          "years_positive": 1
+        },
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.006189908364467696
+          },
+          "correct_credit_delta": 24.0,
+          "difference": {
+            "accuracy": 0.009378663540445486,
+            "brier": -0.0028931971397741746,
+            "log_loss": -0.006189908364467696
+          },
+          "iid_se_log_loss": 0.002705174569429611,
+          "interval_95_block13_log_loss": [
+            -0.010580244767033849,
+            -0.001989359701676682
+          ],
+          "interval_95_block4_log_loss": [
+            -0.011103619709988051,
+            -0.0015303022863395286
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.004574474097686143,
+              0.02354282092116843
+            ],
+            "brier": [
+              -0.0049164131754406435,
+              -0.0009752590689789042
+            ],
+            "log_loss": [
+              -0.010974702180068007,
+              -0.0018487371009105026
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6709652207893708,
+            "brier": 0.20916161036543834,
+            "log_loss": 0.6042838376475087
+          },
+          "n": 2559,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6615865572489253,
+            "brier": 0.21205480750521258,
+            "log_loss": 0.6104737460119765
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        },
+        "y2025_p_holm": 0.0075872637563816495
+      },
+      "previous_vs_fair_buildoak": {
+        "y2017_2025": {
+          "annual_log_loss": {
+            "2017": -0.00012101118138836865,
+            "2018": -6.80262682708285e-05,
+            "2019": -0.0012158814056078958,
+            "2020": -0.0038367339800286027,
+            "2021": 0.0015654883381190424,
+            "2022": 0.0014678853297073217,
+            "2023": -0.007588795823385839,
+            "2024": 0.004944577682061876,
+            "2025": -0.0023488728505526328
+          },
+          "correct_credit_delta": -15.0,
+          "difference": {
+            "accuracy": -0.0006969936341248084,
+            "brier": -0.0004685838686629748,
+            "log_loss": -0.000647479011626568
+          },
+          "iid_se_log_loss": 0.0010770025129187837,
+          "interval_95_block13_log_loss": [
+            -0.0026032447567375387,
+            0.0014014220241058974
+          ],
+          "interval_95_block4_log_loss": [
+            -0.00259933857078238,
+            0.0013776885256641625
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.004890154675921002,
+              0.0036589840174929026
+            ],
+            "brier": [
+              -0.0013710963541499008,
+              0.00042610309671407414
+            ],
+            "log_loss": [
+              -0.0026989054885089535,
+              0.001409750617715977
+            ]
+          },
+          "left": "previous",
+          "left_scores": {
+            "accuracy": 0.6671623065842666,
+            "brier": 0.20685787759333438,
+            "log_loss": 0.5988154316825812
+          },
+          "n": 21521,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6678593002183913,
+            "brier": 0.20732646146199737,
+            "log_loss": 0.5994629106942078
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 6,
+          "years_positive": 3
+        },
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.0023488728505526328
+          },
+          "correct_credit_delta": 7.0,
+          "difference": {
+            "accuracy": 0.0027354435326299334,
+            "brier": -0.00138741828271629,
+            "log_loss": -0.0023488728505526328
+          },
+          "iid_se_log_loss": 0.0032869083593440093,
+          "interval_95_block13_log_loss": [
+            -0.006844106274949083,
+            0.0020602219606343213
+          ],
+          "interval_95_block4_log_loss": [
+            -0.007750840875970016,
+            0.003091966699919532
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.008769114121060028,
+              0.014205585359930913
+            ],
+            "brier": [
+              -0.0034582616163995527,
+              0.0006641393683620044
+            ],
+            "log_loss": [
+              -0.007154345079539631,
+              0.0023196132113139437
+            ]
+          },
+          "left": "previous",
+          "left_scores": {
+            "accuracy": 0.6643220007815553,
+            "brier": 0.21066738922249625,
+            "log_loss": 0.6081248731614238
+          },
+          "n": 2559,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6615865572489253,
+            "brier": 0.21205480750521258,
+            "log_loss": 0.6104737460119765
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        }
+      },
+      "second_model_vs_fair_buildoak": {
+        "y2017_2025": {
+          "annual_log_loss": {
+            "2017": -0.0021418930264441513,
+            "2018": -0.003400026548475853,
+            "2019": -0.004960565576111598,
+            "2020": -0.007253554883712158,
+            "2021": -0.0019499614011128847,
+            "2022": -0.0030550014200827302,
+            "2023": -0.007429725472931923,
+            "2024": 0.0021815275101860275,
+            "2025": -0.007077885484161375
+          },
+          "correct_credit_delta": 97.0,
+          "difference": {
+            "accuracy": 0.00450722550067376,
+            "brier": -0.0016538266988682976,
+            "log_loss": -0.0037123295373981276
+          },
+          "iid_se_log_loss": 0.0009190642528335964,
+          "interval_95_block13_log_loss": [
+            -0.005402099485003495,
+            -0.0018655735375646917
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005477367720490268,
+            -0.001947685318270352
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.00017796786438201227,
+              0.00919435843647646
+            ],
+            "brier": [
+              -0.0024267131021051998,
+              -0.0008628839251801184
+            ],
+            "log_loss": [
+              -0.005509636144827873,
+              -0.0018889621045377408
+            ]
+          },
+          "left": "second_model",
+          "left_scores": {
+            "accuracy": 0.6723665257190651,
+            "brier": 0.20567263476312908,
+            "log_loss": 0.5957505811568096
+          },
+          "n": 21521,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6678593002183913,
+            "brier": 0.20732646146199737,
+            "log_loss": 0.5994629106942078
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 8,
+          "years_positive": 1
+        },
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.007077885484161375
+          },
+          "correct_credit_delta": 35.0,
+          "difference": {
+            "accuracy": 0.013677217663149667,
+            "brier": -0.0032487495472163556,
+            "log_loss": -0.007077885484161375
+          },
+          "iid_se_log_loss": 0.002522797663298011,
+          "interval_95_block13_log_loss": [
+            -0.011719478124237136,
+            -0.002692799827276669
+          ],
+          "interval_95_block4_log_loss": [
+            -0.01224725076655508,
+            -0.002367883405568476
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.003035221938075852,
+              0.029875642657585424
+            ],
+            "brier": [
+              -0.005378456332232741,
+              -0.0012307503163976013
+            ],
+            "log_loss": [
+              -0.012077595627350356,
+              -0.0026041658782600292
+            ]
+          },
+          "left": "second_model",
+          "left_scores": {
+            "accuracy": 0.675263774912075,
+            "brier": 0.2088060579579962,
+            "log_loss": 0.603395860527815
+          },
+          "n": 2559,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6615865572489253,
+            "brier": 0.21205480750521258,
+            "log_loss": 0.6104737460119765
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        }
+      },
+      "current_vs_previous": {
+        "y2017_2025": {
+          "annual_log_loss": {
+            "2017": -0.003054024036007791,
+            "2018": -0.003183462019094825,
+            "2019": -0.003267100561029872,
+            "2020": -0.0032524513424025928,
+            "2021": -0.0037606046857618356,
+            "2022": -0.004114977092646242,
+            "2023": -0.0014265708875114962,
+            "2024": -0.0028786916341449692,
+            "2025": -0.0038410355139150637
+          },
+          "correct_credit_delta": 68.0,
+          "difference": {
+            "accuracy": 0.0031597044746991313,
+            "brier": -0.0012855085529499127,
+            "log_loss": -0.0031785951054433452
+          },
+          "iid_se_log_loss": 0.0003909232738526376,
+          "interval_95_block13_log_loss": [
+            -0.003800526789994322,
+            -0.0025794690415221677
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0038923709103492856,
+            -0.0024614242847016106
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              0.00016164744347196383,
+              0.006215639534049564
+            ],
+            "brier": [
+              -0.0015704324969549525,
+              -0.0009999400733804896
+            ],
+            "log_loss": [
+              -0.0038406220763797733,
+              -0.0025271371091734195
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6703220110589657,
+            "brier": 0.20557236904038448,
+            "log_loss": 0.595636836577138
+          },
+          "n": 21521,
+          "right": "previous",
+          "right_scores": {
+            "accuracy": 0.6671623065842666,
+            "brier": 0.20685787759333438,
+            "log_loss": 0.5988154316825812
+          },
+          "verdict": {
+            "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 9,
+          "years_positive": 0
+        },
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.0038410355139150637
+          },
+          "correct_credit_delta": 17.0,
+          "difference": {
+            "accuracy": 0.006643220007815553,
+            "brier": -0.0015057788570578838,
+            "log_loss": -0.0038410355139150637
+          },
+          "iid_se_log_loss": 0.0011249655076351853,
+          "interval_95_block13_log_loss": [
+            -0.00511735556462771,
+            -0.002527143077766789
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005630743586341156,
+            -0.002007707018419327
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              0.001546552625055508,
+              0.012101728710941529
+            ],
+            "brier": [
+              -0.0022362000173337207,
+              -0.0008019031951043298
+            ],
+            "log_loss": [
+              -0.005307505723071238,
+              -0.0023822678297183678
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6709652207893708,
+            "brier": 0.20916161036543834,
+            "log_loss": 0.6042838376475087
+          },
+          "n": 2559,
+          "right": "previous",
+          "right_scores": {
+            "accuracy": 0.6643220007815553,
+            "brier": 0.21066738922249625,
+            "log_loss": 0.6081248731614238
+          },
+          "verdict": {
+            "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        }
+      },
+      "second_model_vs_previous": {
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.004729012633608743
+          },
+          "correct_credit_delta": 28.0,
+          "difference": {
+            "accuracy": 0.010941774130519734,
+            "brier": -0.001861331264500065,
+            "log_loss": -0.004729012633608743
+          },
+          "iid_se_log_loss": 0.0022352059974628494,
+          "interval_95_block13_log_loss": [
+            -0.007193914970460675,
+            -0.002180257815538042
+          ],
+          "interval_95_block4_log_loss": [
+            -0.008180205574227245,
+            -0.0011543485318234032
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              0.0020634937781952903,
+              0.01996905184076157
+            ],
+            "brier": [
+              -0.003242297248725338,
+              -0.0004906353130825679
+            ],
+            "log_loss": [
+              -0.007510317835220377,
+              -0.0018808613767628633
+            ]
+          },
+          "left": "second_model",
+          "left_scores": {
+            "accuracy": 0.675263774912075,
+            "brier": 0.2088060579579962,
+            "log_loss": 0.603395860527815
+          },
+          "n": 2559,
+          "right": "previous",
+          "right_scores": {
+            "accuracy": 0.6643220007815553,
+            "brier": 0.21066738922249625,
+            "log_loss": 0.6081248731614238
+          },
+          "verdict": {
+            "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        }
+      },
+      "whole_membership_scores": {
+        "n": 21561,
+        "scores": {
+          "previous": {
+            "accuracy": 0.6667594267427299,
+            "accuracy_wilson_95": [
+              0.660438378690865,
+              0.6730210633241218
+            ],
+            "brier": 0.20697624391554853,
+            "clipped_rows": 0,
+            "log_loss": 0.5990858890741712,
+            "n": 21561
+          },
+          "current": {
+            "accuracy": 0.6698668892908493,
+            "accuracy_wilson_95": [
+              0.6635601116816752,
+              0.6761131483322003
+            ],
+            "brier": 0.2057010405475819,
+            "clipped_rows": 0,
+            "log_loss": 0.5959339603563747,
+            "n": 21561
+          },
+          "second_model": {
+            "accuracy": 0.6720003710403043,
+            "accuracy_wilson_95": [
+              0.6657035702558026,
+              0.6782358931602949
+            ],
+            "brier": 0.20580952755856596,
+            "clipped_rows": 0,
+            "log_loss": 0.5960709910782134,
+            "n": 21561
+          }
+        }
+      }
+    },
+    "registered": {
+      "current_vs_fair_buildoak": {
+        "y2017_2025": {
+          "annual_log_loss": {
+            "2017": -0.0031750352173961606,
+            "2018": -0.0032514882873656524,
+            "2019": -0.0044829819666377686,
+            "2020": -0.007089185322431194,
+            "2021": -0.002195116347642794,
+            "2022": -0.0026470917629389207,
+            "2023": -0.009015366710897334,
+            "2024": 0.002065886047916906,
+            "2025": -0.005048418544816737
+          },
+          "correct_credit_delta": 46.0,
+          "difference": {
+            "accuracy": 0.002137447144649412,
+            "brier": -0.0016991862657797015,
+            "log_loss": -0.0036903428569757357
+          },
+          "iid_se_log_loss": 0.0009397076578665136,
+          "interval_95_block13_log_loss": [
+            -0.005442048533956447,
+            -0.001798567892850974
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005510649781719005,
+            -0.0018705097310324405
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0027869838060817173,
+              0.006884270146946322
+            ],
+            "brier": [
+              -0.0025275954946900464,
+              -0.0008917533594077839
+            ],
+            "log_loss": [
+              -0.005567806817876519,
+              -0.0018147566252565083
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6699967473630407,
+            "brier": 0.20562727519621768,
+            "log_loss": 0.5957725678372321
+          },
+          "n": 21521,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6678593002183913,
+            "brier": 0.20732646146199737,
+            "log_loss": 0.5994629106942078
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 8,
+          "years_positive": 1
+        },
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.005048418544816737
+          },
+          "correct_credit_delta": 17.0,
+          "difference": {
+            "accuracy": 0.006643220007815553,
+            "brier": -0.0024314404458757786,
+            "log_loss": -0.005048418544816737
+          },
+          "iid_se_log_loss": 0.003106565989114739,
+          "interval_95_block13_log_loss": [
+            -0.010655625991120623,
+            0.00045717528844856325
+          ],
+          "interval_95_block4_log_loss": [
+            -0.011622154637480887,
+            0.0015455175679182972
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.005549372489239994,
+              0.020562009711123933
+            ],
+            "brier": [
+              -0.00512402177610982,
+              0.00019047443869035113
+            ],
+            "log_loss": [
+              -0.011087761453159107,
+              0.0008435665152882416
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6682297772567409,
+            "brier": 0.2096233670593368,
+            "log_loss": 0.6054253274671597
+          },
+          "n": 2559,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6615865572489253,
+            "brier": 0.21205480750521258,
+            "log_loss": 0.6104737460119765
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        },
+        "y2025_p_holm": 0.09879197818055094
+      },
+      "current_vs_previous": {
+        "y2025": {
+          "annual_log_loss": {
+            "2025": -0.002699545694264105
+          },
+          "correct_credit_delta": 10.0,
+          "difference": {
+            "accuracy": 0.003907776475185619,
+            "brier": -0.0010440221631594882,
+            "log_loss": -0.002699545694264105
+          },
+          "iid_se_log_loss": 0.0020140016901330775,
+          "interval_95_block13_log_loss": [
+            -0.004970312534658702,
+            -0.00043948271604612055
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005764065783905056,
+            0.00036850506282157475
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.001954003037136734,
+              0.010166159134537415
+            ],
+            "brier": [
+              -0.0020325755587363974,
+              -9.458579469841743e-05
+            ],
+            "log_loss": [
+              -0.005272490809999541,
+              -0.00017688730192485936
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6682297772567409,
+            "brier": 0.2096233670593368,
+            "log_loss": 0.6054253274671597
+          },
+          "n": 2559,
+          "right": "previous",
+          "right_scores": {
+            "accuracy": 0.6643220007815553,
+            "brier": 0.21066738922249625,
+            "log_loss": 0.6081248731614238
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 1,
+          "years_positive": 0
+        }
+      },
+      "second_model_vs_previous": {
+        "y2025": {
+          "annual_log_loss": {
+            "2025": 0.005676794543900417
+          },
+          "correct_credit_delta": 22.0,
+          "difference": {
+            "accuracy": 0.008597108245408363,
+            "brier": 0.002061671578530743,
+            "log_loss": 0.005676794543900417
+          },
+          "iid_se_log_loss": 0.004021160721501515,
+          "interval_95_block13_log_loss": [
+            0.0009510459622346025,
+            0.010488988449530001
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0007563691223416423,
+            0.012269781469918799
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              0.0,
+              0.01724185419225752
+            ],
+            "brier": [
+              -0.00011417946227851784,
+              0.0041968013134360245
+            ],
+            "log_loss": [
+              0.00028146260316139443,
+              0.011005034111628516
+            ]
+          },
+          "left": "second_model",
+          "left_scores": {
+            "accuracy": 0.6729191090269636,
+            "brier": 0.21272906080102705,
+            "log_loss": 0.6138016677053242
+          },
+          "n": 2559,
+          "right": "previous",
+          "right_scores": {
+            "accuracy": 0.6643220007815553,
+            "brier": 0.21066738922249625,
+            "log_loss": 0.6081248731614238
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "beats us (rival ahead, interval excludes zero)"
+          },
+          "years_negative": 0,
+          "years_positive": 1
+        }
+      },
+      "second_model_vs_fair_buildoak": {
+        "y2025": {
+          "annual_log_loss": {
+            "2025": 0.003327921693347783
+          },
+          "correct_credit_delta": 29.0,
+          "difference": {
+            "accuracy": 0.011332551778038297,
+            "brier": 0.0006742532958144522,
+            "log_loss": 0.003327921693347783
+          },
+          "iid_se_log_loss": 0.00408428341519255,
+          "interval_95_block13_log_loss": [
+            -0.004128364130491332,
+            0.010804567585663819
+          ],
+          "interval_95_block4_log_loss": [
+            -0.00576191366677726,
+            0.012482995855997426
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0034177217973894863,
+              0.025724442474254896
+            ],
+            "brier": [
+              -0.0029422080085872927,
+              0.004158160411977476
+            ],
+            "log_loss": [
+              -0.004880591809078634,
+              0.011524708686562133
+            ]
+          },
+          "left": "second_model",
+          "left_scores": {
+            "accuracy": 0.6729191090269636,
+            "brier": 0.21272906080102705,
+            "log_loss": 0.6138016677053242
+          },
+          "n": 2559,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6615865572489253,
+            "brier": 0.21205480750521258,
+            "log_loss": 0.6104737460119765
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 0,
+          "years_positive": 1
+        }
+      }
+    },
+    "y2017_2024": {
+      "about": "The registered 2017-2024 pass that put BuildOak on the fair timing rule; also measures what BuildOak's native setup was worth to it. y2024 is the 2024 season alone; y2017_2023 the seasons before it.",
+      "current_vs_fair_buildoak": {
+        "y2017_2024": {
+          "annual_log_loss": {
+            "2017": -0.0031750352173961606,
+            "2018": -0.0032514882873656524,
+            "2019": -0.0044829819666377686,
+            "2020": -0.007089185322431194,
+            "2021": -0.002195116347642794,
+            "2022": -0.0026470917629389207,
+            "2023": -0.009015366710897334,
+            "2024": 0.002065886047916906
+          },
+          "correct_credit_delta": 29.0,
+          "difference": {
+            "accuracy": 0.0015293745385507858,
+            "brier": -0.0016003655481936945,
+            "log_loss": -0.003507064949308553
+          },
+          "iid_se_log_loss": 0.0009806946342544808,
+          "interval_95_block13_log_loss": [
+            -0.005423944616197585,
+            -0.00163525799486807
+          ],
+          "interval_95_block4_log_loss": [
+            -0.005344779898766937,
+            -0.0016114473903788987
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0037988055102691006,
+              0.006606847052631706
+            ],
+            "brier": [
+              -0.002458519726479391,
+              -0.0007821279258682511
+            ],
+            "log_loss": [
+              -0.0054476472040883035,
+              -0.0016430499298955895
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6702352072566184,
+            "brier": 0.20508798614033108,
+            "log_loss": 0.5944698881677359
+          },
+          "n": 18962,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6687058327180677,
+            "brier": 0.20668835168852476,
+            "log_loss": 0.5979769531170446
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 7,
+          "years_positive": 1
+        },
+        "y2024": {
+          "annual_log_loss": {
+            "2024": 0.002065886047916906
+          },
+          "correct_credit_delta": -9.0,
+          "difference": {
+            "accuracy": -0.0033594624860022394,
+            "brier": 0.0008306239461138794,
+            "log_loss": 0.002065886047916906
+          },
+          "iid_se_log_loss": 0.002524699144046227,
+          "interval_95_block13_log_loss": [
+            -0.0011120052603006128,
+            0.005324100757742388
+          ],
+          "interval_95_block4_log_loss": [
+            -0.00218523913999568,
+            0.006425986180233176
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.01733754163221369,
+              0.01073163982900997
+            ],
+            "brier": [
+              -0.000714204049757416,
+              0.002511271096740516
+            ],
+            "log_loss": [
+              -0.0015958835111299298,
+              0.006041607747325643
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6674132138857782,
+            "brier": 0.20457452381661562,
+            "log_loss": 0.59292306074993
+          },
+          "n": 2679,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6707726763717805,
+            "brier": 0.2037438998705017,
+            "log_loss": 0.5908571747020129
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 0,
+          "years_positive": 1
+        },
+        "y2017_2023": {
+          "annual_log_loss": {
+            "2017": -0.0031750352173961606,
+            "2018": -0.0032514882873656524,
+            "2019": -0.0044829819666377686,
+            "2020": -0.007089185322431194,
+            "2021": -0.002195116347642794,
+            "2022": -0.0026470917629389207,
+            "2023": -0.009015366710897334
+          },
+          "correct_credit_delta": 38.0,
+          "difference": {
+            "accuracy": 0.002333722287047841,
+            "brier": -0.002000329980746049,
+            "log_loss": -0.004423968205561516
+          },
+          "iid_se_log_loss": 0.0010636850332853523,
+          "interval_95_block13_log_loss": [
+            -0.006341263196006064,
+            -0.002607981547188052
+          ],
+          "interval_95_block4_log_loss": [
+            -0.006359236902092115,
+            -0.0024644989980968837
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0033032843471190666,
+              0.007776874960496046
+            ],
+            "brier": [
+              -0.0028493981980015643,
+              -0.001152919230386147
+            ],
+            "log_loss": [
+              -0.006366502704861877,
+              -0.0025104753761431087
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6706995025486704,
+            "brier": 0.20517246477235423,
+            "log_loss": 0.5947243836938861
+          },
+          "n": 16283,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6683657802616225,
+            "brier": 0.20717279475310033,
+            "log_loss": 0.5991483518994476
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+            "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+          },
+          "years_negative": 7,
+          "years_positive": 0
+        }
+      },
+      "previous_vs_fair_buildoak": {
+        "y2017_2024": {
+          "annual_log_loss": {
+            "2017": -0.00012101118138836865,
+            "2018": -6.80262682708285e-05,
+            "2019": -0.0012158814056078958,
+            "2020": -0.0038367339800286027,
+            "2021": 0.0015654883381190424,
+            "2022": 0.0014678853297073217,
+            "2023": -0.007588795823385839,
+            "2024": 0.004944577682061876
+          },
+          "correct_credit_delta": -22.0,
+          "difference": {
+            "accuracy": -0.0011602151671764583,
+            "brier": -0.0003445833800245169,
+            "log_loss": -0.00041786890542406835
+          },
+          "iid_se_log_loss": 0.001139044940303804,
+          "interval_95_block13_log_loss": [
+            -0.00270109283465374,
+            0.0017006378304308995
+          ],
+          "interval_95_block4_log_loss": [
+            -0.002547310091393295,
+            0.0017066892839409816
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.005782553424062748,
+              0.003446111268260477
+            ],
+            "brier": [
+              -0.0013609002250384798,
+              0.0006054209176581248
+            ],
+            "log_loss": [
+              -0.002733834082306288,
+              0.0016986765278820893
+            ]
+          },
+          "left": "previous",
+          "left_scores": {
+            "accuracy": 0.6675456175508913,
+            "brier": 0.20634376830850026,
+            "log_loss": 0.5975590842116204
+          },
+          "n": 18962,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6687058327180677,
+            "brier": 0.20668835168852476,
+            "log_loss": 0.5979769531170446
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 5,
+          "years_positive": 3
+        },
+        "y2024": {
+          "annual_log_loss": {
+            "2024": 0.004944577682061876
+          },
+          "correct_credit_delta": -8.0,
+          "difference": {
+            "accuracy": -0.0029861888764464353,
+            "brier": 0.002114335246158201,
+            "log_loss": 0.004944577682061876
+          },
+          "iid_se_log_loss": 0.0030097231217230424,
+          "interval_95_block13_log_loss": [
+            0.000614320098603661,
+            0.009234200633488862
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0005039607471663132,
+            0.010289772082960192
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.016798191369514104,
+              0.011896639341530872
+            ],
+            "brier": [
+              7.771392425893185e-05,
+              0.004173811993776277
+            ],
+            "log_loss": [
+              0.0001231678072128425,
+              0.009906161810591074
+            ]
+          },
+          "left": "previous",
+          "left_scores": {
+            "accuracy": 0.6677864874953341,
+            "brier": 0.20585823511665993,
+            "log_loss": 0.595801752384075
+          },
+          "n": 2679,
+          "right": "buildoak_fair",
+          "right_scores": {
+            "accuracy": 0.6707726763717805,
+            "brier": 0.2037438998705017,
+            "log_loss": 0.5908571747020129
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beats us (rival ahead, interval excludes zero)",
+            "log_loss": "beats us (rival ahead, interval excludes zero)"
+          },
+          "years_negative": 0,
+          "years_positive": 1
+        }
+      },
+      "native_setup_worth": {
+        "fair_minus_native": {
+          "annual_log_loss": {
+            "2017": 0.00321395457390563,
+            "2018": -0.00020779155821605582,
+            "2019": -9.847229143701875e-05,
+            "2020": 0.0074256924581071445,
+            "2021": -0.00024319691360037083,
+            "2022": 0.004362927312234901,
+            "2023": 0.004086765254126986,
+            "2024": 0.002785909421225536
+          },
+          "correct_credit_delta": -40.0,
+          "difference": {
+            "accuracy": -0.002109482122139015,
+            "brier": 0.00107000033500967,
+            "log_loss": 0.002365919985085798
+          },
+          "iid_se_log_loss": 0.0007772302193366826,
+          "interval_95_block13_log_loss": [
+            0.0009647459622731658,
+            0.0037993892990269085
+          ],
+          "interval_95_block4_log_loss": [
+            0.0008871655869617589,
+            0.003802375413846326
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.005226018904795376,
+              0.0011536241991310166
+            ],
+            "brier": [
+              0.0004848355424444461,
+              0.001700436623038423
+            ],
+            "log_loss": [
+              0.0009698361823616005,
+              0.003825714544780889
+            ]
+          },
+          "left": "buildoak_fair",
+          "left_scores": {
+            "accuracy": 0.6687058327180677,
+            "brier": 0.20668835168852476,
+            "log_loss": 0.5979769531170446
+          },
+          "n": 18962,
+          "right": "buildoak_native_lower_tier",
+          "right_scores": {
+            "accuracy": 0.6708153148402067,
+            "brier": 0.20561835135351508,
+            "log_loss": 0.5956110331319586
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beats us (rival ahead, interval excludes zero)",
+            "log_loss": "beats us (rival ahead, interval excludes zero)"
+          },
+          "years_negative": 3,
+          "years_positive": 5
+        },
+        "two_day_rule_only_minus_native": {
+          "annual_log_loss": {
+            "2017": 0.003192289353729348,
+            "2018": -0.00045213188112374795,
+            "2019": -0.0017182094506632188,
+            "2020": 0.007776825248573897,
+            "2021": -0.0001039944494726675,
+            "2022": 0.005036199357547102,
+            "2023": 0.003973419284709872,
+            "2024": 0.002286249733520595
+          },
+          "correct_credit_delta": -24.0,
+          "difference": {
+            "accuracy": -0.0012656892732834089,
+            "brier": 0.0009692477495698579,
+            "log_loss": 0.0021601722197002174
+          },
+          "iid_se_log_loss": 0.0007668189673336549,
+          "interval_95_block13_log_loss": [
+            0.0005484755848402598,
+            0.00374850207479768
+          ],
+          "interval_95_block4_log_loss": [
+            0.0005501841097905743,
+            0.0037228904195831113
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0048424051170151755,
+              0.002350742824509969
+            ],
+            "brier": [
+              0.0002882358850887212,
+              0.0016585736526039993
+            ],
+            "log_loss": [
+              0.0005755931099718762,
+              0.0037904169477596984
+            ]
+          },
+          "left": "buildoak_two_day_rule_only",
+          "left_scores": {
+            "accuracy": 0.6695496255669233,
+            "brier": 0.20658759910308494,
+            "log_loss": 0.597771205351659
+          },
+          "n": 18962,
+          "right": "buildoak_native_lower_tier",
+          "right_scores": {
+            "accuracy": 0.6708153148402067,
+            "brier": 0.20561835135351508,
+            "log_loss": 0.5956110331319586
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beats us (rival ahead, interval excludes zero)",
+            "log_loss": "beats us (rival ahead, interval excludes zero)"
+          },
+          "years_negative": 3,
+          "years_positive": 5
+        },
+        "fair_minus_two_day_rule_only": {
+          "annual_log_loss": {
+            "2017": 2.1665220176282896e-05,
+            "2018": 0.0002443403229076921,
+            "2019": 0.0016197371592262004,
+            "2020": -0.00035113279046675253,
+            "2021": -0.00013920246412770355,
+            "2022": -0.0006732720453122015,
+            "2023": 0.00011334596941711479,
+            "2024": 0.000499659687704941
+          },
+          "correct_credit_delta": -16.0,
+          "difference": {
+            "accuracy": -0.0008437928488556059,
+            "brier": 0.00010075258543981208,
+            "log_loss": 0.0002057477653855804
+          },
+          "iid_se_log_loss": 0.0003268903284782409,
+          "interval_95_block13_log_loss": [
+            -0.0002983620528938067,
+            0.0007256376105045138
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0003347597964784327,
+            0.0007555598109468554
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0033154925685455606,
+              0.0014690006573486504
+            ],
+            "brier": [
+              -0.00012770925124539276,
+              0.0003415915616678524
+            ],
+            "log_loss": [
+              -0.00032289294526837906,
+              0.0007576201792123568
+            ]
+          },
+          "left": "buildoak_fair",
+          "left_scores": {
+            "accuracy": 0.6687058327180677,
+            "brier": 0.20668835168852476,
+            "log_loss": 0.5979769531170446
+          },
+          "n": 18962,
+          "right": "buildoak_two_day_rule_only",
+          "right_scores": {
+            "accuracy": 0.6695496255669233,
+            "brier": 0.20658759910308494,
+            "log_loss": 0.597771205351659
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 3,
+          "years_positive": 5
+        },
+        "main_tour_fair_minus_released": {
+          "annual_log_loss": {
+            "2017": 0.0015750548218227915,
+            "2018": -0.0014214408891701773,
+            "2019": 0.001406825653744611,
+            "2020": 0.002668437729347606,
+            "2021": 0.0012209046883826325,
+            "2022": -0.002444221337110359,
+            "2023": 0.0005487143555545523,
+            "2024": -0.00018804754868484273
+          },
+          "correct_credit_delta": 2.0,
+          "difference": {
+            "accuracy": 0.00010547410610695074,
+            "brier": 7.953538505971297e-05,
+            "log_loss": 0.00023671326050185733
+          },
+          "iid_se_log_loss": 0.0005796620406748023,
+          "interval_95_block13_log_loss": [
+            -0.0007597576251113433,
+            0.0012864847944843373
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0008433234092563689,
+            0.0013544610777407684
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.0029737172173442427,
+              0.0031984036355738764
+            ],
+            "brier": [
+              -0.00032943957390310375,
+              0.0004958994660718084
+            ],
+            "log_loss": [
+              -0.0007906364395333168,
+              0.001293130329449758
+            ]
+          },
+          "left": "buildoak_main_tour_fair",
+          "left_scores": {
+            "accuracy": 0.6646978166860036,
+            "brier": 0.2085996736444874,
+            "log_loss": 0.6029365948108573
+          },
+          "n": 18962,
+          "right": "buildoak_released",
+          "right_scores": {
+            "accuracy": 0.6645923425798966,
+            "brier": 0.2085201382594277,
+            "log_loss": 0.6026998815503555
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 3,
+          "years_positive": 5
+        }
+      },
+      "current_vs_native_lower_tier": {
+        "y2017_2024": {
+          "annual_log_loss": {
+            "2017": 3.891935650947017e-05,
+            "2018": -0.0034592798455817093,
+            "2019": -0.004581454258074787,
+            "2020": 0.00033650713567594915,
+            "2021": -0.0024383132612431644,
+            "2022": 0.001715835549295982,
+            "2023": -0.0049286014567703484,
+            "2024": 0.004851795469142441
+          },
+          "correct_credit_delta": -11.0,
+          "difference": {
+            "accuracy": -0.0005801075835882291,
+            "brier": -0.0005303652131840243,
+            "log_loss": -0.0011411449642227548
+          },
+          "iid_se_log_loss": 0.0009528897216303139,
+          "interval_95_block13_log_loss": [
+            -0.0031603285655986916,
+            0.0008863093765618914
+          ],
+          "interval_95_block4_log_loss": [
+            -0.0031279422462518135,
+            0.0008287007583770092
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.004950307802931278,
+              0.003542558469217184
+            ],
+            "brier": [
+              -0.0013990398603543946,
+              0.000339833745773641
+            ],
+            "log_loss": [
+              -0.003174596493755938,
+              0.0008816786525473338
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6702352072566184,
+            "brier": 0.20508798614033108,
+            "log_loss": 0.5944698881677359
+          },
+          "n": 18962,
+          "right": "buildoak_native_lower_tier",
+          "right_scores": {
+            "accuracy": 0.6708153148402067,
+            "brier": 0.20561835135351508,
+            "log_loss": 0.5956110331319586
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "level (interval includes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 4,
+          "years_positive": 4
+        },
+        "y2024": {
+          "annual_log_loss": {
+            "2024": 0.004851795469142441
+          },
+          "correct_credit_delta": -5.0,
+          "difference": {
+            "accuracy": -0.001866368047779022,
+            "brier": 0.0021197742397584844,
+            "log_loss": 0.004851795469142441
+          },
+          "iid_se_log_loss": 0.0024571546306999393,
+          "interval_95_block13_log_loss": [
+            0.0004255343357913318,
+            0.009102703115149723
+          ],
+          "interval_95_block4_log_loss": [
+            -0.00047691584126859977,
+            0.010206704592096896
+          ],
+          "interval_95_block8": {
+            "accuracy": [
+              -0.015986583513516155,
+              0.010929782966587046
+            ],
+            "brier": [
+              1.3427461192579483e-05,
+              0.004182750928333309
+            ],
+            "log_loss": [
+              -1.1691520786147177e-05,
+              0.009609258238471792
+            ]
+          },
+          "left": "current",
+          "left_scores": {
+            "accuracy": 0.6674132138857782,
+            "brier": 0.20457452381661562,
+            "log_loss": 0.59292306074993
+          },
+          "n": 2679,
+          "right": "buildoak_native_lower_tier",
+          "right_scores": {
+            "accuracy": 0.6692795819335573,
+            "brier": 0.2024547495768571,
+            "log_loss": 0.5880712652807875
+          },
+          "verdict": {
+            "accuracy": "level (interval includes zero)",
+            "brier": "beats us (rival ahead, interval excludes zero)",
+            "log_loss": "level (interval includes zero)"
+          },
+          "years_negative": 0,
+          "years_positive": 1
+        }
+      }
+    },
+    "y2014_2016": {
+      "about": "Seasons on which none of these forecasts had been scored before. The current version can be formed only for 2015-2016 (the previous version's lineage needs six warm-up seasons); the second model alone reaches 2014.",
+      "current_vs_fair_buildoak_2015_2016": {
+        "annual_log_loss": {
+          "2015": -0.003298131271785766,
+          "2016": -0.0012374502796811055
+        },
+        "correct_credit_delta": 20.0,
+        "difference": {
+          "accuracy": 0.004161464835622139,
+          "brier": -0.0008412935201655026,
+          "log_loss": -0.0022926595850430638
+        },
+        "iid_se_log_loss": 0.0020280059974227393,
+        "interval_95_block13_log_loss": [
+          -0.004934224987006094,
+          0.00014807180366304196
+        ],
+        "interval_95_block4_log_loss": [
+          -0.005205049127835013,
+          0.0006770401776398811
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.004005788078039383,
+            0.0117624592548199
+          ],
+          "brier": [
+            -0.0019602448182396114,
+            0.0002220060659405424
+          ],
+          "log_loss": [
+            -0.005072734091750671,
+            0.0003307590864908193
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.7126508531002913,
+          "brier": 0.19156775049511243,
+          "log_loss": 0.5643928900224462
+        },
+        "n": 4806,
+        "right": "buildoak_fair",
+        "right_scores": {
+          "accuracy": 0.7084893882646691,
+          "brier": 0.19240904401527792,
+          "log_loss": 0.5666855496074894
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 2,
+        "years_positive": 0
+      },
+      "previous_vs_fair_buildoak_2015_2016": {
+        "annual_log_loss": {
+          "2015": 0.00021110062353606746,
+          "2016": 0.002178943410716684
+        },
+        "correct_credit_delta": 15.0,
+        "difference": {
+          "accuracy": 0.003121098626716604,
+          "brier": 0.0006002592600175054,
+          "log_loss": 0.0011712736022998099
+        },
+        "iid_se_log_loss": 0.0024327671041797657,
+        "interval_95_block13_log_loss": [
+          -0.0025056760077758642,
+          0.004459118854351039
+        ],
+        "interval_95_block4_log_loss": [
+          -0.0027251192448289976,
+          0.005028109456721097
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.004842412229369716,
+            0.010795268867988398
+          ],
+          "brier": [
+            -0.0009509788137471568,
+            0.0019933721700552067
+          ],
+          "log_loss": [
+            -0.002721244794860154,
+            0.004668601424372811
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.7116104868913857,
+          "brier": 0.19300930327529545,
+          "log_loss": 0.567856823209789
+        },
+        "n": 4806,
+        "right": "buildoak_fair",
+        "right_scores": {
+          "accuracy": 0.7084893882646691,
+          "brier": 0.19240904401527792,
+          "log_loss": 0.5666855496074894
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 0,
+        "years_positive": 2
+      },
+      "current_vs_previous_2015_2016": {
+        "annual_log_loss": {
+          "2015": -0.0035092318953218325,
+          "2016": -0.003416393690397791
+        },
+        "correct_credit_delta": 5.0,
+        "difference": {
+          "accuracy": 0.0010403662089055348,
+          "brier": -0.0014415527801830078,
+          "log_loss": -0.003463933187342874
+        },
+        "iid_se_log_loss": 0.0009082128158229562,
+        "interval_95_block13_log_loss": [
+          -0.004621742336097227,
+          -0.0020634006859852586
+        ],
+        "interval_95_block4_log_loss": [
+          -0.004830385571294629,
+          -0.0019644023035551707
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.002243233181700574,
+            0.004240753659372399
+          ],
+          "brier": [
+            -0.0019737382763417425,
+            -0.0008167058963817268
+          ],
+          "log_loss": [
+            -0.004715608436645176,
+            -0.0019822250501602833
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.7126508531002913,
+          "brier": 0.19156775049511243,
+          "log_loss": 0.5643928900224462
+        },
+        "n": 4806,
+        "right": "previous",
+        "right_scores": {
+          "accuracy": 0.7116104868913857,
+          "brier": 0.19300930327529545,
+          "log_loss": 0.567856823209789
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 2,
+        "years_positive": 0
+      },
+      "second_model_vs_fair_buildoak_2015_2016": {
+        "annual_log_loss": {
+          "2015": -0.0027182448382756337,
+          "2016": -0.000716854534205215
+        },
+        "correct_credit_delta": 12.0,
+        "difference": {
+          "accuracy": 0.0024968789013732834,
+          "brier": -0.0006328625111993936,
+          "log_loss": -0.0017417029608213827
+        },
+        "iid_se_log_loss": 0.0019873505629441437,
+        "interval_95_block13_log_loss": [
+          -0.003758432796510672,
+          0.0002810575071820512
+        ],
+        "interval_95_block4_log_loss": [
+          -0.004305902831131925,
+          0.0008985603952369656
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.00618210344568726,
+            0.011377596333473105
+          ],
+          "brier": [
+            -0.0015408876254512094,
+            0.00028236643146304263
+          ],
+          "log_loss": [
+            -0.003940424832383167,
+            0.00045203927588684896
+          ]
+        },
+        "left": "second_model",
+        "left_scores": {
+          "accuracy": 0.7109862671660424,
+          "brier": 0.19177618150407852,
+          "log_loss": 0.564943846646668
+        },
+        "n": 4806,
+        "right": "buildoak_fair",
+        "right_scores": {
+          "accuracy": 0.7084893882646691,
+          "brier": 0.19240904401527792,
+          "log_loss": 0.5666855496074894
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 2,
+        "years_positive": 0
+      },
+      "second_model_vs_fair_buildoak_2014_2016": {
+        "annual_log_loss": {
+          "2014": -0.005269565259998469,
+          "2015": -0.0027182448382756337,
+          "2016": -0.000716854534205215
+        },
+        "correct_credit_delta": 20.0,
+        "difference": {
+          "accuracy": 0.0028046557285093254,
+          "brier": -0.0011962386145928166,
+          "log_loss": -0.002891931518609453
+        },
+        "iid_se_log_loss": 0.0016578333461728157,
+        "interval_95_block13_log_loss": [
+          -0.004988373257713225,
+          -0.0008574353488631899
+        ],
+        "interval_95_block4_log_loss": [
+          -0.005441720056306861,
+          -0.00026543560110103327
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.0037531626994530658,
+            0.008904002071279117
+          ],
+          "brier": [
+            -0.0021576570164144825,
+            -0.0002560877956196133
+          ],
+          "log_loss": [
+            -0.005347583992983505,
+            -0.0005816263581178959
+          ]
+        },
+        "left": "second_model",
+        "left_scores": {
+          "accuracy": 0.7055111485065209,
+          "brier": 0.19227917033466688,
+          "log_loss": 0.5654465962238305
+        },
+        "n": 7131,
+        "right": "buildoak_fair",
+        "right_scores": {
+          "accuracy": 0.7027064927780114,
+          "brier": 0.19347540894925966,
+          "log_loss": 0.56833852774244
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 3,
+        "years_positive": 0
+      }
+    }
+  },
+  "buildoak_released": {
+    "about": "BuildOak as released, run with its own main-tour data and native setup, on the same 2017-2025 matches (corrected 2025 file).",
+    "current": {
+      "y2017_2025": {
+        "annual_log_loss": {
+          "2017": -0.008041965576627631,
+          "2018": -0.006994755056168683,
+          "2019": -0.007209385458119731,
+          "2020": -0.0037235229781655034,
+          "2021": -0.012302475857752616,
+          "2022": -0.004156708127846107,
+          "2023": -0.012559333054260716,
+          "2024": -0.008547239249901717,
+          "2025": -0.00860231038795249
+        },
+        "correct_credit_delta": 130.0,
+        "difference": {
+          "accuracy": 0.006040611495748339,
+          "brier": -0.0034849337839420965,
+          "log_loss": -0.008274264523209934
+        },
+        "iid_se_log_loss": 0.0011320156687896876,
+        "interval_95_block13_log_loss": [
+          -0.010459648797788467,
+          -0.006140895698643797
+        ],
+        "interval_95_block4_log_loss": [
+          -0.010570148988466857,
+          -0.005946373990741241
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.0007063820601381553,
+            0.01127138944889911
+          ],
+          "brier": [
+            -0.004477875412823277,
+            -0.002529457414656996
+          ],
+          "log_loss": [
+            -0.010502970632165516,
+            -0.00603166979798741
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "buildoak_released",
+        "right_scores": {
+          "accuracy": 0.6642813995632173,
+          "brier": 0.20905730282432655,
+          "log_loss": 0.6039111011003478
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "y2025": {
+        "annual_log_loss": {
+          "2025": -0.00860231038795249
+        },
+        "correct_credit_delta": 23.0,
+        "difference": {
+          "accuracy": 0.008987885892926924,
+          "brier": -0.0038760420015269605,
+          "log_loss": -0.00860231038795249
+        },
+        "iid_se_log_loss": 0.0032358037102510036,
+        "interval_95_block13_log_loss": [
+          -0.014739356131447463,
+          -0.002509148318341523
+        ],
+        "interval_95_block4_log_loss": [
+          -0.01583380154404596,
+          -0.0009178005356514144
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.0068052967894164105,
+            0.025277866636510233
+          ],
+          "brier": [
+            -0.006953646361108469,
+            -0.0007706448428964623
+          ],
+          "log_loss": [
+            -0.015383196931731295,
+            -0.0017700872675309822
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6709652207893708,
+          "brier": 0.20916161036543834,
+          "log_loss": 0.6042838376475087
+        },
+        "n": 2559,
+        "right": "buildoak_released",
+        "right_scores": {
+          "accuracy": 0.661977334896444,
+          "brier": 0.21303765236696534,
+          "log_loss": 0.6128861480354613
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      }
+    },
+    "previous": {
+      "y2017_2025": {
+        "annual_log_loss": {
+          "2017": -0.004987941540619841,
+          "2018": -0.0038112930370738578,
+          "2019": -0.00394228489708986,
+          "2020": -0.0004710716357629114,
+          "2021": -0.008541871171990782,
+          "2022": -4.173103519986603e-05,
+          "2023": -0.011132762166749223,
+          "2024": -0.005668547615756747,
+          "2025": -0.004761274874037424
+        },
+        "correct_credit_delta": 62.0,
+        "difference": {
+          "accuracy": 0.0028809070210492078,
+          "brier": -0.0021994252309921847,
+          "log_loss": -0.005095669417766587
+        },
+        "iid_se_log_loss": 0.0012095832699352592,
+        "interval_95_block13_log_loss": [
+          -0.007506558745063132,
+          -0.002685290108673885
+        ],
+        "interval_95_block4_log_loss": [
+          -0.007604824411776405,
+          -0.002603893223769266
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.0020960723452855094,
+            0.007699563144141993
+          ],
+          "brier": [
+            -0.003270500410100381,
+            -0.0011529118384943284
+          ],
+          "log_loss": [
+            -0.0075563309510812224,
+            -0.0026611373903407238
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "buildoak_released",
+        "right_scores": {
+          "accuracy": 0.6642813995632173,
+          "brier": 0.20905730282432655,
+          "log_loss": 0.6039111011003478
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "y2025": {
+        "annual_log_loss": {
+          "2025": -0.004761274874037424
+        },
+        "correct_credit_delta": 6.0,
+        "difference": {
+          "accuracy": 0.0023446658851113715,
+          "brier": -0.0023702631444690774,
+          "log_loss": -0.004761274874037424
+        },
+        "iid_se_log_loss": 0.0035140237960721785,
+        "interval_95_block13_log_loss": [
+          -0.010962467848136414,
+          0.0013418656701680047
+        ],
+        "interval_95_block4_log_loss": [
+          -0.01229875629651248,
+          0.0029913324438821166
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.010584132839414322,
+            0.015497938023837586
+          ],
+          "brier": [
+            -0.005532632160352995,
+            0.0006800827105339514
+          ],
+          "log_loss": [
+            -0.01166827375117573,
+            0.002156799977045572
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6643220007815553,
+          "brier": 0.21066738922249625,
+          "log_loss": 0.6081248731614238
+        },
+        "n": 2559,
+        "right": "buildoak_released",
+        "right_scores": {
+          "accuracy": 0.661977334896444,
+          "brier": 0.21303765236696534,
+          "log_loss": 0.6128861480354613
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      }
+    }
+  },
+  "baselines": {
+    "about": "Five Elo and ranking baselines on the same 2017-2025 matches: FiveThirtyEight surface Elo, pooled Elo with K 32, Kovalchik's overall Elo with a major-tournament adjustment, a ranking logistic and weighted Elo (WElo).",
+    "current": {
+      "fivethirtyeight_surface": {
+        "annual_log_loss": {
+          "2017": -0.022282729629174648,
+          "2018": -0.032382515246034554,
+          "2019": -0.021855364646507305,
+          "2020": -0.034130159612986564,
+          "2021": -0.031781973121125295,
+          "2022": -0.0272854544175754,
+          "2023": -0.03174110365780938,
+          "2024": -0.029140822708220715,
+          "2025": -0.023697005487835755
+        },
+        "correct_credit_delta": 518.0,
+        "difference": {
+          "accuracy": 0.02406951349844338,
+          "brier": -0.01186185098007133,
+          "log_loss": -0.027986989500416358
+        },
+        "iid_se_log_loss": 0.0014036350944296085,
+        "interval_95_block13_log_loss": [
+          -0.031399225042750875,
+          -0.02451811021818799
+        ],
+        "interval_95_block4_log_loss": [
+          -0.03140805186916814,
+          -0.024731577939095625
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.017149938021437966,
+            0.031057966156040378
+          ],
+          "brier": [
+            -0.013419392054658913,
+            -0.010417148726486582
+          ],
+          "log_loss": [
+            -0.03152200311063296,
+            -0.02469013091345859
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "fivethirtyeight_surface",
+        "right_scores": {
+          "accuracy": 0.6462524975605223,
+          "brier": 0.21743422002045584,
+          "log_loss": 0.6236238260775543
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "k32_pooled": {
+        "annual_log_loss": {
+          "2017": -0.02236359207826217,
+          "2018": -0.031358818351188485,
+          "2019": -0.022563551636566755,
+          "2020": -0.02889895105735573,
+          "2021": -0.03452481190149426,
+          "2022": -0.028290134037625626,
+          "2023": -0.028770329703621565,
+          "2024": -0.027950697001804428,
+          "2025": -0.022239451008805335
+        },
+        "correct_credit_delta": 555.0,
+        "difference": {
+          "accuracy": 0.025788764462617908,
+          "brier": -0.011652651740729162,
+          "log_loss": -0.027381753739596712
+        },
+        "iid_se_log_loss": 0.0013702293395963165,
+        "interval_95_block13_log_loss": [
+          -0.0307033990900535,
+          -0.023974212362914252
+        ],
+        "interval_95_block4_log_loss": [
+          -0.03051065304710552,
+          -0.024280946943402756
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.019235584840079027,
+            0.03239685294187623
+          ],
+          "brier": [
+            -0.013148631378912312,
+            -0.010229644293876442
+          ],
+          "log_loss": [
+            -0.030845874037282787,
+            -0.024131604100395526
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "k32_pooled",
+        "right_scores": {
+          "accuracy": 0.6445332465963478,
+          "brier": 0.21722502078111366,
+          "log_loss": 0.6230185903167345
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "kovalchik_overall_major": {
+        "annual_log_loss": {
+          "2017": -0.026730822983926008,
+          "2018": -0.034716854398932406,
+          "2019": -0.027223942681047754,
+          "2020": -0.03998016430526943,
+          "2021": -0.03444281009812297,
+          "2022": -0.031735243933375915,
+          "2023": -0.034687024517087287,
+          "2024": -0.0320184553227577,
+          "2025": -0.024919201775685136
+        },
+        "correct_credit_delta": 602.0,
+        "difference": {
+          "accuracy": 0.027972677849542306,
+          "brier": -0.013334675164210837,
+          "log_loss": -0.03140350464414973
+        },
+        "iid_se_log_loss": 0.0015057896986237203,
+        "interval_95_block13_log_loss": [
+          -0.0351767681266962,
+          -0.027693488378160738
+        ],
+        "interval_95_block4_log_loss": [
+          -0.03511884137887466,
+          -0.027845592838432798
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.02123119107057859,
+            0.03464199203811366
+          ],
+          "brier": [
+            -0.014997421821306083,
+            -0.011753998088757309
+          ],
+          "log_loss": [
+            -0.03525988584351139,
+            -0.027706394234163316
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "kovalchik_overall_major",
+        "right_scores": {
+          "accuracy": 0.6423493332094233,
+          "brier": 0.2189070442045953,
+          "log_loss": 0.6270403412212876
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "rank_logistic": {
+        "annual_log_loss": {
+          "2017": -0.03964860680416534,
+          "2018": -0.037785223735373005,
+          "2019": -0.03868896345412876,
+          "2020": -0.04169675316927594,
+          "2021": -0.03928396876798685,
+          "2022": -0.04396331120730817,
+          "2023": -0.034088061476983615,
+          "2024": -0.03926117634321157,
+          "2025": -0.02677868708066616
+        },
+        "correct_credit_delta": 779.5,
+        "difference": {
+          "accuracy": 0.03622043585335254,
+          "brier": -0.01618242331111739,
+          "log_loss": -0.037627908773129014
+        },
+        "iid_se_log_loss": 0.0016921563883793964,
+        "interval_95_block13_log_loss": [
+          -0.040959384570813044,
+          -0.03410293169605398
+        ],
+        "interval_95_block4_log_loss": [
+          -0.04103900595066449,
+          -0.0342408624412638
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.028616632187558017,
+            0.04365907155991129
+          ],
+          "brier": [
+            -0.017710331981356957,
+            -0.014672516712996703
+          ],
+          "log_loss": [
+            -0.04112931863943609,
+            -0.0341426665454787
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "rank_logistic",
+        "right_scores": {
+          "accuracy": 0.6341015752056132,
+          "brier": 0.22175479235150186,
+          "log_loss": 0.633264745350267
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "welo": {
+        "annual_log_loss": {
+          "2017": -0.025761107594416986,
+          "2018": -0.035129740873699924,
+          "2019": -0.024947608263270065,
+          "2020": -0.03708921833583634,
+          "2021": -0.036630955742118394,
+          "2022": -0.03108407154028902,
+          "2023": -0.03344529575315224,
+          "2024": -0.0314541363815898,
+          "2025": -0.023315167928107675
+        },
+        "correct_credit_delta": 587.0,
+        "difference": {
+          "accuracy": 0.027275684215417498,
+          "brier": -0.013068872427850087,
+          "log_loss": -0.03066671852378795
+        },
+        "iid_se_log_loss": 0.0015019702990574787,
+        "interval_95_block13_log_loss": [
+          -0.034572011073090596,
+          -0.02675666815144421
+        ],
+        "interval_95_block4_log_loss": [
+          -0.03445137150326512,
+          -0.02706134841348563
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.02056220691963717,
+            0.03377003634404524
+          ],
+          "brier": [
+            -0.01476593928139849,
+            -0.011455961976118258
+          ],
+          "log_loss": [
+            -0.034677368468247254,
+            -0.026894841142878566
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6703220110589657,
+          "brier": 0.20557236904038448,
+          "log_loss": 0.595636836577138
+        },
+        "n": 21521,
+        "right": "welo",
+        "right_scores": {
+          "accuracy": 0.6430463268435481,
+          "brier": 0.21864124146823458,
+          "log_loss": 0.6263035551009258
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      }
+    },
+    "previous": {
+      "fivethirtyeight_surface": {
+        "annual_log_loss": {
+          "2017": -0.019228705593166855,
+          "2018": -0.029199053226939737,
+          "2019": -0.018588264085477434,
+          "2020": -0.03087770827058396,
+          "2021": -0.028021368435363455,
+          "2022": -0.02317047732492915,
+          "2023": -0.03031453277029789,
+          "2024": -0.026262131074075747,
+          "2025": -0.01985596997392069
+        },
+        "correct_credit_delta": 450.0,
+        "difference": {
+          "accuracy": 0.02090980902374425,
+          "brier": -0.010576342427121417,
+          "log_loss": -0.02480839439497302
+        },
+        "iid_se_log_loss": 0.0014369365201048025,
+        "interval_95_block13_log_loss": [
+          -0.028275525576356614,
+          -0.021367464883379483
+        ],
+        "interval_95_block4_log_loss": [
+          -0.028195706711550878,
+          -0.021604618927434618
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.015201617201640228,
+            0.026534160309955278
+          ],
+          "brier": [
+            -0.01209180644926325,
+            -0.009107238938323936
+          ],
+          "log_loss": [
+            -0.0282726320149607,
+            -0.02143316549200437
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "fivethirtyeight_surface",
+        "right_scores": {
+          "accuracy": 0.6462524975605223,
+          "brier": 0.21743422002045584,
+          "log_loss": 0.6236238260775543
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "k32_pooled": {
+        "annual_log_loss": {
+          "2017": -0.019309568042254383,
+          "2018": -0.028175356332093657,
+          "2019": -0.01929645107553688,
+          "2020": -0.025646499714953138,
+          "2021": -0.030764207215732423,
+          "2022": -0.024175156944979383,
+          "2023": -0.027343758816110068,
+          "2024": -0.025072005367659456,
+          "2025": -0.01839841549489027
+        },
+        "correct_credit_delta": 487.0,
+        "difference": {
+          "accuracy": 0.022629059987918778,
+          "brier": -0.01036714318777925,
+          "log_loss": -0.024203158634153368
+        },
+        "iid_se_log_loss": 0.0014194001738426273,
+        "interval_95_block13_log_loss": [
+          -0.027554343455577234,
+          -0.020767653576056096
+        ],
+        "interval_95_block4_log_loss": [
+          -0.02735576994139097,
+          -0.021037006774042438
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.017136375030351224,
+            0.027993586230311777
+          ],
+          "brier": [
+            -0.011878887463837882,
+            -0.008916616998559414
+          ],
+          "log_loss": [
+            -0.027652955434791376,
+            -0.020936356573829078
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "k32_pooled",
+        "right_scores": {
+          "accuracy": 0.6445332465963478,
+          "brier": 0.21722502078111366,
+          "log_loss": 0.6230185903167345
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "kovalchik_overall_major": {
+        "annual_log_loss": {
+          "2017": -0.023676798947918215,
+          "2018": -0.03153339237983758,
+          "2019": -0.023956842120017884,
+          "2020": -0.03672771296286684,
+          "2021": -0.03068220541236114,
+          "2022": -0.02762026684072967,
+          "2023": -0.03326045362957579,
+          "2024": -0.02913976368861273,
+          "2025": -0.021078166261770073
+        },
+        "correct_credit_delta": 534.0,
+        "difference": {
+          "accuracy": 0.024812973374843176,
+          "brier": -0.012049166611260926,
+          "log_loss": -0.028224909538706384
+        },
+        "iid_se_log_loss": 0.0015328736827229727,
+        "interval_95_block13_log_loss": [
+          -0.03199376952675484,
+          -0.024533696680607647
+        ],
+        "interval_95_block4_log_loss": [
+          -0.031929700396122064,
+          -0.02465408229311333
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.019346865529560494,
+            0.030240197693198786
+          ],
+          "brier": [
+            -0.013689269950469485,
+            -0.010436133214733537
+          ],
+          "log_loss": [
+            -0.032000570330929165,
+            -0.024545903785524348
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "kovalchik_overall_major",
+        "right_scores": {
+          "accuracy": 0.6423493332094233,
+          "brier": 0.2189070442045953,
+          "log_loss": 0.6270403412212876
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "rank_logistic": {
+        "annual_log_loss": {
+          "2017": -0.036594582768157545,
+          "2018": -0.03460176171627818,
+          "2019": -0.03542186289309889,
+          "2020": -0.03844430182687335,
+          "2021": -0.03552336408222502,
+          "2022": -0.039848334114661925,
+          "2023": -0.03266149058947212,
+          "2024": -0.036382484709066604,
+          "2025": -0.0229376515667511
+        },
+        "correct_credit_delta": 711.5,
+        "difference": {
+          "accuracy": 0.03306073137865341,
+          "brier": -0.01489691475816748,
+          "log_loss": -0.034449313667685666
+        },
+        "iid_se_log_loss": 0.001713080511604161,
+        "interval_95_block13_log_loss": [
+          -0.037834382325911915,
+          -0.03093410981626639
+        ],
+        "interval_95_block4_log_loss": [
+          -0.037948707501699465,
+          -0.031005427739034346
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.02637626738319213,
+            0.039610410891079466
+          ],
+          "brier": [
+            -0.016460450750254534,
+            -0.01337167168739897
+          ],
+          "log_loss": [
+            -0.038005545285133835,
+            -0.030950244388896916
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "rank_logistic",
+        "right_scores": {
+          "accuracy": 0.6341015752056132,
+          "brier": 0.22175479235150186,
+          "log_loss": 0.633264745350267
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      },
+      "welo": {
+        "annual_log_loss": {
+          "2017": -0.0227070835584092,
+          "2018": -0.0319462788546051,
+          "2019": -0.02168050770224019,
+          "2020": -0.03383676699343374,
+          "2021": -0.03287035105635656,
+          "2022": -0.02696909444764278,
+          "2023": -0.032018724865640745,
+          "2024": -0.028575444747444834,
+          "2025": -0.019474132414192612
+        },
+        "correct_credit_delta": 519.0,
+        "difference": {
+          "accuracy": 0.024115979740718368,
+          "brier": -0.011783363874900175,
+          "log_loss": -0.02748812341834461
+        },
+        "iid_se_log_loss": 0.0015335727566218357,
+        "interval_95_block13_log_loss": [
+          -0.03145826177808215,
+          -0.0235864601210663
+        ],
+        "interval_95_block4_log_loss": [
+          -0.03134331310176748,
+          -0.02390083027206666
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            0.018179476038658004,
+            0.030067159405590297
+          ],
+          "brier": [
+            -0.013467249421642616,
+            -0.010145370798074028
+          ],
+          "log_loss": [
+            -0.03150497198320847,
+            -0.02370895890898307
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6671623065842666,
+          "brier": 0.20685787759333438,
+          "log_loss": 0.5988154316825812
+        },
+        "n": 21521,
+        "right": "welo",
+        "right_scores": {
+          "accuracy": 0.6430463268435481,
+          "brier": 0.21864124146823458,
+          "log_loss": 0.6263035551009258
+        },
+        "verdict": {
+          "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 9,
+        "years_positive": 0
+      }
+    }
+  },
+  "catboost_walk_forward": {
+    "about": "hikmatazimzade/tennis-ai's CatBoost refitted for each season 2017-2024 on the author's own table (the author's files list some seasons' finals first, which lets later-round results reach earlier rows: a look-ahead in the rival's favour).",
+    "current": {
+      "annual_log_loss": {
+        "2017": -0.010526218150981485,
+        "2018": -0.012887043099818907,
+        "2019": -0.016610565953143242,
+        "2020": -0.01701635753553849,
+        "2021": -0.023121093563112254,
+        "2022": -0.007282693559498559,
+        "2023": -0.008888949398629803,
+        "2024": -0.006139993644389724
+      },
+      "correct_credit_delta": 91.0,
+      "difference": {
+        "accuracy": 0.004817873782295637,
+        "brier": -0.005220218913771033,
+        "log_loss": -0.012380166530964146
+      },
+      "iid_se_log_loss": 0.0013064126080681682,
+      "interval_95_block13_log_loss": [
+        -0.015976976605137895,
+        -0.008988253164808375
+      ],
+      "interval_95_block4_log_loss": [
+        -0.015351013528989689,
+        -0.009383716584527881
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.0025990111397361597,
+          0.012192066744036277
+        ],
+        "brier": [
+          -0.006707297496418422,
+          -0.0037347990338770435
+        ],
+        "log_loss": [
+          -0.015546165405961359,
+          -0.009155933255421944
+        ]
+      },
+      "left": "current",
+      "left_scores": {
+        "accuracy": 0.6695785684032189,
+        "brier": 0.20545294881824122,
+        "log_loss": 0.5953839177839414
+      },
+      "n": 18888,
+      "right": "catboost_walk_forward",
+      "right_scores": {
+        "accuracy": 0.6647606946209234,
+        "brier": 0.21067316773201225,
+        "log_loss": 0.6077640843149056
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+        "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+      },
+      "years_negative": 8,
+      "years_positive": 0
+    },
+    "previous": {
+      "annual_log_loss": {
+        "2017": -0.007578915349473958,
+        "2018": -0.00974415561252827,
+        "2019": -0.013536117879750571,
+        "2020": -0.013854402029263486,
+        "2021": -0.019468989906390385,
+        "2022": -0.0031796211710729888,
+        "2023": -0.007509294768726473,
+        "2024": -0.0032714864714834336
+      },
+      "correct_credit_delta": 43.0,
+      "difference": {
+        "accuracy": 0.002276577721304532,
+        "brier": -0.003986808229087026,
+        "log_loss": -0.009363523027344407
+      },
+      "iid_se_log_loss": 0.0013850037504205884,
+      "interval_95_block13_log_loss": [
+        -0.012956358313380757,
+        -0.006046219036664397
+      ],
+      "interval_95_block4_log_loss": [
+        -0.012428849502262527,
+        -0.006350841827841954
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.004099967815173644,
+          0.008567336937433369
+        ],
+        "brier": [
+          -0.005488474732323532,
+          -0.002502754372596649
+        ],
+        "log_loss": [
+          -0.012543589896912014,
+          -0.006114080477894632
+        ]
+      },
+      "left": "previous",
+      "left_scores": {
+        "accuracy": 0.6670372723422279,
+        "brier": 0.20668635950292522,
+        "log_loss": 0.5984005612875613
+      },
+      "n": 18888,
+      "right": "catboost_walk_forward",
+      "right_scores": {
+        "accuracy": 0.6647606946209234,
+        "brier": 0.21067316773201225,
+        "log_loss": 0.6077640843149056
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+        "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+      },
+      "years_negative": 8,
+      "years_positive": 0
+    }
+  },
+  "catboost_lower_tier": {
+    "about": "The same CatBoost recipe given Alcaraz's lower-tier files, 2017-2024 and 2024 alone.",
+    "current": {
+      "y2017_2024": {
+        "annual_log_loss": {
+          "2017": -0.008117688059949765,
+          "2018": -0.00993472312703915,
+          "2019": -0.012736579222419676,
+          "2020": -0.010515643326974718,
+          "2021": -0.01351543508445535,
+          "2022": -0.0033441414104817707,
+          "2023": -0.010554770740601183,
+          "2024": -0.0022350068814533733
+        },
+        "correct_credit_delta": 84.0,
+        "difference": {
+          "accuracy": 0.0044472681067344345,
+          "brier": -0.003553356398919838,
+          "log_loss": -0.008684804604349346
+        },
+        "iid_se_log_loss": 0.0010576488103590095,
+        "interval_95_block13_log_loss": [
+          -0.011380342550151865,
+          -0.006059439330419405
+        ],
+        "interval_95_block4_log_loss": [
+          -0.011265281126159767,
+          -0.006181168486966113
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.00025459026964652376,
+            0.00890650493478149
+          ],
+          "brier": [
+            -0.0046659202808537565,
+            -0.0024383585881896826
+          ],
+          "log_loss": [
+            -0.01123789611146136,
+            -0.006050216650422408
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6695785684032189,
+          "brier": 0.20545294881824122,
+          "log_loss": 0.5953839177839414
+        },
+        "n": 18888,
+        "right": "catboost_lower_tier",
+        "right_scores": {
+          "accuracy": 0.6651313002964846,
+          "brier": 0.20900630521716104,
+          "log_loss": 0.6040687223882909
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 8,
+        "years_positive": 0
+      },
+      "y2024": {
+        "annual_log_loss": {
+          "2024": -0.0022350068814533733
+        },
+        "correct_credit_delta": -1.0,
+        "difference": {
+          "accuracy": -0.00037425149700598805,
+          "brier": -0.0006527093233935588,
+          "log_loss": -0.0022350068814533733
+        },
+        "iid_se_log_loss": 0.0029033462340285116,
+        "interval_95_block13_log_loss": [
+          -0.006914185727200588,
+          0.0021749008917738375
+        ],
+        "interval_95_block4_log_loss": [
+          -0.008003488657917127,
+          0.003181945594612025
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.015108573753936693,
+            0.013646702047005308
+          ],
+          "brier": [
+            -0.002668369659699449,
+            0.0013701967552867053
+          ],
+          "log_loss": [
+            -0.007276655856471978,
+            0.0026260239440220523
+          ]
+        },
+        "left": "current",
+        "left_scores": {
+          "accuracy": 0.6672904191616766,
+          "brier": 0.20469708896418076,
+          "log_loss": 0.5932572299075572
+        },
+        "n": 2672,
+        "right": "catboost_lower_tier",
+        "right_scores": {
+          "accuracy": 0.6676646706586826,
+          "brier": 0.2053497982875743,
+          "log_loss": 0.5954922367890106
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      }
+    },
+    "previous": {
+      "y2017_2024": {
+        "annual_log_loss": {
+          "2017": -0.005170385258442237,
+          "2018": -0.006791835639748513,
+          "2019": -0.009662131149027,
+          "2020": -0.007353687820699715,
+          "2021": -0.009863331427733478,
+          "2022": 0.0007589309779438009,
+          "2023": -0.00917511611069785,
+          "2024": 0.0006335002914529164
+        },
+        "correct_credit_delta": 36.0,
+        "difference": {
+          "accuracy": 0.0019059720457433292,
+          "brier": -0.0023199457142358305,
+          "log_loss": -0.0056681611007296075
+        },
+        "iid_se_log_loss": 0.0011702155629493465,
+        "interval_95_block13_log_loss": [
+          -0.008468679435948636,
+          -0.0028018981266863447
+        ],
+        "interval_95_block4_log_loss": [
+          -0.00837296776110356,
+          -0.0030574836420540334
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.0027023445724026224,
+            0.006180787559532284
+          ],
+          "brier": [
+            -0.0035170368551949737,
+            -0.0010972444876134297
+          ],
+          "log_loss": [
+            -0.008423500920978214,
+            -0.00287931734873937
+          ]
+        },
+        "left": "previous",
+        "left_scores": {
+          "accuracy": 0.6670372723422279,
+          "brier": 0.20668635950292522,
+          "log_loss": 0.5984005612875613
+        },
+        "n": 18888,
+        "right": "catboost_lower_tier",
+        "right_scores": {
+          "accuracy": 0.6651313002964846,
+          "brier": 0.20900630521716104,
+          "log_loss": 0.6040687223882909
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 6,
+        "years_positive": 2
+      }
+    }
+  },
+  "stack": {
+    "about": "yaobviously/tennis_elo's ridge and LightGBM stack with its look-ahead removed, on its own 2017-2023 rows (anchor dates through February 2023).",
+    "current": {
+      "annual_log_loss": {
+        "2017": -0.0071317851220013585,
+        "2018": -0.011242659760908848,
+        "2019": -0.007016625364533056,
+        "2020": -0.011611170568156958,
+        "2021": -0.009408766350254342,
+        "2022": -0.005037224911169069,
+        "2023": -0.0008171862480402068
+      },
+      "correct_credit_delta": 76.0,
+      "difference": {
+        "accuracy": 0.005474321112151553,
+        "brier": -0.003391669874773643,
+        "log_loss": -0.008149105277123505
+      },
+      "iid_se_log_loss": 0.001202301457601265,
+      "interval_95_block13_log_loss": [
+        -0.010508289180292153,
+        -0.005977259648363793
+      ],
+      "interval_95_block4_log_loss": [
+        -0.010447782801356878,
+        -0.005855262359389649
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.0016922920067705995,
+          0.012514088014544183
+        ],
+        "brier": [
+          -0.0044184628067781345,
+          -0.0024053551376973493
+        ],
+        "log_loss": [
+          -0.010415506843314912,
+          -0.005902477127962312
+        ]
+      },
+      "left": "alcaraz",
+      "left_scores": {
+        "accuracy": 0.671756824893755,
+        "brier": 0.20475329288250135,
+        "log_loss": 0.5938654679413391
+      },
+      "n": 13883,
+      "right": "stack_without_lookahead",
+      "right_scores": {
+        "accuracy": 0.6662825037816034,
+        "brier": 0.20814496275727498,
+        "log_loss": 0.6020145732184625
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (left ahead, interval excludes zero)",
+        "log_loss": "beaten (left ahead, interval excludes zero)"
+      }
+    },
+    "previous": {
+      "annual_log_loss": {
+        "2017": -0.004037683713998605,
+        "2018": -0.00801297205502071,
+        "2019": -0.0037860932091486102,
+        "2020": -0.008374084790043465,
+        "2021": -0.0056520035178280635,
+        "2022": -0.0009102758658706914,
+        "2023": 0.004342629131445293
+      },
+      "correct_credit_delta": 21.0,
+      "difference": {
+        "accuracy": 0.0015126413599366132,
+        "brier": -0.0019642897016035857,
+        "log_loss": -0.004643165373367373
+      },
+      "iid_se_log_loss": 0.0013153621018532336,
+      "interval_95_block13_log_loss": [
+        -0.007022007809505539,
+        -0.0023684093838795247
+      ],
+      "interval_95_block4_log_loss": [
+        -0.007006705391845871,
+        -0.002308996109128754
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.00401197595248306,
+          0.006937566827880106
+        ],
+        "brier": [
+          -0.0029742789422558197,
+          -0.0009339871781312841
+        ],
+        "log_loss": [
+          -0.0068840523353362725,
+          -0.0023871237847292136
+        ]
+      },
+      "left": "alcaraz",
+      "left_scores": {
+        "accuracy": 0.66779514514154,
+        "brier": 0.2061806730556714,
+        "log_loss": 0.5973714078450952
+      },
+      "n": 13883,
+      "right": "stack_without_lookahead",
+      "right_scores": {
+        "accuracy": 0.6662825037816034,
+        "brier": 0.20814496275727498,
+        "log_loss": 0.6020145732184625
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (left ahead, interval excludes zero)",
+        "log_loss": "beaten (left ahead, interval excludes zero)"
+      }
+    }
+  },
+  "shipped_catboost_2025": {
+    "about": "The CatBoost the author ships (its checkpoint) and the same recipe refitted through 2024, on 2025.",
+    "current": {
+      "checkpoint": {
+        "annual_log_loss": {
+          "2025": -0.008370713080939528
+        },
+        "correct_credit_delta": 35.0,
+        "difference": {
+          "accuracy": 0.013844936708860759,
+          "brier": -0.003376237328223805,
+          "log_loss": -0.008370713080939528
+        },
+        "iid_se_log_loss": 0.0037741190861315752,
+        "interval_95_block13_log_loss": [
+          -0.012627287698453078,
+          -0.0043593075448318565
+        ],
+        "interval_95_block4_log_loss": [
+          -0.01498725471622211,
+          -0.002102530636961101
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.00045169775975208745,
+            0.028026186256977094
+          ],
+          "brier": [
+            -0.005601514305956092,
+            -0.0011797945621356833
+          ],
+          "log_loss": [
+            -0.013276302222217835,
+            -0.0035117669997041783
+          ]
+        },
+        "left": "alcaraz",
+        "left_scores": {
+          "accuracy": 0.6708860759493671,
+          "brier": 0.20908835662542113,
+          "log_loss": 0.6041848400583453
+        },
+        "n": 2528,
+        "right": "catboost_shipped_checkpoint",
+        "right_scores": {
+          "accuracy": 0.6570411392405063,
+          "brier": 0.2124645939536449,
+          "log_loss": 0.6125555531392848
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      },
+      "refit": {
+        "annual_log_loss": {
+          "2025": -0.008014986118638294
+        },
+        "correct_credit_delta": 20.0,
+        "difference": {
+          "accuracy": 0.007911392405063292,
+          "brier": -0.0032203546470034234,
+          "log_loss": -0.008014986118638294
+        },
+        "iid_se_log_loss": 0.0034548986757569422,
+        "interval_95_block13_log_loss": [
+          -0.012565621251402937,
+          -0.0038448817973622744
+        ],
+        "interval_95_block4_log_loss": [
+          -0.01453613137636425,
+          -0.002052863289329245
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.005787575340109712,
+            0.02156868730398142
+          ],
+          "brier": [
+            -0.005396104416198068,
+            -0.0011404813925244826
+          ],
+          "log_loss": [
+            -0.013287330355155773,
+            -0.0031554508367174845
+          ]
+        },
+        "left": "alcaraz",
+        "left_scores": {
+          "accuracy": 0.6708860759493671,
+          "brier": 0.20908835662542113,
+          "log_loss": 0.6041848400583453
+        },
+        "n": 2528,
+        "right": "catboost_shipped_refit",
+        "right_scores": {
+          "accuracy": 0.6629746835443038,
+          "brier": 0.2123087112724245,
+          "log_loss": 0.6121998261769834
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      }
+    },
+    "previous": {
+      "checkpoint": {
+        "annual_log_loss": {
+          "2025": -0.004572492059981594
+        },
+        "correct_credit_delta": 18.0,
+        "difference": {
+          "accuracy": 0.007120253164556962,
+          "brier": -0.0018744199596253959,
+          "log_loss": -0.004572492059981594
+        },
+        "iid_se_log_loss": 0.004043354106982255,
+        "interval_95_block13_log_loss": [
+          -0.008501435775152662,
+          -0.000849178249037632
+        ],
+        "interval_95_block4_log_loss": [
+          -0.010752579068661493,
+          0.0013293087821522535
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.0062943969287412044,
+            0.019758641522754417
+          ],
+          "brier": [
+            -0.004057693070871736,
+            0.00019895473224059243
+          ],
+          "log_loss": [
+            -0.009277102785390012,
+            -0.00011409795142785583
+          ]
+        },
+        "left": "alcaraz",
+        "left_scores": {
+          "accuracy": 0.6641613924050633,
+          "brier": 0.21059017399401944,
+          "log_loss": 0.6079830610793031
+        },
+        "n": 2528,
+        "right": "catboost_shipped_checkpoint",
+        "right_scores": {
+          "accuracy": 0.6570411392405063,
+          "brier": 0.2124645939536449,
+          "log_loss": 0.6125555531392848
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      },
+      "refit": {
+        "annual_log_loss": {
+          "2025": -0.0042167650976803585
+        },
+        "correct_credit_delta": 3.0,
+        "difference": {
+          "accuracy": 0.0011867088607594937,
+          "brier": -0.001718537278405014,
+          "log_loss": -0.0042167650976803585
+        },
+        "iid_se_log_loss": 0.003741686686923714,
+        "interval_95_block13_log_loss": [
+          -0.008832895495539214,
+          -5.534056818804068e-07
+        ],
+        "interval_95_block4_log_loss": [
+          -0.010869542570389724,
+          0.0016653360960530233
+        ],
+        "interval_95_block8": {
+          "accuracy": [
+            -0.011393963875026995,
+            0.013283135507143258
+          ],
+          "brier": [
+            -0.003948738144759047,
+            0.00036930935438921433
+          ],
+          "log_loss": [
+            -0.009518135010574452,
+            0.0005625089295618675
+          ]
+        },
+        "left": "alcaraz",
+        "left_scores": {
+          "accuracy": 0.6641613924050633,
+          "brier": 0.21059017399401944,
+          "log_loss": 0.6079830610793031
+        },
+        "n": 2528,
+        "right": "catboost_shipped_refit",
+        "right_scores": {
+          "accuracy": 0.6629746835443038,
+          "brier": 0.2123087112724245,
+          "log_loss": 0.6121998261769834
+        },
+        "verdict": {
+          "accuracy": "level (interval includes zero)",
+          "brier": "level (interval includes zero)",
+          "log_loss": "level (interval includes zero)"
+        },
+        "years_negative": 1,
+        "years_positive": 0
+      }
+    }
+  },
+  "members": {
+    "about": "Log loss of the average and of each member on every target match (no market price needed). The average scores below both members over 2017-2024 and 2017-2025.",
+    "y2017_2024": {
+      "n": 18972,
+      "scores": {
+        "previous": {
+          "accuracy": 0.6675627240143369,
+          "accuracy_wilson_95": [
+            0.6608260371795892,
+            0.6742315682392502
+          ],
+          "brier": 0.20633878294753072,
+          "clipped_rows": 0,
+          "log_loss": 0.5975511894597723,
+          "n": 18972
+        },
+        "current": {
+          "accuracy": 0.6701981868016024,
+          "accuracy_wilson_95": [
+            0.6634744196428372,
+            0.6768530443072832
+          ],
+          "brier": 0.2050848514553159,
+          "clipped_rows": 0,
+          "log_loss": 0.5944660643605305,
+          "n": 18972
+        },
+        "second_model": {
+          "accuracy": 0.6719903014969428,
+          "accuracy_wilson_95": [
+            0.665275455399855,
+            0.6786355123515364
+          ],
+          "brier": 0.20524805995544804,
+          "clipped_rows": 0,
+          "log_loss": 0.5947179229328861,
+          "n": 18972
+        }
+      }
+    },
+    "y2017_2025": {
+      "n": 21561,
+      "scores": {
+        "previous": {
+          "accuracy": 0.6667594267427299,
+          "accuracy_wilson_95": [
+            0.660438378690865,
+            0.6730210633241218
+          ],
+          "brier": 0.20697624391554853,
+          "clipped_rows": 0,
+          "log_loss": 0.5990858890741712,
+          "n": 21561
+        },
+        "current": {
+          "accuracy": 0.6698668892908493,
+          "accuracy_wilson_95": [
+            0.6635601116816752,
+            0.6761131483322003
+          ],
+          "brier": 0.2057010405475819,
+          "clipped_rows": 0,
+          "log_loss": 0.5959339603563747,
+          "n": 21561
+        },
+        "second_model": {
+          "accuracy": 0.6720003710403043,
+          "accuracy_wilson_95": [
+            0.6657035702558026,
+            0.6782358931602949
+          ],
+          "brier": 0.20580952755856596,
+          "clipped_rows": 0,
+          "log_loss": 0.5960709910782134,
+          "n": 21561
+        }
+      }
+    }
+  },
+  "current_vs_previous_unseen": {
+    "about": "The gain over the previous version on seasons never used to build the second model: 2024, 2015-2016 and 2025 (corrected).",
+    "y2024": {
+      "annual_log_loss": {
+        "2024": -0.0028786916341449692
+      },
+      "correct_credit_delta": -1.0,
+      "difference": {
+        "accuracy": -0.0003732736095558044,
+        "brier": -0.0012837113000443215,
+        "log_loss": -0.0028786916341449692
+      },
+      "iid_se_log_loss": 0.0010740966451694863,
+      "interval_95_block13_log_loss": [
+        -0.004579378248673009,
+        -0.0009547217791185815
+      ],
+      "interval_95_block4_log_loss": [
+        -0.005011116637336532,
+        -0.0006063795692044067
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.005456781771057567,
+          0.005008808805560646
+        ],
+        "brier": [
+          -0.0020495489042432116,
+          -0.0004248352506185737
+        ],
+        "log_loss": [
+          -0.004850621619944773,
+          -0.0007457707039196995
+        ]
+      },
+      "left": "current",
+      "left_scores": {
+        "accuracy": 0.6674132138857782,
+        "brier": 0.20457452381661562,
+        "log_loss": 0.59292306074993
+      },
+      "n": 2679,
+      "right": "previous",
+      "right_scores": {
+        "accuracy": 0.6677864874953341,
+        "brier": 0.20585823511665993,
+        "log_loss": 0.595801752384075
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+        "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+      },
+      "years_negative": 1,
+      "years_positive": 0
+    },
+    "y2015_2016": {
+      "annual_log_loss": {
+        "2015": -0.0035092318953218325,
+        "2016": -0.003416393690397791
+      },
+      "correct_credit_delta": 5.0,
+      "difference": {
+        "accuracy": 0.0010403662089055348,
+        "brier": -0.0014415527801830078,
+        "log_loss": -0.003463933187342874
+      },
+      "iid_se_log_loss": 0.0009082128158229562,
+      "interval_95_block13_log_loss": [
+        -0.004621742336097227,
+        -0.0020634006859852586
+      ],
+      "interval_95_block4_log_loss": [
+        -0.004830385571294629,
+        -0.0019644023035551707
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          -0.002243233181700574,
+          0.004240753659372399
+        ],
+        "brier": [
+          -0.0019737382763417425,
+          -0.0008167058963817268
+        ],
+        "log_loss": [
+          -0.004715608436645176,
+          -0.0019822250501602833
+        ]
+      },
+      "left": "current",
+      "left_scores": {
+        "accuracy": 0.7126508531002913,
+        "brier": 0.19156775049511243,
+        "log_loss": 0.5643928900224462
+      },
+      "n": 4806,
+      "right": "previous",
+      "right_scores": {
+        "accuracy": 0.7116104868913857,
+        "brier": 0.19300930327529545,
+        "log_loss": 0.567856823209789
+      },
+      "verdict": {
+        "accuracy": "level (interval includes zero)",
+        "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+        "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+      },
+      "years_negative": 2,
+      "years_positive": 0
+    },
+    "y2025": {
+      "annual_log_loss": {
+        "2025": -0.0038410355139150637
+      },
+      "correct_credit_delta": 17.0,
+      "difference": {
+        "accuracy": 0.006643220007815553,
+        "brier": -0.0015057788570578838,
+        "log_loss": -0.0038410355139150637
+      },
+      "iid_se_log_loss": 0.0011249655076351853,
+      "interval_95_block13_log_loss": [
+        -0.00511735556462771,
+        -0.002527143077766789
+      ],
+      "interval_95_block4_log_loss": [
+        -0.005630743586341156,
+        -0.002007707018419327
+      ],
+      "interval_95_block8": {
+        "accuracy": [
+          0.001546552625055508,
+          0.012101728710941529
+        ],
+        "brier": [
+          -0.0022362000173337207,
+          -0.0008019031951043298
+        ],
+        "log_loss": [
+          -0.005307505723071238,
+          -0.0023822678297183678
+        ]
+      },
+      "left": "current",
+      "left_scores": {
+        "accuracy": 0.6709652207893708,
+        "brier": 0.20916161036543834,
+        "log_loss": 0.6042838376475087
+      },
+      "n": 2559,
+      "right": "previous",
+      "right_scores": {
+        "accuracy": 0.6643220007815553,
+        "brier": 0.21066738922249625,
+        "log_loss": 0.6081248731614238
+      },
+      "verdict": {
+        "accuracy": "beaten (Alcaraz ahead, interval excludes zero)",
+        "brier": "beaten (Alcaraz ahead, interval excludes zero)",
+        "log_loss": "beaten (Alcaraz ahead, interval excludes zero)"
+      },
+      "years_negative": 1,
+      "years_positive": 0
+    }
+  },
+  "calibration_2017_2024": {
+    "about": "Descriptive calibration on 18,888 ATP matches from 2017 to 2024: slope of a no-intercept logistic fit of the outcome on logit(p) (1 is calibrated, below 1 overconfident) and favourite-side bins ten points wide.",
+    "current": {
+      "n": 18888,
+      "slope": 1.024126551290591,
+      "log_loss": 0.5953839177839414,
+      "bins": [
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 5870,
+          "said": 0.5992780817446999,
+          "won": 0.5775127768313458,
+          "se": 0.006447161326506339
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 4921,
+          "said": 0.6972777891004013,
+          "won": 0.7057508636456005,
+          "se": 0.0064961586840737535
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 3149,
+          "said": 0.7944478184561445,
+          "won": 0.7961257542076849,
+          "se": 0.007179359322682972
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 1680,
+          "said": 0.895651252843327,
+          "won": 0.9095238095238095,
+          "se": 0.0069987349806397234
+        }
+      ]
+    },
+    "previous": {
+      "n": 18888,
+      "slope": 1.0067359778162457,
+      "log_loss": 0.5984005612875613,
+      "bins": [
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 5870,
+          "said": 0.5998772736716289,
+          "won": 0.580068143100511,
+          "se": 0.00644183902525758
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 5109,
+          "said": 0.6976930543875939,
+          "won": 0.7028772753963594,
+          "se": 0.0063935156756516395
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 3023,
+          "said": 0.7947790429568814,
+          "won": 0.7925901422428051,
+          "se": 0.007374285651692231
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 1701,
+          "said": 0.8947017797033094,
+          "won": 0.9112286890064668,
+          "se": 0.006896009519183325
+        }
+      ]
+    },
+    "buildoak_fair": {
+      "n": 18888,
+      "slope": 0.9093294669081196,
+      "log_loss": 0.5989013271441652,
+      "bins": [
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 5351,
+          "said": 0.5987274058409616,
+          "won": 0.5761539899084284,
+          "se": 0.006755474531571161
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 4773,
+          "said": 0.6989673129497722,
+          "won": 0.668552273203436,
+          "se": 0.006813644805914049
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 3659,
+          "said": 0.7967739783648945,
+          "won": 0.7851872096201148,
+          "se": 0.006789463717014804
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 2032,
+          "said": 0.8935831515950804,
+          "won": 0.8799212598425197,
+          "se": 0.007210960473107642
+        }
+      ]
+    },
+    "buildoak_released": {
+      "n": 18888,
+      "slope": 0.9065912052532358,
+      "log_loss": 0.6031863896861357,
+      "bins": [
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 5470,
+          "said": 0.5988562358308318,
+          "won": 0.579890310786106,
+          "se": 0.006673606753548293
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 4916,
+          "said": 0.6983378257168998,
+          "won": 0.6788039056143206,
+          "se": 0.006659649259699665
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 3430,
+          "said": 0.7945238360814728,
+          "won": 0.7755102040816326,
+          "se": 0.007124345961427205
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 1804,
+          "said": 0.8936420854350383,
+          "won": 0.8813747228381374,
+          "se": 0.007612909183863902
+        }
+      ]
+    },
+    "catboost_main_tour": {
+      "n": 18888,
+      "slope": 0.9091985145288587,
+      "log_loss": 0.6081541641919388,
+      "bins": [
+        {
+          "range": [
+            0.55,
+            0.65
+          ],
+          "n": 5684,
+          "said": 0.5995003673822665,
+          "won": 0.5761787473610134,
+          "se": 0.006554551019397737
+        },
+        {
+          "range": [
+            0.65,
+            0.75
+          ],
+          "n": 4829,
+          "said": 0.6975126228170718,
+          "won": 0.6792296541727065,
+          "se": 0.006717022802807037
+        },
+        {
+          "range": [
+            0.75,
+            0.85
+          ],
+          "n": 3324,
+          "said": 0.7963526111094629,
+          "won": 0.7704572803850782,
+          "se": 0.0072941641998147365
+        },
+        {
+          "range": [
+            0.85,
+            0.95
+          ],
+          "n": 1899,
+          "said": 0.8914321661574763,
+          "won": 0.885202738283307,
+          "se": 0.007315173926363972
+        }
+      ]
+    }
+  },
+  "provenance": {
+    "ladder_2017_2025": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/ladder_2017_2025.json",
+      "sha256": "d55db8ed0cabc65dff549b372dcc61e9ee9f1c9b2a5dfae8f1feb65b792ed599"
+    },
+    "ladder_2017_2024": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/ladder_2017_2024.json",
+      "sha256": "e579b79bd95bc92769db6bbe485809bae7cb73d34aa7599f83fb52ea732168ba"
+    },
+    "ladder_2025": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/ladder_2025.json",
+      "sha256": "3f12d1c4314facfecc076ce6f89278673deaece98e99325edd693df36daffe01"
+    },
+    "fair_buildoak_corrected": {
+      "archive_relative_path": "references/LEAD03/CPR/results/lead03_cpr.json",
+      "sha256": "8f94019460600a4cb9e369f182505f8b0ed8117c6008e89119b32144f2c45eb2"
+    },
+    "fair_buildoak_registered": {
+      "archive_relative_path": "references/LEAD03/CP/results/lead03_cp.json",
+      "sha256": "b81dcb8591d6c4a5f8b8288a1ce147bc82ab0ad65c2555e1db0e04fe16249aee"
+    },
+    "buildoak_released_and_baselines": {
+      "archive_relative_path": "references/LEAD03/CPR/results/lead03_cpar.json",
+      "sha256": "f621d006d2414809ecb338be7ec1fd5ec07d90b6c8c8f642ffd84c3086fc1240"
+    },
+    "fair_buildoak_2017_2024": {
+      "archive_relative_path": "references/LEAD03/BC/results/lead03_bc_result.json",
+      "sha256": "2928f8f72c43d7058ea5d7e8991adf2d2dc80cfecad7613afd8b09209737da03"
+    },
+    "seasons_2015_2016": {
+      "archive_relative_path": "references/LEAD03/BK/results/lead03_bk_A.json",
+      "sha256": "27063650a7e49794db04f94ed63519e65bfabc9a3d35ac93705958df09e18cd6"
+    },
+    "seasons_2014_2016": {
+      "archive_relative_path": "references/LEAD03/BK/results/lead03_bk_B.json",
+      "sha256": "fd366d080a1b7bbff5d6a03184bb7f4e72050915f48fc1e80dcfdc0628125d8f"
+    },
+    "catboost_lower_tier_2017_2024": {
+      "archive_relative_path": "references/LEAD03/C2024/results/lead03_c2024_result.json",
+      "sha256": "729d8c2b2608d22ee8928eedef9f693be5aabe61297ecd1173ca05ad286629fd"
+    },
+    "catboost_walk_forward": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/sota/sota05_cp.json",
+      "sha256": "144e5b5ccb53acd7e92a9e1c47c69d229a516a8205ec02de68a59fbb8247040e"
+    },
+    "stack_current": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/sota/sota04_pool.json",
+      "sha256": "c41acc464e5d3d32cc709773a14d5f9d12400525465046a2c8ab4fa3f1ff2217"
+    },
+    "stack_previous": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/sota/sota04_prev.json",
+      "sha256": "264cef9d5b6dd88950dcab3fd6229939e908ad58ba0f2c00697d6ac45b7a1497"
+    },
+    "shipped_catboost_2025": {
+      "archive_relative_path": "references/LEAD03/CPR/ladder/results/sota/sota02_cp.json",
+      "sha256": "b309a70b1bf374a36dcea3046838b5e9ce19d65f8e0204a36465fc77ae08a5af"
+    },
+    "calibration": {
+      "archive_relative_path": "references/LEAD03/VIDEO/v7_calib.json",
+      "sha256": "4a39bff0a3c00da192dbdeccfc33d1b330c6fcee104d53d2fd79d19bae13ba85"
+    },
+    "write_up": {
+      "archive_relative_path": "references/LEAD03/CP/RESULT.md",
+      "sha256": "452d967fdc55c745820299db6255046d76ed384809a393b23bf61cd61d3a11a3"
+    }
+  }
+}

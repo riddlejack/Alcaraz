@@ -626,6 +626,131 @@
           "sha256": "bf3e286714a600ea60030ace58cbd2d2e89f834120fb68604138c79fdee22176"
         }
       }
+    },
+    {
+      "output": "docs/benchmarks/current_2017_2025.json",
+      "status": "accepted",
+      "note": "The current version (the previous version averaged with the all-tier second model), ATP 2017-2025, with every public comparison the research ran for it, the 2025 registered and corrected passes, 2024, 2014-2016 and the members' scores. Root research: the research repository at commit e11f5f1 (build with --root research=PATH).",
+      "template": "docs/templates/current_2017_2025.template.json",
+      "relabel": {
+        "atp_lead03_pool": "current",
+        "lead03_pool": "current",
+        "lead03_w": "second_model",
+        "atp_full_tier_entry": "previous",
+        "full_tier_entry": "previous",
+        "B_C": "buildoak_fair",
+        "B_D2": "buildoak_two_day_rule_only",
+        "B_T": "buildoak_native_lower_tier",
+        "B_MC": "buildoak_main_tour_fair",
+        "B_M": "buildoak_released",
+        "C_T": "catboost_lower_tier",
+        "wf_author_x86": "catboost_walk_forward",
+        "arm_b2025_i_checkpoint": "catboost_shipped_checkpoint",
+        "arm_b2025_ii_refit": "catboost_shipped_refit",
+        "arm_b": "stack_without_lookahead"
+      },
+      "sources": {
+        "ladder_2017_2025": {
+          "path": "references/LEAD03/CPR/ladder/results/ladder_2017_2025.json",
+          "sha256": "d55db8ed0cabc65dff549b372dcc61e9ee9f1c9b2a5dfae8f1feb65b792ed599",
+          "root": "research"
+        },
+        "ladder_2017_2024": {
+          "path": "references/LEAD03/CPR/ladder/results/ladder_2017_2024.json",
+          "sha256": "e579b79bd95bc92769db6bbe485809bae7cb73d34aa7599f83fb52ea732168ba",
+          "root": "research"
+        },
+        "ladder_2025": {
+          "path": "references/LEAD03/CPR/ladder/results/ladder_2025.json",
+          "sha256": "3f12d1c4314facfecc076ce6f89278673deaece98e99325edd693df36daffe01",
+          "root": "research"
+        },
+        "corrected": {
+          "path": "references/LEAD03/CPR/results/lead03_cpr.json",
+          "sha256": "8f94019460600a4cb9e369f182505f8b0ed8117c6008e89119b32144f2c45eb2",
+          "root": "research"
+        },
+        "registered": {
+          "path": "references/LEAD03/CP/results/lead03_cp.json",
+          "sha256": "b81dcb8591d6c4a5f8b8288a1ce147bc82ab0ad65c2555e1db0e04fe16249aee",
+          "root": "research"
+        },
+        "released_and_baselines": {
+          "path": "references/LEAD03/CPR/results/lead03_cpar.json",
+          "sha256": "f621d006d2414809ecb338be7ec1fd5ec07d90b6c8c8f642ffd84c3086fc1240",
+          "root": "research"
+        },
+        "fair_2017_2024": {
+          "path": "references/LEAD03/BC/results/lead03_bc_result.json",
+          "sha256": "2928f8f72c43d7058ea5d7e8991adf2d2dc80cfecad7613afd8b09209737da03",
+          "root": "research"
+        },
+        "early_2015_2016": {
+          "path": "references/LEAD03/BK/results/lead03_bk_A.json",
+          "sha256": "27063650a7e49794db04f94ed63519e65bfabc9a3d35ac93705958df09e18cd6",
+          "root": "research"
+        },
+        "early_2014_2016": {
+          "path": "references/LEAD03/BK/results/lead03_bk_B.json",
+          "sha256": "fd366d080a1b7bbff5d6a03184bb7f4e72050915f48fc1e80dcfdc0628125d8f",
+          "root": "research"
+        },
+        "lower_tier_catboost": {
+          "path": "references/LEAD03/C2024/results/lead03_c2024_result.json",
+          "sha256": "729d8c2b2608d22ee8928eedef9f693be5aabe61297ecd1173ca05ad286629fd",
+          "root": "research"
+        },
+        "walk_forward_catboost": {
+          "path": "references/LEAD03/CPR/ladder/results/sota/sota05_cp.json",
+          "sha256": "144e5b5ccb53acd7e92a9e1c47c69d229a516a8205ec02de68a59fbb8247040e",
+          "root": "research"
+        },
+        "stack_current": {
+          "path": "references/LEAD03/CPR/ladder/results/sota/sota04_pool.json",
+          "sha256": "c41acc464e5d3d32cc709773a14d5f9d12400525465046a2c8ab4fa3f1ff2217",
+          "root": "research"
+        },
+        "stack_previous": {
+          "path": "references/LEAD03/CPR/ladder/results/sota/sota04_prev.json",
+          "sha256": "264cef9d5b6dd88950dcab3fd6229939e908ad58ba0f2c00697d6ac45b7a1497",
+          "root": "research"
+        },
+        "shipped_catboost": {
+          "path": "references/LEAD03/CPR/ladder/results/sota/sota02_cp.json",
+          "sha256": "b309a70b1bf374a36dcea3046838b5e9ce19d65f8e0204a36465fc77ae08a5af",
+          "root": "research"
+        },
+        "calibration": {
+          "path": "references/LEAD03/VIDEO/v7_calib.json",
+          "sha256": "4a39bff0a3c00da192dbdeccfc33d1b330c6fcee104d53d2fd79d19bae13ba85",
+          "root": "research"
+        },
+        "write_up": {
+          "path": "references/LEAD03/CP/RESULT.md",
+          "sha256": "452d967fdc55c745820299db6255046d76ed384809a393b23bf61cd61d3a11a3",
+          "root": "research"
+        }
+      },
+      "checks": [
+        {
+          "equal": [
+            "corrected:cohorts/cp/contrasts/pool_vs_BC/bc_2017_2024/brief/difference",
+            "fair_2017_2024:cohorts/buildoak_bc/contrasts/pool_vs_BC/pooled/brief/difference"
+          ]
+        },
+        {
+          "equal": [
+            "registered:cohorts/cp/contrasts/pool_vs_BC/bc_2017_2024/brief/difference",
+            "corrected:cohorts/cp/contrasts/pool_vs_BC/bc_2017_2024/brief/difference"
+          ]
+        },
+        {
+          "equal": [
+            "corrected:cohorts/cp/contrasts/frozen_vs_BC/pooled/brief/difference",
+            "registered:cohorts/cp/contrasts/frozen_vs_BC/pooled/brief/difference"
+          ]
+        }
+      ]
     }
   ]
 }

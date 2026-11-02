@@ -17,6 +17,11 @@ Directives (string values; a key starting with ``@`` splices a directive's objec
 - ``@file SRC`` gives ``{archive_relative_path, sha256}`` of a source; ``@binding SRC:PATH``
   converts a scorer binding ``{path, sha256}`` to that form; ``@forecast_files SRC`` does so
   for every arm's forecast files; ``@per_arm SRC FIELD`` collects one field per arm.
+- ``@relabel SRC:PATH`` copies a value with the output's ``relabel`` map applied to every key
+  and string inside it: each name is replaced where it stands as a whole token (bounded by
+  anything but a letter or digit, so ``_`` is a boundary), longest name first. It gives arms
+  and rungs their product names (``log_loss_atp_x_match_weighted`` becomes
+  ``log_loss_current_match_weighted`` under ``{"atp_x": "current"}``).
 - ``{{alias:path|pipe}}`` inside a text value is filled with ``tennislab.numbers`` (the language
   of the pages); aliases are the source names and ``out`` (the output being built).
 - ``@@`` at the start of a string is a literal ``@``.
@@ -46,6 +51,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -135,6 +141,36 @@ def contrast_block(
     }
 
 
+def relabel(node: Any, names: dict[str, str]) -> Any:
+    """``node`` with every key and string rewritten by ``names`` (whole tokens, longest first)."""
+    if not names:
+        return node
+    ordered = sorted(names, key=len, reverse=True)
+    pattern = re.compile(
+        "(?<![A-Za-z0-9])(" + "|".join(re.escape(name) for name in ordered) + ")(?![A-Za-z0-9])"
+    )
+
+    def text(value: str) -> str:
+        return pattern.sub(lambda match: names[match.group(1)], value)
+
+    def walk(item: Any) -> Any:
+        if isinstance(item, str):
+            return text(item)
+        if isinstance(item, list):
+            return [walk(value) for value in item]
+        if isinstance(item, dict):
+            out: dict[str, Any] = {}
+            for key, value in item.items():
+                new_key = text(key)
+                if new_key in out:
+                    raise BuildError(f"relabel maps two keys to {new_key!r}")
+                out[new_key] = walk(value)
+            return out
+        return item
+
+    return walk(node)
+
+
 class Builder:
     def __init__(
         self,
@@ -180,6 +216,8 @@ class Builder:
         op, _, argument = text[1:].partition(" ")
         if op == "value":
             return self.ref(argument)
+        if op == "relabel":
+            return relabel(self.ref(argument), self.target.get("relabel", {}))
         if op == "name":
             name = self.ref(argument)
             return self.rename.get(name, name)
