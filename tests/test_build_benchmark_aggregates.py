@@ -321,3 +321,55 @@ def test_relabel_refuses_to_merge_two_keys(tmp_path: Path) -> None:
     assert done.returncode == 1
     assert "relabel maps two keys" in done.stdout
     assert not (repo / "docs/benchmarks/out.json").exists()
+
+
+def regex_repo(repo: Path, archive: Path, template: dict) -> None:
+    (archive / "results").mkdir(parents=True, exist_ok=True)
+    note = "Derived: current log loss (0.5995625) minus 0.6275906; rows 5,270; gap **\u22120.0280** (\u00b10.0074).\n"
+    (archive / "results/RESULT.md").write_text(note, encoding="utf-8")
+    (repo / "docs/templates").mkdir(parents=True, exist_ok=True)
+    (repo / "docs/benchmarks").mkdir(exist_ok=True)
+    (repo / "docs/templates/t.json").write_text(json.dumps(template))
+    target = {
+        "output": "docs/benchmarks/out.json",
+        "status": "extension",
+        "template": "docs/templates/t.json",
+        "sources": {
+            "md": {"path": "results/RESULT.md", "sha256": sha(archive / "results/RESULT.md")}
+        },
+    }
+    (repo / "docs/benchmarks/sources.json").write_text(json.dumps({"targets": [target]}))
+
+
+def test_regex_reads_a_stated_number_once(tmp_path: Path) -> None:
+    archive, repo = tmp_path / "archive", tmp_path / "repo"
+    template = {
+        "current": r"@regex md current log loss \(([0-9.]+)\)",
+        "rows": r"@regex md rows ([0-9,]+);",
+        "gap": r"@regex md \*\*(\S+)\*\*",
+        "bound": r"@regex md \((\S+)\)\.",
+    }
+    regex_repo(repo, archive, template)
+    done = run(repo, archive)
+    assert done.returncode == 0, done.stdout + done.stderr
+    out = json.loads((repo / "docs/benchmarks/out.json").read_text())
+    assert out == {"current": 0.5995625, "rows": 5270, "gap": -0.028, "bound": 0.0074}
+
+
+@pytest.mark.parametrize(
+    ("pattern", "message"),
+    [
+        (r"0\.\d+", "matches 4 times"),
+        (r"absent (\d+)", "matches 0 times"),
+        (r"(Derived)", "not a number"),
+    ],
+)
+def test_regex_refuses_ambiguous_missing_or_non_numbers(
+    tmp_path: Path, pattern: str, message: str
+) -> None:
+    archive, repo = tmp_path / "archive", tmp_path / "repo"
+    regex_repo(repo, archive, {"v": f"@regex md {pattern}"})
+    done = run(repo, archive)
+    assert done.returncode == 1
+    assert message in done.stdout
+    assert not (repo / "docs/benchmarks/out.json").exists()

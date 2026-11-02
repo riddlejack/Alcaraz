@@ -22,6 +22,11 @@ Directives (string values; a key starting with ``@`` splices a directive's objec
   anything but a letter or digit, so ``_`` is a boundary), longest name first. It gives arms
   and rungs their product names (``log_loss_atp_x_match_weighted`` becomes
   ``log_loss_current_match_weighted`` under ``{"atp_x": "current"}``).
+- ``@regex SRC PATTERN`` reads a number stated in a text source (a hash-pinned Markdown
+  write-up, say): ``PATTERN`` is a Python regular expression that must match the file exactly
+  once, and its first group (or the whole match) must be a number; the minus sign U+2212,
+  thousands commas and a leading ``±`` or ``+`` are read as such. Use it only for a number the
+  source states and no result file holds.
 - ``{{alias:path|pipe}}`` inside a text value is filled with ``tennislab.numbers`` (the language
   of the pages); aliases are the source names and ``out`` (the output being built).
 - ``@@`` at the start of a string is a literal ``@``.
@@ -171,6 +176,18 @@ def relabel(node: Any, names: dict[str, str]) -> Any:
     return walk(node)
 
 
+NUMBER = re.compile(r"[+\-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?")
+
+
+def stated_number(text: str) -> int | float:
+    """A number as a text source states it: U+2212 minus, thousands commas, a leading ± or +."""
+    plain = text.strip().replace("\u2212", "-").lstrip("±")
+    if not NUMBER.fullmatch(plain):
+        raise BuildError(f"{text!r} is not a number")
+    plain = plain.replace(",", "")
+    return float(plain) if "." in plain else int(plain)
+
+
 class Builder:
     def __init__(
         self,
@@ -218,6 +235,18 @@ class Builder:
             return self.ref(argument)
         if op == "relabel":
             return relabel(self.ref(argument), self.target.get("relabel", {}))
+        if op == "regex":
+            name, _, pattern = argument.partition(" ")
+            if name not in self.files:
+                raise BuildError(f"{self.target['output']}: unknown source {name!r}")
+            text = self.files[name].read_text(encoding="utf-8")
+            matches = list(re.finditer(pattern, text))
+            if len(matches) != 1:
+                raise BuildError(
+                    f"{self.target['output']}: {pattern!r} matches {len(matches)} times in {name}"
+                )
+            match = matches[0]
+            return stated_number(match.group(1) if match.groups() else match.group(0))
         if op == "name":
             name = self.ref(argument)
             return self.rename.get(name, name)

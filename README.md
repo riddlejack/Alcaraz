@@ -72,16 +72,16 @@ that row, and the row's seasons are the ones the rival could be run on.
 | tennis-ai CatBoost as shipped | 2,528 ATP, 2025 | **−0.0084 [−0.0133, −0.0035]** | −0.0046 |
 | [tennis_elo](https://github.com/yaobviously/tennis_elo) ridge and LightGBM stack, look-ahead removed | 13,883 ATP, 2017–23 | **−0.0081 [−0.0104, −0.0059]** | −0.0046 |
 | Five Elo and ranking baselines ([FiveThirtyEight, Kovalchik, WElo, pooled Elo, ranking logistic](docs/benchmarks/G_L_2017_2025_RESULTS.md)) | 21,521 ATP, 2017–25 | −0.0274 to −0.0376, every interval excludes zero | −0.0242 to −0.0344 |
-| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 5,270 ATP, 2024–25 | not rerun | −0.0248 [−0.0309, −0.0191] |
-| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | 5,270 ATP, 2024–25 | not rerun | −0.0443 [−0.0519, −0.0367] |
+| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 5,270 ATP, 2024–25 | −0.0280, derived (95% within about ±0.0074) | −0.0248 [−0.0309, −0.0191] |
+| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | 5,270 ATP, 2024–25 | −0.0475, derived (95% within about ±0.0091) | −0.0443 [−0.0519, −0.0367] |
 
 The first row is the fair one: BuildOak gets the same lower-tier files and the same timing
 rule as Alcaraz. BuildOak as released reads main-tour files only, with its own setup, so
 that row compares complete systems with different data. Ultimate Tennis Statistics and
-Ingram were not rerun for the current version, because their saved forecasts were not
-restored; their rows are the previous version's published results. The
-[benchmark page](docs/benchmarks/CURRENT_2017_2025_RESULTS.md) explains why a derived
-figure for them would carry only a bound, not an interval.
+Ingram were not rerun for the current version. On the same rows the previous version
+reproduces its published log loss exactly, so Alcaraz's log loss there minus each rival's
+published log loss is exact as a point estimate; the interval is a conservative bound, not
+a bootstrap ([details](docs/benchmarks/CURRENT_2017_2025_RESULTS.md#ultimate-tennis-statistics-and-ingram)).
 
 ![Alcaraz minus BuildOak on the same files and timing rule, paired log loss by season on the same 21,521 ATP matches: ahead in eight of nine seasons, behind in 2024.](docs/assets/alcaraz-by-season.svg)
 
@@ -116,7 +116,7 @@ was worth 0.0024 [0.0010, 0.0038] to it, almost all of it from that
 timing; the fair comparison puts both models on the same rule. Two findings favour the rivals and make Alcaraz's wins
 conservative: tennis-ai's CatBoost reads files that list most events final-first in five
 seasons, so a winner's later-round results reach his earlier rows, and BuildOak's own
-setup also looks ahead on dates. BuildOak does adjust serve and return for the opponent.
+setup also looks ahead on dates. BuildOak does adjust serve for the opponent.
 
 ### The previous version's other results
 
@@ -249,8 +249,10 @@ with an [inference guide](docs/MODEL_RELEASE.md); the current version is not in 
   repository is the previous version's.
 - The 2025 result against BuildOak rests on the corrected run, made after the registered
   result had been seen. The 2017–2025 result holds on both runs.
-- Ultimate Tennis Statistics and Ingram were not rerun for the current version; their rows
-  are the previous version's.
+- Ultimate Tennis Statistics and Ingram were not rerun for the current version. Their
+  current-version rows are derived: exact as point estimates, because the previous version
+  reproduces its published log loss on the same rows, with a conservative bound in place of
+  a bootstrap interval.
 - The current version's calibration has been checked only descriptively, on 2017–2024
   (slope 1.02, where 1 is calibrated), not in a registered test.
 - Pinnacle's quote time is unknown, so the market comparison is descriptive.

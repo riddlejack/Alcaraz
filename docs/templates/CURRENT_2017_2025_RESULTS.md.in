@@ -178,8 +178,8 @@ Each row is its own paired comparison on the rows both sides cover.
 | Kovalchik overall/major Elo reconstruction | {{cur:baselines/current/kovalchik_overall_major/n|int}}, 2017–2025 | {{cur:baselines/current/kovalchik_overall_major/difference/log_loss|s4}} {{cur:baselines/current/kovalchik_overall_major/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/kovalchik_overall_major/difference/log_loss|s4}} {{cur:baselines/previous/kovalchik_overall_major/interval_95_block8/log_loss|ci4}} |
 | Ranking-based logistic model | {{cur:baselines/current/rank_logistic/n|int}}, 2017–2025 | {{cur:baselines/current/rank_logistic/difference/log_loss|s4}} {{cur:baselines/current/rank_logistic/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/rank_logistic/difference/log_loss|s4}} {{cur:baselines/previous/rank_logistic/interval_95_block8/log_loss|ci4}} |
 | Weighted Elo (WElo) reconstruction | {{cur:baselines/current/welo/n|int}}, 2017–2025 | {{cur:baselines/current/welo/difference/log_loss|s4}} {{cur:baselines/current/welo/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/welo/difference/log_loss|s4}} {{cur:baselines/previous/welo/interval_95_block8/log_loss|ci4}} |
-| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | {{ui25:uts/primary/pooled_2024_2025/n|int}}, 2024–2025 | not rerun | {{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:uts/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
-| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | {{ui25:ingram/primary/pooled_2024_2025/n|int}}, 2024–2025 | not rerun | {{ui25:ingram/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:ingram/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | {{ui25:uts/primary/pooled_2024_2025/n|int}}, 2024–2025 | {{cur:uts_ingram_derived/current_minus_uts|s4}}, derived (95% within about ±{{cur:uts_ingram_derived/current_minus_uts_bound|f4}}) | {{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:uts/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | {{ui25:ingram/primary/pooled_2024_2025/n|int}}, 2024–2025 | {{cur:uts_ingram_derived/current_minus_ingram|s4}}, derived (95% within about ±{{cur:uts_ingram_derived/current_minus_ingram_bound|f4}}) | {{ui25:ingram/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:ingram/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
 
 BuildOak as released runs on its own main-tour files with its own setup, so this row
 compares complete systems with different data, unlike the fair comparison above. The
@@ -190,14 +190,15 @@ expanding); its rows end in February 2023, where its data ends.
 ### Ultimate Tennis Statistics and Ingram
 
 These two were not rerun for the current version: their saved forecasts were not
-restored for this pass. The rows above are the previous version's published results.
-A current-version figure can be derived without a rerun. On the same rows the previous
-version's log loss reproduces its published value exactly, so the current version's log
-loss on those rows minus each rival's published log loss is exact as a point estimate.
-Its interval can only be a bound (the published half-width widened by the uncertainty of
-the current-minus-previous step), not a bootstrap, because the rivals' forecasts are not
-on hand to resample. That derived figure is not part of the scored result files, so it
-is not shown here.
+restored. Their current-version rows are derived. On the same
+{{cur:uts_ingram_derived/rows|int}} rows, every 2024–2025 target match, the previous version's log loss computes to
+{{cur:uts_ingram_derived/previous_log_loss_reproduced|f7}}, its published value. So Alcaraz minus each rival is the current version's
+log loss on those rows, {{cur:uts_ingram_derived/current_log_loss|f7}}, minus the rival's published log loss (Ultimate Tennis
+Statistics {{cur:uts_ingram_derived/uts_published_log_loss|f7}}, Ingram {{cur:uts_ingram_derived/ingram_published_log_loss|f7}}), exact as a point estimate. The interval is a
+conservative bound, not a bootstrap: the published half-width plus 1.96 times the iid
+standard error of the current-minus-previous step ({{cur:uts_ingram_derived/iid_se_current_minus_previous|f5}}), because the rivals' forecasts
+are not on hand to resample. These values are as the research write-up states them; the
+published log losses match [uts_ingram_2024_2025.json](uts_ingram_2024_2025.json).
 
 ### What favours the rivals
 
@@ -212,7 +213,7 @@ conservative:
   end of 2025, and the Brisbane and Hong Kong matches dated 2024-12-30 but played in 2025
   are among its training rows for 2025. The fair comparison removes both.
 
-BuildOak does adjust serve and return for the opponent; the difference between the
+BuildOak does adjust serve for the opponent; the difference between the
 models is not that.
 
 ## Why averaging two models helps

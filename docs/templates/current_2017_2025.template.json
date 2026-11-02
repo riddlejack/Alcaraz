@@ -174,6 +174,20 @@
       "refit": "@relabel shipped_catboost:blocks/atp_2025/cohorts/primary/contrasts/alcaraz - arm_b2025_ii_refit/brief"
     }
   },
+  "uts_ingram_derived": {
+    "about": "Ultimate Tennis Statistics and Ingram's point model were not rerun for the current version: their saved forecasts were not restored. On the same 5,270 rows (every 2024-2025 target match) the previous version's log loss reproduces its published value exactly, so the current version minus each rival equals the current version's log loss on those rows minus the rival's published log loss, exact as a point estimate. The interval is a conservative bound, not a bootstrap: the published half-width plus 1.96 times the iid standard error of current minus previous. Every value here is read from the research write-up (write_up), which states the derivation; the published rival and previous-version log losses are also in uts_ingram_2024_2025.json.",
+    "rows": "@regex write_up on the same ([0-9,]+) rows \\(all 2024–2025 members\\)",
+    "current_log_loss": "@regex write_up current log loss \\(([0-9.]+)\\)",
+    "previous_log_loss_reproduced": "@regex write_up previous version's log loss computes to ([0-9.]+),",
+    "uts_published_log_loss": "@regex write_up \\(UTS ([0-9.]+), Ingram",
+    "ingram_published_log_loss": "@regex write_up , Ingram ([0-9.]+)\\)",
+    "iid_se_current_minus_previous": "@regex write_up iid SE of current − previous, ([0-9.]+)\\)",
+    "current_minus_uts": "@regex write_up \\| UTS formula, 2024–2025 \\(derived, see below\\) \\|[^\\n]*\\*\\*(\\S+)\\*\\*",
+    "current_minus_uts_bound": "@regex write_up \\| UTS formula, 2024–2025 \\(derived, see below\\) \\|[^\\n]*95% within about (\\S+)\\)",
+    "current_minus_ingram": "@regex write_up \\| Ingram's point model, 2024–2025 \\(derived\\) \\|[^\\n]*\\*\\*(\\S+)\\*\\*",
+    "current_minus_ingram_bound": "@regex write_up \\| Ingram's point model, 2024–2025 \\(derived\\) \\|[^\\n]*95% within about (\\S+)\\)",
+    "from_the_inputs": "current_log_loss minus the published log loss: UTS {{out:uts_ingram_derived/current_log_loss - out:uts_ingram_derived/uts_published_log_loss|s4}}, Ingram {{out:uts_ingram_derived/current_log_loss - out:uts_ingram_derived/ingram_published_log_loss|s4}}"
+  },
   "members": {
     "about": "Log loss of the average and of each member on every target match (no market price needed). The average scores below both members over 2017-2024 and 2017-2025.",
     "y2017_2024": "@relabel lower_tier_catboost:cohorts/buildoak/alcaraz_on_whole_membership",

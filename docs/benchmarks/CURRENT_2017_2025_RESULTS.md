@@ -178,8 +178,8 @@ Each row is its own paired comparison on the rows both sides cover.
 | Kovalchik overall/major Elo reconstruction | 21,521, 2017–2025 | −0.0314 [−0.0353, −0.0277] | −0.0282 [−0.0320, −0.0245] |
 | Ranking-based logistic model | 21,521, 2017–2025 | −0.0376 [−0.0411, −0.0341] | −0.0344 [−0.0380, −0.0310] |
 | Weighted Elo (WElo) reconstruction | 21,521, 2017–2025 | −0.0307 [−0.0347, −0.0269] | −0.0275 [−0.0315, −0.0237] |
-| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 5,270, 2024–2025 | not rerun | −0.0248 [−0.0309, −0.0191] |
-| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | 5,270, 2024–2025 | not rerun | −0.0443 [−0.0519, −0.0367] |
+| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | 5,270, 2024–2025 | −0.0280, derived (95% within about ±0.0074) | −0.0248 [−0.0309, −0.0191] |
+| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | 5,270, 2024–2025 | −0.0475, derived (95% within about ±0.0091) | −0.0443 [−0.0519, −0.0367] |
 
 BuildOak as released runs on its own main-tour files with its own setup, so this row
 compares complete systems with different data, unlike the fair comparison above. The
@@ -190,14 +190,15 @@ expanding); its rows end in February 2023, where its data ends.
 ### Ultimate Tennis Statistics and Ingram
 
 These two were not rerun for the current version: their saved forecasts were not
-restored for this pass. The rows above are the previous version's published results.
-A current-version figure can be derived without a rerun. On the same rows the previous
-version's log loss reproduces its published value exactly, so the current version's log
-loss on those rows minus each rival's published log loss is exact as a point estimate.
-Its interval can only be a bound (the published half-width widened by the uncertainty of
-the current-minus-previous step), not a bootstrap, because the rivals' forecasts are not
-on hand to resample. That derived figure is not part of the scored result files, so it
-is not shown here.
+restored. Their current-version rows are derived. On the same
+5,270 rows, every 2024–2025 target match, the previous version's log loss computes to
+0.6028174, its published value. So Alcaraz minus each rival is the current version's
+log loss on those rows, 0.5995625, minus the rival's published log loss (Ultimate Tennis
+Statistics 0.6275906, Ingram 0.6470722), exact as a point estimate. The interval is a
+conservative bound, not a bootstrap: the published half-width plus 1.96 times the iid
+standard error of the current-minus-previous step (0.00077), because the rivals' forecasts
+are not on hand to resample. These values are as the research write-up states them; the
+published log losses match [uts_ingram_2024_2025.json](uts_ingram_2024_2025.json).
 
 ### What favours the rivals
 
@@ -212,7 +213,7 @@ conservative:
   end of 2025, and the Brisbane and Hong Kong matches dated 2024-12-30 but played in 2025
   are among its training rows for 2025. The fair comparison removes both.
 
-BuildOak does adjust serve and return for the opponent; the difference between the
+BuildOak does adjust serve for the opponent; the difference between the
 models is not that.
 
 ## Why averaging two models helps

@@ -459,6 +459,16 @@
         },
         {
           "context": "| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula |",
+          "text": "−0.0280",
+          "value": "{{cur:uts_ingram_derived/current_minus_uts|s4}}"
+        },
+        {
+          "context": "| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula |",
+          "text": "±0.0074",
+          "value": "±{{cur:uts_ingram_derived/current_minus_uts_bound|f4}}"
+        },
+        {
+          "context": "| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula |",
           "text": "−0.0248",
           "value": "{{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}}"
         },
@@ -471,6 +481,16 @@
           "context": "| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) |",
           "text": "5,270",
           "value": "{{ui25:ingram/primary/pooled_2024_2025/n|int}}"
+        },
+        {
+          "context": "| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) |",
+          "text": "−0.0475",
+          "value": "{{cur:uts_ingram_derived/current_minus_ingram|s4}}"
+        },
+        {
+          "context": "| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) |",
+          "text": "±0.0091",
+          "value": "±{{cur:uts_ingram_derived/current_minus_ingram_bound|f4}}"
         },
         {
           "context": "| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) |",
@@ -991,6 +1011,10 @@
         {
           "text": "32",
           "reason": "K-factor in the model name Pooled Elo (K=32)"
+        },
+        {
+          "text": "1.96",
+          "reason": "normal quantile for a 95% bound (method constant)"
         }
       ]
     },
