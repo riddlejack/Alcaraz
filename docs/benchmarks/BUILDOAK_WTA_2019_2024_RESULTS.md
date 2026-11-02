@@ -1,5 +1,9 @@
 # WTA 2019–2024: BuildOak comparison, entry status and a blend (ARMS01 WTA secondary)
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 > **Independently reconstructed (archive decision D133).** Every number on this page
 > comes from the single registered scoring pass of the ARMS01 WTA secondary, attempt 002
 > ([buildoak_wta_2019_2024.json](buildoak_wta_2019_2024.json)). A separate implementation

@@ -1,5 +1,9 @@
 # Research-model companion release
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](benchmarks/CURRENT_2017_2025_RESULTS.md).
+
 Status: [published experimental companion](https://github.com/riddlejack/Alcaraz/releases/tag/campaign-e-research-models-2026-09-15),
 verified by anonymous download on September 15, 2026. It does not replace the accepted
 incumbent release. CI passed 621 tests with three expected skips at source commit

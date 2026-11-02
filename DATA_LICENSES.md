@@ -15,7 +15,7 @@ Every published derived table must name its source and applicable terms.
 
 | Source | Governing record | Treatment in this repository |
 |---|---|---|
-| Jeff Sackmann, `tennis_atp` and `tennis_wta` | CC BY-NC-SA 4.0 | Consumed locally from the hash-pinned mirror named by `data/manifests/ARCHIVE01.json`. The mirror is not redistributed. Any table carrying derived match, ranking, or player rows must use the same licence and attribution. |
+| Jeff Sackmann, `tennis_atp` and `tennis_wta` | CC BY-NC-SA 4.0 | Consumed locally from the hash-pinned mirror named by `data/manifests/ARCHIVE01.json`, including the qualifying/Challenger and Futures files the current version's second model reads. The mirror is not redistributed. Any table carrying derived match, ranking, or player rows must use the same licence and attribution. |
 | Jeff Sackmann, Match Charting Project | CC BY-NC-SA 4.0 | Used for limited corroboration in the archive, not as a current product-model input. Any future derived table must preserve attribution and the same licence. |
 | Jeff Sackmann / Tennis Abstract player data | Purpose, non-commercial attribution, and no-betting limits; CC BY-NC-SA 4.0 treatment adopted by rebuild decision R16 | The collection remains outside this product repository and is not integrated into the accepted model runs. Raw responses are not tracked here. Any later derived table must carry the attribution block below and its collection dates. |
 | tennis-data.co.uk annual results and odds workbooks | Provider/site terms; no redistribution right granted | Local input and descriptive market reference only. No odds, full result rows, or row-level derived reproduction is published. Event-name mapping metadata is permitted under the rebuild's R3 boundary. |

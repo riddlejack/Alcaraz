@@ -3,6 +3,12 @@
 This page explains what the retained model results measure and what the current software
 checks establish. It does not turn retrospective output into prospective evidence.
 
+The current version of Alcaraz averages the previous version with a second, all-tier model
+(ATP only), described [below](#the-second-model-and-the-average). Unless a row or section
+names the current version, this page describes the previous version's pipeline, which the
+current version keeps unchanged as one of its two members. The current version's comparisons are on
+[CURRENT_2017_2025_RESULTS.md](benchmarks/CURRENT_2017_2025_RESULTS.md).
+
 ## Populations and actual horizons
 
 The two accepted retrospective configurations have different histories and target years.
@@ -62,7 +68,7 @@ and re-estimates learned debut offsets before the training window that consumes 
 
 The current product has regression and mutation checks for parts of this contract, but it
 does not prove every historical row's real-world availability. The live workflow's
-rejections and scoped synthetic acceptance are documented in the process page.
+rejections and scoped synthetic acceptance are documented in [live.md](live.md).
 
 ## Model ladder
 
@@ -81,7 +87,70 @@ Each rung adds a declared statistics block to the same chronology and evaluation
 
 These names map to `atp_p0`, `atp_p1`, `atp_full_tier`, `atp_full_tier_entry`, `wta_base`,
 `wta_full`, and `wta_full_entry` in `configs/`. The WTA product has no tier rung; a shared
-label does not imply that support.
+label does not imply that support. `full_tier_entry` is the previous version.
+
+The current version adds one more step on the men's tour: it averages `full_tier_entry` with
+the second model in log-odds, `σ(½·logit(p_previous) + ½·logit(p_second))`, with the
+weights fixed before any test.
+
+## The second model and the average
+
+The second model (ATP only) is a gradient-boosted classifier on a separate, all-tier
+point-in-time table. It shares no fitted state with the previous version.
+
+**Rows and dates.** One row per Sackmann match of every tier from 1991: tour, qualifying,
+Challenger and Futures; team events are excluded, and walkovers stay as rows without
+updating any outcome-based state. Lower-tier rows carry the tier stream's conservative
+release date (the Monday after the event's week); tour rows from 2005 carry the panel's
+match date; earlier tour rows carry the tournament date plus a round offset estimated from
+the 2005 onward panel, a small residual timing risk confined to pre-2005 rows.
+
+**Release rule.** The builder walks the distinct dates in order. Before it computes the
+features of the rows dated d, it releases every row dated two or more days earlier, and
+only a release changes any rating or history. Nothing is normalised or fitted over the
+table, so no feature depends on a later row. Planted controls pass: rewriting a row's own
+outcome, rewriting or deleting every later row, and swapping the two players leave the
+checked features unchanged (or exactly negated, for the swap).
+
+**Features.** All-tier, tour-only and surface Elo, with tier-weighted updates; a rating
+deviation that widens while a player is idle; serve- and return-points-won rates with
+exponential decay; an opponent-adjusted point model (server skill minus returner skill)
+turned into a match-win probability through exact game, tiebreak and set chains; form over
+recent matches and games; activity windows and rest; career experience by tier; ranking,
+ranking points and their momentum; age, height and handedness; head-to-head; and match
+context. Signed features are differences between the two players and negate under a swap.
+
+**Kalman serve/return block.** Each player's serve and return strength is a logit-scale
+estimate with its own variance, plus a small per-surface deviation. Every released match
+with serve counts updates both serving sides by one extended Kalman (Newton) step on the
+binomial count of serve points won; variances grow with idle days up to a cap. Its four
+settings (prior variance, daily process noise, surface variance and a lower-tier temper)
+were chosen on the binomial log-likelihood of 2000–2010 serve points, from a grid whose
+every setting is recorded; no season after 2010 was read.
+
+**Training and calibration.** Tour, qualifying and Challenger matches that were completed
+or retired are training examples. For each target season the model is fitted on three
+windows, the last 8, 12 and 16 seasons; each window chooses among three tree settings and
+fits a nonnegative, intercept-free calibration slope using only the three seasons before
+the target. The second model is the mean of the three windows' log-odds.
+
+**Selection labels.** The 2025 pass first ran with 2024's results blanked in the file the
+selection step read, so the 2025 settings were chosen on invalid labels; the corrected pass
+restored them. Every forecast generator now asserts a valid label on every selection row
+before it selects.
+
+**The average.** For every match the current version is
+`σ(½·logit(p_previous) + ½·logit(p_second))`. The equal weights were fixed in advance and
+never fitted on test data. The two members are built from different data, windows and
+features, so their errors are only partly shared and the average scores below both
+(see [CURRENT_2017_2025_RESULTS.md](benchmarks/CURRENT_2017_2025_RESULTS.md#why-averaging-two-models-helps)).
+
+**Comparisons.** Each rival comparison pairs the two forecasts on the matches both cover
+and resamples whole calendar weeks (stationary bootstrap, mean block eight weeks), with
+four- and thirteen-week blocks as checks and Holm adjustment across a pass's primary
+contrasts. "BuildOak on the same files and timing rule" means BuildOak given the same
+lower-tier files, the same two-day release, a rating-recency reference at each season's
+boundary and nationality buckets from fit rows only.
 
 ## Walk-forward fitting, selection, and calibration
 
@@ -132,11 +201,12 @@ On the identical priced cohorts, match-weighted log loss is:
 
 | Tour | Best sports rung | Normalised Pinnacle | Paired gap, sports minus market |
 |---|---:|---:|---:|
+| ATP 2017–2025, 21,361 matches, current version | 0.5961 | 0.5890 | +0.0071 [0.0053, 0.0089] |
 | ATP 2017–2025, 21,361 matches, `full_tier_entry` | 0.5993 | 0.5890 | +0.0102 [0.0082, 0.0123] |
 | WTA 2019–2025, 15,028 matches, `wta_full_entry` | 0.6106 | 0.5913 | +0.0194 [0.0165, 0.0223] |
 | WTA 2025–2026, 2,344 matches, `wta_full` | 0.6153 | 0.5953 | +0.0200 [0.0127, 0.0279] |
 
-Source: generated `docs/RESULTS.md`, match-weighted paired contrasts. A positive gap means
+Source: [RESULTS.md](RESULTS.md), match-weighted paired contrasts. A positive gap means
 the sports model had higher loss. It does not establish why, and it neither proves nor
 disproves a claim relative to other public statistics-only models. Matched comparisons
 with public models are reported separately in `docs/benchmarks/`; they use their own
@@ -190,7 +260,8 @@ their broader ideas.
 
 ## Prospective status
 
-Nothing here is prospective confirmation. The 2025–2026 window was opened, repaired,
+Nothing here is prospective confirmation, and the current version has issued no forecast
+before play. The 2025–2026 window was opened, repaired,
 and reviewed, and 2025 was scored again for the frozen model and its extended comparisons;
 it is development data. No real batch has been issued before play and later
 scored under a frozen stopping rule. The manual workflow has passed scoped independent

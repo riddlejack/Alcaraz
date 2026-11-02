@@ -1,0 +1,250 @@
+# Alcaraz, current version: ATP 2017–2025
+
+The current version of Alcaraz is the previous version averaged with a second, differently
+built model: for every match it takes the mean of the two models' log-odds, with equal
+weights fixed before any test, `p = σ(½·logit(previous) + ½·logit(second))`. Nothing in it
+is refitted on test seasons. It covers the men's tour only; every women's-tour result in
+this repository is the previous version's.
+
+Every number on this page is filled from [current_2017_2025.json](current_2017_2025.json),
+which `tools/build_benchmark_aggregates.py` builds from the research result files named and
+hash-pinned in [sources.json](sources.json). The previous version's P1 rung comes from
+[ladder.json](../ladder.json) and [winner_accuracy.json](../winner_accuracy.json), and the
+previous version's UTS and Ingram rows from
+[uts_ingram_2024_2025.json](uts_ingram_2024_2025.json).
+
+These are retrospective results. Every season from 2017 to 2024 had been scored for the
+previous version before the second model was built, and the second model was developed
+on 2017–2021. Three later checks were registered before their forecasts existed: 2024,
+2015–2016 and 2025. Each is reported below with what it showed.
+
+## How the comparisons were scored
+
+- **Paired.** Both forecasts are scored on exactly the same matches, and the page reports
+  left minus right in log loss: a negative difference favours Alcaraz. Each comparison has
+  its own rows, stated beside it.
+- **Intervals against public models.** {{cur:rival_bootstrap/replicates|int}} draws of a stationary
+  calendar-week block bootstrap with a mean block of {{cur:rival_bootstrap/primary|d}} weeks (seed
+  {{cur:rival_bootstrap/seed|d}}); blocks of {{cur:rival_bootstrap/mean_blocks/1|d}} and {{cur:rival_bootstrap/mean_blocks/2|d}} weeks are reported as checks. Matches in the same
+  week share players and conditions, so whole weeks are resampled together.
+- **Intervals on the ladder and the market gap.** {{cur:ladder_2017_2025/interval/replicates|int}} match-level bootstrap
+  draws stratified by season (seed {{cur:ladder_2017_2025/interval/seed|d}}), as in the published ladder.
+- **Conditional on the saved forecasts.** No interval includes the variance of fitting,
+  selection or calibration.
+
+## The ladder
+
+The same {{cur:ladder_2017_2025/pooled/n|int}} ATP matches, {{cur:ladder_2017_2025/pooled/years|span}}, each with a Pinnacle price.
+
+| Model | Log loss | Correct picks |
+|---|---:|---:|
+| Elo only, no fitting | {{cur:ladder_2017_2025/pooled/log_loss_elo_match_weighted|f4}} | {{cur:ladder_2017_2025/winner_accuracy/overall/elo/accuracy|pct1}} |
+| + boosted model on results, rankings and workload | {{cur:ladder_2017_2025/pooled/log_loss_atp_p0_match_weighted|f4}} | {{cur:ladder_2017_2025/winner_accuracy/overall/atp_p0/accuracy|pct1}} |
+| + player traits and dynamic serve/return states | {{ladder:tours/ATP/pooled/log_loss_atp_p1_match_weighted|f4}} | {{acc:tours/ATP/overall/atp_p1/accuracy|pct1}} |
+| + qualifying, Challenger and Futures history | {{cur:ladder_2017_2025/pooled/log_loss_atp_full_tier_match_weighted|f4}} | {{cur:ladder_2017_2025/winner_accuracy/overall/atp_full_tier/accuracy|pct1}} |
+| + entry status and tournament level: the previous version | {{cur:ladder_2017_2025/pooled/log_loss_previous_match_weighted|f4}} | {{cur:ladder_2017_2025/winner_accuracy/overall/previous/accuracy|pct1}} |
+| **Averaged with the second model: Alcaraz** | **{{cur:ladder_2017_2025/pooled/log_loss_current_match_weighted|f4}}** | **{{cur:ladder_2017_2025/winner_accuracy/overall/current/accuracy|pct1}}** |
+| Pinnacle closing price, normalised | {{cur:ladder_2017_2025/pooled/log_loss_pinnacle_normalised_match_weighted|f4}} | {{cur:ladder_2017_2025/winner_accuracy/overall/pinnacle_normalised/accuracy|pct1}} |
+
+| Contrast | 2017–2025 | 2017–2024 | 2025 |
+|---|---:|---:|---:|
+| Alcaraz − previous version | {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/match_weighted_delta|neg|s4}} [{{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/interval_upper|neg|s4}}, {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/interval_lower|neg|s4}}] | {{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_current]/match_weighted_delta|neg|s4}} [{{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_current]/interval_upper|neg|s4}}, {{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_current]/interval_lower|neg|s4}}] | {{cur:ladder_2025/contrasts/[contrast=previous_minus_current]/match_weighted_delta|neg|s4}} [{{cur:ladder_2025/contrasts/[contrast=previous_minus_current]/interval_upper|neg|s4}}, {{cur:ladder_2025/contrasts/[contrast=previous_minus_current]/interval_lower|neg|s4}}] |
+| Alcaraz − Pinnacle | {{cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_upper|s4}}] | {{cur:ladder_2017_2024/contrasts/[contrast=current_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2017_2024/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2017_2024/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_upper|s4}}] | {{cur:ladder_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/interval_upper|s4}}] |
+| Previous version − Pinnacle | {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_upper|s4}}] | {{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2017_2024/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_upper|s4}}] | {{cur:ladder_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/match_weighted_delta|s4}} [{{cur:ladder_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_lower|s4}}, {{cur:ladder_2025/contrasts/[contrast=previous_minus_pinnacle_normalised]/interval_upper|s4}}] |
+| Matches | {{cur:ladder_2017_2025/pooled/n|int}} | {{cur:ladder_2017_2024/pooled/n|int}} | {{cur:ladder_2025/pooled/n|int}} |
+| Correct picks: Alcaraz, Pinnacle | {{cur:ladder_2017_2025/winner_accuracy/overall/current/accuracy|pct1}}, {{cur:ladder_2017_2025/winner_accuracy/overall/pinnacle_normalised/accuracy|pct1}} | {{cur:ladder_2017_2024/winner_accuracy/current/accuracy|pct1}}, {{cur:ladder_2017_2024/winner_accuracy/pinnacle_normalised/accuracy|pct1}} | {{cur:ladder_2025/winner_accuracy/current/accuracy|pct1}}, {{cur:ladder_2025/winner_accuracy/pinnacle_normalised/accuracy|pct1}} |
+
+Alcaraz is ahead of the previous version in {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/years - cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/years_negative|d}} of {{cur:ladder_2017_2025/contrasts/[contrast=previous_minus_current]/years|d}} seasons and behind
+Pinnacle in {{cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/years - cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/years_negative|d}} of {{cur:ladder_2017_2025/contrasts/[contrast=current_minus_pinnacle_normalised]/years|d}}. The P1 rung was not rerun on this pass; its
+row is the published one on the same matches, and the other rungs of the previous version
+equal the published ladder to twelve decimals.
+
+| Season | Matches | Previous version | Alcaraz | Pinnacle | Alcaraz − previous |
+|---|---:|---:|---:|---:|---:|
+| {{cur:ladder_2017_2025/per_year/0/year|d}} | {{cur:ladder_2017_2025/per_year/0/n|int}} | {{cur:ladder_2017_2025/per_year/0/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/0/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/0/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/0/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/1/year|d}} | {{cur:ladder_2017_2025/per_year/1/n|int}} | {{cur:ladder_2017_2025/per_year/1/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/1/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/1/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/1/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/2/year|d}} | {{cur:ladder_2017_2025/per_year/2/n|int}} | {{cur:ladder_2017_2025/per_year/2/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/2/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/2/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/2/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/3/year|d}} | {{cur:ladder_2017_2025/per_year/3/n|int}} | {{cur:ladder_2017_2025/per_year/3/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/3/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/3/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/3/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/4/year|d}} | {{cur:ladder_2017_2025/per_year/4/n|int}} | {{cur:ladder_2017_2025/per_year/4/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/4/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/4/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/4/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/5/year|d}} | {{cur:ladder_2017_2025/per_year/5/n|int}} | {{cur:ladder_2017_2025/per_year/5/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/5/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/5/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/5/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/6/year|d}} | {{cur:ladder_2017_2025/per_year/6/n|int}} | {{cur:ladder_2017_2025/per_year/6/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/6/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/6/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/6/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/7/year|d}} | {{cur:ladder_2017_2025/per_year/7/n|int}} | {{cur:ladder_2017_2025/per_year/7/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/7/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/7/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/7/delta_previous_minus_current|neg|s4}} |
+| {{cur:ladder_2017_2025/per_year/8/year|d}} | {{cur:ladder_2017_2025/per_year/8/n|int}} | {{cur:ladder_2017_2025/per_year/8/log_loss_previous|f4}} | {{cur:ladder_2017_2025/per_year/8/log_loss_current|f4}} | {{cur:ladder_2017_2025/per_year/8/log_loss_pinnacle_normalised|f4}} | {{cur:ladder_2017_2025/per_year/8/delta_previous_minus_current|neg|s4}} |
+
+## Against BuildOak on the same files and timing rule
+
+[BuildOak](https://github.com/buildoak/tennis-xgboost-autoresearch) is the strongest public
+model that could be reproduced. Here it is given the same lower-tier files as Alcaraz and
+the same timing rule: a result becomes usable two days after its match date, and no
+setting is taken from the future. Rows are the target matches both systems cover.
+
+| Period | Matches | Alcaraz − BuildOak | Previous version − BuildOak | Seasons Alcaraz ahead |
+|---|---:|---:|---:|---:|
+| 2017–2025 | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/n|int}} | **{{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/interval_95_block8/log_loss|ci4}}** | {{cur:fair_buildoak/corrected/previous_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/previous_vs_fair_buildoak/y2017_2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/years_negative|d}} of {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss|len|d}} |
+| 2017–2024 | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2017_2024/n|int}} | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2017_2024/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2017_2024/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/y2017_2024/previous_vs_fair_buildoak/y2017_2024/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/previous_vs_fair_buildoak/y2017_2024/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2017_2024/years_negative|d}} of {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2017_2024/annual_log_loss|len|d}} |
+| 2024 alone | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2024/n|int}} | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2024/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2024/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/y2017_2024/previous_vs_fair_buildoak/y2024/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/previous_vs_fair_buildoak/y2024/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2024/years_negative|d}} of {{cur:fair_buildoak/y2017_2024/current_vs_fair_buildoak/y2024/annual_log_loss|len|d}} |
+| 2025 alone, bug fixed | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/n|int}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/previous_vs_fair_buildoak/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/previous_vs_fair_buildoak/y2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/years_negative|d}} of {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/annual_log_loss|len|d}} |
+| 2025 alone, registered pass | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/n|int}} | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/interval_95_block8/log_loss|ci4}} | unchanged | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/years_negative|d}} of {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/annual_log_loss|len|d}} |
+
+| | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Alcaraz − BuildOak | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2017|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2018|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2019|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2020|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2021|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2022|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2023|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2024|s4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/annual_log_loss/2025|s4}} |
+
+2024 was the season registered as the confirmation, and BuildOak edged Alcaraz in it,
+inside the interval. The four- and thirteen-week block
+checks for 2017–2025 give {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/interval_95_block4_log_loss|ci4}} and {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/interval_95_block13_log_loss|ci4}}. The second
+model alone is {{cur:fair_buildoak/corrected/second_model_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/second_model_vs_fair_buildoak/y2017_2025/interval_95_block8/log_loss|ci4}} against BuildOak over 2017–2025;
+the previous version alone is level with it.
+
+### The timing rule and what BuildOak's own setup was worth
+
+Historical files give tournament weeks, not exact match days, and results reach the public
+with a lag. So a forecast may use only results from at least two days before its match. BuildOak's
+own setup used results at once and dated each lower-tier result on the Sunday of its week,
+so a Challenger result could reach the next tour event from its first match. Measured on
+2017–2024, with BuildOak on the same lower-tier files throughout:
+
+| Change to BuildOak (fair minus its own setup) | Matches | Log loss change |
+|---|---:|---:|
+| Same timing rule and settings as Alcaraz | {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_native/n|int}} | {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_native/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_native/interval_95_block8/log_loss|ci4}} |
+| The two-day rule alone | {{cur:fair_buildoak/y2017_2024/native_setup_worth/two_day_rule_only_minus_native/n|int}} | {{cur:fair_buildoak/y2017_2024/native_setup_worth/two_day_rule_only_minus_native/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/native_setup_worth/two_day_rule_only_minus_native/interval_95_block8/log_loss|ci4}} |
+| The rest: rating-recency reference and nationality buckets | {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_two_day_rule_only/n|int}} | {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_two_day_rule_only/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/native_setup_worth/fair_minus_two_day_rule_only/interval_95_block8/log_loss|ci4}} |
+| Main-tour files only, same change | {{cur:fair_buildoak/y2017_2024/native_setup_worth/main_tour_fair_minus_released/n|int}} | {{cur:fair_buildoak/y2017_2024/native_setup_worth/main_tour_fair_minus_released/difference/log_loss|s4}} {{cur:fair_buildoak/y2017_2024/native_setup_worth/main_tour_fair_minus_released/interval_95_block8/log_loss|ci4}} |
+
+A positive change means BuildOak scores worse under the fair rule: its own setup was worth
+about that much to it, almost all of it through seeing lower-tier results a few days
+sooner. On main-tour files alone the setup is worth nothing. Exact match days would help
+both models equally; they are public only in part, so both sides run on the same
+conservative rule.
+
+### 2025, with its bug
+
+The 2025 test was written down before any 2025 forecast existed and scored once. It ran
+on a defective input. When the second model chose its 2025 settings from 2022–2024, the
+file it read had 2024's results blanked, a leftover from when 2024 was sealed. Every
+selection row for 2024 carried an invalid label, so it chose badly and its 2025 forecasts
+were squashed toward 50/50. No 2025 result reached any model. The independent
+recomputation caught the defect; the fix changed nothing but restoring the 2024 labels.
+
+| 2025, {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/n|int}} matches | Registered pass (defective input) | Bug fixed |
+|---|---:|---:|
+| Alcaraz − BuildOak | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025/interval_95_block8/log_loss|ci4}} |
+| Holm-adjusted p | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2025_p_holm|f3}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2025_p_holm|f3}} |
+| Alcaraz − previous version | {{cur:fair_buildoak/registered/current_vs_previous/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/registered/current_vs_previous/y2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/current_vs_previous/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/current_vs_previous/y2025/interval_95_block8/log_loss|ci4}} |
+| Second model − previous version | {{cur:fair_buildoak/registered/second_model_vs_previous/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/registered/second_model_vs_previous/y2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/second_model_vs_previous/y2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/second_model_vs_previous/y2025/interval_95_block8/log_loss|ci4}} |
+| Alcaraz − BuildOak, 2017–2025 | {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}} {{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2017_2025/interval_95_block8/log_loss|ci4}} | {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}} {{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/interval_95_block8/log_loss|ci4}} |
+
+The registered pass read level against BuildOak. With the bug fixed, Alcaraz wins 2025.
+The corrected run came after the registered result had been seen, so it is the model's
+correct 2025 number but not a blind confirmation. The 2017–2025 result does not depend on
+the fix. In the defective run the second model alone was worse than the previous version,
+yet the average still beat the previous version, because half its weight sat on a model
+the bug did not touch. The rule that came out of it: every forecast generator now asserts
+a valid label on every selection row before it selects anything.
+
+### 2014–2016, never scored before
+
+No forecast of these models or of BuildOak had been scored on these seasons. Challenger
+serve statistics begin in 2010 and the models need six warm-up seasons, so 2014 is the
+earliest season the second model reaches, and 2015 the earliest for the average.
+
+| Contrast | Seasons | Matches | Log loss difference |
+|---|---|---:|---:|
+| Second model − BuildOak | 2014–2016 | {{cur:fair_buildoak/y2014_2016/second_model_vs_fair_buildoak_2014_2016/n|int}} | {{cur:fair_buildoak/y2014_2016/second_model_vs_fair_buildoak_2014_2016/difference/log_loss|s4}} {{cur:fair_buildoak/y2014_2016/second_model_vs_fair_buildoak_2014_2016/interval_95_block8/log_loss|ci4}} |
+| Alcaraz − BuildOak | 2015–2016 | {{cur:fair_buildoak/y2014_2016/current_vs_fair_buildoak_2015_2016/n|int}} | {{cur:fair_buildoak/y2014_2016/current_vs_fair_buildoak_2015_2016/difference/log_loss|s4}} {{cur:fair_buildoak/y2014_2016/current_vs_fair_buildoak_2015_2016/interval_95_block8/log_loss|ci4}} |
+| Previous version − BuildOak | 2015–2016 | {{cur:fair_buildoak/y2014_2016/previous_vs_fair_buildoak_2015_2016/n|int}} | {{cur:fair_buildoak/y2014_2016/previous_vs_fair_buildoak_2015_2016/difference/log_loss|s4}} {{cur:fair_buildoak/y2014_2016/previous_vs_fair_buildoak_2015_2016/interval_95_block8/log_loss|ci4}} |
+| Alcaraz − previous version | 2015–2016 | {{cur:fair_buildoak/y2014_2016/current_vs_previous_2015_2016/n|int}} | {{cur:fair_buildoak/y2014_2016/current_vs_previous_2015_2016/difference/log_loss|s4}} {{cur:fair_buildoak/y2014_2016/current_vs_previous_2015_2016/interval_95_block8/log_loss|ci4}} |
+
+Alcaraz is ahead on 2015–2016 but within the margin; the second model, which reaches one
+more season, beats BuildOak over 2014–2016. These seasons are unscored but not untouched:
+the second model's design was chosen on 2017–2021 outcomes.
+
+## Other public models
+
+Each row is its own paired comparison on the rows both sides cover.
+
+| Public model | Matches | Alcaraz − model | Previous version − model |
+|---|---|---:|---:|
+| [BuildOak](https://github.com/buildoak/tennis-xgboost-autoresearch) as released: its own data and setup | {{cur:buildoak_released/current/y2017_2025/n|int}}, 2017–2025 | **{{cur:buildoak_released/current/y2017_2025/difference/log_loss|s4}} {{cur:buildoak_released/current/y2017_2025/interval_95_block8/log_loss|ci4}}** | {{cur:buildoak_released/previous/y2017_2025/difference/log_loss|s4}} {{cur:buildoak_released/previous/y2017_2025/interval_95_block8/log_loss|ci4}} |
+| — 2025 alone | {{cur:buildoak_released/current/y2025/n|int}} | {{cur:buildoak_released/current/y2025/difference/log_loss|s4}} {{cur:buildoak_released/current/y2025/interval_95_block8/log_loss|ci4}} | {{cur:buildoak_released/previous/y2025/difference/log_loss|s4}} {{cur:buildoak_released/previous/y2025/interval_95_block8/log_loss|ci4}} |
+| [tennis-ai](https://github.com/hikmatazimzade/tennis-ai) CatBoost, refitted each season on its author's table | {{cur:catboost_walk_forward/current/n|int}}, 2017–2024 | **{{cur:catboost_walk_forward/current/difference/log_loss|s4}} {{cur:catboost_walk_forward/current/interval_95_block8/log_loss|ci4}}** | {{cur:catboost_walk_forward/previous/difference/log_loss|s4}} {{cur:catboost_walk_forward/previous/interval_95_block8/log_loss|ci4}} |
+| tennis-ai CatBoost given our lower-tier files | {{cur:catboost_lower_tier/current/y2017_2024/n|int}}, 2017–2024 | **{{cur:catboost_lower_tier/current/y2017_2024/difference/log_loss|s4}} {{cur:catboost_lower_tier/current/y2017_2024/interval_95_block8/log_loss|ci4}}** | {{cur:catboost_lower_tier/previous/y2017_2024/difference/log_loss|s4}} {{cur:catboost_lower_tier/previous/y2017_2024/interval_95_block8/log_loss|ci4}} |
+| — 2024 alone | {{cur:catboost_lower_tier/current/y2024/n|int}} | {{cur:catboost_lower_tier/current/y2024/difference/log_loss|s4}} {{cur:catboost_lower_tier/current/y2024/interval_95_block8/log_loss|ci4}} | |
+| tennis-ai CatBoost as shipped (its checkpoint) | {{cur:shipped_catboost_2025/current/checkpoint/n|int}}, 2025 | **{{cur:shipped_catboost_2025/current/checkpoint/difference/log_loss|s4}} {{cur:shipped_catboost_2025/current/checkpoint/interval_95_block8/log_loss|ci4}}** | {{cur:shipped_catboost_2025/previous/checkpoint/difference/log_loss|s4}} {{cur:shipped_catboost_2025/previous/checkpoint/interval_95_block8/log_loss|ci4}} |
+| tennis-ai CatBoost refitted through 2024 | {{cur:shipped_catboost_2025/current/refit/n|int}}, 2025 | {{cur:shipped_catboost_2025/current/refit/difference/log_loss|s4}} {{cur:shipped_catboost_2025/current/refit/interval_95_block8/log_loss|ci4}} | {{cur:shipped_catboost_2025/previous/refit/difference/log_loss|s4}} {{cur:shipped_catboost_2025/previous/refit/interval_95_block8/log_loss|ci4}} |
+| [tennis_elo](https://github.com/yaobviously/tennis_elo) ridge and LightGBM stack, look-ahead removed | {{cur:stack/current/n|int}}, 2017–2023 | **{{cur:stack/current/difference/log_loss|s4}} {{cur:stack/current/interval_95_block8/log_loss|ci4}}** | {{cur:stack/previous/difference/log_loss|s4}} {{cur:stack/previous/interval_95_block8/log_loss|ci4}} |
+| FiveThirtyEight surface-Elo adaptation | {{cur:baselines/current/fivethirtyeight_surface/n|int}}, 2017–2025 | {{cur:baselines/current/fivethirtyeight_surface/difference/log_loss|s4}} {{cur:baselines/current/fivethirtyeight_surface/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/fivethirtyeight_surface/difference/log_loss|s4}} {{cur:baselines/previous/fivethirtyeight_surface/interval_95_block8/log_loss|ci4}} |
+| Pooled Elo (K=32) | {{cur:baselines/current/k32_pooled/n|int}}, 2017–2025 | {{cur:baselines/current/k32_pooled/difference/log_loss|s4}} {{cur:baselines/current/k32_pooled/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/k32_pooled/difference/log_loss|s4}} {{cur:baselines/previous/k32_pooled/interval_95_block8/log_loss|ci4}} |
+| Kovalchik overall/major Elo reconstruction | {{cur:baselines/current/kovalchik_overall_major/n|int}}, 2017–2025 | {{cur:baselines/current/kovalchik_overall_major/difference/log_loss|s4}} {{cur:baselines/current/kovalchik_overall_major/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/kovalchik_overall_major/difference/log_loss|s4}} {{cur:baselines/previous/kovalchik_overall_major/interval_95_block8/log_loss|ci4}} |
+| Ranking-based logistic model | {{cur:baselines/current/rank_logistic/n|int}}, 2017–2025 | {{cur:baselines/current/rank_logistic/difference/log_loss|s4}} {{cur:baselines/current/rank_logistic/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/rank_logistic/difference/log_loss|s4}} {{cur:baselines/previous/rank_logistic/interval_95_block8/log_loss|ci4}} |
+| Weighted Elo (WElo) reconstruction | {{cur:baselines/current/welo/n|int}}, 2017–2025 | {{cur:baselines/current/welo/difference/log_loss|s4}} {{cur:baselines/current/welo/interval_95_block8/log_loss|ci4}} | {{cur:baselines/previous/welo/difference/log_loss|s4}} {{cur:baselines/previous/welo/interval_95_block8/log_loss|ci4}} |
+| [Ultimate Tennis Statistics](https://github.com/mcekovic/tennis-crystal-ball) formula | {{ui25:uts/primary/pooled_2024_2025/n|int}}, 2024–2025 | not rerun | {{ui25:uts/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:uts/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+| [Ingram's Bayesian point model](https://github.com/martiningram/tennis_bayes_point_based) | {{ui25:ingram/primary/pooled_2024_2025/n|int}}, 2024–2025 | not rerun | {{ui25:ingram/primary/pooled_2024_2025/incumbent_minus_external_log_loss|s4}} {{ui25:ingram/primary/pooled_2024_2025/uncertainty/results/8/percentile_95|ci4}} |
+
+BuildOak as released runs on its own main-tour files with its own setup, so this row
+compares complete systems with different data, unlike the fair comparison above. The
+stack is rerun from its author's notebook with its look-ahead removed (qualifying rounds
+ordered before the main draw, rolling windows closed on the right, career statistics made
+expanding); its rows end in February 2023, where its data ends.
+
+### Ultimate Tennis Statistics and Ingram
+
+These two were not rerun for the current version: their saved forecasts were not
+restored for this pass. The rows above are the previous version's published results.
+A current-version figure can be derived without a rerun. On the same rows the previous
+version's log loss reproduces its published value exactly, so the current version's log
+loss on those rows minus each rival's published log loss is exact as a point estimate.
+Its interval can only be a bound (the published half-width widened by the uncertainty of
+the current-minus-previous step), not a bootstrap, because the rivals' forecasts are not
+on hand to resample. That derived figure is not part of the scored result files, so it
+is not shown here.
+
+### What favours the rivals
+
+Two integrity findings, both in the rivals' favour, so both make Alcaraz's wins
+conservative:
+
+- **tennis-ai's CatBoost reads later rounds.** Its author's tour files list nearly every
+  event final-first in 2019, 2020 and 2022–2024, and the recipe applies rows in file order
+  within a date, so a winner's later-round results reach his earlier rows. This affects the
+  CatBoost forecasts on this page in those seasons; its size was not measured.
+- **BuildOak's own setup looks ahead on dates.** Its rating-recency reference sits at the
+  end of 2025, and the Brisbane and Hong Kong matches dated 2024-12-30 but played in 2025
+  are among its training rows for 2025. The fair comparison removes both.
+
+BuildOak does adjust serve and return for the opponent; the difference between the
+models is not that.
+
+## Why averaging two models helps
+
+The previous version and the second model are built from different data, training windows
+and features, so their mistakes are only partly shared, and averaging cancels part of each
+model's errors. The average scores below both members:
+
+| Log loss on every target match | 2017–2024 | 2017–2025 |
+|---|---:|---:|
+| Matches | {{cur:members/y2017_2024/n|int}} | {{cur:members/y2017_2025/n|int}} |
+| **Alcaraz (the average)** | **{{cur:members/y2017_2024/scores/current/log_loss|f4}}** | **{{cur:members/y2017_2025/scores/current/log_loss|f4}}** |
+| Second model | {{cur:members/y2017_2024/scores/second_model/log_loss|f4}} | {{cur:members/y2017_2025/scores/second_model/log_loss|f4}} |
+| Previous version | {{cur:members/y2017_2024/scores/previous/log_loss|f4}} | {{cur:members/y2017_2025/scores/previous/log_loss|f4}} |
+
+The gain over the previous version held on seasons never used to build the second model:
+{{cur:current_vs_previous_unseen/y2024/difference/log_loss|s4}} {{cur:current_vs_previous_unseen/y2024/interval_95_block8/log_loss|ci4}} on 2024 ({{cur:current_vs_previous_unseen/y2024/n|int}} matches),
+{{cur:current_vs_previous_unseen/y2015_2016/difference/log_loss|s4}} {{cur:current_vs_previous_unseen/y2015_2016/interval_95_block8/log_loss|ci4}} on 2015–2016 ({{cur:current_vs_previous_unseen/y2015_2016/n|int}}) and
+{{cur:current_vs_previous_unseen/y2025/difference/log_loss|s4}} {{cur:current_vs_previous_unseen/y2025/interval_95_block8/log_loss|ci4}} on 2025 with the bug fixed ({{cur:current_vs_previous_unseen/y2025/n|int}}).
+
+## Calibration
+
+A descriptive check on {{cur:calibration_2017_2024/current/n|int}} matches from 2017 to 2024: the slope of a logistic fit
+of the outcome on the forecast's log-odds, with no intercept. A slope of one is calibrated;
+below one means overconfident. The 70% column is the favourite's side between 65% and 75%.
+
+| Forecast | Slope | Said, 70% bin | Won, 70% bin |
+|---|---:|---:|---:|
+| Alcaraz | {{cur:calibration_2017_2024/current/slope|f3}} | {{cur:calibration_2017_2024/current/bins/1/said|pct1}} | {{cur:calibration_2017_2024/current/bins/1/won|pct1}} |
+| Previous version | {{cur:calibration_2017_2024/previous/slope|f3}} | {{cur:calibration_2017_2024/previous/bins/1/said|pct1}} | {{cur:calibration_2017_2024/previous/bins/1/won|pct1}} |
+| BuildOak, same files and timing rule | {{cur:calibration_2017_2024/buildoak_fair/slope|f3}} | {{cur:calibration_2017_2024/buildoak_fair/bins/1/said|pct1}} | {{cur:calibration_2017_2024/buildoak_fair/bins/1/won|pct1}} |
+| BuildOak as released | {{cur:calibration_2017_2024/buildoak_released/slope|f3}} | {{cur:calibration_2017_2024/buildoak_released/bins/1/said|pct1}} | {{cur:calibration_2017_2024/buildoak_released/bins/1/won|pct1}} |
+| tennis-ai CatBoost, main tour | {{cur:calibration_2017_2024/catboost_main_tour/slope|f3}} | {{cur:calibration_2017_2024/catboost_main_tour/bins/1/said|pct1}} | {{cur:calibration_2017_2024/catboost_main_tour/bins/1/won|pct1}} |
+
+This was not a registered test; it uses only 2017–2024.

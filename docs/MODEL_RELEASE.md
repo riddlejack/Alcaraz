@@ -1,5 +1,11 @@
 # Fitted model release packaging
 
+**The release holds earlier versions of the model, not the current one.** Its ATP
+checkpoints stop at the full-tier rung, before the entry-status block that completed the
+previous version, and it contains neither the current version nor its second model. The
+current version exists as research forecasts only; see
+[CURRENT_2017_2025_RESULTS.md](benchmarks/CURRENT_2017_2025_RESULTS.md).
+
 The release builder builds a deterministic local bundle from the accepted,
 immutable archive run outputs. It selects only the model products used by the accepted
 historical forecasts:

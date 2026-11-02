@@ -1,5 +1,9 @@
 # Ranking and Elo baselines extended to 2025: ATP 2017–2025, WTA 2019–2025 (EXT2025)
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 > **2025 is exposed retrospective data, not a holdout.** It was inspected before the model
 > freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
 > remain the registered claims, and each extended number is shown beside its registered

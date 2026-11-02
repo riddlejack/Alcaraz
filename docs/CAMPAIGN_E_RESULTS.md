@@ -1,5 +1,9 @@
 # Four-arm campaign result
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](benchmarks/CURRENT_2017_2025_RESULTS.md).
+
 Status: independently accepted historical result; campaign closed negative/inconclusive.
 The incumbent remains the default. No model was nominated or promoted.
 

@@ -1,5 +1,9 @@
 # The frozen model applied to 2025 (REFIT2025)
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 > **Independently reconstructed (archive decision D137).** The frozen recipe (D134) was run
 > once more with 2025 as the target season, on the same pinned inputs extended by one year.
 > Nothing was redesigned or tuned. Registration and freeze preceded the run

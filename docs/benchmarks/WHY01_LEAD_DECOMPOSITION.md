@@ -1,5 +1,11 @@
 # Where the lead over public models comes from (WHY01), ATP 2017–2025
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
+![Previous version: Alcaraz minus BuildOak, and the gain from the lower-tier history block, by the less-experienced player's prior main-tour matches, ATP 2017 to 2025. Both are largest where the tour record is thinnest.](../assets/alcaraz-lead-by-history.svg)
+
 > **Exploratory, post-hoc, descriptive; ATP 2017–2025.** This page decomposes the saved
 > forecasts of Alcaraz and every public model it was benchmarked against. No forecasting model
 > was fitted. Segments and cut-points were chosen after the 2017–2024 aggregate results were

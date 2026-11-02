@@ -1,5 +1,9 @@
 # ATP 2017–2024: BuildOak comparison, entry status and a blend (ARMS01)
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 > **Independently reconstructed (archive decisions D131 and D132).** Every number on
 > this page comes from the single registered scoring pass of ARMS01 attempt 002
 > ([buildoak_2017_2024.json](buildoak_2017_2024.json)). A separate implementation

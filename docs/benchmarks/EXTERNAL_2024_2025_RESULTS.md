@@ -1,5 +1,9 @@
 # External matched comparisons, 2024–2025
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 These are retrospective, outcome-exposed comparisons on exact matched cohorts. They test the
 frozen Alcaraz probabilities against two external probability sets; they are not prospective
 evidence or reproductions of either external system's original headline result. Lower log loss and

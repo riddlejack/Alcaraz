@@ -1,5 +1,9 @@
 # Grand Slams 2022–2023: every recoverable pre-match IBM forecast, pooled (IBM02)
 
+> **Previous version.** Every Alcaraz result on this page is the previous version's, from
+> before it was averaged with the second model. The current version's results are on
+> [CURRENT_2017_2025_RESULTS.md](CURRENT_2017_2025_RESULTS.md).
+
 > **Independently reconstructed (archive decision D136).** Every number on this page comes
 > from the single registered scoring pass of IBM02 attempt 002 ([ibm02.json](ibm02.json)).
 > The population was frozen from first-play evidence before the pass; a separate

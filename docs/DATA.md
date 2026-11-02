@@ -27,7 +27,7 @@ performance on the broader universe of public result rows.
 
 | Source | Acquired or observed | Qualification | Integrated into accepted retrospective runs |
 |---|---|---|---|
-| Jeff Sackmann archive mirror (`tennis_atp`, `tennis_wta`, rankings, players) | Frozen tar and manifest hashes retained in the research archive | Primary historical source with per-field limitations | Yes, both tours, within the horizons above |
+| Jeff Sackmann archive mirror (`tennis_atp`, `tennis_wta`, rankings, players) | Frozen tar and manifest hashes retained in the research archive | Primary historical source with per-field limitations | Yes, both tours, within the horizons above; the current version's second model also reads the men's tour, qualifying/Challenger and Futures files from 1991, each hash-checked against the archive inventory |
 | tennis-data.co.uk annual workbooks | Versioned local workbooks and hashes | Results/date fields used under recorded semantics; prices are closing-like with unknown quote time; no redistribution right | Yes, as a local join and market reference; ATP 2017–2024 and WTA 2025–2026 scored on matched priced cohorts |
 | Wikipedia draw/calendar pages | Receipted parsed bridge files, including 2024 ATP and 2026 WTA paths bound by the configs | Results-only; dates are event anchors or completion bounds, not match clocks | Yes, in the historical bridge paths; those weaknesses limit chronology claims |
 | Match Charting Project | Retained charting evidence | Charter-asserted dates and partial serve counts; selective coverage | Corroboration/audit only, not a model trunk source |
