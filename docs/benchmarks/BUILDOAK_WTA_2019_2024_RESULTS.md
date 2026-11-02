@@ -39,7 +39,7 @@ Log loss is the only gated metric; Brier score and winner accuracy are descripti
 bracketed intervals are those of the paired difference, left minus right, so the gate 3
 intervals are for blend − Alcaraz and blend − BuildOak.
 
-What the research lead accepted (archive decision D133): `full_entry` is the WTA incumbent
+What was accepted (archive decision D133): `full_entry` is the WTA incumbent
 rung for the WTA01 2019–2024 cohort; the scoped public-model sentence is **not** claimed
 for WTA; the WTA blend is released as an attributed research artefact. The artefact is the
 blend recipe, its past-only weights and its registered scores on this page. It is not the

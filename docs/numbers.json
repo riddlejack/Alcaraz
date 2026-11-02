@@ -587,6 +587,11 @@
           "value": "{{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}}"
         },
         {
+          "context": "BuildOak is −0.0037",
+          "text": "−0.0037",
+          "value": "{{cur:fair_buildoak/registered/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}}"
+        },
+        {
           "context": "−0.0037 befo",
           "text": "−0.0038",
           "value": "{{cur:fair_buildoak/corrected/current_vs_fair_buildoak/y2017_2025/difference/log_loss|s4}}"

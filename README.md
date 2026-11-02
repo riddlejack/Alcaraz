@@ -187,7 +187,10 @@ fold read and refuses anything later.
 
 Every comparison above was registered before it was scored: the matches, the cutoff, the
 inputs, the primary contrast and the pass rule were frozen and hashed first, then scored
-once. Separate code recomputed every estimate and interval from the raw inputs before a
+once. Two exceptions are stated where they appear: the corrected 2025 pass, run after the
+registered 2025 result had been seen (the 2017–2025 figures use it; on the registered pass
+the result against BuildOak is −0.0037), and the Ultimate Tennis Statistics and Ingram
+rows, which are derived rather than rerun. Separate code recomputed every estimate and interval from the raw inputs before a
 result was reported, which is why the 2024 result against BuildOak and the 2025 bug are
 on record. Leak detectors enter CI only after failing a planted leak. The previous
 version's 145-entry leaderboard and 133-entry experiment ledger are published in
@@ -234,11 +237,11 @@ make reproduce-current   # the current version end to end on a synthetic sample
 The first takes about a minute and the second a few; CI runs both on every push. The
 codebase is 56k lines of Python in one pipeline, with 824 tests and a locked environment.
 
-On real data the current version is four commands. The first runs the previous version
-for 2017–2025; the others build the all-tier table, fit the second model and average the
-two:
+On real data the first two commands run the previous version for 2017–2025, and the
+other three build the all-tier table, fit the second model and average the two:
 
 ```sh
+uv run tennislab chain write-configs --config configs/chains/atp_refit2025_2017_2025.json
 uv run tennislab chain run --config configs/chains/atp_refit2025_2017_2025.json
 uv run tennislab current table --config configs/current/atp_table.json
 uv run tennislab current fit --config configs/current/atp_alltier.json
@@ -248,10 +251,12 @@ uv run tennislab current pool --config configs/current/atp_pool.json
 The table takes about a minute and a half, and the fit about a quarter of an hour on a
 14-core machine (`TENNISLAB_ALLTIER_WORKERS` sets the workers). The per-season forecasts
 land in `data/runs/current_atp/pool/current/`, and on the pinned inputs they equal the
-forecasts scored above, bit for bit. Every input is read under `TENNISLAB_WORKSPACE` and
-checked against its hash first. Real match history is governed by source terms and stays
-out of Git: the match files are a hash-pinned snapshot of Jeff Sackmann's `tennis_atp`
-repository ([DATA.md](docs/DATA.md)). The published model checkpoints are an earlier version's, in a
+forecasts scored above, bit for bit. Inputs are read under `TENNISLAB_WORKSPACE`, and the
+chain and the table check theirs against pinned hashes. Real match history is governed by
+source terms and stays out of Git: the previous version's chain reads the research
+archive's match files, rankings, betting-data workbooks and crosswalk pins, and the
+all-tier table a hash-pinned snapshot of Jeff Sackmann's `tennis_atp` repository
+([DATA.md](docs/DATA.md)). The published model checkpoints are an earlier version's, in a
 [GitHub release](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
 with an [inference guide](docs/MODEL_RELEASE.md); the current version is not in it.
 

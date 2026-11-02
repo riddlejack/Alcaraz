@@ -53,7 +53,7 @@ coverage.
 
 ## Independent acceptance
 
-Root decision D95 accepts and closes this bounded campaign as negative/inconclusive,
+Archive decision D95 accepts and closes this bounded campaign as negative/inconclusive,
 retains the incumbent default, and permits this aggregate-only public integration.
 The independent reviewer reproduced the exact D93/D94 result with separate arithmetic,
 without importing the production scorer, loading the base models, refitting, or rerunning
@@ -64,7 +64,7 @@ independent score calculation rejected the planted value.
 
 - Independent review: `LANE_E_D93_D94_RESULT_REVIEW.md`, SHA-256
   `4e872a983d79721d3262924b0367c655c2d290c44608ddcf10fae84f7b9d8119`.
-- Executor report: `LANE_E_D93_D94_CONSUMER_EXECUTION_RESULT.md`, SHA-256
+- Execution report: `LANE_E_D93_D94_CONSUMER_EXECUTION_RESULT.md`, SHA-256
   `9de71fc5de09289912fe7da12376cab1340838c84ce64d645bbcc35845432d66`.
 
 The original execution chronology is part of the result. D93 completed ATP forecast and

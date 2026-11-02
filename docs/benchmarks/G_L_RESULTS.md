@@ -74,7 +74,7 @@ The independent reviewer used a standalone script importing no Alcaraz calculati
 helpers. All eight score tables matched exactly; twelve bootstrap streams matched within
 4.30e-13 with identical seeds, draw counts and interval signs. Its 1,927 scoped checks include
 byte/arithmetic negative controls, membership and receipt consistency. This was a separate
-coding-agent reconstruction in the same local project, not external peer review or
+reconstruction in the same project, not external peer review or
 independent holdout custody. It did not refit models.
 
 | Evidence identity | SHA-256 / Git commit |

@@ -71,7 +71,7 @@ def build_parser() -> argparse.ArgumentParser:
     for name in LIVE_COMMANDS:
         subparsers.add_parser(name, help=f"live commands: tennislab {name} --help", add_help=False)
     benchmark = subparsers.add_parser(
-        "benchmark", help="run the barrier-separated Lane G benchmark workflow"
+        "benchmark", help="run the barrier-separated benchmark workflow"
     )
     benchmark.add_argument("benchmark_command", choices=BENCHMARK_COMMANDS)
     benchmark.add_argument("--config", required=True, help="the benchmark configuration (JSON)")
@@ -83,7 +83,7 @@ def build_parser() -> argparse.ArgumentParser:
     current.add_argument("step", choices=CURRENT_STEPS)
     current.add_argument("--config", required=True, help="the step's configuration (JSON)")
     campaign = subparsers.add_parser(
-        "campaign", help="run the separately frozen Lane E forecast/barrier/report interface"
+        "campaign", help="run the separately frozen campaign forecast/barrier/report interface"
     )
     campaign.add_argument("campaign_command", choices=("forecast", "barrier", "report", "verify"))
     campaign.add_argument("--config", required=True)
