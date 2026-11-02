@@ -2,7 +2,7 @@
   "description": "The current Alcaraz for 2017-2025: the previous version and the all-tier model pooled in log-odds with fixed equal weights.",
   "pool": {
     "previous_run": {
-      "root": "data/runs/atp_previous_2017_2025/run",
+      "root": "work/REFIT2025_ATP/run",
       "learner": "hgb",
       "bundle": "full_tier_entry"
     },

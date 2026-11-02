@@ -388,7 +388,9 @@ def main(argv: list[str] | None = None) -> int:
         help="a completed run root (the directory holding features/ and pipeline/)",
     )
     parser.add_argument("--registries", type=Path, default=Path("data/registries"))
-    parser.add_argument("--output-markdown", type=Path, default=Path("docs/RESULTS.md"))
+    # docs/RESULTS.md is rendered from docs/templates/RESULTS.md.in; the ladder's own
+    # Markdown table is written only when asked for.
+    parser.add_argument("--output-markdown", type=Path, default=None)
     parser.add_argument("--output-csv", type=Path, default=Path("docs/ladder.csv"))
     parser.add_argument("--output-json", type=Path, default=Path("docs/ladder.json"))
     args = parser.parse_args(argv)
@@ -402,7 +404,8 @@ def main(argv: list[str] | None = None) -> int:
     ladder = build_ladder(config, args.configs_dir, run_roots)
     dof = degrees_of_freedom_summary(args.registries) if args.registries.is_dir() else None
     ladder["research_degrees_of_freedom"] = dof
-    args.output_markdown.write_text(render_markdown(ladder, dof), encoding="utf-8")
+    if args.output_markdown is not None:
+        args.output_markdown.write_text(render_markdown(ladder, dof), encoding="utf-8")
     write_csv(args.output_csv, ladder, int(config["rounding_decimals"]))
     write_ladder_json(args.output_json, ladder)
     for tour, block in ladder["tours"].items():

@@ -31,9 +31,11 @@ results-figure:
 	python3 tools/render_results_figure.py
 
 # Product benchmark JSONs from the archive result files named in docs/benchmarks/sources.json
-# (hash-verified). Needs the research archive: TENNISLAB_ARCHIVE=<archive root>.
+# (hash-verified). Needs the research archive: TENNISLAB_ARCHIVE=<archive root>; the current
+# version's results also TENNISLAB_RESEARCH=<archive checkout holding them>.
 benchmarks:
-	$(UV) run python tools/build_benchmark_aggregates.py --archive-root "$(TENNISLAB_ARCHIVE)"
+	$(UV) run python tools/build_benchmark_aggregates.py --archive-root "$(TENNISLAB_ARCHIVE)" \
+		$(if $(TENNISLAB_RESEARCH),--root research="$(TENNISLAB_RESEARCH)")
 
 # Every number on the README and the benchmark pages must come from a committed JSON
 # (docs/numbers.json). Pages with a template in docs/templates are rendered with --render.
