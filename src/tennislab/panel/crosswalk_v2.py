@@ -8,7 +8,7 @@ name (``tennislab.ratings.elo``, ``tennislab.panel.elo_crosswalk``,
 through ``mirror.resolve_archive``. Arithmetic, indexes, iteration order, record fields
 and report serialization are untouched.
 
-Observed failure (reported by the research lead from the CONFIRM2026 Elo replay):
+Observed failure (found in the CONFIRM2026 Elo replay):
 the frozen Elo crosswalk restricts its reference population to players with at least
 one included tour-level main-draw match in 2023-2024, and matches names verbatim.
 Against 2025/2026 source names that left **294 distinct names unmatched (146 ATP, 148

@@ -190,9 +190,9 @@ inputs, the primary contrast and the pass rule were frozen and hashed first, the
 once. Two exceptions are stated where they appear: the corrected 2025 pass, run after the
 registered 2025 result had been seen (the 2017–2025 figures use it; on the registered pass
 the result against BuildOak is −0.0037), and the Ultimate Tennis Statistics and Ingram
-rows, which are derived rather than rerun. Separate code recomputed every estimate and interval from the raw inputs before a
-result was reported, which is why the 2024 result against BuildOak and the 2025 bug are
-on record. Leak detectors enter CI only after failing a planted leak. The previous
+rows, which are derived rather than rerun. Separate code recomputed every scored estimate
+and interval from the raw inputs before a result was reported, which is why the 2024
+result against BuildOak and the 2025 bug are on record. Leak detectors enter CI only after failing a planted leak. The previous
 version's 145-entry leaderboard and 133-entry experiment ledger are published in
 `data/registries`, so every attempt, including the failures, is visible. Nothing here is
 an untouched test set: every season through 2025 had been scored for the previous version,
@@ -254,8 +254,8 @@ land in `data/runs/current_atp/pool/current/`, and on the pinned inputs they equ
 forecasts scored above, bit for bit. Inputs are read under `TENNISLAB_WORKSPACE`, and the
 chain and the table check theirs against pinned hashes. Real match history is governed by
 source terms and stays out of Git: the previous version's chain reads the research
-archive's match files, rankings, betting-data workbooks and crosswalk pins, and the
-all-tier table a hash-pinned snapshot of Jeff Sackmann's `tennis_atp` repository
+archive's match files, rankings, betting-data workbooks, Wikipedia bridge files,
+crosswalk pins and design records, and the all-tier table a hash-pinned snapshot of Jeff Sackmann's `tennis_atp` repository
 ([DATA.md](docs/DATA.md)). The published model checkpoints are an earlier version's, in a
 [GitHub release](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
 with an [inference guide](docs/MODEL_RELEASE.md); the current version is not in it.

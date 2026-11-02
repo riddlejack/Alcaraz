@@ -1,4 +1,4 @@
-"""Small shared helpers for the ported Lane C2 gates (``tests/test_gate_t*.py``).
+"""Small shared helpers for the ported leakage gates (``tests/test_gate_t*.py``).
 
 Stdlib plus numpy only. Hashing goes through ``tennislab.chain.common`` so the gates
 re-derive the same digests the chain records. Nothing here reads the archive.
