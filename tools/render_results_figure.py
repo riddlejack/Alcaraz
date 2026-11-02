@@ -21,16 +21,25 @@ with the system ``python3`` (tested with matplotlib 3.11), not ``uv run``::
 ``--buildoak-json`` and ``--why01-json`` name a successor JSON under ``docs/benchmarks``
 (for example ``buildoak_2017_2025.json``), and ``--external-json uts_ingram_2024_2025.json``
 replaces the 2024 UTS and Ingram rows with their pooled 2024–2025 rows (a system without a
-result yet is left out); the defaults reproduce the committed figures.
+result yet is left out). The defaults reproduce the committed figures.
 Axis ranges widen only when a value falls outside the default frame, and the history
 subtitle takes its years from the WHY01 JSON's ``meta.years`` when present.
+
+By default it draws the current version from ``--current-json`` (``current_2017_2025.json``);
+``--previous`` draws the previous version's figures as above. In the default mode panel A is the
+ladder of that JSON (``ladder_2017_2025``) ending with the previous and the current version,
+with the P1 rung, which that pass did not rerun, read from ``docs/ladder.json`` and
+``docs/winner_accuracy.json`` after every shared rung is checked equal on the same matches;
+panel B is the current version against each public model the JSON holds, each on its own
+matches; the per-season figure is the current version against BuildOak on the same files
+and timing rule (``fair_buildoak/corrected``).
 
 It writes ``docs/assets/alcaraz-results.svg``, the per-season BuildOak figure
 ``docs/assets/alcaraz-by-season.svg`` (ARMS01
 contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``), and
 ``docs/assets/alcaraz-lead-by-history.svg`` (WHY01 decomposition: Alcaraz minus
 BuildOak and the lower-tier block's gain by the less-experienced player's prior main-tour
-matches, from ``docs/benchmarks/why01.json``).
+matches, from the WHY01 JSON, ``why01_2017_2025.json`` by default).
 """
 
 from __future__ import annotations
@@ -64,8 +73,10 @@ LADDER_RUNGS = (
 PRIMARY_BLOCK_WEEKS = 8
 # The ARMS01 comparison JSON; the 2017-2025 successor is passed with --buildoak-json.
 BUILDOAK_JSON = "buildoak_2017_2024.json"
-# The WHY01 decomposition JSON; a 2017-2025 successor is passed with --why01-json.
-WHY01_JSON = "why01.json"
+# The WHY01 decomposition JSON (the committed history figure uses the 2017-2025 one).
+WHY01_JSON = "why01_2017_2025.json"
+# The current version's JSON; --previous draws the previous version's figures instead.
+CURRENT_JSON = "current_2017_2025.json"
 
 
 def _load(path: Path) -> Any:
@@ -88,6 +99,103 @@ def ladder_rows(root: Path) -> tuple[list[tuple[str, float, float, str]], int, l
         log_loss = float(pooled[f"log_loss_{key}_match_weighted"])
         rows.append((label, log_loss, 100.0 * float(accuracy[key]["accuracy"]), colour))
     return rows, n, [int(year) for year in pooled["years"]]
+
+
+# Current-version ladder: rung key in current_2017_2025.json (None: from docs/ladder.json).
+CURRENT_RUNGS = (
+    ("elo", "elo", "Elo only (K=32, overall + surface)", NEUTRAL),
+    ("atp_p0", "atp_p0", "+ boosted model on results, ranks, workload", NEUTRAL),
+    (None, "atp_p1", "+ traits, dynamic serve/return states", NEUTRAL),
+    ("atp_full_tier", "atp_full_tier", "+ qualifying, Challenger, Futures history", NEUTRAL),
+    ("previous", "atp_full_tier_entry", "+ entry status, level: previous version", NEUTRAL),
+    ("current", None, "averaged with a second model: Alcaraz", BLUE),
+    ("pinnacle_normalised", "pinnacle_normalised", "Pinnacle closing price (normalised)", ORANGE),
+)
+SHARED_TOLERANCE = 1e-12
+BASELINE_NAMES = {
+    "fivethirtyeight_surface": "FiveThirtyEight surface Elo",
+    "k32_pooled": "pooled Elo, K 32",
+    "kovalchik_overall_major": "Kovalchik Elo",
+    "rank_logistic": "ranking logistic",
+    "welo": "WElo",
+}
+
+
+def ladder_rows_current(
+    root: Path, current_json: str
+) -> tuple[list[tuple[str, float, float, str]], int, list[int]]:
+    """The current version's ladder; P1 from the published ladder on the same matches, after
+    every rung both files hold is checked equal (log loss and accuracy)."""
+    current = _load(root / "docs/benchmarks" / current_json)["ladder_2017_2025"]
+    pooled, accuracy = current["pooled"], current["winner_accuracy"]["overall"]
+    published = _load(root / "docs/ladder.json")["tours"]["ATP"]["pooled"]
+    published_accuracy = _load(root / "docs/winner_accuracy.json")["tours"]["ATP"]["overall"]
+    n = int(pooled["n"])
+    _require(int(published["n"]) == n, "published ladder n differs from the current ladder n")
+    _require(published["years"] == pooled["years"], "published ladder years differ")
+    rows = []
+    for key, old_key, label, colour in CURRENT_RUNGS:
+        if key is not None and old_key is not None:
+            for field in ("match_weighted", "equal_year"):
+                a = float(pooled[f"log_loss_{key}_{field}"])
+                b = float(published[f"log_loss_{old_key}_{field}"])
+                _require(abs(a - b) <= SHARED_TOLERANCE, f"{key} {field} log loss differs: {a} {b}")
+            _require(
+                accuracy[key]["correct"] == published_accuracy[old_key]["correct"],
+                f"{key} correct picks differ from the published ladder",
+            )
+        if key is None:
+            log_loss = float(published[f"log_loss_{old_key}_match_weighted"])
+            acc = published_accuracy[old_key]
+        else:
+            log_loss = float(pooled[f"log_loss_{key}_match_weighted"])
+            acc = accuracy[key]
+        _require(int(acc["n"]) == n, f"{key or old_key} accuracy n differs from ladder n {n}")
+        rows.append((label, log_loss, 100.0 * float(acc["accuracy"]), colour))
+    return rows, n, [int(year) for year in pooled["years"]]
+
+
+def _brief_row(label: str, brief: dict[str, Any]) -> tuple[str, float, float, float]:
+    """A row from a scorer's brief contrast block: label with its own match count and seasons,
+    the match-weighted difference and the primary (eight-week block) interval."""
+    years = sorted(int(year) for year in brief["annual_log_loss"])
+    span = str(years[0]) if len(years) == 1 else f"{years[0]}–{str(years[-1])[2:]}"
+    low, high = brief["interval_95_block8"]["log_loss"]
+    return (
+        f"{label}\n{int(brief['n']):,} ATP, {span}",
+        float(brief["difference"]["log_loss"]),
+        float(low),
+        float(high),
+    )
+
+
+def comparison_rows_current(root: Path, current_json: str) -> list[tuple[str, float, float, float]]:
+    """The current version against each public model in the JSON, each on its own matches.
+    Of the five Elo and ranking baselines only the closest is drawn."""
+    data = _load(root / "docs/benchmarks" / current_json)
+    baselines = data["baselines"]["current"]
+    closest = max(baselines, key=lambda name: float(baselines[name]["difference"]["log_loss"]))
+    display = BASELINE_NAMES.get(closest, closest)
+    return [
+        _brief_row(
+            "BuildOak, same files and timing rule",
+            data["fair_buildoak"]["corrected"]["current_vs_fair_buildoak"]["y2017_2025"],
+        ),
+        _brief_row("BuildOak as released", data["buildoak_released"]["current"]["y2017_2025"]),
+        _brief_row(
+            "tennis-ai CatBoost, our lower-tier files",
+            data["catboost_lower_tier"]["current"]["y2017_2024"],
+        ),
+        _brief_row(
+            "tennis-ai CatBoost, refitted each season", data["catboost_walk_forward"]["current"]
+        ),
+        _brief_row("tennis_elo stack, look-ahead removed", data["stack"]["current"]),
+        _brief_row(
+            "tennis-ai CatBoost as shipped",
+            data["shipped_catboost_2025"]["current"]["checkpoint"],
+        ),
+        _brief_row(f"Closest of five Elo/ranking baselines ({display})", baselines[closest]),
+    ]
 
 
 def _interval(results: dict[str, Any], weeks: int) -> tuple[float, float]:
@@ -191,6 +299,7 @@ def render(
     output_dir: Path,
     buildoak_json: str = BUILDOAK_JSON,
     external_json: str | None = None,
+    current_json: str | None = None,
 ) -> list[Path]:
     import matplotlib
 
@@ -198,8 +307,19 @@ def render(
     import matplotlib.pyplot as plt
     from matplotlib import rcParams
 
-    rows, ladder_n, years = ladder_rows(root)
-    comps = comparison_rows(root, buildoak_json, external_json)
+    if current_json is None:
+        rows, ladder_n, years = ladder_rows(root)
+        comps = comparison_rows(root, buildoak_json, external_json)
+        ladder_note = "Each rung adds one block of public statistics; every step is paired on identical matches"
+        sources = "Sources: docs/ladder.json, docs/winner_accuracy.json, docs/benchmarks/*.json. "
+    else:
+        rows, ladder_n, years = ladder_rows_current(root, current_json)
+        comps = comparison_rows_current(root, current_json)
+        ladder_note = (
+            "Each rung adds one block of public statistics; the last averages the rung above with "
+            "a second model"
+        )
+        sources = f"Sources: docs/benchmarks/{current_json}, docs/ladder.json (P1 rung). "
 
     rcParams.update(
         {
@@ -217,8 +337,15 @@ def render(
 
     # Stacked panels: at README column width a side-by-side layout shrinks the type
     # below legibility, so the figure is one column wide and two panels tall.
+    tall = len(comps) > 3
     fig, (ax1, ax2) = plt.subplots(
-        2, 1, figsize=(8.6, 9.0), gridspec_kw={"height_ratios": [1.45, 1.0], "hspace": 0.62}
+        2,
+        1,
+        figsize=(8.6, 12.0 if tall else 9.0),
+        gridspec_kw={
+            "height_ratios": [1.45, 1.75 if tall else 1.0],
+            "hspace": 0.62 if not tall else 0.42,
+        },
     )
     fig.patch.set_facecolor(SURFACE)
 
@@ -260,7 +387,7 @@ def render(
     ax1.text(
         0,
         1.015,
-        "Each rung adds one block of public statistics; every step is paired on identical matches",
+        ladder_note,
         transform=ax1.transAxes,
         fontsize=9.5,
         color=TEXT3,
@@ -285,9 +412,13 @@ def render(
         )
     ax2.set_yticks(ys2)
     ax2.set_yticklabels([comp[0] for comp in comps], fontsize=10.5)
-    ax2.set_xlim(-0.072, 0.022)
     ax2.set_ylim(-0.75, len(comps) - 0.55)
-    ax2.set_xticks([-0.06, -0.04, -0.02, 0.0, 0.02])
+    if current_json is None:
+        ax2.set_xlim(-0.072, 0.022)
+        ax2.set_xticks([-0.06, -0.04, -0.02, 0.0, 0.02])
+    else:
+        ax2.set_xlim(min(-0.036, min(c[2] for c in comps) - 0.004), 0.006)
+        ax2.set_xticks([-0.03, -0.02, -0.01, 0.0])
     ax2.set_xlabel("Alcaraz minus system, paired log loss (negative favours Alcaraz)")
     ax2.grid(axis="x", color=GRID, lw=1)
     for side in ("top", "right", "left"):
@@ -313,8 +444,7 @@ def render(
     fig.text(
         0.01,
         0.035,
-        "Sources: docs/ladder.json, docs/winner_accuracy.json, docs/benchmarks/*.json. "
-        "Retrospective, outcome-exposed development\ncomparisons; intervals condition on "
+        sources + "Retrospective, outcome-exposed development\ncomparisons; intervals condition on "
         "saved forecasts.",
         fontsize=8.5,
         color=TEXT3,
@@ -326,6 +456,21 @@ def render(
     fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
     plt.close(fig)
     return [svg]
+
+
+def season_rows_current(
+    root: Path, current_json: str
+) -> tuple[list[tuple[int, float]], int, int, float]:
+    """The current version minus BuildOak on the same files and timing rule, per season
+    (corrected 2025 pass)."""
+    brief = _load(root / "docs/benchmarks" / current_json)["fair_buildoak"]["corrected"][
+        "current_vs_fair_buildoak"
+    ]["y2017_2025"]
+    annual = brief["annual_log_loss"]
+    rows = [(int(year), float(annual[year])) for year in sorted(annual, key=int)]
+    negative = sum(1 for _year, delta in rows if delta < 0)
+    _require(negative == int(brief["years_negative"]), "years_negative mismatch")
+    return rows, int(brief["n"]), negative, float(brief["difference"]["log_loss"])
 
 
 def season_rows(
@@ -345,7 +490,10 @@ def season_rows(
 
 
 def render_by_season(
-    root: Path, output_dir: Path, buildoak_json: str = BUILDOAK_JSON
+    root: Path,
+    output_dir: Path,
+    buildoak_json: str = BUILDOAK_JSON,
+    current_json: str | None = None,
 ) -> list[Path]:
     import matplotlib
 
@@ -353,7 +501,14 @@ def render_by_season(
     import matplotlib.pyplot as plt
     from matplotlib import rcParams
 
-    rows, n, negative, pooled = season_rows(root, buildoak_json)
+    if current_json is None:
+        rows, n, negative, pooled = season_rows(root, buildoak_json)
+        who = ""
+        source = f"Source: docs/benchmarks/{buildoak_json} (ARMS01 contrast 2). "
+    else:
+        rows, n, negative, pooled = season_rows_current(root, current_json)
+        who = "; BuildOak on the same files and timing rule"
+        source = f"Source: docs/benchmarks/{current_json} (fair_buildoak, corrected 2025 pass). "
     rcParams.update(
         {
             "font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
@@ -415,7 +570,7 @@ def render_by_season(
     ax.text(
         0,
         1.02,
-        f"Same {n:,} ATP matches, {rows[0][0]}–{rows[-1][0]}; negative favours Alcaraz",
+        f"Same {n:,} ATP matches, {rows[0][0]}–{rows[-1][0]}{who}; negative favours Alcaraz",
         transform=ax.transAxes,
         fontsize=9.5,
         color=TEXT3,
@@ -424,8 +579,7 @@ def render_by_season(
     fig.text(
         0.01,
         -0.02,
-        f"Source: docs/benchmarks/{buildoak_json} (ARMS01 contrast 2). "
-        "Retrospective development comparison.",
+        source + "Retrospective development comparison.",
         fontsize=8.5,
         color=TEXT3,
         va="top",
@@ -586,10 +740,24 @@ def main() -> None:
         "--external-json",
         help="EXT2025 UTS/Ingram JSON under docs/benchmarks (pooled rows replace the 2024 rows)",
     )
+    parser.add_argument(
+        "--current-json",
+        default=CURRENT_JSON,
+        help="current-version JSON under docs/benchmarks (results and per-season figures)",
+    )
+    parser.add_argument(
+        "--previous",
+        action="store_true",
+        help="draw the previous version's results and per-season figures (ARMS01 layout)",
+    )
     args = parser.parse_args()
+    if args.previous:
+        args.current_json = None
     for path in (
-        render(args.root, args.output_dir, args.buildoak_json, args.external_json)
-        + render_by_season(args.root, args.output_dir, args.buildoak_json)
+        render(
+            args.root, args.output_dir, args.buildoak_json, args.external_json, args.current_json
+        )
+        + render_by_season(args.root, args.output_dir, args.buildoak_json, args.current_json)
         + render_by_history(args.root, args.output_dir, args.why01_json)
     ):
         print(f"wrote {path}")
