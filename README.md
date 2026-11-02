@@ -259,7 +259,7 @@ with an [inference guide](docs/MODEL_RELEASE.md).
 ## Scope and limits
 
 - Retrospective research. Two real forecasts have been issued before their scheduled
-  start under a [hash-chained ledger](docs/live/README.md); no scored prospective record
+  start under a [hash-chained ledger](docs/live.md); no scored prospective record
   exists yet.
 - The model is frozen. The registered tuning pass could have detected a gain of about
   0.0005 and found none, so no further feature or learner search runs on these matches.
@@ -276,8 +276,7 @@ with an [inference guide](docs/MODEL_RELEASE.md).
 - The women's public-model comparison is inconclusive at its sample size.
 
 Methods: [METHODS.md](docs/METHODS.md) · Data and licences:
-[DATA.md](docs/DATA.md), [DATA_LICENSES.md](DATA_LICENSES.md) · Decisions:
-[DECISIONS.md](docs/DECISIONS.md)
+[DATA.md](docs/DATA.md), [DATA_LICENSES.md](DATA_LICENSES.md)
 
 Code is MIT. Match, ranking and player data are from Jeff Sackmann / Tennis Abstract
 under CC BY-NC-SA 4.0. The XGBoost comparison adapts

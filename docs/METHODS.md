@@ -119,8 +119,7 @@ that every possible leak has been excluded.
 
 Open scope includes WTA tier support, full-bundle T3 label shuffling, full fit-frame and
 identity/swap coverage, chronology channels outside the tested adapters, and several C2
-detectors that remain diagnostic. `docs/INTEGRITY.md`, `docs/NATIVE_T1.md`, and
-`docs/B2_REVIEW.md` give the exact acceptance boundary.
+detectors that remain diagnostic.
 
 ## Market reference and comparison limits
 

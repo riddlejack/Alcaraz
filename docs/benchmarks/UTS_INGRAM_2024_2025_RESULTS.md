@@ -3,7 +3,7 @@
 > **2025 is exposed retrospective data, not a holdout.** It was inspected before the model
 > freeze (archive decision D134) and scored by REFIT2025 (D137, D138). The accepted results
 > remain the registered claims, and each extended number is shown beside its registered
-> one: [EXTERNAL_2024_2025_RESULTS.md](EXTERNAL_2024_2025_RESULTS.md) for Ultimate Tennis Statistics and [INGRAM_2024_RESULTS.md](INGRAM_2024_RESULTS.md) for Ingram, both ATP 2024.
+> one: [EXTERNAL_2024_2025_RESULTS.md](EXTERNAL_2024_2025_RESULTS.md) for Ultimate Tennis Statistics and INGRAM_2024 for Ingram, both ATP 2024.
 > Accepted as archive decision D139, independently reconstructed (Ultimate Tennis Statistics:
 > verdict ACCEPT; Ingram: verdicts ACCEPT for the scoring and
 > ACCEPT for the continued 2025 fit).

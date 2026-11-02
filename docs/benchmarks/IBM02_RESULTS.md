@@ -4,7 +4,7 @@
 > from the single registered scoring pass of IBM02 attempt 002 ([ibm02.json](ibm02.json)).
 > The population was frozen from first-play evidence before the pass; a separate
 > implementation reproduced every point estimate exactly. The narrower first result on the
-> 29 archived files is [IBM01](IBM01_RESULTS.md) (D135); this page supersedes it as the
+> 29 archived files is IBM01 (D135); this page supersedes it as the
 > IBM comparison.
 
 ## What was recovered, and why most of it cannot be used

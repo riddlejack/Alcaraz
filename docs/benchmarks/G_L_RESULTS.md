@@ -1,6 +1,6 @@
 # Historical comparison with ranking and Elo models
 
-**Tennis Lab had lower log loss than all five tested baselines on both tours.** A separate
+**Alcaraz had lower log loss than all five tested baselines on both tours.** A separate
 review implementation reproduced the saved scores and uncertainty calculations. This is a
 comparison of specified implementations on historical data, not a claim to lead every public
 tennis model or reproduce the forecasts originally published by those services.
@@ -19,7 +19,7 @@ winner and penalizes confident mistakes. Earlier seasons determine each model’
 
 | Implemented model | ATP log loss | WTA log loss |
 |---|---:|---:|
-| Tennis Lab: ATP full-tier / WTA full | 0.5984 | 0.6111 |
+| Alcaraz: ATP full-tier / WTA full | 0.5984 | 0.6111 |
 | Pooled Elo (K=32) | 0.6222 | 0.6255 |
 | Ranking-based logistic model | 0.6334 | 0.6381 |
 | Kovalchik overall/major Elo reconstruction | 0.6268 | 0.6229 |
@@ -28,11 +28,11 @@ winner and penalizes confident mistakes. Earlier seasons determine each model’
 
 ## What the comparison establishes
 
-The five probability-score differences favor Tennis Lab on each tour. The planned 95%
+The five probability-score differences favor Alcaraz on each tour. The planned 95%
 intervals account for the five comparisons together and resample consecutive calendar weeks
 to reflect some dependence between matches. Every interval excludes zero, including the
 declared 4-, 8- and 13-week settings. Removing any one season from the saved predictions
-keeps the direction of every comparison. Brier scores also favor Tennis Lab; no separate
+keeps the direction of every comparison. Brier scores also favor Alcaraz; no separate
 Brier significance test was performed.
 
 The comparison evaluates complete systems with different inputs. ATP full-tier includes
@@ -49,13 +49,13 @@ reconstruction does not make them a new holdout.
 ## Pinnacle and models outside this benchmark
 
 On the separate priced subsets (18,882 ATP and 12,785 WTA), probabilities derived from
-Pinnacle’s odds still score better than Tennis Lab. Pinnacle is a sportsbook; the recorded
+Pinnacle’s odds still score better than Alcaraz. Pinnacle is a sportsbook; the recorded
 quotes lack verified timestamps and may contain later information. Those comparisons are
 descriptive and are excluded from the five-baseline uncertainty tests.
 
 Ingram’s point-based Bayesian model, other public-feature machine-learning systems, and
 Ultimate Tennis Statistics were not admitted with a complete dated reconstruction contract.
-Their absence is not evidence that Tennis Lab beats them. This bounded result supports
+Their absence is not evidence that Alcaraz beats them. This bounded result supports
 “better than the five tested ranking/Elo baselines,” not “state of the art.”
 
 ## Evidence and reproduction
@@ -64,12 +64,9 @@ The [machine-readable result](G_L_RESULTS.json) is the exact aggregate report, i
 annual/pooled raw and calibrated scores, matched priced results, intervals, exclusions,
 fallback counts and season-removal checks. It contains no raw match or odds rows.
 
-The frozen [design](G_LEGACY_DESIGN.md), [repair contract](G_REPAIR_CONTRACT.md) and
-[successor corrections](G_REPAIR_SUCCESSOR_ADDENDUM.md) describe the procedures and source
-equations. Those documents preserve their pre-execution status; this accepted result is the
-later disposition. Models and input contracts were frozen before this single comparison.
+Models and input contracts were frozen before this single comparison.
 
-The independent reviewer used a standalone script importing no Tennis Lab calculation
+The independent reviewer used a standalone script importing no Alcaraz calculation
 helpers. All eight score tables matched exactly; twelve bootstrap streams matched within
 4.30e-13 with identical seeds, draw counts and interval signs. Its 1,927 scoped checks include
 byte/arithmetic negative controls, membership and receipt consistency. This was a separate

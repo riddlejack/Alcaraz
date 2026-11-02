@@ -9,8 +9,7 @@ The tracked file under ``docs/`` is therefore a *representation*: the same bytes
 only the host-specific prefixes replaced by semantic placeholders. The original is kept
 byte for byte in the ignored ``local/evidence/<same relative path>`` and listed in
 ``local/evidence/index.json`` (path, sha256, the concrete prefix behind each
-placeholder). ``docs/equivalence/LOCAL_EVIDENCE.md`` is the tracked index of the
-migrated originals.
+placeholder).
 
 The prefixes are derived at run time from ``TENNISLAB_ARCHIVE``, the repository root and
 ``sys.prefix``/``sysconfig``; nothing here names a host.

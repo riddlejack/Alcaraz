@@ -7,7 +7,7 @@
 > Accepted as archive decision D139, independently reconstructed.
 
 The frozen G-L procedure was run twice with the season range extended (design amendment
-A2), each run once: **(b)** with the frozen model as the Tennis Lab row (ATP
+A2), each run once: **(b)** with the frozen model as the Alcaraz row (ATP
 `full_tier_entry`, WTA `full_entry`), the published extended row, and **(a)** with the
 version the accepted comparison used (ATP `full_tier`, WTA `full`), whose earlier seasons
 equal the accepted report value for value. Every number below is filled from
@@ -21,19 +21,19 @@ Each season has equal weight; earlier seasons set each baseline's calibration, a
 
 | Model, equal-year log loss | ATP extended (b) | ATP registered | WTA extended (b) | WTA registered |
 |---|---:|---:|---:|---:|
-| Tennis Lab (frozen model / accepted version) | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} |
+| Alcaraz (frozen model / accepted version) | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/incumbent/log_loss|f4}} |
 | Pooled Elo (K=32) | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/k32_pooled/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/k32_pooled/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/k32_pooled/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/k32_pooled/log_loss|f4}} |
 | Ranking-based logistic model | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/rank_logistic/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/rank_logistic/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/rank_logistic/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/rank_logistic/log_loss|f4}} |
 | Kovalchik overall/major Elo reconstruction | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/kovalchik_overall_major/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/kovalchik_overall_major/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/kovalchik_overall_major/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/kovalchik_overall_major/log_loss|f4}} |
 | FiveThirtyEight surface-Elo adaptation | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/fivethirtyeight_surface/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/fivethirtyeight_surface/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/fivethirtyeight_surface/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/fivethirtyeight_surface/log_loss|f4}} |
 | Weighted Elo (WElo) reconstruction | {{gl25:tours/ATP/cohorts/primary/scores/calibrated/equal_year/welo/log_loss|f4}} | {{gl:tours/ATP/cohorts/primary/scores/calibrated/equal_year/welo/log_loss|f4}} | {{gl25:tours/WTA/cohorts/primary/scores/calibrated/equal_year/welo/log_loss|f4}} | {{gl:tours/WTA/cohorts/primary/scores/calibrated/equal_year/welo/log_loss|f4}} |
 
-The registered Tennis Lab row is the accepted version (ATP `full_tier`, WTA `full`); the
+The registered Alcaraz row is the accepted version (ATP `full_tier`, WTA `full`); the
 extended row is the frozen model.
 
 ## Paired differences with simultaneous intervals
 
-Tennis Lab minus each baseline, equal-year log loss, 95% simultaneous intervals over the
+Alcaraz minus each baseline, equal-year log loss, 95% simultaneous intervals over the
 five comparisons with eight-week calendar blocks; the last column is the 2025 season alone
 (descriptive).
 

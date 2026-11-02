@@ -30,7 +30,7 @@ JSON:
 Log loss is the only gated metric; Brier score and winner accuracy are descriptive. The
 Ultimate Tennis Statistics and Ingram comparisons named in the gate 2 sentence are the
 accepted 2024 results ([EXTERNAL_2024_2025_RESULTS.md](EXTERNAL_2024_2025_RESULTS.md),
-[INGRAM_2024_RESULTS.md](INGRAM_2024_RESULTS.md)). They were scored with the `full_tier`
+[UTS_INGRAM_2024_2025_RESULTS.md](UTS_INGRAM_2024_2025_RESULTS.md)). They were scored with the `full_tier`
 forecasts and were not rerun for `full_tier_entry`.
 
 ### Why this is attempt 002
@@ -62,8 +62,8 @@ provisional-identity rows excluded and retirements retained.
   sensitivity. The any-qualifier flag counts a Q entry on either side, as registered.
 - **BuildOak adaptation.**
   [buildoak/tennis-xgboost-autoresearch](https://github.com/buildoak/tennis-xgboost-autoresearch/tree/237d1e7ae020de062a994dd7f987881fa2c9a795)
-  at `237d1e7`, under the frozen adaptation accepted for 2024
-  ([BUILDOAK_2024_RESULTS.md](BUILDOAK_2024_RESULTS.md)), replayed walk-forward. There is
+  at `237d1e7`, under the frozen adaptation accepted for 2024,
+  replayed walk-forward. There is
   one fit per 30 December boundary, from 2016-12-30 for the 2017 targets to 2022-12-30 for
   2023. Each fit has its own fit-boundary Elo reference and D−2 releases. The accepted
   2024 run is reused byte for byte. Every fit trained a 900-tree global model and an

@@ -79,25 +79,6 @@ Sources: archive `acquisition/COVERAGE_SUMMARY.md`, generated
 `acquisition/coverage_matrix.csv`, and `LANE_A_reconstruction_result.md`. “No source
 qualified among those investigated” is narrower than “the data does not exist.”
 
-## Release snapshot status
-
-The private D2 snapshot passed a scoped integration rehearsal on September 15, 2026:
-qualified two-tour histories, exact fitted-model feature construction, seven generated
-fixture forecasts, independent numerical reconstruction, and copied settlement controls.
-It does not contain uniformly current data or establish prospective performance.
-
-The snapshot admits 54,035 ATP and 45,321 WTA history rows; 10 ATP and 332 WTA rows remain
-withheld. Results reach September 4 and August 1 respectively, usable serve counts May 23,
-rankings June 8, and ATP lower-tier results/counts December 2024. The date of acquisition
-is not substituted for these tennis-data frontiers. Accepted ATP 2024 checkpoints remain
-explicitly dated 2024 when used for a 2026 fixture; WTA uses its accepted 2026 checkpoints.
-
-The public configuration deliberately leaves private inputs unbound. The read-only
-`tennislab readiness` command reports what a supplied workspace actually contains.
-[Validation evidence and remaining freshness limits](live/D2_READINESS.md) are recorded
-separately from acquisition progress. Completing the Tennis Abstract crawl still requires
-offline qualification before any new snapshot or model update.
-
 ## Redistribution rule
 
 The intended public product boundary carries code, manifests and hashes, mapping/alias

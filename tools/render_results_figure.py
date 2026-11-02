@@ -25,10 +25,10 @@ result yet is left out); the defaults reproduce the committed figures.
 Axis ranges widen only when a value falls outside the default frame, and the history
 subtitle takes its years from the WHY01 JSON's ``meta.years`` when present.
 
-It writes ``docs/assets/alcaraz-results.svg`` and ``docs/assets/alcaraz-results.png``, and
-the per-season BuildOak figure ``docs/assets/alcaraz-by-season.svg`` / ``.png`` (ARMS01
+It writes ``docs/assets/alcaraz-results.svg``, the per-season BuildOak figure
+``docs/assets/alcaraz-by-season.svg`` (ARMS01
 contrast 2 annual paired differences from ``docs/benchmarks/buildoak_2017_2024.json``), and
-``docs/assets/alcaraz-lead-by-history.svg`` / ``.png`` (WHY01 decomposition: Alcaraz minus
+``docs/assets/alcaraz-lead-by-history.svg`` (WHY01 decomposition: Alcaraz minus
 BuildOak and the lower-tier block's gain by the less-experienced player's prior main-tour
 matches, from ``docs/benchmarks/why01.json``).
 """
@@ -323,11 +323,9 @@ def render(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     svg = output_dir / "alcaraz-results.svg"
-    png = output_dir / "alcaraz-results.png"
     fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
-    fig.savefig(png, format="png", dpi=160, bbox_inches="tight", facecolor=SURFACE)
     plt.close(fig)
-    return [svg, png]
+    return [svg]
 
 
 def season_rows(
@@ -434,11 +432,9 @@ def render_by_season(
     )
     output_dir.mkdir(parents=True, exist_ok=True)
     svg = output_dir / "alcaraz-by-season.svg"
-    png = output_dir / "alcaraz-by-season.png"
     fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
-    fig.savefig(png, format="png", dpi=160, bbox_inches="tight", facecolor=SURFACE)
     plt.close(fig)
-    return [svg, png]
+    return [svg]
 
 
 HISTORY_BANDS = (
@@ -569,11 +565,9 @@ def render_by_history(root: Path, output_dir: Path, why01_json: str = WHY01_JSON
     )
     output_dir.mkdir(parents=True, exist_ok=True)
     svg = output_dir / "alcaraz-lead-by-history.svg"
-    png = output_dir / "alcaraz-lead-by-history.png"
     fig.savefig(svg, format="svg", bbox_inches="tight", facecolor=SURFACE, metadata={"Date": None})
-    fig.savefig(png, format="png", dpi=160, bbox_inches="tight", facecolor=SURFACE)
     plt.close(fig)
-    return [svg, png]
+    return [svg]
 
 
 def main() -> None:

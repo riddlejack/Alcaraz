@@ -1,4 +1,4 @@
-"""The Lane D acceptance cases (docs/live/DESIGN.md §7), each through ``tennislab.cli``.
+"""The Lane D acceptance cases, each through ``tennislab.cli``.
 
 Every case runs in a fully synthetic workspace (``world.py``) with a pinned clock and a
 replay transport; nothing touches the network or the research archive. Planted defects

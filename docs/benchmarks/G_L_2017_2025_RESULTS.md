@@ -7,7 +7,7 @@
 > Accepted as archive decision D139, independently reconstructed.
 
 The frozen G-L procedure was run twice with the season range extended (design amendment
-A2), each run once: **(b)** with the frozen model as the Tennis Lab row (ATP
+A2), each run once: **(b)** with the frozen model as the Alcaraz row (ATP
 `full_tier_entry`, WTA `full_entry`), the published extended row, and **(a)** with the
 version the accepted comparison used (ATP `full_tier`, WTA `full`), whose earlier seasons
 equal the accepted report value for value. Every number below is filled from
@@ -21,19 +21,19 @@ Each season has equal weight; earlier seasons set each baseline's calibration, a
 
 | Model, equal-year log loss | ATP extended (b) | ATP registered | WTA extended (b) | WTA registered |
 |---|---:|---:|---:|---:|
-| Tennis Lab (frozen model / accepted version) | 0.5987 | 0.5984 | 0.6105 | 0.6111 |
+| Alcaraz (frozen model / accepted version) | 0.5987 | 0.5984 | 0.6105 | 0.6111 |
 | Pooled Elo (K=32) | 0.6229 | 0.6222 | 0.6253 | 0.6255 |
 | Ranking-based logistic model | 0.6334 | 0.6334 | 0.6378 | 0.6381 |
 | Kovalchik overall/major Elo reconstruction | 0.6272 | 0.6268 | 0.6232 | 0.6229 |
 | FiveThirtyEight surface-Elo adaptation | 0.6237 | 0.6230 | 0.6216 | 0.6212 |
 | Weighted Elo (WElo) reconstruction | 0.6264 | 0.6261 | 0.6232 | 0.6233 |
 
-The registered Tennis Lab row is the accepted version (ATP `full_tier`, WTA `full`); the
+The registered Alcaraz row is the accepted version (ATP `full_tier`, WTA `full`); the
 extended row is the frozen model.
 
 ## Paired differences with simultaneous intervals
 
-Tennis Lab minus each baseline, equal-year log loss, 95% simultaneous intervals over the
+Alcaraz minus each baseline, equal-year log loss, 95% simultaneous intervals over the
 five comparisons with eight-week calendar blocks; the last column is the 2025 season alone
 (descriptive).
 

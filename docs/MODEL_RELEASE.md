@@ -1,6 +1,6 @@
 # Fitted model release packaging
 
-`tools/build_model_release.py` builds a deterministic local bundle from the accepted,
+The release builder builds a deterministic local bundle from the accepted,
 immutable archive run outputs. It selects only the model products used by the accepted
 historical forecasts:
 
@@ -22,20 +22,10 @@ contain model configuration, ordered feature names and learned estimator state; 
 and tree nodes are learned parameters, not retained source rows. Training-key membership files,
 feature rows, labels and odds are excluded.
 
-Build from the repository root:
-
-```sh
-uv run python tools/build_model_release.py \
-  --archive "/path/to/the/archive" \
-  --output "/path/to/tennislab-accepted-models-2026-09-14-r2" \
-  --tar "/path/to/tennislab-accepted-models-2026-09-14-r2.tar.gz"
-```
-
 Verify an unpacked bundle without accessing the archive:
 
 ```sh
-uv run python tools/build_model_release.py \
-  --verify "/path/to/tennislab-accepted-models-2026-09-14-r2"
+uv run python -c 'from tennislab.models.release import verify_bundle; print(verify_bundle("/path/to/tennislab-accepted-models-2026-09-14-r2")["release_id"])'
 ```
 
 `src/tennislab/models/release.py` verifies the complete manifest and the selected model digest
@@ -53,8 +43,8 @@ name-to-probability inference.
 
 ## Published model release
 
-The [2026-09-14-r2 bundle](https://github.com/riddlejack/tennis-lab/releases/tag/models-2026-09-14)
-is publicly available. [Integrated CI34915514677](https://github.com/riddlejack/tennis-lab/actions/runs/34915514677)
+The [2026-09-14-r2 bundle](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
+is publicly available. [Integrated CI34915514677](https://github.com/riddlejack/Alcaraz/actions/runs/34915514677)
 passed for release code `6bd88a62ee3d3c782b4b9c62bb56e67dc0340bdf`. An unauthenticated
 download reproduced the exact release bytes and checksum.
 Its SHA-256 is `bbe0337006e298897f6dda0ed87f0717d8a451e465235d95078916def74bcfc4`
@@ -82,7 +72,7 @@ separate four-arm improvement campaign is also complete and independently accept
 negative/inconclusive; it did not nominate or promote a replacement.
 See [`CAMPAIGN_E_RESULTS.md`](CAMPAIGN_E_RESULTS.md) for the accepted result boundary.
 
-The [experimental campaign companion](https://github.com/riddlejack/tennis-lab/releases/tag/campaign-e-research-models-2026-09-15)
+The [experimental campaign companion](https://github.com/riddlejack/Alcaraz/releases/tag/campaign-e-research-models-2026-09-15)
 is also public and verified by anonymous download. It preserves all 140 numerical
 estimators, 140 fit manifests, and 14 fold decisions, with a keyed prepared-feature loader.
 See [`CAMPAIGN_E_MODEL_RELEASE.md`](CAMPAIGN_E_MODEL_RELEASE.md) for its checksum and

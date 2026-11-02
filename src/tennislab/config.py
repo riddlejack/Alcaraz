@@ -7,7 +7,7 @@ source file, mutates ``sys.path`` or carries an absolute path.
 The workspace is named by the ``TENNISLAB_WORKSPACE`` environment variable and defaults
 to the current working directory, which for ordinary use is the repository root. An
 equivalence run against the research archive points the workspace at a scratch tree
-whose read-only parts are links into the archive; see ``tools/equivalence.py``.
+whose read-only parts are links into the archive.
 
 Containment is checked lexically, without following symbolic links, so a workspace may
 link its inputs from elsewhere. An *output* path is additionally checked physically: no

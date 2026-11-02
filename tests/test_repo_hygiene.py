@@ -2,8 +2,7 @@
 source-relative repository root in any tracked text file.
 
 Every tracked file that decodes as UTF-8 is scanned, not only code: evidence records and
-documentation carry host strings just as easily. The tracked equivalence records are
-placeholder representations of local originals (docs/equivalence/LOCAL_EVIDENCE.md).
+documentation carry host strings just as easily.
 """
 
 import re
@@ -13,7 +12,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 FORBIDDEN = {
     "absolute host path": re.compile(r"/Users/|/home/|/private/tmp/|/tmp/|C:\\\\"),
-    # The words "sys.path" may appear in prose (docstrings, docs/PORTING.md); a mutation is
+    # The words "sys.path" may appear in prose (docstrings); a mutation is
     # a call or an assignment on it.
     "sys.path mutation": re.compile(r"sys\.path\s*(?:\.\s*(?:insert|append|extend)\s*\(|\+?=|\[)"),
     "import by path": re.compile(r"spec_from_file_location|load_module\(|load_sibling_package"),
@@ -24,25 +23,6 @@ FORBIDDEN = {
 ALLOWED = {
     # The hygiene test names the patterns it forbids; the harness anchors on the repo root.
     "tests/test_repo_hygiene.py": {*FORBIDDEN},
-    "tools/equivalence.py": {"source-relative repository root"},
-    # The task-local test harness locates the CLI under test, as this harness does.
-    "tests/test_buildoak_extension_score.py": {"source-relative repository root"},
-    # This path is the reviewed container tmpfs, never a developer host path.
-    "tools/buildoak_extension/runtime/adapter/fit_worker.py": {"absolute host path"},
-    # The standalone task controller imports only its bound sibling stdlib schema.
-    # This exception does not apply to product runtime or import-by-path loaders.
-    "tools/buildoak_extension/runtime/empirical_controller.py": {"sys.path mutation"},
-    # The build helper locates its checkout; its generated example locates its bundle.
-    # Host-prefix literals are the forbidden strings its privacy scan detects, not paths
-    # to a developer's files. Neither exception applies to the runtime model loader.
-    "tools/build_model_release.py": {"source-relative repository root", "absolute host path"},
-    "tools/build_campaign_model_release.py": {
-        "source-relative repository root",
-        "absolute host path",
-    },
-    # Porting notes quote, in prose, the archive's by-path load they replaced.
-    "docs/equivalence/notes/tier_block.md": {"import by path"},
-    "docs/equivalence/notes/tier_elo.md": {"import by path"},
 }
 
 
@@ -96,4 +76,3 @@ def test_local_evidence_store_is_ignored() -> None:
         ["git", "check-ignore", "-q", "local/evidence/index.json"], cwd=REPO, check=False
     )
     assert out.returncode == 0, "local/ must be ignored so originals never get tracked"
-    assert (REPO / "docs" / "equivalence" / "LOCAL_EVIDENCE.md").is_file()

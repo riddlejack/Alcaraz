@@ -4,8 +4,7 @@ The manual workflow now connects the accepted model bundle to a qualified privat
 history snapshot. All six configurations were exercised on two generated fixtures:
 ATP/WTA Elo and five trained routes, seven forecasts in total. Independent reconstruction
 matched the numerical features and probabilities; settlement controls also passed.
-[The dated validation and freshness limits](D2_READINESS.md) define this acceptance.
-The [September 16 retained-input replay](RETAINED_INPUT_REPLAY.md) separately validates serving-count fills and a partial current ATP tier increment.
+The September 16 retained-input replay separately validates serving-count fills and a partial current ATP tier increment.
 No real forecast was issued by this rehearsal. The public example configuration still
 reports unavailable inputs until the separate model bundle and private histories are bound.
 
@@ -17,7 +16,7 @@ no forecast has a confirmed score and the pilot is not prospective performance e
 
 ## Commands
 
-These commands require a prepared workspace and the input schemas in [DESIGN.md](DESIGN.md).
+These commands require a prepared workspace.
 The replay option uses retained responses; it is not a command to launch a crawl.
 
 Each event declaration may set `draw_scope` to `main` or `qualifying`. Omission retains
@@ -42,7 +41,7 @@ uv run tennislab settle score --config configs/live/live.json
 uv run tennislab settle report --config configs/live/live.json
 ```
 
-The [D2 readiness check](D2_READINESS.md) is read-only and reports history, snapshot,
+The D2 readiness check is read-only and reports history, snapshot,
 rung, ledger and settlement state without turning missing inputs into success.
 
 ## Demonstrated contracts
@@ -66,18 +65,4 @@ provisional, final and corrected settlements remain distinct. Reports require th
 The original synthetic repair exercised Elo only; the D2 rehearsal extends numerical
 coverage to the five trained routes without refitting them.
 
-## Review history
-
-| Attempt | Disposition and reason |
-|---|---|
-| Original `50518be` | Rejected: history eligibility, timezone, source/fixture binding, field qualification, write confinement and clean-clone defects. Original [design](DESIGN.md) and [freeze](FREEZE.json) retained. |
-| First repair `542d85e` | Rejected: mutable version-manifest anchor and escaping leaf/temporary symlinks. [Repair contract](REPAIR.md). |
-| Second repair `4295df4` | Rejected: settlement trusted a rewritten current pointer ahead of the earlier qualification. [Repair2 contract](REPAIR2.md). |
-| Third repair `5089b24` | Scoped independent acceptance: 36/36 adversarial and positive controls, plus 62 affected tests. [Repair3 contract](REPAIR3.md). |
-
-The separate research archive retains `LANE_D_REPAIR3_RECONSTRUCTION.md`, SHA-256
-`8afad3ada6a8d6b014a961a100f20321e02854baaf0ab089d220551044a37e6c`.
-Review reused the earlier `4295df4` full-suite result (471 passed, one optional skip) only
-for unchanged code. That earlier result is not final merged-release CI. Product decisions
-RB18–RB22 record the scope and acceptance; [data status](../DATA.md) records real-source
-qualification and model-use limits.
+[Data status](DATA.md) records real-source qualification and model-use limits.

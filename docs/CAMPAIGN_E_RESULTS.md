@@ -1,4 +1,4 @@
-# Lane E four-arm campaign result
+# Four-arm campaign result
 
 Status: independently accepted historical result; campaign closed negative/inconclusive.
 The incumbent remains the default. No model was nominated or promoted.

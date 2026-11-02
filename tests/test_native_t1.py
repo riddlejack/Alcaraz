@@ -1,6 +1,6 @@
 """Native B2 T1: actual forecast paths, full future outcome/stat mutations, both tours.
 
-The design is frozen in docs/NATIVE_T1.md. No archive mount or fixture-absence skip.
+No archive mount or fixture-absence skip.
 """
 
 from __future__ import annotations

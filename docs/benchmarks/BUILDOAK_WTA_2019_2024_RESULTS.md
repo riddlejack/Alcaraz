@@ -71,8 +71,8 @@ provisional-identity rows excluded and retirements retained.
   Finals flags read through the declared WTA level map.
 - **BuildOak WTA adaptation.**
   [buildoak/tennis-xgboost-autoresearch](https://github.com/buildoak/tennis-xgboost-autoresearch/tree/237d1e7ae020de062a994dd7f987881fa2c9a795)
-  at `237d1e7`, under the WTA adapter accepted for 2024
-  ([BUILDOAK_WTA_2024_RESULTS.md](BUILDOAK_WTA_2024_RESULTS.md)), replayed walk-forward.
+  at `237d1e7`, under the WTA adapter accepted for 2024,
+  replayed walk-forward.
   There is one fit per 30 December boundary, from 2018-12-30 for the 2019 targets to
   2022-12-30 for 2023, each with its own fit-boundary Elo reference and D−2 releases. The
   accepted 2024 forecasts are reused byte for byte, and the walk-forward controller

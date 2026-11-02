@@ -1,8 +1,7 @@
 """Stage-level checks of ``tennislab.dynamics.replay``'s pure helpers on synthetic rows.
 
-The archive had no unit tests for ``sr02_replay.py``; its equivalence is established by
-``tools/equivalence.py`` (see ``docs/equivalence/notes/sr02_replay.md``). These tests pin
-the configuration switches the port merged from the TIER01 and WTA02 copies.
+The archive had no unit tests for ``sr02_replay.py``; its equivalence was established
+against the archive's outputs. These tests pin the configuration switches the port merged from the TIER01 and WTA02 copies.
 """
 
 from __future__ import annotations
