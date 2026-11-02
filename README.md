@@ -225,18 +225,33 @@ previous version and was a registered comparison on matched matches.
 
 ## Run it
 
-<!-- PLACEHOLDER: the commands that run the current version. -->
-**To be added: the commands that produce the current version's forecasts.**
-
 ```sh
 make setup
-make reproduce-small
+make reproduce-small     # the previous version's pipeline on a synthetic sample
+make reproduce-current   # the current version end to end on a synthetic sample
 ```
 
-That reproduces the full pipeline on a synthetic sample in about a minute, and CI does
-the same on every push. The codebase is 53k lines of Python in one pipeline, with 785
-tests and a locked environment. Real match history is governed by source terms and stays
-out of Git. The published model checkpoints are an earlier version's, in a
+The first takes about a minute and the second a few; CI runs both on every push. The
+codebase is 56k lines of Python in one pipeline, with 824 tests and a locked environment.
+
+On real data the current version is four commands. The first runs the previous version
+for 2017–2025; the others build the all-tier table, fit the second model and average the
+two:
+
+```sh
+uv run tennislab chain run --config configs/chains/atp_refit2025_2017_2025.json
+uv run tennislab current table --config configs/current/atp_table.json
+uv run tennislab current fit --config configs/current/atp_alltier.json
+uv run tennislab current pool --config configs/current/atp_pool.json
+```
+
+The table takes about a minute and a half, and the fit about a quarter of an hour on a
+14-core machine (`TENNISLAB_ALLTIER_WORKERS` sets the workers). The per-season forecasts
+land in `data/runs/current_atp/pool/current/`, and on the pinned inputs they equal the
+forecasts scored above, bit for bit. Every input is read under `TENNISLAB_WORKSPACE` and
+checked against its hash first. Real match history is governed by source terms and stays
+out of Git: the match files are a hash-pinned snapshot of Jeff Sackmann's `tennis_atp`
+repository ([DATA.md](docs/DATA.md)). The published model checkpoints are an earlier version's, in a
 [GitHub release](https://github.com/riddlejack/Alcaraz/releases/tag/models-2026-09-14)
 with an [inference guide](docs/MODEL_RELEASE.md); the current version is not in it.
 

@@ -48,12 +48,16 @@
           "reason": "history, not a result: size of the leakage suite the review found blind (the 24-test suite of the 2026-09-13 rebuild)"
         },
         {
-          "text": "53k",
-          "reason": "NO JSON: tracked src/ Python lines, 52,947 at 3824dfc (53,138 with the uncommitted src/tennislab/numbers.py)"
+          "text": "56k",
+          "reason": "NO JSON: tracked src/ Python lines, 55,770 on 2026-11-02 after the current version's code; recount when src/ changes"
         },
         {
-          "text": "785",
-          "reason": "NO JSON: tests collected by pytest (sum of per-file counts from pytest --collect-only -q), 785 at the EXT2025 merge on 2026-09-25; recount when tests change"
+          "text": "824",
+          "reason": "NO JSON: tests collected by pytest (sum of per-file counts from pytest --collect-only -q), 824 on 2026-11-02; recount when tests change"
+        },
+        {
+          "text": "14",
+          "reason": "run note, not a result: the worker count of the timed all-tier fit (TENNISLAB_ALLTIER_WORKERS)"
         },
         {
           "text": "−0.0007",
