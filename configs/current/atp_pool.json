@@ -1,0 +1,28 @@
+{
+  "description": "The current Alcaraz for 2017-2025: the previous version and the all-tier model pooled in log-odds with fixed equal weights.",
+  "pool": {
+    "previous_run": {
+      "root": "data/runs/atp_previous_2017_2025/run",
+      "learner": "hgb",
+      "bundle": "full_tier_entry"
+    },
+    "alltier_dir": "data/runs/current_atp/alltier",
+    "target_years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "weights": {
+      "previous": 0.5,
+      "alltier": 0.5
+    },
+    "max_missing_share": 0.01,
+    "output_dir": "data/runs/current_atp/pool"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "description": "The all-tier model for 2017-2025: windows of 8, 12 and 16 seasons, tour/qualifying/Challenger training rows, three boosting candidates (in tie-break order) over the previous version's parameters, past-only selection and slope over three seasons. Raw forecasts are fitted for 2014-2025.",
+  "alltier": {
+    "table": {
+      "path": "data/runs/current_atp/table/table.npz",
+      "sha256": null
+    },
+    "previous_run": {
+      "root": "data/runs/atp_previous_2017_2025/run",
+      "learner": "hgb",
+      "bundle": "full_tier_entry"
+    },
+    "target_years": [
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "selection_years_back": 3,
+    "windows": [
+      8,
+      12,
+      16
+    ],
+    "training_tiers": [
+      "tour",
+      "qualifying",
+      "challenger"
+    ],
+    "base_params": {
+      "early_stopping": false,
+      "l2_regularization": 10.0,
+      "learning_rate": 0.05,
+      "loss": "log_loss",
+      "max_bins": 255,
+      "max_depth": 3,
+      "max_iter": 200,
+      "max_leaf_nodes": 7,
+      "min_samples_leaf": 80,
+      "random_state": 71101
+    },
+    "candidates": [
+      {
+        "id": "hgb_leaf31_iter400",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 31,
+          "max_iter": 400,
+          "min_samples_leaf": 200
+        }
+      },
+      {
+        "id": "hgb_leaf63_iter600",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 63,
+          "max_iter": 600,
+          "min_samples_leaf": 400,
+          "learning_rate": 0.05
+        }
+      },
+      {
+        "id": "hgb_leaf127_iter800",
+        "params": {
+          "max_depth": null,
+          "max_leaf_nodes": 127,
+          "max_iter": 800,
+          "min_samples_leaf": 600,
+          "learning_rate": 0.04
+        }
+      }
+    ],
+    "workers": 1,
+    "output_dir": "data/runs/current_atp/alltier"
+  }
+}

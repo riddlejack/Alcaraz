@@ -1,0 +1,43 @@
+{
+  "description": "The ATP all-tier table through 2025 with the serve/return filter: every tour, qualifying/Challenger and Futures row from 1991, dated by the previous version's panel and tier stream (run root data/runs/atp_previous_2017_2025/run).",
+  "table": {
+    "max_year": 2025,
+    "first_year": {
+      "atp_tour": 1991,
+      "atp_qual_chall": 1991,
+      "atp_futures": 1991
+    },
+    "archive": {
+      "path": "data/raw/ARCHIVE01/snapshot/tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d.tar.gz",
+      "sha256": "2a1ef3a848210f1067657e3399980365d734f8134463ab4114b67ef8c3d47bb4",
+      "tar_root": "tennis-sackmann-archive-83733587353df8a41f2fd4f516147d5aa83f5a8d"
+    },
+    "inventory": {
+      "path": "data/raw/ARCHIVE01/snapshot_file_inventory.csv",
+      "sha256": "903fc54f5c866ad855c238a2b6fadd8d53dc32b1748862504626fd4244cd2050"
+    },
+    "archive_manifest": {
+      "path": "data/manifests/ARCHIVE01.json",
+      "sha256": "ce5e58531bf1e7f874861a8dd5977901ea9f5751358b625e5c444807d44cf150"
+    },
+    "previous_run": {
+      "panel": {
+        "path": "data/runs/atp_previous_2017_2025/run/prepare_panel/panel.csv",
+        "sha256": "e3b1d77c7784c09b778dcbf298f243b313bb6c24d9e8ffea8939a5382c4c4cf3"
+      },
+      "tier_results": {
+        "path": "data/runs/atp_previous_2017_2025/run/tier_stream/tier_results.csv.gz",
+        "sha256": "6f3fc27f6557437020a2829510124c56e7372ec1cc7655ff788d615a4a5a7d4d"
+      }
+    },
+    "serve_return_filter": {
+      "V0": 0.005,
+      "q": 1e-05,
+      "V_surf": 0.001,
+      "temper_lower": 1.0,
+      "mu_rate": 0.002,
+      "mu0_serve_share": 0.62
+    },
+    "output_dir": "data/runs/current_atp/table"
+  }
+}

@@ -16,6 +16,7 @@ from tennislab import __version__
 CHAIN_COMMANDS = ("print", "write-configs", "dry-run", "run", "report", "verify")
 LIVE_COMMANDS = ("update", "fixture", "forecast", "ledger", "settle", "readiness")
 BENCHMARK_COMMANDS = ("project", "forecast", "barrier", "report")
+CURRENT_STEPS = ("table", "tune", "fit", "pool")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -35,10 +36,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     reproduce.add_argument(
         "--scenario",
-        choices=("base", "tier", "tier_entry"),
+        choices=("base", "tier", "tier_entry", "current"),
         default="base",
-        help="the committed sample to reproduce: base (data/sample), tier (data/sample_tier) "
-        "or tier_entry (the tier sample with the ARMS01 entry/level block)",
+        help="the committed sample to reproduce: base (data/sample), tier (data/sample_tier), "
+        "tier_entry (the tier sample with the ARMS01 entry/level block) or current (the "
+        "tier_entry run followed by the all-tier table, the all-tier model and the pool)",
     )
     reproduce.add_argument(
         "--pin",
@@ -74,6 +76,12 @@ def build_parser() -> argparse.ArgumentParser:
     benchmark.add_argument("benchmark_command", choices=BENCHMARK_COMMANDS)
     benchmark.add_argument("--config", required=True, help="the benchmark configuration (JSON)")
     benchmark.add_argument("--attempt", help="immutable attempt id (not used by project)")
+    current = subparsers.add_parser(
+        "current",
+        help="the current Alcaraz: all-tier table, filter tuning, all-tier model and pool",
+    )
+    current.add_argument("step", choices=CURRENT_STEPS)
+    current.add_argument("--config", required=True, help="the step's configuration (JSON)")
     campaign = subparsers.add_parser(
         "campaign", help="run the separately frozen Lane E forecast/barrier/report interface"
     )
@@ -132,6 +140,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         destination = function(args.config, args.attempt)
         print(destination)
         return 0
+    if args.command == "current":
+        from tennislab.alltier import cli as current_cli
+
+        return current_cli.main([args.step, "--config", args.config])
     if args.command == "campaign":
         from tennislab.campaign import runner as campaign_runner
 
